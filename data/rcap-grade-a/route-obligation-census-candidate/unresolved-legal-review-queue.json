@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "rcap-national-route-obligation-census/v1",
     "generatedBy": "scripts/grade-a-route-obligation-census/generate-national-route-obligation-census.mjs",
-    "sourceFingerprint": "sha256:f9478a657286455e31904126b49ca9e3a8459a0ac5ed2cdaa86231a625c4e78d",
+    "sourceFingerprint": "sha256:9db910fe7025c7435a3729dcbaf635a5dcabe56c3d43cb816a0dbcc49a6df906",
     "asOf": "2026-08-29",
     "createsApproval": false,
     "changesRuntime": false,
@@ -13,7 +13,7 @@
       "ingestionStatus": "ABSENT_FROM_THIS_WORKTREE_REGISTRIES_USED_AS_CURRENT_REPOSITORY_EVIDENCE"
     }
   },
-  "count": 93,
+  "count": 96,
   "routes": [
     {
       "routeKey": "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_agency_history_error",
@@ -272,6 +272,22 @@
       ]
     },
     {
+      "routeKey": "obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+      "jurisdiction": "NV",
+      "publicLabel": "Trafficking-victim vacatur and sealing under NRS 179.247",
+      "legalReviewQuestion": "Must NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247 be split into its automatic and Board-review mechanisms before service classification, and what participant action, if any, initiates the Board-review branch?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/NV-nevada.json#trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "launch-graph:operationallySellable=false",
+        "route-contract:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247:LD-NV-04:referral",
+        "runtime-authority-decision:LD-NV-04:route=NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=COURT SEALING PACKET OR TRAFFICKING VACATUR/SEALING PACKET:effective-note=Do not transplant NRS 176A.245/.265/.295 timing into NRS 176.211.",
+        "runtime-service-disposition:paid_packet_intended",
+        "unadopted-closure-contradiction:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247:proposal-authority=null:decidedOn=null"
+      ]
+    },
+    {
       "routeKey": "obligation:runtime-only:NY:conditional-treatment-sealing-under-cpl-160-58",
       "jurisdiction": "NY",
       "publicLabel": "Conditional / treatment sealing under CPL 160.58",
@@ -366,6 +382,22 @@
         "crosswalk:unregistered_relief_mechanism_registry_gap",
         "launch-graph:operationallySellable=false",
         "runtime-service-disposition:paid_packet_intended"
+      ]
+    },
+    {
+      "routeKey": "obligation:runtime-only:SD:juvenile-trafficking-expungement",
+      "jurisdiction": "SD",
+      "publicLabel": "Juvenile-trafficking expungement",
+      "legalReviewQuestion": "Must SD:juvenile-trafficking-expungement be split into its automatic and Board-review mechanisms before service classification, and what participant action, if any, initiates the Board-review branch?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/SD-south-dakota.json#juvenile-trafficking-expungement",
+        "crosswalk:unregistered_relief_mechanism_registry_gap",
+        "launch-graph:operationallySellable=false",
+        "route-contract:SD:juvenile-trafficking-expungement:LD-SD-02:referral",
+        "runtime-authority-decision:LD-SD-02:route=SD:juvenile-trafficking-expungement:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=JUVENILE TRAFFICKING PETITION OR SIS STATUS/CORRECTION GUIDANCE:effective-note=Do not preserve the prior blanket attorney-referral treatment for an otherwise complete § 26-7A-115.1 intake.",
+        "runtime-service-disposition:paid_packet_intended",
+        "unadopted-closure-contradiction:SD:juvenile-trafficking-expungement:proposal-authority=null:decidedOn=null"
       ]
     },
     {
@@ -811,7 +843,7 @@
       "routeKey": "obligation:track-pathway:MA:ma-expunge-mj:marijuana-only-expungement",
       "jurisdiction": "MA",
       "publicLabel": "Expunging an old marijuana charge",
-      "legalReviewQuestion": "Which expressly identified actor controls the no-filing guidance pathway marijuana-only-expungement?",
+      "legalReviewQuestion": "Must MA:marijuana-only-expungement be split into its automatic and Board-review mechanisms before service classification, and what participant action, if any, initiates the Board-review branch?",
       "classificationConfidence": "high",
       "currentImplementationEvidence": [
         "authority-ledger:authority_clearance:authority_clearance",
@@ -820,34 +852,11 @@
         "launch-graph:operationallySellable=false",
         "legal-design:legal_design_approved_with_limitations",
         "route-contract:MA:marijuana-only-expungement:LD-MA-02:guidance_status",
-        "route-kind-adjudication:pending:MA:marijuana-only-expungement:LD-MA-02",
-        "route-kind-contract-evidence:MA:marijuana-only-expungement:outcomeMode participant_packet, packetFamily \"Massachusetts Marijuana Expungement Petition under §§ 100K / 100K¼\", statute Mass. Gen. Laws ch. 276, §§ 100K, 100K¼",
-        "route-kind-evaluator-evidence:MA:marijuana-only-expungement:not a user-filed court petition:prior=needs_more_info:conclusive=false",
         "runtime-authority-decision:LD-MA-02:route=MA:marijuana-only-expungement:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AUTOMATIC STATUS/CORRECTION GUIDANCE OR COURT SEALING/EXPUNGEMENT PACKET:effective-note=Never apply § 100A's conviction-sealing waits to § 100C nonconvictions or the special marijuana route.",
         "runtime-service-disposition:paid_packet_intended",
         "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
-        "source-relationship:ma-expunge-mj-primary-filing-1:unchecked"
-      ]
-    },
-    {
-      "routeKey": "obligation:track-pathway:MD:md_10103_legacy_police:police-record-expungement-when-no-charge-was-filed-under-10-103",
-      "jurisdiction": "MD",
-      "publicLabel": "Clearing police records from an arrest before October 2007",
-      "legalReviewQuestion": "Does exact legal-design track md_10103_legacy_police control as a no-filing or unavailable-current-stage treatment, or does effective contract MD:police-record-expungement-when-no-charge-was-filed-under-10-103 establish a distinct participant-filed cohort that must be represented separately?",
-      "classificationConfidence": "high",
-      "currentImplementationEvidence": [
-        "authority-ledger:implementation:implementation",
-        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/MD-maryland.json#police-record-expungement-when-no-charge-was-filed-under-10-103",
-        "completed-output-counsel-family:rcap-md-guidance-implementation:approved_by_decision_owner",
-        "crosswalk:direct_runtime_representation",
-        "exact-mechanism-conflict:track=md_10103_legacy_police:track-treatment=process_guidance:contract=MD:police-record-expungement-when-no-charge-was-filed-under-10-103:contract-outcome=agency_application",
-        "launch-graph:operationallySellable=false",
-        "legal-design:legal_design_approved_with_limitations",
-        "route-contract-packet-family-label:Maryland § 10-103 Written Request to the Police Agency",
-        "route-contract:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:LD-MD-03:agency_application",
-        "runtime-authority-decision:LD-MD-03:route=MD:police-record-expungement-when-no-charge-was-filed-under-10-103:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AGENCY REQUEST OR AUTOMATIC STATUS/CORRECTION GUIDANCE:effective-note=Do not display the 60-day agency processing period as a participant wait.",
-        "runtime-service-disposition:paid_packet_intended",
-        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding."
+        "source-relationship:ma-expunge-mj-primary-filing-1:unchecked",
+        "unadopted-closure-contradiction:MA:marijuana-only-expungement:proposal-authority=null:decidedOn=null"
       ]
     },
     {
@@ -910,6 +919,25 @@
       ]
     },
     {
+      "routeKey": "obligation:track-pathway:NE:ne-expunge-le-error:law-enforcement-error-expungement",
+      "jurisdiction": "NE",
+      "publicLabel": "Ask a Nebraska court to erase an arrest the police made by mistake",
+      "legalReviewQuestion": "Must NE:law-enforcement-error-expungement be split into its automatic and Board-review mechanisms before service classification, and what participant action, if any, initiates the Board-review branch?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/NE-nebraska.json#law-enforcement-error-expungement",
+        "crosswalk:direct_runtime_representation",
+        "launch-graph:operationallySellable=false",
+        "legal-design:legal_design_approved_with_limitations",
+        "route-contract:NE:law-enforcement-error-expungement:LD-NE-05:guidance_status",
+        "runtime-authority-decision:LD-NE-05:route=NE:law-enforcement-error-expungement:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=ERROR PETITION OR SET-ASIDE APPLICATION:effective-note=Results copy must say that a set-aside does not erase the Nebraska record.",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "unadopted-closure-contradiction:NE:law-enforcement-error-expungement:proposal-authority=null:decidedOn=null"
+      ]
+    },
+    {
       "routeKey": "obligation:track-pathway:NE:ne-juvenile-sealing-routing:juvenile-petition-backstop",
       "jurisdiction": "NE",
       "publicLabel": "Where to go about a Nebraska juvenile record",
@@ -947,7 +975,7 @@
       "routeKey": "obligation:track-pathway:NJ:nj_clean_slate:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
       "jurisdiction": "NJ",
       "publicLabel": "Clear your whole New Jersey record after ten years",
-      "legalReviewQuestion": "Which expressly identified actor controls the no-filing guidance pathway clean-slate-petition-under-n-j-s-a-2c-52-5-3?",
+      "legalReviewQuestion": "Must NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3 be split into its automatic and Board-review mechanisms before service classification, and what participant action, if any, initiates the Board-review branch?",
       "classificationConfidence": "high",
       "currentImplementationEvidence": [
         "authority-ledger:authority_clearance:authority_clearance",
@@ -962,7 +990,8 @@
         "source-relationship:nj_clean_slate-order-for-hearing-3:unchecked",
         "source-relationship:nj_clean_slate-primary-filing-1:unchecked",
         "source-relationship:nj_clean_slate-proposed-order-4:unchecked",
-        "source-relationship:nj_clean_slate-statements-accompanying-petition-2:unchecked"
+        "source-relationship:nj_clean_slate-statements-accompanying-petition-2:unchecked",
+        "unadopted-closure-contradiction:NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3:proposal-authority=null:decidedOn=null"
       ]
     },
     {
@@ -1015,7 +1044,7 @@
         "crosswalk:direct_runtime_representation",
         "current-grade-a-artifacts-do-not-resolve-the-new-disposition-scope-conflict",
         "grade-a-commercial-disposition:grade-a-or-set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c-v1:paid_packet_intended",
-        "grade-a-projection:INCOMPLETE:not_commercially_eligible",
+        "grade-a-projection:SUPERSEDED:not_commercially_eligible",
         "launch-graph:operationallySellable=false",
         "lawrence-decision-source:data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json:sha256:adade2b0f82f39a406c59ef863148edbb090973e3397a0e5e1694df5ca0fb987",
         "lawrence-decision:LWD-2026-08-29-OR-PACKET-SCOPE:separate-option-2-and-option-3-configurations",
@@ -1030,6 +1059,30 @@
         "source-relationship:or_acquittal-primary-filing-1:unchecked",
         "source-relationship:or_acquittal-proposed-order-2:unchecked",
         "source-relationship:or_acquittal-record-gathering-instructions-5:unchecked"
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:OR:or_conviction_setaside:marijuana-specific-set-aside-redesignation",
+      "jurisdiction": "OR",
+      "publicLabel": "Set aside an Oregon conviction",
+      "legalReviewQuestion": "Must OR:marijuana-specific-set-aside-redesignation be split into its automatic and Board-review mechanisms before service classification, and what participant action, if any, initiates the Board-review branch?",
+      "classificationConfidence": "high",
+      "currentImplementationEvidence": [
+        "authority-ledger:authority_clearance:authority_clearance",
+        "compiled-runtime:src/lib/rcap-engine/compiled/profiles/OR-oregon.json#marijuana-specific-set-aside-redesignation",
+        "crosswalk:direct_runtime_representation",
+        "grade-a-commercial-disposition:grade-a-or-marijuana-specific-set-aside-redesignation-v1:paid_packet_intended",
+        "grade-a-projection:INCOMPLETE:not_commercially_eligible",
+        "launch-graph:operationallySellable=false",
+        "legal-design:legal_design_approved_with_limitations",
+        "route-contract:OR:marijuana-specific-set-aside-redesignation:LD-OR-03:guidance_status",
+        "runtime-authority-decision:LD-OR-03:route=OR:marijuana-specific-set-aside-redesignation:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=SPECIAL MARIJUANA MOTION OR GENERAL SET-ASIDE PACKET:effective-note=Offense class and date are mandatory intake facts for the fallback general route.",
+        "runtime-service-disposition:paid_packet_intended",
+        "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
+        "source-relationship:or_conviction_setaside-primary-filing-1:unchecked",
+        "source-relationship:or_conviction_setaside-proposed-order-2:unchecked",
+        "source-relationship:or_conviction_setaside-record-gathering-instructions-5:unchecked",
+        "unadopted-closure-contradiction:OR:marijuana-specific-set-aside-redesignation:proposal-authority=null:decidedOn=null"
       ]
     },
     {
