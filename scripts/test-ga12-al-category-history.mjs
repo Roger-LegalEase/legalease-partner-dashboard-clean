@@ -12,6 +12,11 @@ const mutations={
  hi_level:['factId === "offense_category" && !overrideClass','(factId === "offense_category" || hiCategoryHistory && factId === "offense_level") && !overrideClass'],
  hi_question:['"hi_three_route_category_history", "ar_bound_category_history"','"disabled_hi_category_history", "ar_bound_category_history"'],
  hi_history:['hiThreeRouteCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))','false'],
+ ia_context:['specification == null && contactRepresentationHash(profile) === "ffdbac49e5a1e96f22cb8cd6f4842e9b9c367b988901fa061091fc6d9107ed9e"','true'],
+ ia_collection:['iaCategoryHistory ||','false ||'],
+ ia_level:['factId === "offense_category" && !overrideClass','(factId === "offense_category" || iaCategoryHistory && factId === "offense_level") && !overrideClass'],
+ ia_question:['"ia_three_route_category_history", "hi_three_route_category_history"','"disabled_ia_category_history", "hi_three_route_category_history"'],
+ ia_history:['iaThreeRouteCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))','false'],
  context:['export function alThreeRouteCategoryIsHistory(profile, pathwayId, specification) {','export function alThreeRouteCategoryIsHistory(profile, pathwayId, specification) { return true;'],
  collection:['alCategoryHistory || hiCategoryHistory','false || hiCategoryHistory'],
  ownership:['factId === "offense_category" && !overrideClass','factId === "offense_category"'],
@@ -20,20 +25,24 @@ const mutations={
  loss:['const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);','const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds); delete shapesPreserved.packetAnswers.offense_category;'],
  priority:['const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);','const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds); shapesPreserved.packetAnswers.offense_category = "Inferred category";']
 };
-if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`import {writeSync} from 'node:fs';let d;export function initialize(x){d=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith(d[2])){if(!r.source.includes(d[0]))throw Error('mutation target absent');writeSync(2,JSON.stringify({appliedMutation:d[3]})+'\\n');return {...r,source:r.source.replace(d[0],d[1])}}return r}`),{data:[...mutations[mutation],['hi_context','hi_collection','hi_level','collection','context','ownership'].includes(mutation)?'/packet-collection.ts':'/packet-information.ts',mutation]});}
+if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`import {writeSync} from 'node:fs';let d;export function initialize(x){d=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith(d[2])){if(!r.source.includes(d[0]))throw Error('mutation target absent');writeSync(2,JSON.stringify({appliedMutation:d[3]})+'\\n');return {...r,source:r.source.replace(d[0],d[1])}}return r}`),{data:[...mutations[mutation],['hi_context','hi_collection','hi_level','ia_context','ia_collection','ia_level','collection','context','ownership'].includes(mutation)?'/packet-collection.ts':'/packet-information.ts',mutation]});}
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
 const { evaluateAuthoritativeScreeningResult: evaluate } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
 const {packetFulfillmentAuthority}=await import('../src/lib/expungement-ai/packet-fulfillment-authority.ts');
 const {createConsumerPaymentPlaceholder}=await import('../src/lib/expungement-ai/payment-adapter.ts');
 const { getProfileByJurisdiction } = await import('../src/lib/rcap-engine/profile-registry.ts');
-const { alThreeRouteCategoryIsHistory, hiThreeRouteCategoryIsHistory, resolvePacketCollection } = await import('../src/lib/expungement-ai/packet-collection.ts');
+const { alThreeRouteCategoryIsHistory, hiThreeRouteCategoryIsHistory, iaThreeRouteCategoryIsHistory, resolvePacketCollection } = await import('../src/lib/expungement-ai/packet-collection.ts');
 
 // GA-12 / QD-bd6b15fff22cbe1501cb: three source-bound AL guidance consumers.
 // GA12 HI Q-49c293131f5eba7089d9 / Q-4fbcf8810b325d290849 / Q-6a2e1331cb59164e4634.
+// GA12 IA Q-954756996d44111dd6f6 / Q-11a00e1e894ff5efe5f9 / Q-91de493bf957b599962f.
 const cases = [
   ['Q-49c293131f5eba7089d9','deferred-acceptance-one-year','HI'],
   ['Q-4fbcf8810b325d290849','deferred-prostitution-three-year','HI'],
   ['Q-6a2e1331cb59164e4634','nonconviction-arrest-expungement','HI'],
+  ['Q-954756996d44111dd6f6','minor-prostitution-7251','IA'],
+  ['Q-11a00e1e894ff5efe5f9','misdemeanor-901c3','IA'],
+  ['Q-91de493bf957b599962f','nonconviction-901c2','IA'],
   [
     "Q-ce34aa2230f68728a3ca",
     "human-trafficking-victim-expungement"
@@ -63,14 +72,14 @@ function check(name, fn) {
 }
 for (const [questionRecordId, route, state = 'AL'] of cases) {
   const profile=getProfileByJurisdiction(state);
-  const historyContext=state==='HI'?hiThreeRouteCategoryIsHistory:alThreeRouteCategoryIsHistory;
-  const result=state==='HI'&&route==='nonconviction-arrest-expungement'?'packet_ready_with_caution':'guidance_only';
+  const historyContext={HI:hiThreeRouteCategoryIsHistory,IA:iaThreeRouteCategoryIsHistory}[state]??alThreeRouteCategoryIsHistory;
+  const result=state==='HI'&&route==='nonconviction-arrest-expungement'?'packet_ready_with_caution':state==='IA'&&route!=='minor-prostitution-7251'?'needs_review':'guidance_only';
   const payment=result==='packet_ready_with_caution';
-  const historySource=state==='HI'?'hi_three_route_category_history':'al_three_route_category_history';
-  const historyReason=state==='HI'?'These source-bound Hawaii consumers use separate disposition, charge and court-order facts. Earlier offense categories remain optional literal history and establish neither statutory classification nor eligibility.':'These source-bound Alabama guidance consumers do not bind an offense category to a document. Earlier category answers remain optional literal history; disposition, pardon, trafficking and exclusion facts remain separate.';
+  const historySource={HI:'hi_three_route_category_history',IA:'ia_three_route_category_history'}[state]??'al_three_route_category_history';
+  const historyReason={HI:'These source-bound Hawaii consumers use separate disposition, charge and court-order facts. Earlier offense categories remain optional literal history and establish neither statutory classification nor eligibility.',IA:'These source-bound Iowa consumers use separate charge, disposition, age and timing facts. Earlier offense categories remain optional literal history and establish neither statutory classification nor eligibility.'}[state]??'These source-bound Alabama guidance consumers do not bind an offense category to a document. Earlier category answers remain optional literal history; disposition, pardon, trafficking and exclusion facts remain separate.';
   const witness=fixtures.find(f=>f.pathwayKey===`${state}:${route}`);assert(witness);
   const answers=structuredClone(witness.answers);
-  const reason=payment?'hi.compiled_rule_match.rule-04-a-complete-application-valid-government-photo-id-paymen':state.toLowerCase()+'.guidance_only_no_user_filed_court_petition';
+  const reason=payment?'hi.compiled_rule_match.rule-04-a-complete-application-valid-government-photo-id-paymen':result==='needs_review'?'ia.waiting_rule_not_executed':state.toLowerCase()+'.guidance_only_no_user_filed_court_petition';
   const authoritative = evaluate({ jurisdiction: state, profileVersion: profile.profileVersion,
     matterId: `synthetic-${questionRecordId}`, answers });
   check(`${route}: exact conditional information authority`, () => {
@@ -99,7 +108,7 @@ for (const [questionRecordId, route, state = 'AL'] of cases) {
   });
   for(const [label,delta,result,code]of [
     ['federal',{jurisdiction_scope:'Federal'},'hard_stop',state.toLowerCase()+'.federal_or_out_of_scope'],
-    ...(state==='AL'?[['excluded',{state_exclusion_categories:['Violent offense']},'likely_not_eligible','al.state_exclusion_selected']]:route==='nonconviction-arrest-expungement'?[['conviction excluded',{case_outcome:'Felony conviction'},'likely_not_eligible','hi.hi_831_3_2_nonconviction_required_not_eligible']]:[['ownership refused',{ownership_scope:'No'},'hard_stop','hi.ownership_scope_hard_stop']]),
+    ...(state==='AL'?[['excluded',{state_exclusion_categories:['Violent offense']},'likely_not_eligible','al.state_exclusion_selected']]:state==='HI'&&route==='nonconviction-arrest-expungement'?[['conviction excluded',{case_outcome:'Felony conviction'},'likely_not_eligible','hi.hi_831_3_2_nonconviction_required_not_eligible']]:[['ownership refused',{ownership_scope:'No'},'hard_stop',state.toLowerCase()+'.ownership_scope_hard_stop']]),
     ['uncertain',{case_outcome:'I am not sure'},'needs_review',state.toLowerCase()+'.source_fact_unknown']
   ])check(`${route}: ${label} keeps predecessor outcome and saved history`,()=>{
     const input={...answers,...delta};
@@ -121,7 +130,7 @@ for (const [questionRecordId, route, state = 'AL'] of cases) {
   check(`${route}: no new category gate or inferred classification`, () => {
     const m = model(original);
     assert(m);
-    if(state==='HI')assert.equal(m.questions.find(q=>q.id==='offense_level')?.required,true);
+    if(state==='HI'||state==='IA')assert.equal(m.questions.find(q=>q.id==='offense_level')?.required,true);
     assert(!m.builderQuestions.some(q => q.id === category));
     assert(!m.missingInputIds.includes(category));
     for (const map of maps) assert(!Object.hasOwn(seed.snapshot[map], category));
