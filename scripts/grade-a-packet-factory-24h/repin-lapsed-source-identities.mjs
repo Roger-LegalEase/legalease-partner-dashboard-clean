@@ -905,12 +905,132 @@ const singleRoutesAdapter = {
   }
 };
 
+const DECISIONS = "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json";
+const LANE_RETURNS = "data/rcap-grade-a/packet-factory-24h";
+/*
+ * The national legal decisions record: shared authority (the report document,
+ * its digest and currentThrough, the crosswalk) plus three decision lists --
+ * questionDecisions keyed by registerQuestionId + trackId,
+ * researchTrackDecisions by trackId, immediateAssignments by assignmentId +
+ * trackId -- and an implementationMatrix keyed by reportQuestionId.
+ *
+ * A receipt names the decision it rests on in the pin's recordId:
+ *   legal-decision:2026-08-28:Q-035:sc_17_22_950_summary   one question decision
+ *   legal-decision:2026-08-28:research-track:<trackId>     one research-track decision
+ *   legal-decision:2026-08-28:LA-IMM-03:<trackId>          one immediate assignment
+ *   legal-decision:2026-08-28:<trackId>                    the one decision, in any list, carrying that trackId
+ * A pin with no such recordId (a compositionSources or groundingRecords entry)
+ * is a refusal: the receipt does not say which decision it binds, and neither
+ * the family id nor its route keys are that statement.
+ *
+ * SHARED AUTHORITY IS AN ANCHOR. Everything outside the decision lists and the
+ * register bookkeeping (expected, scope, deliveryCounts: counts and the
+ * out-of-scope register, which move whenever a question is added) is what every
+ * decision reads, and is compared as one anchor. A question decision's
+ * implementationMatrix rows are compared beside it. Other decisions' memo
+ * digests moving is exactly the drift this adapter exists to see past; the
+ * family's own decision row, its memoSha256 included, must be identical.
+ *
+ * THE REFRESH NAMES ITS MEASUREMENT. A refresh here follows an independent
+ * re-verification row for this family that recorded the current digest of this
+ * record; the row is found in the lane returns by that digest and named in the
+ * scope, and none found is a refusal.
+ */
+function measuredReVerificationsRecording(familyId, digest, root) {
+  const out = [];
+  let lanes = [];
+  try { lanes = fs.readdirSync(root); } catch { return out; }
+  for (const lane of lanes) {
+    const dir = path.join(root, lane);
+    let names = [];
+    try { names = fs.readdirSync(dir).filter((n) => /^rows.*\.json$/.test(n)); } catch { continue; }
+    for (const name of names) {
+      let doc;
+      try { doc = JSON.parse(fs.readFileSync(path.join(dir, name), "utf8")); } catch { continue; }
+      for (const row of Array.isArray(doc?.rows) ? doc.rows : []) {
+        if ((row?.itemId ?? row?.familyId) !== familyId || row.verdict !== "PASS_COMPLETE_INDEPENDENT") continue;
+        if (!JSON.stringify(row).includes(digest)) continue;
+        out.push({ evidencePath: path.relative(ROOT, path.join(dir, name)), lane: row.lane ?? doc.lane ?? lane.toUpperCase(), verifiedAtBase: row.verifiedAtBase ?? null });
+      }
+    }
+  }
+  return out;
+}
+const decisionsAdapter = {
+  recordPath: DECISIONS,
+  describe: "national legal decisions (shared authority + the one decision the pin's recordId names)",
+
+  index(doc, side) {
+    const topKeys = ["schemaVersion", "generatedBy", "createsApproval", "authority", "crosswalk", "independentFields", "expected", "scope", "deliveryCounts", "immediateAssignments", "questionDecisions", "researchTrackDecisions", "implementationMatrix"];
+    const lists = ["immediateAssignments", "questionDecisions", "researchTrackDecisions", "implementationMatrix"];
+    if (!doc || typeof doc !== "object" || Object.keys(doc).some((k) => !topKeys.includes(k)) || lists.some((k) => !Array.isArray(doc[k]))) {
+      throw new Refusal(`the ${side} decisions record is not the shape this adapter describes`);
+    }
+    const out = new Map();
+    const add = (key, ids, row) => {
+      if (ids.some((v) => typeof v !== "string" || !v)) throw new Refusal(`the ${side} decisions record holds a decision with no id (${key})`);
+      if (out.has(key)) throw new Refusal(`the ${side} decisions record holds duplicate decision ${key}; an anchor that is not unique cannot be compared`);
+      out.set(key, row);
+    };
+    for (const r of doc.questionDecisions) add(`question:${r?.registerQuestionId}:${r?.trackId}`, [r?.registerQuestionId, r?.trackId], r);
+    for (const r of doc.researchTrackDecisions) add(`research-track:${r?.trackId}`, [r?.trackId], r);
+    for (const r of doc.immediateAssignments) add(`immediate:${r?.assignmentId}:${r?.trackId}`, [r?.assignmentId, r?.trackId], r);
+    return out;
+  },
+
+  scopeFrom({ receipt, pin, currentDoc, laneReturnRoot = path.join(ROOT, LANE_RETURNS) }) {
+    const byId = this.index(currentDoc, "current");
+    const recordId = typeof pin.recordId === "string" ? pin.recordId : "";
+    const prefix = "legal-decision:2026-08-28:";
+    if (!recordId.startsWith(prefix)) {
+      throw new Refusal("the pin names no legal-decision:2026-08-28:<decision> recordId, so which decision this family binds cannot be decided", { recordId });
+    }
+    const rest = recordId.slice(prefix.length);
+    let m;
+    let key;
+    if ((m = /^(Q-\d+):(.+)$/.exec(rest))) key = `question:${m[1]}:${m[2]}`;
+    else if ((m = /^research-track:(.+)$/.exec(rest))) key = `research-track:${m[1]}`;
+    else if ((m = /^(LA-IMM-\d+):(.+)$/.exec(rest))) key = `immediate:${m[1]}:${m[2]}`;
+    else {
+      const hits = [...byId.keys()].filter((k) => byId.get(k).trackId === rest);
+      if (hits.length !== 1) throw new Refusal(`the recordId names track ${rest}, which ${hits.length} decisions in the current record carry; exactly one is needed`, { recordId, hits });
+      key = hits[0];
+    }
+    if (!byId.has(key)) throw new Refusal(`the receipt's recordId names ${key}, which is no decision in the current record`, { recordId });
+    const digest = sha256(fs.readFileSync(path.join(ROOT, DECISIONS)));
+    const measuredReVerification = measuredReVerificationsRecording(receipt.familyId, digest, laneReturnRoot);
+    if (measuredReVerification.length === 0) {
+      throw new Refusal(`no independent re-verification row for ${receipt.familyId} records the current digest ${digest.slice(0, 12)} of this record; a refresh here follows a measured re-verification`, { digest });
+    }
+    return {
+      anchorIds: [key],
+      derivation: { fromPinRecordId: recordId, sharedAuthorityComparedAsOneAnchor: true, implementationMatrixRowsComparedForQuestions: true, measuredReVerification }
+    };
+  },
+
+  anchorsOf(doc, scope, side) {
+    const byId = this.index(doc, side);
+    const { questionDecisions: _q, researchTrackDecisions: _r, immediateAssignments: _i, implementationMatrix, expected: _e, scope: _s, deliveryCounts: _d, ...sharedAuthority } = doc;
+    const out = new Map([["decisionsSharedAuthority", sharedAuthority]]);
+    for (const id of scope.anchorIds) {
+      if (!byId.has(id)) {
+        throw new Refusal(`decision ${id} is absent from the ${side} record; the entry this family binds left the record and it owes a fresh read`, { anchor: id, side });
+      }
+      const row = byId.get(id);
+      out.set(id, row);
+      if (id.startsWith("question:")) out.set(`implementationMatrix:${row.reportQuestionId}`, implementationMatrix.filter((r) => r?.reportQuestionId === row.reportQuestionId));
+    }
+    return out;
+  }
+};
+
 export const ADAPTERS = new Map([
   [REGISTRY, registryAdapter],
   [PACKET_MANIFESTS, packetManifestAdapter],
   [SOURCE_DETERMINATIONS, sourceDeterminationAdapter],
   [WV_COMPILED_PROFILE, compiledProfileAdapter],
-  [SINGLE_ROUTES, singleRoutesAdapter]
+  [SINGLE_ROUTES, singleRoutesAdapter],
+  [DECISIONS, decisionsAdapter]
 ]);
 
 /* ------------------------------------------------------------------ *
