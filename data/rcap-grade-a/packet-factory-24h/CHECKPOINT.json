@@ -6,26 +6,26 @@
   "checkpointNumber": 0,
   "checkpointMeans": "checkpoint 0 is the dispatch: the state the first two-hour checkpoint is measured against.",
   "liveFamilyDenominator": 346,
-  "completePacketProven": 309,
+  "completePacketProven": 292,
   "states": {
     "SOURCE_BLOCKED": 0,
     "SOURCE_READY": 1,
-    "LEGAL_BLOCKED": 0,
+    "LEGAL_BLOCKED": 1,
     "ASSIGNED_TO_BUILD": 0,
     "BUILD_IN_PROGRESS": 0,
-    "BUILT_RASTER_PENDING": 3,
+    "BUILT_RASTER_PENDING": 2,
     "PASS_COMPLETE": 0,
-    "VERIFY_PENDING": 8,
+    "VERIFY_PENDING": 15,
     "VERIFYING": 0,
-    "FAIL_REPAIR_REQUIRED": 4,
+    "FAIL_REPAIR_REQUIRED": 17,
     "VERIFIED_PASS": 0,
     "LEGAL_REVIEW_READY": 0,
     "LEGAL_APPROVED": 0,
     "PRODUCT_PATH_PENDING": 0,
-    "COMPLETE_PACKET_PROVEN": 309,
+    "COMPLETE_PACKET_PROVEN": 292,
     "LEGITIMATE_GUIDANCE_ONLY": 0,
     "WRONG_DELIVERY_TYPE": 0,
-    "GUIDANCE_READY": 14,
+    "GUIDANCE_READY": 11,
     "HANDOFF_READY": 2,
     "AGENCY_APPLICATION_READY": 0,
     "OUT_OF_SCOPE": 5
@@ -39,11 +39,18 @@
   "codex": {
     "activeTasks": 0,
     "queuedTasks": 56,
-    "lanesWithWorkAtDispatch": 10,
-    "lanesProvisionedEmpty": 46,
+    "lanesWithWorkAtDispatch": 15,
+    "lanesProvisionedEmpty": 41,
     "idleCapacityRule": "A provisioned-empty lane is not idle capacity being wasted; it is capacity waiting on the source conveyor, which is itself fully assigned."
   },
-  "blockers": [],
+  "blockers": [
+    {
+      "family": "rcap-tn-custom-pleading",
+      "exactBlocker": "an open legal input on one of its routes",
+      "owner": "counsel",
+      "nextAction": "await the counsel determination; do not research it here"
+    }
+  ],
   "commercialRoutesOpened": 0,
   "productionTouched": false
 }

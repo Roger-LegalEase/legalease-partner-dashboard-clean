@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `3f75cf435e808a9624b6fbde2cea9a4a8fb3ee4e` (or the newer dispatch base)
+**Minimum required ancestor:** `0e7d23540aafa65ac3b6963cf4ebcf117ca07fdd` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'fl-administrative-set' \
   --codex-cloud \
-  --minimum-captain-sha 3f75cf435e808a9624b6fbde2cea9a4a8fb3ee4e
+  --minimum-captain-sha 0e7d23540aafa65ac3b6963cf4ebcf117ca07fdd
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,9 +38,12 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 2 exact families before reading or writing family content:
+- Assert only these 5 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'fl-administrative-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'ms-nonconv-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'ks-22-4908-registration-relief-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'rcap-ok-custom-pleading'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -61,10 +64,13 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 2 families
+## The 5 families
 
 - `fl-administrative-set`
-- `ms-nonconv-set`
+- `agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge`
+- `agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure`
+- `ks-22-4908-registration-relief-set`
+- `rcap-ok-custom-pleading`
 
 ## What you receive
 
@@ -78,9 +84,14 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
 - `data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/al/agency-application-treatment:obligation:research-decision-route:al:al-uncharged-arrest:agency-record-challenge--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/**`
 - `scripts/build-census-v1-fl-administrative-set.mjs`
-- `scripts/build-census-v1-ms-nonconv-set.mjs`
+- `scripts/build-census-v1-agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure.mjs`
+- `scripts/build-census-v1-ks-22-4908-registration-relief-set.mjs`
+- `scripts/build-census-v1-rcap-ok-custom-pleading.mjs`
 
 ## Never write here
 

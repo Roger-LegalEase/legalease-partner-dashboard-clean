@@ -1,13 +1,13 @@
 {
   "schemaVersion": "rcap-continuous-integration-state/v1",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate-source-conveyor.mjs",
-  "generatedAt": "2026-10-19T19:44:58.818Z",
-  "captainHead": "3f75cf435e808a9624b6fbde2cea9a4a8fb3ee4e",
+  "generatedAt": "2026-10-19T21:57:48.816Z",
+  "captainHead": "0e7d23540aafa65ac3b6963cf4ebcf117ca07fdd",
   "cadence": {
     "integrateEvery": "three completed worker returns, or twenty minutes, whichever comes first",
     "releaseIntoBuildersEvery": "five families released by PROMO, or thirty minutes, whichever comes first",
-    "nextIntegrationDeadline": "2026-10-19T20:04:58.818Z",
-    "nextSourceReleaseDeadline": "2026-10-19T20:14:58.818Z",
+    "nextIntegrationDeadline": "2026-10-19T22:17:48.816Z",
+    "nextSourceReleaseDeadline": "2026-10-19T22:27:48.816Z",
     "everyCheckpointMust": [
       "inspect the exact changed paths of each return",
       "integrate the returns that touch only their own owned paths",
@@ -34,7 +34,7 @@
           "VF11",
           "VF12"
         ],
-        "measured": 9,
+        "measured": 16,
         "threshold": 20,
         "triggered": false
       },
@@ -46,7 +46,7 @@
           "FIX07",
           "FIX08"
         ],
-        "measured": 4,
+        "measured": 17,
         "threshold": 20,
         "triggered": false
       },
@@ -80,18 +80,19 @@
     "liveFamilyDenominator": 346,
     "sourceReady": 1,
     "sourceBlocked": 0,
-    "legalBlocked": 0,
-    "verifyPending": 9,
-    "repairRequired": 4,
+    "legalBlocked": 1,
+    "verifyPending": 16,
+    "repairRequired": 17,
     "byState": {
-      "COMPLETE_PACKET_PROVEN": 309,
-      "VERIFY_PENDING": 8,
-      "GUIDANCE_READY": 14,
-      "BUILT_RASTER_PENDING": 3,
+      "FAIL_REPAIR_REQUIRED": 17,
+      "COMPLETE_PACKET_PROVEN": 292,
+      "BUILT_RASTER_PENDING": 2,
       "OUT_OF_SCOPE": 5,
+      "VERIFY_PENDING": 15,
+      "GUIDANCE_READY": 11,
       "SOURCE_READY": 1,
       "HANDOFF_READY": 2,
-      "FAIL_REPAIR_REQUIRED": 4
+      "LEGAL_BLOCKED": 1
     }
   },
   "commercialRoutesOpened": 0,
