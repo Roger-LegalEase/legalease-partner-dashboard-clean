@@ -836,6 +836,109 @@ const compiledProfileAdapter = {
   }
 };
 
+/*
+ * NY COMPILED PROFILE, ONE ROUTE. The DCJS correction submission for a CPL
+ * § 160.55 violation binds the NY profile as a held fee source through six
+ * builder statements. f5204e12d moved only questionLifecycle.routeConsumers,
+ * adding two facts that the § 160.59 petition alone consumes. Every other
+ * top-level field is one anchor, each questionLifecycle list is one anchor, the
+ * ids of the facts any other pathway consumes are one anchor (so a removed or
+ * re-pointed fact refuses), and each of those facts is its own anchor. Only a
+ * fact consumed by the § 160.59 pathway and nothing else is left out. Like the
+ * WV adapter, this is one route, not a compiled-profile framework.
+ */
+const NY_COMPILED_PROFILE = "src/lib/rcap-engine/compiled/profiles/NY-new-york.json";
+const NY_PROFILE_FAMILY = "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission";
+const NY_PROFILE_ROUTE_KEY = "obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission";
+const NY_PROFILE_RECORD_ID = "compiled-profile:NY-new-york";
+const NY_UNRELATED_PATHWAY = "discretionary-conviction-sealing-by-petition-under-cpl-160-59";
+const NY_LIFECYCLE_KEYS = ["completionAliasIds", "exactPacketFactIds", "routeConsumers"];
+const NY_PROFILE_ANCHOR_STATEMENTS = Object.freeze([
+  "Automatic sealing (160.50/160.55/Clean Slate) $0 No filing",
+  "Certificate of Disposition (outside NYC) $5 per case",
+  "Certificate of Disposition (within NYC) $10 per case",
+  "DCJS record review (your own record) DCJS fee To confirm record / sealing status",
+  "obtain a certificate of disposition, check the official criminal-history result, ask the sentencing court to transmit or correct the sealing notice, and send the certified disposition to DCJS for correction",
+  "for a post-1991-11-01 qualifying disposition the participant ordinarily files nothing and the clerk notifies DCJS and the appropriate law-enforcement agencies"
+]);
+const nyOnlyUnrelated = (consumers) => consumers.length > 0 && consumers.every((id) => id === NY_UNRELATED_PATHWAY);
+const nyRouteConsumerAnchor = (fact) => `compiledProfile:questionLifecycle:routeConsumers:${fact}`;
+
+const nyCompiledProfileAdapter = {
+  recordPath: NY_COMPILED_PROFILE,
+  describe: "NY compiled profile (every field the DCJS correction route can read; facts only the CPL 160.59 petition consumes excluded)",
+
+  index(doc, side) {
+    if (!doc || typeof doc !== "object" || Array.isArray(doc) || doc.schemaVersion !== "2.0.0" || doc.jurisdiction?.code !== "NY") {
+      throw new Refusal(`the ${side} record is not the NY compiled profile schema this adapter describes`);
+    }
+    // The NY and WV profiles share the 2.0.0 top-level schema.
+    const unknown = Object.keys(doc).filter((key) => !WV_PROFILE_TOP_KEYS.has(key));
+    const lifecycle = doc.questionLifecycle;
+    const consumers = lifecycle?.routeConsumers;
+    if (unknown.length || !lifecycle || typeof lifecycle !== "object" || canonical(Object.keys(lifecycle).sort()) !== canonical(NY_LIFECYCLE_KEYS)
+      || !consumers || typeof consumers !== "object" || Array.isArray(consumers) || Object.values(consumers).some((v) => !Array.isArray(v))) {
+      throw new Refusal(`ambiguous ${side} NY compiled profile fields: ${unknown.join(", ") || "questionLifecycle"}`);
+    }
+    const out = new Map();
+    for (const key of [...WV_PROFILE_TOP_KEYS].filter((k) => k !== "questionLifecycle").sort()) out.set(`compiledProfile:${key}`, doc[key] ?? null);
+    out.set("compiledProfile:questionLifecycle:exactPacketFactIds", lifecycle.exactPacketFactIds);
+    out.set("compiledProfile:questionLifecycle:completionAliasIds", lifecycle.completionAliasIds);
+    out.set("compiledProfile:questionLifecycle:routeConsumerIds", Object.keys(consumers).filter((fact) => !nyOnlyUnrelated(consumers[fact])).sort());
+    for (const [fact, list] of Object.entries(consumers)) out.set(nyRouteConsumerAnchor(fact), list);
+    return out;
+  },
+
+  scopeFrom({ receipt, pin, currentDoc, laneReturnRoot = path.join(ROOT, LANE_RETURNS) }) {
+    if (receipt.familyId !== NY_PROFILE_FAMILY || pin.recordId !== NY_PROFILE_RECORD_ID || pin.pathInRepository !== NY_COMPILED_PROFILE) {
+      throw new Refusal("compiled-profile pin does not uniquely bind the assigned NY DCJS correction route");
+    }
+    if (!Array.isArray(receipt.routeKeys) || receipt.routeKeys.length !== 1 || receipt.routeKeys[0] !== NY_PROFILE_ROUTE_KEY) {
+      throw new Refusal("the NY compiled-profile receipt has an ambiguous or unrelated route key");
+    }
+    const indexed = this.index(currentDoc, "current");
+    if (!(currentDoc.pathways ?? []).some((entry) => entry?.id === NY_UNRELATED_PATHWAY)) {
+      throw new Refusal(`the current NY compiled profile no longer carries the ${NY_UNRELATED_PATHWAY} pathway whose facts this adapter leaves out`);
+    }
+    const bytes = fs.readFileSync(path.join(ROOT, NY_COMPILED_PROFILE));
+    const text = bytes.toString("utf8");
+    const missing = NY_PROFILE_ANCHOR_STATEMENTS.filter((statement) => !text.includes(statement));
+    if (missing.length) throw new Refusal(`the NY compiled profile no longer contains ${missing.length} of the six builder anchor statements this route relies on`, { missing });
+    const digest = sha256(bytes);
+    const measuredReVerification = measuredReVerificationsRecording(receipt.familyId, digest, laneReturnRoot);
+    if (measuredReVerification.length === 0) {
+      throw new Refusal(`no independent re-verification row for ${receipt.familyId} records the current digest ${digest.slice(0, 12)} of this record; a refresh here follows a measured re-verification`, { digest });
+    }
+    const excluded = Object.keys(currentDoc.questionLifecycle.routeConsumers).filter((fact) => nyOnlyUnrelated(currentDoc.questionLifecycle.routeConsumers[fact])).sort();
+    const left = new Set(excluded.map(nyRouteConsumerAnchor));
+    return {
+      anchorIds: [...indexed.keys()].filter((id) => !left.has(id)),
+      derivation: {
+        recordId: NY_PROFILE_RECORD_ID,
+        familyId: receipt.familyId,
+        routeKey: NY_PROFILE_ROUTE_KEY,
+        builderAnchorStatements: [...NY_PROFILE_ANCHOR_STATEMENTS],
+        excludedKnownTransition: {
+          kind: "facts-consumed-only-by-the-cpl-160-59-petition",
+          reason: "this DCJS correction route reads the profile only for the fee and workflow statements above; a questionLifecycle fact that the § 160.59 petition alone consumes is not one it can read",
+          fields: excluded.map((fact) => `questionLifecycle.routeConsumers.${fact}`)
+        },
+        measuredReVerification
+      }
+    };
+  },
+
+  anchorsOf(doc, scope, side) {
+    const indexed = this.index(doc, side);
+    const out = new Map();
+    for (const id of scope.anchorIds) {
+      if (!indexed.has(id)) throw new Refusal(`the ${side} NY compiled profile lacks required anchor ${id}`);
+      out.set(id, indexed.get(id));
+    }
+    return out;
+  }
+};
+
 // Whole-file route-contract pins may move for another jurisdiction. Scope is
 // the receipt's exact route-contract identity, corroborated by its own route
 // keys; compare the complete route (including every service/failure branch)
@@ -1256,6 +1359,7 @@ export const ADAPTERS = new Map([
   [PACKET_MANIFESTS, packetManifestAdapter],
   [SOURCE_DETERMINATIONS, sourceDeterminationAdapter],
   [WV_COMPILED_PROFILE, compiledProfileAdapter],
+  [NY_COMPILED_PROFILE, nyCompiledProfileAdapter],
   [SINGLE_ROUTES, singleRoutesAdapter],
   [DECISIONS, decisionsAdapter],
   [CENSUS, censusAdapter],
