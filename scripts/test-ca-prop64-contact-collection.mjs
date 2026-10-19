@@ -249,7 +249,9 @@ for(const locale of ['en','es'])for(const representation of [undefined,'self_rep
   {name:'uncertain optional',enrollment:'I am not sure',status:'needs_attention'},
   {name:'declined optional',note:'Prefer not to say',status:'needs_attention'},
   {name:'required blank',blankContacts:true,enrollment:'No',status:'not_started'},
-  {name:'required partial',blankCourt:true,status:'in_progress'}
+  {name:'required partial',blankCourt:true,status:'in_progress'},
+  {name:'all optional blank',blankContacts:true,allOptional:true,status:'not_started'},
+  {name:'all optional answered',blankContacts:true,allOptional:true,note:'Optional note',status:'complete'}
  ]){
   globalThis.__caSafeHomeLocale=locale;
   const answers={ca_prop64_filer_representation:'self_represented',participant_full_legal_name:'Synthetic Filer',ca_prop64_filing_court_county:'Yolo',
@@ -260,7 +262,7 @@ for(const locale of ['en','es'])for(const representation of [undefined,'self_rep
   const contactQuestions=questions(answers),optional=caSafeAtHomeQuestion(answers);
   check('GA-34 Safe at Home remains optional '+locale+'/'+scenario.name,optional.required,false);
   if(!scenario.blankContacts)check('GA-34 complete filer fixture '+locale+'/'+scenario.name,questionAnswerState(contactQuestions[0],answers[C.CA_FILER_CONTACT]),'known_valid');
-  const sectionQuestions=[optional,...contactQuestions,{id:'participant_note',type:'text',prompt:'Additional note',required:false}];
+  const sectionQuestions=[optional,...contactQuestions.map(q=>scenario.allOptional?{...q,required:false}:q),{id:'participant_note',type:'text',prompt:'Additional note',required:false}];
   const surfaceQuestions=[...sectionQuestions,{id:'next_detail',type:'text',prompt:'Next detail',required:true}];
   const sections=[{id:'about_you',heading:'About you',description:'Contact details',translations:{es:{heading:'Sobre usted',description:'Datos de contacto'}},questionIds:sectionQuestions.map(q=>q.id)}];
   const before=structuredClone(answers),name='GA-34 '+locale+'/'+scenario.name;
