@@ -614,7 +614,7 @@ function caSafeAtHomeChain(readBytes) {
 
 // Lead Spanish review successors (MS timing final, CA-08, MS justice labels, NY08, discharge glossary).
 export const LEAD_SPANISH_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-lead-spanish-20261019-v1.json';
-export const LEAD_SPANISH_SOURCE_SHA256 = '0dfa43602c3cb51420d83f59a6ce968845853866b1c78d64abd2b77628e218b1';
+export const LEAD_SPANISH_SOURCE_SHA256 = '78cf8e83954695bbcc85d740dab75577353d40ab3553301881913b97b86808e3';
 export function assertLeadSpanishSourceSuccession(readBytes) {
   const bytes=readBytes(LEAD_SPANISH_SOURCE_PATH);
   insist(sha(bytes)===LEAD_SPANISH_SOURCE_SHA256,'lead Spanish source succession record bytes changed');
@@ -622,7 +622,7 @@ export function assertLeadSpanishSourceSuccession(readBytes) {
   const { record: caSafe, current }=caSafeAtHomeChain(readBytes);
   insist(record.schemaVersion==='rcap-question-contract-lead-spanish-source-succession/v1'
     && record.recordId==='LEAD-SPANISH-SOURCE-SUCCESSION-20261019'
-    && record.kind==='technical_source_only' && record.engineeringCommit==='c35a5f17ba243e2d08048ca61dd095944bb85902'
+    && record.kind==='technical_source_only' && record.engineeringCommit==='a9678e3a0fd53f66a506e2252e8e1b244201e9a1'
     && equal(record.previousNamedSource,{path:CA_SAFE_AT_HOME_SOURCE_PATH,sha256:CA_SAFE_AT_HOME_SOURCE_SHA256,currentChangedSourceCount:21,currentUnchangedSourceCount:177})
     && equal(record.historicalContinuity,caSafe.historicalContinuity) && equal(record.historicalOutput,caSafe.historicalOutput)
     && record.sourceCount===198 && record.currentChangedSourceCount===23 && record.currentUnchangedSourceCount===175
