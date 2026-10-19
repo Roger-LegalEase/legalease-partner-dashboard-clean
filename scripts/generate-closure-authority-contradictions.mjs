@@ -205,6 +205,51 @@ const ADJUDICATION = {
     childPacketRoutesThatMustRemainActive: [],
     implementationEffect: "Solicitor-administered intake. packetFamily null, checkout disabled, sponsored generation disabled, packet credits zero, and a retained-counsel handoff on solicitor denial or contested eligibility. The circuit-specific source gate stays open and holds the guidance content, not the legal answer.",
     doNotDo: "Do not copy this route's fee schedule onto the other seven South Carolina routes."
+  },
+  // The six routes 38a83db1b terminalized on 2026-09-02. Each entry restates the owner
+  // delivery-type decision already recorded in the route's authority notes; none adds a
+  // legal or commercial judgment.
+  "MA:marijuana-only-expungement": {
+    commercialClassification: "non_paid_service",
+    serviceDisposition: "process_guidance",
+    childPacketRoutesThatMustRemainActive: [],
+    implementationEffect: "Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1 (ma-expunge-mj-set): guidance / out-of-scope stands, and the controlling route ratification is held_guidance (Lawrence first-pass hold). The completed packet stays an internal review fixture with checkout disabled. The closure ledger still counts the route as paid_packet_intended, which is the contradiction; leaving that category changes what the route is counted as, not what it does.",
+    doNotDo: "Do not enable checkout or deliver the review-fixture packet without a later route-specific owner or counsel approval that expressly authorizes packet delivery."
+  },
+  "NE:law-enforcement-error-expungement": {
+    commercialClassification: "non_paid_service",
+    serviceDisposition: "process_guidance",
+    childPacketRoutesThatMustRemainActive: [],
+    implementationEffect: "Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1 (ne-expunge-le-error-set): guidance / out-of-scope stands, and the controlling route ratification is held_guidance (Lawrence first-pass hold). The completed packet stays an internal review fixture with checkout disabled. The closure ledger still counts the route as paid_packet_intended, which is the contradiction; leaving that category changes what the route is counted as, not what it does.",
+    doNotDo: "Do not enable checkout or deliver the review-fixture packet without a later route-specific owner or counsel approval that expressly authorizes packet delivery."
+  },
+  "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3": {
+    commercialClassification: "non_paid_service",
+    serviceDisposition: "process_guidance",
+    childPacketRoutesThatMustRemainActive: [],
+    implementationEffect: "Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1 (nj_clean_slate-set): guidance / out-of-scope stands, and the controlling route ratification is held_guidance (Lawrence first-pass hold). The completed packet stays an internal review fixture with checkout disabled. The closure ledger still counts the route as paid_packet_intended, which is the contradiction; leaving that category changes what the route is counted as, not what it does.",
+    doNotDo: "Do not enable checkout or deliver the review-fixture packet without a later route-specific owner or counsel approval that expressly authorizes packet delivery."
+  },
+  "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247": {
+    commercialClassification: "non_paid_service",
+    serviceDisposition: "handoff",
+    childPacketRoutesThatMustRemainActive: [],
+    implementationEffect: "Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q2 (composed petition or attorney referral): referral guidance only. outcomeMode moved from participant_packet to referral and packetFamily to null; the route-ratification registry carries no row, so the owner decision is the controlling record. The closure ledger still counts the route as paid_packet_intended, which is the contradiction.",
+    doNotDo: "Do not ship a participant-filed composed petition without route-specific counsel approval; keep checkout disabled."
+  },
+  "OR:marijuana-specific-set-aside-redesignation": {
+    commercialClassification: "non_paid_service",
+    serviceDisposition: "process_guidance",
+    childPacketRoutesThatMustRemainActive: [],
+    implementationEffect: "Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q1 (or_conviction_setaside-set): guidance / out-of-scope stands, and the controlling route ratification is held_guidance (Lawrence first-pass hold). The completed packet stays an internal review fixture with checkout disabled. The closure ledger still counts the route as paid_packet_intended, which is the contradiction; leaving that category changes what the route is counted as, not what it does.",
+    doNotDo: "Do not enable checkout or deliver the review-fixture packet without a later route-specific owner or counsel approval that expressly authorizes packet delivery."
+  },
+  "SD:juvenile-trafficking-expungement": {
+    commercialClassification: "non_paid_service",
+    serviceDisposition: "handoff",
+    childPacketRoutesThatMustRemainActive: [],
+    implementationEffect: "Terminalized on 2026-09-02 by owner delivery-type decision OWN-DT-2026-09-02-Q2 (composed petition or attorney referral): referral guidance only. outcomeMode moved from participant_packet to referral and packetFamily to null; the route-ratification registry carries no row, so the owner decision is the controlling record. The closure ledger still counts the route as paid_packet_intended, which is the contradiction.",
+    doNotDo: "Do not ship a participant-filed composed petition without route-specific counsel approval; keep checkout disabled."
   }
 };
 
