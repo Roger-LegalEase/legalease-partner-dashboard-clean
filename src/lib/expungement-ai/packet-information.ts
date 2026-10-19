@@ -167,6 +167,40 @@ export type PacketVerificationSummaryFact = {
   source: "screeningAnswers" | "prefilledAnswers" | "packetAnswers" | "serverFacts";
   /** Jurisdiction and selected-pathway ids are display context, not participant answers. */
   systemContext: boolean;
+  /** Display purpose only; never an answer, form binding or authority grant. */
+  purpose?: { en: string; es: string };
+};
+
+// GA15 / VA-01 adopted v3 section7: preserve seven saved facts without creating court fields.
+const VA_PARDON_FACT_PURPOSES: Record<string, { en: string; es: string }> = {
+  "date_of_birth": {
+    "en": "Saved only if needed to match the pardon and case identity. It is not added to CC-1474.",
+    "es": "Se conserva solo si hace falta para cotejar la identidad con el indulto y el caso. No se añade al formulario CC-1474."
+  },
+  "mailing_address": {
+    "en": "Saved as correspondence information. This adds no CC-1474 field or participant filing requirement.",
+    "es": "Se conserva como información para correspondencia. Esto no añade un campo al formulario CC-1474 ni un requisito de presentación para usted."
+  },
+  "phone_number": {
+    "en": "Saved as contact information, not an eligibility condition. It is not added to CC-1474.",
+    "es": "Se conserva como información de contacto, no como condición de elegibilidad. No se añade al formulario CC-1474."
+  },
+  "email_address": {
+    "en": "Saved as your independent contact choice. This gives no consent to electronic service and adds no CC-1474 field.",
+    "es": "Se conserva como su elección independiente de contacto. Esto no otorga consentimiento para la notificación procesal electrónica ni añade un campo al formulario CC-1474."
+  },
+  "full_name_at_time_of_arrest": {
+    "en": "Saved to match the actual pardon and case identity, including needed aliases. An earlier name is not automatically used as the CC-1474 subject name.",
+    "es": "Se conserva para cotejar la identidad con el indulto y el caso, incluidos los alias necesarios. Un nombre anterior no se usa automáticamente como nombre de la persona en el formulario CC-1474."
+  },
+  "charges_to_be_expunged": {
+    "en": "Saved to identify the actual offenses and case numbers covered by the pardon. This does not confirm that a court order has been prepared.",
+    "es": "Se conserva para identificar los delitos y números de caso que realmente abarca el indulto. Esto no confirma que se haya preparado una orden judicial."
+  },
+  "final_disposition_dates_and_courts": {
+    "en": "Saved to confirm the proper receiving court and case. An original conviction or disposition date is not the new court-order or clerk-forwarding date.",
+    "es": "Se conserva para confirmar el tribunal receptor y el caso correctos. La fecha original de condena o resolución no es la fecha de la nueva orden judicial ni la fecha de envío por la secretaría del tribunal."
+  }
 };
 
 export type PacketVerificationContextFact = {
@@ -2836,7 +2870,14 @@ export function protectedPacketInformationModelFor(
     }
   };
   const verificationSummary = verificationSummaryFor(summaryFlow, questionSurface.questionById, serverFacts);
-  const verificationContext = verificationContextFor(snapshot as unknown as Record<string, unknown>);
+  if (vaPardonTypeReportedState(vaPardonQuestion, initialAnswers[VA_PARDON_TYPE_ID]) === "known_both") {
+    for (const fact of verificationSummary) {
+      const purpose = Object.hasOwn(VA_PARDON_FACT_PURPOSES, fact.id) ? VA_PARDON_FACT_PURPOSES[fact.id] : undefined;
+      if (purpose) fact.purpose = { ...purpose };
+    }
+  }
+  // The guarded pardonType question already belongs to this current review, not the historical snapshot.
+  const verificationContext = verificationContextFor((vaPardonQuestion ? { ...snapshot, requiredInputIds } : snapshot) as unknown as Record<string, unknown>);
   const verificationManifest: PacketVerificationManifest = {
     schemaVersion: "expungement-ai/verification-review-manifest/v1",
     factKeys: verificationSummary.map((fact) => fact.key),
@@ -4317,21 +4358,23 @@ function deriveProtectedPacketDraftSnapshot(
     : shapesPreserved;
   // These exact source-bound successors remove inherited collection dependencies,
   // not saved context. Never turn the old value into a form or agency fact.
-  const retainedContextId = vaPardonTypeContract(currentAuthority.profile, base.pathwayId,
-    packetSpecificationFor(`${base.jurisdiction}:${base.pathwayId}`)) ? VA_PARDON_TYPE_ID
-    : base.pathwayId && isGeorgiaAgencyWithoutCounty(currentAuthority.profile, base.pathwayId) ? "county"
+  const retainedContextIds = vaPardonTypeContract(currentAuthority.profile, base.pathwayId,
+    packetSpecificationFor(`${base.jurisdiction}:${base.pathwayId}`)) ? [VA_PARDON_TYPE_ID, ...Object.keys(VA_PARDON_FACT_PURPOSES)]
+    : base.pathwayId && isGeorgiaAgencyWithoutCounty(currentAuthority.profile, base.pathwayId) ? ["county"]
     : dcInnocenceLocationIsContext(currentAuthority.profile, base.pathwayId,
-      packetSpecificationFor(`${base.jurisdiction}:${base.pathwayId}`)) ? DC_LEGACY_LOCATION : null;
-  if (retainedContextId
-    && base.profileVersion === currentAuthority.profile.profileVersion
-    && base.profileSourceFingerprint === (currentAuthority.profile.source?.sourceCorpusSha256 ?? null)
-    && base.profileAuthorityFingerprint === profileAuthorityFingerprint(currentAuthority.profile, base.pathwayId)
-    && canonicalEqual(base.packetPlan, currentAuthority.evaluation.packetPlan ?? null)
-    && !explicitChangedIds.has(retainedContextId) && !confirmRecordFacts.includes(retainedContextId)) {
-    for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) {
-      preserved[source] = { ...preserved[source] };
-      delete preserved[source][retainedContextId];
-      if (Object.hasOwn(base[source], retainedContextId)) preserved[source][retainedContextId] = base[source][retainedContextId];
+      packetSpecificationFor(`${base.jurisdiction}:${base.pathwayId}`)) ? [DC_LEGACY_LOCATION] : [];
+  for (const retainedContextId of retainedContextIds) {
+    if (retainedContextId
+      && base.profileVersion === currentAuthority.profile.profileVersion
+      && base.profileSourceFingerprint === (currentAuthority.profile.source?.sourceCorpusSha256 ?? null)
+      && base.profileAuthorityFingerprint === profileAuthorityFingerprint(currentAuthority.profile, base.pathwayId)
+      && canonicalEqual(base.packetPlan, currentAuthority.evaluation.packetPlan ?? null)
+      && !explicitChangedIds.has(retainedContextId) && !confirmRecordFacts.includes(retainedContextId)) {
+      for (const source of ["screeningAnswers", "prefilledAnswers", "packetAnswers"] as const) {
+        preserved[source] = { ...preserved[source] };
+        delete preserved[source][retainedContextId];
+        if (Object.hasOwn(base[source], retainedContextId)) preserved[source][retainedContextId] = base[source][retainedContextId];
+      }
     }
   }
   return preserveNySeparateDeclaration(verification, { ...preserved, dependencies: history.length
