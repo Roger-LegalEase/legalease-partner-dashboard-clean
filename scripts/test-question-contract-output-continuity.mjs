@@ -916,5 +916,12 @@ check('lead Spanish hop preserves prior chain and refuses missing/tampered bytes
  for(const input of ["src/lib/expungement-ai/frontend/reviewed-question-spanish.json","src/lib/expungement-ai/frontend/reviewed-result-display-copy.json","src/lib/rcap-engine/ny-16055-guidance.ts","src/lib/rcap-engine/ny-16057-guidance.ts","src/lib/rcap-engine/ny-mrta-stage-facts.ts"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
+// A succession record set must never outlive its call: after an honest load, a later drift still
+// carries the chain-qualified refusal (a cross-call cache would drop the suffix).
+check('succession records are rebuilt per call',()=>{
+ assertQuestionContractOutputInputs(readBytes);
+ const file='data/record-clearing/packet-specifications/GA-restriction-and-sealing-of-a-pardoned-felony.v1.json';
+ assert.throws(()=>assertQuestionContractOutputInputs(f=>f===file?Buffer.from('drift'):readBytes(f)),/stale output input: [^;]+; exact [^;]+ source succession/);
+});
 
 console.log(`PASS: ${checks} output-continuity and refusal controls; no new approval, protected journey or commercial authority.`);

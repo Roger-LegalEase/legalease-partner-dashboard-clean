@@ -641,8 +641,8 @@ export function assertLeadSpanishSourceSuccession(readBytes) {
   return record;
 }
 
-// Every succession record, asserted in chain order. A caller looping over many
-// inputs builds it once per loop (onceSuccessions); nothing is reused across calls.
+// Every succession record, asserted in chain order. Each caller's loop builds it
+// once (onceSuccessions); nothing is reused across calls.
 function currentSourceSuccessions(readBytes) {
   return { record: assertMsGaVaMnSourceSuccession(readBytes), ca: assertCaTwoResultCopySourceSuccession(readBytes),
     ny: assertNy16055TerminologySourceSuccession(readBytes), ga: assertGaPardonSpecPinSourceSuccession(readBytes),
@@ -654,7 +654,7 @@ function currentSourceSuccessions(readBytes) {
 }
 const onceSuccessions = readBytes => { let value; return () => value ??= currentSourceSuccessions(readBytes); };
 
-function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, successions = onceSuccessions(readBytes)) {
+function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, successions) {
   const actual = sha(readBytes(file));
   if (actual === expectedSha256) return;
   const s = successions();

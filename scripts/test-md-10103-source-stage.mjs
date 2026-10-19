@@ -1,4 +1,4 @@
-import {msAdoptedCopyPredecessorView,MS_ADOPTED_COPY_SUCCESSORS,CA_TWO_RESULT_COPY_SUCCESSORS,NY16055_TERMINOLOGY_SUCCESSORS} from './lib/ms-adopted-copy-predecessor.mjs';
+import {msAdoptedCopyPredecessorView,MS_ADOPTED_COPY_SUCCESSORS,CA_TWO_RESULT_COPY_SUCCESSORS,NY16055_TERMINOLOGY_SUCCESSORS,LEAD_SPANISH_SUCCESSORS_20261019,LEAD_SPANISH_SUCCESSORS_20261019_L2} from './lib/ms-adopted-copy-predecessor.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';import path from 'node:path';import {createHash} from 'node:crypto';import {register,createRequire} from 'node:module';import {pathToFileURL} from 'node:url';import {isDeepStrictEqual} from 'node:util';
 const root=process.cwd(),file=p=>path.join(root,p),sha=b=>createHash('sha256').update(b).digest('hex');
@@ -165,6 +165,10 @@ for(const [name,mutate]of [
  ['duplicate-CA-id',c=>{c.entries.push(structuredClone(c.entries[485]));}]
 ]){const changed=structuredClone(catalog);mutate(changed);check('CA-successor-refuses/'+name,(()=>{try{msAdoptedCopyPredecessorView(changed);return false;}catch{return true;}})(),true);}
 const caRawBefore=structuredClone(catalog);msAdoptedCopyPredecessorView(catalog);check('CA/MS inverse preserves raw current catalog',catalog,caRawBefore);
+for(const change of [...LEAD_SPANISH_SUCCESSORS_20261019,...LEAD_SPANISH_SUCCESSORS_20261019_L2])for(const key of ['en','es','id']){
+ const changed=structuredClone(catalog);changed.entries[change.index][key]+=' [unreviewed drift]';
+ check('lead-Spanish-successor-refuses-drift/'+change.after.id+'/'+key,(()=>{try{msAdoptedCopyPredecessorView(changed);return false;}catch{return true;}})(),true);
+}
 for(const change of MS_ADOPTED_COPY_SUCCESSORS)for(const key of ['en','es','reviewStatus']){
  const changed=structuredClone(catalog);changed.entries[change.index][key]+=' [unreviewed drift]';
  check('MS-successor-refuses-drift/'+change.after.id+'/'+key,(()=>{try{msAdoptedCopyPredecessorView(changed);return false;}catch{return true;}})(),true);
