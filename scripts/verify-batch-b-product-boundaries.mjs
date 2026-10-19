@@ -66,7 +66,9 @@ function answersFor(profile, pathway, extra = {}) {
     const options = question.options ?? [];
     const benign = options.find((option) => /none of these|^no$|^none$/i.test(option))
       ?? options.find((option) => !/not sure|unknown/i.test(option));
-    answers[question.id] = benign ?? (/^yes_no/.test(String(question.type)) ? "no" : "not applicable");
+    const answer = benign ?? (/^yes_no/.test(String(question.type)) ? "no" : "not applicable");
+    // multi_select answers must be arrays since 6a55e0650 (typed answer validation).
+    answers[question.id] = question.type === "multi_select" ? [answer] : answer;
   }
   return { ...answers, ...extra };
 }
