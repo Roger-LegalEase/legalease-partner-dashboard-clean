@@ -16,6 +16,7 @@
  * source, which is far fewer than the roster would hold. That is what the source
  * conveyor is for, and it is reported rather than smoothed.
  */
+import { pushedEquivalent, contentCommit, diffBase } from "./verifier-base-stand-ins.mjs";
 import { onlyReviewBoundReportChanged } from "./review-bound-report-currentness.mjs";
 import { changedAcceptanceCycle, retainedVerificationLaneCount } from "./verification-cycle.mjs";
 import { assessWaSudCustomMapping } from "./wa-sud-custom-mapping.mjs";
@@ -540,8 +541,11 @@ const commitDateOf = (c) => {
   commitDateCache.set(c, d);
   return d;
 };
-const readIsLaterThan = (candidate, prior) => {
-  if (!isCommitish(candidate) || !isCommitish(prior) || candidate === prior) return false;
+const readIsLaterThan = (candidateBase, priorBase) => {
+  if (!isCommitish(candidateBase) || !isCommitish(priorBase) || candidateBase === priorBase) return false;
+  // A base no pushed history holds is ordered as its declared pushed equivalent (verifier-base-stand-ins.mjs).
+  const candidate = pushedEquivalent(candidateBase), prior = pushedEquivalent(priorBase);
+  if (candidate === prior) return false;
   try { execFileSync("git", ["merge-base", "--is-ancestor", prior, candidate], { cwd: ROOT, stdio: "ignore" }); return true; }
   catch { /* unrelated branches; the dates decide */ }
   const a = commitDateOf(prior), b = commitDateOf(candidate);
@@ -1546,8 +1550,10 @@ const movedSinceCache = new Map();
  * re-binding from slipping through here: binding a new source, dropping one, or
  * changing a record's role all survive the normalisation and read as movement.
  */
-function onlyChangeIsAnIdentityRefresh(base, directory) {
+function onlyChangeIsAnIdentityRefresh(declaredBase, directory) {
   const receipt = `${directory}/source-receipt.json`;
+  const base = diffBase(declaredBase, [directory]);
+  if (base === null) return false;
   const others = spawnSync("git", ["diff", "--name-only", base, "HEAD", "--",
     directory, `:(exclude)${receipt}`,
     ...GENERATED_BOOKKEEPING.map((f) => `:(exclude)${directory}/${f}`)], { cwd: ROOT, encoding: "utf8" });
@@ -1662,9 +1668,11 @@ function familyMovedSinceVerdict(independentReturn, directory, buildScript) {
   const key = `${base}\u0000${directory}`;
   if (movedSinceCache.has(key)) return movedSinceCache.get(key);
   let moved = false;
+  // A base no pushed history holds is diffed from its content stand-in; an unanswerable one answers nothing.
+  const from = diffBase(base, pathsOf());
   try {
     const paths = pathsOf();
-    const r = spawnSync("git", ["diff", "--quiet", base, "HEAD", "--", ...paths], { cwd: ROOT });
+    const r = from === null ? { status: 128 } : spawnSync("git", ["diff", "--quiet", from, "HEAD", "--", ...paths], { cwd: ROOT });
     /* 0 = identical, 1 = differs. Anything else (an unknown base after a
      * shallow clone, a path git cannot resolve) is not an answer, and an
      * unanswered question must not release the family from FAIL. */
@@ -1692,14 +1700,14 @@ function familyMovedSinceVerdict(independentReturn, directory, buildScript) {
      * the rebuild gate's question rather than this one's.
      */
     if (moved) {
-      const dirOnly = spawnSync("git", ["diff", "--quiet", base, "HEAD", "--",
+      const dirOnly = spawnSync("git", ["diff", "--quiet", from, "HEAD", "--",
         directory, ...GENERATED_BOOKKEEPING.map((f) => `:(exclude)${directory}/${f}`)], { cwd: ROOT });
       if (dirOnly.status === 0) moved = false;
       else if (onlyChangeIsAnIdentityRefresh(base, directory)) moved = false;
     }
   } catch { moved = false; }
   if (moved) {
-    const changes = spawnSync("git", ["diff", "--name-only", base, "HEAD", "--", directory,
+    const changes = spawnSync("git", ["diff", "--name-only", from, "HEAD", "--", directory,
       ...GENERATED_BOOKKEEPING.map(f => `:(exclude)${directory}/${f}`)], {cwd: ROOT, encoding:"utf8"});
     const rawReview = independentReturn.evidencePath ? readIf(independentReturn.evidencePath) : null;
     const matchingReviews = (rawReview?.rows ?? []).filter(r => r.familyId === independentReturn.familyId
@@ -1915,18 +1923,18 @@ function repairCompletionAfterVerdict(independentReturn) {
   const base = independentReturn?.verifiedAtBase;
   const failed = independentReturn?.failedObligationNames ?? [];
   if (!familyId || !/^[0-9a-f]{7,40}$/.test(String(base ?? "")) || failed.length === 0) return null;
-  try { execFileSync("git", ["cat-file", "-e", `${base}^{commit}`], { cwd: ROOT, stdio: "ignore" }); }
+  try { execFileSync("git", ["cat-file", "-e", `${pushedEquivalent(base)}^{commit}`], { cwd: ROOT, stdio: "ignore" }); }
   catch { return null; }
   const orderedCandidates = [];
   for (const candidate of repairCompletionsByFamily.get(familyId) ?? []) {
     if (!countersAreMeasuredZero(candidate.row.countersAfter)) continue;
     let priorDocument = null;
     try {
-      priorDocument = execFileSync("git", ["show", `${base}:${candidate.evidencePath}`],
+      priorDocument = execFileSync("git", ["show", `${contentCommit(base, candidate.evidencePath)}:${candidate.evidencePath}`],
         { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
     } catch {
       try {
-        execFileSync("git", ["cat-file", "-e", `${base}:${candidate.evidencePath}`],
+        execFileSync("git", ["cat-file", "-e", `${contentCommit(base, candidate.evidencePath)}:${candidate.evidencePath}`],
           { cwd: ROOT, stdio: "ignore" });
       } catch { orderedCandidates.push(candidate); continue; /* the exact repair-return file is new after the verdict */ }
       continue; /* an unreadable pre-verdict record proves no ordering */
@@ -2032,7 +2040,9 @@ try {
 function pathChangedAfterVerdict(base, rel) {
   if (!/^[0-9a-f]{7,40}$/.test(String(base ?? "")) || !rel) return false;
   try {
-    const result = spawnSync("git", ["diff", "--quiet", base, "HEAD", "--", rel], { cwd: ROOT });
+    const from = diffBase(base, [rel]);
+    if (from === null) return false;
+    const result = spawnSync("git", ["diff", "--quiet", from, "HEAD", "--", rel], { cwd: ROOT });
     return result.status === 1;
   } catch { return false; }
 }

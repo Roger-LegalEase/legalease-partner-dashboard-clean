@@ -4,6 +4,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {pdfPageCount} from './de-guidance-binding.mjs';
+import {pushedEquivalent, contentCommit} from './verifier-base-stand-ins.mjs';
 
 export const WA_SUD_FAMILY = 'wa_vac_substance_use_disorder-set';
 export const WA_SUD_ROUTE = 'obligation:track-only:WA:wa_vac_substance_use_disorder';
@@ -44,7 +45,7 @@ export function assessWaSudCustomMapping(root, input, overrides = {}) {
   const json = p => JSON.parse(read(p));
   const atBase = (base, p, bytes) => {
     assert.match(base ?? '', /^[a-f0-9]{40}$/);
-    assert.equal(hash(git(['show', `${base}:${p}`])), hash(bytes), `Review/publication bytes changed: ${p}`);
+    assert.equal(hash(git(['show', `${contentCommit(base, p)}:${p}`])), hash(bytes), `Review/publication bytes changed: ${p}`);
   };
   assert.deepEqual(input.routes.map(r => r.routeKey), [WA_SUD_ROUTE], 'WA SUD route scope changed');
   assert.deepEqual(input.executionReclassification, HISTORICAL_MAPPING, 'WA SUD owner mapping instruction changed');
@@ -77,7 +78,7 @@ export function assessWaSudCustomMapping(root, input, overrides = {}) {
   } else {
     // Mapping remains valid after a subsequent independent visual/final read,
     // including a negative read. Never replace that read's verdict with PASS.
-    git(['merge-base', '--is-ancestor', row.verifiedAtBase, selected.verifiedAtBase]);
+    git(['merge-base', '--is-ancestor', pushedEquivalent(row.verifiedAtBase), pushedEquivalent(selected.verifiedAtBase)]);
     const next = json(selected.evidencePath);
     assert.equal(next.laneKind, 'independent-verification');
     const matches = next.rows.filter(r => (r.familyId ?? r.itemId) === WA_SUD_FAMILY);
@@ -117,9 +118,9 @@ export function assessWaSudCustomMapping(root, input, overrides = {}) {
     }
     candidate = certificate.candidateCommit;
     assert.equal(bindingRow.candidateCodeCommit, candidate);
-    git(['merge-base', '--is-ancestor', row.verifiedAtBase, candidate]);
-    git(['merge-base', '--is-ancestor', candidate, bindingRow.verifiedAtBase]);
-    git(['merge-base', '--is-ancestor', bindingRow.verifiedAtBase, selected.verifiedAtBase]);
+    git(['merge-base', '--is-ancestor', pushedEquivalent(row.verifiedAtBase), candidate]);
+    git(['merge-base', '--is-ancestor', candidate, pushedEquivalent(bindingRow.verifiedAtBase)]);
+    git(['merge-base', '--is-ancestor', pushedEquivalent(bindingRow.verifiedAtBase), pushedEquivalent(selected.verifiedAtBase)]);
     assert.deepEqual(certificate.currentCandidateBindings, bindingRow.currentCandidateBindings);
     assert.deepEqual(certificate.currentArtifacts, bindingRow.currentArtifacts);
     const allowed = new Set([

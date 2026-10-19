@@ -22,6 +22,7 @@ import {
   repairRowsJointlyDischargeFailure
 } from "./post-repair-reread.mjs";
 import { pathsOverlap } from "./path-ownership.mjs";
+import { pushedEquivalent, contentCommit, diffBase } from "./verifier-base-stand-ins.mjs";
 import { boundedRepairAuthorization } from "./bounded-repair-authorization.mjs";
 import { prepareMutationSubjects } from "./mutation-subjects.mjs";
 import { captainDealtLiveGrant } from "./captain-dealt-grants.mjs";
@@ -150,17 +151,17 @@ function repairCompletionAfterVerdict(root, completions, substantive) {
   const base = substantive?.verifiedAtBase;
   const failed = substantive?.failedObligationNames ?? [];
   if (!familyId || !/^[0-9a-f]{7,40}$/.test(String(base ?? "")) || !failed.length) return null;
-  try { execFileSync("git", ["cat-file", "-e", `${base}^{commit}`], { cwd: root, stdio: "ignore" }); }
+  try { execFileSync("git", ["cat-file", "-e", `${pushedEquivalent(base)}^{commit}`], { cwd: root, stdio: "ignore" }); }
   catch { return null; }
   const ordered = [];
   for (const candidate of completions.get(familyId) ?? []) {
     if (!hasExactlyNineZeroCounters(candidate.row.countersAfter)) continue;
     let priorDocument;
     try {
-      priorDocument = execFileSync("git", ["show", `${base}:${candidate.evidencePath}`],
+      priorDocument = execFileSync("git", ["show", `${contentCommit(base, candidate.evidencePath)}:${candidate.evidencePath}`],
         { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
     } catch {
-      try { execFileSync("git", ["cat-file", "-e", `${base}:${candidate.evidencePath}`], { cwd: root, stdio: "ignore" }); }
+      try { execFileSync("git", ["cat-file", "-e", `${contentCommit(base, candidate.evidencePath)}:${candidate.evidencePath}`], { cwd: root, stdio: "ignore" }); }
       catch { ordered.push(candidate); }
       continue; // Only a missing file proves new evidence; an unreadable file does not.
     }
@@ -253,12 +254,13 @@ function checkClaimHistoryAndPostRepairRereads(root, master, vr, rq, vf, check) 
     const repairCompletions = readRepairCompletions(root);
     const validBase = (base) => {
       if (!/^[0-9a-f]{7,40}$/.test(String(base ?? ""))) return false;
-      try { execFileSync("git", ["cat-file", "-e", `${base}^{commit}`], { cwd: root, stdio: "ignore" }); return true; }
+      try { execFileSync("git", ["cat-file", "-e", `${pushedEquivalent(base)}^{commit}`], { cwd: root, stdio: "ignore" }); return true; }
       catch { return false; }
     };
     const pathsChangedSince = (base, paths) => {
-      if (!validBase(base)) return false;
-      try { execFileSync("git", ["diff", "--quiet", base, "HEAD", "--", ...paths], { cwd: root, stdio: "ignore" }); return false; }
+      const from = diffBase(base, paths);
+      if (from === null || !validBase(base)) return false;
+      try { execFileSync("git", ["diff", "--quiet", from, "HEAD", "--", ...paths], { cwd: root, stdio: "ignore" }); return false; }
       catch (error) { return error?.status === 1; }
     };
     const hashOnDisk = (rel) => {
@@ -609,10 +611,10 @@ function run() {
     const passCoversStops = pass && /^[0-9a-f]{7,40}$/.test(String(pass.verifiedAtBase ?? ""))
       && typeof pass.evidencePath === "string"
       && fs.existsSync(path.join(ROOT, pass.evidencePath))
-      && gitOk(["merge-base", "--is-ancestor", pass.verifiedAtBase, "HEAD"])
+      && gitOk(["merge-base", "--is-ancestor", pushedEquivalent(pass.verifiedAtBase), "HEAD"])
       && stoppedRows.every(({ row, rowsPath }) => {
         try {
-          const before = JSON.parse(execFileSync("git", ["show", `${pass.verifiedAtBase}:${rowsPath}`],
+          const before = JSON.parse(execFileSync("git", ["show", `${contentCommit(pass.verifiedAtBase, rowsPath)}:${rowsPath}`],
             { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }));
           return (before.rows ?? []).some((prior) => JSON.stringify(prior) === JSON.stringify(row));
         } catch { return false; }

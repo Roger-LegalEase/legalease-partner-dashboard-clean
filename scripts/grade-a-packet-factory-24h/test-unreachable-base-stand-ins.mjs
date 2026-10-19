@@ -10,6 +10,7 @@ import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
 import { fileURLToPath } from "node:url";
+import { loadStandIns, assertStandInMatches } from "./verifier-base-stand-ins.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const source = fs.readFileSync(path.join(ROOT, "scripts/grade-a-packet-factory-24h/extract-verifier-returns.mjs"), "utf8");
@@ -19,8 +20,10 @@ const slice = (startMarker, endMarker) => {
   assert.ok(start >= 0 && end > start, `${startMarker.slice(0, 30)}... boundaries exist`);
   return source.slice(start, end);
 };
-const recordSource = slice("const UNREACHABLE_BASES =", "// An entry that matches no extracted row");
-const matchSource = slice("// An entry that matches no extracted row", "/*\n * Only the base a lane DECLARES");
+// Record loading, validation and the exact-match check moved to verifier-base-stand-ins.mjs; the extractor must
+// still use them, and still order rows by the stand-in.
+assert.ok(source.includes("const standIns = loadStandIns({ root: ROOT });") && source.includes("assertStandInMatches(standIns, rows);"), "the extractor loads and checks the stand-in record");
+assert.ok(source.includes("const orderingBase = (r) => standIns.byKey.get("), "the extractor orders rows by the stand-in");
 const selectSource = slice("const supersedes = (r, prior) => {", "/*\n * AN ENVIRONMENT-SCOPED SOURCE REFUSAL");
 
 // Tiny history: B -> S -> H, with X unreachable (a never-pushed worker commit).
@@ -43,13 +46,11 @@ let checks = 0;
 const check = (ok, title) => { assert.ok(ok, title); checks++; };
 
 function standIns(record, rows, files = [evidence]) {
-  const context = {
-    ROOT, path, isCommit, execFileSync, rows, Map, Set, JSON, Error, Number,
-    fs: { existsSync: (file) => file === path.join(ROOT, RECORD) ? record !== null : files.includes(path.relative(ROOT, file)),
-      readFileSync: () => typeof record === "string" ? record : JSON.stringify(record) }
-  };
-  vm.runInNewContext(`${recordSource}\n${matchSource}\n__result(standInBase);`, { ...context, __result: (m) => { context.result = m; } });
-  return context.result;
+  const fakeFs = { existsSync: (file) => file === path.join(ROOT, RECORD) ? record !== null : files.includes(path.relative(ROOT, file)),
+    readFileSync: () => typeof record === "string" ? record : JSON.stringify(record) };
+  const loaded = loadStandIns({ root: ROOT, git: execFileSync, files: fakeFs, commitShaped: isCommit });
+  assertStandInMatches(loaded, rows);
+  return new Map([...loaded.byKey].map(([key, entry]) => [key, entry.standInBase]));
 }
 const goodRecord = { schemaVersion: "rcap-unreachable-verifier-bases/v1", rows: [{ verifiedAtBase: "X", evidencePath: evidence, standInBase: "S" }] };
 
