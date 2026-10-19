@@ -608,24 +608,39 @@ export function assertCaSafeAtHomeSourceSuccession(readBytes) {
   return record;
 }
 
-function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label) {
+// Every succession record, asserted in chain order. A caller looping over many
+// inputs builds it once per loop (onceSuccessions); nothing is reused across calls.
+function currentSourceSuccessions(readBytes) {
+  return { record: assertMsGaVaMnSourceSuccession(readBytes), ca: assertCaTwoResultCopySourceSuccession(readBytes),
+    ny: assertNy16055TerminologySourceSuccession(readBytes), ga: assertGaPardonSpecPinSourceSuccession(readBytes),
+    gaContact: assertGaPardonContactSuccessorSourceSuccession(readBytes), gates: assertGaVaSpecSuccessorGatesSourceSuccession(readBytes),
+    caNoPhone: assertCaNoPhoneContactSourceSuccession(readBytes), gaCt: assertGaSb288CtPetitionSourceSuccession(readBytes),
+    gaGuide: assertGaGuideSpanishSourceSuccession(readBytes), ctPrepay: assertCtPrepayRecordFactsSourceSuccession(readBytes),
+    ilSdWy: assertIlSdWyRecordFactsSourceSuccession(readBytes), ohCopy: assertOhJuvenileCopySourceSuccession(readBytes),
+    caSafe: assertCaSafeAtHomeSourceSuccession(readBytes) };
+}
+const onceSuccessions = readBytes => { let value; return () => value ??= currentSourceSuccessions(readBytes); };
+
+function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, successions = onceSuccessions(readBytes)) {
   const actual = sha(readBytes(file));
   if (actual === expectedSha256) return;
-  const record = assertMsGaVaMnSourceSuccession(readBytes);
-  const row = record.transitions.find(input => input.file === file);
-  const ca = assertCaTwoResultCopySourceSuccession(readBytes).transitions.find(input => input.file === file);
+  const s = successions();
+  const atFile = record => record.transitions.find(input => input.file === file);
+  const record = s.record;
+  const row = atFile(record);
+  const ca = atFile(s.ca);
   const previousDigest = row ? row.afterSha256 : expectedSha256;
-  const ny = assertNy16055TerminologySourceSuccession(readBytes).transitions.find(input => input.file === file);
-  const ga = assertGaPardonSpecPinSourceSuccession(readBytes).transitions.find(input => input.file === file);
-  const gaContact = assertGaPardonContactSuccessorSourceSuccession(readBytes).transitions.find(input => input.file === file);
-  const gates = assertGaVaSpecSuccessorGatesSourceSuccession(readBytes).transitions.find(input => input.file === file);
-  const caNoPhone = assertCaNoPhoneContactSourceSuccession(readBytes).transitions.find(input => input.file === file);
-  const gaCt = assertGaSb288CtPetitionSourceSuccession(readBytes).transitions.find(input => input.file === file);
-  const gaGuide = assertGaGuideSpanishSourceSuccession(readBytes).transitions.find(input => input.file === file);
-  const ctPrepay = assertCtPrepayRecordFactsSourceSuccession(readBytes).transitions.find(input => input.file === file);
-  const ilSdWy = assertIlSdWyRecordFactsSourceSuccession(readBytes).transitions.find(input => input.file === file);
-  const ohCopy = assertOhJuvenileCopySourceSuccession(readBytes).transitions.find(input => input.file === file);
-  const caSafe = assertCaSafeAtHomeSourceSuccession(readBytes).transitions.find(input => input.file === file);
+  const ny = atFile(s.ny);
+  const ga = atFile(s.ga);
+  const gaContact = atFile(s.gaContact);
+  const gates = atFile(s.gates);
+  const caNoPhone = atFile(s.caNoPhone);
+  const gaCt = atFile(s.gaCt);
+  const gaGuide = atFile(s.gaGuide);
+  const ctPrepay = atFile(s.ctPrepay);
+  const ilSdWy = atFile(s.ilSdWy);
+  const ohCopy = atFile(s.ohCopy);
+  const caSafe = atFile(s.caSafe);
   const caDigest = ca ? ca.afterSha256 : previousDigest;
   const nyDigest = ny ? ny.afterSha256 : caDigest;
   const gaDigest = ga ? ga.afterSha256 : nyDigest;
@@ -1234,7 +1249,8 @@ export function assertQuestionContractOutputContinuity({ continuity, proof, read
     .map(file => ({ file, beforeSha256: artifactInputs.get(file), afterSha256: after.get(file) }));
   insist(equal(artifactAdditions, continuity.artifactPredecessorAddedSourcePaths)
     && equal(artifactTransitions, continuity.artifactPredecessorSourceTransitions), 'undeclared artifact predecessor source transition');
-  for (const input of proof.sources) assertCurrentOutputSourceInput(input.file, input.sha256, readBytes, 'stale output input');
+  const proofSuccessions = onceSuccessions(readBytes);
+  for (const input of proof.sources) assertCurrentOutputSourceInput(input.file, input.sha256, readBytes, 'stale output input', proofSuccessions);
   const currentSource = dcInnocenceCurrentSourceSuccession(readBytes);
   insist(equal(currentSource.continuity, continuity) && equal(currentSource.proof, proof), 'current source succession supplied proof/continuity changed');
   if (artifactSuccessor) artifactSuccessor = assertDcInnocenceArtifactSuccessor({
@@ -1539,7 +1555,8 @@ function dcInnocenceCurrentSourceSuccession(readBytes) {
       afterSha256: '7910a4866db9a154c9eaf32e3a218d27584b0c65de4807851cf37ad85b3f27a8' }])
     && equal(additions, continuity.sourcePredecessorAddedSourcePaths)
     && equal(transitions, continuity.sourcePredecessorSourceTransitions), 'current source succession undeclared transition');
-  for (const [file, digest] of after) assertCurrentOutputSourceInput(file, digest, readBytes, 'current source succession stale input');
+  const afterSuccessions = onceSuccessions(readBytes);
+  for (const [file, digest] of after) assertCurrentOutputSourceInput(file, digest, readBytes, 'current source succession stale input', afterSuccessions);
   return { continuity, proof, adoptedProof };
 }
 
