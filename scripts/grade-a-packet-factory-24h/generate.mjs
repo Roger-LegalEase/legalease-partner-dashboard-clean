@@ -1480,6 +1480,7 @@ const hashOnDisk = (rel) => {
   return h;
 };
 const sourceDriftCache = new Map();
+const CONVERGENCE_REWRITTEN_RECORDS = new Set([`${OUT_DIR}/SOURCE_RELATIONSHIP_REGISTRY.json`]);
 function boundSourceDriftedSinceVerdict(directory) {
   if (sourceDriftCache.has(directory)) return sourceDriftCache.get(directory);
   let drifted = null;
@@ -1489,11 +1490,16 @@ function boundSourceDriftedSinceVerdict(directory) {
     /* compositionSources pin repository records the same way committedRecords
      * do (DE pins CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS there and lapsed on
      * 2026-09-12 unseen). A private/ path is custody the conveyor measures,
-     * not a committed record, so it is not read here. */
+     * not a committed record, so it is not read here. Nor is a file this
+     * factory's own convergence rewrites from the queue each run:
+     * SOURCE_RELATIONSHIP_REGISTRY.json carries every family's projectedState,
+     * so a family pinning it would lapse on its own state change and flip back
+     * on the next run. Its source facts are the captain determinations, which
+     * stay pinned and checked. Named one by one; nothing else is exempt. */
     const pinnedRecords = [
       ...(receipt.committedRecords ?? []).map((rec) => ({ rel: rec?.pathInRepository, sha256: rec?.sha256 })),
       ...(receipt.compositionSources ?? []).map((rec) => ({ rel: rec?.pathInRepository ?? rec?.path, sha256: rec?.sha256 }))
-        .filter((rec) => typeof rec.rel === "string" && !rec.rel.startsWith("private/"))
+        .filter((rec) => typeof rec.rel === "string" && !rec.rel.startsWith("private/") && !CONVERGENCE_REWRITTEN_RECORDS.has(rec.rel))
     ];
     for (const rec of pinnedRecords) {
       const rel = rec.rel;
