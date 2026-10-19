@@ -1221,7 +1221,7 @@ export async function finalizeOfficialForm({
 
     const decision = decideBinding(
       { name: field.name, pdfType: field.type, effectiveLabel: field.effectiveLabel, regionHeading: field.regionHeading },
-      { explicitMappings, captionOnly, availableChargeRows, documentAcceptsFill }
+      { explicitMappings, captionOnly, availableChargeRows, documentAcceptsFill, sourceSha256: sourceSha }
     );
 
     if (!decision.writable) {
@@ -1694,7 +1694,7 @@ export async function finalizeOfficialForm({
     }
     const entry = census.find((f) => f.name === name);
     if (!entry) { refuse("selection_absent_from_census"); continue; }
-    const protectedCategory = protectCategoryOf(entry.effectiveLabel ?? name) ?? protectCategoryOf(name);
+    const protectedCategory = protectCategoryOf(entry.effectiveLabel ?? name, { sourceSha256: sourceSha }) ?? protectCategoryOf(name, { sourceSha256: sourceSha });
     if (protectedCategory) {
       refuse("protected_category", { category: protectedCategory });
       report.protectedFields.push({ field: name, category: protectedCategory });

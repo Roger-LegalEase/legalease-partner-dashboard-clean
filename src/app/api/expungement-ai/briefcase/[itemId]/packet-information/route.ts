@@ -1,3 +1,4 @@
+import { mdJuvenileProtectedDocumentPreparation } from "@/lib/expungement-ai/md-juvenile-document-preparation";
 import { ND_FIRST_OFFENSE_FACT_IDS } from "@/lib/rcap-engine/north-dakota-first-offense-facts";
 import { MT_DEFERRED_DOCUMENT_QUESTION_IDS } from "@/lib/expungement-ai/mt-deferred-document-questions";
 import { ny16059CustodyRemovalAvailable } from "@/lib/expungement-ai/ny-custody-correction";
@@ -26,7 +27,8 @@ import {
   protectedPacketInformationModelFor,
   montanaDeferredPreparationModelFor,
   caProp64JuvenilePreparationModelFor,
-  gaPardonPreparationModelFor
+  gaPardonPreparationModelFor,
+  mdJuvenilePreparationModelFor
 } from "@/lib/expungement-ai/packet-information";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 import { packetScreensFor, packetNavigationDestination, type PacketNavigationIntent } from "@/lib/expungement-ai/packet-navigation";
@@ -43,6 +45,7 @@ export const dynamic = "force-dynamic";
 const maxPayloadBytes = 60_000;
 
 function ownerEditingModelFor(record: Parameters<typeof protectedPacketInformationModelFor>[0], preparation: string | null = null) {
+  if (preparation === "md-juvenile") return mdJuvenilePreparationModelFor(record);
   if (preparation === "ca-prop64-juvenile") return caProp64JuvenilePreparationModelFor(record);
   if (preparation === "mt-deferred") return montanaDeferredPreparationModelFor(record);
   if (preparation === "ga-pardon") return gaPardonPreparationModelFor(record);
@@ -134,6 +137,7 @@ export async function GET(request: Request, context: { params: Promise<{ itemId:
     resumeSectionId: item.packetResumeSectionId ?? null,
     reviewPath: `/briefcase/${encodeURIComponent(item.id)}/review`,
     caProp64Clarification: model.caProp64Clarification ?? false,
+    ...(new URL(request.url).searchParams.get("preparation") === "md-juvenile" ? { mdJuvenilePreparation: mdJuvenileProtectedDocumentPreparation(authority.value) } : {}),
     ny16059Preparation: ny16059ProtectedDocumentPreparation(authority.value),
     ny16059Completion: ny16059OwnedCompletionDiagnostic(item.id, authority.value),
     readyToGenerate: model.stage === "ready_to_generate", reviewReason: model.reviewSafety.reason,
@@ -188,13 +192,13 @@ export async function POST(
   const preparation = new URL(request.url).searchParams.get("preparation");
   const protectedModel = ownerEditingModelFor(protectedRead.value, preparation);
   if (!protectedModel) return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 403 });
-  if (["ga-pardon", "mt-deferred", "ca-prop64-juvenile"].includes(preparation ?? "") && parsed.verify) return NextResponse.json({ ok: false, error: "preparation_only" }, { status: 422 });
+  if (["ga-pardon", "mt-deferred", "ca-prop64-juvenile", "md-juvenile"].includes(preparation ?? "") && parsed.verify) return NextResponse.json({ ok: false, error: "preparation_only" }, { status: 422 });
   // Match the page's validated successor instead of the historical draft result.
   // This controls owner corrections only; verification and commercial holds remain.
   const savedResult = protectedModel.resultCode;
   const factualCorrectionIds = protectedModel ? [...factualPathwayCorrectionIds(protectedModel.stateCode, protectedModel.pathwayId, protectedModel.initialAnswers), ...(protectedModel.heldFactualCorrectionIds ?? [])].filter(id => protectedModel.stateCode !== "VA" || protectedModel.questions.some(question => question.id === id)) : [];
   const financialCorrection = protectedModel && heldPacketCorrectionInputIds(protectedModel, savedResult ?? null).has("financial_obligations");
-  if (!protectedModel?.packetPlan && !protectedModel?.caProp64Clarification && !protectedModel?.caJuvenilePreparationFactIds
+  if (!protectedModel?.packetPlan && !protectedModel?.caProp64Clarification && !protectedModel?.caJuvenilePreparationFactIds && !protectedModel?.mdJuvenilePreparationFactIds
     && !financialCorrection && !factualCorrectionIds.length
     && !(protectedModel?.stateCode === "NY" && protectedModel.pathwayId === NY_16059_ROUTE)) {
     return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 403 });
@@ -252,6 +256,7 @@ export async function POST(
     existingItem: item,
     answers: parsed.answers,
     verify: parsed.verify,
+    mdJuvenilePreparation: preparation === "md-juvenile",
     gaPardonPreparation: preparation === "ga-pardon",
     caJuvenilePreparation: preparation === "ca-prop64-juvenile",
     mtDeferredPreparation: preparation === "mt-deferred",

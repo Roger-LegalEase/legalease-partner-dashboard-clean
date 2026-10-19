@@ -18,6 +18,7 @@ register('./lib/ts-esm-loader.mjs', import.meta.url);
 const { recordFactConfirmationFor } = await import('../src/lib/expungement-ai/record-fact-clarification.ts');
 const { mdJuvenileCaptionQuestion, MD_JUVENILE_CAPTION_SOURCE } = await import('../src/lib/expungement-ai/md-juvenile-county-source-purpose.ts');
 const { getProfileByJurisdiction } = await import('../src/lib/rcap-engine/profile-registry.ts');
+const { mdJuvenileDocumentFacts } = await import('../src/lib/expungement-ai/md-juvenile-document-questions.ts');
 const { scalarAnswerText, answerValueIsKnown } = await import('../src/lib/expungement-ai/question-answer-state.ts');
 
 export const FAMILY_ID = 'md_juvenile_expungement-set';
@@ -105,10 +106,21 @@ export function resolveFacts(input, census) {
 export async function renderCandidate(bytes, input, directory) {
   const census = await censusOf(bytes);
   const { facts, holds } = resolveFacts(input, census);
+  const document = mdJuvenileDocumentFacts(input.answers ?? {});
+  const narratives = Object.entries(document.fields).map(([field, held]) => {
+    facts[held.factId] = held.value;
+    return { factId: held.factId, fields: [field], ...(field === 'Law Enforcement Agency' ? { allowProtectedCategories: ['agency'] } : {}) };
+  });
+  if (document.incident) {
+    facts.md_juvenile_incident = document.incident;
+    narratives.push({ factId: 'md_juvenile_incident', fields: [1, 2, 3, 4].map(n => `Maryland as a result of the following incident ${n}`) });
+  }
+  const narrativeFields = new Set(narratives.flatMap(row => row.fields));
   const mappings = Object.fromEntries(Object.entries(WRITES).filter(([, fact]) => Object.hasOwn(facts, fact)));
   const result = await finalizeOfficialForm({ sourceBytes: bytes, expectedSha256: SOURCE.sha256,
     census: census.rows, facts, explicitMappings: mappings,
-    unwritableFields: census.rows.filter(row => !Object.hasOwn(mappings, row.name)).map(row => ({ field: row.name })),
+    narrativeAcrossFields: narratives, selectionsFromHeldFacts: document.selections,
+    unwritableFields: census.rows.filter(row => !Object.hasOwn(mappings, row.name) && !narrativeFields.has(row.name) && !Object.hasOwn(document.selections, row.name)).map(row => ({ field: row.name })),
     documentTextLines: census.pageText.flatMap(page => page.lines.map(line => line.text)),
     title: 'Petition for Expungement of Juvenile Records — held draft',
     evaluateDeclaredMinimumSize: true, alignWidgetFontSizeToFit: true,
@@ -118,21 +130,22 @@ export async function renderCandidate(bytes, input, directory) {
   const file = path.join(directory, 'candidate.pdf');
   fs.writeFileSync(file, result.bytes);
   const appearances = await flattenedWidgets(file);
-  const written = new Map(result.report.written.map(row => [row.field, row]));
+  const written = new Map(result.report.written.filter(row => row.kind !== 'selection_settled_from_held_facts').map(row => [row.field, row]));
   const actualWrites = [];
+  const narrativeWrites = new Map((result.report.narrativesWritten ?? []).flatMap(row => row.written.map(w => [w.field, { ...w, factId: row.factId }])));
   const refusedFieldsWithInk = [];
   for (const row of census.rows) {
     for (const widget of row.widgets) {
       const text = drawnAt(appearances, widget).map(item => item.text).join('').trim();
       if (written.has(row.name)) {
-        assert(Object.hasOwn(mappings, row.name), `unexpected finalizer write: ${row.name}`);
-        const expected = facts[mappings[row.name]];
+        assert(Object.hasOwn(mappings, row.name) || narrativeWrites.has(row.name), `unexpected finalizer write: ${row.name}`);
+        const expected = narrativeWrites.get(row.name)?.text ?? facts[mappings[row.name]];
         assert.equal(text, expected, `output-byte readback: ${row.name}`);
-        actualWrites.push({ field: row.name, factId: mappings[row.name], ...widget, expected, drawnText: text });
+        actualWrites.push({ field: row.name, factId: narrativeWrites.get(row.name)?.factId ?? mappings[row.name], ...widget, expected, drawnText: text });
       } else if (text) refusedFieldsWithInk.push({ field: row.name, ...widget, drawnText: text });
     }
-    if (row.policy === 'hold') holds.push({ field: row.name, reason: 'No exact collected fact or legal election for this field; leave blank and hold for review.' });
-    if (Object.hasOwn(mappings, row.name) && !written.has(row.name)) {
+    if (row.policy === 'hold' && !written.has(row.name) && !Object.hasOwn(document.selections, row.name)) holds.push({ field: row.name, reason: 'No exact collected fact or legal election for this field; leave blank and hold for review.' });
+    if ((Object.hasOwn(mappings, row.name) || narrativeFields.has(row.name)) && !written.has(row.name) && !result.report.narrativesWritten?.some(n => n.linesLeftForTheParticipant.includes(row.name))) {
       holds.push({ field: row.name, reason: 'The finalizer refused the held value; preserve the answer and hold the draft.',
         refusal: result.report.refused.find(item => item.field === row.name) ?? null });
     }
@@ -141,6 +154,9 @@ export async function renderCandidate(bytes, input, directory) {
   const outside = appearances.filter(item => item.text.trim() && !actualWrites.some(write => write.page === item.page
     && Math.abs(write.rect.x - item.x) <= 2 && Math.abs(write.rect.y - item.y) <= 2));
   assert.deepEqual(outside, [], 'no new glyphs outside measured writes');
+  for (const field of Object.keys(document.selections)) if (!result.report.selectionsMarked?.some(row => row.field === field)) {
+    holds.push({ field, reason: 'The finalizer refused the explicit selection; preserve the answer and hold the draft.' });
+  }
   for (const refusal of result.report.unfittable) holds.push({ field: refusal.field, reason: 'Value does not fit at the readable minimum; preserve the answer and hold the draft.' });
   return { bytes: result.bytes, census, report: result.report, actualWrites, refusedFieldsWithInk,
     holds, status: 'HELD_DRAFT', paymentAllowed: false, fulfillmentStatus: 'NO_RECORD',
