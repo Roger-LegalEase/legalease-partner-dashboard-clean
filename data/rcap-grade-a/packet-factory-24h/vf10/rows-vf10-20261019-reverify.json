@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF10",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claims asserted per subject via claim.mjs --assert before any artifact was read; every assertion returned CLAIM_OK; the packet-build environment preflight is not applicable to a verification reading on this machine (no corpus mounted), and no family here binds corpus bytes",
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "lane": "VF10",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/composed-treatment:obligation:runtime-only:ak:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <this family> run read-only in /tmp/ci-queue-23bb at f3ff92ac2 with MASTER_LIBRARY_SOURCE_DIR exported: PASS_COMPLETE, 10/32 written, all nine counters printed as 0"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "The single routeKey obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085 is declared identically by product-wiring.json, source-receipt.json, production-field-map.json and the MASTER_QUEUE row; familyId agrees across 7 records. It resolves in the committed census at routes[46] (runtimePathwayId set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085, routeContractId AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085, instrument 'Alaska AS 12.55.085(e) Belated Set-Aside Motion', legalDecisionRecordIds NATIONAL-2026-08-28-B-AK-01 and research-track-decision:ak-set-aside) and in the route contract at national-report-batch-b.json routes[6] with the same routeKey, pathwayId and decisionId. The printed trailer on canonical and boundary pages 2, 3, 4, 5, 6 and 8 is the key on a single line, exact."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "2 committed records bound. (1) src/lib/legal-authority/routes/national-report-batch-b.json rehashed here 883d5bb82f9190dae66d78250e1dc9f1ee3055f580e43e6336ba36c1e30b4522 / 25265 B, exact to the pin; routes[6] is the route contract (mechanism, event-trigger timing anchored on 'where discharge occurred without a set-aside decision ...', (f) exclusions, 8 packetComponents, 4 retained_counsel failureDispositions, evidenceReference 'pending: no Alaska Court System form specific to a post-discharge request was located'). (2) data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json: pinned 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef / 184365 B, on disk 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885 B, whole-file pin lapsed. The key '12-55-085' does not occur in that record; what the receipt pins (recordId legal-decision:2026-08-28:ak-set-aside) is researchTrackDecisions[0], trackId ak-set-aside, heading 'Alaska \u2014 ak-set-aside', report lines 1142-1177. That object is deep-equal between the recovered pinned blob and the current file (canonical-JSON sha256 prefix 4dbde0a1d5c543ea both sides). Its holding is what the packet implements: belated determination after an SIS discharged without a set-aside decision, focused on the circumstances at discharge; 'a custom motion in the original sentencing criminal case, not a new civil petition'; the eight listed packet items; 'The sentencing court is the destination'; self-help boundary of five counsel conditions; product disposition OUTPUT: CUSTOM ORIGINAL-CASE MOTION, DESTINATION: SENTENCING COURT, SERVICE: PROSECUTOR, CONTESTED CASE: ATTORNEY HANDOFF. The whole-file drift between the pinned blob and the current bytes was located by a key-by-key deep comparison of the two parsed JSON documents: it is confined to questionDecisions[0..5,9..15].memoSha256 (13 Kentucky, Louisiana, North Dakota and Nebraska intake-memo digests) and scope.registerOpenQuestions / scope.registerQuestionsOutOfReportScope (Q-057's reason reworded, Q-058 added), introduced by commit 66be051f4 on 2026-09-19. The pinned blob was recovered from git history and rehashes to 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef at 184365 bytes; the current file hashes to 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 at 184885 bytes. None of the changed paths touches this family. New pin: 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885 B. The compiled Alaska profile the census names as a requiredSourceId (src/lib/rcap-engine/compiled/profiles/AK-alaska.json) was also read and hashes d3703c445546caabbed5b5e498b706476c4668ed0104beb8079c9989ff07602f / 188501 B. The receipt file still carries the old decisions-record pin; this row does not edit it."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "6 components declared (primary_filing, subsection_f_exclusions_statement, compliance_at_discharge_statement, prosecutor_service, proposed_order, filing_instructions) = rendered componentSet = receipt composedComponentsAuthoredByThisBuild; manifest pages 1-2, 3, 4, 5, 6, 7-8 in both fixtures, confirmed against each page's first line. The route contract's 8 packetComponents are all accounted for: five are composed pages, the three participant-held records (discharge order and probation-completion record; judgment and sentencing documents; evidence of compliance and rehabilitation) are named in motion paragraph 4 and under 'Documents you must obtain', and the required no-erasure instruction prints under 'WHAT A SET-ASIDE IS, AND IS NOT'. No component from another route appears."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "10 written values per fixture (defendant_name on six documents, date_of_birth, mailing_address, telephone, email); 10/10 read back from each fixture's pdftotext output in the facts measurement and seen by me in the extracted text of both fixtures. 0 reported invisible; knownRequiredFieldsMissing 0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "requiredBeforeFilingCount 11 = 11 items (five motion facts, the (f) statement, the compliance statement, the evidence list, the prosecuting office's name and address, two proposed-order caption facts); 11 of 11 disclosureLabel strings found in participant-instructions.md by exact match run here; blanks report everyRequiredBeforeFilingItemIsDisclosed true. The three documents to obtain are named with the office of the sentencing court as the source of the two court records."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selectionControls; no election printed on the 8 delivered pages of either fixture; requiredOptionsMissing 0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "0 repeating-row structures; every entry area is a standalone labelled dot-leader line or statement block; incompleteRows 0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "11 protected blanks recorded (motion signature and date; both statements' signature and date; service date and signature; the order's determination, court date and court signature). Every DATE / SIGNATURE / DATED / ORDERS-that / DATE OF SERVICE line in both fixtures was read from the extracted text and carries only dot leaders (8 such lines per fixture, 0 with ink; the 'ORDERS that the determination is made and the conviction is ........' line leaves the decision blank); refusedFieldsWithInk empty in both fixtures; protectedWrites 0 measured here. 'DATE OF BIRTH: 1991-04-17' is the declared prefill, not a protected field."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, both recorded, both rehashed here: canonical.pdf 2a7e3fa6eb3b583fdbddc5a365b6c2678e7a37ad0f8ebdd6b78a230eb39d98ad / 18562 B, boundary.pdf d1ddb77c651df332ffa5c1fcb1593d1d1b7dfa913c39b42484b31830347389b7 / 18875 B; both equal rendered-artifacts.json. 0 mismatches, 0 unrecorded, 0 missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Manifest 1..8 in both fixtures with the six components contiguous in declared order; pdfinfo reads 8 pages from each fixture = recorded pageCount 8; the first line of each page (motion, motion continued, (f) statement, compliance statement, prosecutor copy, proposed order, filing instructions, filing instructions continued) matches the manifest's component."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "Recomputed here with pdftotext -bbox: canonical 1548 words, boundary 1547 words; 0 outside the 612x792 page box; 0 same-band overlapping pairs; minimum margins 72.0 pt left, 69.3 pt right, 64.5 pt top, 79.6 pt bottom. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 in both fixtures; visualDefects 0 measured here."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The decision records DESTINATION: SENTENCING COURT and 'a custom motion in the original sentencing criminal case, not a new civil petition'; the route contract's delivery gate says the same and warns that a civil petition would file in the wrong proceeding. The packet states it on the delivered pages (caption 'IN THE ...... COURT FOR THE STATE OF ALASKA AT ......' with the parenthetical that it is the court that sentenced you; paragraph 2 'filed in the original sentencing criminal case, and not as a new civil petition'; STEP FIVE 'File in the ORIGINAL criminal case with the court that sentenced you - never as a new civil case') and in participant-instructions.md. The census row's 'destination: not recorded' is superseded by the decision and the contract, both of which the packet follows."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Met on the third limb: no held source establishes the fee, and a specific checkable authority is named. Held sources read here: the decision and the route contract carry no fee statement; the compiled Alaska profile, which the census names as a requiredSourceId for this route, says 'SIS set-aside motion | Court motion fees may apply | Filed in the existing criminal case' (3 occurrences) and gives no amount; the neighbouring 'Form TF-810 (Courtview exclusion) Typically $0' line belongs to a sibling route and the packet does not borrow it. The delivered STEP FIVE states that no record held anywhere in the repository states an amount, quotes the profile's 'court motion fees may apply, which is not an amount', and names the office of the sentencing court as the authority to ask whether a fee applies and what it is; participant-instructions.md says the same in step 5 and under 'What this packet does not tell you'."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Who is served is held and stated: the decision records SERVICE: PROSECUTOR and the route contract lists 'Prosecutor service'; the delivered prosecutor_service page is addressed to the prosecuting attorney's office for the original criminal case and STEP SIX says to serve it. The method is not held: neither bound record states one, and the compiled Alaska profile's six occurrences of 'serv' are not a delivery rule for this motion (checked byte-wise here). The packet says so in terms ('HOW THIS COPY MUST BE DELIVERED IS NOT STATED HERE ... a guessed mechanic in a filing instruction is worse than none') and names the office of the court that sentenced the participant as the authority for the method, leaving the service date and signature blank until the copy actually goes out. Named checkable authority standing in for an unestablished rule: met."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "The decision's self-help boundary holds five counsel conditions (the State alleges probation violations; the court previously denied set-aside relief; the discharge status is disputed; the offense may fall within subsection (f); the participant seeks to litigate constitutional or collateral consequences) and CONTESTED CASE: ATTORNEY HANDOFF; the route contract carries four of them as retained_counsel failure dispositions. The delivered page 'WHEN TO STOP AND GET HELP INSTEAD OF FILING' opens 'Stop, and take this packet to a lawyer' and carries all five plus any immigration question; the (f) statement page repeats the stop on its face. Both statements' content lines, every signature and date, and every deciding line of the order are refused; the packet states it is not legal advice, not filed for you and decides nothing. 5/5 held stops carried."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE, 10/32 written, all nine counters zero (run here at f3ff92ac2)",
+        "sourceRecomputation": "2/2 committed records re-verified: route contract exact at 883d5bb8... / 25265 B; decisions record whole-file pin lapsed (0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef -> 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373) with researchTrackDecisions[0] (ak-set-aside) deep-equal on both sides, new pin 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885 B; census-required compiled AK profile read at d3703c44... / 188501 B",
+        "artifactRecomputation": "2/2 PDFs rehashed here and equal to rendered-artifacts.json (2a7e3fa6... 18562 B; d1ddb77c... 18875 B); pdfinfo 8 pages each",
+        "byteReadBack": "20/20 written values (10 per fixture) read back from the fixture bytes; 0 reported invisible; 0 non-whitespace glyphs outside measured write boxes",
+        "stopConditions": "5/5 stops held by the controlling decision carried on the delivered filing-instructions page and in participant-instructions.md; the packet's immigration addition does not contradict it",
+        "lapseResolved": "The receipt's SHA-256 pin on 2026-08-28-national-legal-decisions.json no longer matched disk. The record does not contain the family key '12-55-085'; the receipt's anchor is the ak-set-aside research-track decision at researchTrackDecisions[0]. The pinned blob was recovered from git history and rehashes exactly to the pinned value; the current file was compared key-by-key against it; every difference lies in questionDecisions[*].memoSha256 and scope.register* (commit 66be051f4, 2026-09-19) and none in researchTrackDecisions[0]; the controlling section's completeSectionText, selfHelpBoundary, productDisposition and reportSection.sha256 (17127e0a...) are identical on both sides. Re-pin, not rebuild. New pin: 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885 B. The route-contract pin is exact on disk."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

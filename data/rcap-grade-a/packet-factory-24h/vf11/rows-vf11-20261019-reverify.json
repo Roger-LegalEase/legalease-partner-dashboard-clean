@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF11",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claims asserted per subject via claim.mjs --assert before any artifact was read; every assertion returned CLAIM_OK; the packet-build environment preflight is not applicable to a verification reading on this machine (no corpus mounted), and no family here binds corpus bytes",
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "composed-treatment:sc_17_22_950_summary",
+      "lane": "VF11",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/sc/composed-treatment:sc-17-22-950-summary--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:sc_17_22_950_summary run here at f3ff92ac2 with MASTER_LIBRARY_SOURCE_DIR set: PASS_COMPLETE, 9/25 written, all nine counters printed 0. The builder's reports/completeness-counters.json (9 zeros, blankDispositions REQUIRED_BEFORE_FILING 12 / PROTECTED_FIELD 4) was read as the thing being checked, not as the measurement."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId composed-treatment:sc_17_22_950_summary agrees across product-wiring.json, source-receipt.json, production-field-map.json and the MASTER_QUEUE row. The two routeKeys obligation:decision-branch:SC:sc_17_22_950_summary:written_implementation_request and ...:original_case_enforcement_motion are the same set in all four records (the receipt and field map list request first, the wiring and queue list motion first). Each instrument prints its own route on its face (page 2 trailer of the request, page 4 trailer of the motion) and the instructions page carries the request route; both keys resolve in route-obligation-candidate.json at routes[1] and routes[0] (trackId sc_17_22_950_summary, destination 'original summary court', legalDecisionRecordIds register-question:Q-035 / report-question:Q-029) and in route-obligation-census-v1/category-a-implementation-waves.json."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Two committedRecords, both recomputed here with sha256sum. (1) data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json: pinned 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef / 184365 B; now 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885 B - the drift the lapse names. The controlling decision sits at questionDecisions[18] in BOTH the pinned and the current bytes (registerQuestionId Q-035, reportQuestionId Q-029, heading '### Q-029 - `sc_17_22_950_summary`', controllingProductDecision 'Clerk request -> original-case enforcement'); the whole entry is canonical-identical between the two versions (entry sha256 5a94459bb6a324bae18d5e927c3eae995e066bcdc5ae1491525ad68495b9d403), its reportSectionHash bbe476aa... recomputes exactly from completeSectionText, and its memoSha256 8bf45532... equals the SC memo on disk. The receipt's 'Q-035' is the register id; the report-numbered '### Q-035' heading belongs to sc_34_11_90e_check (register Q-041) in both versions, so the facts script's heading lookup was a numbering artifact, not drift. The 520 added bytes are: registerOpenQuestions 37->38, a KY Q-058 register entry replacing an MS note, and memoSha256 values for ky_felony_expungement_after_pardon, ky_felony_vacatur_expungement, ky_nonconviction_expungement, la-978-felony-conviction, la-985-3-immediate-expungement, la-985-expungement-by-redaction, nd-dui-record-seal and ne-expunge-le-error / ne-seal-pardoned; nothing South Carolina. Anchors the packet relies on are present in the current entry: 'SCCA 223E ... should not be repurposed when the court simply failed to enter the automatic order', the four-step escalation (written request -> motion in original summary case -> attorney handoff for mandamus or disputed eligibility), 'identify the original docket, disposition, fingerprinted status, statutory deadline, and requested order', 'Do not open a new solicitor application merely because the summary court missed its duty', disposition 'Mandamus or a contested refusal is ATTORNEY / PARTNER HANDOFF'. (2) data/record-clearing/legal-design-intake/SC.memo.json exact: 8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f / 395522 B; memo anchors counted in the bytes: 'at no cost' x7, 'no sooner than the appeal expiration date' x3, 'preliminary hearing' x7, '17-22-950(F)' x5, 'Never charge for a summary court non-conviction' x2. No source binary is bound (sourceBinaryCommitted false, CUSTOM_PLEADING_FROM_CODIFIED_TEXT). New pin for the drifted record: sha256 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373, byteLength 184885."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Declared set implementation_request, enforcement_motion, filing_instructions is identical in production-field-map componentSet, reports/rendered-artifacts.json componentSet, source-receipt composedComponentsAuthoredByThisBuild and both fixtures' page manifests, in that order. These are exactly the two instruments the controlling decision's escalation names plus instructions; neither SCCA 223E nor a solicitor application (both forbidden by the decision) is included or referenced as usable. The motion's after-the-request condition is printed on its own face ('USE THIS PAGE ONLY AFTER THE WRITTEN REQUEST'). requiredComponentsMissing 0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "9 writes per fixture (name, address, telephone, email on each instrument; 'Prepared for' on the instructions), only identity and contact facts. I ran pdftotext -layout on both fixtures and found every recorded value in its text: 18/18, including the boundary fixture's \"Maria-Alejandra O'Shaughnessy-Whitfield\", the 84-character Charleston address, '(843) 555-0199 ext. 4417' and the 56-character e-mail. reports/actual-writes.json records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 for both fixtures. knownRequiredFieldsMissing 0 and invisibleWrites 0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "requiredBeforeFilingCount 12 (7 blanks on the request: addressed court, appeal expiration date, charge wording, disposition and date, docket number, thirty-day date, unexpunged evidence; 5 on the motion: court response, caption court, appeal/deadline dates, disposition, docket). Each is a labelled dotted blank on its page and each is named in participant-instructions.md with what to write and where it comes from (the court record, never memory). The two documents to obtain are named with their source: the disposition record from the summary court in which the charges were brought (the memo's 'Court docket or disposition sheet' from that clerk) and dated evidence the record is still unexpunged. requiredFactsNotCollected 0 and unclassifiedBlanks 0 measured here."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "selectionControls 0 on all three documents, routeSelectionsMade []. The one sequencing choice (request first; motion only if the request does not result in the order) is printed on the motion's face as a condition, not elected, and the fingerprinted ground is route-determined text on both instruments with a stop for the non-fingerprinted participant. requiredOptionsMissing 0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating row structure exists on any of the six pages; incompleteRows 0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "4 refusals dispositioned 'signature or date field; never prefilled by this build' (implementation_request.request_signature, request_signature_date, enforcement_motion.motion_signature, motion_signature_date). In both fixtures the lines read 'DATE ........ SIGNATURE ........' blank, with '(You sign and date this request personally. Nothing on this page is signed or dated for you.)' and '(The defendant signs and dates this motion personally.)' printed beside them; the addressed court is left as a labelled blank, no clerk or court field is filled. refusedFieldsWithInk [] in both fixtures; protectedWrites 0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, both recorded. canonical.pdf 9742b771437d6bf34a3701e1a9838f35f49548f92e450011edf8622a31ce4c63 / 13973 B / 6 pages; boundary.pdf e5c37a603eff1af87cacc0f405aea4738aeb7f6ff65a7fb7d78527a7680f2cdb / 14285 B / 6 pages; both match reports/rendered-artifacts.json, and the canonical hash is the one product-wiring's acceptanceReceipt binds (RASTER_PASS, run 33579500812, job 100091041662). 0 mismatches, 0 unrecorded, 0 missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both manifests run packetPage 1..6: pages 1-2 implementation_request, 3-4 enforcement_motion, 5-6 filing_instructions, the declared order. My pdftotext page split confirms it in both fixtures: 'WRITTEN IMPLEMENTATION REQUEST' opens page 1, 'MOTION IN THE ORIGINAL SUMMARY CASE' page 3, 'FILING INSTRUCTIONS' page 5. pdfinfo reads 6 pages, equal to the recorded 6, for both."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox recomputed here: canonical 1205 words, boundary 1216 words, 0 words outside the 612x792 page box and 0 same-band overlapping word pairs in either; this agrees with the facts file. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 both fixtures; visualDefects 0 measured here; the central acceptance receipt is RASTER_PASS bound to the canonical hash."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The repository holds it and the packet states it. SC.memo.json destination: 'The summary court - magistrate or municipal - in which the charges were brought'; census destination 'original summary court'. Request page: 'To: the ____ court (THE SUMMARY COURT - MAGISTRATE OR MUNICIPAL - IN WHICH THE CHARGES WERE BROUGHT, AND ITS LOCATION; that court's own office can confirm both)'; motion caption '(THE SAME SUMMARY COURT, IN THE ORIGINAL SUMMARY CASE)'; STEP FOUR and STEP FIVE and the instructions.md tables repeat it. A1 satisfied."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Met on the sourced no-fee branch. Held sources: memo rules.fees 'none. Section 17-22-950(A) and (B) both provide that the order issues at no cost', feeWaiver 'none - no fee is charged', limitation 'Never charge for a summary court non-conviction'; compiled SC profile 'Summary court non-conviction expungement No cost under 17-22-950 process'. Packet: request para 1 'no application fee attaches to it', paras 2-3 'at no cost'; motion paras 2-3 'at no cost'; STEP FOUR 'Pay nothing: the recorded rule is that the order issues at no cost'; closing 'No fee is asked anywhere in it'; participant-instructions.md says the same. A3 check: the profile's $250/$25/$35 table is keyed to solicitor applications under section 17-22-940, a different route, and is correctly not applied. Instructions and PDF agree."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Serves-nobody rule stated affirmatively with the mechanism that replaces it. Memo rules.service: 'none by the participant. The summary court obtains and verifies all necessary signatures and distributes copies.' Both instruments recite that the court 'shall ... obtain and verify the necessary signatures, and distribute the copies' and ask it 'to distribute it as the statute directs'. The only delivery the participant makes is to the court itself, and the method is delegated to a named authority: 'Ask that court's office how it accepts delivery, and use that method'; instructions.md states that no committed record states a delivery method and names the office of the summary court in which the charges were brought."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against the controlling decision: its stops are 'attorney handoff for mandamus or disputed eligibility' and 'Mandamus or a contested refusal is ATTORNEY / PARTNER HANDOFF'. Both are carried on the motion's face ('If the court refuses after this motion, or eligibility is disputed, the recorded next step is a lawyer - not another filing from this packet') and in the page-6 stop list, which has six triggers: not fingerprinted (SCCA 223E is a different route), dismissal at a preliminary hearing, related charges pending, an objection under 17-22-950(F) / refusal / disputed eligibility, diversion dismissal (solicitor route), any immigration question; plus three never-use-for bullets and 'WHAT THIS PACKET IS NOT' (not an official form, not legal advice, not filed for you, no promise the court will act). The order itself, the signature and its date, and the court's response are stated as left blank. Against the memo's seven track-level stops: five carried (preliminary hearing, related charges, agency objection, diversion, immigration); #4 ('order did not issue ... clerk cannot say why') is the failure branch the decision resolved and this packet exists for; #6 (conviction, General Sessions charge or juvenile adjudication) is carried as scope ('only for a summary-court charge that ended in a not guilty verdict, dismissal or nolle prosequi') rather than as a stop bullet, and 'juvenile adjudication' is not mentioned anywhere. Recorded as an observation for the owner and counsel; not a failure under the controlling decision's conditions."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE, 9/25 written, all nine counters zero, run here at f3ff92ac2",
+        "sourceRecomputation": "2/2 committedRecords rehashed here: SC.memo.json exact; 2026-08-28-national-legal-decisions.json drifted 0aad88ef/184365 -> 63fe0b16/184885 with the SC decision entry (questionDecisions[18]) canonical-identical in both versions; 6 decision anchors and 5 memo anchors present in the current bytes; both route keys present in the census",
+        "artifactRecomputation": "2/2 PDFs hash to record; pdfinfo 6/6 pages both",
+        "byteReadBack": "18/18 written values (9 per fixture) read back from pdftotext -layout output produced here; bbox geometry 0 outside / 0 overlapping in both",
+        "stopConditions": "2/2 controlling-decision stops carried (refusal or disputed eligibility -> lawyer; mandamus -> lawyer); 5/7 memo track-level stops carried as stops, 1 is the resolved branch, 1 carried as scope only",
+        "lapseResolved": "BOUND_SOURCE_DRIFTED on 2026-08-28-national-legal-decisions.json re-verified by locating the controlling decision in the current bytes (questionDecisions[18], register Q-035 / report Q-029), proving the entry canonical-identical to the pinned version (entry sha256 5a94459b...), confirming its holding, escalation and disposition are what the packet implements, and recording the new pin 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885. The receipt on disk still carries the old pin; re-pinning it is the builder's follow-up, not this lane's."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF01",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claims asserted per subject via claim.mjs --assert before any artifact was read; every assertion returned CLAIM_OK; the packet-build environment preflight is not applicable to a verification reading on this machine (no corpus mounted), and no family here binds corpus bytes",
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+      "lane": "VF01",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "f3ff92ac270cf3ac252469d84cba0390e0233208",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/co/agency-application-treatment:obligation:research-decision-route:co:co-mistaken-identity-expungement:participant-investigation-and-finding-request--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family <id> run here at f3ff92ac2 with MASTER_LIBRARY_SOURCE_DIR set: PASS_COMPLETE, 6/17 written, all nine counters printed 0. The builder's reports/completeness-counters.json was read only as the thing being checked; it agrees."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across product-wiring, source-receipt, production-field-map, rendered-artifacts, actual-writes, completeness-counters and the MASTER_QUEUE row. The single routeKey obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request is declared identically in all four route-bearing records, occurs exactly once in route-obligation-candidate.json (routes[28]: destination 'arresting law-enforcement agency', instrument 'written request for investigation and mistaken-identity finding', legalDecisionRecordIds research-track-decision:co_mistaken_identity_expungement, requiredSourceIds []) and 4 times in canonical-route-universe.json. Research-decision route: trackId null and runtimePathwayId null, which is the declared shape."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "One committedRecord, no official-source binaries (documents: []). The pinned sha256 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef (184365 B) no longer matches disk: recomputed here, data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json is sha256 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373, 184885 B. That is the lapse, and it was re-verified against the CURRENT bytes rather than re-pinned blind: the controlling decision sits at researchTrackDecisions[6] (trackId co_mistaken_identity_expungement; reportSection.heading 'Colorado - `co_mistaken_identity_expungement`'); its completeSectionText (1578 chars) is byte-identical between the pinned blob and the current file (sha256 prefix b2ea2b45 in both). All 7 anchor statements the build script binds under mustContain are present verbatim in the current record and were present in the pinned blob. The +21/-16 line drift is confined to registerOpenQuestions 37 to 38, a rewritten Q-057 reason, a new Q-058 (Kentucky register entries) and 14 memoSha256 values on other tracks' memos. Nothing this family relies on moved. New pin: sha256 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373, byteLength 184885."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "2 declared components (agency_request, agency_route_sheet) = 2 composedComponentsAuthoredByThisBuild = 2 in the rendered componentSet; the page manifest of both fixtures places agency_request on packet pages 1-2 and agency_route_sheet on 3-4, and the first line of each page read from the bytes agrees ('REQUEST TO THE ARRESTING AGENCY FOR AN INVESTIGATION AND A' on page 1, 'WHERE THIS GOES, WHAT IT COSTS, AND WHAT YOU DO NOT FILE' on page 3). No component from another route appears. requiredComponentsMissing=0 here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "6 actual writes per fixture (requester_name, date_of_birth, mailing_address, telephone, email on agency_request; prepared_for on agency_route_sheet). All 12 located by me in pdftotext -layout output of the fixture bytes (12/12 found, 0 missing), including the boundary values '1188 Upper Uncompahgre Crossing Road, Apartment 14B, Grand Junction, Colorado 81501-2214' and '(970) 555-0199 ext. 4417'. knownRequiredFieldsMissing=0 and requiredFactsNotCollected=0 here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "9 requiredBeforeFiling blanks declared in the field map and the blanks report (agency address, agency name, arrest date, case/incident number, identifiers, no-charge basis, person mistaken for, what accused of, why wrong person); all 9 are printed as labelled dotted blanks on page 1 and all 9 are named in participant-instructions.md with what to write and where it comes from. Three documents to obtain first are named with their source. None of the 9 is a fact the repository holds: the compiled CO profile has 0 occurrences of '24-72-702' or 'mistaken', and the decision record names no agency, so the packet denies nothing the repository establishes (A4 check)."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selection controls in the field map. routeSelectionsMade records one build-time selection (instrument = written request to the arresting agency), determined by the decision's own sentence 'If there is no agency finding, the first output should be a written request for investigation and finding, not the court petition.' No printed election on any page; the finding / no-finding forks are stop conditions. requiredOptionsMissing=0 here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "0 repeating-row structures in the field map; incompleteRows=0 here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "2 protected blanks (agency_request.requester_signature, agency_request.signature_date; refusalClass signature_or_date_participant_completion). refusedFieldsWithInk=[] in both fixtures; the delivered line reads 'DATE ..... SIGNATURE OF REQUESTER .....' followed by '(The requester signs and dates this request personally. Nothing on this page is signed or dated for the requester.)'. protectedWrites=0 here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, 2 recorded, 0 unrecorded, 0 missing. Recomputed here: canonical.pdf sha256 53170a66c1217b01ecae9991c4977c61d2c49b329a913f3c13982639c6e49ef5 / 12410 B; boundary.pdf sha256 7877f06d224ed44b870d92ed9d2dbdaf4c9a471795f8799ce6bb4c414df7bb3d / 12759 B; both equal to reports/rendered-artifacts.json. The acceptance receipt in product-wiring (RASTER_PASS, run 33973718354) binds canonical 53170a66..., i.e. the current bytes; the prior PASS_COMPLETE_INDEPENDENT row (vf05/rows.json, base b3467e894) names the same canonical hash."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "pdfinfo reads 4 pages for both fixtures = recorded pageCount 4 = manifest length 4. Manifest packetPage runs 1..4 contiguous with the two components contiguous and in declared order; the first line of every page, read from the bytes, confirms the request on pages 1-2 and the route sheet on pages 3-4 in both fixtures."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox run here: canonical 1153 words, boundary 1165 words; 0 words outside the page box and 0 same-band overlapping word pairs (band overlap > 60% of the shorter word's height and x-overlap > 1pt) in either fixture. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0 in both fixtures; visualDefects=0 here."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The census destination for this route is 'arresting law-enforcement agency'. The request page is addressed 'TO: THE RECORDS UNIT OF THE LAW-ENFORCEMENT AGENCY NAMED BELOW' and the route sheet (page 3) prints 'WHERE IT GOES: To the records unit of the agency that arrested you, or whatever office that agency names for written record enquiries', with the arrest paperwork named as what identifies the agency. The packet states on its face that nothing is filed with any court and that the district court of the judicial district of arrest is petitioned by the agency, not the participant, which is what the decision records (VENUE: JUDICIAL DISTRICT OF ARREST, agency-first). The agency's identity is a fact of the participant's own arrest that no committed record holds (A1: the repository does not establish it), and the packet says so instead of guessing."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Met on limbs 2 and 3 together. The route sheet prints 'Nothing is asked of you anywhere in this packet, and no held source states any charge for making this request. A written request to an agency to look at its own record is not a court filing and carries no filing fee', quotes the controlling decision's 'No filing fee or other expungement cost may be charged' and correctly scopes it to the expungement rather than the request, and names the records unit of the arresting agency as the office to ask about any records-search or copy charge. A2/A3 check of held sources: the compiled CO profile's fee lines are keyed to JDF 612 petition sealing and Clean Slate automatic sealing (different statutes and filings) and carry no 24-72-702 line; the decision record prices nothing for the request. So no held source establishes a fee for this instrument, and the packet says exactly that and expressly declines to borrow the JDF 417/612 figures."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Affirmative statement plus mechanism, on the delivered page and in the instructions: 'Nobody. There is no opposing party, no district attorney to notify and no certificate of service, and no held record states any service requirement for this request. Send it to one place and keep dated proof that you did.' Checked against held sources: the decision record states no service step for the agency request, and the CO profile's only service rule ('Served on the District Attorney') is keyed to the JDF 612 petition, a different filing (A3), so the statement that no held record states a service requirement is true as measured."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against the controlling decision at researchTrackDecisions[6]: the precondition of an actual agency finding plus no charges filed; 'not a general vehicle for litigating innocence where the agency has never made that determination'; and the product disposition 'NO FINDING / DISPUTE: AGENCY REQUEST, THEN ATTORNEY HANDOFF'. The delivered route sheet prints five stops (agency refuses or finds against you; anyone disputes the arrest account; charges were filed; trying to establish innocence of something you were actually arrested for; any immigration question) and states 'The recorded escalation for a no-finding or a dispute is a lawyer, not a self-help filing'; the instructions add the sixth stop the decision implies (the agency HAS made a finding: the 90-day duty is the agency's, then the court-petition packet). No inversion: nothing sends the participant to court on this route."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE, 6/17 written, all nine counters zero, run here at f3ff92ac2",
+        "sourceRecomputation": "1/1 committedRecords recomputed from disk: pinned 0aad88ef.../184365 B drifted to 63fe0b16.../184885 B; controlling section researchTrackDecisions[6] byte-identical between pinned blob and current file; 7/7 build-script anchors present in the current bytes; 0 official-source binaries bound",
+        "artifactRecomputation": "2/2 PDFs hash and byte-length to rendered-artifacts.json; pdfinfo 4 pages each",
+        "byteReadBack": "12/12 written values (6 per fixture) located by this lane in pdftotext output of the fixture bytes; 0 refused fields with ink; 0 glyphs outside measured write boxes",
+        "stopConditions": "3/3 stop conditions held by the controlling decision (no finding, dispute, charged case / innocence litigation) carried on the delivered route sheet with the attorney-handoff escalation; the packet's additions (immigration; agency has already found) do not contradict the record",
+        "lapseResolved": "BOUND_SOURCE_DRIFTED on 2026-08-28-national-legal-decisions.json. The pinned blob (saved as drift/2026-08-28-national-legal-decisions.json.pinned.0aad88ef, sha256 recomputed equal to the pin) and the current file were compared: +21/-16 lines, all in the open-question register (Q-057 reworded, Q-058 added, count 37 to 38) and in memoSha256 values of other tracks; the three strings carrying this family's key (trackId, heading, completeSectionText) are identical in both. Re-verified against current bytes; the new pin is sha256 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373, byteLength 184885. This row records the pin; it does not edit the receipt."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}
