@@ -630,6 +630,7 @@ export function dcFelonyRecordIsHistory(profile: EngineProfile | undefined, path
 // GA-17 Q-748f73bc4bcf41923fcc / Q-6acd9d8d275e7be59682 / Q-8c94453e5af32f59406d.
 // Q-ab7cc6744570b24e17d4 / Q-481c00319478c8236160 / Q-1ee2fb0eca77febaf2b6: the same history-only consumer.
 // HI Q-4c4d60127b04b08d3f41 / Q-d6c2af7ef42f979932f3 / Q-50a58ca23c5c2ba26a76: holder/disposition uses do not make these labels exclusive.
+// Q-6add858b65f867a82b70 / Q-502bf587f9925e5e6e79 / Q-00caec14a5a59750b527: Kentucky uses separate disposition/statutory facts.
 export function dcFlPetitionRecordIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
   specification: RegisteredSpecification | null | undefined): boolean {
   if (specification != null) return false;
@@ -648,7 +649,10 @@ export function dcFlPetitionRecordIsHistory(profile: EngineProfile | undefined, 
     || profile?.jurisdiction.code === "LA"
       && ["automated-expungement-status-verification-art-985-2", "expungement-by-redaction-for-multi-person-records",
         "non-conviction-arrest-expungement"].includes(pathwayId ?? "")
-      && contactRepresentationHash(profile) === "a0bf1a76b91c555e5b0cca05b96d6b9a34721db466c7beffdc20fbd86f1e36e6";
+      && contactRepresentationHash(profile) === "a0bf1a76b91c555e5b0cca05b96d6b9a34721db466c7beffdc20fbd86f1e36e6"
+    || profile?.jurisdiction.code === "KY"
+      && ["misdemeanor-violation-traffic-conviction", "nonconviction-431076", "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276"].includes(pathwayId ?? "")
+      && contactRepresentationHash(profile) === "4e84c6d8ba6469a095c50f09cacfb5518c4132d049fbf068513c6eb925e6a364";
 }
 
 // GA12 Q-954756996d44111dd6f6 / Q-11a00e1e894ff5efe5f9 / Q-91de493bf957b599962f: no category document binding.
