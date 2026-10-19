@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF06",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "rcap-nd-custom-pleading": "GRANTED_ELSEWHERE_BUT_RELEASED: rcap-nd-custom-pleading is recorded on VF11, not VF06, and VF11 RELEASED it at 2026-09-05T11:12:05.873Z. No lane is executing it. Captain can hand it over with: --transfer VF11 VF06 rcap-nd-custom-pleading --reason \"...\". Do not transfer it to yourself -- choosing a released grant's destination is a dispatch act."
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Lead ruling 2026-10-19 (consistent with the FL/ND ruling of 15:18Z), strict: the obligation is 'who must be served, and how'. A packet meets it only if it states who is served and the mechanism, or states that no service is required for this filing with its basis, or, where no held record states a service rule, says so plainly and tells the participant to ask the clerk whether anyone must be served before filing (an honest disclosed gap, never an invented rule). Naming the filing office alone is silence on service and fails. The limb each row meets is recorded per family in serviceRulingApplication.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "landedOn": "877a2d8fc (C1 rebased onto PR head c2246711d; tree delta from 5e7fe802c = batch21b's 65 factory files; census --check passes with identical digests)",
+  "serviceRulingApplication": {
+    "rcap-nd-custom-pleading": "LIMB_1_NAMED_RULE_WHO_AND_HOW"
+  },
+  "rows": [
+    {
+      "itemId": "rcap-nd-custom-pleading",
+      "lane": "VF06",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "verify-packet-completeness.mjs --family rcap-nd-custom-pleading run here at 5e7fe802c (inside measure-family.mjs, then re-run directly): PASS_COMPLETE 48/175 written"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across all family records and MASTER_QUEUE; the 5 routeKeys (nd-seal-felony/misdemeanor/pardoned-conviction, nd-dui-record-seal pathway, nd-marijuana-first-offense-seal pathway) are declared identically by product-wiring, source-receipt, production-field-map and MASTER_QUEUE, and each resolves to exactly one census entry."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "FAIL",
+          "detail": "Controlling section drifted; report to the lead before any re-pin. Recomputed here: legal-design-track-registry.json b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0/16781025 and legal-design-specifications.json 10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792/16830109 exact. Census pin lapsed: current route-obligation-candidate.json eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 B (pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 / 2629290 B; lapsed at C1). Census metadata identical except sourceFingerprint; worklist not pinned. Route entries compared object-for-object pinned vs current: 4 of 5 IDENTICAL (felony, misdemeanor, pardoned, DUI). obligation:track-pathway:ND:nd-marijuana-first-offense-seal:first-offense-possession-sealing CHANGED in exactly one field, requiredSourceIds: 8 -> 12 entries, nothing removed, 4 added: packet-spec-source:EXT-ADOPT-01-standing-external-counsel-adoption, packet-spec-source:auth-2026-08-19-owner-legal-approval-completed-output, packet-spec-source:rcap-nd-custom-pleading:canonical-four-components, packet-spec-source:rcap-nd-custom-pleading:production-field-map. All other fields of that entry are identical. requiredSourceIds is a substantive field under the brief. The additions come from data/record-clearing/packet-specifications/ND-first-offense-possession-sealing.v1.json, which commit 2a0584984 (2026-10-14, 'Connect ND first-offense packet to retained four-component family') rewrote from specificationVersion 1.0.0 to 1.1.0 (sourceIdentities, requiredFacts and documents). That specification is itself a census requiredSource for this route both before and after, and this receipt does not bind it. Reading recorded for the lead, not a ruling: three additions point back at this family or at existing approval records. rcap-nd-custom-pleading:production-field-map names this family's own field map at 299d785562fe77ba5ffe310a8afbd7c377dd3384e7954ccb67d1839b213f5000, which matches the file on disk here. The overlay directory was last changed at 2a27a1fc3 (2026-09-10), before 2a0584984. Not measured here: the canonical-four-components object hash 4e056d14... claimed for scripts/lib/nd-first-offense-possession-composition.mjs, which would need builder code run. Whether the added sources change what this packet must bind is the lead's call."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "19 declared components across the 5 routes equal the 19 rendered; every registry/specification component for the 5 tracks is present, plus the marijuana filing-instructions page. The 35-page assembly and the 10 per-route PDFs (8+7+7+6+7 = 35 pages) carry them. requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "48/48 written values per fixture re-found in the assembly bytes here; 0 not found. knownRequiredFieldsMissing=0, invisibleWrites=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "83 requiredBeforeFiling blanks across the 5 routes; every disclosure label found verbatim in the instructions with what to write; documents to obtain are named. requiredFactsNotCollected=0, unclassifiedBlanks=0 measured here."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selection controls; each route's petition states its own statutory ground, and 'Which pages in this packet are yours' tells the participant which route's pages to use. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating-row structure; incompleteRows=0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "127 canonical refusals: 83 required-before-filing, 28 court/prosecutor/clerk/agency-owned, 16 signature/date. refusedFieldsWithInk=0 both fixtures; protectedWrites=0 measured here. Proof-of-service certificates are left unsigned until delivery, and every decision line of the proposed orders is blank."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "12/12 PDFs recorded and recomputed here: assembly canonical 2fd78d8919dedfbdc062f180ade3769ed019c10e76bc1bc615f3f090e4e49522/85218 and boundary 52464ec12db3294f7d66003f4398d87c6753c4b4ef46db4ca5be9d0e5f381e8d/86861, plus 10 per-route PDFs (fixtures/routes/*), each matching its routeArtifacts sha256, byteLength and pageCount. 0 unrecorded, 0 missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Assembly manifests run 1..35 with each route's components contiguous and in declared order (felony 1-8, misdemeanor 9-15, pardoned 16-22, DUI 23-28, marijuana 29-35); page text confirms each; pdfinfo 35 = record for both fixtures; per-route PDFs' pdfinfo counts equal their records."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "Assembly 7412/7449 words: 0 outside the page box, 0 same-band overlaps; the same check on all 10 per-route PDFs gives 0/0 each; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0. visualDefects=0 measured here."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Each route's instructions name the destination its census entry and registry track record: Clerk of Court of the existing criminal case (three 12-60.1 routes), of the court holding the DUI case, and of the court holding the criminal case (marijuana)."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "DUI and marijuana: a sourced no-fee statement (none in the section or the statewide fee schedule; waiver not applicable). Three 12-60.1 routes: 'Not established' per the 2025 statewide fee schedule; the official research guide directs the participant to ask the clerk of the criminal case, which is the named filing destination; and the 12-60.1-04(6) inference is stated. That meets DET-FEE-AND-WAIVER-001 as written."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "12-60.1 routes: a named rule (serve the prosecuting attorney under N.D.C.C. 12-60.1-03(4) via N.D.R.Crim.P. 49 and N.D.R.Civ.P. 5(b); proof of service component included; prosecutor notifies victims and agencies under 12-60.1-04(4)). DUI: 'None required by the section'. Marijuana: 'None stated by the subsection', filed as a motion with the clerk in the existing case. Both are the registry's recorded rules, stated affirmatively rather than left silent."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Registry selfHelpStopConditions for all 5 tracks (13, 10, 13, 6, 5) carried verbatim, 0 missing, including 'Every felony petition, which the controlling review makes an attorney handoff'. Nothing in the packet sends the participant into a posture the record holds as a stop."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE 48/175 written; 1 family audited; all nine counters 0",
+        "sourceRecomputation": "2/2 non-census committed records exact; census lapsed to eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 B; metadata identical except sourceFingerprint; 4/5 route entries identical; marijuana pathway entry CHANGED in requiredSourceIds (+4, from packet specification 1.1.0 at 2a0584984); worklist not pinned",
+        "artifactRecomputation": "12/12 PDFs (2 assemblies + 10 per-route) hash, byteLength and page count to record",
+        "byteReadBack": "96/96 written values (48 per fixture) re-found in the assembly bytes here",
+        "stopConditions": "47/47 registry stops across 5 tracks carried verbatim",
+        "lapseResolved": "NOT resolved. The census lapse (f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 -> eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9) includes a substantive change to the marijuana route's requiredSourceIds, so the whole-file pin must not be refreshed until the lead rules on the four added sources."
+      },
+      "failedObligationNames": [
+        "SOURCE_IDENTITY"
+      ],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

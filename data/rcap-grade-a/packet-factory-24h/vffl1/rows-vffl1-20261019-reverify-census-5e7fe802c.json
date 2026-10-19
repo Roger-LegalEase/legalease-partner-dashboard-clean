@@ -1,0 +1,350 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VFFL1",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "fl-juvenile-diversion-set": "ALREADY_RELEASED: fl-juvenile-diversion-set at 2026-09-14T20:59:30.755Z"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Lead ruling 2026-10-19 (consistent with the FL/ND ruling of 15:18Z), strict: the obligation is 'who must be served, and how'. A packet meets it only if it states who is served and the mechanism, or states that no service is required for this filing with its basis, or, where no held record states a service rule, says so plainly and tells the participant to ask the clerk whether anyone must be served before filing (an honest disclosed gap, never an invented rule). Naming the filing office alone is silence on service and fails. The limb each row meets is recorded per family in serviceRulingApplication.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "landedOn": "877a2d8fc (C1 rebased onto PR head c2246711d; tree delta from 5e7fe802c = batch21b's 65 factory files; census --check passes with identical digests)",
+  "serviceRulingApplication": {
+    "fl-juvenile-diversion-set": "LIMB_2_NO_SERVICE_WITH_BASIS"
+  },
+  "rows": [
+    {
+      "itemId": "fl-juvenile-diversion-set",
+      "lane": "VFFL1",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "PYTHONDONTWRITEBYTECODE=1 MASTER_LIBRARY_SOURCE_DIR=/tmp/ci-census-landing/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-juvenile-diversion-set, run by measure-family.mjs against the read-only worktree at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27; the counter line was parsed from that run, and reports/completeness-counters.json was read only as the thing being checked (it agrees: all nine zero)."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across all records read. The single routeKey obligation:track-pathway:FL:fl-juvenile-diversion:juvenile-diversion-expunction-943-0582 is identical in source-receipt, product-wiring, production-field-map, packet-set-manifest.json and the MASTER_QUEUE row, printed in both instructions files, and resolves to one census entry (trackId fl-juvenile-diversion, statute \u00a7 943.0582, Fla. Stat., destination agency Florida Department of Law Enforcement, packetSetId fl-juvenile-diversion-set)."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Every receipt pin recomputed from disk at 5e7fe802c: /workspaces/legalease-partner-dashboard-clean/reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-JUVENILE-DIVERSION-SET__FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION__a3ad1d240cf0.pdf a3ad1d240cf07092cf1e56fc825b207ec28b89541fb25f012b52356f7774788e / 23990 B exact; $.documents[0] a3ad1d240cf07092cf1e56fc825b207ec28b89541fb25f012b52356f7774788e / 23990 B exact (same bytes as the held source above); data/record-clearing/legal-design-intake/FL.memo.json 9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065 / 121810 B exact; data/record-clearing/legal-design-packet-set-manifests.json pinned 9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8 / 3711575 B, now fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82 / 3738732 B; src/lib/rcap-engine/compiled/profiles/FL-florida.json ffef299bd19d2045453b03a2735b804f511b3a95310cd6be69bb45e36eacc679 / 236236 B exact; data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 / 2629290 B, now eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 B; data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json 7eeea9abeb804efc4d3b7a1e70b50498e53fcf8447bdb7691236e638bb19d88e / 64212 B exact. The held official source (FDLE40-025, Revised July 2022) is mounted at its custody path and rehashes exact, so this family's form bytes are measured here, not bound by record alone. Census read against the pinned bytes (drift copy rehashed to f6fc0814\u2026, the blob at a3ca119bd, C1's parent): routes[obligation:track-pathway:FL:fl-juvenile-diversion:juvenile-diversion-expunction-943-0582] identical object-for-object (canonical anchor bb2db782565d072aa843ca7d9639ad107d327ce52954d18523eb22b5bea3c56f both sides, changed fields: none); census metadata except sourceFingerprint identical (anchor dc6cae03cce1813b786ae0a8693a33f25dc46794b14535d5259949b496c0b5e0 both sides); routes 708 -> 710. Current census digest eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 B. The worklist is not pinned by this receipt. legal-design-packet-set-manifests.json (the other drift) read against its pinned blob 9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8 / 3711575 B, recovered from git at d70e5995e: packetSets[fl-juvenile-diversion-set] identical object-for-object (anchor 2d34ddef315589a4c06463918a5ff90ef990b8f34464dde9a07d77e70df4b9d5 both sides, the same anchor the receipt's 2026-09-12 identityRefresh recorded), the record's non-packetSets content identical (anchor cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298), packetSets 497 -> 497; current fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82 / 3738732 B. Neither drift touches anything this family binds; both pins are refreshable to the current digests under evidence.sourceRecomputation.newPinsIfAccepted. Not re-pinned here."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "1 declared component, FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION, identical in production-field-map, rendered-artifacts and packet-set-manifest.json, rendered in both fixtures as the full five-page FDLE40-025 packet (application, written certified statement, fingerprint card, information and checklist). The committed manifest's packetSets[fl-juvenile-diversion-set] declares exactly one required component, fl-juvenile-diversion-primary-filing-1, official_pdf_fill of this form. requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "29/29 recorded writes per fixture found in pdftotext output of the fixture bytes. Independently, each fixture's words were diffed page by page against the held official source bytes: every added word is a token of a recorded written value (0 added tokens outside written values, 0 written-value tokens missing), no source word was removed, and pages 4-5 (information and checklist) are unchanged. knownRequiredFieldsMissing=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "5 requiredBeforeFiling field-map entries (driver's licence number, diversion program and date confirmation, offence and court confirmation, age at offence, fingerprint-card place of birth); every disclosure label is found verbatim in participant-instructions.md. The committed manifest's participantActionRequired items are all carried: certification of diversion completion (State Attorney or program), proof of completion, fingerprints by an authorized agency or FDLE vendor, applicant signature before a notary or deputy clerk as the official checklist prints, original documents, attorney letterhead if represented."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selection controls in the field map; the form carries no route election for this single-ground agency application. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "The form's charge rows 2-8 are optional additional-charge rows refused with a reason ('optional additional charge') and left empty in both fixtures; the instructions say to add every arrest and charge that belongs and leave unused optional rows empty. incompleteRows=0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "54 PROTECTED_FIELD refusals (applicant and parent signatures and dates, notary block, the whole State Attorney written certified statement, fingerprinting-official blocks) plus 22 optional or participant-supplied refusals. refusedFieldsWithInk empty in both fixtures, and the source diff confirms it: the only words added to page 2 are the applicant's name, date of birth and phone in the applicant block above 'The section below must be completed by the state attorney/statewide prosecutor'; nothing is added inside the certified statement. protectedWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, both recorded, recomputed here and matching the record by digest, byte length and page count: canonical c63743cb40f515edd7b03a17ec97cb5f05cc770452b2d301953a534f04ace032 / 29939 B / 5 pp; boundary 2391d96cb8a1e51e14fdfdc3ba38c7c3b9f3da564a223392983158a8e18aab8f / 30104 B / 5 pp. 0 unrecorded files, 0 recorded files missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both page manifests run 1..5 contiguously in the source's own page order; pdfinfo reads 5 pages from each fixture and the held source's own pageCount is 5."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox: 1580 (canonical) and 1592 (boundary) word boxes, 0 outside the page box, 0 same-band overlapping word pairs. Builder's nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 in both. visualDefects=0 measured here."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The census and the FL memo track name the agency Florida Department of Law Enforcement. filing-instructions.md step 7 names FDLE, ATTN: Seal & Expunge Section, P.O. Box 1489, Tallahassee, FL 32302-1489, as printed on page 4 of the official form (read from the fixture bytes here), and both instruction files say this is an FDLE agency submission, not a court filing."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Sourced no-fee statement. The official checklist on page 4 of the held form, read from the fixture bytes here, prints the $75.00 processing fee and then 'EXCEPTION: This fee is not required for juvenile diversion expunction applications.' Both instruction files state exactly that, and that the track record states no separate fee or waiver. A waiver does not arise where no fee is charged."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Affirmative nobody-is-served statement with its mechanism: 'The application is administrative and FDLE decides it; no court petition, court service, or court case number is created by this route.' The mechanism that replaces service is stated: the State Attorney or diversion program completes the certification on page 2, and the participant mails the packet to FDLE. The memo and registry record that the source review states no service requirement and that FDLE decides."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "FL.memo.json track fl-juvenile-diversion and the registry entry hold two stop conditions; both are carried verbatim in participant-instructions.md ('The State Attorney or the program declines to certify.' and 'Any immigration matter.'). The packet states which facts it will not supply (licence number, place of birth), that signatures, notary, certifying-office and fingerprinting-official fields stay blank for their owners, and that FDLE decides the application. It does not say in so many words that it is not legal advice; it says the outcome depends on the certifying office and FDLE's review and tells the participant not to infer eligibility. Read as meeting the standard."
+        }
+      },
+      "evidence": {
+        "verifierRun": "ok fl-juvenile-diversion-set PASS_COMPLETE 29/110 written | counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0",
+        "sourceRecomputation": {
+          "currentCensusDigest": {
+            "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+            "sha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+            "byteLength": 2635434
+          },
+          "censusComparison": {
+            "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+            "pinnedSha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+            "pinnedByteLength": 2629290,
+            "currentSha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+            "currentByteLength": 2635434,
+            "pinnedBytesRecoveredFrom": "git blob at a3ca119bd (parent of C1 5e7fe802c); saved copy drift/route-obligation-candidate.json.pinned.f6fc0814, rehashed here to f6fc0814\u2026",
+            "canonicalisation": "keys sorted recursively, JSON with no spacing, UTF-8 unescaped, one trailing newline",
+            "metadataExceptSourceFingerprint": {
+              "pinnedAnchorSha256": "dc6cae03cce1813b786ae0a8693a33f25dc46794b14535d5259949b496c0b5e0",
+              "currentAnchorSha256": "dc6cae03cce1813b786ae0a8693a33f25dc46794b14535d5259949b496c0b5e0",
+              "identical": true
+            },
+            "routeEntries": [
+              {
+                "routeKey": "obligation:track-pathway:FL:fl-juvenile-diversion:juvenile-diversion-expunction-943-0582",
+                "pinnedEntries": 1,
+                "currentEntries": 1,
+                "pinnedAnchorSha256": "bb2db782565d072aa843ca7d9639ad107d327ce52954d18523eb22b5bea3c56f",
+                "currentAnchorSha256": "bb2db782565d072aa843ca7d9639ad107d327ce52954d18523eb22b5bea3c56f",
+                "identical": true,
+                "changedFields": []
+              }
+            ],
+            "routesCountPinnedToCurrent": [
+              708,
+              710
+            ],
+            "worklistPinnedByThisReceipt": false
+          },
+          "receiptPinsRecomputed": [
+            {
+              "where": "$.mountedReadOnlySource",
+              "path": "/workspaces/legalease-partner-dashboard-clean/reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-JUVENILE-DIVERSION-SET__FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION__a3ad1d240cf0.pdf",
+              "pinnedSha256": "a3ad1d240cf07092cf1e56fc825b207ec28b89541fb25f012b52356f7774788e",
+              "pinnedByteLength": 23990,
+              "recomputedSha256": "a3ad1d240cf07092cf1e56fc825b207ec28b89541fb25f012b52356f7774788e",
+              "byteLengthOnDisk": 23990,
+              "exact": true,
+              "heldHere": true
+            },
+            {
+              "where": "$.documents[0]",
+              "path": null,
+              "pinnedSha256": "a3ad1d240cf07092cf1e56fc825b207ec28b89541fb25f012b52356f7774788e",
+              "pinnedByteLength": 23990,
+              "heldHere": false,
+              "exact": true,
+              "note": "no path in the receipt entry",
+              "sameBytesAs": "/workspaces/legalease-partner-dashboard-clean/reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-JUVENILE-DIVERSION-SET__FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION__a3ad1d240cf0.pdf",
+              "recomputedSha256": "a3ad1d240cf07092cf1e56fc825b207ec28b89541fb25f012b52356f7774788e",
+              "byteLengthOnDisk": 23990
+            },
+            {
+              "where": "$.authorityRecords[0]",
+              "path": "data/record-clearing/legal-design-intake/FL.memo.json",
+              "pinnedSha256": "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065",
+              "pinnedByteLength": 121810,
+              "recomputedSha256": "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065",
+              "byteLengthOnDisk": 121810,
+              "exact": true,
+              "heldHere": true
+            },
+            {
+              "where": "$.authorityRecords[1]",
+              "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+              "pinnedSha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+              "pinnedByteLength": 3711575,
+              "recomputedSha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+              "byteLengthOnDisk": 3738732,
+              "exact": false,
+              "heldHere": true
+            },
+            {
+              "where": "$.authorityRecords[2]",
+              "path": "src/lib/rcap-engine/compiled/profiles/FL-florida.json",
+              "pinnedSha256": "ffef299bd19d2045453b03a2735b804f511b3a95310cd6be69bb45e36eacc679",
+              "pinnedByteLength": 236236,
+              "recomputedSha256": "ffef299bd19d2045453b03a2735b804f511b3a95310cd6be69bb45e36eacc679",
+              "byteLengthOnDisk": 236236,
+              "exact": true,
+              "heldHere": true
+            },
+            {
+              "where": "$.authorityRecords[3]",
+              "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+              "pinnedSha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+              "pinnedByteLength": 2629290,
+              "recomputedSha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+              "byteLengthOnDisk": 2635434,
+              "exact": false,
+              "heldHere": true
+            },
+            {
+              "where": "$.authorityRecords[4]",
+              "path": "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
+              "pinnedSha256": "7eeea9abeb804efc4d3b7a1e70b50498e53fcf8447bdb7691236e638bb19d88e",
+              "pinnedByteLength": 64212,
+              "recomputedSha256": "7eeea9abeb804efc4d3b7a1e70b50498e53fcf8447bdb7691236e638bb19d88e",
+              "byteLengthOnDisk": 64212,
+              "exact": true,
+              "heldHere": true
+            }
+          ],
+          "otherDriftedRecord": {
+            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+            "pinnedSha256": "9898a2ca999c7eae95bdb68337af91556855e46a005bcd63589fa2b1c52880b8",
+            "pinnedByteLength": 3711575,
+            "currentSha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+            "currentByteLength": 3738732,
+            "pinnedBytesRecoveredFrom": "git blob at d70e5995e, found by drift-record.py (git log --all, hash until the pin matched), saved to this verifier's scratch and rehashed",
+            "packetSetEntry": {
+              "pinnedAnchorSha256": "2d34ddef315589a4c06463918a5ff90ef990b8f34464dde9a07d77e70df4b9d5",
+              "currentAnchorSha256": "2d34ddef315589a4c06463918a5ff90ef990b8f34464dde9a07d77e70df4b9d5",
+              "identical": true
+            },
+            "nonPacketSetsContent": {
+              "pinnedAnchorSha256": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+              "currentAnchorSha256": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+              "identical": true
+            },
+            "packetSetsCountPinnedToCurrent": [
+              497,
+              497
+            ],
+            "linesMentioningFamilyKey": "1 in each version, identical set"
+          },
+          "officialSource": {
+            "documentId": "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION",
+            "custodyPath": "/workspaces/legalease-partner-dashboard-clean/reference/source-recovery/2026-09-11-wave1/CODEX-CS2-SRC2__FL-JUVENILE-DIVERSION-SET__FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION__a3ad1d240cf0.pdf",
+            "heldHere": true,
+            "measuredFromBytes": true
+          },
+          "newPinsIfAccepted": [
+            {
+              "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+              "sha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+              "byteLength": 2635434
+            },
+            {
+              "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+              "sha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+              "byteLength": 3738732
+            }
+          ]
+        },
+        "artifactRecomputation": [
+          {
+            "fixture": "canonical",
+            "file": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/fixtures/canonical.pdf",
+            "recordedSha256": "c63743cb40f515edd7b03a17ec97cb5f05cc770452b2d301953a534f04ace032",
+            "recomputedSha256": "c63743cb40f515edd7b03a17ec97cb5f05cc770452b2d301953a534f04ace032",
+            "recordedByteLength": 29939,
+            "byteLengthOnDisk": 29939,
+            "recordedPageCount": 5,
+            "pdfinfoPages": 5,
+            "manifestPages": 5,
+            "contiguousFromOne": true,
+            "componentsInOrder": [
+              "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION"
+            ],
+            "matched": true
+          },
+          {
+            "fixture": "boundary",
+            "file": "data/rcap-all50/overlays/census-v1/fl/fl-juvenile-diversion-set--official-pdf-fill/fixtures/boundary.pdf",
+            "recordedSha256": "2391d96cb8a1e51e14fdfdc3ba38c7c3b9f3da564a223392983158a8e18aab8f",
+            "recomputedSha256": "2391d96cb8a1e51e14fdfdc3ba38c7c3b9f3da564a223392983158a8e18aab8f",
+            "recordedByteLength": 30104,
+            "byteLengthOnDisk": 30104,
+            "recordedPageCount": 5,
+            "pdfinfoPages": 5,
+            "manifestPages": 5,
+            "contiguousFromOne": true,
+            "componentsInOrder": [
+              "FDLE-JUVENILE-DIVERSION-EXPUNCTION-APPLICATION"
+            ],
+            "matched": true
+          }
+        ],
+        "byteReadBack": [
+          {
+            "fixture": "canonical",
+            "writesRecorded": 29,
+            "foundInExtractedText": 29,
+            "notFound": [],
+            "valuesReportedByFinalizer": 29,
+            "builderGlyphsOutsideWriteBoxes": 0,
+            "refusedFieldsWithInk": []
+          },
+          {
+            "fixture": "boundary",
+            "writesRecorded": 29,
+            "foundInExtractedText": 29,
+            "notFound": [],
+            "valuesReportedByFinalizer": 29,
+            "builderGlyphsOutsideWriteBoxes": 0,
+            "refusedFieldsWithInk": []
+          }
+        ],
+        "stopConditions": {
+          "memoTrack": [
+            "The State Attorney or the program declines to certify.",
+            "Any immigration matter."
+          ],
+          "registry": "identical two conditions (selfHelpStopConditions and selfHelpBoundaries)",
+          "instructionsSection": "participant-instructions.md 'Review and stop conditions'",
+          "carriedVerbatim": 2
+        },
+        "lapseResolved": "No lapse is recorded: the MASTER_QUEUE row carries verificationLapsedBecause null and verifierSourceHold null at 5e7fe802c. Two receipt pins no longer match their bytes (census and packet-set manifest); this row measures every anchor they bind identical at the current digests. Not re-pinned here."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

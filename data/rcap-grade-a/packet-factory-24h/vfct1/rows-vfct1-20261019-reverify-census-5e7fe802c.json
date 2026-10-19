@@ -1,0 +1,342 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VFCT1",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "agency-application-treatment:obligation:track-only:CT:ct-destruction-request": "ALREADY_RELEASED: agency-application-treatment:obligation:track-only:CT:ct-destruction-request at 2026-09-12T07:22:09.447Z",
+    "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon": "ALREADY_RELEASED: agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon at 2026-09-12T07:22:09.587Z",
+    "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure": "ALREADY_RELEASED: agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure at 2026-09-12T07:22:09.730Z"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Lead ruling 2026-10-19 (consistent with the FL/ND ruling of 15:18Z), strict: the obligation is 'who must be served, and how'. A packet meets it only if it states who is served and the mechanism, or states that no service is required for this filing with its basis, or, where no held record states a service rule, says so plainly and tells the participant to ask the clerk whether anyone must be served before filing (an honest disclosed gap, never an invented rule). Naming the filing office alone is silence on service and fails. The limb each row meets is recorded per family in serviceRulingApplication.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "landedOn": "877a2d8fc (C1 rebased onto PR head c2246711d; tree delta from 5e7fe802c = batch21b's 65 factory files; census --check passes with identical digests)",
+  "serviceRulingApplication": {
+    "agency-application-treatment:obligation:track-only:CT:ct-destruction-request": "FAIL_SILENT_ON_SERVICE",
+    "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon": "LIMB_2_NO_SERVICE_WITH_BASIS",
+    "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure": "FAIL_SILENT_ON_SERVICE"
+  },
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "lane": "VFCT1",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-destruction-request--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-only:CT:ct-destruction-request run here at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27 (via measure-family.mjs and again directly): PASS_COMPLETE 5/9 written; the nine counters printed by the verifier, not the builder's completeness-counters.json"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across product-wiring, source-receipt, field map, rendered-artifacts, actual-writes, completeness-counters and the MASTER_QUEUE row. The single routeKey obligation:track-only:CT:ct-destruction-request is declared identically by source-receipt, product-wiring and production-field-map, equals the MASTER_QUEUE row, and resolves in the current census to trackId ct-destruction-request with destination 'clerk holding the eligible Connecticut record'. The controlling memo track tracks[13] of CT.memo.json (trackId ct-destruction-request) carries outputStrategy process_guidance, which is the delivered treatment."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Every pin in source-receipt.json recomputed from disk here. 3/3 non-census pins exact: data/record-clearing/legal-design-intake/CT.memo.json 90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448 (171609 B) exact; data/rcap-all50/guidance-packets/ct.json 0acfc6fe64c87db98079fa17048c063513665bd27ff269d31a9604216460a023 (79195 B) exact; data/rcap-ledger/completed-output-counsel-manifest.json fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56 (321306 B) exact. The census pin data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json is stale on whole-file identity only: pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 (2629290 B), CURRENT eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B). The family's 1 route entry (routes[] by routeKey: obligation:track-only:CT:ct-destruction-request) compared object-for-object between the pinned bytes and the current bytes: 1/1 identical. Census metadata identical except sourceFingerprint. The aggregate counts block changed (13 keys, e.g. totalCanonicalObligations 708 -> 710) and binds nothing in this packet. packet-family-build-worklist.json is not pinned by this receipt (its current digest a57ab0a3ea8607245824f1376c796d46403f9a18f49e5e12b1772339b46a0039, 6004350 B, recorded for completeness only). Anchor presence checked separately: tracks[trackId=ct-destruction-request] is present in CT.memo.json with its controllingAuthority, rules, selfHelpStopConditions and legalDesignDecision, and packets[trackId=ct-destruction-request] is present in guidance-packets/ct.json. No official form is bound (none exists for this route), so nothing here depends on the unmounted master library."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Guidance deliverable. The controlling memo track owes one component (role process_guidance, required) and expressly no written request; the field map, rendered-artifacts and product-wiring each declare exactly agency_preparation_guide, and both fixtures' page manifests carry only that component. No substitute request or application is delivered."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "5/5 identity and contact values read back from the artifact bytes in each fixture (canonical 5/5; boundary 5/5); 0 reported invisible. The boundary fixture's long address wraps to a second line and still reads back. knownRequiredFieldsMissing=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "The four declared blanks (case court/location/docket/final-disposition date; clerk-confirmed request form, method, destination and fee; confirmation of prior erasure; the date the three-year bar expires) are each printed as a dotted line in the guide with a 'Check with' authority and repeated in participant-instructions.md with what to supply. They cover all three memo participantInputs (finalDispositionDate, recordsErased, courtLocation). The memo's only supporting document (Judicial Branch case look-up) is conditional and requiredBeforeFiling false."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "Does not apply to this guidance deliverable in substance: 0 selectionControls, routeSelectionsMade empty, and the memo track records no alternative pathway or election. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "Does not apply: the guide has no repeating row structure. incompleteRows=0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "4 canonicalRefusals (all REQUIRED_BEFORE_FILING); refusedFieldsWithInk empty in both fixtures; protectedWrites=0 measured here. The guide carries no signature, date, notary, clerk or court field, and says 'Do not sign or date this guide'."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, all recorded in rendered-artifacts.json; SHA-256 and byte length recomputed here and matching: boundary.pdf 682aeb934e38e4bc5280da02cfcda775b2e88ac0d52db03bf33a9bb978dda28b (5050 B, pdfinfo 1 pages = recorded 1); canonical.pdf f4202551dba55116bcd9ead310b38700909ce453290aeca5d334a68b969b482c (4926 B, pdfinfo 1 pages = recorded 1). 0 mismatches, 0 unrecorded, 0 recorded-but-missing. The central raster acceptance receipt (RASTER_PASS, run 34679350291) binds canonical f4202551dba55116bcd9ead310b38700909ce453290aeca5d334a68b969b482c, which equals the canonical bytes on disk."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both fixtures' manifests are page 1 = agency_preparation_guide; pdfinfo reads 1 page for each, equal to the recorded count."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox: boundary.pdf 373 words, 0 outside the page box, 0 same-band overlapping pairs; canonical.pdf 365 words, 0 outside the page box, 0 same-band overlapping pairs. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes = 0 in both fixtures. visualDefects=0 measured here."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Applies to the handoff the guide describes. The guide states 'The receiving office is the Superior Court clerk at the court location holding the erased records', which is the memo destination (kind clerk, Superior Court clerk) and the census destination (clerk holding the eligible Connecticut record). It also states the guide itself is not filed."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Repository asked first: the memo track says 'The source review does not state a fee for this request' and 'Not applicable on the record reviewed' for waiver; the census requiredSourceIds are two source URLs; the CT compiled profile's fee lines ('Connecticut erasure is free', 'Automatic / Clean Slate / Cannabis erasure $0') address erasure, a different remedy from physical destruction under 54-142a(g)(1), so under A3 they do not establish this route's fee. The packet prints 'Clerk-confirmed request form, method, destination, and fee' as a blank with 'Check with: the Superior Court clerk's office holding the erased records', and the instructions say to confirm 'any fee' with that office: a specific, reachable authority. No figure is invented. Met under the standard's third limb at the packet level."
+        },
+        "SERVICE": {
+          "result": "FAIL",
+          "detail": "Silent. Neither the guide (canonical and boundary, read with pdftotext) nor participant-instructions.md contains any statement about service or notice: no rule, no 'nobody is served' statement, and no authority named for the question (grep for serv/notice/notif/copy finds nothing). The memo track records 'The source review does not state a service requirement' and 'does not state a notice requirement', and guidance-packets/ct.json says the review 'does not state a notice requirement for this request' - but that sentence is not delivered. The guide does state the mechanism ('The clerk acts on the accused's request'; 'not a court petition'), but under the brief's standard a mechanism without an affirmative nobody-is-served statement, or a named authority for the question, is silence."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against the controlling memo track's three selfHelpStopConditions. 'Fewer than three years have elapsed' -> 'If fewer than three years have elapsed, wait' (guide) and 'Do not use this route until ... the three-year period has passed' (instructions). 'The records have not in fact been erased' -> 'Stop for counsel if the record was not erased'. 'The clerk requires something the source review has not established' -> 'the clerk requires a format, document, or step you cannot confirm' / 'the clerk asks for something not established here'. 3/3 carried; the packet adds an immigration stop (54-142a(j)) the guidance record supports. No inversion; no decision record governs this track."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE 5/9 written; all nine counters zero as printed by the verifier run here at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+        "sourceRecomputation": "3/3 non-census pins exact; census pin stale on whole-file identity only: CURRENT data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 B (pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 / 2629290 B); 1/1 bound route entries identical object-for-object; census metadata identical except sourceFingerprint; worklist not pinned",
+        "artifactRecomputation": "2/2 PDFs hash to record; pdfinfo page counts equal recorded counts; raster receipt bound to current canonical: True",
+        "byteReadBack": "canonical 5/5; boundary 5/5 written values read back from pdftotext output of the artifact bytes by this lane; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and refusedFieldsWithInk empty in every fixture",
+        "stopConditions": "3/3 memo-track stops carried in guide and instructions; 1 supported addition (immigration)",
+        "lapseResolved": "The only lapse is the census whole-file pin (f6fc0814 -> CURRENT eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9, 2635434 B). It is resolved at the content level by this reading: every route entry the packet binds is identical object-for-object and census metadata is identical except sourceFingerprint. The receipt pin itself still names the old digest; re-pinning it is the owner lane's act, not this row's."
+      },
+      "failedObligationNames": [
+        "SERVICE"
+      ],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "lane": "VFCT1",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon run here at 5e7fe802c via measure-family.mjs: PASS_COMPLETE, 5/10 written, all nine counters read from that run, not from the builder's report"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across product-wiring, source-receipt, production-field-map, rendered-artifacts, actual-writes, completeness-counters and the MASTER_QUEUE row. The single routeKey obligation:track-only:CT:ct-provisional-pardon is declared identically by all four route-bearing records and resolves in the current census (trackId ct-provisional-pardon, destination 'Connecticut Board of Pardons and Paroles', currentOutputStrategy participant_agency_application)."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Every pin in source-receipt.json recomputed from disk at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27: 6/7 exact (CT.memo.json 90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448 (171609 B); ct.json 0acfc6fe64c87db98079fa17048c063513665bd27ff269d31a9604216460a023 (79195 B); completed-output-counsel-manifest.json fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56 (321306 B); ct-coe-eligibility.html.gz 740bec54b5767b0c980a8f06cb224e1c6797b30e0b75260888385583de998f52 (9089 B); ct-coe-required-documents.html.gz a4edf49a6955fc0f7fbe090470916f7e8f0c2f0971cb5e93516af23f14de900b (8941 B); ct-pardon-faq.html.gz c2038ec7ba4c762fc81dd53380026f9518b802a0ddc31af8dd435b92df0bcb24 (13738 B)). The one drifted pin is the C1 census: pinned route-obligation-candidate.json f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 (2629290 B) no longer matches; CURRENT route-obligation-candidate.json now eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B). 1/1 census route entry for the family's routeKeys identical object-for-object between the pinned bytes (pinned route-obligation-candidate.json f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 (2629290 B)) and the current bytes; census metadata identical except sourceFingerprint. Only aggregate counts and sourceFingerprint changed in C1, none of which is packet content. The pin is stale on whole-file identity only; a refresh to the current digest changes nothing the guide relies on. The census requiredSourceIds are two URLs (ccresourcecenter.org profile, portal.ct.gov/cleanslate) that the repository does not hold as bytes; the receipt binds the CT memo, the guidance record, the counsel manifest and three captured Board pages instead, all exact. No Master Library form is bound."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "One declared component, agency_preparation_guide, is the one rendered in both fixtures (rendered-artifacts componentSet and page manifest). requiredComponentsMissing=0 measured here. Guidance deliverable: no official Board instrument is bound, and the guide says it is not the application."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "canonical 5/5, boundary 5/5 written identity values (name, date of birth, mailing address, telephone, email) read back from pdftotext output of the fixture bytes, including the wrapped boundary address. knownRequiredFieldsMissing=0 and invisibleWrites=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "All 5 declared blanks (Board eligibility and timing; application, portal, attachments and fee; every relevant conviction; the employment or licensing barrier; supervision status and officer) are printed in the guide with a 'Check with' source and repeated in participant-instructions.md with what to supply. The guide also names the Board's required-document list, the Background Investigation Authorization signed before a notary, and the supervising-officer questionnaire, which matches the bound required-documents capture."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selectionControls; routeSelectionsMade is empty and the field map fixes the single agency route. The one branch the route carries (more than 90 days of probation left: apply through the probation officer; otherwise the Board portal) is explained in the guide and its fact is a required blank, matching the bound eligibility capture. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating row structure in the guide; incompleteRows=0 measured here. Does not otherwise apply to a guidance deliverable."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "The guide carries no signature, date, notary or agency field; refusedFieldsWithInk is empty in both fixtures and protectedWrites=0 measured here. The guide says not to sign or date it and that no court, clerk, prosecutor, agency, notary or hearing-officer field is completed."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "boundary.pdf 2f90e5f0d5a16b4cd38c921cb347d679b66179b0c3bbc3776dbe23bad590ecdb (6648 B, 2 pp by pdfinfo, recorded 2); canonical.pdf 7be19142413dc94c9605f021f0efc291a17f9753eff726b575de485b228c1a49 (6528 B, 2 pp by pdfinfo, recorded 2). Both hashes and byte lengths recomputed here match rendered-artifacts.json; 0 unrecorded, 0 missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both fixtures' page manifests run 1..2, one component, contiguous; recorded pageCount 2 equals pdfinfo for both."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "boundary.pdf 467 words, 0 outside page box, 0 same-band overlaps, canonical.pdf 459 words, 0 outside page box, 0 same-band overlaps; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0 in both fixtures. visualDefects=0 measured here. Not rasterised by this lane."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The route names the Connecticut Board of Pardons and Paroles. The guide names the Board, its ePardon portal URL and its eligibility and document pages, and the probation-officer path for the more-than-90-days case, and says nothing is filed with a court."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "FAIL",
+          "detail": "The guide says 'Confirm the current eligibility, timing, fee, and notice rules from the Board's own materials before applying; no unverified figure is supplied here' and makes the fee a blank to 'Check with: the Connecticut Board of Pardons and Paroles'. But the repository holds the answer: the family's own bound source ct-pardon-faq.html.gz (c2038ec7ba4c762fc81dd53380026f9518b802a0ddc31af8dd435b92df0bcb24, 13738 B, exact) says, in the Board's words: \"There are two (2) types of pardons: Absolute Pardon Certificate of Employability ... A Certificate of Employability, also known statutorily as a Provisional Pardon ... The Board of Pardons and Paroles does not currently charge a fee to apply for a pardon.\" Under DET-FEE-AND-WAIVER-001 A1/A2 (the family's own bound source documents count as held; ask first whether the repository establishes the answer, and if it does the packet states it) and A3 (that fact addresses this route: the same page names the Certificate of Employability as one of the two pardon types), naming the Board as the office to ask is not enough. The packet withholds a fact its own receipt binds. The CT memo's 'Not established in this pass' predates the capture and records non-establishment, not a contrary fact. Not a C1 effect."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "The guide states 'The Board of Pardons and Paroles application process is not a court filing; there is no prosecutor consent and nobody to serve'. That is an affirmative statement that nobody is served, with the mechanism (an executive-branch application to the Board). It matches the memo rule 'No service. This is an executive-branch application, not a court filing.'"
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against CT.memo.json tracks[11] (ct-provisional-pardon) selfHelpStopConditions, 3/3 carried: wants erasure ('It does not erase anything ... A participant seeking erasure is on a different Connecticut route'), the Board sets a hearing, and an immigration matter ('Stop for counsel if the Board sets a hearing or any immigration issue exists'). The guide also says which facts it will not supply, that it signs nothing, and that it is not the Board's application. No decision record is named for this route (legalDecisionRecordIds is empty)."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE, 5/10 written, all nine counters zero",
+        "sourceRecomputation": "6/7 source-receipt pins exact from disk; drifted: route-obligation-candidate.json (pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81, 2629290 B). CURRENT: route-obligation-candidate.json now eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B). 1/1 census route entry for the family's routeKeys identical object-for-object between the pinned bytes (pinned route-obligation-candidate.json f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 (2629290 B)) and the current bytes; census metadata identical except sourceFingerprint. Only aggregate counts and sourceFingerprint changed in C1, none of which is packet content.",
+        "artifactRecomputation": "2/2 PDFs hash and byte-length to record; 0 unrecorded, 0 recorded-but-missing",
+        "byteReadBack": "canonical 5/5, boundary 5/5 written values found in pdftotext output of the fixture bytes",
+        "stopConditions": "3/3 memo stop conditions carried in the guide and in participant-instructions.md",
+        "lapseResolved": "MASTER_QUEUE carries no verificationLapsedBecause for this family. The only lapse is the C1 census pin. Its route entry is identical, so it can be cleared by a whole-file re-pin to eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B). That re-pin does not resolve the FEE_AND_WAIVER failure, which is independent of C1."
+      },
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    },
+    {
+      "itemId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "lane": "VFCT1",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-pathway:ct:ct-absolute-pardon:absolute-pardon-resulting-in-erasure--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure run here at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27 (via measure-family.mjs): PASS_COMPLETE, 5/10 written; counters line: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across product-wiring, source-receipt, production-field-map, rendered-artifacts, actual-writes, completeness-counters and the MASTER_QUEUE row. The single routeKey obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure is declared identically by receipt, product-wiring, field map and MASTER_QUEUE, and resolves to exactly one census entry (routes[334], trackId ct-absolute-pardon, runtimePathwayId absolute-pardon-resulting-in-erasure, destination 'Connecticut Board of Pardons and Paroles'). The MASTER_QUEUE treatmentReconciliation authoritySelector is tracks[trackId=ct-absolute-pardon] in CT.memo.json."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "All 5 compositionSources recomputed from disk here. Exact: CT.memo.json 90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448 (171609 B) exact; completed-output-counsel-manifest.json fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56 (321306 B) exact; ct-application-instructions.html.gz e4a00f1bd90943cfabe9a747aad98c5fe19d1cf5327f16fe2fc09503e2997bdc (9415 B) exact; ct-pardon-faq.html.gz c2038ec7ba4c762fc81dd53380026f9518b802a0ddc31af8dd435b92df0bcb24 (13738 B) exact. The two Board pages are gzip custody of official captures: their decompressed bytes hash to 6806fe1e4112bd0a90699fc99360c0338b4be6e5862986b0744ecb518807001a and 546de5d4243a3ce85180f5ed5645c935b3be7ec67f767150f919c5fa5814d09f, equal to official-source-receipts.json for https://portal.ct.gov/bopp/pardon-division/pardon/application-process-and-instructions and https://portal.ct.gov/BOPP/Pardon-Division/Pardon/Pardon-FAQs (retrieved 2026-09-08, HTTP 200). Drifted: route-obligation-candidate.json pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 (2629290 B), CURRENT eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B). Compared object-for-object against the recovered pinned version (drift/route-obligation-candidate.json.pinned.f6fc0814): this family's census entry routes[] routeKey obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure (now routes[334]) is IDENTICAL (canonical sha256 a236de44cf1b27ce2c4632d432631c5b618f5ca170efae78fa3eb5867795688d), and census metadata other than sourceFingerprint is identical. No packet-family-build-worklist.json pin, so no worklist comparison. No official form is bound (guidance; the Board application lives in its portal). Re-pin case on identity grounds; nothing re-pinned here."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Guidance deliverable. One declared component, agency_preparation_guide, in the field map, rendered componentSet and receipt; both fixtures' manifests (pages 1-2) carry only it. This matches the memo track's single required process_guidance component and the MASTER_QUEUE treatment stage ('Usable guidance and the exact authority handoff; no substitute application or request'). No application is generated, which is correct. requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "5/5 written identity values read back from pdftotext of each fixture by this lane (the boundary address wraps over two lines and reads back whitespace-normalised); 0 not found. The fixtures hold no conviction facts. knownRequiredFieldsMissing=0 and invisibleWrites=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "As it applies to a guide: the field map declares 5 REQUIRED_BEFORE_FILING confirmations (pardon-date pathway, every conviction, Clean Slate reach, Board eligibility/timing, Board application/attachments/hearing/fee). All 5 are printed with a 'Check with' authority and disclosed in the instructions, and blanks-left records 5. Advisory, not scored as a failure under DET A4's narrow reading: the bound FAQ also states eligibility timing (3 years misdemeanour / 5 years felony, no pending charges, 13-month nolle, not on probation or parole) and required attachments (SPBI criminal history dated within one year, fingerprints, police incident reports). The guide defers these to the Board's official instructions, whose URL it prints, so the participant can act."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selection controls. The guide makes no election. It says the Board, not the participant, chooses between a hearing and expedited review, that there is no separate expedited application, and that the pre-October 1, 1974 Superior Court branch is a different route. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "Does not apply to this guidance deliverable: there is no row structure. Convictions are listed by the participant on the Board's own application, and the guide asks for each to be confirmed against the record. incompleteRows=0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "5 canonicalRefusals, all REQUIRED_BEFORE_FILING; refusedFieldsWithInk is empty in both fixtures. The guide says 'Do not sign or date this guide. Sign and date only the agency's own request or application' and leaves every agency, clerk, court and notary item uncompleted. protectedWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, both recorded, SHA-256 and byte length recomputed here and matching: boundary.pdf fc609cc3c048a965f9ee339cb87e891be08720f2dc36b1ee41d117b4dd6af3b9 (6068 B, pdfinfo 2 pp, recorded 2 pp, hash matches); canonical.pdf 7875f369eccda528c4cab60c0ef70947344a46c20eb6c6c82983832fe4c56144 (5941 B, pdfinfo 2 pp, recorded 2 pp, hash matches). 0 unrecorded. The canonical hash equals product-wiring acceptanceReceipt.boundToCanonicalSha256."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both manifests run 1..2 with the single component contiguous; pdfinfo 2 pages for both, equal to record."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox over both fixtures: 0 words outside the page box and 0 same-band overlapping word pairs (402 and 410 words); nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0. visualDefects=0 measured here."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Applied to the participant's own later action: the guide names the Connecticut Board of Pardons and Paroles and its ePardon portal (https://epardonportal.ct.gov/portal) and the Board's Absolute Pardon instructions page. That matches the census destination 'Connecticut Board of Pardons and Paroles' and the memo destination 'Connecticut Board of Pardons and Paroles, ePardon portal'. The guide says it is not the application and cannot be submitted in place of it."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "FAIL",
+          "detail": "Not met as written. Guide: 'This guide does not state a waiting period or fee. Confirm current eligibility, timing, fee, and hearing mechanics from the Board's current rules.' Instructions: 'any charge; confirm it with the Connecticut Board of Pardons and Paroles' and 'this packet quotes no unverified number'. The repository holds the answer. The family's own bound source ct-pardon-faq.html.gz (compositionSources, exact; official capture of https://portal.ct.gov/BOPP/Pardon-Division/Pardon/Pardon-FAQs) says: 'The Board of Pardons and Paroles does not currently charge a fee to apply for a pardon. However, you must pay the State Police - now known as the Department of Emergency Services and Public Protection (DESPP) - for processing and providing your State Police Criminal History Report (rap sheet.) ... The Board of Pardons and Paroles does not determine the fee that the State Police charges'. The census requiredSourceId compiled profile CT-connecticut.json says 'Absolute Pardon / COE application $0 BOPP charges no application fee'. Under DET-FEE-AND-WAIVER-001 A1/A2 the named-authority limb is not available when a held source establishes the answer, and neither the amount limb nor the no-fee limb is met. The field map's board_process reason ('no stable application or verified fee is bound') is contradicted by the receipt's own bound FAQ. Tension to flag: CT.memo.json says 'Verify every waiting-period and fee number before it appears in participant-facing copy' and stop 3 says 'no number is quoted'. The bound official Board page is that verification only if the lead accepts it as such."
+        },
+        "SERVICE": {
+          "result": "FAIL",
+          "detail": "Silence on service. CT.memo.json ct-absolute-pardon rules.service: 'No service. This is an executive-branch application, not a court filing.' The guide carries only the mechanism ('It is not a court filing'; apply through the Board's ePardon process). Neither instructions nor fixtures say that the participant serves no one. The repository establishes the rule, and under the brief's standard silence does not meet it."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against CT.memo.json track ct-absolute-pardon's three selfHelpStopConditions: the Board sets a hearing ('Stop for counsel if a hearing is set'), an immigration matter ('or any immigration issue exists'), and unverified waiting-period and fee figures, so no number is quoted (no number is quoted). All 3 are carried, and the memo's post_generation_handoff limitation (assistance ends at the explanation and the portal handoff) is respected. No inversion. Note that the FEE_AND_WAIVER repair must quote the Board's own published statement and not the memo's internal-reference claim, so it does not invert stop 3."
+        }
+      },
+      "evidence": {
+        "verifierRun": "verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27: PASS_COMPLETE, 5/10 written, all nine counters zero",
+        "sourceRecomputation": "5/5 compositionSources recomputed from disk: 4 exact (including both official Board captures, whose decompressed bytes match official-source-receipts.json); route-obligation-candidate.json drifted from f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 (2629290 B) to CURRENT eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B) with this family's 1 census route entry and census metadata (except sourceFingerprint) identical; worklist not pinned",
+        "artifactRecomputation": "2/2 PDFs hash to record; pdfinfo 2 pages each, equal to record",
+        "byteReadBack": "10/10 written values (5 per fixture) read back from pdftotext of the artifact bytes by this lane",
+        "stopConditions": "3/3 controlling memo stops carried (hearing, immigration, no unverified number quoted)",
+        "lapseResolved": "MASTER_QUEUE verificationLapsedBecause is null. The only drift is the census pin, and its bound entry is identical at eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9. The verdict is FAIL_REPAIR_REQUIRED on FEE_AND_WAIVER and SERVICE, so this row does not support carrying the earlier vfct1 PASS forward."
+      },
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

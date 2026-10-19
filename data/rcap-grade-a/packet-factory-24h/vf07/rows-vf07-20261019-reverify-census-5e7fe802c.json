@@ -1,0 +1,437 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF07",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief": "ALREADY_RELEASED: composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief at 2026-09-12T09:40:57.186Z",
+    "rcap-ms-custom-pleading": "GRANTED_ELSEWHERE_BUT_RELEASED: rcap-ms-custom-pleading is recorded on VF10, not VF07, and VF10 RELEASED it at 2026-09-05T00:14:05.146Z. No lane is executing it. Captain can hand it over with: --transfer VF10 VF07 rcap-ms-custom-pleading --reason \"...\". Do not transfer it to yourself -- choosing a released grant's destination is a dispatch act.",
+    "rcap-ok-custom-pleading": "GRANTED_ELSEWHERE_BUT_RELEASED: rcap-ok-custom-pleading is recorded on VF01, not VF07, and VF01 RELEASED it at 2026-09-05T11:12:06.147Z. No lane is executing it. Captain can hand it over with: --transfer VF01 VF07 rcap-ok-custom-pleading --reason \"...\". Do not transfer it to yourself -- choosing a released grant's destination is a dispatch act.",
+    "rcap-wv-custom-pleading": "GRANTED_ELSEWHERE_BUT_RELEASED: rcap-wv-custom-pleading is recorded on VF05, not VF07, and VF05 RELEASED it at 2026-09-06T19:32:29.423Z. No lane is executing it. Captain can hand it over with: --transfer VF05 VF07 rcap-wv-custom-pleading --reason \"...\". Do not transfer it to yourself -- choosing a released grant's destination is a dispatch act."
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Lead ruling 2026-10-19 (consistent with the FL/ND ruling of 15:18Z), strict: the obligation is 'who must be served, and how'. A packet meets it only if it states who is served and the mechanism, or states that no service is required for this filing with its basis, or, where no held record states a service rule, says so plainly and tells the participant to ask the clerk whether anyone must be served before filing (an honest disclosed gap, never an invented rule). Naming the filing office alone is silence on service and fails. The limb each row meets is recorded per family in serviceRulingApplication.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "landedOn": "877a2d8fc (C1 rebased onto PR head c2246711d; tree delta from 5e7fe802c = batch21b's 65 factory files; census --check passes with identical digests)",
+  "serviceRulingApplication": {
+    "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief": "LIMB_3_DISCLOSED_GAP_NAMED_OFFICE_ON_BEFORE_YOU_FILE_PAGE",
+    "rcap-ms-custom-pleading": "LIMB_1_NAMED_RULE_WHO_AND_HOW",
+    "rcap-ok-custom-pleading": "FAIL_ON_991C_ROUTE_OTHER_ROUTES_LIMB_1",
+    "rcap-wv-custom-pleading": "LIMB_1_NAMED_RULE_WHO_AND_HOW"
+  },
+  "rows": [
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "lane": "VF07",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/il/composed-treatment:obligation:runtime-only:il:criminal-identity-theft-mistaken-identity-relief--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief run here at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27 (MASTER_LIBRARY_SOURCE_DIR set, PYTHONDONTWRITEBYTECODE=1): PASS_COMPLETE, 6/13 written, all nine counters as printed by that run."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across product-wiring, source-receipt, production-field-map, rendered-artifacts, actual-writes, completeness-counters and the MASTER_QUEUE row (measured). The single routeKey obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief is declared identically by source-receipt, product-wiring and production-field-map and equals the MASTER_QUEUE row; it resolves to exactly one entry in the C1 census, whose statuteOrAuthority '20 ILCS 2630/5.2, mistaken-identity provisions' and participantFacingInstrument 'Illinois Verified Mistaken-Identity Petition under 20 ILCS 2630/5.2' are the petition's own title and ground."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Recomputed from disk at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27: 3/3 non-census committedRecords exact (route-splits.json c573d65a64d3922bcffdd402810efa142f44bc8d9389d4e7e8a223ee4105f7df / 127996 B; IL-illinois.json 7999f618fd374825e4a8fa611d141131afe06ce9f6139c5c2d608277704da914 / 355244 B; LEGAL_BLOCKED_RESOLUTION_2026-09-11.json 5e3b6fb6bdeff849949d1d2c44d9b4e7badfdf6e7ba38be6135c388df176b1f2 / 22372 B). The census pin f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 / 2629290 bytes is no longer whole-file exact; the CURRENT census is eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 bytes. The bound route entry (routes[] by routeKey obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief) was compared object-for-object between the pinned bytes and the current bytes: identical in every field; census metadata excluding sourceFingerprint identical. packet-family-build-worklist.json is not pinned by this receipt. No official form is bound (formIdentityNote; sourceBinaryCommitted false), so no master-library binary is needed. The controlling decision IL-MISTAKEN-IDENTITY-VERIFICATION is present (decisions[2]) with its 735 ILCS 5/1-109 rule. Bound content has not moved; the whole-file census pin in source-receipt.json was not changed by this lane."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "2 declared components, il-mistaken-identity-primary-filing-1 and il-mistaken-identity-filing-instructions-2, are in production-field-map componentRoutes, in rendered-artifacts componentSet and in both fixtures' page manifests in declared order. The route contract's packetComponents are 'Verified petition', 'Identity-theft report' and 'Mismatched identifier evidence': the petition is composed and carries the section E certification under 735 ILCS 5/1-109 (no notary), which the controlling decision requires; the other two are participant-obtained records named in the instructions with where to get them. No component from another route appears."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "canonical 6/6; boundary 6/6 written values read back by this lane from pdftotext of the artifact bytes (12/12); 0 not found. knownRequiredFieldsMissing=0 and invisibleWrites=0 in the run here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "The 4 declared required-before-filing blanks (arrest-circuit caption, C1 identity-theft report and identifiers, C2 arrest circuit, C6 automatic-seal status) are each named in participant-instructions.md with what to write, and the two documents (identity-theft report, mismatched identifier evidence) are named with where to get them. A scan of every dotted blank in both fixtures found none outside the declared set. The route contract's other three requiredFacts (prostitution statute/class, sentence completion, trafficking facts) belong to the separate IL:felony-prostitution-relief branch of LD-IL-04; the petition does not ask them and the packet tells the participant not to supply them. requiredFactsNotCollected=0 and unclassifiedBlanks=0 in the run here."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selectionControls in the field map; one route and one instrument, whose statutory ground is stated in the petition title and body. requiredOptionsMissing=0."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "The packet has no repeating row structure; incompleteRows=0."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "3 protected blanks (court case number, petition signature, signature date); the extracted text of both fixtures shows each line empty; refusedFieldsWithInk is empty in both; protectedWrites=0."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, both recorded in reports/rendered-artifacts.json, 0 unrecorded, 0 recorded-but-missing. Recomputed here: boundary.pdf 09e11b80f75be41889ab70d9057b8d34de844e71c3c13f9715cd75e9084c313e / 8256 B, 3 pages (record 3); canonical.pdf 433dc445780603b752a544532ca2965688aaeeba114482927f4d103ace1d49f3 / 8075 B, 3 pages (record 3); every SHA-256 and byte length matches the record. product-wiring.json carries a central RASTER_PASS (workflow run 34685525260) bound to the current canonical SHA-256."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both fixtures: pdfinfo reads 3 pages, equal to the recorded pageCount; the manifest runs petition pages 1-2 then filing instructions page 3, contiguous and in declared order, and the first lines of each page read back confirm it."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "Measured here with pdftotext -bbox: boundary.pdf: 638 words, 0 outside the page box, 0 same-band overlapping pairs; canonical.pdf: 633 words, 0 outside the page box, 0 same-band overlapping pairs. No literal markup glyphs in either fixture. Boundary page 2 (longest values) rendered here at 60 dpi: the wrapped address stays inside the margins. visualDefects=0 in the run here; the canonical carries the central RASTER_PASS named under ARTIFACTS (not re-run here)."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The census records destination 'not recorded'; the bound, exact compiled Illinois pathway states that the aggrieved person 'may petition the chief judge of the circuit where the arrest occurred'. The packet names that destination in the instructions table, the petition caption note and the filing page, and leaves the circuit's name as a declared participant blank."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "No held record establishes a fee for this route: the census-required packet specification records that no committed record establishes a fee or waiver ('Do not invent a filing fee, a fee waiver...'), and the compiled profile's Fees section addresses ordinary petitions to expunge or seal (ISP fees; circuit clerk fees that 'vary by county/circuit'), a different remedy that under DET-FEE-AND-WAIVER-001-A3 does not establish this route's figure. The packet states that it does not establish a fee or waiver decision and names the office of the chief judge of the arrest circuit for both, and says inability to pay does not bar filing, which does not contradict the profile's general waiver line. Met on the standard's third limb."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "No held record states a service rule for this route (the profile's service list belongs to the ordinary expungement/sealing petition procedure). The packet tells the participant to ask the office of the chief judge of the arrest circuit who must receive notice or service, how, and whether proof is required, and certifies no service. A named checkable authority stands in, as DET-FEE-AND-WAIVER-001 appliesTo allows for SERVICE."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "No track-registry entry exists, so stops were measured against the route contract (LD-IL-04 two-route map: verified stolen or mistaken identity only, the prostitution branch separate, not routed through ordinary expungement) and the decision IL-MISTAKEN-IDENTITY-VERIFICATION. The packet's 5 stops (identity theft uncertain; the record is actually the participant's own; automatic-seal status unresolved; the separate prostitution or trafficking route; immigration) cover each limit, and the certification follows the decision (1-109, no notary). No inversion."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE, 6/13 written, all nine counters zero (run here at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27)",
+        "sourceRecomputation": "3/3 non-census committedRecords exact; census pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 / 2629290 bytes, CURRENT eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 bytes; bound route entry identical object-for-object; census metadata (excluding sourceFingerprint) identical; worklist not pinned",
+        "artifactRecomputation": "2/2 PDFs hash to record; pdfinfo pages equal recorded pages",
+        "byteReadBack": "12/12 written values read back from the artifact bytes (canonical 6/6; boundary 6/6)",
+        "stopConditions": "5/5 packet stops consistent with the route contract and the controlling decision; no inversion",
+        "lapseResolved": "YES. The lapse is the census whole-file pin (f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 / 2629290 bytes) against C1 (eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 bytes). The bound entry and metadata did not move, every other pin is exact and all fifteen obligations pass at C1, so this reading supports refreshing the pin. The pin itself was not changed here. MASTER_QUEUE at C1 shows verificationLapsedBecause null."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    },
+    {
+      "itemId": "rcap-ms-custom-pleading",
+      "lane": "VF07",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "verify-packet-completeness.mjs --family rcap-ms-custom-pleading run here at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27 (via measure-family.mjs): PASS_COMPLETE, 36/125 written; counters line: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across product-wiring, source-receipt, production-field-map, rendered-artifacts, actual-writes, completeness-counters and the MASTER_QUEUE row. The 3 routeKeys are declared identically and in the same order by receipt, product-wiring, field map and MASTER_QUEUE. Each resolves to exactly one census entry with packetFamilyId rcap-ms-custom-pleading (routes[449], routes[451], routes[453]). Every page footer prints its own route key."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "All 3 committedRecords recomputed from disk here. Exact: legal-design-track-registry.json b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0 (16781025 B) exact; legal-design-specifications.json 10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792 (16830109 B) exact. Drifted: route-obligation-candidate.json pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 (2629290 B), CURRENT eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B). Compared object-for-object against the recovered pinned version: all 3 of this family's census entries are IDENTICAL (obligation:track-pathway:MS:ms-drug-cd:first-offense-controlled-substance-conditional-discharge-relief routes[449] 93ad9d76146a7cc8b512fb1e60f05e37af1769f686988a40fe8ff549f95a5d86; obligation:track-pathway:MS:ms-dui:first-offense-dui-expungement routes[451] 8a371bf034fc23548427e891eeb3f9be171c04fc2d4eccb07e4beef6b22b7983; obligation:track-pathway:MS:ms-mip:minor-in-possession-underage-alcohol-expungement routes[453] 4e5dd49759b78e3567cb302636dbfe13339d5de9eb9bbb0f74baa15ff056ad26), and census metadata other than sourceFingerprint is identical (4/4 anchors). No worklist pin. No official form is bound: the receipt and specifications record composed pleadings, and the Fourth District models are drafting references only. Re-pin case on identity grounds; nothing re-pinned here."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "15 declared components: 5 per route (primary filing, proposed order, certificate of service, attachment, instructions). For each of ms-drug-cd, ms-dui and ms-mip they equal the committed track registry packetSet (5 required, same order), and the specifications' 3 customPleadingSpecs per route are included. The family assembly is review-only (familyAssemblyIsAParticipantDeliverable false). Each of the 3 route artifacts carries exactly its own route's 5 components and nothing from the other routes. requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "36/36 written values per fixture (name, date of birth, address, telephone, email on each route's pages) read back from pdftotext of the family assembly by this lane. In both fixtures, the concatenated pdftotext -layout of the three route artifacts is byte-identical to the family assembly's, so the read-back covers the participant deliverables too. Fixtures hold no case facts. knownRequiredFieldsMissing=0 and invisibleWrites=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "The field map declares 59 REQUIRED_BEFORE_FILING blanks. All 59 disclosure labels are in participant-instructions.md, in per-component tables with what to write. The PDF prints each as a labelled dotted blank: petition items C1-C15 (drug-cd), C1-C19 (DUI) and C1-C16 (MIP), plus three recipient lines on each certificate of service. The documents to obtain are named with who holds each. requiredFactsNotCollected=0 and unclassifiedBlanks=0 measured here."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selection controls. Which route applies follows the participant's own record: the instructions say to use only that route's pages, that every page footer names its route, and that a record fitting two routes is a question for a lawyer or legal-aid office. Separate per-route artifacts are rendered. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating row structure on any route. incompleteRows=0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "30 protected blanks. refusedFieldsWithInk is empty in both fixtures. Petitioner signature and date lines, every decision, signature and date line of each proposed order, every caption case number, and each certificate of service (to be signed only after delivery) are left blank and labelled. protectedWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "8 PDFs on disk, all recorded, SHA-256, byte length and page count recomputed here and matching. Family assembly: boundary.pdf 28ee12ccd0e86322e355df6bd6b066dc0ffa58e8f155afcdfbf69f65c89470d4 (76118 B, pdfinfo 25 pp, recorded 25 pp, hash matches); canonical.pdf fc9ad883f98d6203f58ab96aa66376e77241ae12197535ce8415a46bb7647d2c (74867 B, pdfinfo 25 pp, recorded 25 pp, hash matches). Route artifacts: routes/ms-drug-cd/canonical.pdf 3f2e709d8ed8d9672f61d563b9bf3590fd422b13317b48e112c450b0973452b5 (25392 B, 8 pp); routes/ms-dui/canonical.pdf 5eab947a132e604a5b2a944a0b9d2dbbbcdde468dc9f1a465db439d4a482c5f8 (27044 B, 9 pp); routes/ms-mip/canonical.pdf 8da7e5704eb3023ee9b4e8b9b43c03302d91f19db5457f1142065fc04bcbf06b (25377 B, 8 pp); routes/ms-drug-cd/boundary.pdf 970aedd2300d8dc2755b9316be6f467bb7c960c13290d9fc215831dc35edb73d (25797 B, 8 pp); routes/ms-dui/boundary.pdf bbf895cb28323c099e91101582202c4cbea08f060709be9acb0b9308b75bf9fa (27471 B, 9 pp); routes/ms-mip/boundary.pdf 98323cdd14ccbfdff699081a2aaa91ef2f237e05e75c6e51d6ad24a78f2fdc47 (25786 B, 8 pp). 0 unrecorded, 0 missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Family assembly runs 1..25 in both fixtures. Route artifacts run 1..8 (drug-cd), 1..9 (dui) and 1..8 (mip), each with its 5 components contiguous in declared order (petition, proposed order, certificate, attachment, instructions). The family is exactly the three route artifacts concatenated. pdfinfo agrees with every recorded page count."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox over all 8 PDFs: 0 words outside the page box and 0 same-band overlapping word pairs. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0. visualDefects=0 measured here."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "For each route the instructions, and that route's filing-instructions page, quote the registry destination and rules.filing verbatim, and each matches its census destination: drug-cd 'Clerk of the court that granted the conditional discharge'; DUI 'Circuit clerk of the county of conviction', with the municipal-court venue trap stated; MIP 'Clerk of the court that disposed of the charge'. Each petition caption names the same destination."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "The registry's rules.fees and feeWaiver are quoted verbatim per route: no amount established; \u00a7 99-19-72's fee reaches \u00a7 99-19-71 petitions only and not \u00a7 41-29-150, \u00a7 63-11-30 or \u00a7 67-3-70 by its terms; the participant confirms with the clerk named for that route; waiver not established. Repository checked per A2/A3: the compiled profile's only figure ('$150 for 99-19-71 petitions') is keyed to a different section and does not establish these routes' fee, and the mississippi.json route contracts carry none. Third limb met with a route-specific clerk named."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Named rule per route, quoted from the registry: United States mail or hand delivery, evidenced by the certificate of service. Notice goes to the prosecuting authority (drug-cd, MIP) or the district attorney (DUI). Each route carries its own certificate-of-service component."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against the committed track registry for each route: 5/5 (ms-drug-cd), 6/6 (ms-dui) and 4/4 (ms-mip) selfHelpStopConditions are carried verbatim, per route in the obligations table and together in 'When to stop'. That includes DA approval-as-to-form as an attorney handoff and mandatory attorney review for every DUI. No inversion. Decision record LD-MS-01 (authority.json; covers MS:first-offense-controlled-substance-conditional-discharge-relief) sets route-specific outputs and corrects DUI nonadjudication to no consumer packet. That is a different route from the \u00a7 63-11-30(13) DUI expungement here, and the packet stops on any prior DUI nonadjudication. The owner completed-output approval record named by the census was not separately read for stop content."
+        }
+      },
+      "evidence": {
+        "verifierRun": "verify-packet-completeness.mjs --family rcap-ms-custom-pleading at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27: PASS_COMPLETE, 36/125 written, all nine counters zero",
+        "sourceRecomputation": "3/3 committedRecords recomputed from disk: 2 exact; route-obligation-candidate.json drifted from f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 (2629290 B) to CURRENT eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B) with all 3 of this family's census route entries and census metadata (except sourceFingerprint) identical, 4/4 anchors; worklist not pinned; no official binary bound",
+        "artifactRecomputation": "8/8 PDFs (2 family assemblies, 6 route artifacts) hash to record; pdfinfo page counts equal record (25, 8, 9, 8)",
+        "byteReadBack": "72/72 written values (36 per fixture) read back from pdftotext; route artifacts' text identical to the family assembly's",
+        "stopConditions": "15/15 registry stop conditions across the 3 routes carried verbatim",
+        "lapseResolved": "MASTER_QUEUE verificationLapsedBecause is null. The only drifted pin is the census, whose 3 bound entries and metadata are identical at eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B). This measured PASS supports re-pinning that one record; nothing was re-pinned here."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    },
+    {
+      "itemId": "rcap-ok-custom-pleading",
+      "lane": "VF07",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "verify-packet-completeness.mjs --family rcap-ok-custom-pleading run here at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27 (via measure-family.mjs and again directly): PASS_COMPLETE 85/254 written; the nine counters printed by the verifier, not the builder's completeness-counters.json"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across all records; the 16 routeKeys are declared identically by source-receipt, product-wiring and production-field-map and equal the MASTER_QUEUE row; all 16 resolve in the current census to their 8 trackIds. Every page footer names the routes its set serves."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Every pin in source-receipt.json recomputed from disk here. 2/2 non-census pins exact: data/record-clearing/legal-design-track-registry.json b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0 (16781025 B) exact; data/record-clearing/legal-design-specifications.json 10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792 (16830109 B) exact. The census pin data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json is stale on whole-file identity only: pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 (2629290 B), CURRENT eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B). The family's 16 route entries (routes[] by routeKey: obligation:track-only:OK:ok_identity_theft, obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement, obligation:track-pathway:OK:ok_18_19_deferred_dismissal:nonviolent-felony-deferred-dismissal-expungement, obligation:track-pathway:OK:ok_18_19_deferred_dismissal:up-to-two-felony-deferred-dismissal-expungement, obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor, obligation:track-pathway:OK:ok_18_19_felony_conviction:not-more-than-two-eligible-felony-convictions-expungement, obligation:track-pathway:OK:ok_18_19_felony_conviction:one-eligible-nonviolent-felony-conviction-expungement, obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement, obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:other-eligible-misdemeanor-conviction-expungement, obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement, obligation:track-pathway:OK:ok_18_19_nonconviction:arrest-with-no-charges-filed, obligation:track-pathway:OK:ok_18_19_nonconviction:conviction-reversed-and-case-dismissed, obligation:track-pathway:OK:ok_18_19_nonconviction:dna-factual-innocence-expungement, obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement, obligation:track-pathway:OK:ok_991c_deferred:deferred-sentence-court-record-expungement-under-991-c, obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief) compared object-for-object between the pinned bytes and the current bytes: 16/16 identical. Census metadata identical except sourceFingerprint. The aggregate counts block changed (13 keys, e.g. totalCanonicalObligations 708 -> 710) and binds nothing in this packet. packet-family-build-worklist.json is not pinned by this receipt (its current digest a57ab0a3ea8607245824f1376c796d46403f9a18f49e5e12b1772339b46a0039, 6004350 B, recorded for completeness only). Anchors present now: tracks for all 8 trackIds in the registry and their customPleadingSpecs entries. No official form exists for these routes."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "53 declared components across 8 sets, all in both manifests in declared order. The specifications require a primary filing and a proposed order for each of the 8 tracks; all 16 are present. The other 37 are disclosure pages added by the build (route screens, record-gathering, fee, hearing, effect). The 991c set carries 4 components and has no fee-disclosure or hearing-instructions page."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "Written values read back from the artifact bytes: canonical 85/85; boundary 85/85; 0 reported invisible. knownRequiredFieldsMissing=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "113 REQUIRED_BEFORE_FILING blanks = requiredBeforeFilingCount; each is listed per set in participant-instructions.md, and the registry's participantFilingRequirements (certified court record, OSBI history, and for 991c the certified record of completion) are named with where to get each. The content of one caption item is wrong on the 991c route; that defect is scored once, under FILING_DESTINATION."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selectionControls; each set's route is fixed, and the instructions say which pages are whose and that choosing between routes that could both fit is a question for a lawyer. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating row structure. incompleteRows=0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "169 refusals: 113 REQUIRED_BEFORE_FILING, 40 court/clerk/agency-owned, 16 signature/date. refusedFieldsWithInk empty in both fixtures; every proposed-order decision line and court signature prints blank. protectedWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, all recorded in rendered-artifacts.json; SHA-256 and byte length recomputed here and matching: boundary.pdf c7340a2555e44e011df445066cb91bee6be961959b74e97459a52c2613f068cf (208785 B, pdfinfo 80 pages = recorded 80); canonical.pdf cf302fc33576f54acc1429516974642daefff7b0f854347498f81bb02344cb25 (206263 B, pdfinfo 80 pages = recorded 80). 0 mismatches, 0 unrecorded, 0 recorded-but-missing. The central raster acceptance receipt (RASTER_PASS, run 33950997948) binds canonical cf302fc33576f54acc1429516974642daefff7b0f854347498f81bb02344cb25, which equals the canonical bytes on disk."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Both manifests run 1..80 with all 53 components contiguous and in declared order (991c set = pages 67-71); pdfinfo 80 = recorded 80 for both."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox: boundary.pdf 20271 words, 0 outside the page box, 0 same-band overlapping pairs; canonical.pdf 20268 words, 0 outside the page box, 0 same-band overlapping pairs. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes = 0 in both fixtures. visualDefects=0 measured here."
+        },
+        "FILING_DESTINATION": {
+          "result": "FAIL",
+          "detail": "Fails on the 991c route (obligation:track-pathway:OK:ok_991c_deferred:deferred-sentence-court-record-expungement-under-991-c). The registry, specification and census name 'The Oklahoma district court that entered the deferred sentence'. The FILING_DESTINATION row for that set and the PDF caption parenthetical say the same. But the required-before-filing item for the 991c petition caption (production-field-map ok_991c_deferred-primary-filing-2.court_identity; participant-instructions.md line 316) tells the participant to write 'the Oklahoma district court for the county where the arrest information is located', with the field map's reason 'the committed track registry records the venue as the district court in the county where the arrest information is located'. That is the section 18 venue, not this track's, so the packet names two different courts for this motion and says the registry recorded the wrong one. The 991c proposed-order caption copies the petition's. The 991c caption also says 'see the filing instructions in this packet' and step 1 says to read 'the filing instructions page for your route', but the 991c set has no such page. The other 7 sets name their registry destination correctly."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "FAIL",
+          "detail": "Fails on the 991c route, on the waiver limb. The 7 section-18-style sets pass: no held source sets the district court filing fee (the OK compiled profile has no feeRules and no court-fee figure; the OSBI $150 arrest-record fee is stated, sourced), and each fee-disclosure page names 'the district court clerk in the county where you file' for the fee and for whether a fee-waiver route exists. The 991c set has no fee-disclosure page. Its only fee text is the instructions row 'Fee as recorded: Not established for the section 991c motion ... Fee waiver as recorded: Not established.' The fee itself is reachable only through generic step 5 ('ask that office what it charges'); for the waiver, no authority is named anywhere for this route. The registry holds no 991c fee or waiver, so a named authority is the deliverable, and it is missing."
+        },
+        "SERVICE": {
+          "result": "FAIL",
+          "detail": "Fails on the 991c route. The 7 other sets state a named mechanism from the registry: service 'By the court's notice', with the court giving 30 days' notice to the prosecuting agency, the arresting agency, OSBI and any agency holding records. For 991c the packet's only service text is 'Service as recorded: Not established. Notice as recorded: Not established for this motion.' It gives no rule, no nobody-is-served statement and no authority to ask. The registry holds none (rules.service 'Not established'), and its 991c buildBlockers record the text of 22 O.S. 991c, including whether notice is required, as unread, so a named checkable authority (the district court that entered the deferred sentence, or its clerk) is the most the packet can honestly give. It gives nothing."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against each of the 8 registry tracks' selfHelpStopConditions: every stop on every track is carried verbatim in participant-instructions.md (0 missing across 8 tracks, 52 stops), both in that track's SELF_HELP_STOP row and in the consolidated stop list. This includes the 991c stop for a participant whose goal is the arrest record, which is also printed on the 991c arrest-record screen page. No decision record overrides them; no inversion."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE 85/254 written; all nine counters zero as printed by the verifier run here at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+        "sourceRecomputation": "2/2 non-census pins exact; census pin stale on whole-file identity only: CURRENT data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 / 2635434 B (pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 / 2629290 B); 16/16 bound route entries identical object-for-object; census metadata identical except sourceFingerprint; worklist not pinned",
+        "artifactRecomputation": "2/2 PDFs hash to record; pdfinfo page counts equal recorded counts; raster receipt bound to current canonical: True",
+        "byteReadBack": "canonical 85/85; boundary 85/85 written values read back from pdftotext output of the artifact bytes by this lane; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 and refusedFieldsWithInk empty in every fixture",
+        "stopConditions": "8/8 tracks: every registry stop carried verbatim (52 stops, 0 missing)",
+        "lapseResolved": "The only lapse is the census whole-file pin (f6fc0814 -> CURRENT eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9, 2635434 B). It is resolved at the content level by this reading: every route entry the packet binds is identical object-for-object and census metadata is identical except sourceFingerprint. The receipt pin itself still names the old digest; re-pinning it is the owner lane's act, not this row's."
+      },
+      "failedObligationNames": [
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    },
+    {
+      "itemId": "rcap-wv-custom-pleading",
+      "lane": "VF07",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/rcap-wv-custom-pleading--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "verify-packet-completeness.mjs --family rcap-wv-custom-pleading run here at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27 (via measure-family.mjs): PASS_COMPLETE, 18/56 written; counters line: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0"
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId agrees across product-wiring, source-receipt, production-field-map, rendered-artifacts, actual-writes, completeness-counters and the MASTER_QUEUE row. The single routeKey obligation:track-pathway:WV:wv_drug_conditional_discharge:first-offense-drug-possession-conditional-discharge-relief is declared identically by receipt, product-wiring, field map and MASTER_QUEUE, and resolves to exactly one census entry (routes[586], trackId wv_drug_conditional_discharge, packetFamilyId rcap-wv-custom-pleading, legalDecisionRecordIds [LD-WV-02]) and to the route contract WV:first-offense-drug-possession-conditional-discharge-relief. The page footers print the route key."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "All 3 committedRecords recomputed from disk here. Exact: legal-design-track-registry.json b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0 (16781025 B) exact; legal-design-specifications.json 10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792 (16830109 B) exact. Drifted: route-obligation-candidate.json pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 (2629290 B), CURRENT eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B). Compared object-for-object against the recovered pinned version: this family's census entry routes[] routeKey obligation:track-pathway:WV:wv_drug_conditional_discharge:first-offense-drug-possession-conditional-discharge-relief (now routes[586]) is IDENTICAL (canonical sha256 67ff9653001a19ea7a84ea7364ba10b8fc98e768928cc85e409d51c3bd2482b6), and census metadata other than sourceFingerprint is identical. No worklist pin. No official form is bound (composed pleadings; the receipt takes nothing from \u00a7 61-11-25 or \u00a7 61-11-26 fee lines). Re-pin case on identity grounds; nothing re-pinned here."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "5 declared components: primary-filing-1, supporting-affidavit-2, certificate-of-service-3, records-checklist-4 and filing-instructions-5. They equal the committed track registry packetSet (5 required, same order) and include the specifications' 3 customPleadingSpecs. All 5 appear in both fixtures' manifests in declared order. requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "18/18 written values per fixture read back from pdftotext by this lane: identity and contact on the application, affidavit and certificate, the name on the checklist and instructions, and the held name and date of birth again as the answers to items C1 and C2. 0 not found. knownRequiredFieldsMissing=0 and invisibleWrites=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "The field map declares 30 REQUIRED_BEFORE_FILING blanks. All 30 disclosure labels are in participant-instructions.md, in per-component tables with what to write. The instructions agree with the field map: C1 and C2 are answered from held facts and are not listed as blanks. The three records to obtain (conditional discharge and dismissal orders, probation-expiry confirmation, court-costs receipt) are named with who holds each. requiredFactsNotCollected=0 and unclassifiedBlanks=0 measured here."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selection controls and no printed election; the route is fixed. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating row structure. The certificate of service has two fixed recipient blocks, one per office the record names, and both are disclosed. incompleteRows=0 measured here."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "8 protected blanks. refusedFieldsWithInk is empty in both fixtures. Left blank and labelled: the applicant's signature and dates, the affidavit jurat (the notary's), the hearing date on the notice line (the court's), and both certificate recipient blocks until delivery. protectedWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "2 PDFs on disk, both recorded, SHA-256 and byte length recomputed here and matching: boundary.pdf 4e79ef98ff350e36a285cc1cf1db3f16fa40c7e3a373cca85f00af36c460964f (36823 B, pdfinfo 13 pp, recorded 13 pp, hash matches); canonical.pdf 51c4941b11cd25af2810119b919fdb45320718440afc7567fa427cba2d4e28a5 (35845 B, pdfinfo 12 pp, recorded 12 pp, hash matches). 0 unrecorded."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Canonical runs 1..12. Boundary runs 1..13, because the affidavit takes 3 pages instead of 2 under boundary-length values. Both manifests are sequential with the 5 components contiguous in declared order, and pdfinfo equals the recorded count for each."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox over both fixtures: 0 words outside the page box and 0 same-band overlapping word pairs (3705 and 3719 words). nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0. visualDefects=0 measured here."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The instructions and the filing-instructions page quote the registry: file the application, affidavit and certificate of service with the clerk of the court that entered the conditional discharge, once at least six months have run from the expiration of the probation term. That matches the census destination 'Clerk of the court that entered the conditional discharge order'. The application caption names the same office."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "No-fee statement sourced, and the residual question delegated to a named office. Registry rules.fees is quoted verbatim: \u00a7 60A-4-407 charges no fee for the application; under (c) the participant remains liable for the \u00a7 60A-4-401(c) court costs; whether a circuit clerk charges a civil filing fee is not established. Step 7 tells the participant to ask the clerk of the court that entered the conditional discharge what it charges. Fee waiver: 'none stated in \u00a7 60A-4-407'. A3 respected: the receipt takes nothing from the \u00a7 61-11-25 no-fee lines or the \u00a7 61-11-26 $200 figure, and the compiled profile and route contract hold no other fee for this section."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Named rule, quoted from the registry: serve the prosecuting attorney of the county and the supervising probation office, following the \u00a7 61-11-26(e) practice. The certificate of service has a separate recipient block for each office, and the participant signs it only after delivery. Notice: \u00a7 60A-4-407(b) provides for a hearing with no statutory notice window."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against the committed track registry wv_drug_conditional_discharge: 7/7 selfHelpStopConditions are carried verbatim, plus its two post-generation handoff items (no assertion about probation-violation history; automated assistance ends on objection or a contested hearing). LD-WV-02's rule that the six months run from probation expiration is carried, and stated as not running from dismissal. The once-only limit is stated, and the unresolved once-per-lifetime question with \u00a7 61-11-26 is a stop. No inversion."
+        }
+      },
+      "evidence": {
+        "verifierRun": "verify-packet-completeness.mjs --family rcap-wv-custom-pleading at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27: PASS_COMPLETE, 18/56 written, all nine counters zero",
+        "sourceRecomputation": "3/3 committedRecords recomputed from disk: 2 exact; route-obligation-candidate.json drifted from f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 (2629290 B) to CURRENT eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B) with this family's 1 census route entry and census metadata (except sourceFingerprint) identical; worklist not pinned; no official binary bound",
+        "artifactRecomputation": "2/2 PDFs hash to record; pdfinfo 12 (canonical) and 13 (boundary) pages, equal to record",
+        "byteReadBack": "36/36 written values (18 per fixture) read back from pdftotext of the artifact bytes by this lane",
+        "stopConditions": "7/7 registry stop conditions plus 2 handoff items carried verbatim; LD-WV-02 timing rule carried",
+        "lapseResolved": "MASTER_QUEUE verificationLapsedBecause is null. The only drifted pin is the census, whose bound entry and metadata are identical at eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B). This measured PASS supports re-pinning that one record; nothing was re-pinned here."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}
