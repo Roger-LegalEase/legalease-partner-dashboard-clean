@@ -35,3 +35,20 @@ test('a route moving to another entry, an absent route, no routeKeys, a route in
   const dup=structuredClone(current);dup.packetFamilies.push(structuredClone(entryOf(current,routeKey)));assert.throws(()=>compare(current,dup),/more than one entry/);
   const shape=structuredClone(current);shape.extra=1;assert.throws(()=>compare(current,shape),/not the shape/);
 });
+
+// The worklist is the same regeneration's output and carries the same fingerprint: same rule.
+import os from 'node:os';
+import path from 'node:path';
+test('a fingerprint-only worklist regeneration refreshes on the PASS row that measured the pinned bytes; any other change does not',()=>{
+  const PINNED='c'.repeat(64);
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'worklist-fp-'));
+  try{
+    fs.mkdirSync(path.join(root,'vf99'));
+    fs.writeFileSync(path.join(root,'vf99','rows-test.json'),JSON.stringify({rows:[{itemId:'test',verdict:'PASS_COMPLETE_INDEPENDENT',lane:'VF99',note:`worklist ${PINNED}`}]}));
+    const scope=(next)=>adapter.scopeFrom({receipt,pin:{sha256:PINNED},currentDoc:next,laneReturnRoot:root,recover:()=>({bytes:Buffer.from(JSON.stringify(current))})}).derivation;
+    const moved=structuredClone(current);moved.metadata.sourceFingerprint='sha256:'+'2'.repeat(64);
+    const d=scope(moved);assert.equal(d.fingerprintOnly,true);assert.deepEqual(d.priorMeasuredReVerification.map(r=>r.lane),['VF99']);
+    const other=structuredClone(moved);other.packetFamilies.push({...current.packetFamilies[0],routeKeys:['obligation:test:new']});
+    assert.equal(scope(other).fingerprintOnly,undefined);
+  }finally{fs.rmSync(root,{recursive:true,force:true});}
+});

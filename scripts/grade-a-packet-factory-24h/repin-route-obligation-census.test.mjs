@@ -40,3 +40,33 @@ test('no routeKeys, an absent route, a duplicate route, an unknown key or schema
   const gone=structuredClone(current);gone.routes=gone.routes.filter(r=>r.routeKey!==routeKey);
   assert.throws(()=>compareAnchors({adapter,oldDoc:current,currentDoc:gone,scope:adapter.scopeFrom({receipt,pin:{},currentDoc:current})}),/absent from the current census/);
 });
+
+// Fingerprint-only regenerations (lead ruling 2026-10-19). Rows live in a scratch lane-return root; the
+// pinned bytes come from an injected recover, so no committed file is read as a fixture or written.
+import os from 'node:os';
+import path from 'node:path';
+const PINNED='a'.repeat(64);
+const laneRoot=(rows)=>{const root=fs.mkdtempSync(path.join(os.tmpdir(),'census-fp-'));fs.mkdirSync(path.join(root,'vf99'));fs.writeFileSync(path.join(root,'vf99','rows-test.json'),JSON.stringify({rows}));return root;};
+const row=(verdict,digest)=>({itemId:'test-family',verdict,lane:'VF99',verifiedAtBase:'b'.repeat(40),evidence:{sourceRecomputation:`census ${digest}`}});
+const scopeWith=(pinnedDoc,currentDoc,rows)=>{const root=laneRoot(rows);try{return adapter.scopeFrom({receipt,pin:{sha256:PINNED},currentDoc,laneReturnRoot:root,recover:()=>({bytes:Buffer.from(JSON.stringify(pinnedDoc))})});}finally{fs.rmSync(root,{recursive:true,force:true});}};
+const fingerprintMoved=()=>{const next=structuredClone(current);next.metadata.sourceFingerprint='sha256:'+'1'.repeat(64);return next;};
+test('a fingerprint-only regeneration refreshes on the PASS row that measured the pinned bytes, and says so',()=>{
+  const d=scopeWith(current,fingerprintMoved(),[row('PASS_COMPLETE_INDEPENDENT',PINNED)]).derivation;
+  assert.deepEqual(d.measuredReVerification,[]);
+  assert.equal(d.fingerprintOnly,true);assert.equal(d.pinnedSha256,PINNED);
+  assert.deepEqual(d.priorMeasuredReVerification.map(r=>r.lane),['VF99']);
+});
+test('any other difference, even outside this family\'s anchors, is not fingerprint-only',()=>{
+  const next=fingerprintMoved();next.routes.find(r=>r.routeKey!==routeKey).destination='changed';
+  assert.equal(scopeWith(current,next,[row('PASS_COMPLETE_INDEPENDENT',PINNED)]).derivation.fingerprintOnly,undefined);
+  const counts=fingerprintMoved();counts.counts.totalRuntimeRoutes+=1;
+  assert.equal(scopeWith(current,counts,[row('PASS_COMPLETE_INDEPENDENT',PINNED)]).derivation.fingerprintOnly,undefined);
+});
+test('fingerprint-only needs a PASS row at the pinned digest; a FAIL or no row is not enough',()=>{
+  assert.equal(scopeWith(current,fingerprintMoved(),[row('FAIL_REPAIR_REQUIRED',PINNED)]).derivation.fingerprintOnly,undefined);
+  assert.equal(scopeWith(current,fingerprintMoved(),[]).derivation.fingerprintOnly,undefined);
+});
+test('a row at the current digest takes the ordinary path, not the fingerprint-only one',()=>{
+  const d=scopeWith(current,fingerprintMoved(),[row('PASS_COMPLETE_INDEPENDENT',sha256(fs.readFileSync(recordPath))),row('PASS_COMPLETE_INDEPENDENT',PINNED)]).derivation;
+  assert.equal(d.measuredReVerification.length,1);assert.equal(d.fingerprintOnly,undefined);
+});

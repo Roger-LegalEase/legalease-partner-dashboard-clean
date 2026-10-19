@@ -1086,6 +1086,26 @@ function measuredRowsFor(receipt, recordPath, laneReturnRoot = path.join(ROOT, L
   try { bytes = fs.readFileSync(path.join(ROOT, recordPath)); } catch { return []; }
   return measuredReVerificationsRecording(receipt.familyId, sha256(bytes), laneReturnRoot);
 }
+/*
+ * FINGERPRINT-ONLY (lead ruling 2026-10-19). A census or worklist regeneration that moves
+ * nothing but metadata.sourceFingerprint -- the pinned document and the current one are
+ * identical once that field is removed -- may refresh on the PASS row that measured the
+ * pinned bytes. The refresh block then says fingerprintOnly and names that row. Any other
+ * difference, even one this family's anchors do not see, needs a row at the current digest.
+ */
+function fingerprintOnlyEvidence({ receipt, pin, recordPath, currentDoc, laneReturnRoot, recover = recoverBytesByDigest }) {
+  if (typeof pin?.sha256 !== "string") return {};
+  const recovered = recover(recordPath, pin.sha256);
+  if (!recovered?.bytes) return {};
+  const withoutFingerprint = (doc) => { const { sourceFingerprint: _f, ...metadata } = doc.metadata ?? {}; return canonical({ ...doc, metadata }); };
+  if (withoutFingerprint(JSON.parse(recovered.bytes.toString("utf8"))) !== withoutFingerprint(currentDoc)) return {};
+  const prior = measuredReVerificationsRecording(receipt.familyId, pin.sha256, laneReturnRoot);
+  return prior.length ? { fingerprintOnly: true, pinnedSha256: pin.sha256, priorMeasuredReVerification: prior } : {};
+}
+const measuredOrFingerprintOnly = (args) => {
+  const measuredReVerification = measuredRowsFor(args.receipt, args.recordPath, args.laneReturnRoot);
+  return { measuredReVerification, ...(measuredReVerification.length ? {} : fingerprintOnlyEvidence(args)) };
+};
 const decisionsAdapter = {
   recordPath: DECISIONS,
   describe: "national legal decisions (shared authority + the one decision the pin's recordId names)",
@@ -1213,13 +1233,13 @@ const censusAdapter = {
     return out;
   },
 
-  scopeFrom({ receipt, currentDoc }) {
+  scopeFrom({ receipt, pin, currentDoc, laneReturnRoot = path.join(ROOT, LANE_RETURNS), recover }) {
     const byKey = this.index(currentDoc, "current");
     const routeKeys = Array.isArray(receipt.routeKeys) ? receipt.routeKeys.filter((k) => typeof k === "string" && k) : [];
     if (routeKeys.length === 0) throw new Refusal("the receipt names no routeKeys, so which census routes this family binds cannot be decided");
     const absent = routeKeys.filter((k) => !byKey.has(k));
     if (absent.length) throw new Refusal(`the receipt names ${absent.length} route(s) the current census does not carry: ${absent.join(", ")}`, { absent });
-    return { anchorIds: [...new Set(routeKeys)].sort(), derivation: { fromReceiptRouteKeys: routeKeys, sharedMetadataComparedExceptSourceFingerprint: true, countsNotCompared: true, measuredReVerification: measuredRowsFor(receipt, this.recordPath) } };
+    return { anchorIds: [...new Set(routeKeys)].sort(), derivation: { fromReceiptRouteKeys: routeKeys, sharedMetadataComparedExceptSourceFingerprint: true, countsNotCompared: true, ...measuredOrFingerprintOnly({ receipt, pin, recordPath: this.recordPath, currentDoc, laneReturnRoot, recover }) } };
   },
 
   anchorsOf(doc, scope, side) {
@@ -1333,13 +1353,13 @@ const worklistAdapter = {
     return out;
   },
 
-  scopeFrom({ receipt, currentDoc }) {
+  scopeFrom({ receipt, pin, currentDoc, laneReturnRoot = path.join(ROOT, LANE_RETURNS), recover }) {
     const byKey = this.index(currentDoc, "current");
     const routeKeys = Array.isArray(receipt.routeKeys) ? receipt.routeKeys.filter((k) => typeof k === "string" && k) : [];
     if (routeKeys.length === 0) throw new Refusal("the receipt names no routeKeys, so which worklist entries this family binds cannot be decided");
     const absent = routeKeys.filter((k) => !byKey.has(k));
     if (absent.length) throw new Refusal(`the receipt names ${absent.length} route(s) the current worklist does not carry: ${absent.join(", ")}`, { absent });
-    return { anchorIds: [...new Set(routeKeys)].sort(), derivation: { fromReceiptRouteKeys: routeKeys, sharedFieldsComparedExceptSourceFingerprint: true, countsNotCompared: true, measuredReVerification: measuredRowsFor(receipt, this.recordPath) } };
+    return { anchorIds: [...new Set(routeKeys)].sort(), derivation: { fromReceiptRouteKeys: routeKeys, sharedFieldsComparedExceptSourceFingerprint: true, countsNotCompared: true, ...measuredOrFingerprintOnly({ receipt, pin, recordPath: this.recordPath, currentDoc, laneReturnRoot, recover }) } };
   },
 
   anchorsOf(doc, scope, side) {
