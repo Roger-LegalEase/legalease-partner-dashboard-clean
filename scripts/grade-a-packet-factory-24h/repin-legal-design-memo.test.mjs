@@ -34,3 +34,8 @@ test('recordId names its track; malformed or absent ids, no track in scope, dupl
   const dup=structuredClone(current);dup.tracks.push(dup.tracks[0]);assert.throws(()=>compare(current,dup),/duplicate track/);
   const shape=structuredClone(current);shape.schemaVersion=2;assert.throws(()=>compare(current,shape),/not the shape/);
 });
+test('the scope names the measured re-verification rows that record the current memo digest',()=>{
+  const scope=adapter.scopeFrom({receipt,pin:{},currentDoc:current});
+  assert.ok(Array.isArray(scope.derivation.measuredReVerification));
+  assert.ok(scope.derivation.measuredReVerification.some(m=>m.lane==='VF06'&&m.evidencePath.includes('20261019-reverify')),'expected the VF06 re-verification row');
+});

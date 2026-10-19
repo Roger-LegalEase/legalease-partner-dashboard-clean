@@ -357,7 +357,7 @@ const packetManifestAdapter = {
       for (const entry of matches) add(entry.packetSetId, `receipt.routeKeys:${key}`);
     }
     if (!anchors.size) throw new Refusal("the receipt declares no unambiguous packet-manifest dependency");
-    return { anchorIds: [...anchors].sort(), derivation: { declarations, globalMetadataComparedAsOneAnchor: true } };
+    return { anchorIds: [...anchors].sort(), derivation: { declarations, globalMetadataComparedAsOneAnchor: true, measuredReVerification: measuredRowsFor(receipt, this.recordPath) } };
   },
   anchorsOf(doc, scope, side) {
     const byId = this.index(doc, side);
@@ -956,6 +956,16 @@ function measuredReVerificationsRecording(familyId, digest, root) {
   }
   return out;
 }
+/* The measured re-verification rows a refresh follows, named in its block. The
+ * decisions adapter refuses without one; the manifests, census, worklist and
+ * memo adapters record what exists (the lead's apply rule is enforced at apply
+ * time for them, so the existing manifests behaviour other lanes rely on is
+ * unchanged). */
+function measuredRowsFor(receipt, recordPath, laneReturnRoot = path.join(ROOT, LANE_RETURNS)) {
+  let bytes;
+  try { bytes = fs.readFileSync(path.join(ROOT, recordPath)); } catch { return []; }
+  return measuredReVerificationsRecording(receipt.familyId, sha256(bytes), laneReturnRoot);
+}
 const decisionsAdapter = {
   recordPath: DECISIONS,
   describe: "national legal decisions (shared authority + the one decision the pin's recordId names)",
@@ -1089,7 +1099,7 @@ const censusAdapter = {
     if (routeKeys.length === 0) throw new Refusal("the receipt names no routeKeys, so which census routes this family binds cannot be decided");
     const absent = routeKeys.filter((k) => !byKey.has(k));
     if (absent.length) throw new Refusal(`the receipt names ${absent.length} route(s) the current census does not carry: ${absent.join(", ")}`, { absent });
-    return { anchorIds: [...new Set(routeKeys)].sort(), derivation: { fromReceiptRouteKeys: routeKeys, sharedMetadataComparedExceptSourceFingerprint: true, countsNotCompared: true } };
+    return { anchorIds: [...new Set(routeKeys)].sort(), derivation: { fromReceiptRouteKeys: routeKeys, sharedMetadataComparedExceptSourceFingerprint: true, countsNotCompared: true, measuredReVerification: measuredRowsFor(receipt, this.recordPath) } };
   },
 
   anchorsOf(doc, scope, side) {
@@ -1155,7 +1165,7 @@ const memoAdapter = {
       else routeKeysNamingNoTrack.push(routeKey);
     }
     if (anchors.size === 0) throw new Refusal("the family's own records name no track in this memo, so there is nothing to compare", { recordId, routeKeys: receipt.routeKeys ?? [] });
-    return { anchorIds: [...anchors].sort(), derivation: { fromPinRecordId: fromRecordId, fromReceiptRouteKeys: fromRouteKeys, routeKeysNamingNoTrack, memoMetadataComparedAsOneAnchor: true } };
+    return { anchorIds: [...anchors].sort(), derivation: { fromPinRecordId: fromRecordId, fromReceiptRouteKeys: fromRouteKeys, routeKeysNamingNoTrack, memoMetadataComparedAsOneAnchor: true, measuredReVerification: measuredRowsFor(receipt, this.recordPath) } };
   },
 
   anchorsOf(doc, scope, side) {
@@ -1209,7 +1219,7 @@ const worklistAdapter = {
     if (routeKeys.length === 0) throw new Refusal("the receipt names no routeKeys, so which worklist entries this family binds cannot be decided");
     const absent = routeKeys.filter((k) => !byKey.has(k));
     if (absent.length) throw new Refusal(`the receipt names ${absent.length} route(s) the current worklist does not carry: ${absent.join(", ")}`, { absent });
-    return { anchorIds: [...new Set(routeKeys)].sort(), derivation: { fromReceiptRouteKeys: routeKeys, sharedFieldsComparedExceptSourceFingerprint: true, countsNotCompared: true } };
+    return { anchorIds: [...new Set(routeKeys)].sort(), derivation: { fromReceiptRouteKeys: routeKeys, sharedFieldsComparedExceptSourceFingerprint: true, countsNotCompared: true, measuredReVerification: measuredRowsFor(receipt, this.recordPath) } };
   },
 
   anchorsOf(doc, scope, side) {
