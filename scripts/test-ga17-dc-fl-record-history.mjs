@@ -6,6 +6,11 @@ import ts from 'typescript';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const mutation=process.argv.find(arg=>arg.startsWith('--mutation='))?.slice(11);
 const mutations={
+ ky_0:["\"misdemeanor-violation-traffic-conviction\"", "\"unassigned-route\""],
+ ky_1:["\"nonconviction-431076\"", "\"unassigned-route\""],
+ ky_2:["\"void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276\"", "\"unassigned-route\""],
+ ky_context:["[\"misdemeanor-violation-traffic-conviction\", \"nonconviction-431076\", \"void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276\"].includes(pathwayId ?? \"\")\n            && contactRepresentationHash(profile) === \"4e84c6d8ba6469a095c50f09cacfb5518c4132d049fbf068513c6eb925e6a364\"", "[\"misdemeanor-violation-traffic-conviction\", \"nonconviction-431076\", \"void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276\"].includes(pathwayId ?? \"\")"],
+
  fl_sealing:['"court-ordered-sealing-943-059"','"unassigned-route"'],
  fl_juvenile:['"early-juvenile-expunction-943-0515"','"unassigned-route"'],
  fl_trafficking:['"human-trafficking-victim-expunction-943-0583"','"unassigned-route"'],
@@ -24,7 +29,7 @@ const mutations={
  priority:['const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds);','const shapesPreserved = preserveProtectedLegacyShapes(seeded, legacy.inspection, replacedLegacyIds); if (Array.isArray(shapesPreserved.packetAnswers.record_type)) shapesPreserved.packetAnswers.record_type = "Conviction";'],
  question:['function dcFlPetitionRecordHistoryQuestion(question, history) {','function dcFlPetitionRecordHistoryQuestion(question, history) { return question;']
 };
-if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`import {writeSync} from 'node:fs';let d;export function initialize(x){d=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith(d[2])){if(!r.source.includes(d[0]))throw Error('mutation target absent');writeSync(2,JSON.stringify({appliedMutation:d[3]})+'\\n');return {...r,source:r.source.replace(d[0],d[1])}}return r}`),{data:[...mutations[mutation],['collection','context','fl_context','ownership','fl_sealing','fl_juvenile','fl_trafficking','fl_diversion','fl_defense','ga_automatic','ga_context'].includes(mutation)?'/packet-collection.ts':'/packet-information.ts',mutation]});}
+if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`import {writeSync} from 'node:fs';let d;export function initialize(x){d=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith(d[2])){if(!r.source.includes(d[0]))throw Error('mutation target absent');writeSync(2,JSON.stringify({appliedMutation:d[3]})+'\\n');return {...r,source:r.source.replace(d[0],d[1])}}return r}`),{data:[...mutations[mutation],['ky_0','ky_1','ky_2','ky_context','collection','context','fl_context','ownership','fl_sealing','fl_juvenile','fl_trafficking','fl_diversion','fl_defense','ga_automatic','ga_context'].includes(mutation)?'/packet-collection.ts':'/packet-information.ts',mutation]});}
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
 const { evaluateAuthoritativeScreeningResult: evaluate } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
 const {createConsumerPaymentPlaceholder}=await import('../src/lib/expungement-ai/payment-adapter.ts');
@@ -37,7 +42,12 @@ const { packetSpecificationFor } = await import('../src/lib/rcap/grade-a/packet-
 // GA-17 Q-748f73bc4bcf41923fcc / Q-6acd9d8d275e7be59682 / Q-8c94453e5af32f59406d / QD-fb5a90b4c42ab7e486c1.
 // Current held consumer proof; the historical blank builder is not re-certified.
 const read=p=>JSON.parse(fs.readFileSync(p));
+// GA-17 Q-6add858b65f867a82b70 / Q-502bf587f9925e5e6e79 / Q-00caec14a5a59750b527: exact source-bound Kentucky record history.
 const cases=[
+ {"state": "KY", "route": "misdemeanor-violation-traffic-conviction", "result": "not_covered_yet", "payment": false, "reason": "ky.intentional_unsupported_route"},
+ {"state": "KY", "route": "nonconviction-431076", "result": "needs_review", "payment": false, "reason": "ky.waiting_rule_not_executed"},
+ {"state": "KY", "route": "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276", "result": "needs_review", "payment": false, "reason": "ky.waiting_rule_not_executed"},
+
  {state:'DC',route:'dc_motion_seal_misdemeanor_conviction_5yr_16_806',result:'not_covered_yet',payment:false,reason:'dc.intentional_unsupported_route'},
  {state:'DC',route:'dc_motion_seal_nonconviction_16_806',result:'not_covered_yet',payment:false,reason:'dc.intentional_unsupported_route'},
  {state:'FL',route:'court-ordered-expunction-943-0585',result:'needs_review',payment:false,reason:'fl.waiting_rule_not_executed'},
@@ -48,7 +58,7 @@ const cases=[
  {"state": "FL", "route": "lawful-self-defense-expunction-943-0578", "result": "guidance_only", "payment": false, "reason": "fl.selfDefense_conditional_information"},
  {"state": "GA", "route": "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions", "result": "guidance_only", "payment": false, "reason": "ga.guidance_only_no_user_filed_court_petition"}
 ];
-const predecessorHashes={"dc_motion_seal_misdemeanor_conviction_5yr_16_806": "2151f25f31aa842d96d4cf4eae4e51c4c06f723a4b990f9e8922dd8c9f6d3fbd", "dc_motion_seal_nonconviction_16_806": "da1a999021ebf099a165e1d30f62c25c58bcb0c4e5ca709f0ccf57f39d8089fb", "court-ordered-expunction-943-0585": "89d9f01b4f3283b3760e4a21fca075bc948a96d2c5d973aa78f023c4dee107c1", "court-ordered-sealing-943-059": "b91cd98fe3b9f673023369ff6f28eee0e5b61282a527b0aa97b96605b90d9df1", "early-juvenile-expunction-943-0515": "f073d4e9daabbfb2953196c4a069094062f9f3ced9ad764c8a2926ec916210b1", "human-trafficking-victim-expunction-943-0583": "e6502befee04de2d1258dc7bffcfa40081f3f49c49be74ed7c792b04275378de", "juvenile-diversion-expunction-943-0582": "0835b875bbe4d563029141334795658e1784baacd5c72c9b90b2b03647a7cd76", "lawful-self-defense-expunction-943-0578": "2167351db9f9e46b127b24b0120f8aea47f568417dd07bd703679ccccfeef1e5", "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions": "e84c65022897f61a29de80a8dd9615737b38e3d9245a17879c1f301bfd52f21c"};
+const predecessorHashes={"misdemeanor-violation-traffic-conviction":"c0899ab93902c859a3cf1c6af06a10d646587e746bcabe46179d1bb1e31d383c","nonconviction-431076":"531875c911e7dc0288319c9d9fe9c6329f37fed9ec3c58790818e17d8e717a7c","void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276":"172efe74ee336e832e100d74ee05d6b1090165a80bd9cf58879f06d0167b82d4","dc_motion_seal_misdemeanor_conviction_5yr_16_806": "2151f25f31aa842d96d4cf4eae4e51c4c06f723a4b990f9e8922dd8c9f6d3fbd", "dc_motion_seal_nonconviction_16_806": "da1a999021ebf099a165e1d30f62c25c58bcb0c4e5ca709f0ccf57f39d8089fb", "court-ordered-expunction-943-0585": "89d9f01b4f3283b3760e4a21fca075bc948a96d2c5d973aa78f023c4dee107c1", "court-ordered-sealing-943-059": "b91cd98fe3b9f673023369ff6f28eee0e5b61282a527b0aa97b96605b90d9df1", "early-juvenile-expunction-943-0515": "f073d4e9daabbfb2953196c4a069094062f9f3ced9ad764c8a2926ec916210b1", "human-trafficking-victim-expunction-943-0583": "e6502befee04de2d1258dc7bffcfa40081f3f49c49be74ed7c792b04275378de", "juvenile-diversion-expunction-943-0582": "0835b875bbe4d563029141334795658e1784baacd5c72c9b90b2b03647a7cd76", "lawful-self-defense-expunction-943-0578": "2167351db9f9e46b127b24b0120f8aea47f568417dd07bd703679ccccfeef1e5", "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions": "e84c65022897f61a29de80a8dd9615737b38e3d9245a17879c1f301bfd52f21c"};
 const witnesses=read('data/rcap-ledger/public-witness-fixtures.json').fixtures;
 // Synthetic inputs reuse FL conditional-information cases and GA public screening facts.
 // They do not establish diversion, certification, restriction, or fulfillment authority.
@@ -310,4 +320,4 @@ for(const [id,original] of [...records]){
  authenticated=true;verified=true;owner='synthetic-dc-fl-owner';
 }
 delete globalThis.__dcFlPetitionHistoryTransport;
-console.log(JSON.stringify({status:'PASS_DC_FL_PETITION_OPTIONAL_HISTORY',checks,httpCases,originalIds:['Q-748f73bc4bcf41923fcc','Q-6acd9d8d275e7be59682','Q-8c94453e5af32f59406d','Q-8105d5d0b28ebd1e4a67','Q-c8633872a982712e7803','Q-94c8f0620f0384854d98','Q-ab7cc6744570b24e17d4','Q-481c00319478c8236160','Q-1ee2fb0eca77febaf2b6','QD-fb5a90b4c42ab7e486c1'],routes:cases.map(c=>c.state+':'+c.route),limits:['Existing DC/FL/GA unsupported, held and guidance outcomes retained; actual NO_RECORD/payment refusal unchanged; no whole GA17 closure.','No database, output rendering, source change, hosted authorization or commercial delivery; draft EN/ES needs qualified review.']}));
+console.log(JSON.stringify({status:'PASS_DC_FL_PETITION_OPTIONAL_HISTORY',checks,httpCases,originalIds:["Q-6add858b65f867a82b70","Q-502bf587f9925e5e6e79","Q-00caec14a5a59750b527",'Q-748f73bc4bcf41923fcc','Q-6acd9d8d275e7be59682','Q-8c94453e5af32f59406d','Q-8105d5d0b28ebd1e4a67','Q-c8633872a982712e7803','Q-94c8f0620f0384854d98','Q-ab7cc6744570b24e17d4','Q-481c00319478c8236160','Q-1ee2fb0eca77febaf2b6','QD-fb5a90b4c42ab7e486c1'],routes:cases.map(c=>c.state+':'+c.route),limits:['Existing DC/FL/GA/KY unsupported, held and guidance outcomes retained; actual NO_RECORD/payment refusal unchanged; no whole GA17 closure.','No database, output rendering, source change, hosted authorization or commercial delivery; draft EN/ES needs qualified review.']}));
