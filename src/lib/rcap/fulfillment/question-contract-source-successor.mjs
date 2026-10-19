@@ -584,6 +584,13 @@ function ohJuvenileCopyChain(readBytes) {
 export const CA_SAFE_AT_HOME_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ca-safe-at-home-20261018-v1.json';
 export const CA_SAFE_AT_HOME_SOURCE_SHA256 = 'c9cd18d975b0cc9d64c14741c0276467fdf320f2fc3b547812795610775d93ac';
 export function assertCaSafeAtHomeSourceSuccession(readBytes) {
+  const { record } = caSafeAtHomeChain(readBytes);
+  // Retain the immutable CA Safe at Home 21/177 scope; the separately pinned lead Spanish
+  // hop checks the complete current twenty-three-source chain without rewriting it.
+  assertLeadSpanishSourceSuccession(readBytes);
+  return record;
+}
+function caSafeAtHomeChain(readBytes) {
   const bytes=readBytes(CA_SAFE_AT_HOME_SOURCE_PATH);
   insist(sha(bytes)===CA_SAFE_AT_HOME_SOURCE_SHA256,'CA Safe at Home source succession record bytes changed');
   const record=JSON.parse(bytes.toString('utf8'));
@@ -602,9 +609,35 @@ export function assertCaSafeAtHomeSourceSuccession(readBytes) {
     insist(row.beforeSha256===(current.get(row.file)??null),'CA Safe at Home disconnected source hop');current.set(row.file,row.afterSha256);
   }
   insist(current.size===21,'CA Safe at Home current twenty-one-source inventory');
+  return { record, current };
+}
+
+// Lead Spanish review successors (MS timing final, CA-08, MS justice labels, NY08, discharge glossary).
+export const LEAD_SPANISH_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-lead-spanish-20261019-v1.json';
+export const LEAD_SPANISH_SOURCE_SHA256 = '0dfa43602c3cb51420d83f59a6ce968845853866b1c78d64abd2b77628e218b1';
+export function assertLeadSpanishSourceSuccession(readBytes) {
+  const bytes=readBytes(LEAD_SPANISH_SOURCE_PATH);
+  insist(sha(bytes)===LEAD_SPANISH_SOURCE_SHA256,'lead Spanish source succession record bytes changed');
+  const record=JSON.parse(bytes.toString('utf8'));
+  const { record: caSafe, current }=caSafeAtHomeChain(readBytes);
+  insist(record.schemaVersion==='rcap-question-contract-lead-spanish-source-succession/v1'
+    && record.recordId==='LEAD-SPANISH-SOURCE-SUCCESSION-20261019'
+    && record.kind==='technical_source_only' && record.engineeringCommit==='c35a5f17ba243e2d08048ca61dd095944bb85902'
+    && equal(record.previousNamedSource,{path:CA_SAFE_AT_HOME_SOURCE_PATH,sha256:CA_SAFE_AT_HOME_SOURCE_SHA256,currentChangedSourceCount:21,currentUnchangedSourceCount:177})
+    && equal(record.historicalContinuity,caSafe.historicalContinuity) && equal(record.historicalOutput,caSafe.historicalOutput)
+    && record.sourceCount===198 && record.currentChangedSourceCount===23 && record.currentUnchangedSourceCount===175
+    && equal(record.historicalArtifactScope,{routeCount:6,artifactCount:18,reexecuted:false,changed:false})
+    && ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'].every(key=>record[key]===false),'lead Spanish source succession scope');
+  insist(Array.isArray(record.transitions) && equal(record.transitions.map(row=>row.file),["src/lib/expungement-ai/frontend/reviewed-question-spanish.json", "src/lib/expungement-ai/frontend/reviewed-result-display-copy.json", "src/lib/rcap-engine/ny-16055-guidance.ts", "src/lib/rcap-engine/ny-16057-guidance.ts", "src/lib/rcap-engine/ny-mrta-stage-facts.ts"]),'lead Spanish source succession inventory');
+  insist(current.size===21,'lead Spanish prior twenty-one-source inventory');
+  const v21={"src/lib/rcap-engine/ny-16057-guidance.ts": "279ec693551a142352644a3120d8bf036b3508daa8b8409a6df6ac008b07e4d5", "src/lib/rcap-engine/ny-mrta-stage-facts.ts": "88eb4f2176cc37925144d592ce7cb710c5378c41992fa32a21106e65d14e7614"};
+  for(const row of record.transitions){
+    insist(row.beforeSha256===(current.get(row.file)??v21[row.file]??null),'lead Spanish disconnected source hop');current.set(row.file,row.afterSha256);
+  }
+  insist(current.size===23,'lead Spanish current twenty-three-source inventory');
   // Always fresh, including after success or a previous failed read. No accessor
   // recursion: prior records are read as exact pinned raw bytes.
-  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact CA Safe at Home source succession`);
+  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact lead Spanish source succession`);
   return record;
 }
 
@@ -617,7 +650,7 @@ function currentSourceSuccessions(readBytes) {
     caNoPhone: assertCaNoPhoneContactSourceSuccession(readBytes), gaCt: assertGaSb288CtPetitionSourceSuccession(readBytes),
     gaGuide: assertGaGuideSpanishSourceSuccession(readBytes), ctPrepay: assertCtPrepayRecordFactsSourceSuccession(readBytes),
     ilSdWy: assertIlSdWyRecordFactsSourceSuccession(readBytes), ohCopy: assertOhJuvenileCopySourceSuccession(readBytes),
-    caSafe: assertCaSafeAtHomeSourceSuccession(readBytes) };
+    caSafe: assertCaSafeAtHomeSourceSuccession(readBytes), leadEs: assertLeadSpanishSourceSuccession(readBytes) };
 }
 const onceSuccessions = readBytes => { let value; return () => value ??= currentSourceSuccessions(readBytes); };
 
@@ -641,6 +674,7 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, 
   const ilSdWy = atFile(s.ilSdWy);
   const ohCopy = atFile(s.ohCopy);
   const caSafe = atFile(s.caSafe);
+  const leadEs = atFile(s.leadEs);
   const caDigest = ca ? ca.afterSha256 : previousDigest;
   const nyDigest = ny ? ny.afterSha256 : caDigest;
   const gaDigest = ga ? ga.afterSha256 : nyDigest;
@@ -652,12 +686,13 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, 
   const ctPrepayDigest = ctPrepay ? ctPrepay.afterSha256 : gaGuideDigest;
   const ilSdWyDigest = ilSdWy ? ilSdWy.afterSha256 : ctPrepayDigest;
   const ohCopyDigest = ohCopy ? ohCopy.afterSha256 : ilSdWyDigest;
-  const currentDigest = caSafe ? caSafe.afterSha256 : ohCopy ? ohCopy.afterSha256 : ilSdWy ? ilSdWy.afterSha256 : ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
-  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null || ilSdWy != null || ohCopy != null || caSafe != null)
+  const caSafeDigest = caSafe ? caSafe.afterSha256 : ohCopyDigest;
+  const currentDigest = leadEs ? leadEs.afterSha256 : caSafe ? caSafe.afterSha256 : ohCopy ? ohCopy.afterSha256 : ilSdWy ? ilSdWy.afterSha256 : ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
+  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null || ilSdWy != null || ohCopy != null || caSafe != null || leadEs != null)
     && (!ca || ca.beforeSha256 === previousDigest) && (!ny || ny.beforeSha256 === caDigest)
     && (!ga || ga.beforeSha256 === nyDigest) && (!gaContact || gaContact.beforeSha256 === gaDigest)
     && (!gates || gates.beforeSha256 === contactDigest) && (!caNoPhone || caNoPhone.beforeSha256 === gatesDigest)
-    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest) && (!gaGuide || gaGuide.beforeSha256 === gaCtDigest) && (!ctPrepay || ctPrepay.beforeSha256 === gaGuideDigest) && (!ilSdWy || ilSdWy.beforeSha256 === ctPrepayDigest) && (!ohCopy || ohCopy.beforeSha256 === ilSdWyDigest) && (!caSafe || caSafe.beforeSha256 === ohCopyDigest)
+    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest) && (!gaGuide || gaGuide.beforeSha256 === gaCtDigest) && (!ctPrepay || ctPrepay.beforeSha256 === gaGuideDigest) && (!ilSdWy || ilSdWy.beforeSha256 === ctPrepayDigest) && (!ohCopy || ohCopy.beforeSha256 === ilSdWyDigest) && (!caSafe || caSafe.beforeSha256 === ohCopyDigest) && (!leadEs || leadEs.beforeSha256 === caSafeDigest)
     && currentDigest === actual, `${label}: ${file}`);
 }
 
