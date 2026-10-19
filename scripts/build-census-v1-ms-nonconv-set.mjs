@@ -937,11 +937,19 @@ const FAMILY = {
         + "from the record, and the exhibit checklist attaches the indictment only in that case."
     }
   ],
+  counselQuestionsSettled: [
+    {
+      "question": "Whether any Mississippi district requires verification or notarization of an expungement petition, where neither archived model is verified or notarized and the petition carries a simple truth statement.",
+      "settledOn": "2026-09-08",
+      "answer": "The packet carries the mandatory verification and jurat. The controlling inputs are packet specification MS-nonconviction-expungement-99-19-71-4 (specificationVersion 2.0.0, notarisationRequired true) and Roger Roman's direction of 2026-09-03, SHA-256 88497978c1411950ea3977a7ae32087e29fc375017cadc87b20d700c60623866; the legal-design intake memo's unresolved note is not permission to omit it. Recorded on the ms-nonconv track as rules.notarization Required.",
+      "scope": "This settles what LegalEase's own output must contain. It is not a determination that a Mississippi district requires verification or notarisation of a Sec. 99-19-71(4) petition, and it grants no approval. The four other questions in this record remain raised.",
+      "implementedBy": "FIX107; measured on the delivered bytes by VF04 at 513f43c82"
+    }
+  ],
   counselQuestions: [
     "Does Miss. Code Ann. § 99-19-72's $150 fee, levied on 'each petition to expunge an offense under Section 99-19-71' and collected by the circuit clerk, reach a § 99-19-71(4) non-conviction petition, and does it reach a petition filed in justice or municipal court?",
     "Does a Mississippi case 'passed to the file' or 'retired to the file' fall within § 99-19-71(4)'s 'there was no disposition of such case'?",
     "Does the ten days' written notice to the district attorney in § 99-19-71(2)(b) apply outside the felony conviction subsection, and is contemporaneous service on the prosecuting authority the right treatment for subsection (4)?",
-    "Whether any Mississippi district requires verification or notarization of an expungement petition, where neither archived model is verified or notarized and the petition carries a simple truth statement.",
     "Whether the composed petition, proposed order and certificate of service are sufficient in form for the least standardized courts (justice and municipal), given localFormOverride."
   ],
   reviewerAttention: [
