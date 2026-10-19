@@ -4,6 +4,7 @@ import {assertGaGuideSpanishSourceSuccession,GA_GUIDE_SPANISH_SOURCE_PATH} from 
 import {assertCtPrepayRecordFactsSourceSuccession,CT_PREPAY_RECORD_FACTS_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertIlSdWyRecordFactsSourceSuccession,IL_SD_WY_RECORD_FACTS_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertOhJuvenileCopySourceSuccession,OH_JUVENILE_COPY_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertLeadSpanishLayer2SourceSuccession,LEAD_SPANISH_L2_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaSafeAtHomeSourceSuccession,CA_SAFE_AT_HOME_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertLeadSpanishSourceSuccession,LEAD_SPANISH_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -914,6 +915,12 @@ check('lead Spanish hop preserves prior chain and refuses missing/tampered bytes
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===LEAD_SPANISH_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/lead Spanish source succession record bytes changed/);
  assert.throws(()=>assertCaSafeAtHomeSourceSuccession(file=>{if(file===LEAD_SPANISH_SOURCE_PATH)throw Error('missing lead Spanish record');return readBytes(file);}),/missing lead Spanish record/);
  for(const input of ["src/lib/expungement-ai/frontend/reviewed-question-spanish.json","src/lib/expungement-ai/frontend/reviewed-result-display-copy.json","src/lib/rcap-engine/ny-16055-guidance.ts","src/lib/rcap-engine/ny-16057-guidance.ts","src/lib/rcap-engine/ny-mrta-stage-facts.ts"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('lead Spanish layer-2 hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertLeadSpanishLayer2SourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,25);assert.equal(c.currentUnchangedSourceCount,173);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===LEAD_SPANISH_L2_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/lead Spanish layer-2 source succession record bytes changed/);
+ for(const input of ["src/lib/expungement-ai/frontend/reviewed-result-display-copy.json", "src/lib/rcap-engine/delaware-conviction-questions.ts", "src/lib/rcap-engine/new-york-16059-questions.ts"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 // A succession record set must never outlive its call: after an honest load, a later drift still

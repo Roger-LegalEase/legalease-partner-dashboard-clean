@@ -616,6 +616,13 @@ function caSafeAtHomeChain(readBytes) {
 export const LEAD_SPANISH_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-lead-spanish-20261019-v1.json';
 export const LEAD_SPANISH_SOURCE_SHA256 = '78cf8e83954695bbcc85d740dab75577353d40ab3553301881913b97b86808e3';
 export function assertLeadSpanishSourceSuccession(readBytes) {
+  const { record } = leadSpanishChain(readBytes);
+  // Retain the immutable lead Spanish 23/175 scope; the separately pinned lead Spanish layer-2
+  // hop checks the complete current chain without rewriting it.
+  assertLeadSpanishLayer2SourceSuccession(readBytes);
+  return record;
+}
+function leadSpanishChain(readBytes) {
   const bytes=readBytes(LEAD_SPANISH_SOURCE_PATH);
   insist(sha(bytes)===LEAD_SPANISH_SOURCE_SHA256,'lead Spanish source succession record bytes changed');
   const record=JSON.parse(bytes.toString('utf8'));
@@ -635,9 +642,35 @@ export function assertLeadSpanishSourceSuccession(readBytes) {
     insist(row.beforeSha256===(current.get(row.file)??v21[row.file]??null),'lead Spanish disconnected source hop');current.set(row.file,row.afterSha256);
   }
   insist(current.size===23,'lead Spanish current twenty-three-source inventory');
+  return { record, current };
+}
+
+// Lead Spanish review layer 2 (2026-10-19, owner-designated AI language review, not certified): Delaware, KS district and 
+export const LEAD_SPANISH_L2_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-lead-spanish-layer2-20261019-v1.json';
+export const LEAD_SPANISH_L2_SOURCE_SHA256 = '15e81cc6a3f0ea2496d5de56eefe10b920e3df3d5e758f5f0b8c0172fb488db6';
+export function assertLeadSpanishLayer2SourceSuccession(readBytes) {
+  const bytes=readBytes(LEAD_SPANISH_L2_SOURCE_PATH);
+  insist(sha(bytes)===LEAD_SPANISH_L2_SOURCE_SHA256,'lead Spanish layer-2 source succession record bytes changed');
+  const record=JSON.parse(bytes.toString('utf8'));
+  const { record: prior, current }=leadSpanishChain(readBytes);
+  insist(record.schemaVersion==='rcap-question-contract-lead-spanish-layer2-source-succession/v1'
+    && record.recordId==='LEAD-SPANISH-LAYER2-SOURCE-SUCCESSION-20261019'
+    && record.kind==='technical_source_only' && record.engineeringCommit==='ed7d50ab1258548f7c4d86ad8676140ec1eea431'
+    && equal(record.previousNamedSource,{path:LEAD_SPANISH_SOURCE_PATH,sha256:LEAD_SPANISH_SOURCE_SHA256,currentChangedSourceCount:23,currentUnchangedSourceCount:175})
+    && equal(record.historicalContinuity,prior.historicalContinuity) && equal(record.historicalOutput,prior.historicalOutput)
+    && record.sourceCount===198 && record.currentChangedSourceCount===25 && record.currentUnchangedSourceCount===173
+    && equal(record.historicalArtifactScope,{routeCount:6,artifactCount:18,reexecuted:false,changed:false})
+    && ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'].every(key=>record[key]===false),'lead Spanish layer-2 source succession scope');
+  insist(Array.isArray(record.transitions) && equal(record.transitions.map(row=>row.file),["src/lib/expungement-ai/frontend/reviewed-result-display-copy.json", "src/lib/rcap-engine/delaware-conviction-questions.ts", "src/lib/rcap-engine/new-york-16059-questions.ts"]),'lead Spanish layer-2 source succession inventory');
+  insist(current.size===23,'lead Spanish layer-2 prior twenty-three-source inventory');
+  const v21={"src/lib/rcap-engine/delaware-conviction-questions.ts": "f43635b1f57d35ce297dff1681e7193310d5601015f70c89f0867f030dba2e6b", "src/lib/rcap-engine/new-york-16059-questions.ts": "2ab3096513e4f075d2897618ff8692507f4cecda07c2445df0af5c5189639a93"};
+  for(const row of record.transitions){
+    insist(row.beforeSha256===(current.get(row.file)??v21[row.file]??null),'lead Spanish layer-2 disconnected source hop');current.set(row.file,row.afterSha256);
+  }
+  insist(current.size===25,'lead Spanish layer-2 current twenty-five-source inventory');
   // Always fresh, including after success or a previous failed read. No accessor
   // recursion: prior records are read as exact pinned raw bytes.
-  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact lead Spanish source succession`);
+  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact lead Spanish layer-2 source succession`);
   return record;
 }
 
@@ -650,7 +683,7 @@ function currentSourceSuccessions(readBytes) {
     caNoPhone: assertCaNoPhoneContactSourceSuccession(readBytes), gaCt: assertGaSb288CtPetitionSourceSuccession(readBytes),
     gaGuide: assertGaGuideSpanishSourceSuccession(readBytes), ctPrepay: assertCtPrepayRecordFactsSourceSuccession(readBytes),
     ilSdWy: assertIlSdWyRecordFactsSourceSuccession(readBytes), ohCopy: assertOhJuvenileCopySourceSuccession(readBytes),
-    caSafe: assertCaSafeAtHomeSourceSuccession(readBytes), leadEs: assertLeadSpanishSourceSuccession(readBytes) };
+    caSafe: assertCaSafeAtHomeSourceSuccession(readBytes), leadEs: assertLeadSpanishSourceSuccession(readBytes), leadEs2: assertLeadSpanishLayer2SourceSuccession(readBytes) };
 }
 const onceSuccessions = readBytes => { let value; return () => value ??= currentSourceSuccessions(readBytes); };
 
@@ -675,6 +708,7 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, 
   const ohCopy = atFile(s.ohCopy);
   const caSafe = atFile(s.caSafe);
   const leadEs = atFile(s.leadEs);
+  const leadEs2 = atFile(s.leadEs2);
   const caDigest = ca ? ca.afterSha256 : previousDigest;
   const nyDigest = ny ? ny.afterSha256 : caDigest;
   const gaDigest = ga ? ga.afterSha256 : nyDigest;
@@ -687,12 +721,13 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, 
   const ilSdWyDigest = ilSdWy ? ilSdWy.afterSha256 : ctPrepayDigest;
   const ohCopyDigest = ohCopy ? ohCopy.afterSha256 : ilSdWyDigest;
   const caSafeDigest = caSafe ? caSafe.afterSha256 : ohCopyDigest;
-  const currentDigest = leadEs ? leadEs.afterSha256 : caSafe ? caSafe.afterSha256 : ohCopy ? ohCopy.afterSha256 : ilSdWy ? ilSdWy.afterSha256 : ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
-  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null || ilSdWy != null || ohCopy != null || caSafe != null || leadEs != null)
+  const leadEsDigest = leadEs ? leadEs.afterSha256 : caSafeDigest;
+  const currentDigest = leadEs2 ? leadEs2.afterSha256 : leadEs ? leadEs.afterSha256 : caSafe ? caSafe.afterSha256 : ohCopy ? ohCopy.afterSha256 : ilSdWy ? ilSdWy.afterSha256 : ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
+  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null || ilSdWy != null || ohCopy != null || caSafe != null || leadEs != null || leadEs2 != null)
     && (!ca || ca.beforeSha256 === previousDigest) && (!ny || ny.beforeSha256 === caDigest)
     && (!ga || ga.beforeSha256 === nyDigest) && (!gaContact || gaContact.beforeSha256 === gaDigest)
     && (!gates || gates.beforeSha256 === contactDigest) && (!caNoPhone || caNoPhone.beforeSha256 === gatesDigest)
-    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest) && (!gaGuide || gaGuide.beforeSha256 === gaCtDigest) && (!ctPrepay || ctPrepay.beforeSha256 === gaGuideDigest) && (!ilSdWy || ilSdWy.beforeSha256 === ctPrepayDigest) && (!ohCopy || ohCopy.beforeSha256 === ilSdWyDigest) && (!caSafe || caSafe.beforeSha256 === ohCopyDigest) && (!leadEs || leadEs.beforeSha256 === caSafeDigest)
+    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest) && (!gaGuide || gaGuide.beforeSha256 === gaCtDigest) && (!ctPrepay || ctPrepay.beforeSha256 === gaGuideDigest) && (!ilSdWy || ilSdWy.beforeSha256 === ctPrepayDigest) && (!ohCopy || ohCopy.beforeSha256 === ilSdWyDigest) && (!caSafe || caSafe.beforeSha256 === ohCopyDigest) && (!leadEs || leadEs.beforeSha256 === caSafeDigest) && (!leadEs2 || leadEs2.beforeSha256 === leadEsDigest)
     && currentDigest === actual, `${label}: ${file}`);
 }
 
