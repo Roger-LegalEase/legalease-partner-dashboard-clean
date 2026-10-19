@@ -978,33 +978,56 @@ const decisionsAdapter = {
     return out;
   },
 
-  scopeFrom({ receipt, pin, currentDoc, laneReturnRoot = path.join(ROOT, LANE_RETURNS) }) {
+  scopeFrom({ receipt, pin, currentDoc, directory = null, laneReturnRoot = path.join(ROOT, LANE_RETURNS) }) {
     const byId = this.index(currentDoc, "current");
     const recordId = typeof pin.recordId === "string" ? pin.recordId : "";
     const prefix = "legal-decision:2026-08-28:";
-    if (!recordId.startsWith(prefix)) {
-      throw new Refusal("the pin names no legal-decision:2026-08-28:<decision> recordId, so which decision this family binds cannot be decided", { recordId });
+    let keys;
+    let fromRouteKeys = null;
+    if (recordId === "") {
+      /* No recordId: the family's own route keys name the track, from the
+       * receipt or, when the receipt carries none, from the family's own
+       * product-wiring.json. Both present and different is a refusal. Every
+       * decision carrying that track is an anchor. */
+      let wiring = null;
+      if (directory) { try { wiring = JSON.parse(fs.readFileSync(path.join(ROOT, directory, "product-wiring.json"), "utf8")).routeKeys ?? null; } catch { wiring = null; } }
+      const own = Array.isArray(receipt.routeKeys) && receipt.routeKeys.length ? receipt.routeKeys : null;
+      const wired = Array.isArray(wiring) && wiring.length ? wiring : null;
+      if (own && wired && JSON.stringify([...own].sort()) !== JSON.stringify([...wired].sort())) {
+        throw new Refusal("the receipt's routeKeys and the family's product-wiring.json routeKeys differ, so which track it binds cannot be decided", { receiptRouteKeys: own, wiringRouteKeys: wired });
+      }
+      const routeKeys = own ?? wired;
+      if (!routeKeys) throw new Refusal("the pin names no legal-decision:2026-08-28:<decision> recordId and the family's own records name no routeKeys, so which decision this family binds cannot be decided");
+      const tracks = new Set(routeKeys.map((k) => String(k).split(":")[3]).filter(Boolean));
+      keys = [...byId.keys()].filter((k) => tracks.has(byId.get(k).trackId)).sort();
+      if (keys.length === 0) throw new Refusal(`no decision in the current record carries the track the family's routeKeys name (${[...tracks].join(", ")})`, { routeKeys });
+      fromRouteKeys = { routeKeys, from: own ? "receipt" : "product-wiring.json", tracks: [...tracks].sort() };
+    } else {
+      if (!recordId.startsWith(prefix)) {
+        throw new Refusal("the pin names no legal-decision:2026-08-28:<decision> recordId, so which decision this family binds cannot be decided", { recordId });
+      }
+      const rest = recordId.slice(prefix.length);
+      let m;
+      let key;
+      if ((m = /^(Q-\d+):(.+)$/.exec(rest))) key = `question:${m[1]}:${m[2]}`;
+      else if ((m = /^research-track:(.+)$/.exec(rest))) key = `research-track:${m[1]}`;
+      else if ((m = /^(LA-IMM-\d+):(.+)$/.exec(rest))) key = `immediate:${m[1]}:${m[2]}`;
+      else {
+        const hits = [...byId.keys()].filter((k) => byId.get(k).trackId === rest);
+        if (hits.length !== 1) throw new Refusal(`the recordId names track ${rest}, which ${hits.length} decisions in the current record carry; exactly one is needed`, { recordId, hits });
+        key = hits[0];
+      }
+      if (!byId.has(key)) throw new Refusal(`the receipt's recordId names ${key}, which is no decision in the current record`, { recordId });
+      keys = [key];
     }
-    const rest = recordId.slice(prefix.length);
-    let m;
-    let key;
-    if ((m = /^(Q-\d+):(.+)$/.exec(rest))) key = `question:${m[1]}:${m[2]}`;
-    else if ((m = /^research-track:(.+)$/.exec(rest))) key = `research-track:${m[1]}`;
-    else if ((m = /^(LA-IMM-\d+):(.+)$/.exec(rest))) key = `immediate:${m[1]}:${m[2]}`;
-    else {
-      const hits = [...byId.keys()].filter((k) => byId.get(k).trackId === rest);
-      if (hits.length !== 1) throw new Refusal(`the recordId names track ${rest}, which ${hits.length} decisions in the current record carry; exactly one is needed`, { recordId, hits });
-      key = hits[0];
-    }
-    if (!byId.has(key)) throw new Refusal(`the receipt's recordId names ${key}, which is no decision in the current record`, { recordId });
     const digest = sha256(fs.readFileSync(path.join(ROOT, DECISIONS)));
     const measuredReVerification = measuredReVerificationsRecording(receipt.familyId, digest, laneReturnRoot);
     if (measuredReVerification.length === 0) {
       throw new Refusal(`no independent re-verification row for ${receipt.familyId} records the current digest ${digest.slice(0, 12)} of this record; a refresh here follows a measured re-verification`, { digest });
     }
     return {
-      anchorIds: [key],
-      derivation: { fromPinRecordId: recordId, sharedAuthorityComparedAsOneAnchor: true, implementationMatrixRowsComparedForQuestions: true, measuredReVerification }
+      anchorIds: keys,
+      derivation: { fromPinRecordId: recordId || null, fromRouteKeys, sharedAuthorityComparedAsOneAnchor: true, implementationMatrixRowsComparedForQuestions: true, measuredReVerification }
     };
   },
 
@@ -1504,7 +1527,7 @@ export function planReceipt({ familyId, directory, receiptPath, beforeText, on =
     try {
       const oldDoc = JSON.parse(recovered.bytes.toString("utf8"));
       const currentDoc = JSON.parse(d.bytes.toString("utf8"));
-      const scope = adapter.scopeFrom({ receipt, pin: d.pin, currentDoc });
+      const scope = adapter.scopeFrom({ receipt, pin: d.pin, currentDoc, directory });
       record.scope = scope;
       const comparison = compareAnchors({ adapter, oldDoc, currentDoc, scope });
       record.anchorsCompared = comparison.anchorsCompared;

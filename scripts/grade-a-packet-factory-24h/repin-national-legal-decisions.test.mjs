@@ -52,7 +52,8 @@ test('recordId forms: research track, immediate assignment and a bare track id r
   assert.throws(()=>scopeOf(current,{recordId:'legal-decision:2026-08-28:me-seal-survivor'}),/2 decisions/);
   assert.throws(()=>scopeOf(current,{recordId:'legal-decision:2026-08-28:no-such-track'}),/0 decisions/);
   assert.throws(()=>scopeOf(current,{recordId:'legal-decision:2026-08-28:Q-999:sc_17_22_950_summary'}),/no decision/);
-  assert.throws(()=>scopeOf(current,{path:recordPath,sha256:'0'.repeat(64)}),/names no legal-decision/);
+  // A pin with no recordId is scoped by the receipt's own routeKeys (SC: sc_17_22_950_summary); without any it refuses (next test).
+  assert.deepEqual(scopeOf(current,{path:recordPath,sha256:'0'.repeat(64)}).anchorIds,['question:Q-035:sc_17_22_950_summary']);
   assert.throws(()=>scopeOf(current,{recordId:'legal-decision:2026-08-28-national#ny_160_55_violation'}),/names no legal-decision/);
 });
 test('without a measured re-verification row recording the current digest the scope refuses',()=>{
@@ -67,4 +68,19 @@ test('a duplicate or id-less decision and an unknown top-level key refuse',()=>{
   assert.throws(()=>compare(current,extra),/not the shape/);
   const gone=structuredClone(current);gone.questionDecisions=gone.questionDecisions.filter(q=>q.registerQuestionId!=='Q-035');
   assert.throws(()=>compareAnchors({adapter,oldDoc:current,currentDoc:gone,scope:scopeOf(current)}),/absent from the current record/);
+});
+test('a recordId-less pin is scoped by the family route keys: receipt first, else product-wiring.json, never both disagreeing',()=>{
+  const al=adapter.scopeFrom({receipt:{familyId:receipt.familyId,routeKeys:['obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge']},pin:{},currentDoc:current,laneReturnRoot});
+  assert.deepEqual(al.anchorIds,['research-track:al-uncharged-arrest']);assert.equal(al.derivation.fromRouteKeys.from,'receipt');
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'decisions-wiring-'));const rel=path.relative(process.cwd(),dir);
+  fs.writeFileSync(path.join(dir,'product-wiring.json'),JSON.stringify({routeKeys:['obligation:track-pathway:WV:wv_nc_diversion_deferred:x']}));
+  const wv=adapter.scopeFrom({receipt:{familyId:receipt.familyId},pin:{},currentDoc:current,directory:rel,laneReturnRoot});
+  assert.deepEqual(wv.anchorIds,['question:Q-055:wv_nc_diversion_deferred']);assert.equal(wv.derivation.fromRouteKeys.from,'product-wiring.json');
+  const multi=adapter.scopeFrom({receipt:{familyId:receipt.familyId,routeKeys:['obligation:track-only:ME:me-seal-survivor']},pin:{},currentDoc:current,laneReturnRoot});
+  assert.equal(multi.anchorIds.length,2);
+  assert.throws(()=>adapter.scopeFrom({receipt:{familyId:receipt.familyId,routeKeys:['obligation:track-only:AL:al-uncharged-arrest']},pin:{},currentDoc:current,directory:rel,laneReturnRoot}),/differ/);
+  assert.throws(()=>adapter.scopeFrom({receipt:{familyId:receipt.familyId},pin:{},currentDoc:current,laneReturnRoot}),/name no routeKeys/);
+  assert.throws(()=>adapter.scopeFrom({receipt:{familyId:receipt.familyId,routeKeys:['obligation:track-only:XX:no-such-track']},pin:{},currentDoc:current,laneReturnRoot}),/no decision in the current record carries/);
+  assert.throws(()=>adapter.scopeFrom({receipt:{familyId:receipt.familyId,routeKeys:['obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge']},pin:{},currentDoc:current,laneReturnRoot:empty}),/no independent re-verification row/);
+  fs.rmSync(dir,{recursive:true,force:true});
 });
