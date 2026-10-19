@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VFWV1",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "wv_nc_diversion_deferred-set": "ALREADY_RELEASED: wv_nc_diversion_deferred-set at 2026-09-14T20:59:40.091Z"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "wv_nc_diversion_deferred-set",
+      "lane": "VFWV1",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wv/wv-nc-diversion-deferred-set--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "verify-packet-completeness.mjs --family wv_nc_diversion_deferred-set run here at 1b48eb358 with MASTER_LIBRARY_SOURCE_DIR set and PYTHONDONTWRITEBYTECODE=1: PASS_COMPLETE, 179/213 written, all nine counters 0; exit 0; worktree unchanged afterwards."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "The single routeKey obligation:track-pathway:WV:wv_nc_diversion_deferred:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication is declared identically by product-wiring.json, production-field-map.json, packet-set-manifest.json and the MASTER_QUEUE family row (state COMPLETE_PACKET_PROVEN, sourceStatus SOURCE_BOUND_BY_HELD_BYTES); source-receipt.json carries familyId but no routeKeys field, which is its declared v1 shape. The packet-set manifest names the adopted vehicle decision Q-055/Q-048 and both fixtures print 'CIVIL PETITION FOR EXPUNGEMENT UNDER W. VA. CODE SEC. 61-11-25' with the two program branches kept distinct (canonical pretrial diversion \u00a7 61-11-22, boundary deferred adjudication \u00a7 61-11-22a); the old SCA-C903 text is not rendered. Observation, not a defect in the route key: the strategy label differs across records (source-receipt and packet-set-manifest say custom_pleading; product-wiring deliveryType, the MASTER_QUEUE row, the track registry and the directory suffix say official_pdf_fill), as it did when VFWV1 passed this family."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "3/3 compositionSources rehashed from disk at 1b48eb358: data/record-clearing/legal-design-track-registry.json b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0 / 16781025 B exact; data/rcap-grade-a/packet-factory-24h/prerequisite-resolution-20260914/wv-exact-supporting-input-identification.json 13129fab1c9597b30bd7bc4981d82c7a016e8d040c124818d4be9fdebd495ad9 / 2489 B exact; data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json drifted at whole-file level, pinned 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef / 184365 B, current 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885 B (the recovered pinned blob hashes exactly to its pin). Entry-by-entry comparison of pinned vs current: the WV controlling decision for this track, questionDecisions Q-055/Q-048 (trackId wv_nc_diversion_deferred, holding 'SCA-C903 alone is not the correct complete vehicle...; use a custom civil petition under current \u00a7 61-11-25', controllingProductDecision 'Custom current-law civil petition preferred', deliveryDisposition ARTIFACT_LEGAL_REVIEW_REQUIRED, holdingSha256 80e1fe05..., memoSha256 fe10623b...), is identical in both versions, as are all 8 WV questionDecisions and all 10 WV implementationMatrix entries including Q-048; researchTrackDecisions and immediateAssignments unchanged. What changed: scope.registerOpenQuestions 37 to 38, scope.registerQuestionsOutOfReportScope entry [1] rewritten from a Mississippi source-task note to a Kentucky note and a new Q-058 Kentucky entry added, and memoSha256 pointers on 13 KY/LA/ND/NE question decisions. No WV entry moved. The anchors the receipt relies on are present in the current record (Q-055/Q-048 holding and product decision) and in the track registry (tracks[485] wv_nc_diversion_deferred). The historical reference official-form:SCA-C903 (bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878 / 23275 B, role historical_source_reference_only_not_rendered) is bound by the committed hash record only: the Master Library PDF is not mounted here (find returned no WV__FORM__SCA-C903 file), so its bytes were not recomputed; the record is exact and nothing of it is rendered, which does not fail the obligation. New pin value recorded here for the lead, not written to the worktree: 2026-08-28-national-legal-decisions.json 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373 / 184885."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "packet-set-manifest.json declares 9 components (civil-petition, statutory-supplement, proposed-order, certificate-of-service, custodian-and-exhibit-schedule, filing-instructions required; synthetic-exhibit-1..3 optional synthetic diagnostics). All 9 are present in both fixtures' document lists in rendered-artifacts.json and both coverage files, each component PDF exists on disk, and each component's title line and footer ('civil-petition | Page 1 of 2' etc.) appears in the extracted text of the assembled fixture. The three synthetic pages are headed 'SYNTHETIC DIAGNOSTIC - NOT A COURT RECORD'. requiredComponentsMissing=0 measured here."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "179/179 field-map writes read back here from pdftotext of the fixture bytes: canonical 72/72 and boundary 107/107 against the assembled fixture, and the same 72/72 and 107/107 against each write's own component PDF; actual-writes finalPacketProofs 72/72 and 107/107 likewise. 0 missing. knownRequiredFieldsMissing=0 and invisibleWrites=0 measured here."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "The three participant exhibits the prerequisite record and the track registry require (certified dismissal order; signed pretrial diversion agreement or entered deferred-adjudication order; court record of full successful completion) are each named on the custodian-and-exhibit-schedule page as Exhibits A, B and C with the office that supplies them (court clerk; prosecutor or entering clerk; clerk), printed under 'REQUIRED_BEFORE_FILING: All three actual records must be received, checked against the petition and attached', and repeated in the filing guide, which also tells the participant that the synthetic pages must be replaced and never filed. The 60-day earliest filing date is computed and printed on the petition and the guide for each fixture (canonical 06/01/2026 to 07/31/2026; boundary 07/16/2026 to 09/14/2026, elapsed 60). requiredFactsNotCollected=0 and unclassifiedBlanks=0 measured here."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selection controls in the field map; the program branch is a written fact, and both branches are exercised: canonical 'I completed pretrial diversion under W. Va. Code Sec. 61-11-22' with the pretrial-diversion recital, boundary 'I completed deferred adjudication under W. Va. Code Sec. 61-11-22a' with the \u00a7 48-27-204 family/household recital. requiredOptionsMissing=0 measured here."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "The charge schedule is a repeating row: canonical Count 1 and boundary Counts 1-6 each carry all seven cells (offense, code section, level, criminal case, disposition, dismissal order date, plus the count heading) in the extracted text, with the boundary rows running across the supplement's page break intact; no written cell sits beside an empty required cell. incompleteRows=0 measured here (native audit rowsInspected 2)."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "34 refusals, all PROTECTED_FIELD (clerk-assigned civil action number x2 documents, petitioner signature and date on petition and supplement, five court-owned proposed-order fields, five certificate-of-service completion fields, per fixture). Measured here with pdftotext -bbox on each component PDF: 0 of 34 refusal rectangles contain any word ink (field-map rects are PDF bottom-left coordinates, confirmed against the first measured write box which holds 10 caption words under that convention and 0 under the other). The extracted text shows 'Petitioner signature:', 'Date signed:', 'Circuit judge signature:', 'Actual date of service:' etc. followed by blank space. refusedFieldsWithInk is empty in all 18 component byte proofs; protectedWrites=0 measured here."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "20 PDFs on disk, all recorded, all recomputed here: fixtures/canonical.pdf bf993e6a3aad738b1519eb3a3b4440c5bfaecfc67f8e488919c8f4e8d9192438 / 25309 B / 12 pages and fixtures/boundary.pdf 11ad1b8683d33e2b12214e13cc34788286081a5f8c8448228cb80a12d4f64abe / 27919 B / 13 pages equal rendered-artifacts.json packets[].sha256/pageCount, actual-writes artifacts and the product-wiring acceptance receipt; the 18 component PDFs (9 per fixture) each hash to the sha256 recorded for them in rendered-artifacts.json packets[].documents[] and in canonical.coverage.json / boundary.coverage.json, and pdfinfo page counts equal each recorded pageCount. rendered-artifacts.json records no byteLength, so byte lengths are reported here from disk only. 0 mismatches, 0 unrecorded files (the facts file's 'unrecordedPdfs 2' reflects its reader expecting the artifacts[].file shape, not an unrecorded artifact)."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Coverage is contiguous in declared order: canonical civil-petition 1-2, statutory-supplement 3-4, proposed-order 5, certificate-of-service 6, custodian-and-exhibit-schedule 7, filing-instructions 8-9, synthetic exhibits 10, 11, 12 (sum 12 = pdfinfo); boundary 1-2, 3-5, 6, 7, 8, 9-10, 11, 12, 13 (sum 13 = pdfinfo). The component footers in the extracted text appear in that sequence with synthetic exhibits last."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "Word geometry extracted here with pdftotext -bbox: canonical 2011 words, boundary 2200 words, 0 words outside the page box and 0 same-band overlapping word pairs in either; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes=0 and outsideGlyphs empty in all component proofs; visualDefects=0 measured here. The hash-bound RASTER_PASS receipt in product-wiring (run 34805276590) binds canonical sha bf993e6a..., which equals the current bytes; no raster was produced or inspected in this lane."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The filing guide says 'File a civil petition in the circuit court of Kanawha County, where the charges were filed, even if the original case was in magistrate or municipal court' and 'File with the circuit clerk'; the petition caption reads 'IN THE CIRCUIT COURT OF KANAWHA COUNTY, WEST VIRGINIA' and the civil action number is left for the clerk. That is the destination the track registry holds (clerk of the circuit court of the county in which the charges were filed)."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Met on the sourced no-fee limb: the petition face states 'There is no filing fee or assessed cost for an action under Sec. 61-11-25(g)' and the guide states 'No filing fee is charged and no costs are assessed for an action under section 61-11-25(g), so no fee-waiver component is needed', which is what the track registry rules.fees / feeWaiver and the manifests pay_fee entry hold for this exact section."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Who: 'Serve the county prosecuting attorney with the civil petition, supplement and accompanying papers'; the certificate names the recipient office (Kanawha County Prosecuting Attorney Office) with an address the participant must verify. Method: no held record (track registry rules.service, controlling decision 'civil service and custodian list') fixes a method, and the packet names the circuit clerk as the checkable authority ('Confirm civil service mechanics and any required additional recipients with the circuit clerk'), which DET-FEE-AND-WAIVER-001 accepts for SERVICE. The certificate is unexecuted and says so; the custodian list states it does not certify service."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "All 8 selfHelpStopConditions in the track registry entry are carried in the filing guide's eligibility and hearing sections: prior felony; deferred-adjudication family/household victim under \u00a7 48-27-204; unknown or disputed program type; unexpired program or disputed compliance; uncertain same-transaction connection; deferred adjudication ending in a lesser-offense conviction (and dismissal exchanged for a plea); opposed or contested hearing; immigration, firearm, federal, military, tribal or out-of-state questions. The guide also states that signing, service and the clerk/judge blanks are the participant's or the court's, that the proposed order does nothing unsigned, and that the sample carries no approval."
+        }
+      },
+      "evidence": {
+        "verifierRun": "PASS_COMPLETE, 179/213 written, all nine counters zero (run here at 1b48eb358)",
+        "sourceRecomputation": "3/3 compositionSources rehashed from disk: track registry and prerequisite record exact; national legal decisions drifted at whole-file level with the WV controlling section Q-055/Q-048 and every WV entry identical pinned vs current; new pin 63fe0b16... / 184885 recorded for the lead; SCA-C903 historical reference bound by hash record only (Master Library not mounted)",
+        "artifactRecomputation": "20/20 PDFs hash to record (2 fixtures + 18 components); pdfinfo 12/13 fixture pages and every component page count equal the record",
+        "byteReadBack": "179/179 written values (72 canonical, 107 boundary) read back from the fixture bytes and from their own component PDFs by this lane; 0/34 protected rectangles carry word ink; word geometry 0 outside page box, 0 same-band overlaps on all 25 pages",
+        "stopConditions": "8/8 stops held by the controlling track registry entry carried in the packet",
+        "lapseResolved": "No lapse recorded (queue lapse null); the national-legal-decisions pin drift is explained above and leaves the WV controlling section unchanged. Informational: the family's legal-design-packet-set-manifests.json entry (not a receipt pin for this family) changed between b28edfb9 and fee93664 only in SCA-C903 page references (page 1 to 2, page 2 to 3) in participantActionRequired/requiredBeforeFiling; this packet does not render SCA-C903."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}

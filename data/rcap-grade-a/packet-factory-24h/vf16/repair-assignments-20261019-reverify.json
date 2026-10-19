@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+  "lane": "VF16",
+  "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "assignmentCount": 1,
+  "assignments": [
+    {
+      "itemId": "ms-nonconv-set",
+      "lane": "VF16",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading",
+      "decisiveDefect": "the family's own packet specification, bound by source-receipt.json compositionSources and pinned three times in product-wiring.json at 3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f / 59843 B, is now 23426df251aa31bfd5215edbfe547d5f56c2349ed4c4bb5e7b407bc25405e126 / 64896 B and changed in substance, and the delivered page 1 prints cover text the current specification no longer carries. Separately, the delivered packet contradicts itself about Exhibit B: page 1 says the docket sheet is Exhibit B; page 9 says Exhibit B is the indictment and the docket sheet is only advisable.",
+      "failedProofObligations": [
+        "SOURCE_IDENTITY",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "perObligation": {
+        "SOURCE_IDENTITY": {
+          "measuredDetail": "All three compositionSources recomputed from disk at 1b48eb358. MS.memo.json: pinned 01c4a9586cf2eeae96b3da17437bb407e1e70f042a0a0785ace5353802022bb2 / 399654 B \u2014 EXACT. legal-design-packet-set-manifests.json: pinned b28edfb9\u2026/3708050 B, current fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82 / 3738732 B \u2014 drifted, but packetSets['ms-nonconv-set'] and the record metadata are object-identical and the receipt's anchors reproduce (87f4fe65\u2026, eb4a53fc\u2026); only 8 unrelated entries changed. packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json: pinned 3a1bed79\u2026/59843 B, current 23426df2\u2026/64896 B \u2014 DRIFTED IN SUBSTANCE (specificationVersion \"2.0.0\" on both). Object-for-object pinned\u2192current: (a) facts service_address_confirmation_status, certified_disposition_exhibit_status and docket_sheet_exhibit_status removed; (b) trafficking_status renamed ms_charged_trafficking_distribution_manufacture with new use/helperText; (c) certificate-of-service body loses \"Service-address status: {{service_address_confirmation_status}}.\"; (d) ATTACHMENT ASSEMBLY STATUS section removed; (e) cover body \"This is a five-part self-help packet \u2026 prepared from the facts you verified against your records.\" \u2192 \"This is a self-help packet \u2026 The contents list below names every document it contains.\"; (f) \"a stopping condition in the instructions applies\" \u2192 \"in your guide applies\"; (g) documentContract blocks added to all five documents; (h) filing-and-next-steps document marked supersededBy supplemental_guide; (i) caseIdentifierFactId and pathwayLabelEs added; (j) arrays re-indented. The drift reaches the bytes: canonical.pdf 732e7f47cff8659b30712c3fc0e886c9ac141052955d1aefbb7f3008aa63f845 (33154 B, 11 pages) and boundary.pdf 87e4bf90460e42f74dc220b31c23e90ce16206c43a2ee5d6cc78fd71ac583d58 (33493 B, 11 pages) print the pinned (e) and (f) text on page 1. product-wiring.json's approval block states \"Any packet-byte, specification-digest, document-set, renderer-input, or approved-fact change invalidates this approval and requires a new review.\"",
+          "whatRepairMustDo": "The specification drift is the lead's decision first, before any repair starts: either (A) re-pin the receipt and product-wiring to 23426df251aa31bfd5215edbfe547d5f56c2349ed4c4bb5e7b407bc25405e126 / 64896 B and rebuild both fixtures against the current specification, so page 1 carries the current cover and limits text and the superseded instructions document is dispositioned as the specification now directs; or (B) restore the pinned specification bytes 3a1bed79\u2026 and leave the fixtures as they are. Whichever the lead chooses, the receipt, product-wiring and rendered-artifacts.json specificationConformance must then name one and the same specification digest, and the manifests pin may be refreshed to fee93664\u2026 only as a whole-file re-anchor whose family entry is shown identical, as the receipt's existing identityRefresh block does."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "measuredDetail": "Page 1 (cover and contents, composed from the specification's participantChecklist) prints: \"Insert the participant-supplied certified disposition as Exhibit A and docket sheet as Exhibit B; the generated assembly checklist is not an attachment.\" Page 9 (EXHIBIT CHECKLIST, composed from the memo track) prints: \"EXHIBIT B - ONLY WHERE THE CASE WAS INDICTED. A copy of the indictment, from the circuit records office of the county\u2026\" and lists the docket sheet under \"ADVISABLE\". Identical on both fixtures. The specification (current and pinned alike: filing step, participant checklist and the petition text \"A copy of the docket sheet is attached as Exhibit B.\") says docket sheet = Exhibit B; the memo track's supportingDocuments make the indictment conditional and the docket sheet advisable. Each page reproduces its own source faithfully, so the two bound sources conflict and the packet prints both; the composed petition attaches no Exhibit B at all. Not recorded by VF04, VF12, VF13, VF15 or VF16. Exists at the pinned specification too, so independent of the drift.",
+          "whatRepairMustDo": "Resolve the page 1 / page 9 contradiction to one statement consistent with the controlling specification the lead settles on under SOURCE_IDENTITY: Exhibit A the certified disposition and Exhibit B the docket sheet, with the indictment handled as the specification directs (and the memo track aligned or its disagreement recorded by the lead), so that page 1, page 9 and the petition all say the same thing about what is attached and what is only advisable."
+        }
+      },
+      "repairMustNotDo": [
+        "no re-pin of the specification, the memo or the manifests, no edit to MS-nonconviction-expungement-99-19-71-4.v1.json, and no fixture edit or rebuild before the lead decides between re-pin-and-rebuild (23426df2\u2026) and restore-pinned-spec (3a1bed79\u2026)",
+        "do not resolve the Exhibit B contradiction by editing the memo or the specification to match the rendered page; the controlling specification decides and the lead records any memo disagreement",
+        "do not edit an artifact merely so a receipt matches it",
+        "do not touch the VERIFICATION sheet, the notarial certificate or the notarization statements, which are correct against the memo pin 01c4a958 and the specification's notarisationRequired true",
+        "this verification opens no commercial route and grants no approval"
+      ],
+      "assignedBy": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996"
+    }
+  ],
+  "grantsNothing": "These assignments describe measured defects and the exact repair each owes. They open no route, set no price, re-pin no receipt and authorise no promotion."
+}

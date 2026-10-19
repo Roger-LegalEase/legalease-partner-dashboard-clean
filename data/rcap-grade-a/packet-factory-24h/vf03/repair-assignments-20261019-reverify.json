@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+  "lane": "VF03",
+  "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "assignmentCount": 2,
+  "assignments": [
+    {
+      "itemId": "ny_160_59_petition-set",
+      "lane": "VF03",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill",
+      "decisiveDefect": "scripts/rcap-packet-completeness/verify-packet-completeness.mjs returns FAIL_MISSING_PREFILLS for the family at f3ff92ac2: 68 of 114 blanks are UNCLASSIFIED_BLANK (34/148 written), all 68 being the nyCompletion declarations commit f898a765f introduced into production-field-map.json; 31 on the application are unprovable where its source binary is not mounted, and 37 on the COD request and pro se packet are unresolvable by the CLI verifier, which has no owner-fact callback",
+      "failedProofObligations": [
+        "KNOWN_PREFILLS"
+      ],
+      "perObligation": {
+        "KNOWN_PREFILLS": {
+          "measuredDetail": "unclassifiedBlanks 68 measured here (verifier run at f3ff92ac2 with the Master Library mounted). The 68 are exactly the rows f898a765f re-typed from blankTreatment REQUIRED_BEFORE_FILING to refusalClass ny_source_conditional_completion: 31 APPLICATION, 16 COD-REQUEST, 21 PRO-SE-PACKET; 65 conditional, 3 unconditional first-case facts (Law_Section_Subsection_1, Sentence_Date_1, Sentence_Term_1). None is a held fact (factId null on all 68; knownRequiredFieldsMissing 0) and none is undisclosed (68/68 named with their condition and actor in participant-instructions.md; requiredFactsNotCollected 0). Per the verifier's own findings: 31 application blanks fail SOURCE_PROOF_UNRESOLVED (ENOENT: the APPLICATION PDF 73a5eeaf... / 1234105 B is not under private/source-imports/.../STATES/NY/02_PACKET_FORMS here); 37 COD and pro se blanks are source-proven and disclosed but fail 'An active or unknown owner condition does not excuse an unwritten field', because ny-16059-source-conditions.mjs resolves applicability only through resolveOwnedField, which f330ca64a wired into the server route and the CLI never supplies. The 34 writes are sound (60/60 values read back inside their widgets); the defect is that 68 blanks have no measured disposition.",
+          "whatRepairMustDo": "Make unclassifiedBlanks read 0 from a measurement at the base the next verdict is read, in the environment the verifier is run in. Two things are needed and neither is a field-map rewrite. (1) The APPLICATION source binary (sha256 73a5eeaf73ed647b9cf6ae786823aaa3cf8b3a7e483ea4aad154d7c2275caae4, 1234105 B, STATES/NY/02_PACKET_FORMS/NY__FORM__CPL-160.59-APPLICATION__...__REV-UNKNOWN__EN.pdf) must be mounted wherever this family is verified; the module refuses every application blank without its bytes, including the three unconditional first-case facts that would otherwise resolve REQUIRED_BEFORE_FILING. (2) The 65 conditional declarations need a measured applicability the verifier can read in the lane that scores them: either the CLI gets the owner-fact resolution path f330ca64a built for the server route (src/.../ny-16059-owned-completion.ts) or an equivalent committed, measured input, or the completeness contract gains a disposition for a source-verified, disclosed conditional blank whose applicability is unknown. Which of those is right is the owner's decision on the contract, not a builder's; this lane records only that the counter is 68 and that no run of the committed verifier can make it 0 as things stand. After the repair, the family's actual-writes record should also carry the output-byte keys (addedGlyphsReadFromOutputBytes, nonWhitespaceGlyphsOutsideMeasuredWriteBoxes) so invisibleWrites and visualDefects stop printing UNMEASURED; this lane measured both 0 from the bytes, so that is a record-shape gap, not a defect."
+        }
+      },
+      "repairMustNotDo": [
+        "do not re-type the 68 rows back to REQUIRED_BEFORE_FILING, drop their nyCompletion declarations, or edit the module's field or source pins merely so the counter reads zero; that edits the expectation, not the packet",
+        "do not write any value into the 68 fields; none is a held fact (factId null on all 68), and filling an inapplicable blank is the thing the instructions forbid",
+        "do not edit a fixture, raster, receipt or rendered-artifacts.json merely so a record matches it; the six fixtures and 46 raster files hash exact and are unchanged since the vf10 base",
+        "this verification opens no commercial route and grants no approval"
+      ]
+    },
+    {
+      "itemId": "fl-administrative-set",
+      "lane": "VF03",
+      "assignedBy": "CI-FACTORY-CLAUDE-VT",
+      "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-administrative-set--official-pdf-fill",
+      "decisiveDefect": "The packet is silent on service. Nothing in participant-instructions.md, filing-instructions.md or the text of either fixture states who must be served or that nobody is served: a case-insensitive search for serv / no one / nobody / copy to / notice finds no service statement at all (the only hit is the blank 'Current FDLE submission method, destination, attachments, and fee if any'). The held rule for trackId fl-administrative is 'The source review does not state a service requirement', so the deliverable the standard requires is an affirmative nobody-is-served sentence with the mechanism that replaces service, which the packet already has the facts for and does not say. VF03 passed this on 2026-09-05 as 'the packet asserts none', before the SERVICE standard was written down (VF11 standardApplied: silence does not meet it); the bytes have not changed, the yardstick has.",
+      "failedProofObligations": [
+        "SERVICE"
+      ],
+      "perObligation": {
+        "SERVICE": {
+          "measuredDetail": "Measured at base 1b48eb358 from the committed files. participant-instructions.md: sections 'Required before submission', 'Obtain the written endorsement', 'Stop conditions', 'Protected fields left blank' - no sentence about service. filing-instructions.md: five numbered steps ending 'Submit the application and completed written endorsement through the process FDLE confirms' and 'This is an FDLE agency process, not a court filing' - the mechanism is present, the service statement is not. canonical.pdf and boundary.pdf (pdftotext -layout): the applicant section, the endorsement section 'COMPLETED BY THE ENDORSING OFFICIAL, NOT THE APPLICANT', and the submission-mechanics block - no service statement. Track registry rules.service for fl-administrative: 'The source review does not state a service requirement.' Packet-set manifest serve_party: same text, requiredBeforeFiling false.",
+          "whatRepairMustDo": "Add one affirmative sentence, in participant-instructions.md and in filing-instructions.md only, stating that nobody is served and naming the mechanism that replaces service as this packet already describes it: the application goes to the Florida Department of Law Enforcement, and the written endorsement is obtained directly from the head of the arresting agency or designee, or the State Attorney or designee, by giving that official the completed applicant section and the supporting records. For example: 'No one is served with this application. It is submitted to the Florida Department of Law Enforcement, and the written endorsement is obtained directly from the head of the arresting agency or designee, or the State Attorney or designee, who completes the endorsement section; the committed record states no service requirement.' Place it in participant-instructions.md beside the 'Obtain the written endorsement' section and in filing-instructions.md beside step 5. Nothing else."
+        }
+      },
+      "repairMustNotDo": [
+        "do not change fixtures/canonical.pdf or fixtures/boundary.pdf, reports/*, production-field-map.json, product-wiring.json or packet-set-manifest.json; the composed pages are not part of this repair",
+        "do not touch source-receipt.json: no re-pin of the three drifted compositionSources (CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json, SOURCE_RELATIONSHIP_REGISTRY.json, route-obligation-candidate.json) - that is the lead's decision, recorded separately in rows/fl-administrative-set.json",
+        "do not change the route key, the track registry, the packet-set manifests, MASTER_QUEUE or any legal-design record",
+        "do not add a fee statement or amount: FEE_AND_WAIVER passed under DET-FEE-AND-WAIVER-001 clause 3 and is not the defect",
+        "do not invent a service recipient, a method or a rule the committed record does not hold; the held rule is that no service requirement is stated, and the sentence must say that, not more",
+        "do not edit any artifact merely so a receipt matches it",
+        "nothing beyond the one sentence in the two instruction files; this assignment opens no commercial route, promotes no family and grants no approval"
+      ]
+    }
+  ],
+  "grantsNothing": "These assignments describe measured defects and the exact repair each owes. They open no route, set no price, re-pin no receipt and authorise no promotion."
+}
