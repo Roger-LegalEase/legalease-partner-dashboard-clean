@@ -369,11 +369,11 @@ export function PacketInformationBuilder({
       translations: { ...question.translations, es: { ...question.translations?.es, helperText: contact.translations?.es?.helperText } } };
   });
   const sectionStatuses = screens.map((step) => {
-    const states = step.questions.flatMap((question) => {
-      const state = courtSectionNeedsReview(question) ? "invalid" : displayedAnswerState(question);
-      return question.required || ["invalid", "uncertain", "declined"].includes(state) ? [state] : [];
-    });
-    const id = states.every((state) => state === "known_valid") ? "complete"
+    const raw = step.questions.map((question) => courtSectionNeedsReview(question) ? "invalid" : displayedAnswerState(question));
+    const states = raw.filter((state, i) => step.questions[i].required || ["invalid", "uncertain", "declined"].includes(state));
+    // An all-optional section with nothing entered has not been started.
+    const id = states.length === 0 ? (raw.every((state) => state === "unanswered") ? "not_started" : "complete")
+      : states.every((state) => state === "known_valid") ? "complete"
       : states.every((state) => state === "unanswered") ? "not_started"
       : states.some((state) => ["invalid", "uncertain", "declined"].includes(state)) ? "needs_attention" : "in_progress";
     const label = id === "complete" ? copy("Complete", "Completo")
