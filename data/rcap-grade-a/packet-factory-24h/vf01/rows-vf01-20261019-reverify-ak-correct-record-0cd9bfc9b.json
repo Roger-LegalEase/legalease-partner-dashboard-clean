@@ -1,0 +1,230 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF01",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "0cd9bfc9b8d01f50abbfa49301c23b3e901c13f4",
+  "verifier": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record": "GRANTED_ELSEWHERE: agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record is granted to VF03, not VF01, and that grant is LIVE -- another lane is working it now."
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+      "lane": "VF01",
+      "worker": "CI-FACTORY-CLAUDE-VT (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "0cd9bfc9b8d01f50abbfa49301c23b3e901c13f4",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/agency-application-treatment:obligation:unattached-decision-route:ak:ak-correct-record--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "PYTHONDONTWRITEBYTECODE=1 MASTER_LIBRARY_SOURCE_DIR=/tmp/ci-read-0cd9/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record', run in the read-only worktree at 0cd9bfc9b8d01f50abbfa49301c23b3e901c13f4; exit 0, PASS_COMPLETE, 8/37 written. git status was the same before and after (only the untracked private symlink). For this family the verifier reads only committed records (field map, actual-writes, rendered-artifacts, receipt, instructions); none of its source-reading paths (GA/CA/NY actor checks, sourceStage blanks, of which this field map has 0) apply, so the unmounted AK form did not stop it measuring anything. Its currentness check reads receipt.allSourcesExact (true, self-declared) and does not rehash committed records, so it could not see the decision-file drift; that is measured separately under SOURCE_IDENTITY. visualDefects is a text/record reading: no raster pixel was inspected here."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "routeKey obligation:unattached-decision-route:AK:ak-correct-record is the only route key in source-receipt.json routeKeys, product-wiring.json routeKey/routeKeys/binding.routeKeys, production-field-map.json routeKeys and the census row (route-obligation-candidate.json routes[593]); familyId agrees in all four. The census row's statute (AS 12.62.170), instrument ('Request to Correct Criminal Justice Information form and evidence checklist') and destination match the packet. The printed footer 'Route: obligation:unattached-decision-route:AK:ak-correct-record' was found on pages 2 and 5 of both fixtures (the last page of each composed component), not on every page; the official form page 3 carries no platform text outside its write boxes, correctly."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Committed records recomputed from disk. (1) data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json: receipt pins 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef (184365 B); disk is now 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373, byteLength 184885. Pinned bytes = git show 237580064 (byte-identical to drift/\u2026pinned.0aad88ef); current bytes = 66be051f4. The family's decision researchTrackDecisions[2] (trackId ak-correct-record) is object-equal pinned vs current (canonical JSON sha256 1860ba5f2f64dd19d076c815e03eb5c5ebefc55eb84d17f41043e1460c9a3810 both sides; section sha 0118224056cc\u2026, mechanism sha 7e014f267a58\u2026, productDisposition sha bb12860f42c7\u2026 unchanged, and the census row cites that same productDisposition sha). The shared authority block (schemaVersion, generatedBy, createsApproval, authority, crosswalk, independentFields) is object-equal. The only differences are in questionDecisions (13 memoSha256 values for KY, LA, ND, NE questions) and scope (registerOpenQuestions 37->38, two Kentucky out-of-report-scope entries); neither mentions AK or this track ('ak-correct-record' occurs 3 times in both versions). All 14 anchor statements the build relies on are present in the current bytes. Pin verified against: 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373, 184885 bytes. (2) src/lib/rcap-engine/compiled/profiles/AK-alaska.json rehashes to d3703c445546caabbed5b5e498b706476c4668ed0104beb8079c9989ff07602f, 188501 B, exactly as pinned; its 3 anchors are present. (3) Official form DPS-CRI-103 REV-2022-07-25 (b1de812543a259e425318011dbc5e2bc8b4badf0692da9d12188087ec0e4a259, 144047 B): NOT recomputed. The master-library mount here holds only STATES/NY and STATES/OR, the AK path is absent, and no copy named *CRI-103* exists anywhere on this filesystem. It is bound by the committed hash record only: the receipt, rendered-artifacts boundOfficialDocuments, product-wiring sourceVersion, official-source-registry.json (expected = installed, 144047 B, match true), local-source-corpus-index.json (two custody entries), source-artifact-registry.json and source-custody-census.json all carry the same 64-hex digest and byte length. The receipt itself still pins 0aad88eff0e3\u2026; it was not edited here."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Declared componentSet [agency_route_sheet, dps_correction_request, evidence_checklist] in the field map equals rendered-artifacts componentSet and each fixture's components/documents. The decision's INITIAL OUTPUT 'OFFICIAL AGENCY CORRECTION FORM + EVIDENCE CHECKLIST' is met by the DPS form (page 3) and the evidence checklist (pages 4-5); the route sheet (pages 1-2) is the added process page. Page text confirms each component is present in both fixtures. requiredComponentsMissing 0 from the verifier."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "The build holds six facts per fixture (name, DOB, street address, city/state/ZIP, phone, email). All six are written on CRI-103 and the name also on both composed pages: 8 writes per fixture. Each of the 8 expected values was found in pdftotext output of its own component's pages in canonical and in boundary (8/8, 8/8, full strings, including the long boundary values). No held fact is left blank; knownRequiredFieldsMissing 0, invisibleWrites 0."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "production-field-map requiredBeforeFiling (21 rows) equals the blanks report's list exactly. Each of the 21 disclosureLabels appears verbatim in participant-instructions.md (21/21), in the per-document tables. The six items the decision says a challenge must identify are each a labelled blank on the evidence checklist and listed in the instructions. 8 of 37 rows written; 21 required-before-filing + 8 protected = the other 29."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "routeSelectionsMade records two selections, instrument (CRI-103) and destination (DPS CRIB or the responsible originating agency), each attributed to the controlling decision's own words. The five CRI-103 reason boxes are declared genuine participant elections with the reason in routeSelectionNote; the decision does not determine which applies. selectionControls 0 on every map; requiredOptionsMissing 0."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No map has selection controls or row-indexed fields; CRI-103 is a single flat request with one entry per fact and the checklist has one block per item. incompleteRows 0 from the verifier."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "8 protected blanks declared: five reason boxes, the record subject's signature, the date beside it, and the DPS decision block. Measured in the bytes: page 3 has four content streams; the form's own stream inflates to an identical 11239 bytes in both fixtures (sha256 prefix 80883d3e696e9f60), and the only added stream holds exactly 6 BT/Tj/ET text shows, black, with no path or fill operators, so no check mark or other vector ink was added. The 6 text shows decode to the six written values at the six measured y positions. pdftotext of page 3 differs between fixtures only on those six values; SSN, driver's licence, the signature line, date and the decision block carry no extracted text. No AcroForm and empty Annots. protectedWrites 0, refusedFieldsWithInk [] in both fixtures."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "sha256sum and stat from disk: canonical.pdf 298452333a1bc813ccb8924fbbb0bf977aba13c36eb26152350b8c977cd1e3e4, 160071 B; boundary.pdf c709cc48b6019c276ca9cce7b66c5f20e737286d8947250b2b4fd0af5babb9ce, 160235 B; pdfinfo 5 pages each, letter. These equal rendered-artifacts.json (pdfs[] and artifacts[]), product-wiring acceptanceReceipt and proposedRepresentation, and the RASTER_QUEUE row (RASTER_PASS, run 33608483853, job 100178590489, bound to both hashes). No unrecorded PDF in fixtures/, none recorded and missing."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "pageManifest for both fixtures: 1-2 agency_route_sheet, 3 DPS-CRI-103 (sourcePage 1, source sha b1de8125\u2026), 4-5 evidence_checklist; manifest length 5 = pdfinfo 5. Per-page pdftotext confirms page 1 opens 'WHERE THIS GOES, WHAT IT COSTS, AND WHAT YOU DO NOT FILE', page 3 opens 'STATE OF ALASKA / DEPARTMENT OF PUBLIC SAFETY / REQUEST TO CORRECT CRIMINAL JUSTICE INFORMATION' and ends 'DPS Form CRI-103 (Rev. 07/25/22)', page 4 opens 'EVIDENCE CHECKLIST'. The one-page official form is delivered whole and unsplit."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox on both fixtures: canonical 1446 words, boundary 1452 words, 0 words outside the 612x792 page box, 0 same-band overlapping word pairs (vertical overlap >50% of the shorter word and horizontal intersection >0.5 pt) on any page. The boundary's long values were drawn at reduced sizes (8.5, 9.5, 7.5, 9 pt) and still read back in full with no overlap into the right-hand column. Text-only measurement; vector rules and raster ink are not seen by it."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The route names 'INITIAL DESTINATION: DPS / RESPONSIBLE ORIGINATING AGENCY' (census: 'Alaska DPS or the agency responsible for the disputed data'). Instructions: 'Send the completed form to the Department of Public Safety's Criminal Records and Identification Bureau', with the address, telephone, fax and email the form prints, 'Or send it to the agency responsible for the disputed data', quoting the recorded destination. The route sheet (page 1) says the same, and adds 'Nothing on this route goes to a court.'"
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Applied DET-FEE-AND-WAIVER-001 with A1-A4. Held sources (A2): the bound form, the compiled AK profile, the census row, the controlling decision, the batch-b unattached-decision entry. None states a charge for an AS 12.62.170 correction: the profile has no 12.62.170 line; its TF-810, set-aside and 12.62.180(b) sealing lines answer other statutes (A3); its 'DPS criminal history record DPS fee' line gives no amount. Page 3 extracted text has no '$' and no 'fee'. The packet meets limb 3: 'No held source states any charge for submitting this correction request', naming the Criminal Records and Identification Bureau at (907) 375-6410, fax (907) 269-0363, dps.chri@alaska.gov, 5700 East Tudor Road. It states the DPS record fee with no amount and the same office, and refuses the sibling figures by name. Waiver: 'There is no fee waiver, because there is no filing fee', plus 'ask the Bureau at the number above what it does for a person who cannot pay' (instructions; the route sheet carries only the first sentence). A4: the packet prints no figure that contradicts these statements."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "The controlling decision's serviceWorkflow is []. Instructions answer it with an affirmative nobody-is-served statement and its mechanism: 'There is nobody to serve. This is a request to a record-holding agency, not a proceeding: there is no opposing party, no prosecutor to notify, no certificate of service and no return date. No held record states any service requirement for it.' The mechanism: send it once to one office and keep dated proof, and DPS forwards the request to the originating agency itself, as the form's own decision block records ('DPS does not have information; forwarded to: \u2026 Due:'). Route sheet: 'Nobody. There is no opposing party and no certificate of service.'"
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "The controlling decision's stops: (a) 'A disagreement about whether an accurate event should be sealed or expunged is not a correction claim'; (b) a final adverse decision goes to administrative appeal in the Alaska Superior Court, 'not an ordinary self-help record-clearing packet'; productDisposition 'ADVERSE FINAL DECISION: SUPERIOR-COURT ADMINISTRATIVE APPEAL', 'APPEAL: ATTORNEY HANDOFF'. (a) is the first item under 'When to stop and get help' and step 1 of the instructions, and the route sheet's 'THE BOUNDARY' section. (b) appears in the instructions with 'Take it to a lawyer' and 'Nothing here prepares that appeal', and on the route sheet as 'IF IT IS DENIED'. The form's own 13 AAC 68.200 Commissioner appeal is stated as well. No stop the decision records is missing; the packet adds four more (denial, out-of-state or federal entry, identity theft, immigration)."
+        }
+      },
+      "evidence": {
+        "verifierRun": "ok   agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record PASS_COMPLETE                8/37 written\n\n  1 famil(ies) audited \u00b7 1 PASS_COMPLETE\n\n  counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0",
+        "sourceRecomputation": {
+          "pinVerifiedAgainst": {
+            "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+            "sha256": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373",
+            "byteLength": 184885,
+            "note": "current bytes at the base; the receipt still records the superseded pin below"
+          },
+          "receiptPins": [
+            {
+              "pathInRepository": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+              "receiptSha256": "0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef",
+              "receiptByteLength": 184365,
+              "recomputedSha256": "63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373",
+              "recomputedByteLength": 184885,
+              "match": false,
+              "drift": "not substantive for this family: researchTrackDecisions[ak-correct-record] and the shared authority block object-equal; 14/14 anchors present"
+            },
+            {
+              "pathInRepository": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+              "receiptSha256": "d3703c445546caabbed5b5e498b706476c4668ed0104beb8079c9989ff07602f",
+              "receiptByteLength": 188501,
+              "recomputedSha256": "d3703c445546caabbed5b5e498b706476c4668ed0104beb8079c9989ff07602f",
+              "recomputedByteLength": 188501,
+              "match": true,
+              "anchorsPresent": "3/3"
+            },
+            {
+              "documentId": "DPS-CRI-103",
+              "pathInCustody": "STATES/AK/05_SOURCE_GATED/AK__SOURCE-GATED__DPS-CRI-103__request-to-correct-criminal-justice-information-in-the-alaska-public-safety-information-ne__REV-2022-07-25__EN.pdf",
+              "receiptSha256": "b1de812543a259e425318011dbc5e2bc8b4badf0692da9d12188087ec0e4a259",
+              "receiptByteLength": 144047,
+              "recomputedSha256": null,
+              "match": null,
+              "why": "not recomputed: the master library is not mounted for AK here (STATES/ holds only NY and OR) and no copy exists on this filesystem; bound by the committed hash record only, which is exact and agrees across the committed records listed under SOURCE_IDENTITY (plus data/rcap-all50/overlays/production/alaska/dps-cri-103-source-gated-en/source-record.json, same digest and 144047 B)"
+            }
+          ],
+          "pinnedCopyProvenance": "drift/2026-08-28-national-legal-decisions.json.pinned.0aad88ef is byte-identical to git show 237580064:<path>; current bytes are 66be051f4's",
+          "familyDecisionCanonicalSha256": {
+            "pinned": "1860ba5f2f64dd19d076c815e03eb5c5ebefc55eb84d17f41043e1460c9a3810",
+            "current": "1860ba5f2f64dd19d076c815e03eb5c5ebefc55eb84d17f41043e1460c9a3810"
+          },
+          "sharedAuthorityBlock": {
+            "keysCompared": [
+              "schemaVersion",
+              "generatedBy",
+              "createsApproval",
+              "authority",
+              "crosswalk",
+              "independentFields"
+            ],
+            "allEqual": true
+          },
+          "whatChanged": "questionDecisions: 13 memoSha256 values (KY x3, LA x3, ND x2, NE x5); scope: registerOpenQuestions 37->38 and registerQuestionsOutOfReportScope (Kentucky entries incl. Q-058). Nothing names AK or ak-correct-record."
+        },
+        "artifactRecomputation": [
+          {
+            "file": "fixtures/canonical.pdf",
+            "sha256": "298452333a1bc813ccb8924fbbb0bf977aba13c36eb26152350b8c977cd1e3e4",
+            "byteLength": 160071,
+            "pdfinfoPages": 5,
+            "recorded": "equal",
+            "words": 1446,
+            "wordsOutsidePageBox": 0,
+            "sameBandOverlappingPairs": 0
+          },
+          {
+            "file": "fixtures/boundary.pdf",
+            "sha256": "c709cc48b6019c276ca9cce7b66c5f20e737286d8947250b2b4fd0af5babb9ce",
+            "byteLength": 160235,
+            "pdfinfoPages": 5,
+            "recorded": "equal",
+            "words": 1452,
+            "wordsOutsidePageBox": 0,
+            "sameBandOverlappingPairs": 0
+          }
+        ],
+        "byteReadBack": {
+          "canonical": {
+            "writes": 8,
+            "foundOnOwnComponentPages": 8,
+            "missing": []
+          },
+          "boundary": {
+            "writes": 8,
+            "foundOnOwnComponentPages": 8,
+            "missing": []
+          },
+          "page3OverlayStream": "6 text shows, no path/fill operators, in both fixtures; form stream identical across fixtures (11239 B inflated)",
+          "method": "pdftotext -layout per page, whitespace-normalised substring match against actual-writes expected values; pdf-lib content-stream operator count"
+        },
+        "stopConditions": {
+          "decisionStops": [
+            "accurate-event sealing/expungement dispute is not a correction claim",
+            "final adverse decision -> Superior Court administrative appeal, not self-help; APPEAL: ATTORNEY HANDOFF"
+          ],
+          "carriedInInstructions": true,
+          "carriedOnRouteSheet": true,
+          "missing": []
+        },
+        "lapseResolved": "Lapse BOUND_SOURCE_DRIFTED on the decisions file (receipt 0aad88eff0e3d12ea9b10de9c80edcc5b3134508f097c9e85f0e35d34a9c74ef vs disk 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373). Resolved on substance: the drift is outside this family's decision and outside the shared authority block, so the controlling section did not drift and every anchor the build relies on is still present. This row verified against 63fe0b16adc4c2debd8b583cf02ba365b8b2045d86f53af5c5be720c86e74373, 184885 bytes. The receipt was not re-pinned (this lane writes nothing in the worktree); the re-pin is a separate step."
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}
