@@ -5,6 +5,7 @@ import {assertCtPrepayRecordFactsSourceSuccession,CT_PREPAY_RECORD_FACTS_SOURCE_
 import {assertIlSdWyRecordFactsSourceSuccession,IL_SD_WY_RECORD_FACTS_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertOhJuvenileCopySourceSuccession,OH_JUVENILE_COPY_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertLeadSpanishLayer2SourceSuccession,LEAD_SPANISH_L2_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertMnGuardMemoSourceSuccession,MN_GUARD_MEMO_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaSafeAtHomeSourceSuccession,CA_SAFE_AT_HOME_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertLeadSpanishSourceSuccession,LEAD_SPANISH_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -922,6 +923,13 @@ check('lead Spanish layer-2 hop preserves prior chain and refuses missing/tamper
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===LEAD_SPANISH_L2_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/lead Spanish layer-2 source succession record bytes changed/);
  assert.throws(()=>assertLeadSpanishSourceSuccession(file=>{if(file===LEAD_SPANISH_L2_SOURCE_PATH)throw Error('missing lead Spanish layer-2 record');return readBytes(file);}),/missing lead Spanish layer-2 record/);
  for(const input of ["src/lib/expungement-ai/frontend/reviewed-result-display-copy.json", "src/lib/rcap-engine/delaware-conviction-questions.ts", "src/lib/rcap-engine/new-york-16059-questions.ts"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('MN guard memo hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertMnGuardMemoSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,25);assert.equal(c.currentUnchangedSourceCount,173);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===MN_GUARD_MEMO_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/MN guard memo source succession record bytes changed/);
+ assert.throws(()=>assertLeadSpanishLayer2SourceSuccession(file=>{if(file===MN_GUARD_MEMO_SOURCE_PATH)throw Error('missing MN guard memo record');return readBytes(file);}),/missing MN guard memo record/);
+ for(const input of ["src/lib/expungement-ai/mn-two-county-source-facts.ts"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 // A succession record set must never outlive its call: after an honest load, a later drift still
