@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 475,
-    "rows": 1583,
+    "returnDirectories": 476,
+    "rows": 1584,
     "independentVerdicts": 344,
-    "failRepairRequired": 16,
-    "passIndependent": 327
+    "failRepairRequired": 17,
+    "passIndependent": 326
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
@@ -50,6 +50,7 @@
     "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
     "fl-administrative-set",
     "ks-21-6614-prostitution-coercion-set",
+    "ks-22-4908-registration-relief-set",
     "ms-nonconv-set",
     "nd-deferred-imposition-records-set",
     "ny_160_59_petition-set",
@@ -16402,6 +16403,57 @@
     },
     {
       "familyId": "ks-22-4908-registration-relief-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vfks4",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "dc06b1d5b409e7bb8d5dfcd68e452ba3aaa034c0",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "Canonical: 37/37 declared text writes read back inside their own boxes. Boundary: 35/37. On boundary.pdf packet page 6 (combined expungement petition), fields undefined_3 (item 4, 'charged with the crime of') and on (item 5, 'I was convicted of') print nothing, although the boundary fixture holds matter.charge ('Possession of a controlled substance with an unusually long descriptive charge', 78 characters) and the field map declares both as writes of that fact. actual-writes.json lists 19 values for that document in boundary against 21 in canonical, so the finalizer dropped the two writes. No refusal row, blank list or instruction tells the participant. The same value does print on the registration petition, page 1. The repository verifier reports knownRequiredFieldsMissing 0 because it classifies the committed field map and does not compare each fixture's writes with the declared writes. The builder's own rule in kansas-statutory-builder.mjs counts a declared held write the output does not carry as a missing known fact.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "All 19 field-map required-before-filing rows are named verbatim in participant-instructions.md with what to write (missing: 0), and the four documents to obtain are each named with the office that supplies them. Against the controlling manifest entry's 15 requiredBeforeFiling items, two are not carried. (1) 'Race and year of birth on the order cover sheet' (Left for the participant pending the data-protection review.): the packet prints the full date of birth on the cover sheet and names the cover-sheet race selections only under 'Things the platform deliberately left blank'. Its cover-sheet must-supply table lists alias lines 1-5 only, so nothing tells the participant to complete race or year of birth there. (2) The fee-waiver item, scored under FEE_AND_WAIVER.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "PROTECTED_FIELDS",
+          "finding": "43 refusals (44 widget rectangles): in both fixtures each rectangle holds identical content (printed rules and box glyphs only) and no fixture value. 0 refused fields carry ink, and protectedWrites=0 by the map's own classification. But the KBI cover sheet (packet page 5) prints the participant's full date of birth in its DOB field in both fixtures (canonical 1988-06-14, boundary 1979-12-31). The bound track registry's manualCompletionItems and the controlling manifest's participantActionRequired both reserve 'Race and year of birth on the order cover sheet' for the participant: 'Left for the participant pending the data-protection review.'. No committed decision under data/rcap-grade-a/legal-decisions resolves that review. The map classifies the field as a write, so the counter cannot see the conflict with the controlling record.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "The fee limb is met. The registration petition's fee is the K.S.A. 60-2001 civil docket fee, with the clerk named for the current amount. The combined petition's $176 K.S.A. 21-6614(g)(2) fee is stated, and the supreme-court surcharge mention is sourced in the ks-21-6614-conviction track. The waiver limb is not. The controlling manifest entry's apply_fee_waiver item and the registry's rules.feeWaiver both state: 'None identified in K.S.A. 22-4908. The K.S.A. 60-2001 poverty affidavit practice applies to the civil docket fee by its own terms; its reach over the combined expungement fee is unresolved.' The packet instead says 'Do not assume a single fee or a fee waiver: confirm the current amount and waiver practice with the clerk.' and nowhere mentions the poverty affidavit ('poverty' and 'affidavit' each occur 0 times in the instructions and in both PDFs). DET-FEE-AND-WAIVER-001 A1 and A2, applied as written, count the manifest's participantActionRequired as held, and let a named authority stand in only where no held source answers. For the registration fee the held answer is withheld and replaced with a question to the clerk. Sending the participant to the clerk is right only for the combined fee, whose reach the record calls unresolved.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "SELF_HELP_STOP",
+          "finding": "All 7 stops on the controlling memo track (KS.memo.json tracks[7], identical to the bound registry's selfHelpStopConditions) are carried in the stop list on page 13 and in the instructions: opposition; risk assessment or contested hearing; victim participation; sex or violent registrant; disputed five years; a request to build the clear-and-convincing showing (as 'write or assess the rehabilitation or public-safety showing'); immigration. The packet adds recent or pending felony and companion offense not otherwise eligible, and it states what it will not supply or sign and that it is not approval. The decision record fails. The registry's packetInstructions and the memo's legalDesignDecision limitations require 'The packet recommends attorney review before filing, because relief requires clear and convincing evidence, the county or district attorney is notified, victims may be notified and may participate, and the court may order a risk assessment.' No such recommendation appears in the instructions or either PDF; counsel appears only as an alternative to the clerk for docketing and fee mechanics. The same record requires the packet to say 'the victim cannot be compelled to testify or give discovery', which is also absent ('compel', 'testify' and 'discovery' each occur 0 times). Tension, not scored separately: step '8. After filing, follow the court's notice and hearing instructions. If the court orders a risk assessment, arrange and pay for it as directed.' carries self-help through an ordered risk assessment, which the record's post-generation handoff says ends self-help.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER",
+        "KNOWN_PREFILLS",
+        "PROTECTED_FIELDS",
+        "REQUIRED_BEFORE_FILING",
+        "SELF_HELP_STOP"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfks4/rows-vfks4-20261019-reverify-ks-22-4908-dc06b1d5b.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-22-4908-registration-relief-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ks-22-4908-registration-relief-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vfks4",
       "isIndependentVerification": true,
@@ -16412,7 +16464,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfks4/rows-vfks4-ks-registration-current-receipt-final-20260913.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-22-4908-registration-relief-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ky_criminal_record_segregation-set",
