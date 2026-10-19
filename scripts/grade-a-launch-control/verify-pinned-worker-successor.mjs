@@ -19,6 +19,16 @@ export const PENDING='data/rcap-grade-a/launch-control/PENDING_WORKER_SUCCESSOR.
 export const PUBLICATION='data/rcap-render/worker-publication-evidence.json';
 export const CANDIDATE='data/rcap-grade-a/launch-control/RELEASE_CANDIDATE_BINDING.json';
 export const TOOLS='data/rcap-grade-a/launch-control/HOSTED_TOOLS_BINDING.json';
+// A pull-request candidate publication (publish-rcap-render-worker.yml, candidate_pull_request)
+// is admitted only as a rehearsal-only import: every identity check below still runs, and the
+// verdict never becomes a current release publication, so F1, hosted and production stay held.
+export const REHEARSAL_HELD='rehearsal-only candidate publication: not a release publication; F1, hosted and production gates stay held.';
+export function rehearsalContainment(e){
+ if(e.containedIn==='captain-release'){assert.notEqual(e.rehearsalOnly,true,'a release publication cannot be marked rehearsal-only');return false;}
+ assert.match(String(e.containedIn),/^pull\/[0-9]+$/,'containedIn must be captain-release or pull/<number>');
+ assert.equal(e.rehearsalOnly,true,`candidate publication ${e.containedIn} is admitted only as a rehearsal-only import`);
+ return true;
+}
 const hash=b=>createHash('sha256').update(b).digest('hex');
 const git=(root,args)=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:'pipe',maxBuffer:64*1024*1024}).trim();
 const at=(root,sha,rel)=>JSON.parse(git(root,['show',`${sha}:${rel}`]));
@@ -140,7 +150,7 @@ function publication(root,p,reviewed=read(root,TOOLS)){
  assert.equal(e.digestPinnedReference,`${e.imageRepository}@${e.immutableRegistryDigest}`);
  validSha(e.workflowSourceSha);git(root,['merge-base','--is-ancestor',e.workflowSourceSha,'HEAD']);
  git(root,['merge-base','--is-ancestor',e.sourceSha,e.workflowSourceSha]);
- assert.equal(e.containedIn,'captain-release');assert.equal(e.releaseIntegrationBranch,'captain-release');assert.equal(e.canonicalIntegrationBranch,'main');
+ rehearsalContainment(e);assert.equal(e.releaseIntegrationBranch,'captain-release');assert.equal(e.canonicalIntegrationBranch,'main');
  assert.equal(e.requestedIntegrationSha,p.sourceCommit);assert.equal(e.tagReplacementAuthorization,'');
  // The publication guard runs after the pinned-source checkout. Its actual
  // source bytes must be the same reviewed guard, not merely the tools copy.
@@ -175,7 +185,7 @@ function acceptance(root,e,reviewed=read(root,TOOLS)){
  for(const [k,v]of Object.entries({runId:a.runId,jobId:a.jobId,workflowSourceSha:a.workflowSourceSha,sourceSha:e.sourceSha,digest:e.immutableRegistryDigest,readOnly:true,conclusion:'success'}))assert.equal(receipt[k],v,`receipt ${k}`);
 }
 export function verifyPinnedPublication(root){
- try{const p=read(root,PENDING);if(p.applicationSource===AUTHORIZED_FORWARD){const bound=verifyForwardProductionSuccessor(root,read(root,CANDIDATE));assert(bound.current,bound.reasons.join('; '));return {current:true,sourceSha:bound.workerSourceSha,workerDigest:bound.workerDigest,workerInputFingerprint:bound.workerInputFingerprint,runtimeAccepted:true,reasons:[]};}if(p.applicationSource==='pinned-source-forward'){const bound=verifyPinnedForwardBinding(root,read(root,CANDIDATE));assert(bound.bindingVerified,bound.reasons.join('; '));return {current:true,sourceSha:bound.workerSourceSha,workerDigest:bound.workerDigest,workerInputFingerprint:bound.workerInputFingerprint,runtimeAccepted:true,reasons:[]};}sourcePlan(root,p);assert.notEqual(p.publication,'pending','publication absent');const e=publication(root,p);return {current:true,sourceSha:e.sourceSha,workerDigest:e.immutableRegistryDigest,workerInputFingerprint:e.workerInputFingerprint,runtimeAccepted:e.runtimeAccepted,reasons:[]};}
+ try{const p=read(root,PENDING);if(p.applicationSource===AUTHORIZED_FORWARD){const bound=verifyForwardProductionSuccessor(root,read(root,CANDIDATE));assert(bound.current,bound.reasons.join('; '));return {current:true,sourceSha:bound.workerSourceSha,workerDigest:bound.workerDigest,workerInputFingerprint:bound.workerInputFingerprint,runtimeAccepted:true,reasons:[]};}if(p.applicationSource==='pinned-source-forward'){const bound=verifyPinnedForwardBinding(root,read(root,CANDIDATE));assert(bound.bindingVerified,bound.reasons.join('; '));return {current:true,sourceSha:bound.workerSourceSha,workerDigest:bound.workerDigest,workerInputFingerprint:bound.workerInputFingerprint,runtimeAccepted:true,reasons:[]};}sourcePlan(root,p);assert.notEqual(p.publication,'pending','publication absent');const e=publication(root,p);const rehearsal=e.rehearsalOnly===true;return {current:!rehearsal,rehearsalOnly:rehearsal,sourceSha:e.sourceSha,workerDigest:e.immutableRegistryDigest,workerInputFingerprint:e.workerInputFingerprint,runtimeAccepted:e.runtimeAccepted,reasons:rehearsal?[REHEARSAL_HELD]:[]};}
  catch(error){return {current:false,reasons:[error.message]};}
 }
 export function verifyPinnedSuccessor(root,p=read(root,PENDING)){
@@ -185,9 +195,10 @@ export function verifyPinnedSuccessor(root,p=read(root,PENDING)){
   assert(['AWAITING_WORKER_PUBLICATION','AWAITING_WORKER_ACCEPTANCE','SUCCESSOR_ACCEPTED_PREVIEW_AND_RESUME_PENDING'].includes(p.status));
   assert.equal(p.publication,published?'complete':'pending');assert.equal(p.acceptance,accepted?'complete':'pending');
   assert.equal(p.runtimeAccepted,accepted);assert.equal(p.workerRebuildRequired,!published);
-  if(published){const e=publication(root,p);assert.equal(e.runtimeAccepted,accepted);assert.equal(p.workerDigest,e.immutableRegistryDigest);}
+  let rehearsal=false;
+  if(published){const e=publication(root,p);rehearsal=e.rehearsalOnly===true;assert.equal(e.runtimeAccepted,accepted);assert.equal(p.workerDigest,e.immutableRegistryDigest);}
   else {assert.equal(p.workerDigest,null);assert.deepEqual(read(root,PUBLICATION),at(root,p.releaseBaseSha,PUBLICATION),'awaiting publication retains predecessor only');}
-  return {current:accepted,applicationSource:'pinned-source',status:p.status,applicationSha:p.applicationSha,workerSourceSha:p.workerSourceSha,workerDigest:p.workerDigest,workerInputFingerprint:p.workerInputFingerprint,runtimeAccepted:accepted,workerRebuildRequired:!published,releaseBaseSha:p.releaseBaseSha,previewExecution:'held',productionAuthorized:false,reasons:accepted?[]:['Publication and actual image acceptance are separate gates; all execution remains held.']};
+  return {current:accepted&&!rehearsal,rehearsalOnly:rehearsal,applicationSource:'pinned-source',status:p.status,applicationSha:p.applicationSha,workerSourceSha:p.workerSourceSha,workerDigest:p.workerDigest,workerInputFingerprint:p.workerInputFingerprint,runtimeAccepted:accepted,workerRebuildRequired:!published,releaseBaseSha:p.releaseBaseSha,previewExecution:'held',productionAuthorized:false,reasons:rehearsal?[REHEARSAL_HELD]:accepted?[]:['Publication and actual image acceptance are separate gates; all execution remains held.']};
  }catch(error){return {current:false,applicationSource:'pinned-source',status:'INVALID_PENDING_PUBLICATION',reasons:[error.message]};}
 }
 

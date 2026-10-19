@@ -7,7 +7,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {PENDING,PUBLICATION,CANDIDATE,TOOLS,verifyPinnedSuccessor,verifyPinnedPublication,verifyPinnedBinding,assertCommittedPredecessor,reviewedSourceFiles} from './verify-pinned-worker-successor.mjs';
+import {PENDING,PUBLICATION,CANDIDATE,TOOLS,verifyPinnedSuccessor,verifyPinnedPublication,verifyPinnedBinding,assertCommittedPredecessor,reviewedSourceFiles,rehearsalContainment} from './verify-pinned-worker-successor.mjs';
 import {pinnedRecords,writePinnedRecords,advancePinnedRecords} from './prepare-pinned-worker-successor.mjs';
 import {verifyReleaseCandidateBinding,requireCurrentReleaseCandidate} from './verify-release-candidate-binding.mjs';
 const base='121c889e15ac872e8dfbdeff18256551d15642aa',historicalSource='e3ac438da981c84987bd3172751e1a09e3f42309';
@@ -103,7 +103,17 @@ for(const multi of [false,true])test(`${multi?'explicit multi-commit':'historica
   assert.equal(verifyReleaseCandidateBinding(root,read(CANDIDATE)).bindingVerified,true);
   execFileSync(process.execPath,['scripts/verify-rcap-worker-source-binding-exception.mjs'],{cwd:root,stdio:'pipe'});
   execFileSync(process.execPath,['scripts/verify-rcap-worker-source-binding-exception.mjs','--mutations'],{cwd:root,stdio:'pipe'});
-  for(const fn of [p=>p.sourceSha=base,p=>p.immutableRegistryDigest='sha256:'+'b'.repeat(64),p=>p.workflowSourceSha=source,p=>p.runtimeAccepted=true,p=>p.requestedIntegrationSha='',p=>p.tagReplacementAuthorization='invented',p=>p.supersededChain=[],p=>p.supersededPublication.status='altered',p=>p.nativeRunMetadata.sha256='0'.repeat(64)])mutate(PUBLICATION,fn);
+  for(const fn of [p=>p.sourceSha=base,p=>p.immutableRegistryDigest='sha256:'+'b'.repeat(64),p=>p.workflowSourceSha=source,p=>p.runtimeAccepted=true,p=>p.requestedIntegrationSha='',p=>p.tagReplacementAuthorization='invented',p=>p.supersededChain=[],p=>p.supersededPublication.status='altered',p=>p.nativeRunMetadata.sha256='0'.repeat(64),p=>p.containedIn='pull/268',p=>p.rehearsalOnly=true])mutate(PUBLICATION,fn);
+  { // A candidate publication of an open pull request is held as rehearsal-only: identical identity checks, never a current release publication.
+   const rehearsalArtifact={...artifact,containedIn:'pull/268'};const rehearsalOriginal=ref(prefix+'rehearsal/rcap-render-worker-publication.json',JSON.stringify(rehearsalArtifact));
+   const rehearsalArchive=prefix+'rehearsal/publication.zip';execFileSync('zip',['-q','-j',path.join(root,rehearsalArchive),path.join(root,rehearsalOriginal.path)]);const rehearsalBytes=fs.readFileSync(path.join(root,rehearsalArchive));
+   const before=fs.readFileSync(path.join(root,PUBLICATION));
+   write(PUBLICATION,{...e,containedIn:'pull/268',rehearsalOnly:true,originalPublicationPath:rehearsalOriginal.path,originalPublicationBytes:rehearsalOriginal.bytes,originalPublicationSha256:rehearsalOriginal.sha256,originalArchivePath:rehearsalArchive,nativeArchive:{path:rehearsalArchive,bytes:rehearsalBytes.length,sha256:hash(rehearsalBytes)},publicationArtifactSha256:'sha256:'+hash(rehearsalBytes)});
+   const held=verifyPinnedPublication(root);assert.equal(held.current,false,JSON.stringify(held));assert.equal(held.rehearsalOnly,true,JSON.stringify(held));assert.equal(held.workerDigest,digest);
+   const pending=verifyPinnedSuccessor(root);assert.equal(pending.current,false);assert.equal(pending.rehearsalOnly,true);assert.equal(pending.status,'AWAITING_WORKER_ACCEPTANCE');assert.match(pending.reasons.join(),/rehearsal-only/);
+   assert.throws(()=>requireCurrentReleaseCandidate(root),'a rehearsal-only candidate publication must never become the release candidate');
+   fs.writeFileSync(path.join(root,PUBLICATION),before);fs.rmSync(path.join(root,prefix+'rehearsal'),{recursive:true,force:true});assert.equal(verifyPinnedPublication(root).current,true);
+  }
   const nativeRun=e.nativeRunMetadata.path;mutate(nativeRun,p=>p.head_sha=source);
   mutate(e.nativeJobMetadata.path,p=>p.jobs[0].steps[1].conclusion='failure');
   git(['add','-f','--',PENDING,CANDIDATE,TOOLS,PUBLICATION,prefix]);commit('synthetic real-publication fixture');
@@ -138,6 +148,14 @@ test('explicit review bases resolve, require ancestry, and refuse deletion or re
   git(['rm','renamed.txt']);git(['commit','--quiet','-m','synthetic deletion']);
   assert.throws(()=>reviewedSourceFiles(root,{...options,sourceSha:git(['rev-parse','HEAD'])}),/deletions cannot be represented/);
  }finally{fs.rmSync(root,{recursive:true,force:true});}
+});
+
+test('rehearsal containment admits pull/<number> only with the rehearsal-only mark and never relabels a release',()=>{
+ assert.equal(rehearsalContainment({containedIn:'captain-release'}),false);
+ assert.equal(rehearsalContainment({containedIn:'pull/268',rehearsalOnly:true}),true);
+ assert.throws(()=>rehearsalContainment({containedIn:'pull/268'}),/rehearsal-only import/);
+ assert.throws(()=>rehearsalContainment({containedIn:'captain-release',rehearsalOnly:true}),/cannot be marked rehearsal-only/);
+ for(const containedIn of ['main','pull/','pull/268x','refs/pull/268/head',undefined])assert.throws(()=>rehearsalContainment({containedIn,rehearsalOnly:true}),/captain-release or pull/);
 });
 
 test('publication ancestry, exact checkout and immutable tag overwrite guards remain present',()=>{

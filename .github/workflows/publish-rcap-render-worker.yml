@@ -27,6 +27,11 @@ on:
         required: false
         type: string
         default: ""
+      candidate_pull_request:
+        description: "Leave empty. Set to pull/<number> to publish a CANDIDATE image of the exact current head of that OPEN pull request into the release-integration branch; integration_sha must be that head. The publication records containedIn: pull/<number> and authorizes nothing downstream."
+        required: false
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -92,8 +97,17 @@ jobs:
 
       - name: Resolve the commit to build from Git, never from a typed abbreviation
         id: resolve
+        env:
+          CANDIDATE_PULL_REQUEST: ${{ inputs.candidate_pull_request }}
         run: |
           set -euo pipefail
+          if [ -n "${CANDIDATE_PULL_REQUEST}" ]; then
+            # An unmerged head is not in the dispatched history; fetch exactly the pull request's
+            # head and its test-merge ref (present only while the pull request is open).
+            printf '%s' "${CANDIDATE_PULL_REQUEST}" | grep -Eq '^pull/[0-9]+$' || { echo "::error::candidate_pull_request must be pull/<number>. Got: '${CANDIDATE_PULL_REQUEST}'"; exit 1; }
+            NUMBER="${CANDIDATE_PULL_REQUEST#pull/}"
+            git fetch --no-tags origin "refs/pull/${NUMBER}/head:refs/remotes/candidate/head" "refs/pull/${NUMBER}/merge:refs/remotes/candidate/merge"
+          fi
           REF="${{ inputs.resolve_from_ref }}"
           # Defaults to the RELEASE integration branch, not the canonical one.
           #
@@ -136,6 +150,8 @@ jobs:
 
       - name: Verify the SHA resolves and belongs to the canonical integration history
         id: containment
+        env:
+          CANDIDATE_PULL_REQUEST: ${{ inputs.candidate_pull_request }}
         run: |
           set -euo pipefail
           SHA="$WORKER_BUILD_SHA"
@@ -154,6 +170,19 @@ jobs:
             echo "Verified ${SHA} is contained in origin/${RELEASE_INTEGRATION_BRANCH}, the live release-integration branch."
             echo "This is a CANDIDATE publication from the head that is about to merge. It publishes an image and nothing else."
             echo "contained_in=${RELEASE_INTEGRATION_BRANCH}" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [ -n "${CANDIDATE_PULL_REQUEST}" ]; then
+            # Candidate path: the SHA must be the exact current head of the named OPEN pull
+            # request, and that pull request must merge into the release-integration branch
+            # (the test-merge ref's first parent lies on origin/${RELEASE_INTEGRATION_BRANCH}).
+            # Both refs were fetched by the resolve step; nothing else is admitted.
+            test "$(git rev-parse candidate/head)" = "$SHA" || { echo "::error::${SHA} is not the current head of ${CANDIDATE_PULL_REQUEST}."; exit 1; }
+            BASE="$(git rev-parse 'candidate/merge^1')"
+            test "$(git merge-base "$BASE" "origin/${RELEASE_INTEGRATION_BRANCH}")" = "$BASE" || { echo "::error::${CANDIDATE_PULL_REQUEST} does not merge into origin/${RELEASE_INTEGRATION_BRANCH}."; exit 1; }
+            echo "Verified ${SHA} is the exact head of open ${CANDIDATE_PULL_REQUEST} into ${RELEASE_INTEGRATION_BRANCH}."
+            echo "This is a CANDIDATE publication of an unmerged head. It publishes an image and nothing else; it authorizes no deployment."
+            echo "contained_in=${CANDIDATE_PULL_REQUEST}" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           echo "::error::${SHA} is contained in neither origin/${CANONICAL_INTEGRATION_BRANCH} nor origin/${RELEASE_INTEGRATION_BRANCH}. Refusing to publish an image from outside the canonical integration history."
