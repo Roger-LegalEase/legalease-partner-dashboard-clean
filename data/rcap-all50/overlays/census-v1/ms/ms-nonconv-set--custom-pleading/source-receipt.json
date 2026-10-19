@@ -25,34 +25,55 @@
     },
     {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
-      "byteLength": 3708050,
+      "sha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+      "byteLength": 3738732,
       "identityRefresh": {
-        "refreshedOn": "2026-09-10",
+        "refreshedOn": "2026-10-19",
         "was": {
-          "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
-          "byteLength": 3683419
+          "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+          "byteLength": 3708050
         },
-        "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for ms-nonconv-set and the record's global authority fields were recovered from the blob carrying the previous pin (d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
-        "recoveredFromCommit": "d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c",
+        "why": "The whole manifest changed, but its recordGlobalMetadata and packetSet:ms-nonconv-set anchors are identical. Recovered the exact former pinned blob and compared the parsed anchors; current specification changes are separately rebuilt, not treated as unchanged.",
+        "recoveredFromCommit": "9f2e6166f223f40430d073648276e455807dbcb6",
         "anchorsCompared": 2,
+        "anchorsIdentical": 2,
         "anchorDetail": [
           "recordGlobalMetadata: identical",
           "packetSet:ms-nonconv-set: identical"
         ],
-        "anchorsIdentical": 2,
         "identicalAnchorSha256": {
           "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
           "packetSet:ms-nonconv-set": "87f4fe657e4064ee9a624eabf924fa3cf5a911a4c6e9b984e4b40f668f44ba5f"
         },
         "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
-        "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+        "previousIdentityRefresh": {
+          "refreshedOn": "2026-09-10",
+          "was": {
+            "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+            "byteLength": 3683419
+          },
+          "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for ms-nonconv-set and the record's global authority fields were recovered from the blob carrying the previous pin (d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+          "recoveredFromCommit": "d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c",
+          "anchorsCompared": 2,
+          "anchorDetail": [
+            "recordGlobalMetadata: identical",
+            "packetSet:ms-nonconv-set: identical"
+          ],
+          "anchorsIdentical": 2,
+          "identicalAnchorSha256": {
+            "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+            "packetSet:ms-nonconv-set": "87f4fe657e4064ee9a624eabf924fa3cf5a911a4c6e9b984e4b40f668f44ba5f"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+          "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+        },
+        "whatThisDoesNotEstablish": "This source-only comparison renews no independent verification, raster acceptance or approval and opens no route."
       }
     },
     {
       "path": "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json",
-      "sha256": "3a1bed79e3760feb84563a638893942ab557683f6bbe7fb0fddec7e74723257f",
-      "byteLength": 59843
+      "sha256": "23426df251aa31bfd5215edbfe547d5f56c2349ed4c4bb5e7b407bc25405e126",
+      "byteLength": 64896
     }
   ],
   "formIdentityNote": "Mississippi publishes no statewide expungement form; the MASTER_QUEUE row binds no source (officialFormFamily NONE, sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT) and the legal-design record resolves the strategy to custom_pleading with localFormOverride. The petition quotes § 99-19-71(4) directly, including the mandatory 'shall expunge', which is safe because it is the statute rather than a characterization.",

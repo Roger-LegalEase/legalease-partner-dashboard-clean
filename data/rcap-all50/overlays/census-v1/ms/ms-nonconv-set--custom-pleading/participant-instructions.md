@@ -14,16 +14,20 @@ The platform filled in what it holds about you: your name, your date of birth, y
 | `primary_filing` | the composed petition under § 99-19-71(4), quoting the statute's own mandatory words |
 | `proposed_order` | the proposed order tendered with the petition; the Court alone completes it |
 | `certificate_of_service` | the record of delivery of a copy to the prosecuting authority, contemporaneous with filing |
-| `attachment` | the exhibit checklist — the disposition order in every case, the indictment only where one exists |
+| `attachment` | the exhibit checklist — certified disposition as Exhibit A and docket sheet as Exhibit B in every case; indictment only where one exists, unlettered |
 | `instructions` | what you do, in order, and when to stop and get help |
+
+## Participant-owned open items
+
+Optional personal impact statement not provided. This is optional and is not a filing prerequisite.
 
 ## Documents you must obtain before filing
 
 | Document | Where you get it |
 | --- | --- |
-| Certified copy of the disposition or sentencing order showing how the case ended — check your cause number against it, and correct the packet if they disagree | the records office of the court that heard the case |
-| Copy of the indictment — only where a grand jury actually returned one; check your answer about the indictment against it | the circuit records office of the county |
-| Docket sheet for the case — copy its exact wording; 'passed to the file' or 'retired to the file' is a reason to stop and get advice | the records office of the court that heard the case |
+| Exhibit A (required): certified copy of the disposition or sentencing order showing how the case ended — check your cause number against it, and correct the packet if they disagree | the records office of the court that heard the case |
+| Conditional, unlettered: copy of the indictment — only where a grand jury actually returned one; check your answer about the indictment against it | the circuit records office of the county |
+| Exhibit B (required): docket sheet for the case — copy its exact wording; 'passed to the file' or 'retired to the file' is a reason to stop and get advice | the records office of the court that heard the case |
 | Your own Mississippi criminal history record — advisable, so you see every case before you file | Mississippi Criminal Information Center |
 
 ## Signing the petition and the verification
@@ -34,36 +38,64 @@ The verification is the last sheet of the petition and it carries the petition's
 
 A notary who only watches you sign has not done what this petition needs. Mississippi's notary rules require personal appearance, identification, and an oath or affirmation before you sign; an acknowledgment is a different notarial act and does not satisfy a verification. The notary states the state and county where the act happens — that is the place you are standing in, not where you live, and it is left blank in this packet for that reason.
 
-### primary_filing — Petition for Expungement of Criminal Record Under Miss. Code Ann. Sec. 99-19-71(4)
+### primary_filing — Petition for Expunction of Record
 
 | The blank on the document | What to write |
 | --- | --- |
 | That agency's own case or citation number, where the record states one | the arresting agency's case or citation number, copied from the record where one is stated |
+| Aliases shown on the record | What aliases or other names does the arrest or court record list? |
 | Date of arrest or citation, from the record | the date of arrest or citation, taken from the case papers |
+| Location of arrest | Where does the record say the arrest occurred? |
 | Agency that made the arrest or issued the citation | the name of the agency that arrested or cited you, taken from the case papers |
+| Plaintiff name exactly as shown on the docket | What exact plaintiff name appears in the original docket caption? |
 | Date on which the case ended, from the record | the date the case ended, taken from the certified copy of the disposition order |
 | Cause number of the case, copied from the court record | the cause or case number, checked against the certified copy of the disposition order - correct the packet if they disagree; where the court assigns a new number for the expungement it is supplied at filing |
+| Charge Classification | How does the record classify the charge? |
 | What the petitioner was charged with, worded as the court record words it | the charge, worded exactly as the court record words it, with the Mississippi Code section where the record states one |
+| Exact wording of the certified disposition | What exactly does the certified record say about how the case ended? |
 | Where a grand jury returned an indictment, its date and court, stated from the record | the indictment's date and court, ONLY where a grand jury actually returned an indictment - leave the line blank where the case was never indicted; most are not |
+| Name used at the time of arrest | What name did the arrest record use? |
 | Date of the offence alleged, from the record | the date of the offence alleged, taken from the case papers |
+| Other recordkeeping agencies identified from the record | What other agencies or offices does the record show as keeping this case? |
 | Court in which the case was pending, named in the caption with its county or city | which court the case was pending in - justice, county, circuit or municipal - and its county, or for a municipal court its city; the records office of that court can confirm both |
+| Race | What race value does the arrest record use? |
+| Release date or record source confirming release after arrest | What release date or official record source confirms release? |
+| Sex | What sex value does the arrest record use? |
+| Social Security Number | What are the last four digits of that Social Security number? |
 | Cause number in the caption above the verification | the same cause number as the petition's caption |
 | Court named in the caption above the verification, with its county or city | the same court and county (or city) as the petition's caption |
 
-### proposed_order — Proposed Order of Expungement
+### proposed_order — Order Granting Expunction of Record
 
 | The blank on the document | What to write |
 | --- | --- |
+| Agency Number | What agency case or arrest number does the record show? |
+| Aliases shown on the record | What aliases or other names does the arrest or court record list? |
+| Date of Arrest | What date does the record give for the actual arrest? |
+| Arresting Agency | Which agency made the arrest? |
+| Plaintiff name exactly as shown on the docket | What exact plaintiff name appears in the original docket caption? |
+| Court Case Number | What cause or case number appears on the court record? |
+| Charge at Arrest | What charge appears on the court record? |
+| Charge Classification | How does the record classify the charge? |
+| Code Section or Ordinance | What exact statute or ordinance citation appears for the charge? |
+| Disposition | What exactly does the certified record say about how the case ended? |
+| Identifier Delivery Method | Which identifier-delivery method did the court approve? |
+| Method Confirmation Source | Who at the court confirmed that MCIC identifier method, and when? |
+| Name used at the time of arrest | What name did the arrest record use? |
 | Agency that made the arrest or issued the citation, as the order must direct it | the arresting or citing agency's name, from the case papers, so the order reaches its records |
 | Cause number in the caption of the proposed order | the same cause number as the petition's caption |
 | Court named in the caption of the proposed order, with its county or city | the same court and county (or city) as the petition's caption |
 | Any other person or agency keeping an official record of the case, to be named in the order | any other office the case papers show keeping an official record of the arrest or the case |
 | Sheriff's department of the county, where its records carry the case | the county sheriff's department, where its records carry the case |
+| Race | What race value does the arrest record use? |
+| Sex | What sex value does the arrest record use? |
+| Social Security Number | What Social Security number must the court-approved MCIC processing copy use? |
 
 ### certificate_of_service — Certificate of Service
 
 | The blank on the document | What to write |
 | --- | --- |
+| Plaintiff name exactly as shown on the docket | What exact plaintiff name appears in the original docket caption? |
 | Mailing address at which the prosecuting authority was served | the mailing address of that office, confirmed with the court's records office before service |
 | Prosecuting authority served, written as the court record names the office | which prosecuting authority handled the case - the district attorney for the circuit district, or the county or municipal prosecuting attorney; for a municipal court case it is the city prosecutor, and the court's records office can confirm the office |
 | Cause number in the caption of the certificate of service | the same cause number as the petition's caption |
