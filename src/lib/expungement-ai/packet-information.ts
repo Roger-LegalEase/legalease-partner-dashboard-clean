@@ -145,7 +145,7 @@ import {
   gaSb288CategoryIsHistory,
   ctInformationCategoryIsHistory,
   alThreeRouteCategoryIsHistory,
-  iaThreeRouteCategoryIsHistory,
+  iaCategoryIsHistory,
   arBoundCategoryIsHistory,
   hiThreeRouteCategoryIsHistory,
   dcInnocenceCategoryIsHistory,
@@ -3174,7 +3174,7 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
       || arBoundCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || alThreeRouteCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || hiThreeRouteCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
-      || iaThreeRouteCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
+      || iaCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || dcInnocenceCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || ilIdentityCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || msAdditionalCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)))) extra.push("offense_category");

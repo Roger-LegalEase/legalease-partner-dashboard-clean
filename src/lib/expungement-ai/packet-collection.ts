@@ -650,14 +650,15 @@ export function dcFlPetitionRecordIsHistory(profile: EngineProfile | undefined, 
       && ["automated-expungement-status-verification-art-985-2", "expungement-by-redaction-for-multi-person-records",
         "non-conviction-arrest-expungement"].includes(pathwayId ?? "")
       && contactRepresentationHash(profile) === "a0bf1a76b91c555e5b0cca05b96d6b9a34721db466c7beffdc20fbd86f1e36e6"
+    // GA17 Q-f998590180601fe00713 / Q-30353f219d82ca7eeb62: existing guidance collection also keeps overlapping labels as history.
     || profile?.jurisdiction.code === "KY"
-      && ["misdemeanor-violation-traffic-conviction", "nonconviction-431076", "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276"].includes(pathwayId ?? "")
+      && ["misdemeanor-violation-traffic-conviction", "nonconviction-431076", "void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276", "juvenile-automatic-dismissal", "juvenile-petition-610330"].includes(pathwayId ?? "")
       && contactRepresentationHash(profile) === "4e84c6d8ba6469a095c50f09cacfb5518c4132d049fbf068513c6eb925e6a364";
 }
 
 // GA12 Q-377830ef29f46987d4b3 / Q-da97aa3887af5a623b94: the same source-bound literal history.
 // GA12 Q-954756996d44111dd6f6 / Q-11a00e1e894ff5efe5f9 / Q-91de493bf957b599962f: no category document binding.
-export function iaThreeRouteCategoryIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
+export function iaCategoryIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
   specification: RegisteredSpecification | null | undefined): boolean {
   return profile?.jurisdiction.code === "IA" && ["minor-prostitution-7251", "misdemeanor-901c3",
     "nonconviction-901c2", "public-intoxication-12346", "underage-alcohol-12347"].includes(pathwayId ?? "")
@@ -946,7 +947,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const arCategoryHistory = arBoundCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const alCategoryHistory = alThreeRouteCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const hiCategoryHistory = hiThreeRouteCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
-  const iaCategoryHistory = iaThreeRouteCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const iaCategoryHistory = iaCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const ctCategoryHistory = ctInformationCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId ?? null,
     specification, { ...available, ...input.savedAnswers }, [...input.unresolvedSavedFactIds ?? []]);
   const msFirstContext = msFirstOffenderSourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
