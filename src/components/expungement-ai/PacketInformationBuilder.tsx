@@ -368,11 +368,19 @@ export function PacketInformationBuilder({
     return { ...question, helperText: contact.helperText,
       translations: { ...question.translations, es: { ...question.translations?.es, helperText: contact.translations?.es?.helperText } } };
   });
-  const status = screen ? screen.questions.map((question) => courtSectionNeedsReview(question) ? "invalid" : displayedAnswerState(question)) : [];
-  const statusId = status.every((value) => value === "known_valid") ? "complete" : status.every((value) => value === "unanswered") ? "not_started" : status.some((value) => ["invalid", "uncertain", "declined"].includes(value)) ? "needs_attention" : "in_progress";
-  const statusLabel = status.every((value) => value === "known_valid") ? copy("Complete", "Completo")
-    : status.every((value) => value === "unanswered") ? copy("Not started", "Sin empezar")
-    : status.some((value) => value === "invalid" || value === "uncertain" || value === "declined") ? copy("Needs attention", "Necesita atención") : copy("In progress", "En curso");
+  const sectionStatuses = screens.map((step) => {
+    const states = step.questions.flatMap((question) => {
+      const state = courtSectionNeedsReview(question) ? "invalid" : displayedAnswerState(question);
+      return question.required || ["invalid", "uncertain", "declined"].includes(state) ? [state] : [];
+    });
+    const id = states.every((state) => state === "known_valid") ? "complete"
+      : states.every((state) => state === "unanswered") ? "not_started"
+      : states.some((state) => ["invalid", "uncertain", "declined"].includes(state)) ? "needs_attention" : "in_progress";
+    const label = id === "complete" ? copy("Complete", "Completo")
+      : id === "not_started" ? copy("Not started", "Sin empezar")
+      : id === "needs_attention" ? copy("Needs attention", "Necesita atención") : copy("In progress", "En curso");
+    return { id, label };
+  });
 
   return (
     <div ref={root} data-packet-information-builder="active" className="rounded-[18px] border border-[#ECEFF4] bg-white p-5 shadow-sm md:p-7">
@@ -410,7 +418,7 @@ export function PacketInformationBuilder({
           : copy("Your saved section is no longer available. We opened a section that needs attention.", "Su sección guardada ya no está disponible. Abrimos una sección que necesita atención.")}
       </p> : null}
       {screen ? <>
-        <p className="mt-2 text-sm" data-packet-section-status={statusId}>{statusLabel}</p>
+        <p className="mt-2 text-sm" data-packet-section-status={sectionStatuses[index].id}>{sectionStatuses[index].label}</p>
         {screen.section ? <p className="mt-2 text-sm leading-6 text-[#5A6275]">{locale === "es" ? screen.section.translations.es.description : screen.section.description}</p> : null}
         <fieldset disabled={departing} className="mt-6 grid gap-8" aria-labelledby="packet-step-heading">
           {displayQuestions.map((question) => <div key={question.id} data-packet-question={question.id}>{question.id === "contact_information" && contactReconciliation ? <div>
@@ -456,7 +464,7 @@ export function PacketInformationBuilder({
           </div> : null}{question.required && ["uncertain", "declined"].includes(questionAnswerState(question, answers[question.id])) ? <p className="mt-3 text-sm" role="status">{copy("You can continue with other questions. This answer still needs to be resolved before your packet can be prepared.", "Puede continuar con las demás preguntas. Esta respuesta aún debe aclararse antes de preparar su paquete.")}</p> : null}</div>)}
         </fieldset>
       </> : <p className="mt-3 text-sm">{copy("Open Review to check the saved answers and any details still needed before final verification.", "Abra la revisión para comprobar las respuestas guardadas y los detalles que aún falten antes de la verificación final.")}</p>}
-      {!editingFromReview && screens.length > 1 ? <nav aria-label={copy("Packet sections", "Secciones del paquete")} className="mt-5"><label className="text-sm font-semibold" htmlFor="packet-section-select">{copy("Go to a section", "Ir a una sección")}</label><select id="packet-section-select" className="mt-2 block min-h-11 w-full rounded border p-2" value={screenId} disabled={saving || departing} onChange={(event) => moveTo(event.target.value)}>{screens.map((step) => <option key={step.id} value={step.id}>{step.section ? locale === "es" ? step.section.translations.es.heading : step.section.heading : locale === "es" ? step.questions[0]?.translations?.es?.prompt ?? step.questions[0]?.prompt : step.questions[0]?.prompt}{step.questions.some((question) => question.required && (courtSectionNeedsReview(question) || displayedAnswerState(question) !== "known_valid")) ? copy(" — needs attention", " — necesita atención") : copy(" — complete", " — completo")}</option>)}{screenId === "review" ? <option value="review">{copy("Review", "Revisión")}</option> : null}</select></nav> : null}
+      {!editingFromReview && screens.length > 1 ? <nav aria-label={copy("Packet sections", "Secciones del paquete")} className="mt-5"><label className="text-sm font-semibold" htmlFor="packet-section-select">{copy("Go to a section", "Ir a una sección")}</label><select id="packet-section-select" className="mt-2 block min-h-11 w-full rounded border p-2" value={screenId} disabled={saving || departing} onChange={(event) => moveTo(event.target.value)}>{screens.map((step, stepIndex) => <option key={step.id} value={step.id}>{step.section ? locale === "es" ? step.section.translations.es.heading : step.section.heading : locale === "es" ? step.questions[0]?.translations?.es?.prompt ?? step.questions[0]?.prompt : step.questions[0]?.prompt}{` — ${sectionStatuses[stepIndex].label.toLocaleLowerCase(locale)}`}</option>)}{screenId === "review" ? <option value="review">{copy("Review", "Revisión")}</option> : null}</select></nav> : null}
       <p className="mt-5 rounded-[10px] bg-[#F7F3EC] px-4 py-3 text-sm" aria-live="polite">
         {dirty ? copy(draftMissing === 1 ? "1 displayed answer still needs attention in this draft. Save to update the requirements." : `${draftMissing} displayed answers still need attention in this draft. Save to update the requirements.`, draftMissing === 1 ? "1 respuesta mostrada aún necesita atención en este borrador. Guarde para actualizar los requisitos." : `${draftMissing} respuestas mostradas aún necesitan atención en este borrador. Guarde para actualizar los requisitos.`)
           : copy(missing.length === 1 ? "1 participant detail still needs attention in the saved matter." : `${missing.length} participant details still need attention in the saved matter.`, missing.length === 1 ? "1 detalle del participante aún necesita atención en el caso guardado." : `${missing.length} detalles del participante aún necesitan atención en el caso guardado.`)}

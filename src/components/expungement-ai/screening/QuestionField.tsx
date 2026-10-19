@@ -361,7 +361,7 @@ function PromptHeading({
     <Heading id={id} className={className}>
       {prompt}
       {optional && !contextOnly ? (
-        <span className="ml-2 align-middle text-xs font-bold uppercase tracking-[0.06em] text-[#8A93A6]">{optionalLabel}</span>
+        <span className="ml-2 align-middle text-xs font-bold uppercase tracking-[0.06em] text-[#5A6275]">{optionalLabel}</span>
       ) : null}
     </Heading>
   );

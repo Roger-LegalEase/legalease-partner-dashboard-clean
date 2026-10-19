@@ -170,7 +170,8 @@ for(const retained of [false,true]){
  checks.push({name:'held no-plan privacy retained='+retained,pass:true});
 }
 // Actual controlled callbacks; only the locale hook is replaced, with no writes on mount.
-register('data:text/javascript,'+encodeURIComponent('export async function load(u,c,n){return u.endsWith("/LocalizationProvider.tsx")?{format:"module",source:"export function useLocalization(){return {locale:globalThis.__caSafeHomeLocale,t:(_key,fallback)=>fallback,text:value=>value}}",shortCircuit:true}:n(u,c)}'));
+globalThis.__caContactTranslate=(await import('../src/lib/expungement-ai/localization.ts')).t;
+register('data:text/javascript,'+encodeURIComponent('export async function load(u,c,n){return u.endsWith("/LocalizationProvider.tsx")?{format:"module",source:"export function useLocalization(){return {locale:globalThis.__caSafeHomeLocale,t:(...args)=>globalThis.__caContactTranslate(globalThis.__caSafeHomeLocale,...args),text:value=>value}}",shortCircuit:true}:n(u,c)}'));
 const {FilingContactFields}=await import('../src/components/expungement-ai/screening/fields/FilingContactFields.tsx');
 const {renderToStaticMarkup}=await import('react-dom/server');
 const nodes=tree=>Array.isArray(tree)?tree.flatMap(nodes):tree&&typeof tree==='object'&&tree.props?[tree,...nodes(tree.props.children)]:[];
@@ -240,5 +241,47 @@ for(const locale of ['en','es'])for(const representation of [undefined,'self_rep
  assert(html.includes('data-packet-question="'+C.CA_FILER_CONTACT+'"'));assert.deepEqual(answers,before);rows.push({locale,representation:representation??'unanswered',enrollment:enrollment??'absent',surface,count:html.split(needle).length-1,expected});
 }
  for(const row of rows)check('CA-08 current screen helper '+JSON.stringify([row.locale,row.representation,row.enrollment,row.surface]),row.count,row.expected);
+ // GA-34 / GA-38 residuals: one visible completion state without changing optionality or saved answers.
+ for(const locale of ['en','es'])for(const scenario of [
+  {name:'blank optional',status:'complete'},
+  {name:'known optional',enrollment:'No',status:'complete'},
+  {name:'invalid optional',enrollment:{unexpected:'preserve this saved value'},status:'needs_attention'},
+  {name:'uncertain optional',enrollment:'I am not sure',status:'needs_attention'},
+  {name:'declined optional',note:'Prefer not to say',status:'needs_attention'},
+  {name:'required blank',blankContacts:true,enrollment:'No',status:'not_started'},
+  {name:'required partial',blankCourt:true,status:'in_progress'}
+ ]){
+  globalThis.__caSafeHomeLocale=locale;
+  const answers={ca_prop64_filer_representation:'self_represented',participant_full_legal_name:'Synthetic Filer',ca_prop64_filing_court_county:'Yolo',
+   ...(scenario.enrollment===undefined?{}:{[privacyId]:scenario.enrollment}),...(scenario.note?{participant_note:scenario.note}:{})};
+  const context=C.caContactContext(answers);
+  if(!scenario.blankContacts)answers[C.CA_FILER_CONTACT]=[JSON.stringify({...C.emptyCaContact(C.CA_FILER_CONTACT,context),street:'100 Oak Avenue',city:'Woodland',state:'CA',zip:'95695',phone:{status:'known',value:'530-555-0100'}})];
+  if(!scenario.blankContacts&&!scenario.blankCourt)answers[C.CA_COURT_CONTACT]=[JSON.stringify({...C.emptyCaContact(C.CA_COURT_CONTACT,context),street:'1000 Main Street',cityStateZip:'Woodland, CA 95695',mailingRelationship:'same',mailingAddress:''})];
+  const contactQuestions=questions(answers),optional=caSafeAtHomeQuestion(answers);
+  check('GA-34 Safe at Home remains optional '+locale+'/'+scenario.name,optional.required,false);
+  if(!scenario.blankContacts)check('GA-34 complete filer fixture '+locale+'/'+scenario.name,questionAnswerState(contactQuestions[0],answers[C.CA_FILER_CONTACT]),'known_valid');
+  const sectionQuestions=[optional,...contactQuestions,{id:'participant_note',type:'text',prompt:'Additional note',required:false}];
+  const surfaceQuestions=[...sectionQuestions,{id:'next_detail',type:'text',prompt:'Next detail',required:true}];
+  const sections=[{id:'about_you',heading:'About you',description:'Contact details',translations:{es:{heading:'Sobre usted',description:'Datos de contacto'}},questionIds:sectionQuestions.map(q=>q.id)}];
+  const before=structuredClone(answers),name='GA-34 '+locale+'/'+scenario.name;
+  const html=render(React.createElement(AppRouterContext.Provider,{value:{push(){},replace(){},refresh(){}}},React.createElement(PacketInformationBuilder,{itemId:'synthetic-section-parity',stateCode:'CA',questions:surfaceQuestions,sections,initialAnswers:answers,initiallyMissing:['saved-only-requirement'],initialRevision:7,initialResumeSectionId:'about_you'})));
+  const labels={complete:['Complete','Completo'],not_started:['Not started','Sin empezar'],needs_attention:['Needs attention','Necesita atención'],in_progress:['In progress','En curso']};
+  const label=labels[scenario.status][locale==='es'?1:0];
+  check(name+' heading',html.match(/<p[^>]*data-packet-section-status="([^"]+)"[^>]*>([^<]+)<\/p>/)?.slice(1),[scenario.status,label]);
+  check(name+' selector',html.match(/<option[^>]*value="about_you"[^>]*>([^<]+)<\/option>/)?.[1],(locale==='es'?'Sobre usted':'About you')+' — '+label.toLocaleLowerCase(locale));
+  const button=[...html.matchAll(/<button([^>]*)>([^<]+)<\/button>/g)].find(m=>m[2]===(locale==='es'?'Guardar y continuar':'Save and continue'));
+  check(name+' continuation offered',Boolean(button&&!button[1].includes('disabled=""')),true);
+  check(name+' saved count distinct',html.includes(locale==='es'?'1 detalle del participante aún necesita atención en el caso guardado.':'1 participant detail still needs attention in the saved matter.'),true);
+  check(name+' render preserves raw answers',answers,before);
+ }
+ for(const locale of ['en','es']){
+  globalThis.__caSafeHomeLocale=locale;
+  const optional=caSafeAtHomeQuestion({}),html=render(React.createElement(QuestionField,{question:optional,stateCode:'CA',onChange(){throw Error('render must not save')}}));
+  const label=locale==='es'?'Opcional':'Optional';
+  const span=[...html.matchAll(/<span class="([^"]*)">([^<]+)<\/span>/g)].find(m=>m[2]===label);
+  check('GA-38 translated Optional label '+locale,Boolean(span),true);
+  check('GA-38 Optional contrast class '+locale,span?.[1].split(' ').includes('text-[#5A6275]'),true);
+ }
+
 }
 const failed=checks.filter(x=>!x.pass),report={status:failed.length?'FAIL':'PASS',checks:checks.length,failed,details:checks,current,limits:['Engineering fact collection only. Source/legal/language/visual/fulfillment approvals pending.','Authenticated owner and rendered source PDF acceptance separately required.']};if(process.argv[2])fs.writeFileSync(process.argv[2],JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({status:report.status,checks:checks.length,failed:failed.map(x=>({name:x.name,actual:x.actual,expected:x.expected}))}));assert.equal(failed.length,0);
