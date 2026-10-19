@@ -14,7 +14,8 @@ import { NY_SEALING_HISTORY_ID, formatNySealingHistory } from "@/lib/expungement
 import { nyCasePreparationQuestions, nyCaseAssociationIssues, NY_CASE_RECONCILIATION_ID, NY_COURT_DIRECTION_CONFIRMATION_ID, NY_FILING_CASE_ID } from "@/lib/expungement-ai/ny-16059-case-questions";
 import { isNy16059Packet } from "@/lib/expungement-ai/ny-16059-packet-facts";
 import { caProp64JuvenileAdditionalCount } from "@/lib/expungement-ai/ca-prop64-juvenile-document-questions";
-import { CA_CONTACT_IDS, formatCaContact } from "@/lib/expungement-ai/ca-prop64-contact-answer";
+import { CA_CONTACT_IDS, CA_FILER_CONTACT, CA_SAFE_AT_HOME_ID, formatCaContact } from "@/lib/expungement-ai/ca-prop64-contact-answer";
+import { caProp64ContactQuestions } from "@/lib/expungement-ai/ca-prop64-contact-questions";
 import { isCaProp64Pathway } from "@/lib/expungement-ai/ca-prop64-choices";
 import { NY_TRANSACTION_ASSOCIATIONS_ID, formatNyTransactionAssociations } from "@/lib/expungement-ai/ny-16059-transaction-facts";
 import { NY_CASE_RECORDS_ID, formatNyCourtCaseRecords } from "@/lib/expungement-ai/ny-16059-case-records";
@@ -361,6 +362,12 @@ export function PacketInformationBuilder({
   };
   const draftMissing = questions.filter((question) => question.required && displayedAnswerState(question) !== "known_valid").length;
   const courtSectionNeedsReview = (question: ProfileQuestion) => courtRecordConflict && ["court", "court_name", "court_type"].includes(question.id);
+  const displayQuestions = (screen?.questions ?? []).map(question => {
+    if (stateCode !== "CA" || question.id !== CA_FILER_CONTACT) return question;
+    const contact = caProp64ContactQuestions(answers, screen!.questions.some(q => q.id === CA_SAFE_AT_HOME_ID))[0];
+    return { ...question, helperText: contact.helperText,
+      translations: { ...question.translations, es: { ...question.translations?.es, helperText: contact.translations?.es?.helperText } } };
+  });
   const status = screen ? screen.questions.map((question) => courtSectionNeedsReview(question) ? "invalid" : displayedAnswerState(question)) : [];
   const statusId = status.every((value) => value === "known_valid") ? "complete" : status.every((value) => value === "unanswered") ? "not_started" : status.some((value) => ["invalid", "uncertain", "declined"].includes(value)) ? "needs_attention" : "in_progress";
   const statusLabel = status.every((value) => value === "known_valid") ? copy("Complete", "Completo")
@@ -406,7 +413,7 @@ export function PacketInformationBuilder({
         <p className="mt-2 text-sm" data-packet-section-status={statusId}>{statusLabel}</p>
         {screen.section ? <p className="mt-2 text-sm leading-6 text-[#5A6275]">{locale === "es" ? screen.section.translations.es.description : screen.section.description}</p> : null}
         <fieldset disabled={departing} className="mt-6 grid gap-8" aria-labelledby="packet-step-heading">
-          {screen.questions.map((question) => <div key={question.id} data-packet-question={question.id}>{question.id === "contact_information" && contactReconciliation ? <div>
+          {displayQuestions.map((question) => <div key={question.id} data-packet-question={question.id}>{question.id === "contact_information" && contactReconciliation ? <div>
             <h3 className="text-lg font-bold">{copy("Review your saved contact details", "Revise sus datos de contacto guardados")}</h3>
             <p className="mt-2 text-sm">{copy("Review your earlier contact answer alongside your separate mailing address, phone number, and email before choosing which details to use.", "Revise su respuesta anterior sobre los datos de contacto junto con su dirección postal, número de teléfono y correo electrónico por separado antes de elegir qué datos usar.")}</p>
             <dl className="mt-4 grid gap-2 text-sm">

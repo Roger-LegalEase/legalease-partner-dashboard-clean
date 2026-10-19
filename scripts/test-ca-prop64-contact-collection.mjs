@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import {pathToFileURL} from 'node:url';
 import { register } from 'node:module';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 process.env.RCAP_EVALUATOR_TODAY='2026-10-12';
@@ -217,12 +218,27 @@ const {QuestionField}=await import('../src/components/expungement-ai/screening/Q
 for(const locale of ['en','es'])for(const representation of [undefined,'self_represented','attorney']){
  globalThis.__caSafeHomeLocale=locale;
  const answers={[privacyId]:'Yes',ca_prop64_filer_representation:representation,participant_full_legal_name:'Synthetic Filer',ca_prop64_filing_court_county:'Yolo'},before=structuredClone(answers);
- const all=[caSafeAtHomeQuestion(answers),...questions(answers)];
+ const all=[caSafeAtHomeQuestion(answers),...questions(answers,true)];
  const html=renderToStaticMarkup(React.createElement(React.Fragment,null,...all.map(question=>React.createElement(QuestionField,{key:question.id,question,stateCode:'CA',value:answers[question.id],onChange(){throw Error('render must not save')}}))));
  const needle=renderToStaticMarkup(React.createElement('p',null,adopted[locale].helperYes)).slice(3,-4);
  check('CA-08 actual helper count '+locale+'/'+representation,html.split(needle).length-1,representation==='attorney'?0:1);assert.deepEqual(answers,before);
  // Uncertain enrollment keeps the existing filer warning; no new address claim.
  const unknown=questions({...answers,[privacyId]:'I am not sure'}).find(q=>q.id===C.CA_FILER_CONTACT);
  assert((locale==='es'?unknown.translations.es.helperText:unknown.helperText).includes(adopted[locale].helperNotSure));
+}
+// CA-08 F1: the actual current screen owns helper placement, including review edits and juvenile preparation.
+{
+ const {PacketInformationBuilder}=await import('../src/components/expungement-ai/PacketInformationBuilder.tsx');
+ const {AppRouterContext}=await import(pathToFileURL(fs.realpathSync(process.cwd()+'/node_modules/next/dist/shared/lib/app-router-context.shared-runtime.js')));
+ const render=renderToStaticMarkup,rows=[];
+for(const locale of ['en','es'])for(const representation of [undefined,'self_represented','attorney'])for(const enrollment of ['Yes','I am not sure','No',undefined])for(const surface of ['combined','filer-only','split','juvenile']){
+ globalThis.__caSafeHomeLocale=locale;const answers={[privacyId]:enrollment,ca_prop64_filer_representation:representation,participant_full_legal_name:'Synthetic Filer',ca_prop64_filing_court_county:'Yolo'},before=structuredClone(answers);
+ const contacts=questions(answers);const surfaceQuestions=surface==='filer-only'?[contacts[0]]:surface==='juvenile'?contacts:[caSafeAtHomeQuestion(answers),...contacts];
+ const grouped=surface==='combined'||surface==='juvenile';const sections=grouped?[{id:'about_you',heading:'About you',description:'Contact details',translations:{es:{heading:'Sobre usted',description:'Datos de contacto'}},questionIds:surfaceQuestions.map(q=>q.id)}]:[];
+ const html=render(React.createElement(AppRouterContext.Provider,{value:{push(){},replace(){},refresh(){}}},React.createElement(PacketInformationBuilder,{itemId:'synthetic-ca-helper',stateCode:'CA',questions:surfaceQuestions,sections,initialAnswers:answers,initiallyMissing:[],initialRevision:0,initialResumeSectionId:grouped?'about_you':C.CA_FILER_CONTACT,editingFromReview:surface==='filer-only',caJuvenilePreparation:surface==='juvenile'})));
+ const helper=enrollment==='Yes'?'helperYes':'helperNotSure',expected=enrollment==='Yes'?(representation==='attorney'?0:1):enrollment==='I am not sure'?1:0,needle=render(React.createElement('p',null,adopted[locale][helper])).slice(3,-4);
+ assert(html.includes('data-packet-question="'+C.CA_FILER_CONTACT+'"'));assert.deepEqual(answers,before);rows.push({locale,representation:representation??'unanswered',enrollment:enrollment??'absent',surface,count:html.split(needle).length-1,expected});
+}
+ for(const row of rows)check('CA-08 current screen helper '+JSON.stringify([row.locale,row.representation,row.enrollment,row.surface]),row.count,row.expected);
 }
 const failed=checks.filter(x=>!x.pass),report={status:failed.length?'FAIL':'PASS',checks:checks.length,failed,details:checks,current,limits:['Engineering fact collection only. Source/legal/language/visual/fulfillment approvals pending.','Authenticated owner and rendered source PDF acceptance separately required.']};if(process.argv[2])fs.writeFileSync(process.argv[2],JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({status:report.status,checks:checks.length,failed:failed.map(x=>({name:x.name,actual:x.actual,expected:x.expected}))}));assert.equal(failed.length,0);
