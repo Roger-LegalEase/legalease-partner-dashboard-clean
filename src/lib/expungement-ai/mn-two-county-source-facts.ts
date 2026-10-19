@@ -18,6 +18,12 @@ export const MN_PROSECUTED_COUNTY = "mn_prosecuted_case_county";
 export const MN_PROSECUTOR_KIND = "mn_prosecuted_by";
 export const MN_PROSECUTING_CITY = "mn_prosecuting_city";
 export const MN_TWO_COUNTY_SOURCE = "MN.memo:mn_petition_609a02_subd3, mn_prosecutor_agreed; required participant county/prosecutedBy inputs";
+/** Hashes of the imported constants, computed once per process on first use.
+ * Anything passed in current.* is hashed live, so overrides stay exact. */
+let imported: { memo: string; petitionMap: string; prosecutorMap: string; petitionWiring: string; prosecutorWiring: string } | undefined;
+const importedHashes = () => imported ??= { memo: contactRepresentationHash(memo),
+  petitionMap: contactRepresentationHash(petitionMap), prosecutorMap: contactRepresentationHash(prosecutorMap),
+  petitionWiring: contactRepresentationHash(petitionWiring), prosecutorWiring: contactRepresentationHash(prosecutorWiring) };
 
 /** Collection identity only. This is not a route/track crosswalk, agreement,
  * filing authority or an installation of the retained document families. */
@@ -28,10 +34,10 @@ export function mnTwoCountySourceContract(profile: EngineProfile | undefined,
     || ![MN_PETITION_ROUTE, MN_PROSECUTOR_ROUTE].includes(pathwayId ?? "")) return false;
   const petition = pathwayId === MN_PETITION_ROUTE;
   return contactRepresentationHash(profile) === "f779704436f10e0aabf0949877f3213af1900d5bf51729cec8397006e6a3f8bf"
-    && contactRepresentationHash(current.memo === undefined ? memo : current.memo) === "f0e6fbc0b3082a8721be317442151023be3a31fcb597dd96c4dde4e76596644a"
-    && contactRepresentationHash(current.map === undefined ? petition ? petitionMap : prosecutorMap : current.map)
+    && (current.memo === undefined ? importedHashes().memo : contactRepresentationHash(current.memo)) === "f0e6fbc0b3082a8721be317442151023be3a31fcb597dd96c4dde4e76596644a"
+    && (current.map === undefined ? petition ? importedHashes().petitionMap : importedHashes().prosecutorMap : contactRepresentationHash(current.map))
       === (petition ? "4ed42eaf8d64764f9ffafdfda713fdaf84b082662e29f2579022680d88607b66" : "8b3e793a3ac0d4431c0c609c8465a14137ba02db05466110e99b6cf7ef53b419")
-    && contactRepresentationHash(current.wiring === undefined ? petition ? petitionWiring : prosecutorWiring : current.wiring)
+    && (current.wiring === undefined ? petition ? importedHashes().petitionWiring : importedHashes().prosecutorWiring : contactRepresentationHash(current.wiring))
       === (petition ? "d02b19ce7bdb8542c13c5135a8c2a3e24d28c01c48d9cae5c3a4be3c452b4ca2" : "b1a525e1f98998aa1557d1b15b7251640027f17cce5574466e828fd10e2b0765");
 }
 
