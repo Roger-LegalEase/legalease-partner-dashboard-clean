@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "0cd9bfc9b8d01f50abbfa49301c23b3e901c13f4",
+  "generatedAtCommit": "dc06b1d5b409e7bb8d5dfcd68e452ba3aaa034c0",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -2923,7 +2923,9 @@
       "operation": "independent-verification",
       "lane": "VF12",
       "laneKind": "independent-verification",
-      "released": false
+      "released": true,
+      "releasedAt": "2026-10-19T16:44:01.301Z",
+      "releaseReason": "VF12 retired by the generator after the 2026-10-19 re-pins; sd_sis_sealing's return is committed under vf12/ and the family is COMPLETE_PACKET_PROVEN"
     },
     {
       "subjectType": "packet-family",
@@ -6989,7 +6991,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-09T01:19:16.058Z"
@@ -15938,7 +15940,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "52fb73d471f693c52b66fb6af408c6f4bd90ef616f49759afd7fc89507420ced",
+  "claimsDigest": "b48d3133f5dcc5bad0330546c6ee7b92d0344c5ce55afc25304df68f1a450d9d",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -43882,6 +43884,21 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-10-18T03:01:35.988Z",
       "reason": "Fresh independent VF01 read at c197cd820e532933dc453c4f498f862da3d6078b returned PASS_COMPLETE_INDEPENDENT for ak-courtview-set (all fifteen obligations, nine counters zero, guide consistent with the official TF-810); return vf01/rows-vf01-ak-courtview-set-20261018.json integrated by Captain"
+    },
+    {
+      "lane": "VF12",
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:sd_sis_sealing",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "releasedAt": "2026-10-19T16:44:01.301Z",
+      "reason": "VF12 retired by the generator after the 2026-10-19 re-pins; sd_sis_sealing's return is committed under vf12/ and the family is COMPLETE_PACKET_PROVEN",
+      "closedAtReturnBoundary": true,
+      "returnEvidence": {
+        "file": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
+        "committedAt": "186a5772d913b62bc0a44e33f2cd5ce644e8d086",
+        "rowFiles": 3
+      }
     }
   ],
   "reissues": [
