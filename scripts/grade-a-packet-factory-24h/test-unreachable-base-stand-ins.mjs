@@ -44,7 +44,7 @@ const check = (ok, title) => { assert.ok(ok, title); checks++; };
 
 function standIns(record, rows, files = [evidence]) {
   const context = {
-    ROOT, path, isCommit, execFileSync, rows, Map, Set, JSON, Error,
+    ROOT, path, isCommit, execFileSync, rows, Map, Set, JSON, Error, Number,
     fs: { existsSync: (file) => file === path.join(ROOT, RECORD) ? record !== null : files.includes(path.relative(ROOT, file)),
       readFileSync: () => typeof record === "string" ? record : JSON.stringify(record) }
   };
@@ -78,5 +78,18 @@ check(current([blockedRow, absentRow], withStandIn).verdict === "PASS_COMPLETE_I
 check(current([absentRow, blockedRow], withStandIn).verdict === "PASS_COMPLETE_INDEPENDENT", "...regardless of sweep order");
 check(current([blockedRow, absentRow], new Map()).verdict === "BLOCKED_SOURCE", "without a stand-in the same pair falls to lane precedence (the defect the record exists to prevent)");
 check(current([absentRow, blockedRow, freshRow], withStandIn).verdict === "FAIL_REPAIR_REQUIRED", "a fresh read at HEAD displaces the stand-in row");
+
+// A multi-row evidence file (one lane's return of many families read at one unreachable base) declares rowCount.
+const secondRow = { ...absentRow, familyId: "fx2-set" };
+const multiRecord = { schemaVersion: "rcap-unreachable-verifier-bases/v1", rows: [{ verifiedAtBase: "X", evidencePath: evidence, standInBase: "S", rowCount: 2 }] };
+const multi = standIns(multiRecord, [absentRow, secondRow, blockedRow]);
+check(multi.get(`X\0${evidence}`) === "S", "a multi-row entry yields its stand-in");
+check(current([blockedRow, absentRow], multi).verdict === "PASS_COMPLETE_INDEPENDENT", "each row of the multi-row file is ordered by the stand-in");
+check(current([absentRow, blockedRow, freshRow], multi).verdict === "FAIL_REPAIR_REQUIRED", "a fresh read still displaces a multi-row stand-in row");
+assert.throws(() => standIns(multiRecord, [absentRow]), /matches 1 extracted row\(s\), not 2/); checks++;
+assert.throws(() => standIns(multiRecord, [absentRow, secondRow, { ...absentRow, familyId: "fx3-set" }]), /matches 3 extracted row\(s\), not 2/); checks++;
+for (const rowCount of [0, 1.5, "2"]) {
+  assert.throws(() => standIns({ ...multiRecord, rows: [{ ...multiRecord.rows[0], rowCount }] }, [absentRow, secondRow]), /rowCount must be a positive integer/); checks++;
+}
 check(current([freshRow, absentRow, blockedRow], withStandIn).verdict === "FAIL_REPAIR_REQUIRED", "...regardless of sweep order");
 console.log(`unreachable-base stand-ins: ${checks} controls passed; no repository files written.`);

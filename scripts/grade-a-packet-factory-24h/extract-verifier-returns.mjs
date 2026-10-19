@@ -515,6 +515,8 @@ const UNREACHABLE_BASES = "data/rcap-grade-a/packet-factory-24h/UNREACHABLE_VERI
 // and a stand-in on a side branch could validate yet never order a fresh read.
 const reachableFromHead = (c) => { try { execFileSync("git", ["merge-base", "--is-ancestor", c, "HEAD"], { cwd: ROOT, stdio: "ignore" }); return true; } catch { return false; } };
 const standInBase = new Map();
+// A multi-row evidence file (one lane's return of many families, all read at one base) declares rowCount.
+const expectedMatches = new Map();
 if (fs.existsSync(path.join(ROOT, UNREACHABLE_BASES))) {
   const record = JSON.parse(fs.readFileSync(path.join(ROOT, UNREACHABLE_BASES), "utf8"));
   if (record.schemaVersion !== "rcap-unreachable-verifier-bases/v1") throw new Error(`${UNREACHABLE_BASES}: unknown schemaVersion`);
@@ -523,14 +525,17 @@ if (fs.existsSync(path.join(ROOT, UNREACHABLE_BASES))) {
     if (reachableFromHead(row.verifiedAtBase)) throw new Error(`${UNREACHABLE_BASES}: ${row.verifiedAtBase} is reachable from HEAD again; remove its stale entry`);
     if (!reachableFromHead(row.standInBase)) throw new Error(`${UNREACHABLE_BASES}: stand-in ${row.standInBase} is not an ancestor of HEAD`);
     if (!fs.existsSync(path.join(ROOT, row.evidencePath))) throw new Error(`${UNREACHABLE_BASES}: ${row.evidencePath} no longer exists; a moved return would silently lose its stand-in`);
+    if (row.rowCount !== undefined && !(Number.isInteger(row.rowCount) && row.rowCount > 0)) throw new Error(`${UNREACHABLE_BASES}: ${row.evidencePath}: rowCount must be a positive integer`);
     standInBase.set(`${row.verifiedAtBase}\0${row.evidencePath}`, row.standInBase);
+    expectedMatches.set(`${row.verifiedAtBase}\0${row.evidencePath}`, row.rowCount ?? 1);
   }
 }
 // An entry that matches no extracted row (a typo, a moved return) would be silently unused and the family would
-// fall back to lane precedence; require exactly one match.
+// fall back to lane precedence; require exactly the declared number of matches (one unless rowCount says otherwise).
 for (const key of standInBase.keys()) {
   const matches = rows.filter((r) => `${r.verifiedAtBase}\0${r.evidencePath}` === key).length;
-  if (matches !== 1) throw new Error(`${UNREACHABLE_BASES}: entry ${key.split("\0").join(" @ ")} matches ${matches} extracted row(s), not one`);
+  const expected = expectedMatches.get(key);
+  if (matches !== expected) throw new Error(`${UNREACHABLE_BASES}: entry ${key.split("\0").join(" @ ")} matches ${matches} extracted row(s), not ${expected === 1 ? "one" : expected}`);
 }
 const orderingBase = (r) => standInBase.get(`${r.verifiedAtBase}\0${r.evidencePath}`) ?? r.verifiedAtBase;
 /*
