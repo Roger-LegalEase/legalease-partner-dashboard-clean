@@ -11,6 +11,7 @@ import {assertMdPoliceReconciliationSourceSuccession,MD_POLICE_RECONCILIATION_SO
 import {assertVaRecordOriginSourceSuccession,VA_RECORD_ORIGIN_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGa21SpanishLabelsSourceSuccession,GA21_SPANISH_LABELS_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertNdCustomReceiptSourceSuccession,ND_CUSTOM_RECEIPT_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertMsGuideEsSourceSuccession,MS_GUIDE_ES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaSafeAtHomeSourceSuccession,CA_SAFE_AT_HOME_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertLeadSpanishSourceSuccession,LEAD_SPANISH_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -970,6 +971,13 @@ check('ND custom-pleading receipt pin hop preserves prior chain and refuses miss
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===ND_CUSTOM_RECEIPT_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/ND custom-pleading receipt pin source succession record bytes changed/);
  assert.throws(()=>assertGa21SpanishLabelsSourceSuccession(file=>{if(file===ND_CUSTOM_RECEIPT_SOURCE_PATH)throw Error('missing ND custom-pleading receipt pin record');return readBytes(file);}),/missing ND custom-pleading receipt pin record/);
  for(const input of ["src/lib/expungement-ai/nd-first-offense-family-inputs.ts"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('MS shared Spanish guide pages hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertMsGuideEsSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,31);assert.equal(c.currentUnchangedSourceCount,167);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===MS_GUIDE_ES_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/MS shared Spanish guide pages source succession record bytes changed/);
+ assert.throws(()=>assertNdCustomReceiptSourceSuccession(file=>{if(file===MS_GUIDE_ES_SOURCE_PATH)throw Error('missing MS shared Spanish guide pages record');return readBytes(file);}),/missing MS shared Spanish guide pages record/);
+ for(const input of ["src/lib/rcap/supplemental/guide-renderer.ts"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 // A succession record set must never outlive its call: after an honest load, a later drift still
