@@ -39,7 +39,12 @@ check('actual current v4 proof validates three exact approved outputs',()=>{
   spanish.artifactPath='data/rcap-ledger/grade-a/artifacts/ms-nonconviction-2026-10-20/full-es.pdf';
   spanish.artifactSha256='f80520fbb425435b19b1e5d97d3214c56d2c469fcc7c660035258d0d57926fcd';
   spanish.verificationBoundInputs.artifactInputSha256=spanish.artifactSha256;
-  spanish.verificationBoundInputsSha256=createHash('sha256').update(stableStringify(spanish.verificationBoundInputs)).digest('hex');
+  // Every result binds the codified-authority hash; the v4 decision moves it (the loader verified the new source authority).
+  assert.notEqual(actual.proof.sourceAuthority.boundInputsSha256,prior.sourceAuthority.boundInputsSha256);
+  for(const row of expectedResults){
+    row.verificationBoundInputs.officialSourceSha256ById['codified-authority:ms-nonconv-set']=actual.proof.sourceAuthority.boundInputsSha256;
+    row.verificationBoundInputsSha256=createHash('sha256').update(`rcap-final-verification-bound-inputs/v1\n${stableStringify(row.verificationBoundInputs)}`).digest('hex');
+  }
   assert.deepEqual(actual.proof.results,expectedResults);
   assert.equal(approval.decisionSha256,'f0a6172f40d82047259e59bbb46632f9e204f3c51081dda1cb81db0fb91177e1');
   assert.deepEqual(actual.proof.ownerDecision,approval);
