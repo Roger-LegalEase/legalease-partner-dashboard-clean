@@ -12,8 +12,32 @@ const record = JSON.parse(fs.readFileSync(APPROVED_DELTAS_PATH));
 const md = record.deltas.find(d => d.id === 'md-pardon-signed-date-2026-08-25');
 const previous = JSON.parse(execFileSync('git',['show','c2246711d82982cc41304c07be54a7d4b5583ce6:'+APPROVED_DELTAS_PATH]));
 const {scopeRestatement, ...history} = md;
-assert.deepEqual(history, previous.deltas.find(d => d.id === md.id), 'all historical approval fields preserved');
-assert.deepEqual(record.deltas.filter(d => d !== md), previous.deltas.filter(d => d.id !== md.id), 'other approvals unchanged');
+const EVALUATOR = 'src/lib/rcap-engine/evaluator.ts';
+// A17 (owner-authorized 2026-10-20): the only reviewed change since c2246711 is one
+// appended unsigned re-pin on each of these deltas; everything else stays historical.
+const A17_REPINS = {
+  "md-pardon-signed-date-2026-08-25": {"path":"src/lib/rcap-engine/evaluator.ts","sha256":"2f832448c0efa6f5989695eab904886090d5b5f39e1c7bc5243b9d7754ba8aa4","repinnedTo":"295faa3388dd4619fe58649abfc5a934950247bd410013a8655f1a106e2a2989","behaviouralProof":"scripts/verify-md-10-103-signed-approval.mjs"},
+  "nv-176a-excluded-charge-class-2026-09-28": {"path":"src/lib/expungement-ai/frontend/profiles/all51.json","sha256":"baf0daeff56a7588021b5d49181b4b6828e38a7ecd545c11348188abefaf2bb5","repinnedTo":"eb048480da0ee51b7613172b95a2b8dcf34097fad8203909ac3d601f0273d7ea","behaviouralProof":"scripts/verify-nevada-176a-branch.mjs"},
+  "nv-176a-charge-class-2026-09-28": {"path":"src/lib/expungement-ai/frontend/profiles/all51.json","sha256":"baf0daeff56a7588021b5d49181b4b6828e38a7ecd545c11348188abefaf2bb5","repinnedTo":"eb048480da0ee51b7613172b95a2b8dcf34097fad8203909ac3d601f0273d7ea","behaviouralProof":"scripts/verify-nevada-176a-branch.mjs"},
+  "nv-176a-disposition-class-2026-09-28": {"path":"src/lib/expungement-ai/frontend/profiles/all51.json","sha256":"baf0daeff56a7588021b5d49181b4b6828e38a7ecd545c11348188abefaf2bb5","repinnedTo":"eb048480da0ee51b7613172b95a2b8dcf34097fad8203909ac3d601f0273d7ea","behaviouralProof":"scripts/verify-nevada-176a-branch.mjs"},
+  "sd-sis-record-correction-stage-2026-09-28": {"path":"src/lib/expungement-ai/frontend/profiles/all51.json","sha256":"baf0daeff56a7588021b5d49181b4b6828e38a7ecd545c11348188abefaf2bb5","repinnedTo":"eb048480da0ee51b7613172b95a2b8dcf34097fad8203909ac3d601f0273d7ea","behaviouralProof":"scripts/verify-sd-escalation-selection.mjs"}
+};
+const A17_REPINS_SHA256 = '5311fb17ede0afa69870af4382e7756d61e89ff710acf737678a95d1d5e14a0d'; // the five appended entries, reasons included, in record order
+const a17Appended = [];
+function withoutA17(delta) {
+  const expected = A17_REPINS[delta.id];
+  if (!expected) return delta;
+  const tail = delta.supersededSha256?.at(-1);
+  assert.deepEqual(tail && {path:tail.path,sha256:tail.sha256,repinnedTo:tail.repinnedTo,behaviouralProof:tail.behaviouralProof},
+    expected, `${delta.id}: the reviewed A17 re-pin is its last supersession`);
+  a17Appended.push(tail);
+  const {supersededSha256, ...rest} = delta;
+  return supersededSha256.length > 1 ? {...rest, supersededSha256: supersededSha256.slice(0, -1)} : rest;
+}
+assert.deepEqual(withoutA17(history), previous.deltas.find(d => d.id === md.id), 'all historical approval fields preserved');
+assert.deepEqual(record.deltas.filter(d => d !== md).map(withoutA17), previous.deltas.filter(d => d.id !== md.id), 'other approvals unchanged');
+assert.equal(a17Appended.length, Object.keys(A17_REPINS).length, 'every reviewed A17 re-pin present');
+assert.equal(createHash('sha256').update(JSON.stringify(a17Appended)).digest('hex'), A17_REPINS_SHA256, 'exactly the reviewed A17 re-pins');
 const fixture = {...record,deltas:[md],runtimeReauthorizations:record.runtimeReauthorizations.filter(r => r.deltaId === md.id)};
 const dir = fs.mkdtempSync(path.join(os.tmpdir(),'md-scope-restatement-'));
 const originals = new Map();
@@ -25,7 +49,13 @@ for (const file of new Set([...md.authorizedPaths,...md.beforeAfterEvidence.beha
   ...md.supersededSha256.map(r => r.behaviouralProof),...fixture.runtimeReauthorizations.map(r => r.proofPath),scopeRestatement.proofPath])) copy(file);
 const save = value => fs.writeFileSync(path.join(dir,APPROVED_DELTAS_PATH),JSON.stringify(value));
 fs.mkdirSync(path.dirname(path.join(dir,APPROVED_DELTAS_PATH)),{recursive:true});
-let checks=2;
+let checks=4;
+// The A17 hop: it continues the chain only from the Item 11 binding's newSha256.
+const a17Hop = (r, edit) => {
+  const hops = r.deltas[0].supersededSha256;
+  const i = hops.findIndex(e => e.path === EVALUATOR && e.sha256 === scopeRestatement.bindings[EVALUATOR].newSha256 && typeof e.repinnedTo === 'string');
+  assert.ok(i >= 0, 'the A17 post-binding re-pin'); edit(hops, i);
+};
 const span = scopeRestatement.sharedSourceContinuity[1], transitions = span.transitions;
 const commits = execFileSync('git', ['log','--first-parent','--reverse','--format=%H',
   transitions[0].commit+'^..'+transitions.at(-1).commit,'--',span.path], {encoding:'utf8'}).trim().split('\n');
@@ -46,7 +76,7 @@ for(const prefix of ['f84ea78c7','c71d85cf2']) {
 }
 try {
   save(fixture);assert.equal(loadApprovedParityDeltas({rootDir:dir}).deltas.length,1);checks++;
-  for (const [name, mutate, marker] of [
+  const mutants = [
     ['scope omitted',r=>{delete r.deltas[0].scopeRestatement},/approval does not cover these bytes/],
     ['HI continuity omitted',r=>{delete r.deltas[0].scopeRestatement.sharedSourceContinuity},/exact Item 11/],
     ['HI review forged',r=>r.deltas[0].scopeRestatement.sharedSourceContinuity[0].independentReviewSha256='0'.repeat(64),/exact Item 11/],
@@ -61,13 +91,23 @@ try {
     ['foreign path',r=>r.deltas[0].scopeRestatement.bindings['src/foreign.ts']={priorSha256:'0'.repeat(64),newSha256:'1'.repeat(64)},/exact Item 11/],
     ['invented hash',r=>r.deltas[0].scopeRestatement.bindings['src/lib/rcap-engine/evaluator.ts'].newSha256='0'.repeat(64),/exact Item 11/],
     ['historical signature rewritten',r=>r.deltas[0].authorization.statement+=' widened',/historical signed statement/],
-    ['history hop removed',r=>r.deltas[0].supersededSha256.pop(),/does not continue the historical chain/],
+    ['history hop removed',r=>{const hops=r.deltas[0].supersededSha256,i=hops.findIndex(e=>e.path===EVALUATOR&&e.repinnedTo===scopeRestatement.bindings[EVALUATOR].priorSha256);
+      assert.ok(i>=0,'the historical hop into the Item 11 binding');hops.splice(i,1)},/does not continue the historical chain/],
     ['proof weakened',()=>fs.appendFileSync(path.join(dir,scopeRestatement.proofPath),'\n// changed proof'),/proof bytes changed/],
-    ['current source drift',()=>fs.appendFileSync(path.join(dir,'src/lib/rcap-engine/evaluator.ts'),'\n// drift'),/approval does not cover these bytes/]
-  ]) {
+    ['current source drift',()=>fs.appendFileSync(path.join(dir,'src/lib/rcap-engine/evaluator.ts'),'\n// drift'),/approval does not cover these bytes/],
+    // A17 post-binding re-pin: valid only as recorded, refused when removed, unreachable, bypassing or malformed.
+    ['post-binding re-pin removed',r=>a17Hop(r,(hops,i)=>hops.splice(i,1)),/approval does not cover these bytes/],
+    ['post-binding re-pin from an unreachable hash',r=>a17Hop(r,(hops,i)=>{hops[i].sha256='0'.repeat(64)}),/which the authorization chain never reaches/],
+    ['re-pin bypasses the Item 11 binding',r=>a17Hop(r,(hops,i)=>{hops[i].sha256=scopeRestatement.bindings[EVALUATOR].priorSha256}),/scope restatement does not continue the historical chain/],
+    ['post-binding re-pin to invented bytes',r=>a17Hop(r,(hops,i)=>{hops[i].repinnedTo='0'.repeat(64)}),/approval does not cover these bytes/],
+    ['post-binding re-pin recorded twice',r=>a17Hop(r,(hops,i)=>hops.push(structuredClone(hops[i]))),/superseded twice at the same hash/],
+    ['post-binding re-pin without a real reason',r=>a17Hop(r,(hops,i)=>{hops[i].reason='updated'}),/reason is missing or too short/],
+    ['post-binding re-pin cites a missing proof',r=>a17Hop(r,(hops,i)=>{hops[i].behaviouralProof='scripts/verify-nothing-at-all.mjs'}),/as proof, and it does not exist/]
+  ];
+  for (const [name, mutate, marker] of mutants) {
     for(const [file,bytes] of originals)fs.writeFileSync(path.join(dir,file),bytes);
     const changed=structuredClone(fixture);mutate(changed);save(changed);
     assert.throws(()=>loadApprovedParityDeltas({rootDir:dir}),marker,name);checks++;
   }
-  console.log(JSON.stringify({status:'PASS',checks,mutants:17,scope:'MD only; original approval and other delta records unchanged'}));
+  console.log(JSON.stringify({status:'PASS',checks,mutants:mutants.length,scope:'MD only; original approval and other delta records unchanged except the reviewed A17 re-pins'}));
 } finally { fs.rmSync(dir,{recursive:true,force:true}); }
