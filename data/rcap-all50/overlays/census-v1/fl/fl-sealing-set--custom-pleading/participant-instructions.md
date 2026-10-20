@@ -7,6 +7,8 @@ This review artifact contains five components in the controlling fl-sealing-set 
 1. Stage 1 — complete and submit the FDLE Application for a Certificate of Eligibility with the certified dispositions, fingerprints, and fee. No State Attorney certification is required for sealing. Leave the source's Expunction Applications Only written certified statement uncompleted. Sign the FDLE application before a notary or other authorized oath-taker.
 2. Stage 2 — wait for a fresh FDLE Certificate of Eligibility. Do not file the court packet before it arrives. Add its number and issue date, complete and swear the separate Rule 3.989 sworn statement, review and sign the petition, prepare and complete the certificate of service, and file the petition, sworn statement, certificate, and proposed order with the circuit or county court in the circuit of arrest.
 
+Stage 1 costs the $75 nonrefundable FDLE processing fee; no held source addresses a waiver — ask the FDLE Seal & Expunge Section (the address on the application). No held source states a court filing fee for the Stage 2 petition, and certified copies cost what the county charges — ask the clerk of the circuit or county court in the circuit of arrest before filing.
+
 Court-ordered sealing is discretionary. This packet does not promise relief. Stop and obtain attorney review if the State objects, any hearing is required or set, the disqualifying-offense classification is contested, a prior seal or expunction exists, another petition is pending, immigration consequences matter, or any fact requires an argument rather than a truthful assertion.
 
 Sealing preserves a confidential record; it does not destroy it. Firearms-purchase background checks and concealed-carry licensing have exceptions: do not assume sealing authorizes a firearm, restores firearm rights, or permits denying a sealed record in those processes. Obtain advice before relying on sealing for either purpose.
@@ -46,4 +48,4 @@ The judge completes Additional arrest data, if any, only when articulating the s
 
 Do not pre-sign or pre-date the FDLE application, sworn statement, petition, or certificate of service. The notary or other authorized oath-taker completes the sworn acknowledgment. The fingerprinting official completes the official signature, ORI/stamp, and impressions. The Expunction Applications Only written certified statement is not required for sealing and remains untouched. The judge completes the order decision, order date, and judicial signature.
 
-Route: obligation:track-only:FL:fl-sealing
+Route: obligation:track-pathway:FL:fl-sealing:court-ordered-sealing-943-059
