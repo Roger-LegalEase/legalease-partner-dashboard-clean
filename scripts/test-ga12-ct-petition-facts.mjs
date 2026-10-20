@@ -200,6 +200,22 @@ check('source/category guard fails closed',()=>{
  for(const edit of [p=>p.profileVersion='changed',p=>p.source.sourceCorpusSha256='changed',p=>p.pathways.find(r=>r.id===route).triggerFields.push('new')]){const p=structuredClone(profile);edit(p);assert(!history(p,route,spec));}
  for(const edit of [s=>s.specificationSha256='changed',s=>s.requiredFacts.push({factId:'offense_category'}),s=>s.routeKey='CT:other']){const s=structuredClone(spec);edit(s);assert(!history(profile,route,s));}
 });
+// GA-12-M00708: broad saved labels cannot replace final-record facts or an exclusion.
+for(const [patch,reason] of [
+ [{},'ct.petition_record_review'],
+ [{ct_petition_citations:undefined},'ct.petition_missing'],
+ [{state_exclusion_categories:['Sex offense or registration']},'ct.state_exclusion_selected']
+])check('category values cannot change the actual consumer/'+reason,()=>{
+ const answers={...base,...patch},expected=evalFor(answers).evaluation;
+ assert.equal(expected.reasons[0].code,reason);
+ for(const raw of ['Misdemeanor','Felony','Sex offense','Count 1 theft; count 2 amended', {unknown:true}, {value:'Original charge',unknown:false}]){
+  assert.throws(()=>evalFor({...answers,offense_category:raw}),error=>error.invalidQuestionIds?.includes('offense_category'));
+  const record=modelFor(answers);record.draftSnapshot.packetAnswers.offense_category=structuredClone(raw);
+  const before=structuredClone(record);
+  assert.deepEqual(P.evaluateProtectedPacketFacts(record.draftSnapshot,undefined,expected.matterId).evaluation,expected);
+  assert.deepEqual(record,before);
+ }
+});
 check('category is not a new collection gate',()=>{
  const input={jurisdiction:'CT',pathwayId:route,requiredInputIds:['offense_category','charge'],serverFacts:{},screeningAnswers:base,savedAnswers:{},specification:spec,questionById:new Map()};
  const c=resolvePacketCollection(input),f=c.facts.find(f=>f.factId==='offense_category');assert.equal(f.active,false);assert.equal(f.optional,true);assert.equal(f.source,'ct_petition_category_history');assert.equal(c.derivedFacts.offense_category,undefined);
@@ -207,6 +223,7 @@ check('category is not a new collection gate',()=>{
 });
 for(const map of ['screeningAnswers','prefilledAnswers','packetAnswers'])for(const raw of ['Old category','Original charge amended',null,{value:'Old category',unknown:true},['Legacy shape']])check('raw saved history/'+map+'/'+JSON.stringify(raw),()=>{
  const record=modelFor(base);record.draftSnapshot[map].offense_category=raw;record.draftHash=P.protectedPacketDraftHash(record.draftSnapshot);const before=structuredClone(record);
+ assert.deepEqual(P.evaluateProtectedPacketFacts(record.draftSnapshot,undefined,'TEST-ct-petition').evaluation,evalFor(base).evaluation);
  const m=P.protectedPacketInformationModelFor(record);assert(!m.missingInputIds.includes('offense_category'));assert.equal(m.questions.find(q=>q.id==='offense_category')?.required,false);
  const patch=P.packetInformationPatch({protectedVerification:record,answers:{}});assert(patch);assert.deepEqual(patch.protectedTransition.nextVerification,before);assert.deepEqual(record,before);
 });

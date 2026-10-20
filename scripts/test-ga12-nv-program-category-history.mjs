@@ -101,6 +101,7 @@ for (const [questionRecordId, route] of cases) {
       assert(!m.missingInputIds.includes(category));
       assert.deepEqual(record, before);
       assert.deepEqual(safety(record.draftSnapshot), safety(seed.snapshot));
+      assert.deepEqual(P.evaluateProtectedPacketFacts(record.draftSnapshot, undefined, authoritative.evaluation.matterId).evaluation, authoritative.evaluation);
       const patch = P.packetInformationPatch({ existingItem: { id: `synthetic-${questionRecordId}`, jurisdiction: 'NV', artifactRefs: {} },
         answers: {}, protectedVerification: record });
       assert(patch);
@@ -236,6 +237,7 @@ for (const [id, original] of [...records]) {
       assert.equal(history.routeKey, `NV:${original.draftSnapshot.pathwayId}`);
     }
     assert.deepEqual(safety(next.draftSnapshot), safety(original.draftSnapshot));
+    assert.deepEqual(P.evaluateProtectedPacketFacts(next.draftSnapshot).evaluation, P.evaluateProtectedPacketFacts(original.draftSnapshot).evaluation);
     assert.equal(next.draftSnapshot.paymentAllowed, false);
     assert.equal(next.draftSnapshot.resultCode, 'packet_ready_with_caution');
     assert.equal(next.status, 'unverified');
@@ -249,6 +251,7 @@ for (const [id, original] of [...records]) {
     assert.equal(response.status, 200);
     assert.deepEqual(records.get(id).draftSnapshot.packetAnswers[category], { unknown: true });
     assert.deepEqual(safety(records.get(id).draftSnapshot), safety(original.draftSnapshot));
+    assert.deepEqual(P.evaluateProtectedPacketFacts(records.get(id).draftSnapshot).evaluation, P.evaluateProtectedPacketFacts(original.draftSnapshot).evaluation);
   });
   const before = structuredClone(records.get(id)), savesBefore = saves;
   for (const [kind, status, error] of [['stale', 409, 'revision_conflict'], ['anonymous', 401, 'auth_required'],

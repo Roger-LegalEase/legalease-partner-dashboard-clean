@@ -143,10 +143,21 @@ check('category is not a new collection gate',()=>{
  const c=resolvePacketCollection(input);const f=c.facts.find(f=>f.factId==='offense_category');assert.equal(f.active,false);assert.equal(f.optional,true);assert.equal(f.source,'ga_sb288_category_history');assert.equal(c.derivedFacts.offense_category,undefined);
  assert.notEqual(resolvePacketCollection({...input,recordOwnQuestionIds:new Set(['offense_category'])}).facts.find(f=>f.factId==='offense_category').source,'ga_sb288_category_history');
 });
+// GA-12-M00732 / Q-2d80a89dd926657a1873: saved labels cannot replace the actual conditional facts.
+for(const facts of [{},{ga_sb288_final_citations:'16-5-95'},{ga_sb288_final_citations:undefined},{ga_sb288_final_citations:'16-5-20(d)',ga_sb288_under21_at_arrest:'No'}])check('category values preserve the full factual decision/'+JSON.stringify(facts),()=>{
+ const answers={...base,...facts},expected=evalFor(answers).evaluation;
+ for(const raw of ['Misdemeanor','Felony','Sex offense','Count 1 theft; count 2 amended',{unknown:true},{value:'Original charge',unknown:false}]){
+  const record=modelFor(answers);record.draftSnapshot.packetAnswers.offense_category=structuredClone(raw);
+  record.draftHash=P.protectedPacketDraftHash(record.draftSnapshot);const before=structuredClone(record);
+  assert.deepEqual(P.evaluateProtectedPacketFacts(record.draftSnapshot,undefined,expected.matterId).evaluation,expected);
+  assert.deepEqual(record,before);
+ }
+});
 for(const map of ['screeningAnswers','prefilledAnswers','packetAnswers'])for(const raw of ['Old broad category','Count 1 theft; count 2 amended',null,{value:'Old category',unknown:true},['Legacy shape']])check('saved history/'+map+'/'+JSON.stringify(raw),()=>{
  const record=modelFor(base);record.draftSnapshot[map].offense_category=raw;record.draftHash=P.protectedPacketDraftHash(record.draftSnapshot);const before=structuredClone(record);
  const m=P.protectedPacketInformationModelFor(record);assert(!m.missingInputIds.includes('offense_category'));assert.equal(m.questions.find(q=>q.id==='offense_category')?.required,false);
  const patch=P.packetInformationPatch({protectedVerification:record,answers:{}});assert(patch);assert.deepEqual(patch.protectedTransition.nextVerification,before);assert.deepEqual(record,before);
+ assert.deepEqual(P.evaluateProtectedPacketFacts(record.draftSnapshot,undefined,'TEST-sb288').evaluation,evalFor(base).evaluation);
 });
 check('missing protected citations render a multiline record control',()=>{
  const missing=modelFor({...base,ga_sb288_final_citations:undefined});
