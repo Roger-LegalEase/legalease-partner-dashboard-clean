@@ -295,6 +295,7 @@ export const CA_PROP64_FACT_QUESTIONS: PublicQuestion[] = [
 ];
 export const CA_PROP64_FACT_IDS = CA_PROP64_FACT_QUESTIONS.map(q => q.id);
 export function caProp64QuestionApplies(a: Answers, id: string): boolean {
+  if (id === "state_exclusion_categories" && caProp64ApplicationRequested(a) && caProp64Pathway(a)) return false;
   if (CA_PROP64_LEGACY_IDS.includes(id)) return false;
   if (!CA_PROP64_FACT_IDS.includes(id)) return true;
   if (id === "ca_prop64_record_section") return true;

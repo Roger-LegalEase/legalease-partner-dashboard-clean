@@ -42,7 +42,7 @@ import { GA_PARDON_ROUTE, GA_PARDON_COPY, GA_PARDON_SOURCE, georgiaPardonFacts }
 import { convictionReliefRequest, convictionOutcomeCompatible, CONVICTION_RELIEF_COPY, CONVICTION_RELIEF_SOURCE } from "@/lib/rcap-engine/conviction-relief-request";
 import { MS_EXACT_TIMING_FACT_IDS, MS_TIMING_MISSING_TEXT, MS_TIMING_MULTIPLE_MISSING_TEXT, MS_MIP_BOTH_DATE_ID, MS_MIP_BOTH_REVIEW_TEXT, msExactCalendarDate } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { pathwayFromContext } from "@/lib/rcap-engine/pathway-context";
-import { caProp64Facts, caProp64Pathway, caProp64ApplicationRequested, CA_PROP64_SOURCE, CA_PROP64_REASON_COPY, CA_PROP64_PROCEDURE_COPY, CA_PROP64_LEGACY_IDS } from "@/lib/rcap-engine/california-prop64-facts";
+import { caProp64Facts, caProp64Pathway, caProp64ApplicationRequested, caProp64QuestionApplies, CA_PROP64_SOURCE, CA_PROP64_REASON_COPY, CA_PROP64_PROCEDURE_COPY, CA_PROP64_LEGACY_IDS } from "@/lib/rcap-engine/california-prop64-facts";
 import { isCaProp64Pathway, CA_PROP64_COMPLETED } from "@/lib/expungement-ai/ca-prop64-choices";
 import { ny16059Requested, ny16059History, ny16059Clock, NY_16059_ROUTE, NY_16059_SOURCE, NY_16059_REASON_COPY, NY_16059_LEGACY_IDS } from "@/lib/rcap-engine/new-york-16059-facts";
 import { deAdultConviction, delawareConvictionDecision, delawareConvictionRoute, DE_COURT, DE_SBI, DE_SOURCE, DE_REASON_TEXT } from "@/lib/rcap-engine/delaware-conviction-rules";
@@ -543,6 +543,7 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
   }
 
   const missingQuestionIds = requiredMissingPublicQuestionIds(publicProfile, answers)
+    .filter(id => jurisdiction !== "CA" || caProp64QuestionApplies(answers, id))
     .filter(id => flConditionalInformationQuestionApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => dcGeneralInformationQuestionApplies(profile, preselectedPathway?.id, answers, id))
     .filter(id => ctAutomaticInformationQuestionApplies(profile, preselectedPathway?.id, answers, id))
