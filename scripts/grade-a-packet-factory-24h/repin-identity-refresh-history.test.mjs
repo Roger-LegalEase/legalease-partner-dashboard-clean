@@ -112,3 +112,45 @@ test("a pin with a live block and no history, and a pin that matches disk with n
   delete censusPin(doc).identityRefreshHistory;
   assert.equal(driftedPinsOf(doc).filter((d) => d.at === CENSUS).length, 0, "no history, no live block, equals disk: nothing to plan");
 });
+
+/*
+ * Two entries (Acceptance mutant p2, 2026-10-20): with one entry the oldest and
+ * the newest are the same, so a planner that read identityRefreshHistory[0] went
+ * unnoticed. Here the committed pin already carries an older entry, written
+ * against the digest the census had before the 2026-10-19 refresh, and the
+ * helper appends the superseded live block after it. The planner must plan from
+ * that newest entry; the older one names a digest this receipt has not been
+ * proven at since.
+ */
+test("two history entries: the helper appends the newest last and the planner plans from it, not from the oldest", () => {
+  const live = censusPin(committed).identityRefresh;
+  const older = { ...structuredClone(live), writtenAgainst: live.was.sha256, writtenAgainstByteLength: live.was.byteLength,
+    supersededBy: { measuredNow: censusPin(committed).sha256, on: "2026-10-19", by: "rebuild", why: "fixture: an earlier move" } };
+  assert.notEqual(older.writtenAgainst, censusPin(committed).sha256, "control: the two entries name different digests");
+  const previous = structuredClone(committed);
+  censusPin(previous).identityRefreshHistory = [older];
+  const next = structuredClone(committed);
+  eachPin(next, (pin) => { delete pin.identityRefresh; delete pin.identityRefreshHistory; });
+  censusPin(next).sha256 = onDisk; censusPin(next).byteLength = fs.statSync(path.join(ROOT, CENSUS)).size;
+  const doc = carryForwardIdentityRefresh(previous, next, { on: "2026-10-20T04:30:00Z" }).document;
+
+  const history = censusPin(doc).identityRefreshHistory;
+  assert.equal(history.length, 2);
+  assert.deepEqual(history[0], older, "the older entry rides first, verbatim");
+  assert.equal(history[1].writtenAgainst, censusPin(committed).sha256, "the superseded live block is appended last");
+  assert.equal(historyPredecessorOf(censusPin(doc)).writtenAgainst, censusPin(committed).sha256);
+
+  const drift = driftedPinsOf(doc).filter((d) => d.at === CENSUS);
+  assert.equal(drift.length, 1);
+  assert.equal(drift[0].pin.sha256, censusPin(committed).sha256, "planned from the newest entry's writtenAgainst");
+  assert.notEqual(drift[0].pin.sha256, older.writtenAgainst, "never from the oldest");
+
+  const beforeText = `${JSON.stringify(doc, null, 2)}\n`;
+  const plan = planReceipt({ familyId: FAM, directory: DIR, receiptPath: RECEIPT, beforeText, on: new Date("2026-10-20T04:40:00Z") });
+  assert.equal(plan.outcome, "REFRESHABLE", JSON.stringify(plan).slice(0, 600));
+  const record = plan.records.find((r) => r.path === CENSUS);
+  assert.equal(record.was.sha256, censusPin(committed).sha256);
+  const after = censusPin(JSON.parse(composeRefreshedReceipt(plan).text));
+  assert.deepEqual(after.identityRefresh.previousIdentityRefresh, history[1], "the predecessor is the newest entry");
+  assert.deepEqual(after.identityRefreshHistory, history, "both entries stay on the pin, in order");
+});
