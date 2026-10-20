@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX03",
+  "laneKind": "repair",
+  "baseSha": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+  "branch": "codex/ok991c-fee-a4-20261020",
+  "isIndependentVerification": false,
+  "preparedOn": "2026-10-20",
+  "preparedBy": "Codex product/source/packet implementation worker",
+  "grantsAsserted": [
+    "FIX03 rcap-ok-custom-pleading: Lead writer release 2026-10-20T14:57:22Z; batch30 ledger reissue and release pending Lead integration. No local CLAIM_OK asserted."
+  ],
+  "grantBasis": "Lead 2026-10-20T14:57:22Z assigns FIX03 and requires this successor. Lead will reissue then release FIX03 for rcap-ok-custom-pleading before batch30 generate; ledger commit/base pending. Implementation return only; no independent verification or commercial authority.",
+  "rows": [
+    {
+      "itemId": "rcap-ok-custom-pleading",
+      "familyId": "rcap-ok-custom-pleading",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "FILING_DESTINATION",
+        "FEE_AND_WAIVER",
+        "SERVICE"
+      ],
+      "repairAssignment": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20261019-reverify-census-5e7fe802c.json",
+      "correction": "Section991c caption and BEFORE YOU FILE heading identify the sentencing district court. Instructions name that court\u2019s clerk for unestablished motion fee/waiver and service recipients/method. The page67 court-free assertion is removed; OSBI arrest-processing charge remains distinct. No section18 service rule is borrowed.",
+      "packetBytesChanged": true,
+      "artifacts": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/fixtures/canonical.pdf",
+          "documentId": "assembled_packet",
+          "role": "assembled_packet_of_composed_pleadings",
+          "fixture": "canonical",
+          "sha256": "16faf77ba59c0edc53218bf0b22254565d6a9d05c7472983fd25de467845acfc",
+          "byteLength": 206295,
+          "pageCount": 81
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/fixtures/boundary.pdf",
+          "documentId": "assembled_packet",
+          "role": "assembled_packet_of_composed_pleadings",
+          "fixture": "boundary",
+          "sha256": "e83223a13d9029ced4364d158f45db988cbd1508febc8165899412e21aa98a34",
+          "byteLength": 208828,
+          "pageCount": 81
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "evidencePath": "/workspaces/training-modules-09-10/output/nationwide-correction-execution-20261011/codex-worker-evidence/ok991c-repair-return",
+      "testsActuallyRun": [
+        "Parent RED on new page67 assertion; candidate PASS10targetedgroups",
+        "Native build exit0; both81pagePDFs; nine measured completeness counters0",
+        "No-history test PASS; git discovery128 confirms no history dependency",
+        "auditFamily PASS_COMPLETE:254terminalfields,85written,169classifiedblanks",
+        "ESLint exit0; git diff --check exit0",
+        "Fresh return preparation:11source/output hashes match successful receipts; both PDF text pages67\u201372 confirm all3selectedfailures repaired"
+      ],
+      "evidenceReuse": "All eleven dependent current source/output hashes match prior successful receipts. Fresh PDF text read pages67-72 verifies all three obligations; no new build or raster.",
+      "disclosedNativeOutputChanges": [
+        "Existing native renderer footer drift reproduced on unchanged parent; retained in original return. Seven sibling sets preserved native-to-native."
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterRequired": true,
+      "independentRereadRequired": true
+    }
+  ]
+}
