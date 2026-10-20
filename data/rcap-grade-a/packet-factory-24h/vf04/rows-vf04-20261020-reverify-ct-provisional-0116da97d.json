@@ -1,0 +1,219 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF04",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+  "verifier": "INDEPENDENT-DOCUMENT-REVIEWER2-CLAUDE (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine; the assertions were run against the lead's grant ledger claim-ledger.json (sha256 18c0b4531cfa9a4aa262199a49d8c1dbd631b73ffd61f4aaab0fb1e0f488a8aa), which grants this lane in a batch not yet at the row base",
+  "claimAssertions": {
+    "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon": "CLAIM_OK VF04 agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon (independent-verification, grant set 1c6319b6441f6094)"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) with amendments A1-A4 applied as written, under the owner's later decisions where one governs the family (OWNER_BATCH_ADOPTION_2026-09-02 Q4: no unconfirmed fee figure is published).",
+    "SERVICE": "Met by a named rule, an affirmative statement that nobody is served, or, where no held record establishes it, a named checkable authority (DET-FEE-AND-WAIVER-001 appliesTo); silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names (A1: the repository answer first)."
+  },
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "lane": "VF04",
+      "worker": "INDEPENDENT-DOCUMENT-REVIEWER2-CLAUDE (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+      "verifiedAt": "2026-10-20T13:51:15Z",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "MASTER_LIBRARY_SOURCE_DIR=<full Edition 1 corpus> node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon, run by measure-family.mjs in the detached worktree /tmp/legalease-reviewer2-20261020 at base 0116da97daa896e517323f18c01a1a33de0ceaee: '1 famil(ies) audited \u00b7 1 PASS_COMPLETE', 5/10 written; every counter printed 0 (facts.json verifierRun)."
+      },
+      "sourceIdentityEvidence": [
+        {
+          "path": "data/record-clearing/legal-design-intake/CT.memo.json",
+          "sha256": "90d96d9d8a25ed7d64b86c3777f753eecfdb651ac083c0f9b53cbda06db5d448",
+          "byteLength": 171609,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-all50/guidance-packets/ct.json",
+          "sha256": "0acfc6fe64c87db98079fa17048c063513665bd27ff269d31a9604216460a023",
+          "byteLength": 79195,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "sha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+          "byteLength": 2635434,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-ledger/completed-output-counsel-manifest.json",
+          "sha256": "fbf9bfef239f466ef6d2c685b17edce724acc8389bf051b8754f709925771e56",
+          "byteLength": 321306,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/treatment-reconciliation/ct-coe-eligibility.html.gz",
+          "sha256": "740bec54b5767b0c980a8f06cb224e1c6797b30e0b75260888385583de998f52",
+          "byteLength": 9089,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/treatment-reconciliation/ct-coe-required-documents.html.gz",
+          "sha256": "a4edf49a6955fc0f7fbe090470916f7e8f0c2f0971cb5e93516af23f14de900b",
+          "byteLength": 8941,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-grade-a/chat-parallel-2026-09-07/chat1-integration/session10/treatment-reconciliation/ct-pardon-faq.html.gz",
+          "sha256": "c2038ec7ba4c762fc81dd53380026f9518b802a0ddc31af8dd435b92df0bcb24",
+          "byteLength": 13738,
+          "matchesReceipt": true
+        }
+      ],
+      "artifactHashes": [
+        {
+          "fixture": "canonical",
+          "sha256": "a5eaff9a716116431313aa330b3b05e6753b9016f897b7bad7046c6d0ec9a8a0",
+          "byteLength": 6777,
+          "pageCount": 2,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "346d468ef09939fd30b67d5c8a7fbeeddb63509f44a3da1f9b929a141e1f2a7e",
+          "byteLength": 6896,
+          "pageCount": 2,
+          "recordAndRasterExact": true
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "The single routeKey obligation:track-only:CT:ct-provisional-pardon is declared identically by source-receipt, product-wiring, production-field-map and the MASTER_QUEUE row; familyIdAgrees true (facts.json routeIdentity). It resolves in the current census at routes[151] (trackId ct-provisional-pardon, destination 'Connecticut Board of Pardons and Paroles') and in CT.memo.json track ct-provisional-pardon. The guide speaks only to this route; sibling Connecticut routes are named only as other routes."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Recomputed from disk at 0116da97daa896e517323f18c01a1a33de0ceaee: all 7 compositionSources equal their receipt pins by sha256 and byte length (CT.memo.json 90d96d9d (171609 B); ct.json 0acfc6fe (79195 B); route-obligation-candidate.json eeabd8b9 (2635434 B); completed-output-counsel-manifest.json fbf9bfef (321306 B); ct-coe-eligibility.html.gz 740bec54 (9089 B); ct-coe-required-documents.html.gz a4edf49a (8941 B); ct-pardon-faq.html.gz c2038ec7 (13738 B)); allSourcesExact true and no pin has drifted, so no historical blob recovery was needed (sources-recompute.txt). completed-output-counsel-manifest.json carries a pre-existing 2026-09-05 identityRefresh whose current pin fbf9bfef\u2026 is the one recomputed exact here. This family binds committed repository records and its own bound official captures; no corpus bytes."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Guidance deliverable. Declared = rendered = ['agency_preparation_guide'] in field map, rendered-artifacts (both fixtures) and receipt; officialForm null. The memo and census record no stable participant application document; the guide tells the participant to use the Board's own application and not to upload the guide. requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "All 5 recorded writes per fixture read back from pdftotext -layout of the fixture bytes (facts.json readBack 5/5 both; 0 glyphs outside measured write boxes; no refused field inked). Canonical: Jordan Avery Reyes, 1991-04-17, 42 Larkspur Street, Hartford, CT 06103, 860-555-0142, jordan.reyes@example.org. Boundary: Maria-Alejandra O'Shaughnessy-Whitfield, 1968-12-31, 1188 Upper Connecticut River Crossing Road, Apartment 14B, West Hartford, Connecticut 06119-2214 (wraps inside the margin), (203) 555-0199 ext. 4417, maria.alejandra.oshaughnessy.whitfield@longmailexample.org. canonical-vs-boundary.diff differs only in those five values. knownRequiredFieldsMissing 0."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "requiredBeforeFilingCount 5 = blanks 5 (everyRequiredBeforeFilingItemIsDisclosed true): Board eligibility and timing; Board application, portal, attachments and fee; every relevant conviction; the employment or licensing barrier; supervision status, remaining days and officer contact. All 5 print on p2 under 'FACTS YOU MUST CONFIRM BEFORE ACTING' with a 'Check with' authority and appear in the instructions table (held-records.txt). requiredFactsNotCollected 0, unclassifiedBlanks 0."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "0 selection controls, 0 canonical refusals, routeSelectionsMade [] (routeSelectionNote: 'The exact route is fixed as obligation:track-only:CT:ct-provisional-pardon. The guide selects that agency route and presents no alternate instrument for the participant to elect.'). requiredOptionsMissing 0."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating structure is declared (componentSet repeatingRows 0; one composed guide, no case or charge rows); the conviction/case facts are single labelled blanks the participant fills from the record. incompleteRows 0."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "protectedBlanks 0 in blanks-left-for-the-participant; refusedFieldsWithInk empty in both fixtures; protectedWrites 0 measured here. The guide prints 'Do not sign or date this guide. Sign and date only the agency's own request or application' and 'No court, clerk, prosecutor, agency, notary, or hearing-officer field is completed anywhere in this guide'; no signature, date or notary line exists on the page."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "Two PDFs on disk, both recorded, no unrecorded PDF. Recomputed here: canonical.pdf a5eaff9a716116431313aa330b3b05e6753b9016f897b7bad7046c6d0ec9a8a0 / 6777 B, boundary.pdf 346d468ef09939fd30b67d5c8a7fbeeddb63509f44a3da1f9b929a141e1f2a7e / 6896 B, both equal to reports/rendered-artifacts.json and to the RASTER_PASS receipt of A9 run 39430402490 (packetCommitSha ce21144762a49aae1e3c9c126c1ca4f4c34ab755; family directory unchanged ce2114476..0116da97d, bytes-unchanged.txt empty). pdfinfo 2 page(s) each, equal to the recorded 2."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Read from the page headings of the bytes (page-headings.txt): p1 title, route explanation and the Board process with the fee statement; p2 FACTS YOU MUST CONFIRM BEFORE ACTING and PROTECTED ITEMS; identical on both fixtures and equal to the rendered-artifacts packet order (one document). 2 page(s) by pdfinfo = 2 recorded."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox: 0 words outside the page box and 0 same-band overlapping word pairs on both fixtures (500 and 508 words). The RASTER_PASS receipt (39430402490) binds both pinned hashes with no problems, and output-7c's visual review of those page images found no defect; the long boundary address and email wrap inside the margin. visualDefects 0."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "p1 'For the Board application route, use https://epardonportal.ct.gov/portal', with the Board's COE eligibility and required-documents pages, and the supervision handoff 'If you are currently on probation with more than 90 days of supervision remaining, apply through your probation officer' (bound ct-coe-eligibility.html.gz: 'If you are currently on Probation and have more than 90 days of supervision left (you must apply through your probation officer'). Matches the census and memo destination (Connecticut Board of Pardons and Paroles); the guide says it is not the application and is not a court filing."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Prior FAIL (A2: the bound FAQ holds the answer) is repaired in these bytes, limb 2 (no fee, sourced). p1 'Fee: the Board's own Pardon FAQ (https://portal.ct.gov/BOPP/Pardon-Division/Pardon/Pardon-FAQs, as captured on 2026-09-08) says the Board of Pardons and Paroles does not currently charge a fee to apply for a pardon, and it names the Certificate of Employability, also called a provisional pardon, as one of its two pardon types.' (same at instructions line 26). Verified against the bound ct-pardon-faq.html.gz (c2038ec7\u2026, exact): 'The Board of Pardons and Paroles does not currently charge a fee to apply for a pardon.' A4 consistency: every fee hit (fee-mentions.txt: p1 lines 37-40, p2 blank 'Current Board application, portal, attachments, and fee' with 'Check with: the Connecticut Board of Pardons and Paroles', instructions lines 5, 14 'confirmation that no application fee applies', 26) agrees; no amount and no contrary 'free' claim. The FAQ's DESPP rap-sheet charge is not attached to the COE application by any held source (the bound COE required-documents page lists the notarized Background Investigation Authorization, ID and the supervising-officer questionnaire, no State Police report; A3 per-fact) - see observations."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "p1 'The Board of Pardons and Paroles application process is not a court filing; there is no prosecutor consent and nobody to serve.' An affirmative nobody-is-served statement with the mechanism; matches CT.memo rules.service 'No service. This is an executive-branch application, not a court filing.'"
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "Measured against CT.memo ct-provisional-pardon selfHelpStopConditions, 3/3: wants erasure -> p1 'It does not erase anything ... A participant seeking erasure is on a different Connecticut route'; the Board sets a hearing and an immigration matter -> 'Stop for counsel if the Board sets a hearing or any immigration issue exists' (instructions line 27). It also says the guide is not the application, signs nothing, and that exactly 90 days does not satisfy the more-than-90-day handoff. No inversion; legalDecisionRecordIds empty."
+        }
+      },
+      "observations": [
+        {
+          "what": "Unscored classes checked",
+          "detail": "No PDF page prints a route key (grep 'obligation:' 0 on both fixtures) and no builder vocabulary ('The packet must', component ids) appears; nothing to record for PARTICIPANT_DOCUMENT_PRINTS_ROUTE_KEYS or the builder-vocabulary class."
+        },
+        {
+          "what": "Optional DESPP record-search charge not mentioned (provisional)",
+          "detail": "The bound ct-pardon-faq.html.gz says applicants 'must pay the State Police - now known as the Department of Emergency Services and Public Protection (DESPP) - for ... your State Police Criminal History Report', and the bound ct.json destination names DESPP's address for a criminal-history search 'where you need to establish what is on your record before applying'. The bound COE required-documents page does not list that report, so no held source makes it a cost of this application (A3 per-fact) and FEE_AND_WAIVER is scored met on the Board's no-fee statement. The absolute-pardon sibling does print the DESPP sentence. Recorded for the lead as a copy consideration, not scored."
+        }
+      ],
+      "evidence": {
+        "reviewEvidenceDir": "review-evidence/reviewer2/rv17-ct-provisional/read-0116da97d/",
+        "files": [
+          "boundary.txt",
+          "bytes-unchanged.txt",
+          "canonical-vs-boundary.diff",
+          "canonical.txt",
+          "facts.json",
+          "fee-mentions.txt",
+          "fieldmap-blanks.txt",
+          "held-records.txt",
+          "measure.log",
+          "page-headings.txt",
+          "participant-instructions-0116da97d.md",
+          "rows",
+          "service-mentions.txt",
+          "sources-recompute.txt"
+        ],
+        "rasterReceipt": "A9 run 39430402490, RASTER_PASS, packetCommitSha ce21144762a49aae1e3c9c126c1ca4f4c34ab755 (visual review: review-evidence/reviewer/rv01-ms-raster-39430402490/RV01-RV16-REVIEW-39430402490.json)",
+        "supersedes": "selected FAIL_REPAIR_REQUIRED vfct1 @5e7fe802c (FEE_AND_WAIVER)"
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}
