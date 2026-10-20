@@ -66,6 +66,7 @@
  *   ... --apply                      write the receipts (default is dry-run)
  *   ... --family <id>                restrict to one family (repeatable)
  *   ... --report <path>              write the machine-readable run report
+ *   ... --note "<text>"              record the apply ruling in each block (appliedUnder)
  */
 
 import crypto from "node:crypto";
@@ -1959,7 +1960,7 @@ export function planReceipt({ familyId, directory, receiptPath, beforeText, on =
  * Write it
  * ------------------------------------------------------------------ */
 
-export function composeRefreshedReceipt(plan) {
+export function composeRefreshedReceipt(plan, { note = null } = {}) {
   const receipt = JSON.parse(plan.beforeText);
   const byPathAndPin = new Map(plan.records.map((r) => [`${r.path}\u0000${r.was.sha256}`, r]));
   const applied = [];
@@ -1986,6 +1987,11 @@ export function composeRefreshedReceipt(plan) {
       entriesThatMovedInThisRecord: record.entriesThatMovedInThisRecord,
       recoveredFrom: record.recovery,
       ...(record.measuredRowAdmission ? { measuredRowAdmission: record.measuredRowAdmission } : {}),
+      /* The lead's apply ruling, recorded where the receipt reader sees it (2026-10-20):
+       * a refresh that names no measured row must say under which rule it was
+       * applied and what the family still owes. Free text from the operator,
+       * never composed here. */
+      ...(note ? { appliedUnder: String(note) } : {}),
       previousIdentityRefresh: pin.identityRefresh ? structuredClone(pin.identityRefresh) : null,
       whatThisDoesNotClaim: "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
     };
@@ -2017,8 +2023,8 @@ export function composeRefreshedReceipt(plan) {
   return { text, applied };
 }
 
-export function applyFamily(plan) {
-  const { text, applied } = composeRefreshedReceipt(plan);
+export function applyFamily(plan, { note = null } = {}) {
+  const { text, applied } = composeRefreshedReceipt(plan, { note });
   const verdict = readsAsUnmoved(plan.beforeText, text);
   if (!verdict.ok) throw new Refusal(`the rewritten receipt would still read as a moved family: ${verdict.why}`);
   const abs = path.join(ROOT, plan.receiptPath);
@@ -2051,6 +2057,7 @@ function main(argv) {
   const apply = argv.includes("--apply");
   const only = new Set(argv.flatMap((a, i) => a === "--family" ? [argv[i + 1]] : []).filter(Boolean));
   const reportAt = argv.includes("--report") ? argv[argv.indexOf("--report") + 1] : null;
+  const note = argv.includes("--note") ? argv[argv.indexOf("--note") + 1] : null;
 
   const families = lapsedFamilies().filter((f) => only.size === 0 || only.has(f.familyId));
   const rows = [];
@@ -2068,7 +2075,7 @@ function main(argv) {
     }
 
     if (plan.outcome === "REFRESHABLE" && apply) {
-      try { Object.assign(plan, applyFamily(plan)); plan.outcome = "REFRESHED"; }
+      try { Object.assign(plan, applyFamily(plan, { note })); plan.outcome = "REFRESHED"; }
       catch (err) { plan.outcome = "REFUSED"; plan.why = err instanceof Refusal ? err.why : err.message; }
     }
     delete plan.beforeText;
