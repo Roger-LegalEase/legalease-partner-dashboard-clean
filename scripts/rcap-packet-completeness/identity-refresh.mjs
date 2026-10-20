@@ -1,3 +1,5 @@
+import path from "node:path";
+import { execFileSync } from "node:child_process";
 /**
  * A rebuild regenerates a source receipt. It must not regenerate away the
  * annotations a repair lane wrote on it by hand.
@@ -193,10 +195,32 @@ export function carryForwardIdentityRefresh(previous, next) {
  * not JSON leaves the document exactly as the builder composed it -- this
  * module may cost a build nothing.
  */
-export function preserveIdentityRefresh(fs, receiptPath, document, { log = null } = {}) {
+/* A builder that removes its output directory before it rebuilds (runFamily's
+ * fs.rmSync) reads nothing here: the receipt is gone from disk by the time it
+ * is written, so every prior refresh block was silently dropped and had to be
+ * restored by hand per repair (2026-10-20). The committed receipt is the one
+ * that carried the blocks, so when the file is absent on disk read it from
+ * HEAD instead. Still fail-safe: no HEAD copy, no git, or unreadable JSON
+ * leaves the document exactly as composed. */
+const defaultGit = (args, { cwd }) => execFileSync("git", args, { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"], maxBuffer: 1 << 26 });
+export function committedReceiptText(receiptPath, { git = defaultGit } = {}) {
+  try {
+    const root = git(["rev-parse", "--show-toplevel"], { cwd: path.dirname(path.resolve(receiptPath)) }).trim();
+    const rel = path.relative(root, path.resolve(receiptPath)).split(path.sep).join("/");
+    if (!rel || rel.startsWith("..")) return null;
+    return git(["show", `HEAD:${rel}`], { cwd: root });
+  } catch { return null; }
+}
+
+export function preserveIdentityRefresh(fs, receiptPath, document, { log = null, git = defaultGit } = {}) {
   let previous = null;
   try { previous = JSON.parse(fs.readFileSync(receiptPath, "utf8")); }
-  catch { return document; }
+  catch {
+    const committed = committedReceiptText(receiptPath, { git });
+    if (committed === null) return document;
+    try { previous = JSON.parse(committed); } catch { return document; }
+    if (log) log(`identityRefresh: ${receiptPath} is absent on disk; carrying forward from the committed receipt at HEAD`);
+  }
   let result;
   try { result = carryForwardIdentityRefresh(previous, document); }
   catch { return document; }
