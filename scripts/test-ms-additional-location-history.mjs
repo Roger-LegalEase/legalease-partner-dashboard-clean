@@ -14,9 +14,9 @@ register('data:text/javascript,'+encodeURIComponent('let d;export function initi
 const load=p=>import(pathToFileURL(root+'/'+p));const P=await load('src/lib/expungement-ai/packet-information.ts');const {getProfileByJurisdiction}=await load('src/lib/rcap-engine/profile-registry.ts');const{packetSpecificationFor}=await load('src/lib/rcap/grade-a/packet-specification.ts');const{resolvePacketCollection}=await load('src/lib/expungement-ai/packet-collection.ts');const{QuestionField}=await load('src/components/expungement-ai/screening/QuestionField.tsx');const{LocalizationContext}=await import(pathToFileURL(loc));const{t,resolveRuntimeText}=await load('src/lib/expungement-ai/localization.ts');
 // GA-16-M01508 / Q-1fd626b49f5c694da45b and M01510 / Q-8da4428f5701a867dcca: separate literal history from the branch-specific court and venue.
 const {evaluateAuthoritativeScreeningResult:evaluate}=await load('src/lib/expungement-ai/authoritative-screening-result.ts');
-for(const [originalId,requestedRoute,citation,venue] of [
- ['Q-1fd626b49f5c694da45b','additional-justice-court-misdemeanor-relief-9-11-15-3','9-11-15(3)','Synthetic Conviction County'],
- ['Q-8da4428f5701a867dcca','additional-municipal-court-misdemeanor-relief-21-23-7-6','21-23-7(6)','Synthetic Conviction Municipality']
+for(const [originalId,requestedRoute,citation,venue,helperEn,helperEs] of [
+ ['Q-1fd626b49f5c694da45b','additional-justice-court-misdemeanor-relief-9-11-15-3','9-11-15(3)','Synthetic Conviction County','justice court of conviction and its county','tribunal de justicia'],
+ ['Q-8da4428f5701a867dcca','additional-municipal-court-misdemeanor-relief-21-23-7-6','21-23-7(6)','Synthetic Conviction Municipality','municipal court of conviction and its municipality','tribunal municipal']
 ]) {
 const profile=getProfileByJurisdiction('MS'),key='MS:'+requestedRoute;
 const witness=JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-answer-sets.json')).witnesses.find(w=>w.pathwayKey===key);assert(witness);
@@ -39,6 +39,11 @@ for(const map of maps)for(const raw of ['Synthetic arrest city','Synthetic resid
  for(const locale of ['en','es']){const q=m.builderQuestions.find(q=>q.id===fact),ctx={locale,setLocale(){},t:(k,f,v)=>t(locale,k,f,v),text:(s,o)=>resolveRuntimeText(locale,s,o)};const html=renderToStaticMarkup(React.createElement(LocalizationContext.Provider,{value:ctx},React.createElement(QuestionField,{question:q,stateCode:'MS',value:m.initialAnswers[fact],onChange(){assert.fail('render edited');}})));check(`${map}/${JSON.stringify(raw)} optional render ${locale}`,()=>{assert(html.includes(locale==='en'?'Optional saved context':'Contexto guardado opcional'));assert(html.includes(locale==='en'?'not printed':'no se imprime'));assert(!html.includes(' required=""'));});renders.push({map,raw,locale,html});}
 }
 const record=structuredClone(original);Object.assign(record.draftSnapshot.packetAnswers,distinct);for(const[map,raw]of [['screeningAnswers','Earlier arrest city'],['prefilledAnswers',{value:'Earlier residence city',unknown:true}],['packetAnswers','Earlier mailing city']])record.draftSnapshot[map][fact]=raw;record.draftHash=P.protectedPacketDraftHash(record.draftSnapshot);
+check('built helper identifies this route in English and Spanish',()=>{
+ const question=P.protectedPacketInformationModelFor(record)?.builderQuestions.find(q=>q.id===fact);
+ assert(question?.helperText.includes(helperEn));
+ assert(question?.translations?.es?.helperText.includes(helperEs));
+});
 for(const value of ['',{unknown:true},{value:'Corrected literal place',unknown:false}])check('explicit location amendment preserves independent history '+JSON.stringify(value),()=>{const before=structuredClone(record);const patch=P.packetInformationPatch({existingItem:{id:'synthetic-ms-location',jurisdiction:'MS',artifactRefs:{}},answers:{[fact]:value},protectedVerification:record});assert(patch);const next=patch.protectedTransition.nextVerification;assert.deepEqual(next.draftSnapshot.packetAnswers[fact],value);for(const map of maps){const history=next.draftSnapshot.dependencies.semanticAnswerHistory?.find(h=>h.factId===fact&&h.source===map);assert(history,map+' missing history');assert.deepEqual(history.value,before.draftSnapshot[map][fact]);}for(const[k,v]of Object.entries(distinct))assert.deepEqual(next.draftSnapshot.packetAnswers[k],v);assert.deepEqual(safe(next.draftSnapshot),safe(record.draftSnapshot));assert.deepEqual(record,before);assert.equal(patch.readyToGenerate,false);});
 const {msAdditionalLocationQuestion}=await load('src/lib/expungement-ai/ms-additional-location-context.ts'),route=original.draftSnapshot.pathwayId,spec=packetSpecificationFor('MS:'+route);
 check('guarded wording matches only exact retained descriptor and source',()=>{
