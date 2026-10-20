@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "dfdc098261bc5948e747e096ec321d95eaf1d4e2",
+  "generatedAtCommit": "2c5aac121dda0108195bbded42adefecf64fb12a",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -3778,21 +3778,6 @@
       "operation": "packet-build",
       "lane": "PF01",
       "laneKind": "packet-build",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "fl-sealing-set",
-      "familyId": "fl-sealing-set",
-      "itemId": null,
-      "familyIds": [
-        "fl-sealing-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX04",
-      "laneKind": "repair",
       "released": false,
       "releasedAt": null
     },
@@ -16054,7 +16039,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "c87976facef6e373a969b0bb53768a49a6b5dc30cfe6a1a54954ba5ffb8643d1",
+  "claimsDigest": "d3a10ed6d852c90ce866af2676a1fdb780fcbd37fcbdd274c1e9ef9b2b01eb22",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -75552,6 +75537,14 @@
       "operation": "independent-verification",
       "lane": "VF08",
       "withdrawnAt": "2026-10-20T15:52:49Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "fl-sealing-set",
+      "operation": "rapid-repair",
+      "lane": "FIX04",
+      "withdrawnAt": "2026-10-20T19:48:06Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
