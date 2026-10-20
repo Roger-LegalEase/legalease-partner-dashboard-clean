@@ -90,6 +90,22 @@ reject('missing supplement', {}, {readBytes: relative => {
 }});
 reject('changed original review', {}, {readBytes: relative => relative === VF02_REVIEW
   ? Buffer.concat([originalBytes, Buffer.from(' ')]) : read(relative)});
+const memoPath = 'data/record-clearing/legal-design-intake/DE.memo.json';
+const changedMemo = Buffer.from(read(memoPath));
+const stateNameOffset = changedMemo.indexOf('Delaware');
+assert.ok(stateNameOffset >= 0, 'same-length source probe requires the held state name');
+changedMemo[stateNameOffset + 1] = 0x45;
+assert.equal(changedMemo.length, read(memoPath).length);
+assert.notEqual(hash(changedMemo), hash(read(memoPath)));
+reject('same-length current source edit', {}, {readBytes: relative =>
+  relative === memoPath ? changedMemo : read(relative)});
+const rewrittenOriginal = Buffer.from(JSON.stringify({...original, note: 'rewritten after extraction'}, null, 2));
+const reboundSupplement = structuredClone(supplement);
+reboundSupplement.supplements.sha256 = hash(rewrittenOriginal);
+reject('rewritten original with rebound supplement and extracted digest',
+  {evidenceSha256: hash(rewrittenOriginal)}, {readBytes: relative =>
+    relative === VF02_REVIEW ? rewrittenOriginal :
+      relative === VF02_SUPPLEMENT ? Buffer.from(JSON.stringify(reboundSupplement)) : read(relative)});
 for (const relative of [...unchangedFiles, DE_DECISION,
   ...supplement.rows[0].sourceBindings.map(source => source.path),
   'data/rcap-grade-a/packet-factory-24h/fix112/de-family-court-form283-source-adoption-20260912.json']) {
