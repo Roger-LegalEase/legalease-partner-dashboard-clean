@@ -47,7 +47,7 @@ import { fileURLToPath } from "node:url";
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 const { loadMsPaidConsumerSuccessor, MS_PAID_SUCCESSOR_DECISION_PATH, MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH,
-  MS_PAID_SUCCESSOR_FIRST_DECISION_PATH } =
+  MS_PAID_SUCCESSOR_SECOND_DECISION_PATH, MS_PAID_SUCCESSOR_FIRST_DECISION_PATH } =
   await import("../src/lib/rcap/fulfillment/paid-consumer-successor.ts");
 const { evaluateFulfillmentAuthority } = await import("../src/lib/rcap/fulfillment/grade-a-authority.ts");
 const { msNonconvictionArtifactMove, MS_NONCONVICTION_ARTIFACT_MOVE_PATH } =
@@ -74,19 +74,19 @@ const digest = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex"
 // ------------------------------- the authority comes from the owner decision
 
 const approval = loadMsPaidConsumerSuccessor(rootDir);
-check(Boolean(approval) && approval.decisionId === "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920-V3",
-  `the route's paid consumer authority is the v3 owner decision (${approval?.decisionId ?? "none"})`);
+check(Boolean(approval) && approval.decisionId === "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20261019-V4",
+  `the route's paid consumer authority is the v4 owner decision (${approval?.decisionId ?? "none"})`);
 
 const onDisk = {
   "full-en": digest(read("data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-en.pdf")),
-  "full-es": digest(read("data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf")),
+  "full-es": digest(read("data/rcap-ledger/grade-a/artifacts/ms-nonconviction-2026-10-20/full-es.pdf")),
   "court-only": digest(read("data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-court-only.pdf"))
 };
 check(approval?.approvedArtifacts.every((entry) => onDisk[entry.id] === entry.sha256),
   "and it names the bytes that are actually on disk, artifact by artifact");
 
 const record = json(REGISTRY).records.find((entry) => entry.routeId === ROUTE && !entry.supersededBy);
-check(record?.evidenceBindings?.paidConsumerSuccessor?.decisionId === "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920-V3",
+check(record?.evidenceBindings?.paidConsumerSuccessor?.decisionId === "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20261019-V4",
   "the registry record binds that decision, not the move record");
 check(!record?.evidenceBindings?.paidConsumerSuccessorAwaitingOwnerDecision,
   "the awaiting-owner-decision binding is gone, because the owner decided");
@@ -160,15 +160,19 @@ check((withdrawnDecision.missingProof ?? []).some((gap) => gap.startsWith("owner
  */
 check(msNonconvictionArtifactMove(rootDir, json(MS_PAID_SUCCESSOR_DECISION_PATH)) === null,
   "the move record cannot account for the CURRENT decision, so the explained-move path cannot fire for it");
-check(Boolean(msNonconvictionArtifactMove(rootDir, json(MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH))),
+check(Boolean(msNonconvictionArtifactMove(rootDir, json(MS_PAID_SUCCESSOR_SECOND_DECISION_PATH))),
   "it still accounts for the superseded one, which is the only thing it ever claimed to do");
 
 // ------------------------------------------- custody of the superseded chain
 
-const v2 = json(MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH);
+const v2 = json(MS_PAID_SUCCESSOR_SECOND_DECISION_PATH);
 const v1 = json(MS_PAID_SUCCESSOR_FIRST_DECISION_PATH);
-const v3 = json(MS_PAID_SUCCESSOR_DECISION_PATH);
-check(v3.supersedes.sha256 === digest(read(MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH))
+const v3 = json(MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH);
+const v4 = json(MS_PAID_SUCCESSOR_DECISION_PATH);
+check(v4.supersedes.sha256 === digest(read(MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH))
+  && v4.supersedes.priorDecisionMutated === false,
+  "v4 preserves the exact v3 decision and its historical approved bytes");
+check(v3.supersedes.sha256 === digest(read(MS_PAID_SUCCESSOR_SECOND_DECISION_PATH))
   && v3.supersedes.priorDecisionMutated === false,
   "v3 names the exact bytes of the decision it supersedes, and says it did not edit them");
 check(v2.supersedes.sha256 === digest(read(MS_PAID_SUCCESSOR_FIRST_DECISION_PATH))

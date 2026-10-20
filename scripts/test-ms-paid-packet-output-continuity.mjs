@@ -31,8 +31,18 @@ function check(name,fn){try{fn();checks++;}catch(error){error.message=`${name}: 
 check('actual observed module inventory refuses omission, drift and invention',()=>assert.equal(observedInventoryControls(proof),8));
 check('actual current v4 proof validates three exact approved outputs',()=>{
   const actual=load();assert.equal(actual.proof.schemaVersion,'rcap-ms-paid-packet-proof/v4');
-  assert.equal(actual.proof.results.length,3);assert.deepEqual(actual.proof.results,prior.results);
-  assert.deepEqual(actual.proof.ownerDecision,prior.ownerDecision);
+  assert.equal(actual.proof.results.length,3);
+  // The v4 decision changes only full-es artifact identity; every other result
+  // and verification fact must retain its previously proven value.
+  const expectedResults=structuredClone(prior.results);
+  const spanish=expectedResults.find(row=>row.id==='full-es');
+  spanish.artifactPath='data/rcap-ledger/grade-a/artifacts/ms-nonconviction-2026-10-20/full-es.pdf';
+  spanish.artifactSha256='f80520fbb425435b19b1e5d97d3214c56d2c469fcc7c660035258d0d57926fcd';
+  spanish.verificationBoundInputs.artifactInputSha256=spanish.artifactSha256;
+  spanish.verificationBoundInputsSha256=createHash('sha256').update(stableStringify(spanish.verificationBoundInputs)).digest('hex');
+  assert.deepEqual(actual.proof.results,expectedResults);
+  assert.equal(approval.decisionSha256,'f0a6172f40d82047259e59bbb46632f9e204f3c51081dda1cb81db0fb91177e1');
+  assert.deepEqual(actual.proof.ownerDecision,approval);
   assert.equal(actual.proof.outputContinuity.inputCount,198);
   const continuity=actual.proof.outputContinuity;
   assert.equal(continuity.sourcePredecessorOutput.path,'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v20.json');
