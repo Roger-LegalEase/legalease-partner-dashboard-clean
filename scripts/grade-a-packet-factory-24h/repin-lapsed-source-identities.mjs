@@ -478,12 +478,49 @@ const sourceDeterminationAdapter = {
     }
     return { anchorIds: [receipt.familyId], derivation: { determinationId, scopedBy, globalMetadataComparedAsOneAnchor: true, excludedAcquisitionEvidence } };
   },
+  /* Shared keys that may be set aside under a measured-row admission, by name. */
+  ADMITTED_SHARED_KEYS: ["acquisitionEvidencePaths", "rhodeIslandProposedOrder"],
+  measuredRowAdmission({ receipt, oldDoc, currentDoc, measuredRows }) {
+    const familyId = receipt.familyId;
+    if (!Array.isArray(measuredRows) || measuredRows.length === 0) return { ok: false, why: "no PASS_COMPLETE_INDEPENDENT row for this family records the current record digest" };
+    const own = (doc) => doc.determinations.filter(r => Array.isArray(r?.families) && r.families.includes(familyId));
+    if (canonical(own(oldDoc)) !== canonical(own(currentDoc))) return { ok: false, why: "this family's own determination changed" };
+    const row = (doc) => doc.reconciliation42.families.find(r => r?.familyId === familyId) ?? null;
+    if (canonical(row(oldDoc)) !== canonical(row(currentDoc))) return { ok: false, why: "this family's own reconciliation row changed" };
+    const { reconciliation42: o42, determinations: oDet, ...oTop } = oldDoc;
+    const { reconciliation42: c42, determinations: cDet, ...cTop } = currentDoc;
+    const topChanged = [...new Set([...Object.keys(oTop), ...Object.keys(cTop)])].filter(k => canonical(oTop[k]) !== canonical(cTop[k])).sort();
+    if (topChanged.length) return { ok: false, why: `top-level field(s) changed: ${topChanged.join(", ")}` };
+    const { families: _oF, ...oShared } = o42;
+    const { families: _cF, ...cShared } = c42;
+    const sharedChanged = [...new Set([...Object.keys(oShared), ...Object.keys(cShared)])].filter(k => canonical(oShared[k]) !== canonical(cShared[k])).sort();
+    const outside = sharedChanged.filter(k => !this.ADMITTED_SHARED_KEYS.includes(k));
+    if (outside.length) return { ok: false, why: `shared key(s) outside the admitted list changed: ${outside.join(", ")}` };
+    const byIdO = new Map(oDet.map(d => [d.id, d])), byIdC = new Map(cDet.map(d => [d.id, d]));
+    const otherFamilyDeterminationsSetAside = [...new Set([...byIdO.keys(), ...byIdC.keys()])].filter(id => canonical(byIdO.get(id)) !== canonical(byIdC.get(id))).sort();
+    return { ok: true, admission: { rule: "measured-row admission: this family's own determination and reconciliation row are identical, a PASS row records the current digest, and the rest of the change is other families' determinations and the enumerated shared keys", measuredReVerification: measuredRows, ownDeterminationAndRowIdentical: true, otherFamilyDeterminationsSetAside, sharedKeysSetAside: sharedChanged } };
+  },
   anchorsOf(doc, scope, side) {
     const byId = this.index(doc, side);
     const { reconciliation42, ...shared } = doc;
     const { families, acquisitionEvidencePaths, ...reconciliationShared } = reconciliation42;
     const excluded = new Set(scope.derivation.excludedAcquisitionEvidence.map(p => p.path));
-    const out = new Map([["sourceDeterminationSharedMetadata", { ...shared, reconciliation42: { ...reconciliationShared, acquisitionEvidencePaths: acquisitionEvidencePaths.filter(p => !excluded.has(p)) } }]]);
+    let sharedAnchor = { ...shared, reconciliation42: { ...reconciliationShared, acquisitionEvidencePaths: acquisitionEvidencePaths.filter(p => !excluded.has(p)) } };
+    /* MEASURED-ROW ADMISSION (lead ruling 2026-10-20, Roger's "reuse unchanged
+     * accepted output where applicability is demonstrated"). Granted only by
+     * measuredRowAdmission() below, which proved the family's own determination
+     * and row identical, a PASS row at the current digest, and every remaining
+     * difference confined to other families' determinations and the enumerated
+     * shared keys. Those set-aside parts leave this family's anchor, so the
+     * block records identical anchors, as generate.mjs requires. */
+    const admission = scope.derivation?.measuredRowAdmission ?? null;
+    if (admission) {
+      const { determinations, ...rest } = sharedAnchor;
+      const r42 = { ...sharedAnchor.reconciliation42 };
+      for (const key of admission.sharedKeysSetAside) delete r42[key];
+      sharedAnchor = { ...rest, determinations: (determinations ?? []).filter(row => Array.isArray(row?.families) && scope.anchorIds.some(id => row.families.includes(id))), reconciliation42: r42 };
+    }
+    const out = new Map([["sourceDeterminationSharedMetadata", sharedAnchor]]);
     for (const id of scope.anchorIds) {
       if (!byId.has(id)) throw new Refusal(`source reconciliation ${id} absent from ${side} record`);
       const row = byId.get(id);
@@ -1703,14 +1740,24 @@ export function planReceipt({ familyId, directory, receiptPath, beforeText, on =
       const currentDoc = JSON.parse(d.bytes.toString("utf8"));
       const scope = adapter.scopeFrom({ receipt, pin: d.pin, currentDoc, directory });
       record.scope = scope;
-      const comparison = compareAnchors({ adapter, oldDoc, currentDoc, scope });
+      let comparison = compareAnchors({ adapter, oldDoc, currentDoc, scope });
+      if (comparison.differing.length > 0 && typeof adapter.measuredRowAdmission === "function") {
+        const measuredRows = measuredRowsFor(receipt, d.at);
+        const verdict = adapter.measuredRowAdmission({ receipt, oldDoc, currentDoc, scope, differing: comparison.differing, measuredRows });
+        if (verdict.ok) {
+          const narrowed = { ...scope, derivation: { ...scope.derivation, measuredRowAdmission: verdict.admission } };
+          const again = compareAnchors({ adapter, oldDoc, currentDoc, scope: narrowed });
+          if (again.differing.length === 0 && again.anchorsCompared > 0) { record.scope = narrowed; record.measuredRowAdmission = verdict.admission; comparison = again; }
+          else record.measuredRowAdmissionRefused = `the set-aside parts do not account for the difference: ${again.differing.join(", ")}`;
+        } else record.measuredRowAdmissionRefused = verdict.why;
+      }
       record.anchorsCompared = comparison.anchorsCompared;
       record.anchorsIdentical = comparison.anchorsIdentical;
       record.anchorDetail = comparison.anchorDetail;
 
       if (comparison.differing.length > 0) {
         record.outcome = "REFUSED";
-        record.why = `${comparison.differing.length} of ${comparison.anchorsCompared} entries this family binds changed between the recovered historical record and the current one: ${comparison.differing.join(", ")}`;
+        record.why = `${comparison.differing.length} of ${comparison.anchorsCompared} entries this family binds changed between the recovered historical record and the current one: ${comparison.differing.join(", ")}${record.measuredRowAdmissionRefused ? ` (measured-row admission refused: ${record.measuredRowAdmissionRefused})` : ""}`;
         record.differences = describeDifference({ adapter, oldDoc, currentDoc, scope, differing: comparison.differing });
         records.push(record); continue;
       }
@@ -1791,6 +1838,7 @@ export function composeRefreshedReceipt(plan) {
       anchorScope: record.scope,
       entriesThatMovedInThisRecord: record.entriesThatMovedInThisRecord,
       recoveredFrom: record.recovery,
+      ...(record.measuredRowAdmission ? { measuredRowAdmission: record.measuredRowAdmission } : {}),
       previousIdentityRefresh: pin.identityRefresh ? structuredClone(pin.identityRefresh) : null,
       whatThisDoesNotClaim: "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
     };
