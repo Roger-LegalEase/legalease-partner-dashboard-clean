@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "dba387ad6f1fa778edbccd7873772c9c5e7cf839",
+  "minimumCaptainSha": "1c9147698db4d58c8502d338ab9aefadd7b5940b",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
@@ -80,15 +80,15 @@
     "sourceReady": 1,
     "sourceBlocked": 0,
     "legalBlocked": 1,
-    "verifyPending": 18,
+    "verifyPending": 16,
     "repairRequired": 5,
     "sumsToDenominator": true
   },
   "byState": {
     "BUILT_RASTER_PENDING": 9,
-    "COMPLETE_PACKET_PROVEN": 294,
+    "COMPLETE_PACKET_PROVEN": 296,
     "OUT_OF_SCOPE": 5,
-    "VERIFY_PENDING": 18,
+    "VERIFY_PENDING": 16,
     "GUIDANCE_READY": 11,
     "SOURCE_READY": 1,
     "FAIL_REPAIR_REQUIRED": 5,
@@ -7621,10 +7621,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf02",
-        "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261019-reverify-census-5e7fe802c.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf01",
+        "verifiedAtBase": "7f79a3b46ffd564f96e1d0b37b3bcd83f4e759ba",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20261020-reverify-7f79a3b46.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -7656,27 +7656,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "SERVICE",
-        "SOURCE_IDENTITY"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SOURCE_IDENTITY",
-          "finding": "Recomputed from disk here. committedRecords: single-routes.json 1bd1efb03ad57f4c6d8efd690532b74d2e2ac53c05a9c3103d15a3de72c80bdd (102577 B) exact; legal-design-track-registry.json b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0 (16781025 B) exact; ME-maine.json f33ef12f104eab887a40bee4d2e3aca8e947dfd3570265912fb4c4455e00883d (156951 B) exact; route-obligation-candidate.json: pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 (2629290 B) recovered as drift/route-obligation-candidate.json.pinned.f6fc0814; CURRENT eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B). This family's entry routes[39] (pinned) / routes[40] (current) for obligation:runtime-contract-cohort:ME:juvenile-sealing:serious_or_oui_three_year_petition is IDENTICAL object-for-object (canonical sorted-key digest e5dea130a0bf9c8f38c2873d35f555847889f01324f652d5cb71dfd3a6156f79 in both); census metadata other than sourceFingerprint identical (e04de6df3f062cbb447313e7cd44264a261f70e02560055bfd0c7861c4b13ba3 in both). The worklist is not pinned by this receipt. The census drift alone would be refreshable. The defect is the receipt's official-form pin: documents[0] (official-form:JV-043) records sha256 79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7 with byteLength 172380. The official binary IS held in this worktree, committed at reference/chat-parallel-2026-09-07/chat6/me/JV-043-Rev-12-21.pdf (git blob 46da5a49e08dad680019dd96dca431b74c5897a2, the gitBlob named by the committed record data/rcap-grade-a/chat-parallel-2026-09-07/chat6-source-legal/me-jv043-source-receipt.json, and the path MASTER_QUEUE sourceHashes names). Recomputed here it hashes to 79d0e40d... exactly but is 173449 bytes, which is also what that committed receipt (byteLength 173449) and ME-maine.json packetGenerator.pathways[4].formCandidates (sizeBytes 173449) record. 172380 is the receipt's own derivedByteLength for the decrypted transport copy, written into the official binary's byteLength; it has been so since the build commit 568aed850. The SHA-256 identity is exact; the byte-length pin is not, so the receipt's allSourcesExact: true is not true as written. pdfinfo confirms the held binary is AES-256 encrypted, as the receipt says.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        },
-        {
-          "obligation": "SERVICE",
-          "finding": "The packet denies a service requirement that its own delivered artifact states. Both fixtures (pdftotext -layout, line 20) print JV-043's own instruction: 'Please note: You are required to provide a copy of this petition to the prosecuting attorney’s office.' participant-instructions.md says the opposite three times: 'No committed record this packet binds states a service requirement for this petition, and JV-043 carries no certificate-of-service block of any kind. Ask the clerk ... whether anyone must be served and how' (line 41); step 6 'No record this packet binds answers either question' (line 96); and 'Whether anyone must be served. No committed record states a service requirement' (line 108). The prosecuting attorney is never mentioned in the instructions. The repository already holds the answer twice: the bound official form (above), and the committed memo data/record-clearing/legal-design-intake/ME.memo.json (fadc5e312ee3f225d27359efb3c89c7eb2336d919201afd00be39f0b1c7f798b), tracks[0].unresolvedQuestions[0], which records 'the juvenile form JV-043, which states on its face that the petitioner must provide a copy to the prosecuting attorney'. Under DET-FEE-AND-WAIVER-001 A1/A2 (ask the repository first; the family's own bound source documents count as held) a named-authority referral cannot stand in for a rule the repository holds, and under A4 a packet may not tell the participant it does not state what its own artifact states. These bytes are unchanged since the build commit 568aed850, an ancestor of VF02's PASS base b8a2495f4; the VF02 row's statement that it read the full page text did not catch this line.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-census-pending-family:ME:juvenile-sealing.mjs",
@@ -40684,10 +40668,10 @@
       "sourceReconciliation": null,
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
-        "lane": "vf08",
-        "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20261019-reverify-census-5e7fe802c.json"
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
+        "lane": "vf03",
+        "verifiedAtBase": "7f79a3b46ffd564f96e1d0b37b3bcd83f4e759ba",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20261020-reverify-7f79a3b46.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": null,
@@ -40719,20 +40703,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "REQUIRED_BEFORE_FILING"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "REQUIRED_BEFORE_FILING",
-          "finding": "21 declared blanks (C1, C3-C13, both cause-number captions, C1 and C3-C8 on the WSP request) are each named in participant-instructions.md, and the cause-number misstatement VF11 failed is fixed. But the 'IN THE ............ COURT' court-name line on the petition (page 1) and on the proposed order (page 4) of both fixtures is a labelled dotted blank the participant must complete before filing. It is not in production-field-map.json (the petition and order maps declare case_number and order_case_number, but no caption-court field) and carries no disposition. It is absent from both 'items you must supply' tables. participant-instructions.md mentions it only under 'Things the platform deliberately left blank' as 'The court's own caption styling ... ask that clerk how it styles the court-name line if you are unsure', which classes a participant-completed item as platform-left and never says to write the sentencing court's name there. The verifier's unclassifiedBlanks=0 is computed over declared fields only. VF11 failed exactly this class on AZ at 79f886f2, and AZ and IL both now declare their caption-court line.",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs",
