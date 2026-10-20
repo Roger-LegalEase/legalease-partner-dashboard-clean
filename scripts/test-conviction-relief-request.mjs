@@ -154,6 +154,45 @@ for (const row of fixtures.rows) for (const [kind, fixture] of [['draft', row.ve
     check(prefix + '/tampered/' + key, P.protectedPacketInformationModelFor(bad) === null);
   }
 }
+// GA21-MD-GA21-01 / GA21-CONVICTION-REQUEST-01: the five remaining source links.
+// Same retained facts and explicit election, across every current optional hint;
+// this proves invariance of existing holds, not the missing actual-order predicates.
+for (const [state, name, election] of [
+  ["MS", "nonprogram-later-order", { ms_record_help: "later_order", ms_later_order: "dismissed" }],
+  ["GA", "later-order", { ga_record_help: "later_order", ga_later_order: "reversed" }],
+  ["GA", "separate-charge", { ga_record_help: "mixed_charges" }],
+  ["GA", "retroactive-treatment", { ga_record_help: "retroactive_treatment", ga_original_first_offender: "no" }],
+  ["IL", "program-record", { il_record_help: "program_record" }]
+]) {
+  const profile = getProfileByJurisdiction(state), pub = projectPublicProfile(profile);
+  const fixture = fixtures.rows.find(row => row.id.startsWith(state) && row.id.endsWith("/omitted"));
+  const premise = { ...fixture.answers, ...election };
+  delete premise.possible_pathway_context;
+  const evaluate = answers => evaluateScreening({ jurisdiction: state, profileVersion: profile.profileVersion,
+    matterId: "synthetic-ga21-same-election", answers });
+  const expected = evaluate(premise), request = convictionReliefRequest(profile, premise);
+  const hints = pub.questions.find(question => question.id === "possible_pathway_context").options;
+  for (const hint of [undefined, "Skip", ...hints]) {
+    const input = { ...premise, ...(hint === undefined ? {} : { possible_pathway_context: hint }) };
+    const before = structuredClone(input), prefix = `GA21/same-election/${state}/${name}/${hint}`;
+    check(prefix + "/selector", same(convictionReliefRequest(profile, input), request));
+    check(prefix + "/full-evaluation", same(evaluate(input), expected));
+    const resumed = sanitizeResumedAnswersForQuestionIds(pub, input, selectScreeningQuestionIds(profile, pub, input));
+    check(prefix + "/literal-optional-context", same(resumed.possible_pathway_context, input.possible_pathway_context)
+      && Object.hasOwn(resumed, "possible_pathway_context") === Object.hasOwn(input, "possible_pathway_context"));
+    check(prefix + "/election-preserved", Object.entries(election).every(([id, value]) => same(resumed[id], value)));
+    const response = await POST(new Request("http://localhost/api/expungement-ai/evaluate", { method: "POST",
+      headers: { "content-type": "application/json" }, body: JSON.stringify({ jurisdiction: state,
+        profileVersion: profile.profileVersion, matterId: "synthetic-ga21-same-election", answers: input }) }));
+    const body = await response.json();
+    check(prefix + "/public-handler", response.status === 200 && body.resultCode === expected.resultCode
+      && body.pathwayId === expected.pathwayId && same(body.reasons, expected.reasons)
+      && same(body.missingQuestionIds, expected.missingQuestionIds) && body.paymentAllowed === false);
+    check(prefix + "/raw-preserved", same(input, before));
+    rows.push({ state, name, hint: hint ?? null, sameElection: true, result: expected });
+  }
+}
+
 const report = { status: checks.every(c => c.pass) ? 'PASS' : 'FAIL', checks: checks.length, failed: checks.filter(c => !c.pass), details: checks, rows,
   limits: ['No legal/language/source-currency approval. Actual later-order/program/mixed-charge acceptance, authority and owner browser/DB verification remain separately required. This is not GA21 or nationwide closure.'] };
 if (process.argv[2]) fs.writeFileSync(process.argv[2], JSON.stringify(report, null, 2) + '\n', { flag: 'wx' });
