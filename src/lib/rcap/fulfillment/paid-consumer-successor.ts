@@ -3,26 +3,16 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { questionContractSourceSuccessorFor, QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH } from "./question-contract-source-successor.mjs";
 
-export const MS_PAID_SUCCESSOR_DECISION_PATH = "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json";
-/**
- * The decision this one supersedes: the 2026-09-20 approval, signed against the
- * pre-correction bytes. The shared §7 Fees & costs fix moved this route's full
- * EN and full ES artifacts, so it stopped describing what the product composes.
- * Preserved exactly as signed, never edited.
- */
-export const MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH = "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json";
-/**
- * And the one BEFORE that, kept in the chain so custody is transitive.
- *
- * Checking only the immediate predecessor would let the tail of the chain be
- * rewritten while every loaded decision still verified -- which is the failure
- * "supersede, do not rewrite history" exists to prevent, one link further back.
- */
+export const MS_PAID_SUCCESSOR_DECISION_PATH = "data/record-clearing/legal-decisions/2026-10-19-ms-nonconv-paid-consumer-successor-v4.json";
+// Preserve every signed predecessor: v4 -> v3 -> v2 -> first.
+export const MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH = "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v3.json";
+export const MS_PAID_SUCCESSOR_SECOND_DECISION_PATH = "data/record-clearing/legal-decisions/2026-09-20-ms-nonconv-paid-consumer-successor-v2.json";
 export const MS_PAID_SUCCESSOR_FIRST_DECISION_PATH = "data/record-clearing/legal-decisions/2026-09-14-ms-nonconv-paid-consumer-successor.json";
 export const MS_PAID_SUCCESSOR_ROUTE = "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
 const SPECIFICATION = "data/record-clearing/packet-specifications/MS-nonconviction-expungement-99-19-71-4.v1.json";
 const SUPPLEMENTAL_GUIDE = "data/record-clearing/supplemental-guides/MS-nonconviction-expungement-99-19-71-4.v1.json";
-const REVIEW_EVIDENCE = "data/rcap-ledger/grade-a/ms-nonconviction-successor-review.evidence.json";
+const REVIEW_EVIDENCE = "data/rcap-ledger/grade-a/ms-nonconviction-successor-review-2026-10-20.evidence.json";
+const CURRENT_APPROVAL = "data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_MS_NONCONVICTION_2026-10-20.json";
 const ARTIFACTS = "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json";
 const RASTER_REVIEW = "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json";
 
@@ -30,7 +20,7 @@ const RASTER_REVIEW = "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.par
  * A loop variable must never decide which file the filesystem is asked for. */
 const APPROVED_ARTIFACT_PATHS: Record<string, string> = {
   "full-en": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-en.pdf",
-  "full-es": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf",
+  "full-es": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-2026-10-20/full-es.pdf",
   "court-only": "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-court-only.pdf"
 };
 
@@ -50,7 +40,7 @@ export interface MsPaidSuccessorArtifact {
  * Exact commercial-scope adoption of one reviewed packet set, not a new packet
  * verdict and not an exception to the legacy retirement.
  *
- * The 2026-09-20 decision differs from its predecessor in one way that matters
+ * The content-changing successor differs from its predecessor in a way that matters
  * to every control downstream: the packet contents DID change. The §7
  * supplemental guide is assembled into the full packet and the specification's
  * own filing page is retired in its favour. So this loader can no longer accept
@@ -63,11 +53,12 @@ export interface MsPaidSuccessorArtifact {
 export function loadMsPaidConsumerSuccessor(root = process.cwd()) {
   try {
     const bytes = fs.readFileSync(path.join(root, MS_PAID_SUCCESSOR_DECISION_PATH));
+    if (digest(bytes) !== "f0a6172f40d82047259e59bbb46632f9e204f3c51081dda1cb81db0fb91177e1") return null;
     const decision = JSON.parse(bytes.toString("utf8"));
     if (decision.schemaVersion !== "rcap-owner-paid-consumer-successor/v3"
-      || decision.decisionId !== "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920-V3"
+      || decision.decisionId !== "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20261019-V4"
       || decision.status !== "APPROVED_EXACT_PAID_CONSUMER_SUCCESSOR"
-      || decision.owner !== "Roger Roman" || decision.decidedAt !== "2026-09-20"
+      || decision.owner !== "Roger Roman" || decision.decidedAt !== "2026-10-19"
       || decision.authenticationKind !== "owner_instruction_in_current_conversation"
       || decision.newApproval !== true || decision.priorPaidApprovalInvented !== false
       || decision.routeId !== MS_PAID_SUCCESSOR_ROUTE || decision.jurisdiction !== "MS"
@@ -93,18 +84,26 @@ export function loadMsPaidConsumerSuccessor(root = process.cwd()) {
     const priorBytes = fs.readFileSync(path.join(root, MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH));
     const prior = JSON.parse(priorBytes.toString("utf8"));
     if (decision.supersedes?.path !== MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH
-      || decision.supersedes?.decisionId !== "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920"
+      || decision.supersedes?.decisionId !== "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920-V3"
       || decision.supersedes?.sha256 !== digest(priorBytes)
       || decision.supersedes?.priorDecisionMutated !== false
       || prior.decisionId !== decision.supersedes.decisionId) return null;
 
+    const secondBytes = fs.readFileSync(path.join(root, MS_PAID_SUCCESSOR_SECOND_DECISION_PATH));
+    const second = JSON.parse(secondBytes.toString("utf8"));
+    if (prior.supersedes?.path !== MS_PAID_SUCCESSOR_SECOND_DECISION_PATH
+      || prior.supersedes?.decisionId !== "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260920"
+      || prior.supersedes?.sha256 !== digest(secondBytes)
+      || prior.supersedes?.priorDecisionMutated !== false
+      || second.decisionId !== prior.supersedes.decisionId) return null;
+
     const firstBytes = fs.readFileSync(path.join(root, MS_PAID_SUCCESSOR_FIRST_DECISION_PATH));
     const first = JSON.parse(firstBytes.toString("utf8"));
-    if (prior.supersedes?.path !== MS_PAID_SUCCESSOR_FIRST_DECISION_PATH
-      || prior.supersedes?.decisionId !== "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260914"
-      || prior.supersedes?.sha256 !== digest(firstBytes)
-      || prior.supersedes?.priorDecisionMutated !== false
-      || first.decisionId !== prior.supersedes.decisionId
+    if (second.supersedes?.path !== MS_PAID_SUCCESSOR_FIRST_DECISION_PATH
+      || second.supersedes?.decisionId !== "MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20260914"
+      || second.supersedes?.sha256 !== digest(firstBytes)
+      || second.supersedes?.priorDecisionMutated !== false
+      || first.decisionId !== second.supersedes.decisionId
       || first.packetContentsChanged !== false) return null;
 
     /*
@@ -132,7 +131,7 @@ export function loadMsPaidConsumerSuccessor(root = process.cwd()) {
     const evidenceBytes = new Map<string, Buffer>([
       [SPECIFICATION, fs.readFileSync(path.join(root, "data/rcap-grade-a/participant-data-rights/question-contract-predecessors/MS-nonconviction-expungement-99-19-71-4.c63e420.json"))],
       [SUPPLEMENTAL_GUIDE, fs.readFileSync(path.join(root, "data/record-clearing/supplemental-guides/MS-nonconviction-expungement-99-19-71-4.v1.json"))],
-      [REVIEW_EVIDENCE, fs.readFileSync(path.join(root, "data/rcap-ledger/grade-a/ms-nonconviction-successor-review.evidence.json"))],
+      [REVIEW_EVIDENCE, fs.readFileSync(path.join(root, "data/rcap-ledger/grade-a/ms-nonconviction-successor-review-2026-10-20.evidence.json"))],
       [ARTIFACTS, fs.readFileSync(path.join(root, "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.artifacts.json"))],
       [RASTER_REVIEW, fs.readFileSync(path.join(root, "data/rcap-ledger/grade-a/ms-nonconviction-clinic-demo.participant-delivery.raster-review.json"))]
     ]);
@@ -143,12 +142,17 @@ export function loadMsPaidConsumerSuccessor(root = process.cwd()) {
       if (refs.length !== 1 || refs[0].sha256 !== digest(evidenceBytes.get(file)!)) return null;
     }
 
+    const currentApprovalBytes = fs.readFileSync(path.join(root, "data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_MS_NONCONVICTION_2026-10-20.json"));
+    if (decision.currentCommercialArtifactApproval?.path !== CURRENT_APPROVAL
+      || decision.currentCommercialArtifactApproval?.sha256 !== digest(currentApprovalBytes)
+      || decision.currentCommercialArtifactApproval?.decisionId !== "OWNER-CURRENT-COMMERCIAL-ARTIFACT-APPROVAL-MS-NONCONVICTION-20261020") return null;
+
     // The approved bytes themselves, read from disk and matched to the decision.
     const approvedArtifacts = decision.approvedArtifacts;
     if (!Array.isArray(approvedArtifacts) || approvedArtifacts.length !== 3) return null;
     const artifactBytes = new Map<string, Buffer>([
       ["full-en", fs.readFileSync(path.join(root, "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-en.pdf"))],
-      ["full-es", fs.readFileSync(path.join(root, "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf"))],
+      ["full-es", fs.readFileSync(path.join(root, "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-2026-10-20/full-es.pdf"))],
       ["court-only", fs.readFileSync(path.join(root, "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-court-only.pdf"))]
     ]);
     const approved: MsPaidSuccessorArtifact[] = [];
@@ -224,7 +228,10 @@ export function loadMsPaidConsumerSuccessor(root = process.cwd()) {
       [QUESTION_CONTRACT_OUTPUT_PATH, fs.readFileSync(path.join(root, "data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261011.json"))],
       [MS_PAID_SUCCESSOR_DECISION_PATH, bytes],
       [MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH, priorBytes],
+      [MS_PAID_SUCCESSOR_SECOND_DECISION_PATH, secondBytes],
       [MS_PAID_SUCCESSOR_FIRST_DECISION_PATH, firstBytes],
+      // The source-contract proof still binds the historical Spanish output.
+      ["data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf", fs.readFileSync(path.join(root, "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf"))],
       ["data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json", fs.readFileSync(path.join(root, "data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_2026-09-20.json"))],
       ["data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_REVIEW_2026-09-20.json", fs.readFileSync(path.join(root, "data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_REVIEW_2026-09-20.json"))],
       ["data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_VISUAL_REVIEW_2026-09-20.json", fs.readFileSync(path.join(root, "data/rcap-grade-a/legal-decisions/CURRENT_COMMERCIAL_ARTIFACT_VISUAL_REVIEW_2026-09-20.json"))],
