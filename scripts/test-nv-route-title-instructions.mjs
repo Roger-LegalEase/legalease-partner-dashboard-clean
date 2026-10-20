@@ -14,7 +14,7 @@ test('route metadata describes the same locations',()=>{
  const map=JSON.parse(fs.readFileSync(`${directory}/production-field-map.json`));
  assert.match(map.routeSelectionNote,/first-page title names its route/);
  assert.match(map.routeSelectionNote,/Continuation pages have no route footer; keep each component's pages together, in order\./);
- for(const row of map.routeSelectionsMade){assert.doesNotMatch(row.statedOn,/footer/);assert.match(row.statedOn,/first-page title/);}
+ for(const row of map.routeSelectionsMade){assert.match(row.statedOn,/Continuation pages have no route footer; keep each component's pages together, in order\./);assert.match(row.statedOn,/first-page title/);}
 });
 test('existing PDFs do not print the promised route footer',()=>{
  const files=fs.readdirSync(`${directory}/fixtures`,{recursive:true}).filter(f=>f.endsWith('.pdf'));
