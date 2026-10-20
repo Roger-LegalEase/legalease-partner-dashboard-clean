@@ -17,8 +17,10 @@ const citations = /\b(?:Ala\.|D\.C\.|Idaho|Iowa|Mont\.|Ohio Rev\.|Tenn\.|W\. Va\
 const failures = []; let labels = 0;
 for (const state of Object.keys(profiles)) {
   const question = projectPublicProfile(getProfileByJurisdiction(state)).questions.find(q => q.id === 'possible_pathway_context');
-  if (!question) continue;
-  for (const option of question.options) {
+  const template = profiles[state].questions.find(q => q.id === 'possible_pathway_context');
+  if (!template) continue;
+  assert(question, state + ': optional pathway question is present');
+  for (const option of template.options) {
     const label = question.optionDisplay?.[option]?.translations?.es?.label;
     labels++;
     if (typeof label !== 'string' || !label.trim()) { failures.push({ state, option, missing: true }); continue; }
@@ -26,6 +28,7 @@ for (const state of Object.keys(profiles)) {
     if (words.length) failures.push({ state, option, label, words });
   }
 }
+assert.equal(labels, 374, 'Released scope is the profile options; appended compiled pathways are reported separately');
 const result = { status: failures.length ? 'FAIL' : 'PASS', labels, failures };
 if (process.env.GA21_ES_GUARD_EVIDENCE) fs.writeFileSync(process.env.GA21_ES_GUARD_EVIDENCE, JSON.stringify(result, null, 2) + '\n', { flag: 'wx' });
 console.log(JSON.stringify({ status: result.status, labels, flaggedLabels: failures.length }));
