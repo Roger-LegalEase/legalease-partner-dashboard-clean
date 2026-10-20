@@ -34,8 +34,8 @@
     }
   ],
   "counts": {
-    "returnDirectories": 480,
-    "rows": 1587,
+    "returnDirectories": 481,
+    "rows": 1588,
     "independentVerdicts": 344,
     "failRepairRequired": 15,
     "passIndependent": 328
@@ -20710,6 +20710,29 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf16/rows-vf16-20261019-reverify-1b48eb358.json",
+      "repairAssignmentsPath": null,
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set",
+      "superseded": true
+    },
+    {
+      "familyId": "ms-nonconv-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf16",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "a6ace3c7de8280d30ecdcfcce042b70672866a82",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "Document level PASS: the current specification names five documents; rendered-artifacts.json maps them onto six rendered components (cover_and_contents, primary_filing, proposed_order, certificate_of_service, attachment, instructions) and every heading was read on both fixtures: cover and contents 1-2, petition 3-5, verification 6, proposed order 7-8, confidential addendum 9, certificate of service 10, exhibit checklist 11, filing instructions 12-13; requiredComponentsMissing=0 measured here; ms-filing-and-next-steps is rendered inside the specification's 'supersededBy supplemental_guide only until that guide is assembled' clause (no guide assembled). Section level, resolved since 1b48eb358: the proposed order carries CERTIFIED TRUE COPY (p8, the clerk_certification_block body) and CONFIDENTIAL MCIC IDENTIFIER ADDENDUM (p9, the confidential_identifier_addendum body with the identifier fields); the petition carries the Introduction (COMES NOW, p3), the pleading_identity_list (p4: name used at the time of arrest, aliases, date of birth, Social Security Number masked XXX-XX-...., date of arrest, arresting agency, agency number, charge, code section, classification, race, sex) and PRAYER FOR RELIEF (p5, naming the arresting agency and the other recordkeeping agencies as blanks); the VERIFICATION (p6) refers to the 'foregoing Petition for Expunction of Record' and the petition is headed PETITION FOR EXPUNCTION OF RECORD (p3); the petition (p3), order (p7) and certificate (p10) captions print 'Plaintiff name exactly as shown on the docket: ........' instead of fixed text. Section level FAILS on two residuals, identical on both fixtures: (1) the VERIFICATION caption (p6) still prints the fixed plaintiff 'STATE OF MISSISSIPPI' above 'v. <petitioner>, PETITIONER' under its own note 'Write the same court, county or city and cause number as the petition's caption'; the specification's case_caption_plaintiff_name use is 'docket-exact plaintiff name in every court caption', so a municipal-court participant whose petition caption names the city files a verification captioned to the State: this is the fourth of the four captions the 1b48eb358 read named (pages 3, 5, 6, 8 then), three of which the repair fixed. (2) The proposed order (p7-8) renders neither the declared 'Order identity' pleading_identity_list ('The record subject to this Order is identified as follows:', 0 occurrences) nor the declared 'Certified transmission' paragraph (the Clerk forwards a certified copy bearing the seal with the court-approved MCIC identifier material to MCIC, the arresting agency and the other custodians, the confidential addendum incorporated; 'forward a certified' occurs once, in the petition's prayer on p5, not in the order); the order's Relief refers to 'the record of the case described in the petition' where the specification's Relief says 'the record of the arrest and charge identified above in Case No.', and the petition's new prayer asks the Court to direct the Clerk to forward the certified sealed copy and the MCIC material while the tendered order directs nothing of the kind (Step NINE, p12, has the participant obtain certified copies and deliver them). User outcome: the public order as tendered identifies the record only by cause number and petitioner name and does not order the transmission the petition prays for. Not counted as defects: Opening, Findings, Relief and Records direction are rendered as narrative paragraphs with the specification's substance in other words (THIS CAUSE came before the Court … would find that the case falls within Sec. 99-19-71(4); IT IS THEREFORE ORDERED that the record … is expunged, and that every person and agency keeping an official record … shall expunge it; fingerprints excepted; MCIC nonpublic first-offender record; SO ORDERED / ENTERED with the judicial officer's blank).",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "COMPONENT_SET"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf16/rows-vf16-20261020-reverify-a6ace3c7d.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ms-nonconv-set",
       "superseded": false
