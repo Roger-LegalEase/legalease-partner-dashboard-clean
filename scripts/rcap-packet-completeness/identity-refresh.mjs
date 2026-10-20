@@ -103,10 +103,11 @@ export function annotationIsSourceBound(annotation) {
  * `previous` is the receipt on disk (or at a ref); `next` is the document the
  * builder is about to write. `next` is mutated in place and returned.
  */
-export function carryForwardIdentityRefresh(previous, next) {
+export function carryForwardIdentityRefresh(previous, next, { on = new Date() } = {}) {
   const decisions = [];
+  const day = new Date(on).toISOString().slice(0, 10);
   if (!previous || typeof previous !== "object" || !next || typeof next !== "object") {
-    return { document: next, carried: [], dropped: [], decisions };
+    return { document: next, carried: [], dropped: [], history: [], decisions };
   }
 
   /* Index the previous receipt's annotated pins by path. A path carrying more
@@ -114,15 +115,31 @@ export function carryForwardIdentityRefresh(previous, next) {
    * against. */
   const before = new Map();
   eachPin(previous, (pin, at) => {
-    if (!pin.identityRefresh) return;
+    if (!pin.identityRefresh && !Array.isArray(pin.identityRefreshHistory)) return;
     if (!before.has(at)) before.set(at, []);
-    before.get(at).push({ pin, at, annotation: pin.identityRefresh, writtenAgainst: pin.sha256 });
+    before.get(at).push({ pin, at, annotation: pin.identityRefresh ?? null, history: Array.isArray(pin.identityRefreshHistory) ? pin.identityRefreshHistory : [], writtenAgainst: pin.sha256 });
   });
-  if (before.size === 0) return { document: next, carried: [], dropped: [], decisions };
+  if (before.size === 0) return { document: next, carried: [], dropped: [], history: [], decisions };
 
   const carried = [];
   const dropped = [];
+  const history = [];
   const claimed = new Set();
+  /* Ruling B' (2026-10-20): a source-bound block whose pin moved is never a
+   * live claim about the new bytes, and never lost either. It rides under
+   * identityRefreshHistory (oldest first), each entry naming the digest it was
+   * written against and the measurement that superseded it, until a measured
+   * re-pin folds the history into its new block. No doctrine reads the history
+   * key, so the moved pin still reads as moved. */
+  const asHistory = (candidate, measuredNow, why) => [
+    ...candidate.history.map((entry) => structuredClone(entry)),
+    ...(candidate.annotation ? [{
+      ...structuredClone(candidate.annotation),
+      writtenAgainst: candidate.writtenAgainst,
+      writtenAgainstByteLength: typeof candidate.pin.byteLength === "number" ? candidate.pin.byteLength : null,
+      supersededBy: { measuredNow, on: day, by: "rebuild", why }
+    }] : [])
+  ];
 
   eachPin(next, (pin, at) => {
     if (pin.identityRefresh) return;          // the builder wrote one; leave it alone
@@ -130,6 +147,14 @@ export function carryForwardIdentityRefresh(previous, next) {
     for (const candidate of held) {
       if (claimed.has(candidate)) continue;
 
+      if (!candidate.annotation) {
+        if (candidate.history.length) {
+          pin.identityRefreshHistory = [...(pin.identityRefreshHistory ?? []), ...candidate.history.map((entry) => structuredClone(entry))];
+          history.push({ path: at, writtenAgainst: candidate.writtenAgainst, measuredNow: pin.sha256, entries: pin.identityRefreshHistory.length, why: "prior history carried; the previous pin held no live block" });
+        }
+        claimed.add(candidate);
+        continue;
+      }
       const shape = annotationIsSourceBound(candidate.annotation);
       if (!shape.ok) {
         claimed.add(candidate);
@@ -144,13 +169,9 @@ export function carryForwardIdentityRefresh(previous, next) {
        */
       if (pin.sha256 !== candidate.writtenAgainst) {
         claimed.add(candidate);
-        dropped.push({
-          path: at,
-          why: `the source moved again: the annotation was written against ${String(candidate.writtenAgainst).slice(0, 12)} and this build measured ${String(pin.sha256).slice(0, 12)}. Nobody has compared anchors across that second move, so the recorded comparison is stale and is not carried forward.`,
-          wasSha256: candidate.annotation.was.sha256,
-          writtenAgainst: candidate.writtenAgainst,
-          measuredNow: pin.sha256
-        });
+        const why = `the source moved again: the annotation was written against ${String(candidate.writtenAgainst).slice(0, 12)} and this build measured ${String(pin.sha256).slice(0, 12)}. Nobody has compared anchors across that second move and this build cannot; a live note would assert that comparison, so the note is kept as history and the pin reads as moved until a measured re-pin`;
+        pin.identityRefreshHistory = [...(pin.identityRefreshHistory ?? []), ...asHistory(candidate, pin.sha256, why)];
+        history.push({ path: at, writtenAgainst: candidate.writtenAgainst, measuredNow: pin.sha256, entries: pin.identityRefreshHistory.length, why });
         continue;
       }
 
@@ -165,6 +186,7 @@ export function carryForwardIdentityRefresh(previous, next) {
       }
 
       pin.identityRefresh = structuredClone(candidate.annotation);
+      if (candidate.history.length) pin.identityRefreshHistory = [...(pin.identityRefreshHistory ?? []), ...candidate.history.map((entry) => structuredClone(entry))];
       claimed.add(candidate);
       carried.push({ path: at, sha256: pin.sha256, wasSha256: candidate.annotation.was.sha256 });
       break;
@@ -182,8 +204,9 @@ export function carryForwardIdentityRefresh(previous, next) {
   }
 
   for (const c of carried) decisions.push(`carried  ${c.path} (unchanged at ${String(c.sha256).slice(0, 12)})`);
+  for (const h of history) decisions.push(`history  ${h.path} — ${h.why}`);
   for (const d of dropped) decisions.push(`dropped  ${d.path} — ${d.why}`);
-  return { document: next, carried, dropped, decisions };
+  return { document: next, carried, dropped, history, decisions };
 }
 
 /**
