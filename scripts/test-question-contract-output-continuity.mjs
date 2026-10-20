@@ -9,6 +9,7 @@ import {assertMnGuardMemoSourceSuccession,MN_GUARD_MEMO_SOURCE_PATH} from '../sr
 import {assertVaGuardMemoSourceSuccession,VA_GUARD_MEMO_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertMdPoliceReconciliationSourceSuccession,MD_POLICE_RECONCILIATION_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertVaRecordOriginSourceSuccession,VA_RECORD_ORIGIN_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertGa21SpanishLabelsSourceSuccession,GA21_SPANISH_LABELS_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaSafeAtHomeSourceSuccession,CA_SAFE_AT_HOME_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertLeadSpanishSourceSuccession,LEAD_SPANISH_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -954,6 +955,13 @@ check('VA record origin hop preserves prior chain and refuses missing/tampered b
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===VA_RECORD_ORIGIN_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/VA record origin source succession record bytes changed/);
  assert.throws(()=>assertMdPoliceReconciliationSourceSuccession(file=>{if(file===VA_RECORD_ORIGIN_SOURCE_PATH)throw Error('missing VA record origin record');return readBytes(file);}),/missing VA record origin record/);
  for(const input of ["src/lib/expungement-ai/localization.ts", "src/lib/rcap-engine/public-profile-projection.ts", "src/lib/rcap-engine/screening-question-selection.ts"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('GA-21 reviewed Spanish labels hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertGa21SpanishLabelsSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,29);assert.equal(c.currentUnchangedSourceCount,169);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===GA21_SPANISH_LABELS_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/GA-21 reviewed Spanish labels source succession record bytes changed/);
+ assert.throws(()=>assertVaRecordOriginSourceSuccession(file=>{if(file===GA21_SPANISH_LABELS_SOURCE_PATH)throw Error('missing GA-21 reviewed Spanish labels record');return readBytes(file);}),/missing GA-21 reviewed Spanish labels record/);
+ for(const input of ["src/lib/expungement-ai/frontend/profiles/all51.json"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 // A succession record set must never outlive its call: after an honest load, a later drift still

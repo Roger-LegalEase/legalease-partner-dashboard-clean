@@ -64,7 +64,9 @@ export const MS_PROOF_EXECUTION_INPUTS=['scripts/lib/rcap-ephemeral-pg.mjs','scr
   // Mandatory current MD police-record reconciliation source-only record, distinct from modules.
   'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-md-police-reconciliation-20261019-v1.json',
   // Mandatory current VA record origin source-only record, distinct from modules.
-  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-va-record-origin-20261020-v1.json'];
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-va-record-origin-20261020-v1.json',
+  // Mandatory current GA-21 reviewed Spanish labels source-only record, distinct from modules.
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga21-spanish-labels-20261020-v1.json'];
 // Exact import paths observed by the actual verifier imports-only probe;
 // the full execution must reproduce this set before emitting a current proof.
 export const MS_PROOF_OBSERVED_INPUTS=[
