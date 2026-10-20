@@ -40,6 +40,23 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      # verify-packet-completeness.mjs has required the corpus environment since 04e0a6ca5
+      # (2026-09-12); this step is the factory workflow's, verbatim. Last green run before it: 2026-09-08.
+      - name: Establish verified corpus environment
+        id: corpus_environment
+        env:
+          GH_TOKEN: ${{ secrets.SOURCE_CORPUS_READ_TOKEN }}
+        run: |
+          set -euo pipefail
+          corpus="$GITHUB_WORKSPACE/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1"
+          if [ ! -d "$corpus" ]; then
+            test -n "$GH_TOKEN" || { echo "CORPUS_ENVIRONMENT_REFUSED: SOURCE_CORPUS_READ_TOKEN must read the pinned private source-artifacts release"; exit 1; }
+            bash scripts/rcap-corpus/bootstrap-private-corpus.sh
+          fi
+          export MASTER_LIBRARY_SOURCE_DIR="$corpus"
+          export RCAP_BUNDLE_EXTRACT="$corpus"
+          node --input-type=module -e 'import { requireMasterLibraryEnvironment } from "./scripts/lib/corpus-index-paths.mjs"; requireMasterLibraryEnvironment({repoRoot:process.cwd()});'
+          printf 'MASTER_LIBRARY_SOURCE_DIR=%s\nRCAP_BUNDLE_EXTRACT=%s\n' "$corpus" "$corpus" >> "$GITHUB_ENV"
       - name: Install locked dependencies and isolated PDF review tools
         run: |
           set -euo pipefail
