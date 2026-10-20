@@ -207,6 +207,7 @@ jobs:
           node scripts/test-ny-16059-owned-completion.mjs
           node scripts/test-ny-16059-current-document-review.mjs --inputs-only
           node scripts/test-ny-16059-transaction-associations.mjs
+          node scripts/test-ga17-dc-fl-record-history.mjs --shard=1/2
 
       - name: Verify nationwide correction boundaries (group c)
         if: matrix.group == 'c'
@@ -322,7 +323,7 @@ jobs:
           node scripts/test-ga17-ca-tool4-record-history.mjs
           node scripts/test-ga17-co-record-history.mjs
           node scripts/test-ga17-dc-felony-record-history.mjs
-          node scripts/test-ga17-dc-fl-record-history.mjs
+          node scripts/test-ga17-dc-fl-record-history.mjs --shard=0/2
 
       - name: Verify nationwide correction boundaries (group g)
         if: matrix.group == 'g'
