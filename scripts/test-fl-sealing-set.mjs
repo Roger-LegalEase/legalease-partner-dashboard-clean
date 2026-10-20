@@ -11,12 +11,12 @@ test('saved sealing candidate uses adopted custom family and distinct component 
 
 test('all three independently identified composed blanks have distinct ownership and conditions',()=>{const all=maps().flatMap(m=>m.canonicalRefusals);const get=id=>all.find(r=>r.field.endsWith('.'+id));assert.equal(get('additional_arrest_data').category,'court_prosecutor_clerk_or_agency_owned');assert(get('additional_required_recipients').condition);assert.notEqual(get('additional_required_recipients').requiredBeforeFiling,true);assert.equal(get('server_printed_name').requiredBeforeFiling,true);assert.equal(get('server_printed_name').category,null);const r=courtStageRequirements(),text=participantInstructions(requiredBeforeFiling(maps()),{sentence:r.certificateOfService},r);for(const x of ['Additional arrest data, if any','Additional required recipients, if any','Printed name of server'])assert(text.includes(x));});
 
-test('sealing cost guidance separates FDLE from unknown court charges and names the answering offices',()=>{
+test('sealing cost guidance states the held FDLE waiver and county-dependent court charges',()=>{
  const r=courtStageRequirements();
  const generated=participantInstructions(requiredBeforeFiling(maps()),{sentence:r.certificateOfService},r);
  const saved=fs.readFileSync(new URL('../data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading/participant-instructions.md',import.meta.url),'utf8');
  for(const [name,text]of [['generated',generated],['saved',saved]]){
-  for(const phrase of ['$75 nonrefundable FDLE processing fee','no held source addresses a waiver','FDLE Seal & Expunge Section','No held source states a court filing fee for the Stage 2 petition','certified copies cost what the county charges','clerk of the circuit or county court in the circuit of arrest before filing'])assert.ok(text.includes(phrase),`${name}: ${phrase}`);
+  for(const phrase of ['$75 nonrefundable FDLE processing fee','the FDLE executive director may waive the fee','FDLE Seal & Expunge Section','The Stage 2 court filing fee is county-dependent','certified copies cost what the county charges','clerk of the circuit or county court in the circuit of arrest before filing'])assert.ok(text.includes(phrase),`${name}: ${phrase}`);
   assert.equal((text.match(/\$\d+/g)??[]).join(','),'$75',`${name}: only the source-supported Stage 1 amount is published`);
  }
 });
