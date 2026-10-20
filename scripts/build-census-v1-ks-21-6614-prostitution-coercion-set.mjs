@@ -559,7 +559,7 @@ const SPEC = {
   steps: [
     "Read the hearing-preparation page at the back of this packet first. Three of the four findings the court must make are not pleaded anywhere on the petition, and they are the ones a hearing turns on.",
     "Get your case information from the clerk of the convicting court, and fill in every blank listed under \"The items you must supply\" from that record — not from memory.",
-    "Read pages 4, 5 and 6 of the petition. Page 4 lists the convictions that can never be expunged. Pages 5 and 6 are the Judicial Council chart of waiting periods. Decide from the chart which of the year boxes at item 8.A.i is yours, and mark it.",
+    "Read page 4 of the petition for the convictions that can never be expunged. This coercion route uses the one-year period under K.S.A. 21-6614(b)(1). Mark only the one-year box at item 8.A.i, and only after checking that at least one year has elapsed since the latest of satisfying your sentence, fulfilling the diversion terms or discharge from supervision. Leave the three, five and ten year boxes unmarked. If you cannot establish that the year has elapsed, do not mark the one-year box or file yet.",
     "Sign and date the petition. Nobody may sign it for you and it is sworn under penalty of perjury.",
     "File the petition with the Criminal Cover Sheet at the clerk of the convicting district court, with the docket fee. Ask the clerk how many copies that county wants before you go.",
     "File the Notice of Hearing with the original plus two copies. The clerk sends them; you do not serve anybody and you do not sign the certificate at the foot of that page.",
@@ -570,8 +570,8 @@ const SPEC = {
 
   deliberatelyBlank: [
     "Your signature and the date beside it, everywhere they appear. No packet may sign anything for you.",
-    "Every box at item 8.A.i of the petition. Which waiting period applies is a classification of your offence, and the committed record says LegalEase does not classify the offence into a grid severity level.",
-    "The coercion box at item 8.A.iii. That is a sworn assertion about what happened to you, on a different statutory route, and no packet may make it on your behalf.",
+    "The one-year box at item 8.A.i is left for you because the packet does not hold your date of final discharge and cannot confirm that one year has elapsed. The three, five and ten year boxes are outside this route and must remain unmarked.",
+    "The coercion box at item 8.A.iii is your own sworn coercion assertion for this route. Read the printed definition against your own facts; no packet may make that assertion or decide whether coercion is proved on your behalf.",
     "The hearing date, time, courthouse, division and room on the Notice of Hearing. The court supplies them after filing.",
     "The whole Certificate of Service and Mailing at the foot of the Notice of Hearing. Its signature line reads \"(Clerk of the Court) (Deputy Clerk)\" and the clerk performs the service.",
     "Every finding, the ruling and the judge's signature on both proposed orders, and paragraph 8 of the denial order, which is the court's own reason.",
@@ -580,7 +580,7 @@ const SPEC = {
 
   notTold: [
     "Whether you are eligible. Nobody has assessed your record.",
-    "Which waiting period applies to your offence, or how your offence is classified in the Kansas sentencing grid.",
+    "Whether one year has elapsed since your own final discharge. The route sets the one-year period; you must establish the latest relevant completion or discharge date from your case records.",
     "Whether an older conviction is comparable to a K.S.A. 21-6614(e) offence under paragraph (19).",
     "What a judge will decide on the discretionary findings at K.S.A. 21-6614(h)(2), (h)(3) and (h)(4).",
     "What effect an expungement has under federal firearms law. K.S.A. 21-6614(k)(2) states the Kansas effect and this packet states no more than that.",
