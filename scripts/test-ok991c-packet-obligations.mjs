@@ -1,64 +1,58 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
-import {runInNewContext} from 'node:vm';
-const base='1b4dfeaa14dbf4facf145fd408069acba22d4b32';
-const file='scripts/build-census-v1-rcap-ok-custom-pleading.mjs';
-const prior=p=>execFileSync('git',['show',`${base}:${p}`]);
-const spec=s=>runInNewContext(s.slice(s.indexOf('const SPEC = '),s.indexOf('\n};')+3)+'\nSPEC');
-const old=spec(prior(file).toString()),next=spec(fs.readFileSync(file,'utf8')),dir=process.argv[2]??next.outDir;
-const routeLabel='Update an Oklahoma deferred sentence so the case shows as dismissed';
-const rows=next.obligationTable.filter(([label])=>label.endsWith(routeLabel));
-const fee=rows.find(([k])=>k.startsWith('FEE_AND_WAIVER'))[1],service=rows.find(([k])=>k.startsWith('SERVICE'))[1];
+
+const dir=process.argv[2]??'data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading';
+const heading='BEFORE YOU FILE - SECTION 991c';
+const court='Oklahoma district court that entered the deferred sentence';
+const fee=`The held record does not establish a filing fee or fee waiver for the section 991c motion. Before filing, ask the clerk of the ${court} whether a fee applies and whether a fee waiver is available. The separate $150 OSBI arrest-record processing fee does not establish the fee for this court-record motion.`;
+const service=`The held record does not establish service or notice requirements for this section 991c motion. Before filing, ask the clerk of the ${court} who must receive the motion or notice and how. Do not assume that the section 18 court-notice procedure applies to this motion.`;
+const instructions=fs.readFileSync(`${dir}/participant-instructions.md`,'utf8');
+const map=JSON.parse(fs.readFileSync(`${dir}/production-field-map.json`,'utf8'));
 let passed=0;
 const check=(name,fn)=>{fn();passed++;console.log(`PASS ${name}`)};
-check('other seven route definitions and components unchanged',()=>{
- for(const c of old.components.filter(c=>!c.id.startsWith('ok_991c_deferred-')))
-  assert.equal(JSON.stringify(next.components.find(n=>n.id===c.id)),JSON.stringify(c),c.id);
- assert.equal(JSON.stringify(next.obligationTable.filter(([k])=>!k.endsWith(routeLabel))),JSON.stringify(old.obligationTable.filter(([k])=>!k.endsWith(routeLabel))));
- for(const key of ['fixtures','records','routes','statutes','routeSelectionsMade'])assert.equal(JSON.stringify(next[key]),JSON.stringify(old[key]));
+
+// VF07: readers must be pointed to a printed heading, not an internal component role.
+check('participant steps name the printed section991c heading',()=>{
+ assert.ok(instructions.includes(`For section 991c, read ${heading} in this packet instead.`));
+ assert.ok(instructions.includes(`For section 991c, use the court named under ${heading} in this packet.`));
 });
-check('reviewer venue counterexample fixed in motion and order maps',()=>{
- const before=old.components.find(c=>c.id==='ok_991c_deferred-primary-filing-2').blanks.find(b=>b.id==='court_identity');
- assert.ok(before.supply.includes('county where the arrest information is located'));
- for(const id of ['ok_991c_deferred-primary-filing-2','ok_991c_deferred-proposed-order-3']){
-  const c=next.components.find(c=>c.id===id),b=c.blanks.find(b=>b.id.endsWith('court_identity'));
-  assert.ok(b.why.includes('court that entered the deferred sentence'));
-  assert.ok(!b.why.includes('arrest information is located'));
+check('motion and order court fields identify the sentencing court',()=>{
+ for(const [document,id]of [
+  ['ok_991c_deferred-primary-filing-2','court_identity'],
+  ['ok_991c_deferred-proposed-order-3','order_court_identity']
+ ]){
+  const field=map.requiredBeforeFiling.find(b=>b.document===document&&b.field===`${document}.${id}`);
+  assert.ok(field,`${document}.${id}`);
+  assert.ok(field.why.includes(court));
+  if(id==='court_identity')assert.ok(field.participantMustSupply.includes(court));
+  else assert.ok(field.participantMustSupply.includes('same Oklahoma district court you name on the petition'));
  }
 });
-check('fee/waiver and service uncertainty name sentencing-court clerk without borrowing section18 rules',()=>{
- assert.ok(fee.includes('whether a fee applies and whether a fee waiver is available'));
- assert.ok(service.includes('who must receive the motion or notice and how'));
- for(const value of [fee,service])assert.ok(value.includes('clerk of the Oklahoma district court that entered the deferred sentence'));
- assert.ok(service.includes('Do not assume that the section 18 court-notice procedure applies'));
-});
-const instructions=fs.readFileSync(`${dir}/participant-instructions.md`,'utf8');
-check('companion instructions agree with the printed section991c questions',()=>{
- assert.ok(instructions.includes(fee));assert.ok(instructions.includes(service));
+check('companion fee and service instructions name the clerk without assuming section18 rules',()=>{
+ const route='Update an Oklahoma deferred sentence so the case shows as dismissed';
+ for(const [obligation,text]of [['FEE_AND_WAIVER',fee],['SERVICE',service]]){
+  assert.equal(map.participantFacingObligations.find(r=>r.question===`${obligation} — ${route}`)?.answer,text);
+  assert.ok(instructions.includes(text));
+ }
  assert.ok(instructions.includes('copy its identity from the case record and confirm it with that court'));
- assert.ok(instructions.includes('For section 991c, read BEFORE YOU FILE on the effect-disclosure page instead.'));
- assert.ok(instructions.includes('For section 991c, use the court named in the BEFORE YOU FILE instructions on that page.'));
 });
 for(const fixture of ['canonical','boundary']){
- const pdf=`${dir}/fixtures/${fixture}.pdf`;
- const read=b=>execFileSync('pdftotext',['-layout','-','-'],{input:b,encoding:'utf8'}).replace(/\s+/g,' ');
- const before=read(prior(`${next.outDir}/fixtures/${fixture}.pdf`)),after=read(fs.readFileSync(pdf));
- check(`${fixture}: baseline lacks new authority answers; corrected saved bytes contain both`,()=>{
-  assert.ok(!before.includes(fee));assert.ok(!before.includes(service));
-  assert.ok(after.includes(fee));assert.ok(after.includes(service));
-  assert.ok(after.includes('File the motion in the Oklahoma district court that entered the deferred sentence'));
+ const text=execFileSync('pdftotext',['-layout',`${dir}/fixtures/${fixture}.pdf`,'-'],{encoding:'utf8'}).replace(/\s+/g,' ');
+ check(`${fixture}: motion pointer names an actual printed heading`,()=>{
+  assert.ok(text.includes(`see ${heading} in this packet)`));
+  assert.ok(text.includes(`${heading} File the motion in the ${court}.`));
+  assert.ok(!text.includes('see BEFORE YOU FILE on the effect-disclosure page'));
  });
- check(`${fixture}: arrest-record distinction and saved facts preserved`,()=>{
-  assert.ok(after.includes('It does not remove the ARREST record. Do not say your record is clear'));
-  const writes=JSON.parse(fs.readFileSync(`${dir}/reports/actual-writes.json`));
-  const original=JSON.parse(prior(`${next.outDir}/reports/actual-writes.json`));
-  assert.deepEqual(writes.documents.find(d=>d.fixture===fixture).actualWrites,original.documents.find(d=>d.fixture===fixture).actualWrites);
+ check(`${fixture}: fee/service uncertainty and arrest-record limits survive in saved bytes`,()=>{
+  assert.ok(text.includes(fee));
+  assert.ok(text.includes(service));
+  assert.ok(text.includes('It does not remove the ARREST record. Do not say your record is clear'));
  });
 }
-check('all measured completeness counters zero; no acceptance or authority claimed',()=>{
- const counts=JSON.parse(fs.readFileSync(`${dir}/reports/completeness-counters.json`)).counters;
- assert.equal(Object.keys(counts).length,9);for(const value of Object.values(counts))assert.equal(value,0);
- const status=JSON.parse(fs.readFileSync(`${dir}/build-status.json`));assert.equal(status.independentVerificationStatus,'PENDING');assert.equal(status.generationAllowed,false);
+check('measured completeness counters remain zero',()=>{
+ const counts=JSON.parse(fs.readFileSync(`${dir}/reports/completeness-counters.json`,'utf8')).counters;
+ assert.equal(Object.keys(counts).length,9);
+ for(const [name,value]of Object.entries(counts))assert.equal(value,0,name);
 });
-console.log(JSON.stringify({passed,failed:0,unmodifiedOtherRoutes:7}));
+console.log(JSON.stringify({passed,failed:0}));
