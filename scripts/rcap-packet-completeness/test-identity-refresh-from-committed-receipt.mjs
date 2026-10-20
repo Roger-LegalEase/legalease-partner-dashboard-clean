@@ -41,4 +41,11 @@ assert.equal(preserveIdentityRefresh(missingFs, path.join(ROOT, REL), doc, { git
 const onDisk = { readFileSync: () => JSON.stringify(committed) };
 assert.deepEqual(preserveIdentityRefresh(onDisk, path.join(ROOT, REL), rebuilt(), { git: () => { throw new Error("must not be called"); } }).committedRecords.find((r) => r.pathInRepository === pinned.pathInRepository).identityRefresh, pinned.identityRefresh);
 
-console.log(JSON.stringify({ status: "PASS", checks: 7, carriedFromHead: pinned.pathInRepository }));
+// 5. the committed text is read at HEAD, not an older commit (HEAD~1 holds the same ME bytes, so only the arguments tell)
+const calls = [];
+const spyGit = (args) => { calls.push(args); return args[0] === "rev-parse" ? `${ROOT}\n` : fs.readFileSync(path.join(ROOT, REL), "utf8"); };
+assert.equal(committedReceiptText(path.join(ROOT, REL), { git: spyGit }), fs.readFileSync(path.join(ROOT, REL), "utf8"));
+assert.deepEqual(calls.map((a) => a[0]), ["rev-parse", "show"]);
+assert.deepEqual(calls[1], ["show", `HEAD:${REL}`], "the receipt is read at HEAD by its repository-relative path");
+
+console.log(JSON.stringify({ status: "PASS", checks: 8, carriedFromHead: pinned.pathInRepository }));
