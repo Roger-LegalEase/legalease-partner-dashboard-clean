@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "1c9147698db4d58c8502d338ab9aefadd7b5940b",
+  "generatedAtCommit": "4ddbc1114bf52fe799628b06b606779a5d29aaae",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1812,26 +1812,10 @@
         "ca-prop64-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF06",
-      "laneKind": "independent-verification",
-      "released": false,
-      "releasedAt": null
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "ca-prop64-set",
-      "familyId": "ca-prop64-set",
-      "itemId": null,
-      "familyIds": [
-        "ca-prop64-set"
-      ],
-      "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX05",
+      "lane": "FIX01",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-02T16:17:28.031Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -2384,7 +2368,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T15:04:11.330Z",
@@ -2514,6 +2498,21 @@
     },
     {
       "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "familyId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "itemId": null,
+      "familyIds": [
+        "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX03",
+      "laneKind": "repair",
+      "released": false,
+      "releasedAt": null
+    },
+    {
+      "subjectType": "packet-family",
       "subjectId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
       "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
       "itemId": null,
@@ -2618,6 +2617,22 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-02T07:34:39.432Z"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "itemId": null,
+      "familyId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "familyIds": [
+        "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26"
+      ],
+      "sourceId": null,
+      "operation": "rapid-repair",
+      "lane": "FIX02",
+      "laneKind": "repair",
+      "released": true,
+      "releasedAt": "2026-10-20T15:08:14.900Z",
+      "releaseReason": "FIX02 return COMPLETED (FEE_AND_WAIVER repaired, nine counters zero) in Codex 5d2ebf220, merged into batch29 at 93e3e9c24; CI H5a control 2026-10-20T14:47:38Z"
     },
     {
       "subjectType": "packet-family",
@@ -3755,9 +3770,9 @@
         "fl-sealing-set"
       ],
       "sourceId": null,
-      "operation": "independent-verification",
-      "lane": "VF08",
-      "laneKind": "independent-verification",
+      "operation": "packet-build",
+      "lane": "PF01",
+      "laneKind": "packet-build",
       "released": false,
       "releasedAt": null
     },
@@ -3770,9 +3785,9 @@
         "fl-sealing-set"
       ],
       "sourceId": null,
-      "operation": "packet-build",
-      "lane": "PF01",
-      "laneKind": "packet-build",
+      "operation": "rapid-repair",
+      "lane": "FIX04",
+      "laneKind": "repair",
       "released": false,
       "releasedAt": null
     },
@@ -5341,7 +5356,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX02",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-12T04:03:05.125Z",
@@ -9116,7 +9131,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX03",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T06:48:41.410Z"
@@ -16031,25 +16046,9 @@
       "laneKind": "source-discovery",
       "released": true,
       "releasedAt": "2026-09-01T07:58:16.032Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
-      "itemId": null,
-      "familyId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
-      "familyIds": [
-        "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX02",
-      "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-10-20T15:08:14.900Z",
-      "releaseReason": "FIX02 return COMPLETED (FEE_AND_WAIVER repaired, nine counters zero) in Codex 5d2ebf220, merged into batch29 at 93e3e9c24; CI H5a control 2026-10-20T14:47:38Z"
     }
   ],
-  "claimsDigest": "5f74564b613f319fdd6ba032fa856afb0cd0853875922d2549b8977a4d883e17",
+  "claimsDigest": "f62251f1ecad42ab88ef1ca6d87b57c9a0d35425694fad85495fb36279dbe10a",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -56500,6 +56499,18 @@
       "previouslyReleasedAt": "2026-10-19T17:47:54.474Z",
       "reissuedAt": "2026-10-20T14:18:03.135Z",
       "reason": "owner-dispatched A9 RASTER_PASS (runs 39430402490 / 39430479568) ingested in batch29 at 0cc3c31be; the generate dispatch at bd70a2101 + the KS rebind names this lane for the family (CI control 2026-10-20T14:04:01Z); the prior grant is released and no lane executes it, so the fresh independent read needs a live grant in the dispatched lane"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ca-prop64-set",
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "dispatchNames": "FIX01",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-10-20T15:52:49Z",
+      "reason": "the current dispatch names FIX01 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
+      "decisionRecord": "data/rcap-grade-a/legal-decisions/LEGAL_HOLD_RECLASSIFICATION_2026-09-04.json",
+      "reclassificationDisposition": "SELECT_SUBSTANTIVE_VERDICT"
     }
   ],
   "transfers": [
@@ -75426,6 +75437,22 @@
       "operation": "rapid-repair",
       "lane": "FIX01",
       "withdrawnAt": "2026-10-20T02:39:12Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ca-prop64-set",
+      "operation": "independent-verification",
+      "lane": "VF06",
+      "withdrawnAt": "2026-10-20T15:52:49Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "fl-sealing-set",
+      "operation": "independent-verification",
+      "lane": "VF08",
+      "withdrawnAt": "2026-10-20T15:52:49Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]

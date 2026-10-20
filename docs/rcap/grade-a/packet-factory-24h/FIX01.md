@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `1c9147698db4d58c8502d338ab9aefadd7b5940b` (or the newer dispatch base)
+**Minimum required ancestor:** `4ddbc1114bf52fe799628b06b606779a5d29aaae` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'ks-22-4908-registration-relief-set' \
   --codex-cloud \
-  --minimum-captain-sha 1c9147698db4d58c8502d338ab9aefadd7b5940b
+  --minimum-captain-sha 4ddbc1114bf52fe799628b06b606779a5d29aaae
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,9 +38,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 2 exact families before reading or writing family content:
+- Assert only these 3 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'ks-22-4908-registration-relief-set'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'ca-prop64-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX01 'ks-21-6614-prostitution-coercion-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -61,10 +62,11 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 2 families
+## The 3 families
 
 - `ks-22-4908-registration-relief-set`
-- `composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction`
+- `ca-prop64-set`
+- `ks-21-6614-prostitution-coercion-set`
 
 ## What you receive
 
@@ -78,9 +80,11 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix01/**`
 - `data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/**`
+- `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-prostitution-coercion-set--official-pdf-fill/**`
 - `scripts/build-census-v1-ks-22-4908-registration-relief-set.mjs`
-- `scripts/build-census-v1-composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction.mjs`
+- `scripts/build-census-v1-ca-prop64-set.mjs`
+- `scripts/build-census-v1-ks-21-6614-prostitution-coercion-set.mjs`
 
 ## Never write here
 
