@@ -36,11 +36,48 @@ check('all three instruction occurrences state required prosecutor copy and limi
   assert.ok(!instructions.includes('whether anyone must be served'));
   assert.ok(!instructions.includes('No committed record states a service requirement'));
 });
-check('source binding is preserved pending CI refresh, not silently re-pinned by copy repair', () => {
+check('source binding differs only by the independently reviewed CI refresh', () => {
   const pin = s => s.match(/The file's SHA-256 is `([a-f0-9]{64})`/)[1];
   assert.equal(pin(instructions), pin(prior(`${dir}/participant-instructions.md`).toString()));
   assert.equal(pin(instructions), '6ca51b6dbc3a9383636b4b1cbdd19630db401d40c03760b8c91d8ae0357962f8');
-  assert.deepEqual(fs.readFileSync(`${dir}/source-receipt.json`), prior(`${dir}/source-receipt.json`));
+  const previousReceipt = prior(`${dir}/source-receipt.json`);
+  const previous = JSON.parse(previousReceipt);
+  const assertPreserved = value => {
+    const receipt = structuredClone(value);
+    const census = receipt.committedRecords[0];
+    assert.deepEqual(census.identityRefresh.was, { sha256: previous.committedRecords[0].sha256, byteLength: previous.committedRecords[0].byteLength });
+    assert.equal(census.identityRefresh.anchorsCompared, 2);
+    assert.equal(census.identityRefresh.anchorsIdentical, 2);
+    // Only CI's reviewed 2409a9ef3 JV-043 correction and 1617d7de3 census refresh may differ.
+    const approvedChanges = [
+      ["committedRecords", 0, "sha256", "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9"],
+      ["committedRecords", 0, "byteLength", 2635434],
+      ["committedRecords", 0, "identityRefresh", {"approvedAnnotationSha256": "3860d79b4798f38bb431cb0de9990f9a9fb3e43330f0b988e133fecbe01c979e"}],
+      ["documents", 0, "byteLength", 173449],
+      ["documents", 0, "corpusIndexAgrees", true],
+      ["documents", 0, "byteLengthCorrection", {"approvedAnnotationSha256": "1776eb3a48c0893e32730faade993ad41e164e686f47ce46646d5bb316dde068"}]
+    ];
+    for (const [group, index, key, expected] of approvedChanges) {
+      const actual = receipt[group][index][key];
+      if (expected && typeof expected === 'object') {
+        assert.equal(crypto.createHash('sha256').update(JSON.stringify(actual)).digest('hex'), expected.approvedAnnotationSha256, key);
+      } else assert.deepEqual(actual, expected, key);
+      if (Object.hasOwn(previous[group][index], key)) receipt[group][index][key] = previous[group][index][key];
+      else delete receipt[group][index][key];
+    }
+    assert.deepEqual(Buffer.from(`${JSON.stringify(receipt, null, 2)}\n`), previousReceipt);
+  };
+  const receipt = JSON.parse(fs.readFileSync(`${dir}/source-receipt.json`, 'utf8'));
+  assertPreserved(receipt);
+  for (const [group, key] of [['committedRecords', 'sha256'], ['committedRecords', 'byteLength'], ['committedRecords', 'identityRefresh'],
+    ['documents', 'byteLength'], ['documents', 'corpusIndexAgrees'], ['documents', 'byteLengthCorrection'], ['documents', 'sha256']]) {
+    const altered = structuredClone(receipt); altered[group][0][key] = null;
+    assert.throws(() => assertPreserved(altered), `${group}.${key} must not drift`);
+  }
+  for (const key of ['sha256', 'role']) {
+    const altered = structuredClone(receipt); altered.committedRecords[1][key] = 'unrelated change';
+    assert.throws(() => assertPreserved(altered), `unrelated ${key} must not drift`);
+  }
 });
 check('builder reproduces the corrected instructions on the existing declared binding', () => {
   const map = JSON.parse(fs.readFileSync(`${dir}/production-field-map.json`));
