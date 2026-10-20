@@ -358,8 +358,8 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-10-18T03:01:35.988Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "Fresh independent VF01 read at c197cd820e532933dc453c4f498f862da3d6078b returned PASS_COMPLETE_INDEPENDENT for ak-courtview-set (all fifteen obligations, nine counters zero, guide consistent with the official TF-810); return vf01/rows-vf01-ak-courtview-set-20261018.json integrated by Captain"
     },
     {
@@ -3247,8 +3247,8 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-02T01:00:19.327Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -16022,7 +16022,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "40f0056837e9008672518593499cf10713084b2bac9364a0e31d96684ebd947a",
+  "claimsDigest": "dfa1356dc2724b137becd108279cf8a661faa521a0b368f47e5a36b86d91aa1f",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -56151,6 +56151,26 @@
       "familyState": "FAIL_REPAIR_REQUIRED",
       "reissuedAt": "2026-10-19T21:57:47Z",
       "reason": "the current dispatch names FIX03 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "lane": "VF01",
+      "subjectType": "packet-family",
+      "subjectId": "ak-courtview-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-10-18T03:01:35.988Z",
+      "reissuedAt": "2026-10-20T00:59:14.278Z",
+      "reason": "RASTER_PASS from owner-dispatched run 39301983462 admitted in 864cea24e; the family re-enters independent verification and generate.mjs refused the dispatch while the prior VF01 grant stayed released (REFUSED_UNASSERTABLE_VERIFICATION_DISPATCH, factory 39349122005)"
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "dc_correct_misattributed_arrest-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-02T01:00:19.327Z",
+      "reissuedAt": "2026-10-20T00:59:14.697Z",
+      "reason": "RASTER_PASS from owner-dispatched run 39303947794 admitted in 864cea24e; the family re-enters independent verification and generate.mjs refused the dispatch while the prior grant stayed released (REFUSED_UNASSERTABLE_VERIFICATION_DISPATCH, factory 39349122005)"
     }
   ],
   "transfers": [
