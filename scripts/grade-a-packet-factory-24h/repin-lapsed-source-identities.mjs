@@ -1293,10 +1293,15 @@ const decisionsAdapter = {
       if (keys.length === 0) throw new Refusal(`no decision in the current record carries the track the family's routeKeys name (${[...tracks].join(", ")})`, { routeKeys });
       fromRouteKeys = { routeKeys, from: own ? "receipt" : "product-wiring.json", tracks: [...tracks].sort() };
     } else {
-      if (!recordId.startsWith(prefix)) {
+      /* One receipt (NY 160.55 sentencing-court transmission) names its decision
+       * by the record's file stem and a track: legal-decision:2026-08-28-national#<trackId>.
+       * Only a bare track id is read from that shape, so it resolves through the
+       * exactly-one-decision rule below; the typed forms stay under the prefix. */
+      const national = /^legal-decision:2026-08-28-national#([a-z0-9_]+)$/.exec(recordId);
+      if (!national && !recordId.startsWith(prefix)) {
         throw new Refusal("the pin names no legal-decision:2026-08-28:<decision> recordId, so which decision this family binds cannot be decided", { recordId });
       }
-      const rest = recordId.slice(prefix.length);
+      const rest = national ? national[1] : recordId.slice(prefix.length);
       let m;
       let key;
       if ((m = /^(Q-\d+):(.+)$/.exec(rest))) key = `question:${m[1]}:${m[2]}`;

@@ -54,7 +54,8 @@ test('recordId forms: research track, immediate assignment and a bare track id r
   assert.throws(()=>scopeOf(current,{recordId:'legal-decision:2026-08-28:Q-999:sc_17_22_950_summary'}),/no decision/);
   // A pin with no recordId is scoped by the receipt's own routeKeys (SC: sc_17_22_950_summary); without any it refuses (next test).
   assert.deepEqual(scopeOf(current,{path:recordPath,sha256:'0'.repeat(64)}).anchorIds,['question:Q-035:sc_17_22_950_summary']);
-  assert.throws(()=>scopeOf(current,{recordId:'legal-decision:2026-08-28-national#ny_160_55_violation'}),/names no legal-decision/);
+  // The NY 160.55 receipt's file-stem form resolves its bare track like the prefix form (repin-recordid-less-scopes.test.mjs covers its refusals).
+  assert.deepEqual(scopeOf(current,{recordId:'legal-decision:2026-08-28-national#ny_160_55_violation'}).anchorIds,['research-track:ny_160_55_violation']);
 });
 test('without a measured re-verification row recording the current digest the scope refuses',()=>{
   assert.throws(()=>scopeOf(current,pin,empty),/no independent re-verification row/);
