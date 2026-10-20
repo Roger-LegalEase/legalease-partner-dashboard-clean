@@ -6,6 +6,7 @@ import vm from "node:vm";
 import { createHash } from "node:crypto";
 import { nyCompletionDeclaration, nyCompletionApplicability, applyNyCompletionDeclarations } from "./lib/ny-16059-completion-conditions.mjs";
 import { createNyCompletionVerifier, nyCompletionInventoryProblems } from "./rcap-packet-completeness/ny-16059-source-conditions.mjs";
+import { classifyBlank } from "./rcap-packet-completeness/completeness-contract.mjs";
 const familyId = "ny_160_59_petition-set";
 const base = "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill";
 const read = file => JSON.parse(fs.readFileSync(`${base}/${file}`));
@@ -122,12 +123,41 @@ try {
   const result = createNyCompletionVerifier({ ...options, sourceRoot: temp })(sample, sample.declared);
   equal("rendered historical fixture never source", result.proofState, "SOURCE_PROOF_UNRESOLVED");
   check("exact original binary still required", result.basis.includes("Actual source bytes differ"));
+  equal("fixture audit: rendered fixture never source", createNyCompletionVerifier({ ...options, sourceRoot: temp, fixtureAudit: true })(sample, sample.declared).disposition, "UNCLASSIFIED_BLANK");
 } finally { fs.rmSync(temp, { recursive: true, force: true }); }
 check("actual consumer calls typed verifier before generic fallback", reader.includes("const verdict = verifyNyCompletion(blank, declared) ?? caActor ??"));
+check("actual consumer is the fixture audit", reader.includes("sourceRoot: process.env.MASTER_LIBRARY_SOURCE_DIR, fixtureAudit: true });"));
+// Owner ruling A20 D1: OWNER_CONDITIONAL_DISCLOSED exists only in the fixture audit, only after source custody and exact disclosure.
+const typedBlanks = rows.blanks.filter(row => row.nyCompletion);
+const ownerConditional = row => row.nyCompletion.condition.length > 0 && !row.nyCompletion.condition.includes("source_revision_review");
+const audit = extra => createNyCompletionVerifier({ ...options, fixtureAudit: true, ...extra });
+equal("fixture audit without source bytes accepts nothing", typedBlanks.filter(row => audit({})(row, row.declared).disposition !== "UNCLASSIFIED_BLANK").length, 0);
+// A protected label would otherwise fall through to PROTECTED_FIELD; declaring the name fails closed, as an unknown name always has.
+for (const label of ["AKA(s)", "Signature of Applicant"]) equal(`a map cannot declare the verifier-only disposition/${label}`, classifyBlank({ label, name: label }, "", null, { disposition: "OWNER_CONDITIONAL_DISCLOSED" }).disposition, "UNCLASSIFIED_BLANK");
+const corpus = process.env.MASTER_LIBRARY_SOURCE_DIR;
+const sourceHeld = Boolean(corpus) && path.isAbsolute(corpus) && receipt.documents.every(doc => {
+  try { return createHash("sha256").update(fs.readFileSync(path.join(corpus, doc.pathInArchive))).digest("hex") === doc.sha256; } catch { return false; }
+});
+if (sourceHeld) {
+  const accepted = audit({ sourceRoot: corpus });
+  const silentOwner = () => ({ conditionValues: {}, factAvailable: false, factIds: [] });
+  for (const row of typedBlanks) {
+    const id = `d1/${row.document}/${row.name}`, got = accepted(row, row.declared);
+    equal(id, got.disposition, ownerConditional(row) ? "OWNER_CONDITIONAL_DISCLOSED" : row.nyCompletion.condition.length ? "UNCLASSIFIED_BLANK" : "REQUIRED_BEFORE_FILING");
+    if (!ownerConditional(row)) continue;
+    check(`${id}/source-proven-applicability-not-claimed`, got.sourceVerified === true && got.applicabilityVerified === false);
+    equal(`${id}/field-undisclosed`, audit({ sourceRoot: corpus, instructions: instructions.replaceAll(row.name, "") })(row, row.declared).proofState, "DISCLOSURE_UNRESOLVED");
+    equal(`${id}/condition-undisclosed`, audit({ sourceRoot: corpus, instructions: instructions.replaceAll(row.nyCompletion.conditionDescription, "") })(row, row.declared).proofState, "DISCLOSURE_UNRESOLVED");
+    equal(`${id}/owner-path-decides`, audit({ sourceRoot: corpus, resolveOwnedField: silentOwner })(row, row.declared).disposition, "UNCLASSIFIED_BLANK");
+    equal(`${id}/not-fixture-audit`, createNyCompletionVerifier({ ...options, sourceRoot: corpus })(row, row.declared).disposition, "UNCLASSIFIED_BLANK");
+    equal(`${id}/known-value-still-owed`, accepted(row, { ...row.declared, factAvailable: true }).disposition, "KNOWN_FACT_NOT_WRITTEN");
+  }
+}
 const failed = checks.filter(row => !row.pass);
 const report = { status: failed.length ? "FAIL" : "PASS", checks: checks.length, failed, details: checks,
   sourceHashes: Object.fromEntries(["scripts/lib/ny-16059-completion-conditions.mjs", "scripts/rcap-packet-completeness/ny-16059-source-conditions.mjs", "scripts/rcap-packet-completeness/verify-packet-completeness.mjs"].map(p => [p, createHash("sha256").update(fs.readFileSync(p)).digest("hex")])),
-  limits: ["Actual normalizer and standalone verifier; not the corpus-gated family audit.", "Original source binaries and trusted owner-applicability adapter unavailable; no positive source-byte/conditional blank acceptance or render successor asserted.", "No legal/language, participant, commercial, current-form, hosted or statewide approval."] };
+  ownerConditionalDisclosed: sourceHeld ? { run: true, accepted: typedBlanks.filter(ownerConditional).length } : { run: false, why: "MASTER_LIBRARY_SOURCE_DIR does not hold the exact NY source bytes" },
+  limits: ["Actual normalizer and standalone verifier; not the corpus-gated family audit.", sourceHeld ? "Positive source-byte acceptance ran on the exact NY source bytes; the trusted owner-applicability adapter and render successors are not exercised here." : "Original source binaries and trusted owner-applicability adapter unavailable; no positive source-byte/conditional blank acceptance or render successor asserted.", "No legal/language, participant, commercial, current-form, hosted or statewide approval."] };
 if (process.argv[2]) fs.writeFileSync(process.argv[2], JSON.stringify(report, null, 2) + "\n", { flag: "wx" });
-console.log(JSON.stringify({ status: report.status, checks: checks.length, failed }));
+console.log(JSON.stringify({ status: report.status, checks: checks.length, failed, ownerConditionalDisclosed: report.ownerConditionalDisclosed }));
 assert.equal(failed.length, 0);

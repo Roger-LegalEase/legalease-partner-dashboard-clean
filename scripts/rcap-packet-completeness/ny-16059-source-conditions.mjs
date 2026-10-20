@@ -58,12 +58,13 @@ export function nyCompletionInventoryProblems(familyId, fieldMap, census) {
  * server callback, constructed only after the caller's existing owner read.
  * The callback type is not authentication. The CLI supplies no callback, and
  * fixture PDFs never become owner-rendered artifacts through this diagnostic.
+ * fixtureAudit is set only by the CLI fixture audit, which has no owner.
  * @param {{ familyId: string, fieldMap: any, census: any, receipt: any,
- * instructions: string, sourceRoot?: string,
+ * instructions: string, sourceRoot?: string, fixtureAudit?: boolean,
  * resolveOwnedField?: ((declaration: {documentId: string, field: string, condition: string[]}) =>
  * {conditionValues: Record<string, boolean | null>, factAvailable: boolean, factIds: string[]}) | null }} options
  */
-export function createNyCompletionVerifier({ familyId, fieldMap, census, receipt, instructions, sourceRoot, resolveOwnedField = null }) {
+export function createNyCompletionVerifier({ familyId, fieldMap, census, receipt, instructions, sourceRoot, fixtureAudit = false, resolveOwnedField = null }) {
   const inventory = nyCompletionInventoryProblems(familyId, fieldMap, census);
   const measured = new Map();
   return (blank, declared) => {
@@ -119,6 +120,10 @@ export function createNyCompletionVerifier({ familyId, fieldMap, census, receipt
       if (applicability === "inactive") return { ...base, sourceVerified: true, applicabilityVerified: true,
         disposition: "NOT_APPLICABLE_ON_THIS_ROUTE", proofState: "SOURCE_AND_OWNED_CONDITION_INACTIVE",
         basis: "Exact source, field and disclosure plus this owner's explicit condition establish that this field is inactive. Remaining case facts and later acts are unchanged." };
+      // Owner ruling A20 D1 (2026-10-20): reached only after source custody and exact disclosure above.
+      if (fixtureAudit === true && typeof resolveOwnedField !== "function" && !expected.condition.includes("source_revision_review")) return { ...base,
+        sourceVerified: true, disposition: "OWNER_CONDITIONAL_DISCLOSED", proofState: "OWNER_APPLICABILITY_DISCLOSED_UNDECIDED",
+        basis: "Fixture audit: exact source bytes, the field and its owner condition are proven and disclosed. A fixture has no owner, so whether the condition holds is decided only by the owner diagnostic." };
       return { ...base, sourceVerified: true, applicabilityVerified: applicability === "active",
         disposition: "UNCLASSIFIED_BLANK", proofState: expected.condition.includes("source_revision_review")
           ? "SOURCE_REVISION_UNRESOLVED" : applicability === "active" ? "APPLICABLE_FACT_STILL_OWED" : "OWNED_APPLICABILITY_UNRESOLVED",
