@@ -16,7 +16,7 @@ const msMipPredecessor = JSON.parse(fs.readFileSync('scripts/fixtures/ms-mip-wit
 const mdPolicePredecessor = JSON.parse(fs.readFileSync('scripts/fixtures/md-police-witness-predecessor.json'));
 const packetNextStepsPredecessors = JSON.parse(fs.readFileSync('scripts/fixtures/packet-next-steps-witness-predecessors.json'));
 const ilSdWyPredecessors = JSON.parse(fs.readFileSync('scripts/fixtures/il-sd-wy-witness-predecessors.json'));
-const changed = new Set([
+const originalChanged = new Set([
   'AR:situation-a-non-convictions', 'AR:situation-b-misdemeanor-convictions', 'AR:situation-c-felony-convictions',
   'CA:prop-64-completed-sentence-application-11361-8', 'CA:prop-64-currently-serving-petition-11361-8',
   'DE:discretionary-court-expungement-under-11-del-c-4374', 'GA:restriction-and-sealing-of-a-pardoned-felony',
@@ -25,6 +25,9 @@ const changed = new Set([
   'MS:pretrial-intervention-or-diversion-expungement', 'NV:probation-or-specialty-court-dismissal-set-aside-sealing',
   'NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59'
 ]);
+const vaOriginPredecessorHashes = {"VA:petition-based-sealing":"bb2a0b3bf3e7c1471afa0d288a86de84b0a5abfaaa00064237f86598f94abb86","VA:regime-1-expungement-available-now":"9af2b8d785535ecfde5aa8c2f23eb3cf6c695f886b5e0f12a47d5be478b7d008"};
+const vaOriginKeys = Object.keys(vaOriginPredecessorHashes);
+const changed = new Set([...originalChanged, ...vaOriginKeys]);
 // Outcomes are copied from the retained targeted requirement tests, not derived
 // from observed generator output. The conditional-discharge test permits each
 // held follow-on treatment; it does not authorize payment or a document.
@@ -64,7 +67,44 @@ function requireUnresolved(w) {
 }
 check(()=>assert.equal(packet.witnesses.length,267));
 check(()=>assert.equal(new Set(packet.witnesses.map(w=>w.pathwayKey)).size,267));
-check(()=>assert.equal(packet.witnesses.filter(w=>changed.has(w.pathwayKey)).length,14));
+check(()=>assert.equal(packet.witnesses.filter(w=>originalChanged.has(w.pathwayKey)).length,14));
+// Owner12(c): inverse only the newly asked origin round and answer. Exact
+// predecessor rows at545600bff remain pinned; outcomes and all other facts stay exact.
+function vaOriginPredecessor(w) {
+  if (!vaOriginKeys.includes(w.pathwayKey)) return w;
+  const message = 'VA origin successor changes only its explicit round and answer';
+  assert.equal(w.rounds.length, 2, message);
+  assert.deepEqual(w.rounds[1], {round:1,requested:['va_record_origin'],supplied:{va_record_origin:'virginia'}}, message);
+  assert.equal(w.finalAnswers.va_record_origin, 'virginia', message);
+  const prior = structuredClone(w);
+  prior.rounds.pop();
+  delete prior.finalAnswers.va_record_origin;
+  assert.equal(sha(JSON.stringify(prior)), vaOriginPredecessorHashes[w.pathwayKey], message);
+  return prior;
+}
+check(()=>assert.equal(packet.witnesses.filter(w=>changed.has(w.pathwayKey)).length,16));
+for (const key of vaOriginKeys) {
+  const w = packet.witnesses.find(w=>w.pathwayKey===key), before = structuredClone(w);
+  check(()=>vaOriginPredecessor(w));
+  check(()=>assert.deepEqual(w,before));
+  for (const mutate of [
+    row=>{delete row.finalAnswers.va_record_origin;},
+    row=>{row.rounds[1].supplied.va_record_origin='other_state';},
+    row=>{row.seedAnswers.invented_origin=true;},
+    row=>{row.terminalEvaluation.paymentAllowed=false;}
+  ]) {
+    const wrong = structuredClone(w); mutate(wrong);
+    check(()=>assert.throws(()=>vaOriginPredecessor(wrong),/VA origin successor/));
+  }
+  for (const origin of [undefined,'unknown','other_state','federal']) {
+    const answers = {...w.finalAnswers};
+    if (origin === undefined) delete answers.va_record_origin; else answers.va_record_origin=origin;
+    const held = replay(w,answers);
+    check(()=>assert.equal(held.paymentAllowed,false));
+    check(()=>assert.notEqual(held.resultCode,w.terminalEvaluation.resultCode));
+    if (origin === undefined) check(()=>assert.ok(held.missingQuestionIds.includes('va_record_origin')));
+  }
+}
 // Preserve the original 253-row digest. The later source-governed OR bridge
 // changes exactly its retired-route witness; retain that exact historical row
 // for this original comparison and independently check its current successor.
@@ -106,7 +146,7 @@ check(()=>assert.equal(msMipPredecessor.sourceSha,'933615db47bf54d147fdbe0b32417
 check(()=>assert.equal(msMipPredecessor.sourcePath,'data/rcap-ledger/public-witness-answer-sets.json'));
 check(()=>assert.equal(msMipPredecessor.sourceSha256,'42ac6dfad098e928c136adb4cbe08106f6bcb6045e30aad8edd6fb0e39ad14ec'));
 check(()=>assert.equal(msMipPredecessor.witness.pathwayKey,msMipKey));
-check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>!changed.has(w.pathwayKey)).map(w=>w.pathwayKey===orKey?orPredecessor.witness:w.pathwayKey===caTool1Key?caTool1Predecessor.witness:w.pathwayKey===msMipKey?msMipPredecessor.witness:w.pathwayKey===mdPoliceKey?mdPolicePredecessor.witness:txHistorical.get(w.pathwayKey)??ilSdWyHistorical.get(w.pathwayKey)??w))),'dd48f2daa2b68b38926d3d619c91b92833db494fe5d63ae4f31218c1c5c2dba2'));
+check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>!originalChanged.has(w.pathwayKey)).map(vaOriginPredecessor).map(w=>w.pathwayKey===orKey?orPredecessor.witness:w.pathwayKey===caTool1Key?caTool1Predecessor.witness:w.pathwayKey===msMipKey?msMipPredecessor.witness:w.pathwayKey===mdPoliceKey?mdPolicePredecessor.witness:txHistorical.get(w.pathwayKey)??ilSdWyHistorical.get(w.pathwayKey)??w))),'dd48f2daa2b68b38926d3d619c91b92833db494fe5d63ae4f31218c1c5c2dba2'));
 // The MD source-stage successor changes only this synthetic transcript. Its
 // freshly answered release fact is not inferred from the former broad outcome.
 // Keep the ef0455 row in the original 253-row digest and pin all 266 other rows
@@ -132,7 +172,7 @@ check(()=>assert.equal(packetNextStepsPredecessors.sourceSha256,'fe56d26708583cd
 check(()=>assert.deepEqual([...packetNextStepsHistorical.keys()],packetNextStepsKeys));
 check(()=>assert.equal(packetNextStepsPredecessors.witnesses.length,5));
 check(()=>assert.ok(packetNextStepsKeys.every(key=>changed.has(key))));
-check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>w.pathwayKey!==mdPoliceKey).map(w=>packetNextStepsHistorical.get(w.pathwayKey)??ilSdWyHistorical.get(w.pathwayKey)??w))),'d76bb5240901c368a301bce1c769cb7cacd724c30af97aecd881cde6196d0538'));
+check(()=>assert.equal(sha(JSON.stringify(packet.witnesses.filter(w=>w.pathwayKey!==mdPoliceKey).map(vaOriginPredecessor).map(w=>packetNextStepsHistorical.get(w.pathwayKey)??ilSdWyHistorical.get(w.pathwayKey)??w))),'d76bb5240901c368a301bce1c769cb7cacd724c30af97aecd881cde6196d0538'));
 // Current IL/SD/WY successors: the reviewed reason codes, payment still closed.
 for(const [key,code] of [[ilSdWyKeys[0],'il.prostitution_record_conflict'],[ilSdWyKeys[1],'sd.sis_prior_review'],[ilSdWyKeys[2],'wy.felony1502_disposition']])check(()=>{
   const w=packet.witnesses.find(w=>w.pathwayKey===key);
@@ -411,4 +451,4 @@ check(()=>assert.equal(old.transcript.length,24));
 check(()=>assert.throws(()=>assert.ok(old.transcript.length<8,'no unchanged-answer churn'),/no unchanged-answer churn/));
 check(()=>assert.equal(old.evaluation,null));
 check(()=>assert.equal(packet.totals.additionalSourceBoundSyntheticWitnesses,6));
-console.log(JSON.stringify({status:'PASS',checks,changedRoutes:21,originalChangedRouteCohort:14,currentOrSuccessors:1,currentCaTool1Successors:1,currentTxSuccessors:3,currentMsMipSuccessors:1,currentMdPoliceSuccessors:1,currentPacketNextStepsCopySuccessors:5,unchangedHistoricalRoutes:246,originalHistoricalDigestRows:253,unresolvedGenericWitnesses:8,sourceBoundSyntheticWitnesses:6,limits:'Local actual evaluator replay and mutation controls; not hosted, authenticated, document or offered-scope acceptance. Original253-row digest retains exact historical OR, Tool1, three TX, MS MIP and MD police rows; their current successors are separately checked without changing generic premises. Five nextSteps-copy predecessors retain the old266-row digest while exact currentcopy is independently asserted/replayed; they are already in the original14cohort and excluded from253digest. Historical Tool1 positive is a preserved failure, not current authority.'},null,2));
+console.log(JSON.stringify({status:'PASS',checks,changedRoutes:23,originalChangedRouteCohort:14,currentOrSuccessors:1,currentCaTool1Successors:1,currentTxSuccessors:3,currentMsMipSuccessors:1,currentMdPoliceSuccessors:1,currentVaOriginSuccessors:2,currentPacketNextStepsCopySuccessors:5,unchangedHistoricalRoutes:244,originalHistoricalDigestRows:253,unresolvedGenericWitnesses:8,sourceBoundSyntheticWitnesses:6,limits:'Local actual evaluator replay and mutation controls; not hosted, authenticated, document or offered-scope acceptance. Original253-row digest retains exact historical OR, Tool1, three TX, MS MIP and MD police rows; their current successors are separately checked without changing generic premises. Five nextSteps-copy predecessors retain the old266-row digest while exact currentcopy is independently asserted/replayed; they are already in the original14cohort and excluded from253digest. Two VA origin successors inverse only the exact new origin round and answer to preserve both historical digests; current positive and missing/unknown/other-state/federal refusals are replayed. Historical Tool1 positive is a preserved failure, not current authority.'},null,2));
