@@ -77,6 +77,17 @@ const SPEC = {
       ]
     },
     {
+      "recordId": "national-legal-decision:LA-IMM-01",
+      "path": "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json",
+      "role": "the adopted LA-IMM-01 filing vehicle, hearing rule and July 1, 2026 implementation rule for the proposed order and post-order instructions",
+      "mustContain": [
+        "\"assignmentId\": \"LA-IMM-01\"",
+        "A hearing is held if the petitioner or prosecutor requests one, or if the court wants one.",
+        "For a retroactive discharge entered on or after July 1, 2026, the proposed order should expressly address the current restriction and court-record sealing duties.",
+        "Do not generate a redundant merits petition after the court has already granted retroactive treatment."
+      ]
+    },
+    {
       "recordId": "route-obligation-census:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
       "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
       "role": "the committed assignment-identity dependency: it preserves the exact legacy obligation key and points that key to CLD-2026-08-28-GA-RFO; its superseded § 42-8-62.1 presentation is not used as substantive authority",
@@ -277,19 +288,24 @@ const SPEC = {
         "2. CONSENT ABSENT OR DISPUTED: do not generate or file the petition. Use an attorney or prosecutor handoff. Refusal, silence, an unanswered request and 'no known objection' are not consent; withdrawn consent defeats the filing.",
         "3. QUALIFYING ORDER ALREADY GRANTED ON OR AFTER JULY 1, 2026: do not generate a second merits or sealing petition. The route moves to restriction, sealing, agency distribution and verification tracking.",
         "",
-        "WHAT THE COMMITTED ROUTE RECORD SAYS THE PACKET SHOULD INCLUDE",
+        "WHAT THIS PACKET SUPPLIES AND WHAT YOU OBTAIN",
         "",
+        "PACKET SUPPLIES:",
         "- petition for retroactive First Offender treatment, exoneration and discharge;",
-        "- written prosecutor consent, joinder or signed consent endorsement;",
-        "- proposed order;",
-        "- hearing-request election;",
-        "- certificate of service or local notice document;",
+        "- proposed order (court decision and signing lines left blank);",
+        "- hearing-request election (choose one option and sign personally);",
+        "- certificate of service or local notice document (complete for the local procedure); and",
+        "- filing instructions and post-order restriction, sealing and verification instructions.",
+        "",
+        "YOU OBTAIN:",
+        "- verified written prosecutor consent, joinder or signed consent endorsement;",
         "- judgment, sentence and disposition records;",
         "- evidence of original First Offender eligibility;",
-        "- evidence supporting the applicable § 42-8-66 branch;",
-        "- rehabilitation and interests-of-justice exhibits; and",
-        "- post-order restriction, sealing and verification instructions.",
+        "- evidence supporting the applicable § 42-8-66 branch; and",
+        "- rehabilitation and interests-of-justice exhibits.",
+        "The supplied documents do not replace these records or establish that consent exists.",
         "",
+        "[[PAGE_BREAK]]",
         "WHERE TO FILE",
         "",
         "File in the court of conviction. Use the original criminal matter and preserve its original caption and case number unless the receiving clerk requires an ancillary number.",
@@ -298,7 +314,6 @@ const SPEC = {
         "",
         "O.C.G.A. § 42-8-66 imposes no filing fee; no fee waiver is needed.",
         "",
-        "[[PAGE_BREAK]]",
         "WHO MUST BE SERVED, AND WHO IS NOTIFIED",
         "",
         "The committed route record calls for a certificate of service or local notice document but does not state a universal recipient or method. Confirm the local notice and service requirement with the clerk of the court of conviction before filing; do not guess.",
@@ -312,6 +327,312 @@ const SPEC = {
         "- the court requires a contested evidentiary hearing; or",
         "- immigration, firearm, federal or licensing consequences require advice.",
         ""
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person named in the caption of this document",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": []
+    },
+    {
+      "id": "ga-retroactive-first-offender-42-8-66-proposed-order-3",
+      "routeKey": "obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "role": "proposed_order",
+      "title": "Proposed Order - Retroactive First Offender Treatment, Exoneration and Discharge under § 42-8-66",
+      "description": "supplied proposed order in the original criminal matter; all judicial decisions, directions, signature and entry date remain for the court",
+      "condition": "generate and file only when verified written prosecutorial consent, joinder or signed consent endorsement is held as a document and no qualifying order has already been granted",
+      "body": [
+        "Court of conviction and county: {{DOTS}}",
+        "STATE OF GEORGIA",
+        "v. {{participant.full_legal_name}}, DEFENDANT/PETITIONER.",
+        "Original criminal case number: {{DOTS}}",
+        "",
+        "Use the original criminal caption and case number unless the receiving clerk requires an ancillary number.",
+        "",
+        "PROPOSED ONLY - FOR THE COURT. This unsigned proposed order is not a grant of relief. The participant does not decide, sign or date it.",
+        "",
+        "The petition for retroactive First Offender treatment, exoneration and discharge under O.C.G.A. § 42-8-66 is before the Court. Written prosecutorial consent is a prerequisite, not the final relief. The Court independently decides the statutory eligibility and interests-of-justice showing.",
+        "",
+        "Court decision (court enters GRANTED or DENIED): {{DOTS}}",
+        "Court findings and scope of relief: {{DOTS}}",
+        "{{DOTS}}",
+        "",
+        "RESTRICTION AND COURT-RECORD SEALING",
+        "If retroactive discharge is granted and entered on or after July 1, 2026, the current restriction and court-record sealing duties apply. The Court addresses those duties for this matter in the directions below; the participant must not supply a judicial decision or assume that an unsigned proposed order restricts or seals records.",
+        "",
+        "Restriction directions and records covered (court only): {{DOTS}}",
+        "{{DOTS}}",
+        "Court-record sealing directions and records covered (court only): {{DOTS}}",
+        "{{DOTS}}",
+        "Agency distribution directions (for court use only): {{DOTS}}",
+        "{{DOTS}}",
+        "",
+        "JUDICIAL OFFICER SIGNATURE: {{DOTS}}",
+        "DATE ENTERED: {{DOTS}}"
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person named in the caption of this document",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": [
+        {
+          "kind": "rbf",
+          "id": "court_of_conviction",
+          "label": "Court of conviction and county",
+          "supply": "The court of conviction and its county, copied from the original criminal record",
+          "why": "the effective route record requires the court of conviction and makes that court the filing destination"
+        },
+        {
+          "kind": "rbf",
+          "id": "original_case_number",
+          "label": "Original criminal case number in the caption",
+          "supply": "The original criminal case number, copied from the court record; use an ancillary number only if the receiving clerk requires one",
+          "why": "the effective route record says the default docket is the original criminal case"
+        },
+        {
+          "kind": "court",
+          "id": "court_decision",
+          "label": "Court decision - GRANTED or DENIED",
+          "why": "Only the court determines or completes this part of its order; no judicial act is inferred from the participant facts."
+        },
+        {
+          "kind": "court",
+          "id": "court_findings",
+          "label": "Court findings and scope of relief",
+          "why": "Only the court determines or completes this part of its order; no judicial act is inferred from the participant facts."
+        },
+        {
+          "kind": "court",
+          "id": "restriction_directions",
+          "label": "Restriction directions and records covered",
+          "why": "Only the court determines or completes this part of its order; no judicial act is inferred from the participant facts."
+        },
+        {
+          "kind": "court",
+          "id": "sealing_directions",
+          "label": "Court-record sealing directions and records covered",
+          "why": "Only the court determines or completes this part of its order; no judicial act is inferred from the participant facts."
+        },
+        {
+          "kind": "court",
+          "id": "distribution_directions",
+          "label": "Agency distribution directions (for court use only)",
+          "why": "Only the court determines or completes this part of its order; no judicial act is inferred from the participant facts."
+        },
+        {
+          "kind": "court",
+          "id": "judge_signature",
+          "label": "Judicial officer signature",
+          "why": "Only the court determines or completes this part of its order; no judicial act is inferred from the participant facts."
+        },
+        {
+          "kind": "court",
+          "id": "order_date",
+          "label": "Date entered",
+          "why": "Only the court determines or completes this part of its order; no judicial act is inferred from the participant facts."
+        }
+      ]
+    },
+    {
+      "id": "ga-retroactive-first-offender-42-8-66-hearing-request-4",
+      "routeKey": "obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "role": "hearing_request",
+      "title": "Hearing-Request Election - § 42-8-66 Petition",
+      "description": "supplied hearing-request election; the petitioner chooses and signs, with neither choice preselected",
+      "condition": "generate and file only when verified written prosecutorial consent, joinder or signed consent endorsement is held as a document and no qualifying order has already been granted",
+      "body": [
+        "Court of conviction and county: {{DOTS}}",
+        "STATE OF GEORGIA",
+        "v. {{participant.full_legal_name}}, DEFENDANT/PETITIONER.",
+        "Original criminal case number: {{DOTS}}",
+        "",
+        "Use the original criminal caption and case number unless the receiving clerk requires an ancillary number.",
+        "",
+        "Choose one option for the petition accompanying this election. Neither option is selected for you.",
+        "",
+        "[ ] I request a hearing.",
+        "[ ] I do not request a hearing.",
+        "",
+        "A hearing is held if the petitioner or prosecutor requests one, or if the court wants one. Choosing not to request a hearing does not prevent the prosecutor from requesting one or the court from holding one.",
+        "If the court requires a contested evidentiary hearing, stop self-help and get legal help; that is advocacy, not document preparation.",
+        "",
+        "SIGNATURE OF PETITIONER: {{DOTS}}",
+        "DATE SIGNED: {{DOTS}}",
+        "PRINTED NAME: {{participant.full_legal_name}}"
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person named in the caption of this document",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": [
+        {
+          "kind": "rbf",
+          "id": "court_of_conviction",
+          "label": "Court of conviction and county",
+          "supply": "The court of conviction and its county, copied from the original criminal record",
+          "why": "the effective route record requires the court of conviction and makes that court the filing destination"
+        },
+        {
+          "kind": "rbf",
+          "id": "original_case_number",
+          "label": "Original criminal case number in the caption",
+          "supply": "The original criminal case number, copied from the court record; use an ancillary number only if the receiving clerk requires one",
+          "why": "the effective route record says the default docket is the original criminal case"
+        },
+        {
+          "kind": "rbf",
+          "id": "hearing_election",
+          "label": "Choose one: request or do not request a hearing",
+          "why": "The participant chooses; no saved identity fact determines a hearing request.",
+          "supply": "Mark exactly one hearing-request option."
+        },
+        {
+          "kind": "protected",
+          "id": "hearing_signature",
+          "label": "Signature of petitioner",
+          "why": "The petitioner signs personally."
+        },
+        {
+          "kind": "protected",
+          "id": "hearing_signature_date",
+          "label": "Date signed",
+          "why": "Do not date before signing."
+        }
+      ]
+    },
+    {
+      "id": "ga-retroactive-first-offender-42-8-66-service-notice-5",
+      "routeKey": "obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "role": "certificate_of_service",
+      "title": "Certificate of Service or Local Notice - § 42-8-66 Petition",
+      "description": "supplied service or local notice document; confirm the local procedure with the court clerk and record only acts actually completed",
+      "condition": "generate and file only when verified written prosecutorial consent, joinder or signed consent endorsement is held as a document and no qualifying order has already been granted; complete and file this certificate only as required by the clerk-confirmed local procedure after the recorded service or notice actually occurs",
+      "body": [
+        "Court of conviction and county: {{DOTS}}",
+        "STATE OF GEORGIA",
+        "v. {{participant.full_legal_name}}, DEFENDANT/PETITIONER.",
+        "Original criminal case number: {{DOTS}}",
+        "",
+        "Use the original criminal caption and case number unless the receiving clerk requires an ancillary number.",
+        "",
+        "Before using this document, confirm the local notice and service requirement, recipient, method and timing with the clerk of the court of conviction. The held route record states no universal recipient or method. Follow the clerk-confirmed local procedure; do not guess or certify an act before it happens.",
+        "",
+        "The blanks below are completed before filing this certificate, at the time required locally; this packet does not establish that service must precede the petition.",
+        "Complete the following only for service or notice actually completed:",
+        "",
+        "I certify that I provided the documents identified below to the recipient, by the method and on the date stated.",
+        "",
+        "Documents provided: {{DOTS}}",
+        "Recipient (name and address or other delivery destination): {{DOTS}}",
+        "{{DOTS}}",
+        "Method of service or notice: {{DOTS}}",
+        "Date of service or notice: {{DOTS}}",
+        "",
+        "SIGNATURE OF PERSON COMPLETING SERVICE OR NOTICE: {{DOTS}}",
+        "PRINTED NAME OF THAT PERSON: {{DOTS}}",
+        "DATE SIGNED: {{DOTS}}"
+      ],
+      "writes": [
+        {
+          "id": "petitioner_name",
+          "label": "Person named in the caption of this document",
+          "factId": "participant.full_legal_name"
+        }
+      ],
+      "blanks": [
+        {
+          "kind": "rbf",
+          "id": "court_of_conviction",
+          "label": "Court of conviction and county",
+          "supply": "The court of conviction and its county, copied from the original criminal record",
+          "why": "the effective route record requires the court of conviction and makes that court the filing destination"
+        },
+        {
+          "kind": "rbf",
+          "id": "original_case_number",
+          "label": "Original criminal case number in the caption",
+          "supply": "The original criminal case number, copied from the court record; use an ancillary number only if the receiving clerk requires one",
+          "why": "the effective route record says the default docket is the original criminal case"
+        },
+        {
+          "kind": "rbf",
+          "id": "documents_provided",
+          "label": "Documents provided",
+          "why": "The actual local notice or service procedure determines what is supplied.",
+          "supply": "Identify the documents actually provided, as required by the clerk-confirmed procedure."
+        },
+        {
+          "kind": "rbf",
+          "id": "recipient",
+          "label": "Recipient name and delivery destination",
+          "why": "No universal recipient is established by the held source.",
+          "supply": "Confirm the recipient with the clerk of the court of conviction and record the actual recipient."
+        },
+        {
+          "kind": "rbf",
+          "id": "service_method",
+          "label": "Method of service or notice",
+          "why": "No universal method is established by the held source.",
+          "supply": "Confirm the method and timing with the clerk of the court of conviction and record the method actually used."
+        },
+        {
+          "kind": "protected",
+          "id": "service_date",
+          "label": "Date of service or notice",
+          "why": "The date records an act actually completed; it is never inferred or prefilled."
+        },
+        {
+          "kind": "protected",
+          "id": "service_signature",
+          "label": "Signature of person completing service or notice",
+          "why": "Only the person who completed the act signs; the participant is not assumed to be that person."
+        },
+        {
+          "kind": "rbf",
+          "id": "person_completing_service",
+          "label": "Printed name of person completing service or notice",
+          "why": "The participant is not assumed to have performed service or notice.",
+          "supply": "The name of the person who actually completed service or notice under the local procedure."
+        },
+        {
+          "kind": "protected",
+          "id": "service_signature_date",
+          "label": "Date signed",
+          "why": "Do not date before signing."
+        }
+      ]
+    },
+    {
+      "id": "ga-retroactive-first-offender-42-8-66-post-order-instructions-6",
+      "routeKey": "obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "role": "post_order_instructions",
+      "title": "After the Order - Restriction, Sealing, Distribution and Verification",
+      "description": "supplied post-order instructions; use the entered order to confirm implementation, not to request relief a second time",
+      "body": [
+        "This page is for {{participant.full_legal_name}}.",
+        "",
+        "1. OBTAIN THE ENTERED ORDER",
+        "Ask the clerk of the court of conviction for the entered order and confirm its entry date, decision and scope. Written prosecutorial consent and an unsigned proposed order are not a court grant. If the decision, scope or date is unclear, obtain clarification rather than assuming relief.",
+        "",
+        "2. FOLLOW THE ORDER THAT WAS ENTERED",
+        "For a retroactive discharge entered on or after July 1, 2026, follow the current restriction and court-record sealing duties addressed in the order. Confirm the applicable restriction, sealing and agency distribution steps with the clerk of the court of conviction, using the actual entered order. Do not guess recipients, procedures or which records are covered.",
+        "",
+        "3. CONFIRM DISTRIBUTION AND RECORD UPDATES",
+        "Ask that clerk which offices are responsible for implementing the order and how to confirm distribution and completion. Keep the entered order and any proof of distribution and record updates. Confirm the restriction and sealing status with the clerk and the record-holding offices identified by the order or clerk; do not treat a grant alone as proof that every record has been updated.",
+        "",
+        "4. VERIFICATION, NOT ANOTHER MERITS PETITION",
+        "Do not file a second merits or sealing petition after retroactive treatment has already been granted. The next work is implementation and verification of the entered order. If the order is denied, disputed or unclear, get legal help about next steps; this page does not decide a new remedy.",
+        "",
+        "Immigration, firearm, federal and licensing consequences require advice. This packet does not establish those consequences or promise that every record will disappear."
       ],
       "writes": [
         {
@@ -339,7 +660,7 @@ const SPEC = {
       "participant.email": "maria.alejandra.oshaughnessy.whitfield@longmailexample.org"
     }
   },
-  "composedFromNote": "CLD-2026-08-28-GA-RFO in data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json, the effective § 42-8-66 route contract in src/lib/legal-authority/routes/national-report-2026-08-28.json, and the exact legacy obligation identity in data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, each bound by current SHA-256 and anchor-verified at build time",
+  "composedFromNote": "CLD-2026-08-28-GA-RFO in data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json, the effective § 42-8-66 route contract in src/lib/legal-authority/routes/national-report-2026-08-28.json, and the exact legacy obligation identity in data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json, and LA-IMM-01 in data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json, each bound by current SHA-256 and anchor-verified at build time",
   "formIdentityNote": "The controlling records require a custom participant petition and name no official participant form. Every rendered page is therefore composed from the committed codified-text authority chain; no source binary was acquired, substituted or invented.",
   "routeSelectionNote": "CLD-2026-08-28-GA-RFO maps the exact legacy youthful-first-offender-restriction route key to the consent-gated § 42-8-66 participant petition. The petition and instructions consistently select § 42-8-66 and do not select or disclaim it in favor of § 42-8-62.1.",
   "routeSelectionsMade": [
@@ -441,14 +762,16 @@ const SPEC = {
     "**Check for an already-granted qualifying order first.** If one was granted on or after July 1, 2026, do not generate a second merits or sealing petition; move to restriction, sealing, agency distribution and verification tracking.",
     "**Obtain verified written prosecutorial consent, joinder or a signed consent endorsement.** Without that document, do not file; use an attorney or prosecutor handoff.",
     "**Complete every labelled petition item from verified records.** If original eligibility, the applicable § 42-8-66 branch, or prior felony or First Offender history is uncertain, stop self-help.",
-    "**Assemble the source-required materials.** Include the written-consent document, proposed order, hearing-request election, certificate of service or local notice document, judgment/sentence/disposition records, eligibility and branch evidence, rehabilitation and interests-of-justice exhibits, and post-order instructions.",
+    "**Assemble the supplied packet and the records you obtain.** The packet supplies the petition, proposed order, hearing-request election, certificate of service or local notice document, filing instructions and post-order instructions. You obtain the verified written-consent document, judgment/sentence/disposition records, original eligibility and branch evidence, and rehabilitation and interests-of-justice exhibits. Complete the supplied documents as directed; leave all judicial decisions and signing lines for the court.",
     "**Preserve the original criminal caption and case number** unless the receiving clerk requires an ancillary number, and confirm the local service or notice procedure with the clerk of the court of conviction.",
     "**Sign and date the petition personally, then file it in the court of conviction.** A hearing follows if the petitioner or prosecutor requests one or the court wants one."
   ],
   "deliberatelyBlank": [
     "**Your signing lines, and every date beside one.** A signature is yours alone, and a date written before you sign would be false.",
     "**The court of conviction, original case number and every matter-specific fact.** Copy each from verified records; this build does not guess them.",
-    "**The written-consent attachment line.** The verified document must exist before filing; this build does not manufacture or replace prosecutorial consent."
+    "**The written-consent attachment line.** The verified document must exist before filing; this build does not manufacture or replace prosecutorial consent.",
+    "**The court decision, findings, restriction, sealing and distribution directions, judicial signature and order date.** Only the court completes those parts of the proposed order.",
+    "**The hearing election and service or local notice details.** Choose your hearing option; confirm the local procedure with the clerk of the court of conviction. Record and sign only acts actually completed."
   ],
   "notTold": [
     "The committed route record does not state a universal service recipient or method. Confirm the local certificate-of-service or notice procedure with the clerk of the court of conviction.",
@@ -861,8 +1184,9 @@ function participantInstructions(maps, rbf) {
   }
 
   out.push("## What is in this packet", "");
-  out.push("| Component | What it is |", "| --- | --- |");
-  for (const c of SPEC.components) out.push(`| \`${c.id}\` | ${c.description} |`);
+  out.push("The packet supplies the documents below. You obtain the records listed under Documents you must obtain before filing.", "");
+  out.push("| Supplied document | What it is |", "| --- | --- |");
+  for (const c of SPEC.components) out.push(`| ${c.title} | ${c.description} |`);
   out.push("");
 
   out.push("## Where this is filed, what it costs, and who must be served", "");
