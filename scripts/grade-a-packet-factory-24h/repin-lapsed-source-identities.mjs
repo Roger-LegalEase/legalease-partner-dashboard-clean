@@ -1512,11 +1512,20 @@ export function currentBytesOf(repoPath, { receipt = null, pin = null } = {}) {
  * They are separated out and reported rather than silently skipped: an
  * unmeasured pin is a fact a reader is owed, it is simply not a lapse.
  */
+/* generate.mjs does not read a pin on a file its own convergence rewrites from the
+ * queue each run (CONVERGENCE_REWRITTEN_RECORDS, d10f1f7de): SOURCE_RELATIONSHIP_REGISTRY.json
+ * carries every family's projectedState and would lapse a family on its own state change.
+ * The decider ignores it, so this planner must too: counting it here refused every
+ * family whose receipt pins it (fl-administrative-set, 2026-10-20) with "no adapter
+ * describes" a record the decider never asks about. Named one by one, like the decider. */
+export const CONVERGENCE_REWRITTEN_RECORDS = new Set(["data/rcap-grade-a/packet-factory-24h/SOURCE_RELATIONSHIP_REGISTRY.json"]);
+
 export function driftedPinsOf(receipt) {
   const drifted = [];
   const unmeasurable = [];
   eachPin(receipt, (pin, at) => {
     if (!isDigest(pin.sha256)) return;
+    if (CONVERGENCE_REWRITTEN_RECORDS.has(at)) return;
     if (pin.mountedHere === false) {
       unmeasurable.push({ path: at, sha256: pin.sha256, custody: pin.custody ?? null, receiptSays: pin.digestProvenance ?? "this pin declares mountedHere: false" });
       return;
