@@ -1,0 +1,141 @@
+{
+ "schemaVersion": "rcap-independent-verification-rows/v1",
+ "lane": "VF03",
+ "laneKind": "independent-verification",
+ "generatedAtBase": "7f79a3b46ffd564f96e1d0b37b3bcd83f4e759ba",
+ "verifier": "ACCEPTANCE-CLAUDE (independent; built, repaired and rendered none of these packets)",
+ "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+ "claimAssertions": {
+  "rcap-wa-custom-pleading-clean-tracks": "CLAIM_OK VF03 rcap-wa-custom-pleading-clean-tracks (independent-verification, grant set 9847b635d80a9fc0)"
+ },
+ "obligationSet": [
+  "ROUTE_IDENTITY",
+  "SOURCE_IDENTITY",
+  "COMPONENT_SET",
+  "KNOWN_PREFILLS",
+  "REQUIRED_BEFORE_FILING",
+  "ROUTE_OPTIONS",
+  "REPEATING_ROWS",
+  "PROTECTED_FIELDS",
+  "ARTIFACTS",
+  "PAGE_ORDER",
+  "CLIPPING_AND_OVERLAP",
+  "FILING_DESTINATION",
+  "FEE_AND_WAIVER",
+  "SERVICE",
+  "SELF_HELP_STOP"
+ ],
+ "standardApplied": {
+  "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+  "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+  "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+  "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+  "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+  "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+  "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+ },
+ "rows": [
+  {
+   "itemId": "rcap-wa-custom-pleading-clean-tracks",
+   "lane": "VF03",
+   "worker": "ACCEPTANCE-CLAUDE (independent; built, repaired and rendered none of these packets)",
+   "verifiedAtBase": "7f79a3b46ffd564f96e1d0b37b3bcd83f4e759ba",
+   "verifiedAt": "2026-10-20T08:47:29Z",
+   "verdict": "PASS_COMPLETE_INDEPENDENT",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading",
+   "nineCounters": {
+    "knownRequiredFieldsMissing": 0,
+    "requiredFactsNotCollected": 0,
+    "unclassifiedBlanks": 0,
+    "incompleteRows": 0,
+    "requiredOptionsMissing": 0,
+    "requiredComponentsMissing": 0,
+    "invisibleWrites": 0,
+    "protectedWrites": 0,
+    "visualDefects": 0,
+    "allZero": true,
+    "measuredHere": true,
+    "howMeasured": "MASTER_LIBRARY_SOURCE_DIR=<corpus> node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family 'rcap-wa-custom-pleading-clean-tracks', run by this verifier at base 7f79a3b46ffd564f96e1d0b37b3bcd83f4e759ba: '1 famil(ies) audited · 1 PASS_COMPLETE', with the counter line parsed from that run. reports/completeness-counters.json was read only as the thing being checked. unclassifiedBlanks is 0 over 23 declared requiredBeforeFiling blanks: the 5e7fe802c read's 21 plus the two caption-court lines."
+   },
+   "proofObligations": {
+    "ROUTE_IDENTITY": {
+     "result": "PASS",
+     "detail": "Both routeKeys are present in source-receipt, product-wiring, production-field-map and the MASTER_QUEUE row (state VERIFY_PENDING):\n- obligation:track-only:WA:wa_vac_post_probation_9_95_240;\n- obligation:track-pathway:WA:wa_del_nonconviction:non-conviction-record-deletion-under-rcw-10-97-060.\nBoth resolve in the current census (routes[296] and routes[572]) with packetFamilyId rcap-wa-custom-pleading-clean-tracks. Each page states its own route in its footer."
+    },
+    "SOURCE_IDENTITY": {
+     "result": "PASS",
+     "detail": "Recomputed from disk. legal-design-track-registry.json b62ae691…/16781025 and legal-design-specifications.json 10b02286…/16830109 are exact.\nThe census pin f6fc0814…/2629290 has lapsed; the current census is eeabd8b9…/2635434. Following the lapsed-pin standard: the pinned blob d87bf672 was recovered and hashes to f6fc0814…/2629290, and both bound entries are identical object-for-object under the canonical sorted-key digest (vac 0119bde37a8f, del 87f39115fbfe). The census metadata excluding sourceFingerprint is identical (dc6cae03cce1). This row records the CURRENT digest eeabd8b9…/2635434 as the pin it verified against. No official form is bound; this is a composed custom pleading."
+    },
+    "COMPONENT_SET": {
+     "result": "PASS",
+     "detail": "rendered-artifacts componentSet holds 8 components and equals the census participantFacingInstrument of both routes:\n- vacation route: primary filing, proposed order, records checklist, filing instructions;\n- deletion route: primary filing, records checklist, expectation setting, accuracy-remedy guidance.\nAll 8 are present in both fixtures (17 pages each). requiredComponentsMissing 0."
+    },
+    "KNOWN_PREFILLS": {
+     "result": "PASS",
+     "detail": "The 20 field-map writes per fixture are visible in pdftotext output of each fixture's bytes: petitioner_name on all 8 documents, plus date_of_birth, fact_applicantName, fact_dateOfBirth, mailing_address, telephone and email on both primary filings.\n- Canonical: 'Jordan Avery Reyes' ×14, '1991-04-17' ×4, address, telephone and email ×2 each.\n- Boundary: the same counts for 'Maria-Alejandra O'Shaughnessy-Whitfield' and the long address, telephone and email values.\nvaluesReportedByFinalizer is 20 for each fixture. knownRequiredFieldsMissing 0."
+    },
+    "REQUIRED_BEFORE_FILING": {
+     "result": "PASS",
+     "detail": "Repaired since the VF08 FAIL at 5e7fe802c (e370557f1, landed as 064c7c304, accepted in review-evidence/e370557f1). The 'IN THE …… COURT' caption lines are now declared requiredBeforeFiling:\n- primary-filing-1.court_identity (p1);\n- proposed-order-2.order_court_identity (p4).\nEach appears in the field map (canonical and boundary refusals), the blanks report and the 'items you must supply' tables (instructions lines 78 and 97): 'the name of the sentencing court copied from the existing case record, using the same court on the petition and proposed order'. All 23 declared items are named in participant-instructions.md (disclosure labels matched verbatim).\nNon-blocking observation: the in-PDF 'WHAT YOU MUST COMPLETE BY HAND' list (p5-6) prints the track record's own manualCompletionItems ('Cause number and caption styling'). The packet bytes are unchanged, so the RASTER_PASS reuse holds. The p1 caption carries '(Clerk of the sentencing court - see the filing instructions in this packet)'."
+    },
+    "ROUTE_OPTIONS": {
+     "result": "PASS",
+     "detail": "0 selectionControls on all 8 maps. routeSelectionsMade binds each instrument to its route and statute. The two-route packet tells the participant to use only the pages for the matching route, and says a fit to both is a question for a lawyer. requiredOptionsMissing 0."
+    },
+    "REPEATING_ROWS": {
+     "result": "PASS",
+     "detail": "No repeating row structure; the C-items are single labelled dotted blanks. incompleteRows 0, measured here."
+    },
+    "PROTECTED_FIELDS": {
+     "result": "PASS",
+     "detail": "7 protectedBlanks:\n- the petition and request signature and date (2+2);\n- the proposed order's decision, signing and date lines (3).\nThe renders show every one as an empty dotted line in both fixtures. protectedWrites 0."
+    },
+    "ARTIFACTS": {
+     "result": "PASS",
+     "detail": "Recomputed here, both matching reports/rendered-artifacts.json and the RASTER_QUEUE RASTER_PASS row (33950997948, reused): canonical.pdf 78910c462040fbed…/46258 and boundary.pdf 587838be98adfff4…/46776, 17 pages each."
+    },
+    "PAGE_ORDER": {
+     "result": "PASS",
+     "detail": "The pdfinfo page count is 17 for both. The page headings read in manifest order:\n- p1-3 petition;\n- p4 proposed order;\n- p5-6 records checklist;\n- p7-9 filing instructions;\n- p10-12 WSP request;\n- p13-14 records checklist;\n- p15-16 read-this-before-you-pay;\n- p17 if-the-agency-refuses."
+    },
+    "CLIPPING_AND_OVERLAP": {
+     "result": "PASS",
+     "detail": "pdftotext -bbox: canonical 4672 words, boundary 4676 words; 0 outside the page box and 0 overlapping word pairs. The 70-dpi renders of all 34 pages show the long boundary values wrapping inside the page. nonWhitespaceGlyphsOutsideMeasuredWriteBoxes is 0 in both fixtures. visualDefects 0."
+    },
+    "FILING_DESTINATION": {
+     "result": "PASS",
+     "detail": "Vacation route: 'Clerk of the sentencing court', with venue 'The sentencing court, which on the subsection (2)(a) limb is the superior court that imposed the pre-1984 sentence.' Deletion route: 'Washington State Patrol' (not a court route). Both match the census and track-registry destination and venue verbatim, in the instructions and on the guidance pages."
+    },
+    "FEE_AND_WAIVER": {
+     "result": "PASS",
+     "detail": "DET-FEE-AND-WAIVER-001.\n- Vacation route: the track rules.fees text 'Not established at source; the packet does not quote a court filing fee and directs the participant to ask the clerk.' and feeWaiver 'Not established for the court filing fee.' are printed verbatim. The clerk of the sentencing court is a named, reachable authority (clause 3). The census requiredSourceIds for this route are RCW URLs only, so A2 adds no held fee record.\n- Deletion route: RCW 10.97.060 states no fee for the request, and the WSP record-product prices and the no-fee in-person review are printed verbatim from rules.fees and rules.feeWaiver, with 'verify live'."
+    },
+    "SERVICE": {
+     "result": "PASS",
+     "detail": "Vacation route: 'Serve the prosecutor's office for the sentencing court and file proof of service.' and notice 'Serve the prosecuting attorney for the sentencing court.' (track rules.service and rules.notice, verbatim). Deletion route: 'none. The request is submitted to the WSP.' and no notice or objection process, which affirmatively states the replacing mechanism. Step 4 says not to sign any proof of delivery before delivery."
+    },
+    "SELF_HELP_STOP": {
+     "result": "PASS",
+     "detail": "All 12 selfHelpStopConditions of wa_vac_post_probation_9_95_240 and all 7 of wa_del_nonconviction appear verbatim in the instructions and in both fixtures. The deletion route states what LegalEase cannot complete (the agency's discretionary decision), and that the RCW 10.97.110 remedy needs a lawyer. The track's 'Never call Washington vacation expungement.' is honoured: the word occurs only in that quoted record sentence."
+    }
+   },
+   "evidence": {
+    "verifierRun": "review-evidence/acceptance/vf-reads-7f79a3b46/wa/completeness.log",
+    "sourceRecomputation": "wa/source-recompute.txt, wa/census-lapsed-pin.txt",
+    "measures": "wa/measures.txt (artifact hashes, word geometry, write read-back)",
+    "blanks": "wa/blanks.txt",
+    "routeRecords": "wa/route-records.txt",
+    "identityOptions": "wa/identity-options.txt",
+    "byteReadBack": "wa/canonical.txt, wa/boundary.txt",
+    "renders": "wa/{canonical,boundary}-p-NN.png and contact sheets",
+    "claimAssertion": "CLAIM_OK VF03 rcap-wa-custom-pleading-clean-tracks (independent-verification, grant set 9847b635d80a9fc0; reissued in e9940c011)",
+    "priorRead": "vf08/rows-vf08-20261019-reverify-census-5e7fe802c.json FAIL_REPAIR_REQUIRED [REQUIRED_BEFORE_FILING]; resolved here",
+    "rasterReuse": "RASTER_PASS 33950997948 reused; canonical and boundary digests equal the current bytes"
+   },
+   "failedObligationNames": [],
+   "commercialRoutesOpened": false,
+   "overlayDirectoriesModified": false,
+   "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+  }
+ ]
+}

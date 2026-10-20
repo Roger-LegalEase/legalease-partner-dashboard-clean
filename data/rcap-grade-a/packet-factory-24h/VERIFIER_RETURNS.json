@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 481,
-    "rows": 1588,
+    "returnDirectories": 483,
+    "rows": 1590,
     "independentVerdicts": 344,
-    "failRepairRequired": 15,
-    "passIndependent": 328
+    "failRepairRequired": 13,
+    "passIndependent": 330
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
@@ -46,7 +46,6 @@
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
     "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
     "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
-    "census-pending-family:ME:juvenile-sealing",
     "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
     "ks-21-6614-prostitution-coercion-set",
     "ks-22-4908-registration-relief-set",
@@ -54,8 +53,7 @@
     "nd-deferred-imposition-records-set",
     "ny_160_59_petition-set",
     "rcap-ga-guidance-implementation",
-    "rcap-ok-custom-pleading",
-    "rcap-wa-custom-pleading-clean-tracks"
+    "rcap-ok-custom-pleading"
   ],
   "refusedAtTheClaimGate": {
     "whatThisIs": "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
@@ -6160,6 +6158,20 @@
     {
       "familyId": "census-pending-family:ME:juvenile-sealing",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7f79a3b46ffd564f96e1d0b37b3bcd83f4e759ba",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20261020-reverify-7f79a3b46.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family census-pending-family:ME:juvenile-sealing",
+      "superseded": false
+    },
+    {
+      "familyId": "census-pending-family:ME:juvenile-sealing",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf02",
       "isIndependentVerification": true,
       "verifiedAtBase": "b8a2495f4a84bff00aeb268c81deec6114dc581b",
@@ -6199,7 +6211,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261019-reverify-census-5e7fe802c.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family census-pending-family:ME:juvenile-sealing",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
@@ -32112,6 +32124,20 @@
     },
     {
       "familyId": "rcap-wa-custom-pleading-clean-tracks",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "7f79a3b46ffd564f96e1d0b37b3bcd83f4e759ba",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20261020-reverify-7f79a3b46.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wa-custom-pleading-clean-tracks",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-wa-custom-pleading-clean-tracks",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf05",
       "isIndependentVerification": true,
@@ -32231,7 +32257,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20261019-reverify-census-5e7fe802c.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wa-custom-pleading-clean-tracks",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-wa-custom-pleading-clean-tracks",
