@@ -1,0 +1,233 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF01",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "4f387fa2d0819b963edd810b49b120afd1024815",
+  "verifier": "ACCEPTANCE-CLAUDE (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "ak-courtview-set": "CLAIM_OK VF01 ak-courtview-set (independent-verification, grant set dfa1356dc2724b13)"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "ak-courtview-set",
+      "lane": "VF01",
+      "worker": "ACCEPTANCE-CLAUDE (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "4f387fa2d0819b963edd810b49b120afd1024815",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ak-courtview-set run by measure-family.mjs in a detached worktree at base 4f387fa2d with MASTER_LIBRARY_SOURCE_DIR pointed at the local corpus root; the counter line was parsed from that run (PASS_COMPLETE, 7/24 written), not read from reports/completeness-counters.json (read only as the thing being checked; it agrees)."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "product-wiring.json and the MASTER_QUEUE row carry obligation:track-pathway:AK:ak-courtview:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40; source-receipt.json (routeKey) and production-field-map.json carry the track key track:AK:ak-courtview; data/rcap-grade-a/route-obligation-census-candidate/canonical-route-universe.json holds both keys (the track key in legalTrackKeys, the obligation key as its pathway); familyId is ak-courtview-set in every record (measure-family.mjs familyIdAgrees true)."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Recomputed from bytes: the official TF-810 (REV-2025-05) held at codex-worker-evidence/ak-mode2-corpus/STATES/AK/02_PACKET_FORMS/AK__FORM__TF-810__\u2026__REV-2025-05__EN.pdf hashes to c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582, 85386 bytes, which equals source-receipt.json documents[0] (sha256, byteLength, pathInArchive), rendered-artifacts.json's pageManifest sourceSha256 for both fixtures, and the five committed corpus-index entries for that digest. The Master Library proper is a stub on this machine; the bytes measured are the retained corpus copy with the same digest. The queue's SOURCE_BOUND_BY_HELD_BYTES status and allSourcesExact true agree."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "The route names one component, the TF-810 primary filing; rendered-artifacts.json packets list documents ['TF-810'] for both fixtures, each 1 page; the process guidance participant-instructions.md is present; the fresh run measured requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "Read back here from the committed bytes with pdftotext -layout: canonical prints Name 'Jordan Avery Reyes', Email jordan.reyes@example.org, Address '412 Chugach Way, Anchorage, AK 99501', Phone 907-555-0142, Case Number 3AN-19-04217CR; boundary prints 'Maria-Alejandra O\u2019Shaughnessy-Whitfield', the long email and address, '(907) 555-0199 ext. 4417', 4FA-24-01188CR, and on the ground-10 line 'Alaska Administrative Rule 40(a)'. The builder's byte proof (reports/actual-writes.json, read back from the finalized bytes) records 6 and 7 writes with 0 non-whitespace glyphs outside the measured write boxes and, for the checkboxes, exactly one election per fixture (canonical Check Box1.0, boundary Check Box8.2) with every other checkbox appearance equal to the source; the fresh run measured invisibleWrites 0 and knownRequiredFieldsMissing 0. Checkbox ink was not re-rendered here; the owner-dispatched central raster of these exact bytes (run 39301983462, RASTER_PASS, 2 pages, no problems) is the visual proof on record."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "production-field-map.json declares 1 item, partyNames (printed 'Case Name', page 1); participant-instructions.md names it in 'The items you must supply' with what to write; the Case Name blank carries no value in either fixture (text line 17 shows the label only); the fresh run measured requiredFactsNotCollected 0 and unclassifiedBlanks 0. The 2026-10-18 read listed a second item, the ground-10 rule; under MODE 2 the boundary fixture now carries the participant's explicit rule text, and the field map no longer lists it as a blank."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "routeDeterminedSelections is empty with its stated reason (which printed ground applies depends on how the case ended, so no election follows from the route alone); the 14 ground checkboxes are participant elections, each disclosed in 'The choices that are yours'; under the owner's MODE 2 only the participant's explicit choice is marked (canonical ground 1; boundary ground 10 with its rule text) and the guide says so ('Only the choice you supplied is marked \u2026 this draft is not filing-ready' until completed). The fresh run measured requiredOptionsMissing 0."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "TF-810 has no repeating rows (23 fields: single-line text fields, 14 checkboxes, foot fields); the fresh run measured incompleteRows 0."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "In both fixtures the Date and Signature line (text line 50) carries labels only, and the clerk's block (Response, Date sent to requestor, by/initials) is blank; refusedFieldsWithInk is [] in both fixtures' byte proof; the fresh run measured protectedWrites 0; the guide states that the signature, its date and the clerk's block are deliberately left blank."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "tf810-canonical-filled.pdf sha256 a72b97a7b86f00104ee7aab5f67ec8334b1aa9ad6b57232e42f3617d09d17b4f, 66712 bytes, 1 page and tf810-boundary-filled.pdf sha256 6eafd49dba8dd15c1e87707aae7fd9f12295ef17da0234a81fcca9055adbb469, 66862 bytes, 1 page, recomputed here, equal reports/rendered-artifacts.json (artifacts[].sha256/byteLength/pageCount); no PDF under fixtures/ is unrecorded and none recorded is missing. RASTER_QUEUE.json's rasterReceipt for the family (run 39301983462, job 118231297589, RASTER_PASS) is bound to exactly these two digests, and product-wiring.json (refreshed in e5e741e5d) pins the same canonical digest."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Each fixture is 1 page (pdfinfo) = recorded pageCount 1; rendered-artifacts.json pageManifest maps packetPage 1 to TF-810 source page 1 with sourceSha256 c5e55ce0\u2026, the receipt's document."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "Measured geometrically here with pdftotext -bbox: canonical 649 words, boundary 659 words, 0 outside the page box, 0 same-band overlapping pairs in either; the builder's byte proof records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 in both; the fresh run measured visualDefects 0. Beyond geometry, the owner-dispatched central raster of these bytes passed (RASTER_PASS, 2 pages measured at scale 2.5, problems [] and environmentProblems [], run 39301983462 on 2026-10-19)."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "participant-instructions.md: 'File it with the clerk's office of your local Alaska trial court \u2014 the court named in the case number at the top of the form. The form says so in its own words.' The form face prints the same (file at your local trial court)."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Met under DET-FEE-AND-WAIVER-001 clause 3: the guide says 'Any filing fee is not stated here, because it is not established in any source this packet holds and an unsourced figure in a filing instruction is worse than none. Ask the clerk.' No figure invented; the question goes to the named authority (the clerk of the local trial court). Advisory, unchanged from the 2026-10-18 read: the guide says nothing separately about a waiver."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Met by the named rule on the official form's own face, read here from the committed bytes: TF-810 carries no certificate of service, no 'serve a copy' direction and no opposing party; its routing is internal ('Instructions to Court Clerk: Email this request and final disposition order to the HelpDesk', then the clerk's 'Response' and 'Date sent to requestor' block), and the guide states that complete path (file at the clerk's office; the clerk's block is the court's) and never directs the participant to serve anyone. Advisory, unchanged from the 2026-10-18 read and not scored: the guide does not say in so many words that nobody is served; one sentence would close that."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "'What this packet is not' states it is not legal advice, is not filed for you and does not decide whether the case comes off the public index; sealing/confidentiality requests are routed to TF-800 and name-only removal to TF-805; the attachments grounds 4 and 9 require are not supplied by the platform; the signature, its date, unchosen grounds and the clerk's block are left to the participant and the court; the result limit ('does not erase the court file, your criminal-history record, or copies held in private databases') is stated. approval-request.json: approvedForLive false, live false, commercialRoutesOpened 0."
+        }
+      },
+      "evidence": {
+        "verifierRun": "ok   ak-courtview-set                               PASS_COMPLETE                7/24 written | 1 famil(ies) audited \u00b7 1 PASS_COMPLETE | counters: knownRequiredFieldsMissing 0 \u00b7 requiredFactsNotCollected 0 \u00b7 unclassifiedBlanks 0 \u00b7 incompleteRows 0 \u00b7 requiredOptionsMissing 0 \u00b7 requiredComponentsMissing 0 \u00b7 invisibleWrites 0 \u00b7 protectedWrites 0 \u00b7 visualDefects 0",
+        "sourceRecomputation": {
+          "officialSourcesBound": 1,
+          "masterLibraryBytesBound": true,
+          "documents": [
+            {
+              "documentId": "TF-810",
+              "revision": "REV-2025-05",
+              "measuredCopy": "codex-worker-evidence/ak-mode2-corpus/STATES/AK/02_PACKET_FORMS/AK__FORM__TF-810__request-to-exclude-case-from-online-public-index-courtview-under-administrative-rule-40-a__REV-2025-05__EN.pdf",
+              "sha256": "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+              "byteLength": 85386,
+              "equalsReceipt": true,
+              "equalsPageManifestSourceSha256": true,
+              "corpusIndexEntriesWithThisDigest": 5
+            }
+          ]
+        },
+        "artifactRecomputation": [
+          {
+            "fixture": "tf810-boundary-filled",
+            "file": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-boundary-filled.pdf",
+            "recomputedSha256": "6eafd49dba8dd15c1e87707aae7fd9f12295ef17da0234a81fcca9055adbb469",
+            "byteLengthOnDisk": 66862,
+            "pdfinfoPages": 1,
+            "recordedInRenderedArtifacts": true,
+            "documentsInOrder": [
+              "TF-810"
+            ]
+          },
+          {
+            "fixture": "tf810-canonical-filled",
+            "file": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/fixtures/tf810-canonical-filled.pdf",
+            "recomputedSha256": "a72b97a7b86f00104ee7aab5f67ec8334b1aa9ad6b57232e42f3617d09d17b4f",
+            "byteLengthOnDisk": 66712,
+            "pdfinfoPages": 1,
+            "recordedInRenderedArtifacts": true,
+            "documentsInOrder": [
+              "TF-810"
+            ]
+          }
+        ],
+        "byteReadBack": {
+          "method": "pdftotext -layout of the committed fixtures (ak-dc-reread-20261020/tf810-*.txt) plus reports/actual-writes.json byte proof",
+          "canonicalValuesSeen": [
+            "Jordan Avery Reyes",
+            "jordan.reyes@example.org",
+            "412 Chugach Way, Anchorage, AK 99501",
+            "907-555-0142",
+            "3AN-19-04217CR"
+          ],
+          "boundaryValuesSeen": [
+            "Maria-Alejandra O\u2019Shaughnessy-Whitfield",
+            "maria.alejandra.oshaughnessy.whitfield@longmailexample.org",
+            "1188 Upper Hillside Loop Road, Apartment 14B, Fairbanks, Alaska 99709-2214",
+            "(907) 555-0199 ext. 4417",
+            "4FA-24-01188CR",
+            "Alaska Administrative Rule 40(a)"
+          ],
+          "electionsPerByteProof": {
+            "canonical": [
+              "Check Box1.0"
+            ],
+            "boundary": [
+              "Check Box8.2"
+            ]
+          },
+          "glyphsOutsideWriteBoxes": 0
+        },
+        "wordGeometry": [
+          {
+            "file": "tf810-boundary-filled.pdf",
+            "words": 659,
+            "wordsOutsidePageBox": 0,
+            "sameBandOverlappingWordPairs": 0
+          },
+          {
+            "file": "tf810-canonical-filled.pdf",
+            "words": 649,
+            "wordsOutsidePageBox": 0,
+            "sameBandOverlappingWordPairs": 0
+          }
+        ],
+        "rasterReceipt": {
+          "workflowRunId": "39301983462",
+          "jobId": "118231297589",
+          "verdict": "RASTER_PASS",
+          "boundToCanonicalSha256": "a72b97a7b86f00104ee7aab5f67ec8334b1aa9ad6b57232e42f3617d09d17b4f",
+          "boundToBoundarySha256": "6eafd49dba8dd15c1e87707aae7fd9f12295ef17da0234a81fcca9055adbb469",
+          "pagesMeasured": 2,
+          "ingestedIn": "864cea24e"
+        },
+        "stopConditions": {
+          "approvalRequest": {
+            "approvedForLive": false,
+            "live": false,
+            "commercialRoutesOpened": 0
+          }
+        },
+        "lapseResolved": {
+          "previousVerdict": "PASS_COMPLETE_INDEPENDENT at c197cd820 (vf01/rows-vf01-ak-courtview-set-20261018.json), lapsed FAMILY_MOVED_SINCE_THE_VERDICT: the fixtures were rebuilt under MODE 2 (ac2111fa/03b335a1 -> a72b97a7/6eafd49d), the raster receipt and product wiring refreshed (864cea24e, e5e741e5d) and the VF01 grant reissued (4a0a34a8c)",
+          "thisRead": "all fifteen obligations re-measured at 4f387fa2d on the current bytes"
+        },
+        "measuredAt": "2026-10-20T01:51:58Z",
+        "factsFile": "review-evidence/acceptance/ak-dc-reread-20261020/facts-ak-courtview-set.json"
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}
