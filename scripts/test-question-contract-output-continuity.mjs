@@ -10,6 +10,7 @@ import {assertVaGuardMemoSourceSuccession,VA_GUARD_MEMO_SOURCE_PATH} from '../sr
 import {assertMdPoliceReconciliationSourceSuccession,MD_POLICE_RECONCILIATION_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertVaRecordOriginSourceSuccession,VA_RECORD_ORIGIN_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGa21SpanishLabelsSourceSuccession,GA21_SPANISH_LABELS_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertNdCustomReceiptSourceSuccession,ND_CUSTOM_RECEIPT_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaSafeAtHomeSourceSuccession,CA_SAFE_AT_HOME_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertLeadSpanishSourceSuccession,LEAD_SPANISH_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -962,6 +963,13 @@ check('GA-21 reviewed Spanish labels hop preserves prior chain and refuses missi
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===GA21_SPANISH_LABELS_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/GA-21 reviewed Spanish labels source succession record bytes changed/);
  assert.throws(()=>assertVaRecordOriginSourceSuccession(file=>{if(file===GA21_SPANISH_LABELS_SOURCE_PATH)throw Error('missing GA-21 reviewed Spanish labels record');return readBytes(file);}),/missing GA-21 reviewed Spanish labels record/);
  for(const input of ["src/lib/expungement-ai/frontend/profiles/all51.json"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('ND custom-pleading receipt pin hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertNdCustomReceiptSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,30);assert.equal(c.currentUnchangedSourceCount,168);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===ND_CUSTOM_RECEIPT_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/ND custom-pleading receipt pin source succession record bytes changed/);
+ assert.throws(()=>assertGa21SpanishLabelsSourceSuccession(file=>{if(file===ND_CUSTOM_RECEIPT_SOURCE_PATH)throw Error('missing ND custom-pleading receipt pin record');return readBytes(file);}),/missing ND custom-pleading receipt pin record/);
+ for(const input of ["src/lib/expungement-ai/nd-first-offense-family-inputs.ts"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 // A succession record set must never outlive its call: after an honest load, a later drift still
