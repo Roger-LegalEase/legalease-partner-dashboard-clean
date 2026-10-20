@@ -1981,6 +1981,18 @@ export function planReceipt({ familyId, directory, receiptPath, beforeText, on =
  * Write it
  * ------------------------------------------------------------------ */
 
+/* Under the own-route admission the family's own route did move (Acceptance F1 on 9c1040951),
+ * so the block names it, the admitted ids and the row instead of the unmoved-anchor wording. */
+function admittedWhy(record, admitted) {
+  const moved = record.entriesThatMovedInThisRecord;
+  const keys = Object.keys(admitted);
+  if (keys.some((key) => !moved.includes(key))) throw new Refusal("an admitted route is not among the entries that moved; the admission does not describe this record");
+  const own = keys.map((key) => `${key} (${admitted[key].added.length} id${admitted[key].added.length === 1 ? "" : "s"} added to ${admitted[key].field}, nothing removed or reordered)`);
+  const rows = record.measuredRowAdmission.measuredReVerification.map((r) => `${r.lane} at ${r.verifiedAtBase} (${r.evidencePath})`);
+  const without = record.measuredRowAdmission.withoutAdmission;
+  return `The record was rewritten around this receipt's anchors. ${moved.length} named entr${moved.length === 1 ? "y" : "ies"} moved between the blob carrying the previous pin and the bytes on disk (${moved.join(", ")}). ${own.length === 1 ? "One of them is a route" : `${own.length} of them are routes`} this receipt binds: ${own.join("; ")}. The additions are admitted under measuredRowAdmission on the family's own PASS row${rows.length === 1 ? "" : "s"} ${rows.join(", ")}, read on the current bytes of this record and naming the route and every added id. Every entry this receipt binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record: without the admission ${without.anchorsIdentical} of ${without.anchorsCompared} were identical and the refresh was refused; with the admitted ids set aside, all ${record.anchorsCompared} were identical.`;
+}
+
 export function composeRefreshedReceipt(plan, { note = null } = {}) {
   const receipt = JSON.parse(plan.beforeText);
   const byPathAndPin = new Map(plan.records.map((r) => [`${r.path}\u0000${r.was.sha256}`, r]));
@@ -1997,10 +2009,11 @@ export function composeRefreshedReceipt(plan, { note = null } = {}) {
       ?? (predecessor ? byPathAndPin.get(`${at}\u0000${predecessor.writtenAgainst}`) : undefined);
     if (!record) return;
     const beforePin = structuredClone(pin);
+    const admitted = record.measuredRowAdmission?.admittedAdditions ?? null;
     const block = {
       refreshedOn: new Date(record.on).toISOString().slice(0, 10),
       was: { sha256: record.was.sha256, byteLength: record.was.byteLength },
-      why: `The record was rewritten around this receipt's anchors. ${record.entriesThatMovedInThisRecord.length} named entr${record.entriesThatMovedInThisRecord.length === 1 ? "y" : "ies"} moved between the blob carrying the previous pin and the bytes on disk (${record.entriesThatMovedInThisRecord.join(", ") || "none"}), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all ${record.anchorsCompared} were identical.`,
+      why: admitted ? admittedWhy(record, admitted) : `The record was rewritten around this receipt's anchors. ${record.entriesThatMovedInThisRecord.length} named entr${record.entriesThatMovedInThisRecord.length === 1 ? "y" : "ies"} moved between the blob carrying the previous pin and the bytes on disk (${record.entriesThatMovedInThisRecord.join(", ") || "none"}), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all ${record.anchorsCompared} were identical.`,
       anchorsCompared: record.anchorsCompared,
       anchorDetail: record.anchorDetail,
       anchorsIdentical: record.anchorsIdentical,
@@ -2016,7 +2029,9 @@ export function composeRefreshedReceipt(plan, { note = null } = {}) {
        * never composed here. */
       ...(note ? { appliedUnder: String(note) } : {}),
       previousIdentityRefresh: pin.identityRefresh ? structuredClone(pin.identityRefresh) : predecessor ? structuredClone(predecessor) : null,
-      whatThisDoesNotClaim: "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      whatThisDoesNotClaim: admitted
+        ? "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed when ids were added to a route this family binds; it is restored only under measuredRowAdmission, on the family's own PASS row read on the current bytes of this record, which names that route and every added id. It opens no route and grants no approval."
+        : "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
     };
     const shape = annotationIsSourceBound(block);
     if (!shape.ok) throw new Refusal(`refusing to write a block that is not a source-identity note: ${shape.why}`);

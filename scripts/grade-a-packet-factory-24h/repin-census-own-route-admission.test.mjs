@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {ADAPTERS, compareAnchors, driftedPinsOf, recoverBytesByDigest, sha256} from './repin-lapsed-source-identities.mjs';
+import {execFileSync} from 'node:child_process';
+import {ADAPTERS, compareAnchors, composeRefreshedReceipt, driftedPinsOf, planReceipt, recoverBytesByDigest, sha256} from './repin-lapsed-source-identities.mjs';
 // The real case: rcap-nd-custom-pleading's census pin f6fc0814 against the census on disk, and VF06's read at bf02d8073.
 const recordPath='data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json';
 const adapter=ADAPTERS.get(recordPath);
@@ -62,4 +63,22 @@ test('the applied block records 6/6, the admission and the superseded block; the
   assert.deepEqual(block.measuredRowAdmission,admit().admission);
   assert.ok(block.previousIdentityRefresh&&block.previousIdentityRefresh.anchorsCompared===block.previousIdentityRefresh.anchorsIdentical);
   assert.deepEqual(driftedPinsOf(receipt).filter(d=>(d.pin?.pathInRepository??d.path)===recordPath),[]);
+});
+// The receipt as pushed at 3c4980d35, before the re-pin (git blob, so a later rebuild of the live receipt cannot move it).
+const PRE_APPLY_BLOB='16ba7a9fcb08a2c1ea5d781b56c6a409229cdc8b';
+const composeFromPreApply=()=>{
+  const beforeText=execFileSync('git',['cat-file','blob',PRE_APPLY_BLOB],{encoding:'utf8'});
+  const plan=planReceipt({familyId,directory,receiptPath:`${directory}/source-receipt.json`,beforeText,on:new Date('2026-10-20T05:55:55Z')});
+  assert.equal(plan.outcome,'REFRESHABLE',plan.why);
+  return composeRefreshedReceipt(plan).text;
+};
+test('the composed block says the own route moved by the admitted ids, 5/6 without the admission (Acceptance F1)',()=>{
+  const block=JSON.parse(composeFromPreApply()).committedRecords.find(r=>r.pathInRepository===recordPath).identityRefresh;
+  assert.ok(block.entriesThatMovedInThisRecord.includes(routeKey));
+  assert.doesNotMatch(block.why,/anchors no entry that moved/);
+  assert.ok(block.why.includes(`One of them is a route this receipt binds: ${routeKey} (4 ids added to requiredSourceIds, nothing removed or reordered)`),block.why);
+  assert.ok(block.why.includes(`VF06 at ${vf06.verifiedAtBase} (${vf06.evidencePath})`),block.why);
+  assert.match(block.why,/without the admission 5 of 6 were identical and the refresh was refused; with the admitted ids set aside, all 6 were identical\.$/);
+  assert.doesNotMatch(block.whatThisDoesNotClaim,/does not bind/);
+  assert.match(block.whatThisDoesNotClaim,/lapsed when ids were added to a route this family binds; it is restored only under measuredRowAdmission/);
 });
