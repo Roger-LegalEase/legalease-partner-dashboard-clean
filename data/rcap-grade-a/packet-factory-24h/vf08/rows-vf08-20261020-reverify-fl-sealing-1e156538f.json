@@ -1,0 +1,231 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF08",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "1e156538faaa93628492653ec681178241b8ccec",
+  "verifier": "REVIEWER3-CLAUDE output-92 (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine; the assertions were run against the lead's grant ledger claim-ledger-b30-tip.json (sha256 0a4a77537fd763df49db7e120388bc2cf368b79ed104d566bd929505af6e34a8), which grants this lane in a batch not yet at the row base",
+  "claimAssertions": {
+    "fl-sealing-set": "NOT_GRANTED: no independent-verification lane holds fl-sealing-set"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) with amendments A1-A4 applied as written, under the owner's later decisions where one governs the family (OWNER_BATCH_ADOPTION_2026-09-02 Q4: no unconfirmed fee figure is published).",
+    "SERVICE": "Met by a named rule, an affirmative statement that nobody is served, or, where no held record establishes it, a named checkable authority (DET-FEE-AND-WAIVER-001 appliesTo); silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names (A1: the repository answer first)."
+  },
+  "rows": [
+    {
+      "itemId": "fl-sealing-set",
+      "lane": "VF08",
+      "worker": "REVIEWER3-CLAUDE output-92 (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "1e156538faaa93628492653ec681178241b8ccec",
+      "verifiedAt": "2026-10-20T17:20:11Z",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "MASTER_LIBRARY_SOURCE_DIR=<full Edition 1 corpus> node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-sealing-set, run by measure-family.mjs in the detached worktree /tmp/legalease-reviewer3-20261020 at base 1e156538faaa93628492653ec681178241b8ccec: \"1 famil(ies) audited \u00b7 1 PASS_COMPLETE\", 54/162 written; every counter printed 0 (facts.json verifierRun)."
+      },
+      "sourceIdentityEvidence": [
+        {
+          "path": "data/rcap-grade-a/legal-decisions/OWNER_DETERMINATIONS_2026-09-02.json",
+          "sha256": "16b95e3d4881db3e21420765b83543d26038583484c2fa6c642bcf094d4d6ca7",
+          "byteLength": 11095,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/record-clearing/legal-design-intake/FL.memo.json",
+          "sha256": "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065",
+          "byteLength": 121810,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "sha256": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+          "byteLength": 16781025,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+          "sha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+          "byteLength": 3738732,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "sha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+          "byteLength": 2635434,
+          "matchesReceipt": false,
+          "receiptPin": {
+            "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81"
+          },
+          "pinnedBlobRecoveredAt": "a3ca119bd26536cdde7a1b325f7ac3e3594e75c8",
+          "ownEntryUnmoved": true
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
+          "sha256": "a57ab0a3ea8607245824f1376c796d46403f9a18f49e5e12b1772339b46a0039",
+          "byteLength": 6004350,
+          "matchesReceipt": false,
+          "receiptPin": {
+            "sha256": "386c05ddf3427e766a12bcf926ae4442e910f440694dc15efd5c3187b3e85cd8"
+          },
+          "pinnedBlobRecoveredAt": "9ad720a34407639fe3bbada728414ddd4cceb19f",
+          "ownEntryUnmoved": true
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+          "sha256": "c60d47b329d4a92587a9ace12426f1595b0e02fc3f3713de4a1dac4037f6fad1",
+          "byteLength": 562708,
+          "matchesReceipt": true
+        }
+      ],
+      "artifactHashes": [
+        {
+          "fixture": "canonical",
+          "sha256": "45f7857c8cbea04181c26f1bbc534d1b223053d3f77840d7cadd581ebec75313",
+          "byteLength": 38829,
+          "pageCount": 10,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "7ffd8a75dcda508672733d78ac9aeb74402e9f1951e9e1c8adb8e8cd882a97f8",
+          "byteLength": 39214,
+          "pageCount": 10,
+          "recordAndRasterExact": true
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyIdAgrees true; product-wiring, source-receipt, production-field-map and the MASTER_QUEUE row all carry obligation:track-pathway:FL:fl-sealing:court-ordered-sealing-943-059 (Codex e35a1c1c1 re-keyed them, plus the manifest and field census, from the census-absent obligation:track-only:FL:fl-sealing). The key resolves in the census to trackId fl-sealing, packetSetId fl-sealing-set, and to registry track fl-sealing."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Recomputed from bytes at 1e156538f: 5/7 receipt pins exact. route-obligation-candidate.json pinned f6fc0814 (blob recovered at a3ca119bd) -> now eeabd8b9: the family's own entries are IDENTICAL; packet-family-build-worklist.json pinned 386c05dd (blob recovered at 9ad720a34) -> now a57ab0a3: the family's own entries are IDENTICAL. Held FDLE application 1d07f484\u2026 (26589 B) matches the receipt."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "Five components, as the manifest and receipt declare: FDLE Certificate of Eligibility application (pp1-6, official, \"Request Type: Seal\"), Rule 3.989 petition (p7), sworn statement (p8), proposed order (p9), certificate of service (p10); identical page map in both fixtures."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "53/54 writes read back from pdftotext in each fixture. The 54th (page1_phone) is present: pdftotext prints \"( 305 ) 555-0142\" / \"( 850 ) 555-0199\" because the form prints the parentheses, and the 150-dpi crop (p1-identity-crop-150dpi.png) shows the digits inside them. Long boundary values (O'Shaughnessy-Whitfield, 1188 Upper Tallapoosa Crossing Rd Apt 14B, 32548-2214, the long email) are whole."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "Nine counters 0. participant-instructions.md \"Required before filing or submission\" lists every blank printed for the participant: driver-license number, fingerprint-card place of birth, COE number and issue date, printed name of server, recipient 1, method of service."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "The FDLE application is marked \"Request Type: Seal\"; the Expunction Applications Only written certified statement (p2) is untouched, and the instructions say why."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "One arrest/charge row written (rows 2-8 blank); one certificate-of-service recipient slot plus an \"Additional required recipients, if any\" line the instructions condition on the clerk."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "Applicant signature/date, notary block, prosecutor certification page, fingerprint official/ORI, petitioner and sworn signatures, oath-taker, judge decision/date/signature and server signature/date are blank in both fixtures; the instructions name who completes each."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "canonical.pdf 45f7857c8cbea04181c26f1bbc534d1b223053d3f77840d7cadd581ebec75313/38829 B and boundary.pdf 7ffd8a75dcda508672733d78ac9aeb74402e9f1951e9e1c8adb8e8cd882a97f8/39214 B recomputed at 1e156538f, equal to rendered-artifacts.json; 10 pages each (pdfinfo). Codex e35a1c1c1 changed no PDF, so RASTER_PASS still binds these bytes."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "FDLE application, written certified statement, fingerprint card, general information, disqualifying charges, checklist (the official six pages in source order), then petition, sworn statement, proposed order, certificate of service, matching the instructions' Stage 1 / Stage 2 sequence."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox: 0 words outside the page box and 0 same-band overlaps in each fixture; all 20 pages viewed at 80 dpi (contact sheets) with nothing clipped or overlapping."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Stage 1 goes to \"Florida Department of Law Enforcement, ATTN: Seal & Expunge Section, P.O. Box 1489, Tallahassee, FL 32302-1489\" (p4); Stage 2 to the circuit or county court in the circuit of arrest, matching the registry/census destination. Captions follow the arrest county: Miami-Dade -> Eleventh Judicial Circuit, Okaloosa -> First Judicial Circuit."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Prong 1 + held waiver (DET-FEE-AND-WAIVER-001 A1/A2): \"Stage 1 costs the $75 nonrefundable FDLE processing fee; the FDLE executive director may waive the fee \u2014 ask the FDLE Seal & Expunge Section how to request a waiver (the address is on the application). The Stage 2 court filing fee is county-dependent, and certified copies cost what the county charges \u2014 ask the clerk of the circuit or county court in the circuit of arrest before filing.\" Stage 1: $75 nonrefundable as the held FDLE checklist prints; the waiver is the held fact from src/lib/rcap-engine/compiled/profiles/FL-florida.json (census requiredSourceId of this route) \"FDLE Certificate of Eligibility $75 Money order to FDLE; executive director may waive\" (feeRules[1]/[11], sourceSections[28]), with the Seal & Expunge Section named to ask how to request it, since no held record gives a procedure. Stage 2: \"county-dependent\" is the held answer (sourceSections[14] \"Court filing fee County-dependent\"; feeRules[5] \"Court filing Varies by county Some petitions filed without a separate fee\"), with the clerk named; the hedged \"around $42\" is not published (the only $ figure in the instructions is $75). Nothing in the packet now denies a held fact (A4), and the PDFs, whose checklist states the $75 and the juvenile-diversion exception, are unchanged. Closes Reviewer3's FAIL on e35a1c1c1."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Certificate of service at Stage 2 (p10) with recipients and method confirmed with the filing clerk, matching registry rules.service \"Certificate of service at Stage 2.\" and manifest serve_party; the clerk of the court of filing is a reachable named authority. The profile's State Attorney/arresting-agency service line is excluded under A3 (see observations; lead ruling 2026-10-20T16:01:13Z)."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "All seven registry selfHelpStopConditions print verbatim as \"Stop and get legal help:\" lines, plus the discretionary-relief and firearms cautions."
+        }
+      },
+      "observations": [
+        {
+          "what": "Printed route key (class, not scored)",
+          "detail": "Pages 7-10 still print 'Route: obligation:track-only:FL:fl-sealing' (PDFs not rebuilt) while participant-instructions.md now ends 'Route: obligation:track-pathway:FL:fl-sealing:court-ordered-sealing-943-059'. PARTICIPANT_DOCUMENT_PRINTS_ROUTE_KEYS; Acceptance's open finding."
+        },
+        {
+          "what": "Profile service recipients (A3, not scored)",
+          "detail": "The compiled profile says \"The petition must be served on the appropriate State Attorney or Statewide Prosecutor and the arresting agency\" twice: packetGenerator.filingDestinationRules[3] cites \u00a7 943.0585 (expunction, a sibling statute) and packetGenerator.attachments[18] repeats it uncited in a \"normal sealing/expunction\" step guide. Lead ruling 2026-10-20T16:01:13Z (LEAD_TO_REVIEWER3.md): A3 excludes both, SERVICE PASS stands, recorded as an observation."
+        },
+        {
+          "what": "Official form typo",
+          "detail": "Page 1 header reads \"EXPUNCTION (s. 943.585, F.S.)\"; the held FDLE bytes 1d07f484\u2026 print the same, so it is the source form, not the build."
+        },
+        {
+          "what": "FL-RULE-3989 stillOwed (FDLE split)",
+          "detail": "The family still names the shared FDLE-CERTIFICATE-OF-ELIGIBILITY-APPLICATION; open owner/source dependency already recorded by RV-08, not scored."
+        }
+      ],
+      "evidence": {
+        "directory": "output/nationwide-correction-execution-20261011/review-evidence/reviewer3/fl-sealing-vf08/final-1e156538f",
+        "heldSourceIdentity": "src/lib/rcap-engine/compiled/profiles/FL-florida.json sha256 ffef299bd19d2045453b03a2735b804f511b3a95310cd6be69bb45e36eacc679 (236236 B)",
+        "heldQuotes": {
+          "packetGenerator.feeRules[1]": "FDLE Certificate of Eligibility $75 Money order to FDLE; executive director may",
+          "packetGenerator.feeRules[5]": "Court filing Varies by county Some petitions filed without a separate fee",
+          "packetGenerator.feeRules[8]": "The $75 FDLE fee, county court costs, and certified-copy/fingerprint fees can change, and fee waivers are available in limited",
+          "sourceSections[14].text (Fees)": "Item Amount / note FDLE Certificate of Eligibility $75 nonrefundable Court filing fee County-dependent; many clerks list around $42, but verify locally Certified copies County-dependent Certified disposition County-dependent Human trafficking victim expunction Clerk may not charge filing/service/copy fees under 943.0583 FDLE\u0019s $75 fee must be paid by money order, cashier\u0019s check, or personal check; FDLE does not accept cash, gift cards, or temporary personal checks. (  \"https://www.fdle.state.fl.us/seal-and-expunge-process/certificate-of-eligibility-instructions\")",
+          "packetGenerator.attachments[18]": "FDLE says the certificate is not the final step and does not guarantee sealing or expunction. (\"https://www.fdle.state.fl.us/seal-and-expunge-process/frequently-asked-questions\") Step 5 - Serve required parties The petition must be served on the appropriate State Attorney or Statewide Prosecutor and the arresting agency.",
+          "packetGenerator.filingDestinationRules[3]": "The petition must be served on the appropriate State Attorney or Statewide Prosecutor and the arresting agency. The State and arresting agency may respond. (\"https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0900-0999%2F0943%2FSections%2F0943.0585.html\")"
+        },
+        "files": "facts.json, measure.log, pin-drift.json (tools/pin-own-entries.py), canonical.txt, boundary.txt, canonical-vs-boundary.diff, participant-instructions-e35a1c1c1.md, fdle-held-1d07f484.txt, *-sheet-[ab].png, p1-identity-crop-150dpi.png",
+        "priorRead": "RV-08 (output-7c) FAIL at 1b4dfeaa1; this read is independent and does not reuse its scoring.",
+        "successorOf": "Reviewer3 FAIL_REPAIR_REQUIRED (FEE_AND_WAIVER) read on e35a1c1c1 (preread-e35a1c1c1/rows/fl-sealing.json); repair Codex e35a1c1c1..1e156538f"
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}
