@@ -9,11 +9,18 @@ apart from the footer lines, no pixel on any page gets darker, ink disappears
 only inside one short band per page, and the pages that change are exactly the
 pages task53 measured as carrying a route key. Nothing here approves anything.
 
-Usage: verify-nv-footer-rerender.py --record <successor review json> --output <json> [--self-test]
+A later content repair is admitted append-forward by --content-successor: the
+footer chain above is proven unchanged on the bytes that record chains to,
+recovered from its pushed packet commit, and the bytes on disk must differ from
+those only by the record's declared delta: the declared pages gain exactly the
+declared text lines, lose none, and every other page is text- and pixel-identical.
+
+Usage: verify-nv-footer-rerender.py --record <successor review json> [--content-successor <content successor json>] --output <json> [--self-test]
 """
 from __future__ import annotations
 
 import argparse
+import difflib
 import hashlib
 import json
 import pathlib
@@ -65,9 +72,29 @@ def compare_pixels(old, new, dpi: int, max_band: int) -> dict:
             'inkRemovedOnly': ink_added == 0 and all(p.get('bandHeightPx', 0) <= max_band for p in pages), 'pages': pages}
 
 
+def compare_content(old, new, delta: dict, dpi: int) -> dict:
+    """Pages of `new` versus `old`: identical, or (declared pages only) exactly the declared lines added and none removed."""
+    assert len(old) == len(new), f'page count {len(old)} != {len(new)}'
+    changed, pages = [], []
+    for i in range(len(old)):
+        ot, nt = text_lines([old[i]])[0], text_lines([new[i]])[0]
+        same_pixels = old[i].get_pixmap(dpi=dpi, colorspace=fitz.csGRAY).samples == new[i].get_pixmap(dpi=dpi, colorspace=fitz.csGRAY).samples
+        if ot == nt and same_pixels:
+            continue
+        diff = [d for d in difflib.ndiff(ot, nt) if d[:2] in ('- ', '+ ')]
+        removed, added = [d[2:] for d in diff if d[0] == '-'], [d[2:] for d in diff if d[0] == '+']
+        changed.append(i + 1)
+        pages.append({'page': i + 1, 'linesRemoved': removed, 'linesAdded': added,
+                      'matchesDeclaredDelta': i + 1 in delta['pages'] and removed == [] and added == delta['insertedLines']})
+    ok = changed == delta['pages'] and all(p['matchesDeclaredDelta'] for p in pages)
+    return {'dpi': dpi, 'pageCount': len(old), 'changedPages': changed, 'linesRemoved': sum(len(p['linesRemoved']) for p in pages),
+            'linesAdded': sum(len(p['linesAdded']) for p in pages), 'pages': pages, 'result': 'PASS' if ok else 'FAIL'}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--record', required=True, type=pathlib.Path)
+    parser.add_argument('--content-successor', type=pathlib.Path, help='a reviewed content successor of --record (see above)')
     parser.add_argument('--output', required=True, type=pathlib.Path)
     parser.add_argument('--self-test', action='store_true', help='also prove the comparison rejects added ink (reversed pair)')
     args = parser.parse_args()
@@ -78,14 +105,23 @@ def main() -> None:
     reviewed = json.loads((ROOT / PREDECESSOR_REVIEW).read_bytes())['afterRepair']
     assert pred['record'] == str(PREDECESSOR_REVIEW)
     expected_pages = record['cause']['pagesCarryingARouteKey']
+    content = json.loads((ROOT / args.content_successor).read_bytes()) if args.content_successor else None
+    if content:
+        assert content['schemaVersion'] == 'rcap-targeted-review-content-successor/v1', content['schemaVersion']
+        assert content['familyId'] == record['familyId'], 'content successor names another family'
+        assert content['predecessor']['record'] == str(args.record), 'content successor chains to another footer record'
     result = {'schemaVersion': 'rcap-nv-footer-rerender-comparison/v1', 'record': str(args.record), 'fixtures': {}}
+    if content:
+        result['contentSuccessor'] = str(args.content_successor)
     for fixture in ('canonical', 'boundary'):
         rel = FAMILY / 'fixtures' / f'{fixture}.pdf'
         # The reviewed bytes come from the immutable packet commit, never from a file someone could replace.
         old = subprocess.check_output(['git', 'show', f"{pred['packetCommit']}:{rel.as_posix()}"], cwd=ROOT)
-        new = (ROOT / rel).read_bytes()
+        disk = (ROOT / rel).read_bytes()
+        # With a content successor, the footer chain is proven on the bytes it chains to, from that record's pushed packet commit.
+        new = subprocess.check_output(['git', 'show', f"{content['predecessor']['packetCommit']}:{rel.as_posix()}"], cwd=ROOT) if content else disk
         assert digest(old) == reviewed[f'{fixture}Sha256'] == pred[f'{fixture}Sha256'], f'{fixture}: predecessor is not the reviewed pair'
-        assert digest(new) == succ[f'{fixture}Sha256'], f'{fixture}: bytes on disk are not the recorded successor'
+        assert digest(new) == succ[f'{fixture}Sha256'], f'{fixture}: ' + ('the content predecessor commit does not carry the recorded footer successor' if content else 'bytes on disk are not the recorded successor')
         od, nd = fitz.open(stream=old, filetype='pdf'), fitz.open(stream=new, filetype='pdf')
         assert len(od) == len(nd) == succ['pageCountEach'], f'{fixture}: page count'
         ot, nt = text_lines(od), text_lines(nd)
@@ -101,6 +137,20 @@ def main() -> None:
                                                        'identityAccepted': compare_pixels(od, od, tol['dpi'], tol['maxBandHeightPx'])['changedPages'] == []}
             assert result['fixtures'][fixture]['selfTest']['reversedPairRejected'], f'{fixture}: comparison failed to reject added ink'
             assert result['fixtures'][fixture]['selfTest']['identityAccepted'], f'{fixture}: comparison rejected an identical pair'
+        if content:
+            assert digest(new) == content['predecessor'][f'{fixture}Sha256'], f'{fixture}: content predecessor is not the footer successor'
+            assert digest(disk) == content['successor'][f'{fixture}Sha256'], f'{fixture}: bytes on disk are not the recorded content successor'
+            cd = fitz.open(stream=disk, filetype='pdf')
+            assert len(cd) == content['successor']['pageCountEach'], f'{fixture}: content successor page count'
+            cc = compare_content(nd, cd, content['admittedDelta'], tol['dpi'])
+            result['fixtures'][fixture]['contentSuccessor'] = cc
+            if cc['result'] != 'PASS':
+                result['fixtures'][fixture]['result'] = 'FAIL'
+            if args.self_test:
+                reverse = compare_content(cd, nd, content['admittedDelta'], tol['dpi'])['result'] == 'FAIL'
+                undeclared = compare_content(od, cd, content['admittedDelta'], tol['dpi'])['result'] == 'FAIL'
+                result['fixtures'][fixture]['contentSuccessor']['selfTest'] = {'reversedPairRejected': reverse, 'footerPredecessorRejected': undeclared}
+                assert reverse and undeclared, f'{fixture}: content comparison failed to reject an undeclared delta'
     result['result'] = 'PASS' if all(f['result'] == 'PASS' for f in result['fixtures'].values()) else 'FAIL'
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2) + '\n')
@@ -108,6 +158,10 @@ def main() -> None:
         print(f"{fixture}: text identical apart from footers={f['textIdenticalApartFromFooters']}; {f['pagesIdentical']} pages identical, "
               f"{len(f['changedPages'])} pages lose ink inside one band of at most {f['maxBandHeightPx']} px, {f['inkAddedPixels']} pixels gain ink; "
               f"changed pages equal the task53 measurement={f['changedPagesEqualTask53Measurement']}: {f['result']}")
+        if content:
+            c = f['contentSuccessor']
+            print(f"{fixture} content successor: pages {c['changedPages']} gain {c['linesAdded']} lines, {c['linesRemoved']} removed, "
+                  f"declared pages {content['admittedDelta']['pages']}: {c['result']}")
     if result['result'] != 'PASS':
         sys.exit(1)
     print('PASS: the rerendered pair is the reviewed pair minus its route footers; both reviewed and successor hashes confirmed.')
