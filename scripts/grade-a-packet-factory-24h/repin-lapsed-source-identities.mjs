@@ -1855,21 +1855,18 @@ export function planFamily({ familyId, directory, on = new Date() }) {
  * which is how the tests exercise it after the tree has already been re-pinned,
  * and how a reviewer can re-run a past decision without restoring the tree.
  */
-// Two retained DE receipts use canonical two-space JSON with escaped Unicode.
-// Permit that exact historical style only for an exact single-route pin repair;
-// the writer replaces its unique committedRecords object, never the whole JSON.
+// Receipts are written in one of two deterministic styles: two-space JSON, or the same
+// with non-ASCII escaped as \uXXXX (DE's retained receipts, OK juvenile). A rewrite
+// reproduces the style the receipt already has, so every byte outside the refreshed
+// pins is unchanged; a receipt in any other formatting is refused.
 const escapedJson = value => JSON.stringify(value, null, 2).replace(/[\u007f-\uffff]/g,
   character => `\\u${character.charCodeAt(0).toString(16).padStart(4, "0")}`);
-const escapedRouteReceipt = (text, receipt) => receipt.jurisdiction === "DE"
-  && Array.isArray(receipt.committedRecords)
-  && text === `${escapedJson(receipt)}\n`
-  && receipt.committedRecords.some(pin => pin.pathInRepository === SINGLE_ROUTES
-    && pin.recordId === "route-contract:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a");
+const RECEIPT_STYLES = [value => `${JSON.stringify(value, null, 2)}\n`, value => `${escapedJson(value)}\n`];
+const receiptStyleOf = text => { const value = JSON.parse(text); return RECEIPT_STYLES.find(style => style(value) === text) ?? null; };
 
 export function planReceipt({ familyId, directory, receiptPath, beforeText, on = new Date() }) {
-  if (beforeText !== `${JSON.stringify(JSON.parse(beforeText), null, 2)}\n`
-    && !escapedRouteReceipt(beforeText, JSON.parse(beforeText))) {
-    return { familyId, directory, receiptPath, outcome: "REFUSED", why: "the receipt is not two-space-indented JSON with a trailing newline; rewriting it would reformat bytes this tool has no business touching" };
+  if (!receiptStyleOf(beforeText)) {
+    return { familyId, directory, receiptPath, outcome: "REFUSED", why: "the receipt is not two-space-indented JSON (plain or with escaped Unicode) with a trailing newline; rewriting it would reformat bytes this tool has no business touching" };
   }
 
   const receipt = JSON.parse(beforeText);
@@ -2002,18 +1999,13 @@ export function composeRefreshedReceipt(plan, { note = null } = {}) {
   const receipt = JSON.parse(plan.beforeText);
   const byPathAndPin = new Map(plan.records.map((r) => [`${r.path}\u0000${r.was.sha256}`, r]));
   const applied = [];
-  const lexicalReplacements = [];
-  const preserveEscapes = plan.beforeText !== `${JSON.stringify(receipt, null, 2)}\n`;
-  if (preserveEscapes && (!escapedRouteReceipt(plan.beforeText, receipt)
-    || plan.records.some(record => record.path !== SINGLE_ROUTES))) {
-    throw new Refusal("escaped receipt repair is limited to the exact DE single-route pin");
-  }
+  const style = receiptStyleOf(plan.beforeText);
+  if (!style) throw new Refusal("the receipt's formatting is not one this tool writes back byte for byte");
   eachPin(receipt, (pin, at) => {
     const predecessor = historyPredecessorOf(pin);
     const record = byPathAndPin.get(`${at}\u0000${pin.sha256}`)
       ?? (predecessor ? byPathAndPin.get(`${at}\u0000${predecessor.writtenAgainst}`) : undefined);
     if (!record) return;
-    const beforePin = structuredClone(pin);
     const admitted = record.measuredRowAdmission?.admittedAdditions ?? null;
     const block = {
       refreshedOn: new Date(record.on).toISOString().slice(0, 10),
@@ -2043,27 +2035,12 @@ export function composeRefreshedReceipt(plan, { note = null } = {}) {
     pin.sha256 = record.becomes.sha256;
     pin.byteLength = record.becomes.byteLength;
     pin.identityRefresh = block;
-    if (preserveEscapes) {
-      if (!receipt.committedRecords.includes(pin)) throw new Refusal("escaped repair pin is not a direct committedRecords entry");
-      const indent = value => escapedJson(value).split("\n").map((line,index) => index ? `    ${line}` : line).join("\n");
-      const before = indent(beforePin), after = indent(pin);
-      if (plan.beforeText.split(before).length !== 2) throw new Refusal("escaped repair requires exactly one old pin object at the intended property");
-      lexicalReplacements.push({ before, after });
-    }
     applied.push({ path: at, was: record.was.sha256, now: record.becomes.sha256 });
   });
   if (applied.length !== plan.records.length) {
     throw new Refusal(`planned ${plan.records.length} pin refreshes but matched ${applied.length} pins in the receipt`);
   }
-  let text = `${JSON.stringify(receipt, null, 2)}\n`;
-  if (preserveEscapes) {
-    text = plan.beforeText;
-    for (const replacement of lexicalReplacements) text = text.replace(replacement.before, replacement.after);
-    if (JSON.stringify(JSON.parse(text)) !== JSON.stringify(receipt)) {
-      throw new Refusal("escaped lexical pin repair does not equal the exact expected semantic receipt");
-    }
-  }
-  return { text, applied };
+  return { text: style(receipt), applied };
 }
 
 export function applyFamily(plan, { note = null } = {}) {
