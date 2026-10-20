@@ -748,6 +748,13 @@ function vaGuardMemoSourceSuccessionChain(readBytes) {
 export const MD_POLICE_RECONCILIATION_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-md-police-reconciliation-20261019-v1.json';
 export const MD_POLICE_RECONCILIATION_SOURCE_SHA256 = 'fa08f48e8da4f96a3323fb591189e7413a4706327db0a84a2ec28e9c62a2d9c7';
 export function assertMdPoliceReconciliationSourceSuccession(readBytes) {
+  const { record } = mdPoliceReconciliationSourceSuccessionChain(readBytes);
+  // Retain the immutable MD police-record reconciliation 28/170 scope; the separately pinned VA record origin
+  // hop checks the complete current chain without rewriting it.
+  assertVaRecordOriginSourceSuccession(readBytes);
+  return record;
+}
+function mdPoliceReconciliationSourceSuccessionChain(readBytes) {
   const bytes=readBytes(MD_POLICE_RECONCILIATION_SOURCE_PATH);
   insist(sha(bytes)===MD_POLICE_RECONCILIATION_SOURCE_SHA256,'MD police-record reconciliation source succession record bytes changed');
   const record=JSON.parse(bytes.toString('utf8'));
@@ -767,9 +774,35 @@ export function assertMdPoliceReconciliationSourceSuccession(readBytes) {
     insist(row.beforeSha256===(current.get(row.file)??v21[row.file]??null),'MD police-record reconciliation disconnected source hop');current.set(row.file,row.afterSha256);
   }
   insist(current.size===28,'MD police-record reconciliation current twenty-eight-source inventory');
+  return { record, current };
+}
+
+// Owner item 12(c) (2026-10-19): the explicit Virginia record-origin question on the AR pattern (VA / other state / federa
+export const VA_RECORD_ORIGIN_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-va-record-origin-20261020-v1.json';
+export const VA_RECORD_ORIGIN_SOURCE_SHA256 = '2b5243d7190b2cbcee6f453f08865be96bbd0e3e89dd3881247a3a5d9d16cbf3';
+export function assertVaRecordOriginSourceSuccession(readBytes) {
+  const bytes=readBytes(VA_RECORD_ORIGIN_SOURCE_PATH);
+  insist(sha(bytes)===VA_RECORD_ORIGIN_SOURCE_SHA256,'VA record origin source succession record bytes changed');
+  const record=JSON.parse(bytes.toString('utf8'));
+  const { record: prior, current }=mdPoliceReconciliationSourceSuccessionChain(readBytes);
+  insist(record.schemaVersion==='rcap-question-contract-va-record-origin-source-succession/v1'
+    && record.recordId==='VA-RECORD-ORIGIN-SOURCE-SUCCESSION-20261020'
+    && record.kind==='technical_source_only' && record.engineeringCommit==='81934d66c3a09c76e151f7b117a97e60bee2dcbc'
+    && equal(record.previousNamedSource,{path:MD_POLICE_RECONCILIATION_SOURCE_PATH,sha256:MD_POLICE_RECONCILIATION_SOURCE_SHA256,currentChangedSourceCount:28,currentUnchangedSourceCount:170})
+    && equal(record.historicalContinuity,prior.historicalContinuity) && equal(record.historicalOutput,prior.historicalOutput)
+    && record.sourceCount===198 && record.currentChangedSourceCount===28 && record.currentUnchangedSourceCount===170
+    && equal(record.historicalArtifactScope,{routeCount:6,artifactCount:18,reexecuted:false,changed:false})
+    && ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'].every(key=>record[key]===false),'VA record origin source succession scope');
+  insist(Array.isArray(record.transitions) && equal(record.transitions.map(row=>row.file),["src/lib/expungement-ai/localization.ts", "src/lib/rcap-engine/public-profile-projection.ts", "src/lib/rcap-engine/screening-question-selection.ts"]),'VA record origin source succession inventory');
+  insist(current.size===28,'VA record origin prior twenty-eight-source inventory');
+  const v21={};
+  for(const row of record.transitions){
+    insist(row.beforeSha256===(current.get(row.file)??v21[row.file]??null),'VA record origin disconnected source hop');current.set(row.file,row.afterSha256);
+  }
+  insist(current.size===28,'VA record origin current twenty-eight-source inventory');
   // Always fresh, including after success or a previous failed read. No accessor
   // recursion: prior records are read as exact pinned raw bytes.
-  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact MD police-record reconciliation source succession`);
+  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact VA record origin source succession`);
   return record;
 }
 
@@ -782,7 +815,7 @@ function currentSourceSuccessions(readBytes) {
     caNoPhone: assertCaNoPhoneContactSourceSuccession(readBytes), gaCt: assertGaSb288CtPetitionSourceSuccession(readBytes),
     gaGuide: assertGaGuideSpanishSourceSuccession(readBytes), ctPrepay: assertCtPrepayRecordFactsSourceSuccession(readBytes),
     ilSdWy: assertIlSdWyRecordFactsSourceSuccession(readBytes), ohCopy: assertOhJuvenileCopySourceSuccession(readBytes),
-    caSafe: assertCaSafeAtHomeSourceSuccession(readBytes), leadEs: assertLeadSpanishSourceSuccession(readBytes), leadEs2: assertLeadSpanishLayer2SourceSuccession(readBytes), mnMemo: assertMnGuardMemoSourceSuccession(readBytes), vaMemo: assertVaGuardMemoSourceSuccession(readBytes), mdPolice: assertMdPoliceReconciliationSourceSuccession(readBytes) };
+    caSafe: assertCaSafeAtHomeSourceSuccession(readBytes), leadEs: assertLeadSpanishSourceSuccession(readBytes), leadEs2: assertLeadSpanishLayer2SourceSuccession(readBytes), mnMemo: assertMnGuardMemoSourceSuccession(readBytes), vaMemo: assertVaGuardMemoSourceSuccession(readBytes), mdPolice: assertMdPoliceReconciliationSourceSuccession(readBytes), vaOrigin: assertVaRecordOriginSourceSuccession(readBytes) };
 }
 const onceSuccessions = readBytes => { let value; return () => value ??= currentSourceSuccessions(readBytes); };
 
@@ -811,6 +844,7 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, 
   const mnMemo = atFile(s.mnMemo);
   const vaMemo = atFile(s.vaMemo);
   const mdPolice = atFile(s.mdPolice);
+  const vaOrigin = atFile(s.vaOrigin);
   const caDigest = ca ? ca.afterSha256 : previousDigest;
   const nyDigest = ny ? ny.afterSha256 : caDigest;
   const gaDigest = ga ? ga.afterSha256 : nyDigest;
@@ -827,12 +861,13 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, 
   const leadEs2Digest = leadEs2 ? leadEs2.afterSha256 : leadEsDigest;
   const mnMemoDigest = mnMemo ? mnMemo.afterSha256 : leadEs2Digest;
   const vaMemoDigest = vaMemo ? vaMemo.afterSha256 : mnMemoDigest;
-  const currentDigest = mdPolice ? mdPolice.afterSha256 : vaMemo ? vaMemo.afterSha256 : mnMemo ? mnMemo.afterSha256 : leadEs2 ? leadEs2.afterSha256 : leadEs ? leadEs.afterSha256 : caSafe ? caSafe.afterSha256 : ohCopy ? ohCopy.afterSha256 : ilSdWy ? ilSdWy.afterSha256 : ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
-  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null || ilSdWy != null || ohCopy != null || caSafe != null || leadEs != null || leadEs2 != null || mnMemo != null || vaMemo != null || mdPolice != null)
+  const mdPoliceDigest = mdPolice ? mdPolice.afterSha256 : vaMemoDigest;
+  const currentDigest = vaOrigin ? vaOrigin.afterSha256 : mdPolice ? mdPolice.afterSha256 : vaMemo ? vaMemo.afterSha256 : mnMemo ? mnMemo.afterSha256 : leadEs2 ? leadEs2.afterSha256 : leadEs ? leadEs.afterSha256 : caSafe ? caSafe.afterSha256 : ohCopy ? ohCopy.afterSha256 : ilSdWy ? ilSdWy.afterSha256 : ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
+  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null || ilSdWy != null || ohCopy != null || caSafe != null || leadEs != null || leadEs2 != null || mnMemo != null || vaMemo != null || mdPolice != null || vaOrigin != null)
     && (!ca || ca.beforeSha256 === previousDigest) && (!ny || ny.beforeSha256 === caDigest)
     && (!ga || ga.beforeSha256 === nyDigest) && (!gaContact || gaContact.beforeSha256 === gaDigest)
     && (!gates || gates.beforeSha256 === contactDigest) && (!caNoPhone || caNoPhone.beforeSha256 === gatesDigest)
-    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest) && (!gaGuide || gaGuide.beforeSha256 === gaCtDigest) && (!ctPrepay || ctPrepay.beforeSha256 === gaGuideDigest) && (!ilSdWy || ilSdWy.beforeSha256 === ctPrepayDigest) && (!ohCopy || ohCopy.beforeSha256 === ilSdWyDigest) && (!caSafe || caSafe.beforeSha256 === ohCopyDigest) && (!leadEs || leadEs.beforeSha256 === caSafeDigest) && (!leadEs2 || leadEs2.beforeSha256 === leadEsDigest) && (!mnMemo || mnMemo.beforeSha256 === leadEs2Digest) && (!vaMemo || vaMemo.beforeSha256 === mnMemoDigest) && (!mdPolice || mdPolice.beforeSha256 === vaMemoDigest)
+    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest) && (!gaGuide || gaGuide.beforeSha256 === gaCtDigest) && (!ctPrepay || ctPrepay.beforeSha256 === gaGuideDigest) && (!ilSdWy || ilSdWy.beforeSha256 === ctPrepayDigest) && (!ohCopy || ohCopy.beforeSha256 === ilSdWyDigest) && (!caSafe || caSafe.beforeSha256 === ohCopyDigest) && (!leadEs || leadEs.beforeSha256 === caSafeDigest) && (!leadEs2 || leadEs2.beforeSha256 === leadEsDigest) && (!mnMemo || mnMemo.beforeSha256 === leadEs2Digest) && (!vaMemo || vaMemo.beforeSha256 === mnMemoDigest) && (!mdPolice || mdPolice.beforeSha256 === vaMemoDigest) && (!vaOrigin || vaOrigin.beforeSha256 === mdPoliceDigest)
     && currentDigest === actual, `${label}: ${file}`);
 }
 
