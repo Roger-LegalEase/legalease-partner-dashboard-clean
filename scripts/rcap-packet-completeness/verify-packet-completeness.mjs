@@ -491,7 +491,7 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
   const verifyCaActor = createCaProp64ActorVerifier({familyId, fieldMap, census, receipt, instructions,
     sourceRoot: process.env.MASTER_LIBRARY_SOURCE_DIR});
   const verifyNyCompletion = createNyCompletionVerifier({ familyId, fieldMap, census, receipt, instructions,
-    sourceRoot: process.env.MASTER_LIBRARY_SOURCE_DIR });
+    sourceRoot: process.env.MASTER_LIBRARY_SOURCE_DIR, fixtureAudit: true });
   const sourceActorMeasurements = [];
   const sourceStageMeasurements = [];
   for (const blank of blanks) {

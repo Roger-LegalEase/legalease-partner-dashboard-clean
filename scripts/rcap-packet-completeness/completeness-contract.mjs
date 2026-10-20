@@ -152,6 +152,12 @@ export const BLANK_DISPOSITIONS = {
     meaning: "The form marks the field optional and the participant supplies it if they wish.",
     requires: "The field label marks optional content, or a sourceOptional declaration matches the independently checked source field and its closed optional condition."
   },
+  OWNER_CONDITIONAL_DISCLOSED: {
+    allowed: true,
+    meaning: "Fixture audit only: a field whose applicability turns on the owner's own case, which a fixture does not have. Whether it applies is decided only by the owner diagnostic.",
+    requires: "The family's typed verifier measured the exact source bytes, the instructions disclose the exact field and its condition, and no owner read was supplied.",
+    verifierOnly: true
+  },
   KNOWN_FACT_NOT_WRITTEN: {
     allowed: false,
     defectClass: "FAIL_MISSING_REQUIRED_FACTS",
@@ -371,6 +377,14 @@ export function classifyBlank(field, reason, refusalClass = null, declared = nul
     return {
       disposition: "UNCLASSIFIED_BLANK", fieldClass: cls.id,
       basis: `the field map declares the disposition "${dec.disposition}", which is outside the closed vocabulary`,
+      declaredDisposition: String(dec.disposition)
+    };
+  }
+  // A verifier-only disposition is granted by its typed verifier from measured bytes, never by a map declaring it.
+  if (declaresDisposition && BLANK_DISPOSITIONS[String(dec.disposition)].verifierOnly) {
+    return {
+      disposition: "UNCLASSIFIED_BLANK", fieldClass: cls.id,
+      basis: `the field map declares the disposition "${dec.disposition}", which only a typed source verifier can grant`,
       declaredDisposition: String(dec.disposition)
     };
   }
