@@ -38,7 +38,7 @@ The compiled Maine profile does record the Judicial Branch's fee-waiver instrume
 
 ## Who else has to be told
 
-**No committed record this packet binds states a service requirement for this petition, and JV-043 carries no certificate-of-service block of any kind.** Ask the clerk of the court you are filing in whether anyone must be served and how.
+**Provide a copy of the petition to the prosecuting attorney’s office.** JV-043 expressly requires that copy. The form does not state the delivery method or deadline; ask the Juvenile Court clerk how and when to provide it.
 
 No committed record states a notarization requirement for this petition. JV-043 carries a plain signature line, not a jurat.
 
@@ -93,7 +93,7 @@ The second component, proof of final discharge, is a record you obtain from the 
 3. **Get proof of your final discharge** from the Juvenile Court, and the docket number and court location from its file.
 4. **Fill in the blanks listed below** on the petition: the court location, the docket number, and the gender box on the caption line.
 5. **Sign and date the petition personally.** This platform never signs for you and never dates a signing line.
-6. **Ask the clerk what the filing fee is, if any, and whether anyone must be served**, before you file. No record this packet binds answers either question.
+6. **Ask the clerk what the filing fee is, if any, and how and when to provide the required copy to the prosecuting attorney’s office**, before you file. JV-043 requires that copy; the held record does not establish a fee, delivery method or deadline.
 7. **File the petition with the Juvenile Court**, with your proof of final discharge.
 
 ## Things the platform deliberately left blank
@@ -105,7 +105,7 @@ The second component, proof of final discharge, is a record you obtain from the 
 ## What this packet does not tell you, and who does
 
 - What the filing fee is, or whether there is one. No committed record this packet binds states a fee for this petition or states that there is none.
-- Whether anyone must be served. No committed record states a service requirement, and the form carries no certificate-of-service block.
+- How and when to provide the required copy to the prosecuting attorney’s office. JV-043 states the copy requirement but does not specify the delivery method or deadline; ask the Juvenile Court clerk.
 - Which court location takes the petition. The route-obligation census records this route's destination as "not recorded".
 - Whether the court will grant it. The standard the compiled record gives is discretionary — the court may grant unless the public's right to information substantially outweighs the juvenile's privacy interest.
 
