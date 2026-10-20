@@ -3496,7 +3496,7 @@ const SPEC = {
   },
   "composedFromNote": "the committed legal-design track registry (data/record-clearing/legal-design-track-registry.json), the committed custom-pleading specifications (data/record-clearing/legal-design-specifications.json) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
   "formIdentityNote": "No committed record names an official statewide participant form for this route; the committed specifications record its component set as composed pleadings. Every page in this packet is therefore composed by this build from the committed records, and no official form was substituted or invented.",
-  "routeSelectionNote": "This family carries more than one statutory route. Each component's first-page title names its route. Continuation pages carry no route marker. The participant instructions carry a table saying which set of pages belongs to which situation. No election control is printed on any page, because the route is determined by the participant's own record and not by a box on a form.",
+  "routeSelectionNote": "This family carries more than one statutory route. Each component's first-page title names its route. Continuation pages have no route footer; keep each component's pages together, in order. The participant instructions carry a table saying which set of pages belongs to which situation. No election control is printed on any page, because the route is determined by the participant's own record and not by a box on a form.",
   "routeSelectionsMade": [
     {
       "routeKey": "obligation:track-only:NV:nv_seal_decrim",
@@ -3669,7 +3669,7 @@ const SPEC = {
       ]
     ],
     "footnotes": [
-      "Each component's first-page title names its route. Continuation pages carry no route marker. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at."
+      "Each component's first-page title names its route. Continuation pages have no route footer; keep each component's pages together, in order. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at."
     ]
   },
   "documentsToObtain": [

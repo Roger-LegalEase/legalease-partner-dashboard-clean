@@ -19,7 +19,7 @@ This packet carries more than one route. Use only the pages for the route that m
 | Seal a Nevada arrest that did not end in a conviction | Where charges were dismissed the petition may be filed at any time after the dismissal; where prosecution was declined it may be filed at any time after the applicable statute of limitations has run, or any time eight years after the arrest, or pursuant to a stipulation between the parties; and where the person was acquitted it may be filed at any time after the acquittal. |
 | Seal a Nevada record after finishing a reentry program | NRS 179.259, "Sealing records after completion of program for reentry", provides a sealing route for a person who has completed a reentry programme. |
 
-Each component's first-page title names its route. Continuation pages carry no route marker. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at.
+Each component's first-page title names its route. Continuation pages have no route footer; keep each component's pages together, in order. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at.
 
 ## What is in this packet
 
