@@ -317,17 +317,17 @@ test("reader: an enrolment is judged against the declaration, not against the fi
  * exactly as before, and the test below proves the exemption cannot swallow one.
  */
 const familyOf = (id) => (master.families ?? []).find((x) => x.familyId === id) ?? null;
-const outsideForAVerdictReason = (id) => {
-  const f = familyOf(id);
+const outsideForAVerdictReason = (id, lookup = familyOf) => {
+  const f = lookup(id);
   if (Array.isArray(f?.rasterEnrolmentRefusal) && f.rasterEnrolmentRefusal.length) return `${f.state}: ${f.rasterEnrolmentRefusal.join("; ")}`;
   if (f?.state === "OUT_OF_SCOPE") return "OUT_OF_SCOPE";
   return null;
 };
-const lostReceipts = (rows) => {
+const lostReceipts = (rows, lookup = familyOf) => {
   const lost = [], outside = [];
   for (const b of baseline.rows) {
     const row = rows.find((r) => r.familyId === b.familyId) ?? null;
-    const reason = outsideForAVerdictReason(b.familyId);
+    const reason = outsideForAVerdictReason(b.familyId, lookup);
     const line = !row ? `${b.familyId}: dropped out of the live raster matrix entirely`
       : row.currentRasterState !== "RASTER_PASS" ? `${b.familyId}: RASTER_PASS -> ${row.currentRasterState}` : null;
     if (!line) continue;
@@ -343,11 +343,15 @@ test("no family loses a RASTER_PASS it had already earned", () => {
     `a reader change must cost no standing receipt; ${lost.length} of ${baseline.count} were lost`);
 });
 
-test("the verdict exemption is not silent: a proven family dropped from the matrix is still a lost receipt", () => {
+test("the verdict exemption is not silent: a family dropped from the matrix with no verdict reason is still a lost receipt, proven or not", () => {
   const victim = baseline.rows.find((b) => !outsideForAVerdictReason(b.familyId) && rowOf(b.familyId)?.currentRasterState === "RASTER_PASS");
   assert.ok(victim, "a baseline family with a standing receipt and no verdict reason exists");
-  const { lost } = lostReceipts((queue.rows ?? []).filter((r) => r.familyId !== victim.familyId));
-  assert.deepEqual(lost, [`${victim.familyId}: dropped out of the live raster matrix entirely`]);
+  const without = (queue.rows ?? []).filter((r) => r.familyId !== victim.familyId);
+  assert.deepEqual(lostReceipts(without).lost, [`${victim.familyId}: dropped out of the live raster matrix entirely`]);
+  /* A state alone is not a reason. The same family seen as VERIFY_PENDING with
+   * no refusal (AK and DC on 2026-10-20) still expects its receipt. */
+  const asPending = (id) => id === victim.familyId ? { ...familyOf(id), state: "VERIFY_PENDING", rasterEnrolmentRefusal: null } : familyOf(id);
+  assert.deepEqual(lostReceipts(without, asPending).lost, [`${victim.familyId}: dropped out of the live raster matrix entirely`]);
 });
 
 test("no family's document set is restated while its bytes stand still", () => {
