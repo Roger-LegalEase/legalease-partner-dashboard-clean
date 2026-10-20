@@ -24,7 +24,7 @@ This packet carries more than one route. Use only the pages for the route that m
 | Clear a case after completing judicial diversion | Judicial diversion under T.C.A. |
 | Expunge up to two offences, once in your life | Read at source on 2026-08-06. |
 
-Every page states its own route in its footer. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at.
+Each component's first-page title names its route. Continuation pages carry no route marker. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at.
 
 ## What is in this packet
 

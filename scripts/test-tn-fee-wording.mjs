@@ -31,3 +31,17 @@ test("the action sequence distinguishes the filing clerk from the DA preparing t
   assert.match(step, /clerk of the court where the petition is filed/);
   assert.match(step, /other routes, ask the filing office named for your route/);
 });
+
+test("route-location instructions match component titles and unmarked continuations", () => {
+  const instructions = fs.readFileSync(`${directory}/participant-instructions.md`, "utf8");
+  const map = JSON.parse(fs.readFileSync(`${directory}/production-field-map.json`, "utf8"));
+  assert.doesNotMatch(instructions, /Every page states its own route in its footer/);
+  assert.match(instructions, /Each component's first-page title names its route/);
+  assert.match(instructions, /Continuation pages carry no route marker/);
+  assert.match(map.routeSelectionNote, /first-page title names its route/);
+  assert.match(map.routeSelectionNote, /Continuation pages carry no route marker/);
+  for (const selection of map.routeSelectionsMade) {
+    assert.doesNotMatch(selection.statedOn, /footer/);
+    assert.match(selection.statedOn, /first-page title/);
+  }
+});
