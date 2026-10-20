@@ -9250,8 +9250,8 @@
       "operation": "independent-verification",
       "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T11:12:06.286Z"
+      "released": false,
+      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -16010,7 +16010,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "773326c50e2f2fb64444af870f6f6e7580c23e292ed4e43397f390a9c95cd445",
+  "claimsDigest": "fe095bb4576f5e47ff77b493c9c354d9000acecb36d9cdc1de2e2c7bab424013",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -56271,6 +56271,16 @@
         },
         "evidenceSha256": "eecc299566c2e9092dfa9632d2bd21c3f086da481e0a6225392e9d0597438df3"
       }
+    },
+    {
+      "lane": "VF03",
+      "subjectType": "packet-family",
+      "subjectId": "rcap-wa-custom-pleading-clean-tracks",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "previouslyReleasedAt": "2026-09-05T11:12:06.286Z",
+      "reissuedAt": "2026-10-20T08:21:22.619Z",
+      "reason": "WA custom pleading clean tracks: the FIX01 repair (064c7c304436cc557a158d2d567ae7fcf8ebb742, repair-return rows-fix01-wa-caption-declarations-repair-return-20261020.json) supersedes the last WA read, VF08 FAIL_REPAIR_REQUIRED at 5e7fe802ca21d39c444d5e110b8e8f63be1a1f27; its RASTER_PASS receipt (run 33950997948) is reused on unchanged bytes, so the family leaves BUILT_RASTER_PENDING and owes a fresh independent read. The ledger's independent-verification claim row for this subject (lane VF03) was released 2026-09-05T11:12:06.286Z by VF08 and no verdict is extracted for the new cycle, so generate.mjs refuses REFUSED_UNASSERTABLE_VERIFICATION_DISPATCH (CI scratch second pass at 014d3c9e6, count 1). Reissued in the lane the ledger's claim row holds; no transfer. Same class as 4a0a34a8c."
     }
   ],
   "transfers": [
