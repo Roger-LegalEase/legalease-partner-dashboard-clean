@@ -258,6 +258,10 @@ registrationPetitionFields();
 registrationCoverFields();
 combinedExpungementFields();
 
+const ATTORNEY_REVIEW = "We recommend attorney review before filing, because relief requires clear and convincing evidence, the county or district attorney is notified, victims may be notified and may participate, and the court may order a risk assessment.";
+const POVERTY_AFFIDAVIT = "None identified in K.S.A. 22-4908. The K.S.A. 60-2001 poverty affidavit practice applies to the civil docket fee by its own terms; its reach over the combined expungement fee is unresolved.";
+const VICTIM_PROTECTION = "The victim or the victim's family cannot be compelled to testify or to provide discovery to the offender.";
+
 const SPEC = {
   familyId: FAMILY_ID,
   worklistGroupId: FAMILY_ID,
@@ -372,6 +376,7 @@ const SPEC = {
   routeSelectionNote: "Only the two combined-expungement route controls listed above are marked. The registration petition's release/not-confined and subsequent-crime alternatives, identity taxonomy, treatment facts, item 10 account and expungement waiting-period boxes remain participant choices or required-before-filing facts.",
   instructionsIntro: [
     "This is an internal build candidate and self-help packet. It is not legal advice or a filed petition. Check every held fact against your own records before signing the verified petition.",
+    ATTORNEY_REVIEW,
     "The registration-relief route is for drug offenders currently required to register. Sex-offender and violent-offender registrants do not receive this route, and the packet does not decide eligibility or the clear-and-convincing showing."
   ],
   obligationTable: [
@@ -379,8 +384,11 @@ const SPEC = {
     ["What is the registration-relief waiting period?", "At least five years after the most recent parole, discharge or release, or five years from conviction if you were not confined. Incarceration and periods of noncompliance do not count."],
     ["What must the court decide?", "The participant must prove by clear and convincing evidence the statutory facts, including no recent felony other than a felony registration violation and no pending felony proceeding, sufficient rehabilitation, and that registration is no longer necessary to promote public safety. LegalEase does not make those findings."],
     ["What does the companion expungement component mean?", "The packet includes the ordinary conviction expungement petition because this fixture elects the combined K.S.A. 22-4908(i) branch and records the registrable offense as otherwise eligible. The combined filing mechanics and whether one or two docket fees apply remain a recorded release question; ask the clerk or counsel before filing."],
-    ["What does it cost?", "The registration-relief petition uses the civil docket fee provided by K.S.A. 60-2001. The combined expungement petition carries its own K.S.A. 21-6614(g)(2) docket fee of $176, plus any currently authorized supreme-court charge. Do not assume a single fee or a fee waiver: confirm the current amount and waiver practice with the clerk."],
+    ["What does it cost?", "The registration-relief petition uses the civil docket fee provided by K.S.A. 60-2001. The combined expungement petition carries its own K.S.A. 21-6614(g)(2) docket fee of $176, plus any currently authorized supreme-court charge. Do not assume a single fee; confirm the current amount with the clerk."],
+    ["What fee-waiver practice applies?", POVERTY_AFFIDAVIT],
+    ["How do I request the waiver?", "Ask the district court clerk for the K.S.A. 60-2001 poverty affidavit and how to submit it for the registration-relief civil docket fee. Separately ask whether it reaches the combined expungement fee; that question remains unresolved in the held record."],
     ["Who sends notice?", "The court causes notice to the county or district attorney, who notifies any living victim whose address is known or the family of a deceased victim whose address is known. The participant does not invent or perform service."],
+    ["What protection applies to the victim?", VICTIM_PROTECTION],
     ["Can the court require a risk assessment?", "Yes. The court may require a risk assessment by an agreed or court-approved professional at the participant's own expense."],
     ["What happens after denial?", "A denial bars another registration-relief petition for three years unless the court orders a shorter period."]
   ],
@@ -393,7 +401,7 @@ const SPEC = {
     ["Your registration history", "Ask the registering law-enforcement agency or KBI for the counties, start date and periods of compliance. The five-year period excludes incarceration and noncompliance."],
     ["Your conviction record", "Ask the clerk of the convicting district court for the offense, date, court and case number."],
     ["Your treatment-provider names", "Use your own records to list every provider or agency that treated you for mental health, substance abuse or offense-related behavior since the registrable offense. LegalEase does not inspect those records."],
-    ["Current fee and filing practice", "Ask the clerk or counsel how the registration petition and any combined expungement petition are docketed and what fee or waiver practice applies."]
+    ["Current fee and filing practice", "Ask the district court clerk for the current fees, filing sequence and K.S.A. 60-2001 poverty affidavit. Its practice applies to the registration-relief civil docket fee; ask the clerk or counsel about its unresolved reach over the combined expungement fee."]
   ],
   steps: [
     "Read the process-guidance page and confirm that this is a drug-offender registration-relief route.",
@@ -403,7 +411,7 @@ const SPEC = {
     "If the registrable offense is otherwise eligible and you elect the combined route, complete the remaining expungement blanks and choose the waiting-period box from the official form and your records.",
     "Sign and verify the registration petition under penalty of perjury. Do not sign for the court, clerk, prosecutor or KBI.",
     "Ask the clerk or counsel about the combined filing sequence, docketing and fees; file in the required district court venue.",
-    "After filing, follow the court's notice and hearing instructions. If the court orders a risk assessment, arrange and pay for it as directed."
+    "After filing, follow the court's notice and hearing instructions. If the court orders a risk assessment, stop self-help and get attorney help before proceeding; the assessment is at the participant's expense."
   ],
   deliberatelyBlank: [
     "The registration petition signature and date; it is a verified participant statement.",
@@ -435,6 +443,7 @@ const SPEC = {
     title: "Preparing a Kansas registration-relief and combined-expungement filing",
     intro: [
       "The registration-relief petition is verified. Read every printed fact against your records before you sign.",
+      ATTORNEY_REVIEW,
       "This page explains the court-controlled parts of the process and the facts the participant must supply. It does not write the rehabilitation or public-safety account."
     ],
     findings: [
@@ -447,6 +456,8 @@ const SPEC = {
       ["Venue and filing", "The verified petition is filed in the district court of the county where the participant was convicted or adjudicated of the offense requiring registration."],
       ["Treatment providers", "The petition requires the names of all treatment providers and agencies that treated the participant for mental health, substance abuse and offense-related behavior since the offense."],
       ["Notice", "The court causes notice to the county or district attorney, who handles victim notification under the statute. The participant does not perform that service."],
+      ["Victim protection", VICTIM_PROTECTION],
+      ["Fee waiver", POVERTY_AFFIDAVIT],
       ["Risk assessment", "The court may require a risk assessment by a professional agreed upon by the parties or approved by the court, at the participant's expense."],
       ["Denial", "A denial bars another petition for three years unless the court orders a shorter period."],
       ["Combined filing", "The offense may be combined with a K.S.A. 21-6614 expungement petition when it is otherwise eligible; the two forms and filing mechanics remain separate questions for the clerk or counsel."]
