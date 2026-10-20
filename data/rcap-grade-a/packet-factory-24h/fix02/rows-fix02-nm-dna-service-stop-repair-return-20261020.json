@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX02",
+  "laneKind": "repair",
+  "baseSha": "0e7e94cad6a6ca68f2e1f2a9ed01f593c5026c2f",
+  "branch": "codex/batch26-repair-returns-20261020",
+  "isIndependentVerification": false,
+  "preparedOn": "2026-10-20",
+  "preparedBy": "Codex product/source/packet implementation worker under Lead Claude's 2026-10-20T04:33Z release. This is an implementation return, not independent verification or a cloud-worker grant.",
+  "grantsAsserted": [],
+  "grantBasis": "Lead 2026-10-20T04:33Z assigns agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement to FIX02. The claim ledger at 0e7e94cad6a6ca68f2e1f2a9ed01f593c5026c2f records released=false. No claim is asserted or changed here. Lead owns release of the live repair grant in batch26.",
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+      "familyId": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "SELF_HELP_STOP",
+        "SERVICE"
+      ],
+      "historicalVerdicts": [
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261019-reverify-census-5e7fe802c.json",
+          "sha256": "66e2c2fcdba260d4facca184a93c752dbd29ee02a8107d91127d78c51ea1d3b0",
+          "lane": "VF02",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "failedObligationNames": [
+            "SERVICE",
+            "SELF_HELP_STOP"
+          ],
+          "preserved": true,
+          "readAt": "8b6452ff5b05c8fd488d1c35b8c87036a698617f"
+        }
+      ],
+      "actualDefect": {
+        "SELF_HELP_STOP": "Measured against NM.memo.json track nm_dna_expungement, whose three selfHelpStopConditions are: (1) 'Every matter under this section, until the statutory text is read at an official channel and the receiving agency and request format are established.'; (2) any prior felony conviction or pending authorized-felony charge; (3) obtaining certified dispositions. (2) and (3) are carried, and the receiving-agency/format limb of (1) is carried ('Confirm every one with the New Mexico Department of Public Safety before sending anything'). The statutory-text limb of (1) is not: nothing tells the participant that § 29-16-10 has not been read at an official New Mexico channel, and the guide presents the eligibility branches as 'The recorded qualifying branches are...'. The memo's legalDesignDecision.status is legal_research_required with a build_blocker on exactly this point. The approval-request routes the same question to counsel before promotion, but the participant is not told. One of three controlling stops is carried only in part. (Prior vf02 readings scored this PASS on the view that the blanket stop is carried as a confirm-with-DPS condition; this reading measures the missing limb.) LD-NM-02 adds the 30/45-day processing-period rule, which the packet carries.",
+        "SERVICE": "Silence. Neither participant-instructions.md nor the text of either fixture says anything about service or notice: no service rule, no statement that nobody else is served, and no authority named for the question. The controlling memo records rules.service 'Not determined.' and rules.notice 'Not determined.'; the route contract and census carry no service rule. The DPS-confirmation sentence covers center, unit, destination, format and fee only. Under the brief's standard (a named rule, or an affirmative nobody-is-served statement with the mechanism) and DET-FEE-AND-WAIVER-001 as extended to SERVICE (a named authority may stand in only where the packet says no held source establishes the rule), this is not met."
+      },
+      "correction": "The guide and participant instructions now disclose that Section 29-16-10 has not been verified at an official New Mexico source and stop the participant before applying until the statutory text, receiving agency and request format are established. They distinguish the unserved preparation guide from an application and name New Mexico DPS to confirm who must receive a copy or notice and how. Existing exclusions and branch-specific timing remain intact.",
+      "repairCommits": {
+        "authored": {
+          "b9ae9d8a2": "b9ae9d8a2663161fe803f16c631f44ae65629242"
+        },
+        "note": "Exact provenance: b9ae9d8a2663161fe803f16c631f44ae65629242 bounded product correction. Artifacts and counters measured at b9ae9d8a2663161fe803f16c631f44ae65629242; dispatch base is baseSha above. Historical verdict bytes remain preserved."
+      },
+      "packetBytesChanged": true,
+      "artifacts": [
+        {
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/nm/agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "e09efa5a584ec871e105bda77e90a689c009407997ab556f809837e1ddda9927",
+          "byteLength": 6994,
+          "pageCount": 2,
+          "pageCountBasis": "pdfinfo (Poppler) on exact committed PDF bytes; no rendering or rebuild",
+          "changed": true,
+          "sha256BeforeRepair": "1bdc17120f9716b3304c52f5ce56e392291f8bb3e42597b4568524ea8eba429f",
+          "byteLengthBeforeRepair": 6220,
+          "pageCountBeforeRepair": 2,
+          "beforeBasis": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "afterBasis": "b9ae9d8a2663161fe803f16c631f44ae65629242"
+        },
+        {
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/nm/agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "2da49ffb4298de85e17dd12710b338cb4ca8643395c7352917af3b06fa592318",
+          "byteLength": 7133,
+          "pageCount": 2,
+          "pageCountBasis": "pdfinfo (Poppler) on exact committed PDF bytes; no rendering or rebuild",
+          "changed": true,
+          "sha256BeforeRepair": "0c1e91e1b74a31f60a56b96547a402811369b2a01ee3c4fc0cf8f6c753caf651",
+          "byteLengthBeforeRepair": 6354,
+          "pageCountBeforeRepair": 2,
+          "beforeBasis": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "afterBasis": "b9ae9d8a2663161fe803f16c631f44ae65629242"
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterBasis": "data/rcap-all50/overlays/census-v1/nm/agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill/reports/completeness-counters.json at b9ae9d8a2663161fe803f16c631f44ae65629242, sha256 8e81d245f4986592fe7e4fa03aea0f21a3558ff82abd9cf9d8540f8d76a4a526. All nine native builder counters are numeric zero. This is retained implementation evidence, not an independent PASS_COMPLETE or new raster.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterRequired": true,
+      "independentRereadRequired": true,
+      "supportingArtifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/nm/agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill/participant-instructions.md",
+          "sha256": "f715e226352d287f3e1a46f9852c62cd07059cb9c9c552a6b108ba2f2e5b916f",
+          "byteLength": 3987,
+          "sha256BeforeRepair": "5226928b6620db121bcd72fd86f3aa719dbaf7b3211926751ed5cc16c19d84d4",
+          "byteLengthBeforeRepair": 3271,
+          "changed": true,
+          "beforeBasis": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "afterBasis": "b9ae9d8a2663161fe803f16c631f44ae65629242"
+        }
+      ]
+    }
+  ]
+}

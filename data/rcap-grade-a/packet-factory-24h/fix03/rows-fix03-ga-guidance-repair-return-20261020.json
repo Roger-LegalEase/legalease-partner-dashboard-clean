@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX03",
+  "laneKind": "repair",
+  "baseSha": "0e7e94cad6a6ca68f2e1f2a9ed01f593c5026c2f",
+  "branch": "codex/batch26-repair-returns-20261020",
+  "isIndependentVerification": false,
+  "preparedOn": "2026-10-20",
+  "preparedBy": "Codex product/source/packet implementation worker under Lead Claude's 2026-10-20T04:33Z release. This is an implementation return, not independent verification or a cloud-worker grant.",
+  "grantsAsserted": [],
+  "grantBasis": "Lead 2026-10-20T04:33Z assigns rcap-ga-guidance-implementation to FIX03. The claim ledger at 0e7e94cad6a6ca68f2e1f2a9ed01f593c5026c2f records released=false. No claim is asserted or changed here. Lead owns release of the live repair grant in batch26.",
+  "rows": [
+    {
+      "itemId": "rcap-ga-guidance-implementation",
+      "familyId": "rcap-ga-guidance-implementation",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "CLIPPING_AND_OVERLAP"
+      ],
+      "historicalVerdicts": [
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf65/rows-vf65-20261019-reverify-census-5e7fe802c.json",
+          "sha256": "15e397bc450b0ad3a4e1757b5c0e031701afb5d2efdd7759e9c5a0c3aef73aa7",
+          "lane": "VF65",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "failedObligationNames": [
+            "CLIPPING_AND_OVERLAP"
+          ],
+          "preserved": true,
+          "readAt": "8b6452ff5b05c8fd488d1c35b8c87036a698617f"
+        }
+      ],
+      "actualDefect": {
+        "CLIPPING_AND_OVERLAP": "Geometry is clean on bbox (boundary.pdf: 1350 words, 0 outside the page box, 0 same-band overlapping pairs; canonical.pdf: 1344 words, 0 outside the page box, 0 same-band overlapping pairs), but both fixtures print unrendered markdown emphasis markers as visible glyphs on guidance pages 3-5 (boundary.pdf: 8 spans on 10 lines; canonical.pdf: 8 spans on 10 lines). Examples: '**NOTHING IN THIS PRE-CONSENT PACKET IS FILED, AND THIS STAGE GENERATES NO PETITION.**', '- **Do not approach the prosecuting attorney for consent by yourself.**', '**The repository establishes this one, and the answer is that there is no fee.**'. Canonical page 3 rendered here at 70 dpi shows the asterisks on the page. The builder meant bold, and the participant gets raw markup on the statements the packet most wants read. VF02 failed the DE family under this obligation at 588f9e74 for the same literal '**' class, and that family now prints none. visualDefects=0 in the verifier run does not detect markup leaks."
+      },
+      "correction": "The guidance renderer removes authored emphasis delimiters from delivered text, preserving the complete guidance, participant facts and pre-consent boundaries. Both PDFs no longer print raw double-asterisk markup.",
+      "repairCommits": {
+        "authored": {
+          "66853451c": "66853451c17b9b8a4a510cfbe74080c3615adeba"
+        },
+        "note": "Exact provenance: 66853451c17b9b8a4a510cfbe74080c3615adeba bounded product correction. Artifacts and counters measured at 66853451c17b9b8a4a510cfbe74080c3615adeba; dispatch base is baseSha above. Historical verdict bytes remain preserved."
+      },
+      "packetBytesChanged": true,
+      "artifacts": [
+        {
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/fixtures/canonical.pdf",
+          "sha256": "4483d38b301e8e1dc018ac65e7737cd39df5a8c082603c60b0ba293f9d17f6d0",
+          "byteLength": 14152,
+          "pageCount": 5,
+          "pageCountBasis": "pdfinfo (Poppler) on exact committed PDF bytes; no rendering or rebuild",
+          "changed": true,
+          "sha256BeforeRepair": "a20096ba7ee519ce80e24c7085bfa92e4be974997b2e09cb3e967f0fd2175406",
+          "byteLengthBeforeRepair": 14183,
+          "pageCountBeforeRepair": 5,
+          "beforeBasis": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "afterBasis": "66853451c17b9b8a4a510cfbe74080c3615adeba"
+        },
+        {
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/fixtures/boundary.pdf",
+          "sha256": "7d9c01ba8bb734b99237b923a07b1cc7a64a6771651c626a78203f8f474199e3",
+          "byteLength": 14307,
+          "pageCount": 5,
+          "pageCountBasis": "pdfinfo (Poppler) on exact committed PDF bytes; no rendering or rebuild",
+          "changed": true,
+          "sha256BeforeRepair": "d239a09c3f370c130f80b4df8ab8d52d747aaf482f83a821a0840077cb9a3167",
+          "byteLengthBeforeRepair": 14338,
+          "pageCountBeforeRepair": 5,
+          "beforeBasis": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "afterBasis": "66853451c17b9b8a4a510cfbe74080c3615adeba"
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterBasis": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/reports/completeness-counters.json at 66853451c17b9b8a4a510cfbe74080c3615adeba, sha256 265b8c3f0f5736234c84504ba3675c33a597a1ccd0f9eb80fb809281bf5ee0d2. All nine native builder counters are numeric zero. This is retained implementation evidence, not an independent PASS_COMPLETE or new raster.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterRequired": true,
+      "independentRereadRequired": true,
+      "supportingArtifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading/participant-instructions.md",
+          "sha256": "4f96a68979549085d2c8e2f452b00cbadd486078628c621b3b2e1f6214d7a1ba",
+          "byteLength": 10862,
+          "sha256BeforeRepair": "4f96a68979549085d2c8e2f452b00cbadd486078628c621b3b2e1f6214d7a1ba",
+          "byteLengthBeforeRepair": 10862,
+          "changed": false,
+          "beforeBasis": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "afterBasis": "66853451c17b9b8a4a510cfbe74080c3615adeba"
+        }
+      ]
+    }
+  ]
+}
