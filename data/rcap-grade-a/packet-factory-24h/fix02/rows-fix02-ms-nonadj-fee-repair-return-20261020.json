@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX02",
+  "laneKind": "repair",
+  "baseSha": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+  "branch": "codex/ms-nonadj-fee-source-20261020",
+  "isIndependentVerification": false,
+  "preparedOn": "2026-10-20",
+  "preparedBy": "Codex product/source/packet implementation worker",
+  "grantsAsserted": [],
+  "grantBasis": "Lead 2026-10-20T12:49:45Z explicitly assigns this repair and a FIX return. This records implementation only and claims no cloud-worker grant or independent verdict.",
+  "rows": [
+    {
+      "itemId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "familyId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "FEE_AND_WAIVER"
+      ],
+      "repairAssignment": "606e6ff1b:data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments-20261020-reverify-ms-nonadj-1b4dfeaa1.json",
+      "correction": "Removed the sibling statute dollar figure from filing and participant instructions. Preserved statutory distinction, unresolved applicability, named clerk for current amount and waiver uncertainty.",
+      "packetBytesChanged": true,
+      "artifacts": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/fixtures/canonical.pdf",
+          "documentId": "assembled_packet",
+          "role": "assembled_packet_of_composed_pleadings",
+          "fixture": "canonical",
+          "sha256": "ea29f2e3ba0aae2d7cc4e5ceadbb763afab18aedac6132c7b84deac73440002d",
+          "byteLength": 12790,
+          "pageCount": 5
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading/fixtures/boundary.pdf",
+          "documentId": "assembled_packet",
+          "role": "assembled_packet_of_composed_pleadings",
+          "fixture": "boundary",
+          "sha256": "20b67c773e6559af3dae1758133f8e0c1a0440417b846216ce2c6b152e70668b",
+          "byteLength": 12993,
+          "pageCount": 5
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "evidencePath": "/workspaces/training-modules-09-10/output/nationwide-correction-execution-20261011/codex-worker-evidence/ms-nonadj-vf05-fee",
+      "testsActuallyRun": [
+        "Output regression: RED on committed parent; PASS on both PDFs, instructions and mapped obligation (4 surfaces)",
+        "Native rebuild: exit 0; five pages per fixture, all nine counters zero",
+        "auditFamily: PASS_COMPLETE",
+        "ESLint: exit 0; one existing unused declarationIndex warning",
+        "git diff --check: exit 0"
+      ],
+      "disclosedNativeOutputChanges": [
+        "Existing shared renderer removes internal route footers from pages 2, 3 and 5; reproduced on unchanged native parent. The final no-dollar-figure correction changes pages 4 and 5 builder-to-builder; WHAT IT COSTS begins on page 4.",
+        "Census whole-file identity refresh moves the old annotation to history; no new anchor-equivalence claim."
+      ],
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterRequired": true,
+      "independentRereadRequired": true
+    }
+  ]
+}
