@@ -1,6 +1,6 @@
 # Participant and reviewer instructions — CPL 160.59
 
-These retained PDFs are historical review fixtures, not approved filing packets. They contain older affidavit and notary blocks. The court now publishes an [August 2026 packet](https://webfiles.nycourts.gov/public/2026-08/cpl160.59sealingapplication.pdf) with signed affirmations and an additional-statement page. The new binary, field mapping, source-currency review and qualified approvals remain pending. Do not treat the old fixtures as an approved current filing packet.
+These retained PDFs are historical review fixtures, not approved filing packets. They contain older affidavit and notary blocks. The court now publishes an [August 2026 packet](https://webfiles.nycourts.gov/public/2026-08/cpl160.59sealingapplication.pdf) with signed affirmations and an additional-statement page. The new binary and field mapping are retained for internal review; source-currency review and qualified approvals remain pending. Do not treat the old fixtures as an approved current filing packet.
 
 Route scope: `obligation:track-pathway:NY:ny_160_59_petition:discretionary-conviction-sealing-by-petition-under-cpl-160-59`
 

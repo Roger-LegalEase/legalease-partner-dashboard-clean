@@ -11,6 +11,9 @@ const equal = (actual, expected, message) => { assert.deepEqual(actual, expected
 const matches = (actual, expected, message) => { assert.match(actual, expected, message); checks++; };
 equal(guide, fs.readFileSync(`${directory}/participant-instructions.md`, "utf8"));
 equal(JSON.stringify(map), before, "guidance never changes source geometry, fact mappings or field decisions");
+// NY-SOURCE-CURRENT-02: retained source custody is not filing or delivery approval.
+equal(guide.includes("The new binary and field mapping are retained for internal review; source-currency review and qualified approvals remain pending."),true,"held current source status");
+equal(guide.includes("The new binary, field mapping, source-currency review and qualified approvals remain pending."),false,"no stale missing-source claim");
 equal(Object.fromEntries(receipt.documents.map(row => [row.documentId, row.sha256])), NY_16059_HELD_SOURCES);
 // Independent source clauses: current (08/2026) packet itemized instructions
 // 2/3, statement item13 and service instructions; held July2024 COD form
