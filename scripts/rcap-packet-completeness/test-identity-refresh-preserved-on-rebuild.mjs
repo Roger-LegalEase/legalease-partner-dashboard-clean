@@ -28,12 +28,16 @@ import {
 } from "./identity-refresh.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+// Each subject is read from git as the receipt that carried its three blocks (blobs at
+// 1b4dfeaa1): a later repair that moves a source rebuilds the live receipt, and a
+// moved pin rightly carries its block as history, so the file on disk stops being a subject.
 const SUBJECTS = [
-  "data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/source-receipt.json",
-  "data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/source-receipt.json"
+  ["data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/source-receipt.json", "7d1a453cc79d88ad1147adf5c062b93d10cae285"],
+  ["data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/source-receipt.json", "628efc570f033ee18e63b8e4c124d5406957a35b"]
 ];
 
 const load = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
+const fromGit = (blob) => JSON.parse(execFileSync("git", ["cat-file", "blob", blob], { cwd: ROOT, encoding: "utf8" }));
 const clone = (x) => structuredClone(x);
 const annotationsIn = (doc) => {
   const found = [];
@@ -50,9 +54,9 @@ const asRebuilt = (doc) => {
 const results = [];
 const it = (name, fn) => { fn(); results.push(name); };
 
-for (const rel of SUBJECTS) {
+for (const [rel, blob] of SUBJECTS) {
   const name = rel.split("/").slice(-2, -1)[0];
-  const committed = load(rel);
+  const committed = fromGit(blob);
   const held = annotationsIn(committed);
   assert.equal(held.length, 3, `${name} is the subject because it carries three annotations`);
 
@@ -193,9 +197,11 @@ it("a missing, unreadable or non-JSON previous receipt costs the build nothing",
 });
 
 it("preserveIdentityRefresh restores from the receipt already on disk", () => {
-  const rel = SUBJECTS[0];
+  const [rel] = SUBJECTS[0];
   const committed = load(rel);
-  const restored = preserveIdentityRefresh(fs, path.join(ROOT, rel), asRebuilt(committed));
+  const plain = asRebuilt(committed);
+  eachPin(plain, (pin) => { delete pin.identityRefreshHistory; }); // a real builder emits no history, as the idempotence case models
+  const restored = preserveIdentityRefresh(fs, path.join(ROOT, rel), plain);
   assert.deepEqual(restored, committed);
 });
 
