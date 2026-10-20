@@ -15,9 +15,10 @@ import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 
 const PROMISE = /every page states\b[^.]*\bin its footer/i;
-// A field-map clause that names a footer promises one unless it denies it ("no page prints a route footer", "Continuation
-// pages have no route footer"); "…body and footer, and no election control…" still promises.
-const FOOTER_DENIAL = /\b(?:no|without)\b[^.;,]*\bfooters?\b/i;
+// A field-map clause promises a footer if one is still named once each denial phrase is struck out ("no page prints a route
+// footer", "Continuation pages have no route footer"): "…the footer, and the official pages print no footer" still
+// promises, and so does "…body and footer, and no election control…".
+const FOOTER_DENIALS = /\b(?:no|without)\b[^.;,]*\bfooters?\b/gi;
 const NONE_ANYWHERE = /\bno page prints a route footer\b/i;
 const NONE_ON_CONTINUATION = /\bcontinuation pages (?:have|carry) no route (?:footer|marker)\b/i;
 const CLOSES_WITH_ROUTES = 'closes with "Routes this set serves"';
@@ -25,7 +26,8 @@ export function statements(instructions, fieldMap) {
   const fm = [fieldMap?.routeSelectionNote, ...(fieldMap?.routeSelectionsMade ?? []).map((r) => r?.statedOn)].filter(Boolean).join(". ");
   const clauses = fm.split(/[.;]/);
   return {
-    promise: PROMISE.test(instructions) || clauses.some((c) => /\bfooters?\b/i.test(c) && !FOOTER_DENIAL.test(c)),
+    everyPage: PROMISE.test(instructions),
+    promise: PROMISE.test(instructions) || clauses.some((c) => /\bfooters?\b/i.test(c.replace(FOOTER_DENIALS, ""))),
     noneAnywhere: NONE_ANYWHERE.test(instructions) || NONE_ANYWHERE.test(fm),
     noneOnContinuation: NONE_ON_CONTINUATION.test(instructions) || NONE_ON_CONTINUATION.test(fm),
     closesWithRoutes: instructions.includes(CLOSES_WITH_ROUTES)
@@ -39,7 +41,8 @@ for (const [note, want] of [
   ["One route, one instrument set: the petition states this route's statutory ground in its own title, body and footer, and no election control exists on any composed page", { promise: true }],
   ["the composed petition and filing instructions, in their titles and bodies; no page prints a route footer", { promise: false, noneAnywhere: true }],
   ["the first-page title of each component for this route. Continuation pages have no route footer; keep each component's pages together, in order.", { promise: false, noneOnContinuation: true }],
-  ["the first-page title of each component for this route; continuation pages carry no route marker", { promise: false, noneOnContinuation: true }]
+  ["the first-page title of each component for this route; continuation pages carry no route marker", { promise: false, noneOnContinuation: true }],
+  ["the composed pages, in the title, the body and the footer, and the official form pages print no footer", { promise: true }]
 ]) for (const [k, v] of Object.entries(want)) assert.equal(statements("", { routeSelectionsMade: [{ statedOn: note }] })[k], v, `"${note}" must read as ${k}=${v}`);
 
 const ROOT = "data/rcap-all50/overlays/census-v1";
@@ -47,24 +50,27 @@ const ROOT = "data/rcap-all50/overlays/census-v1";
 // A footer sits at the page foot: every fixture footer is among its page's last 3 non-empty lines (2026-10-20: 220 last,
 // 30 second, 4 third of 254), so a body line that starts "Route:" cannot stand in for a dropped footer.
 const FOOT_LINES = 3;
-const hasRoute = (text) => text.split("\n").filter((l) => l.trim()).slice(-FOOT_LINES).some((l) => /^\s*route:/i.test(l));
+const footLines = (text) => text.split("\n").filter((l) => l.trim()).slice(-FOOT_LINES);
+const hasRoute = (text) => footLines(text).some((l) => /^\s*route:/i.test(l));
+// A denial is broken by any route mark at the foot, not only "Route:" ("Route - …", "Route — …", a bare "Route" label).
+const hasRouteMark = (text) => footLines(text).some((l) => /^\s*route\b/i.test(l));
 
-// Pages that must carry a footer. A footer on any page that is not its component's last page (page 1 for KS, MS)
-// means the family prints one on every page; otherwise it prints one on each component's last page (ND, SC, TN, WA).
-// Losing every non-final footer at once reads as the second form, which the sentence also describes.
-export function requiredFooterPages(pages, manifest) {
+// Pages that must carry a footer. "Every page states…" owes one on every page. Otherwise a footer on any page that is not
+// its component's last page means the family prints one on every page; else it prints one on each component's last page.
+// Losing every non-final footer at once reads as the second form, which a field-map "…and footers" also describes.
+export function requiredFooterPages(pages, manifest, saysEveryPage = false) {
   const last = manifest.map((m, i) => manifest[i + 1]?.component !== m.component);
-  const everyPage = pages.some((text, i) => !last[i] && hasRoute(text));
+  const everyPage = saysEveryPage || pages.some((text, i) => !last[i] && hasRoute(text));
   return pages.map((_, i) => i + 1).filter((p) => everyPage || last[p - 1]);
 }
 export function missingFooterPages(said, pages, manifest) {
   if (!said.promise) return [];
-  return requiredFooterPages(pages, manifest).filter((p) => !hasRoute(pages[p - 1]));
+  return requiredFooterPages(pages, manifest, said.everyPage).filter((p) => !hasRoute(pages[p - 1]));
 }
 // Pages that print a footer the statements deny.
 export function deniedFooterPages(said, pages, manifest) {
   const first = manifest.map((m, i) => manifest[i - 1]?.component !== m.component);
-  return pages.map((t, i) => i + 1).filter((p) => hasRoute(pages[p - 1]) && (said.noneAnywhere || (said.noneOnContinuation && !first[p - 1])));
+  return pages.map((t, i) => i + 1).filter((p) => hasRouteMark(pages[p - 1]) && (said.noneAnywhere || (said.noneOnContinuation && !first[p - 1])));
 }
 
 // OK: "the last page of each of its components closes with "Routes this set serves" and lists every declared route that
@@ -100,8 +106,8 @@ const KNOWN_UNREPAIRED = new Map([
   ["ga/rcap-ga-guidance-implementation--custom-pleading", SCORED],
   ["ms/composed-treatment:obligation:runtime-only:ms:nonadjudication-under-99-15-26--custom-pleading", SCORED],
   ["wy/composed-treatment:obligation:runtime-only:wy:human-trafficking-victim-vacatur-w-s-6-2-708--custom-pleading", SCORED],
-  ["hi/rcap-hi-custom-pleading--custom-pleading", "ruling pending: the note promises a footer on each route's pages; the 5 official HCJDC 159(b) pages print none"],
-  ["wv/rcap-wv-custom-pleading--custom-pleading", "ruling pending: statedOn promises footers; the supplement affidavit prints its route line above the signature and jurat, not at its last page's foot (canonical p6; in boundary the jurat runs to p7, so p6's route line reads as a non-final footer and every page is owed one)"]
+  ...["nd/rcap-nd-custom-pleading--custom-pleading", "sc/rcap-sc-custom-pleading--custom-pleading", "wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading"].map((k) => [k,
+    "held for Roger (A33, 2026-10-20T23:00:14Z): the instructions say every page states its route in its footer; footers print on component-final pages only, and a rebuild drops them (86006af26), so no FIX-only sentence exists"])
 ]);
 
 const families = [];
@@ -141,11 +147,12 @@ assert.deepEqual(repaired, [], "these KNOWN_UNREPAIRED families no longer fail: 
 
 // Self-check on the real fixture text: the guard tracks what is said, not the footer alone.
 const strip = (text) => text.replace(/^(\s*)route:/gim, "$1");
-const withFoot = (t) => `${t}\nRoute: obligation:x\n`;
+const withFoot = (t, mark = "Route: obligation:x") => `${t}\n${mark}\n`;
 for (const f of families.filter((x) => !KNOWN_UNREPAIRED.has(x.key))) {
   const finals = f.manifest.map((m, i) => (f.manifest[i + 1]?.component !== m.component ? i + 1 : null)).filter(Boolean);
+  const all = f.pages.map((_, i) => i + 1);
   if (f.said.promise) {
-    const required = requiredFooterPages(f.pages, f.manifest);
+    const required = requiredFooterPages(f.pages, f.manifest, f.said.everyPage);
     assert.deepEqual(required, f.pages.map((t, i) => (hasRoute(t) ? i + 1 : null)).filter(Boolean), `${f.pdf}: the guard must cover every footer the family prints`);
     for (const p of required) {
       assert.deepEqual(missingFooterPages(f.said, f.pages.map((t, i) => (i === p - 1 ? strip(t) : t)), f.manifest), [p], `${f.pdf}: dropping page ${p}'s footer must fail`);
@@ -154,14 +161,18 @@ for (const f of families.filter((x) => !KNOWN_UNREPAIRED.has(x.key))) {
       assert.deepEqual(missingFooterPages(f.said, f.pages.map((t, i) => (i === p - 1 ? body + strip(t) : t)), f.manifest), [p], `${f.pdf}: a body line starting "Route:" must not stand in for page ${p}'s footer`);
       assert.deepEqual(missingFooterPages(f.said, f.pages.map((t, i) => (i === p - 1 ? `${strip(t)}\nfiled under route: obligation:x\n` : t)), f.manifest), [p], `${f.pdf}: "route:" inside a foot line is not page ${p}'s footer`);
     }
-    assert.deepEqual(missingFooterPages(f.said, f.pages.map(strip), f.manifest), finals, `${f.pdf}: dropping every footer must fail`);
+    assert.deepEqual(missingFooterPages(f.said, f.pages.map(strip), f.manifest), f.said.everyPage ? all : finals, `${f.pdf}: dropping every footer must fail`);
+    // ND, SC and WA before A33: "every page" said, footers on component-final pages only.
+    if (f.said.everyPage) assert.deepEqual(missingFooterPages(f.said, f.pages.map((t, i) => (finals.includes(i + 1) ? t : strip(t))), f.manifest), all.filter((p) => !finals.includes(p)), `${f.pdf}: footers on component-final pages only must fail "every page"`);
     assert.deepEqual(missingFooterPages({ ...f.said, promise: false }, f.pages.map(strip), f.manifest), [], `${f.pdf}: no promise, no footer owed`);
     assert.deepEqual(missingFooterPages(f.said, f.pages.map((t) => t.replace(/^(\s*)route:/gim, "$1ROUTE:")), f.manifest), [], `${f.pdf}: an upper-case ROUTE: footer still counts`);
   }
-  if (f.said.noneAnywhere) assert.deepEqual(deniedFooterPages(f.said, f.pages.map((t, i) => (i === 0 ? withFoot(t) : t)), f.manifest), [1], `${f.pdf}: a footer on page 1 must fail "no page prints a route footer"`);
-  if (f.said.noneOnContinuation) {
+  for (const mark of ["Route: obligation:x", "Route - x", "ROUTE — x"]) {
+    if (f.said.noneAnywhere) assert.deepEqual(deniedFooterPages(f.said, f.pages.map((t, i) => (i === 0 ? withFoot(t, mark) : t)), f.manifest), [1], `${f.pdf}: a "${mark}" footer on page 1 must fail "no page prints a route footer"`);
     const cont = f.manifest.findIndex((m, i) => i > 0 && f.manifest[i - 1].component === m.component);
-    if (cont >= 0) assert.deepEqual(deniedFooterPages(f.said, f.pages.map((t, i) => (i === cont ? withFoot(t) : t)), f.manifest), [cont + 1], `${f.pdf}: a footer on continuation page ${cont + 1} must fail`);
+    if (f.said.noneOnContinuation && cont >= 0) assert.deepEqual(deniedFooterPages(f.said, f.pages.map((t, i) => (i === cont ? withFoot(t, mark) : t)), f.manifest), [cont + 1], `${f.pdf}: a "${mark}" footer on continuation page ${cont + 1} must fail`);
+  }
+  if (f.said.noneOnContinuation) {
     assert.deepEqual(deniedFooterPages({ ...f.said, noneAnywhere: false }, f.pages.map((t, i) => (i === 0 ? withFoot(t) : t)), f.manifest), [], `${f.pdf}: a footer on a first page is not a continuation footer`);
   }
   if (f.layoutPages) {
