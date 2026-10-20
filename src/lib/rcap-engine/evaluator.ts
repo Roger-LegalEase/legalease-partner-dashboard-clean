@@ -649,6 +649,17 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
 
   const caDecision = jurisdiction === "CA" && (isCaProp64Pathway(jurisdiction, preselectedPathway?.id) || caProp64ApplicationRequested(answers))
     ? caProp64Facts(answers, evaluationToday().toISOString().slice(0, 10)) : null;
+  // A21: an explicitly uncertain pardon precedes the Prop64 missing-fact gate.
+  if (caDecision && isExplicitUnknownAnswer(answers.pardon_status)
+    && relevantFactIds(profile, preselectedPathway).has("pardon_status")
+    && publicProfile.questions.some(question => question.id === "pardon_status"
+      && question.contextOnly !== true && isPrepaymentQuestion(question))) {
+    const text = "Confirm whether you received a pardon or similar official relief for this case. Keep \"I am not sure\" if you do not know, and update your saved answer when you can confirm it. Checkout and packet generation remain unavailable until this fact is resolved.";
+    return { ...result(profile, request, "needs_review", [reason("CA", "source_fact_unknown", text)], {
+      ...(preselectedPathway ? { pathwayId: preselectedPathway.id } : {}), paymentAllowed: false
+    }), nextSteps: [text] };
+  }
+
   if (caDecision && caDecision.status !== "satisfied") return result(profile, request,
     caDecision.status === "missing" ? "needs_more_info" : "needs_review",
     [reason("CA", `ca_prop64_${caDecision.code}`, CA_PROP64_REASON_COPY[caDecision.code!][0], CA_PROP64_SOURCE)],
