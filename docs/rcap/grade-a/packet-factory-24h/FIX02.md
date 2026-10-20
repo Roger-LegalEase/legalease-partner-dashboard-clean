@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `a6ace3c7de8280d30ecdcfcce042b70672866a82` (or the newer dispatch base)
+**Minimum required ancestor:** `24ad5979535248a3a8dc9a3849811424d24c86db` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement' \
   --codex-cloud \
-  --minimum-captain-sha a6ace3c7de8280d30ecdcfcce042b70672866a82
+  --minimum-captain-sha 24ad5979535248a3a8dc9a3849811424d24c86db
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,11 +38,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 4 exact families before reading or writing family content:
+- Assert only these 3 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement'`
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'census-pending-family:ME:juvenile-sealing'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon'`
-- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'ms-nonconv-set'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX02 'ks-21-6614-prostitution-coercion-set'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -63,12 +62,11 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 4 families
+## The 3 families
 
 - `agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement`
 - `census-pending-family:ME:juvenile-sealing`
-- `agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon`
-- `ms-nonconv-set`
+- `ks-21-6614-prostitution-coercion-set`
 
 ## What you receive
 
@@ -83,12 +81,10 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 - `data/rcap-grade-a/packet-factory-24h/fix02/**`
 - `data/rcap-all50/overlays/census-v1/nm/agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill/**`
 - `data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ct/agency-application-treatment:obligation:track-only:ct:ct-provisional-pardon--official-pdf-fill/**`
-- `data/rcap-all50/overlays/census-v1/ms/ms-nonconv-set--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/ks/ks-21-6614-prostitution-coercion-set--official-pdf-fill/**`
 - `scripts/build-census-v1-agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement.mjs`
 - `scripts/build-census-v1-census-pending-family:ME:juvenile-sealing.mjs`
-- `scripts/build-census-v1-agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon.mjs`
-- `scripts/build-census-v1-ms-nonconv-set.mjs`
+- `scripts/build-census-v1-ks-21-6614-prostitution-coercion-set.mjs`
 
 ## Never write here
 
