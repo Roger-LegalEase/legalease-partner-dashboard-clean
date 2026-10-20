@@ -5,8 +5,6 @@ import { pathToFileURL } from 'node:url';
 import ts from 'typescript';
 
 register('./lib/ts-esm-loader.mjs', import.meta.url);
-// GA-16-M01461 location/history checks share this existing CI command.
-await import('./test-il-identity-location-history.mjs');
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
 const { evaluateAuthoritativeScreeningResult: evaluate } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
 const { getProfileByJurisdiction } = await import('../src/lib/rcap-engine/profile-registry.ts');
@@ -243,3 +241,5 @@ for (const [id, original] of [...records]) {
 delete globalThis.__ilCategoryTransport;
 console.log(JSON.stringify({ status: 'PASS', checks, originalIds: ['Q-c1c8e2c369e81fbe1caf', 'QD-bd6b15fff22cbe1501cb'],
   scope: 'isolated collection/protected transitions/HTTP transport; no hosted owner, database or delivery proof' }));
+// GA-16-M01461 location/history checks share this existing CI command.
+await import('./test-il-identity-location-history.mjs');

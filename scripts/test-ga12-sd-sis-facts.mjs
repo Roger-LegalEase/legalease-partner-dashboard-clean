@@ -19,8 +19,6 @@ const mutations={
  retained_editor:['packet-information.ts','sdSisCategoryIsHistory(profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`))','false'],
 };
 if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`let m;export function initialize(x){m=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith('/'+m[0])){if(!r.source.includes(m[1]))throw Error('mutation target absent');return {...r,source:r.source.replace(m[1],m[2])}}return r}`),{data:mutations[mutation]});}
-// GA-16-M01616 location/history checks share this existing CI command.
-await import('./test-sd-sis-location-history.mjs');
 const G=await import('../src/lib/rcap-engine/south-dakota-sis-facts.ts');
 const Stage=await import('../src/lib/rcap-engine/south-dakota-23a-27-17-escalation.ts');
 const P=await import('../src/lib/expungement-ai/packet-information.ts');
@@ -195,3 +193,5 @@ for(const [id,original]of [...records]){
 }
 delete globalThis.__sdSisTransport;
 console.log(JSON.stringify({status:'PASS',checks,httpCases,originalIds:['Q-cde3ef0a5bed58e60545','QD-bd6b15fff22cbe1501cb'],route:key,limits:['Existing guidance and NO_RECORD hold; no eligibility or drug-route transfer.','Pure stage planning only, no composition/render/service/hosted call.','Draft EN/ES needs qualified review.']}));
+// GA-16-M01616 location/history checks share this existing CI command.
+await import('./test-sd-sis-location-history.mjs');
