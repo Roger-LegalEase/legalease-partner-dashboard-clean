@@ -3,7 +3,7 @@
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** rapid-repair
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
-**Minimum required ancestor:** `4ddbc1114bf52fe799628b06b606779a5d29aaae` (or the newer dispatch base)
+**Minimum required ancestor:** `dfdc098261bc5948e747e096ec321d95eaf1d4e2` (or the newer dispatch base)
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 **Repository:** Roger-LegalEase/legalease-partner-dashboard-clean
 
@@ -21,7 +21,7 @@ source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
   --family 'composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route' \
   --codex-cloud \
-  --minimum-captain-sha 4ddbc1114bf52fe799628b06b606779a5d29aaae
+  --minimum-captain-sha dfdc098261bc5948e747e096ec321d95eaf1d4e2
 ```
 
 It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable check passing`**. A -1/0 in cloud mode is a real failure, not the shallow checkout being tolerated.
@@ -38,8 +38,9 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 ## Claim before you read
 
-- Assert only these 1 exact family before reading or writing family content:
+- Assert only these 2 exact families before reading or writing family content:
 - `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route'`
+- `node scripts/grade-a-packet-factory-24h/claim.mjs --assert FIX03 'rcap-ok-custom-pleading'`
 - A non-zero exit is a full stop for that family: report `BLOCKED_BEFORE_CLAIM` naming the exact refusal, and read none of its artifacts.
 - Do not release a claim in a worker return. Captain releases it centrally after integrating the bounded return.
 
@@ -60,9 +61,10 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY with every registered applicable
 
 Repair exactly the proof obligations a verifier failed, on exactly the families it failed them on. Nothing else.
 
-## The 1 family
+## The 2 families
 
 - `composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route`
+- `rcap-ok-custom-pleading`
 
 ## What you receive
 
@@ -76,7 +78,9 @@ A repair lane does not repeat broad family analysis. If the failure is not repro
 
 - `data/rcap-grade-a/packet-factory-24h/fix03/**`
 - `data/rcap-all50/overlays/census-v1/ga/composed-treatment:obligation:runtime-only:ga:youthful-first-offender-restriction-route--custom-pleading/**`
+- `data/rcap-all50/overlays/census-v1/ok/rcap-ok-custom-pleading--custom-pleading/**`
 - `scripts/build-census-v1-composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route.mjs`
+- `scripts/build-census-v1-rcap-ok-custom-pleading.mjs`
 
 ## Never write here
 
