@@ -3,6 +3,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import vm from "node:vm";
+import { createHash } from "node:crypto";
 import { createCaProp64ActorVerifier, caProp64ActorInventoryProblems } from "./rcap-packet-completeness/ca-prop64-source-actors.mjs";
 
 const base = "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/";
@@ -32,13 +33,14 @@ const visit = (value) => {
 visit(mo);
 assert.ok(neighboringActorRows > 0, "actual neighboring actor contract required");
 try {
-  // CR-401/403 are existing unchanged official companion PDFs. Reuse them;
-  // this test needs no source download, render, private corpus or credential.
+  // Keep exact official test sources separate from the generated, filled companions.
   for (const form of ["CR-401", "CR-403"]) {
     const source = receipt.sources.find((row) => row.formNumber === form);
     const target = path.join(sourceRoot, source.pathInCorpus);
     fs.mkdirSync(path.dirname(target), { recursive: true });
-    fs.copyFileSync(`${base}fixtures/hs-11361-8-completed-sentence-application-canonical/${form.toLowerCase()}-unchanged-official.pdf`, target);
+    const bytes = fs.readFileSync(`scripts/fixtures/ca-prop64-source-actors/${form.toLowerCase()}-official.pdf`);
+    check(createHash("sha256").update(bytes).digest("hex"), source.pinnedSha256, `${form}: exact official source`);
+    fs.writeFileSync(target, bytes);
   }
   const options = { familyId: "ca-prop64-set", fieldMap, census, receipt, instructions, sourceRoot };
   const verify = createCaProp64ActorVerifier(options);
@@ -90,5 +92,5 @@ try {
   const source = receipt.sources.find((row) => row.formNumber === "CR-401");
   fs.appendFileSync(path.join(sourceRoot, source.pathInCorpus), "tampered");
   check(createCaProp64ActorVerifier(options)(blank, blank.declared).disposition, "UNCLASSIFIED_BLANK", "new audit rehashes source bytes");
-  console.log(JSON.stringify({ status: "PASS", assertions, neighboringActorRows, actualNormalizer: true, sourceBytes: "EXISTING_OFFICIAL_COMPANIONS", scope: "Actor classification, not full packet completeness or approval" }));
+  console.log(JSON.stringify({ status: "PASS", assertions, neighboringActorRows, actualNormalizer: true, sourceBytes: "HELD_OFFICIAL_CUSTODY", scope: "Actor classification, not full packet completeness or approval" }));
 } finally { fs.rmSync(sourceRoot, { recursive: true, force: true }); }
