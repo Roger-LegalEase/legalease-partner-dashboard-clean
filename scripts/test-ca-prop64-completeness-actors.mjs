@@ -4,7 +4,6 @@ import os from "node:os";
 import path from "node:path";
 import vm from "node:vm";
 import { createHash } from "node:crypto";
-import { requireMasterLibraryEnvironment } from "./lib/corpus-index-paths.mjs";
 import { createCaProp64ActorVerifier, caProp64ActorInventoryProblems } from "./rcap-packet-completeness/ca-prop64-source-actors.mjs";
 
 const base = "data/rcap-all50/overlays/census-v1/ca/ca-prop64-set--official-pdf-fill/";
@@ -34,13 +33,12 @@ const visit = (value) => {
 visit(mo);
 assert.ok(neighboringActorRows > 0, "actual neighboring actor contract required");
 try {
-  // Filled companions are outputs, not official source bytes. Use the held custody.
-  const corpus = requireMasterLibraryEnvironment({ repoRoot: process.cwd() });
+  // Keep exact official test sources separate from the generated, filled companions.
   for (const form of ["CR-401", "CR-403"]) {
     const source = receipt.sources.find((row) => row.formNumber === form);
     const target = path.join(sourceRoot, source.pathInCorpus);
     fs.mkdirSync(path.dirname(target), { recursive: true });
-    const bytes = fs.readFileSync(path.join(corpus, source.pathInCorpus));
+    const bytes = fs.readFileSync(`scripts/fixtures/ca-prop64-source-actors/${form.toLowerCase()}-official.pdf`);
     check(createHash("sha256").update(bytes).digest("hex"), source.pinnedSha256, `${form}: exact official source`);
     fs.writeFileSync(target, bytes);
   }
