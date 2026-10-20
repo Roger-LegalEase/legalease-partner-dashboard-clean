@@ -58,18 +58,11 @@
     "renderedArtifacts": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/reports/rendered-artifacts.json",
     "sourceReceipt": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/source-receipt.json",
     "sourceVersion": [],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "33923497915",
-      "jobId": "101187692775",
-      "artifactId": "9956817615",
-      "boundToCanonicalSha256": "8648c793f39cd71a5b330f9cb9e2696fd955acb26f1f6851c78c601f11cb5f17",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
-      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verdict": "BLOCKED_LEGAL_INPUT",
       "lane": "vf01",
-      "verifiedAtBase": "21d53521ff4d6a1dd24f9d5fb0fd56a6258a6f14"
+      "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -79,7 +72,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "8648c793f39cd71a5b330f9cb9e2696fd955acb26f1f6851c78c601f11cb5f17",
+        "replacedByCanonicalSha256": "efaa9df8bed3ee001dd2791d1130e6b7f438bb1c74b4639ebb65d604871b7c9f",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "33923497915",
+          "jobId": "101187692775",
+          "artifactId": "9956817615",
+          "boundToCanonicalSha256": "8648c793f39cd71a5b330f9cb9e2696fd955acb26f1f6851c78c601f11cb5f17",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -92,7 +100,7 @@
         "order": 1,
         "documentId": "canonical",
         "file": "data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/fixtures/canonical.pdf",
-        "sha256": "8648c793f39cd71a5b330f9cb9e2696fd955acb26f1f6851c78c601f11cb5f17",
+        "sha256": "efaa9df8bed3ee001dd2791d1130e6b7f438bb1c74b4639ebb65d604871b7c9f",
         "requirement": "required"
       }
     ]
