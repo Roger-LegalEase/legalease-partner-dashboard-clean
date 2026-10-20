@@ -106,9 +106,20 @@ try {
     // does not stop at the immediate predecessor.
     'a chain whose tail no longer names the first decision':
       (d, tree) => {
-        const v2 = JSON.parse(fs.readFileSync(path.join(tree, priorDecisionPath), 'utf8'));
+        const v2 = JSON.parse(fs.readFileSync(path.join(tree, secondDecisionPath), 'utf8'));
         v2.supersedes.sha256 = '0'.repeat(64);
-        fs.writeFileSync(path.join(tree, priorDecisionPath), JSON.stringify(v2));
+        fs.writeFileSync(path.join(tree, secondDecisionPath), JSON.stringify(v2));
+        // Observe descent so a later custody guard cannot make this control pass accidentally.
+        const read = fs.readFileSync;
+        let followedFirst = false;
+        try {
+          fs.readFileSync = (file, ...options) => {
+            if (file === path.join(tree, firstDecisionPath)) followedFirst = true;
+            return read(file, ...options);
+          };
+          assert.equal(loadMsPaidConsumerSuccessor(tree), null);
+          assert.equal(followedFirst, false, 'v3 -> v2 must refuse before following the first decision');
+        } finally { fs.readFileSync = read; }
       }
   };
   for (const [label, mutate] of Object.entries(mutations)) {
@@ -120,6 +131,7 @@ try {
     check(`refuses ${label}`, () => assert.equal(loadMsPaidConsumerSuccessor(scratch), null));
     // Restore whatever the mutation may have touched, so each refusal is its own.
     fs.copyFileSync(path.join(root, priorDecisionPath), path.join(scratch, priorDecisionPath));
+    fs.copyFileSync(path.join(root, secondDecisionPath), path.join(scratch, secondDecisionPath));
     fs.copyFileSync(path.join(root, firstDecisionPath), path.join(scratch, firstDecisionPath));
   }
   fs.copyFileSync(path.join(root, decisionPath), path.join(scratch, decisionPath));
