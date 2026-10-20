@@ -349,13 +349,13 @@ const SPEC = {
   },
   "composedFromNote": "the committed route contract (src/lib/legal-authority/routes/route-splits.json, OK:juvenile-record-expungement), the compiled Oklahoma profile pathway (src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json#juvenile-record-expungement) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
   "formIdentityNote": "No committed record names an official participant form for this route, and the committed contract's own packet components are a composed petition together with records the participant obtains. Every page in this packet is therefore composed by this build from the committed records; no official form was substituted and none was invented.",
-  "routeSelectionNote": "One route, one instrument set: the petition states this route's statutory ground in its own title, body and footer, and no election control exists on any composed page. Where a neighbouring section of the same statute is a different route, the packet says so and tells the participant to stop rather than printing a box to tick.",
+  "routeSelectionNote": "One route, one instrument set: the petition states this route's statutory ground in its own title and body, and no election control exists on any composed page. Where a neighbouring section of the same statute is a different route, the packet says so and tells the participant to stop rather than printing a box to tick.",
   "routeSelectionsMade": [
     {
       "routeKey": "obligation:runtime-only:OK:juvenile-record-expungement",
       "statute": "10A O.S. § 2-6-109",
       "instrument": "Oklahoma Juvenile Expungement Petition under 10A O.S. § 2-6-109",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "each component's first-page title and the petition's body (the statutory ground); the set serves only this route and no page prints its route key"
     }
   ],
   "obligationTable": [
