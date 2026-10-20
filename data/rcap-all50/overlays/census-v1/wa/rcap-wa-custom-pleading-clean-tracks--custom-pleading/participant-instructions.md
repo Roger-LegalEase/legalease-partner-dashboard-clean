@@ -75,6 +75,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 | The blank on the document | What to write |
 | --- | --- |
+| Court name in the IN THE ... COURT caption | the name of the sentencing court copied from the existing case record, using the same court on the petition and proposed order |
 | Item C1 - any other name the case was filed under | any other name the case was filed under, or write none if there is no other name |
 | Item C3 - conviction identity | What were you convicted of, and which exact RCW or municipal ordinance was it under? |
 | Item C4 - sentencing court | Which court sentenced you — district, municipal or superior — and in which county or city? |
@@ -93,6 +94,7 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 
 | The blank on the document | What to write |
 | --- | --- |
+| Court name in the IN THE ... COURT caption | the name of the sentencing court copied from the existing case record, using the same court on the petition and proposed order |
 | Cause number from the existing sentencing case in the proposed-order caption | the same cause number copied from the existing sentencing-court docket and written on the motion |
 
 ### wa_del_nonconviction-primary-filing-1 — Request to the Washington State Patrol - Ask the Washington State Patrol to delete a record of a case that did not end in conviction
