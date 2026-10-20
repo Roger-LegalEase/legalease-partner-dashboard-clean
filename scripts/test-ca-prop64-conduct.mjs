@@ -32,7 +32,7 @@ decision('young worker adult seller',{...sale,ca_prop64_used_young_person:'Yes'}
 decision('young worker under21 seller',{...sale,ca_prop64_age_at_offense:20,ca_prop64_used_young_person:'Yes'},'satisfied','misdemeanor');
 decision('crossborder above4 concentrate',{...transfer,ca_prop64_cross_border:'import',ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:4.001},'review');
 // CA-L02 / GA-19: decimal text must stay on its own side of the adopted 4/8/28.5-gram limits.
-for (const [grams, status] of [['3.9999999999999999','satisfied'],['4','satisfied'],['04.0000','satisfied'],['4.0000000000000001','review']]) {
+for (const [grams, status] of [['3.9999999999999999','satisfied'],['4','satisfied'],['04.0000','satisfied'],['4.0000000000000001','review'],['05','review']]) {
  const input={...transfer,ca_prop64_transfer_conduct:'personal_transport',ca_prop64_cross_border:'import',ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:grams};
  const result=decision('exact interstate concentrate '+grams,input,status,'satisfied'===status?'misdemeanor':undefined);
  if(status==='review')check('interstate exception needs review, not an automatic denial',result.code,'cross_border_exception');
@@ -41,7 +41,7 @@ for (const [grams, status] of [['3.9999999999999999','satisfied'],['4','satisfie
 }
 for (const [grams,classification] of [['7.9999999999999999','no_offense'],['8.0000','no_offense'],['8.0000000000000001','misdemeanor']])
  decision('exact ordinary concentrate '+grams,{...base,ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:grams},'satisfied',classification);
-for (const [grams,status] of [['28.4999999999999999','satisfied'],['28.5000','satisfied'],['28.5000000000000001','review']]) {
+for (const [grams,status] of [['28.4999999999999999','satisfied'],['28.5000','satisfied'],['28.5000000000000001','review'],['028.6','review']]) {
  const result=decision('exact interstate flower '+grams,{...transfer,ca_prop64_cross_border:'import',ca_prop64_flower_grams:grams},status,status==='satisfied'?'misdemeanor':undefined);
  if(status==='review')check('flower interstate exception',result.code,'cross_border_exception');
 }
@@ -65,7 +65,7 @@ for(const [name,patch] of [
  ['passenger consumption',{...vehicle,ca_prop64_possession_act:'ingestion',ca_prop64_vehicle_role:'passenger'}],
  ...['k12_school','daycare','youth_center'].map(place=>[place,{...detail,ca_prop64_possession_place:place,ca_prop64_children_present:'Yes',ca_prop64_use_authorization:'none'}]),
  ['custody',{...detail,ca_prop64_possession_place:'correctional'}],['other act',{...detail,ca_prop64_possession_act:'other'}],['other place',{...detail,ca_prop64_possession_place:'other'}]
-]){const r=decision('distinct '+name,patch,'review');check('distinct '+name+' reason',r.code,'restricted_conduct');}
+]){const r=decision('distinct '+name,patch,'review');check('distinct '+name+' reason',r.code,'restricted_conduct');check('distinct '+name+' review facts',r.ids,['ca_prop64_possession_context','ca_prop64_possession_act','ca_prop64_possession_place']);}
 for(const [name,input,ids] of [
  ['saved combined answer',{...base,ca_prop64_possession_context:'public_or_vehicle_use'},['ca_prop64_possession_act','ca_prop64_possession_place']],
  ['unknown act',{...detail,ca_prop64_possession_act:{value:'possession_only',unknown:true}},['ca_prop64_possession_act']],
@@ -76,6 +76,20 @@ for(const [name,input,ids] of [
  ['passenger or driver',{...vehicle,ca_prop64_possession_act:'ingestion'},['ca_prop64_vehicle_role']],
  ['authorization',{...smoking,ca_prop64_use_authorization:'unknown'},['ca_prop64_use_authorization']]
 ])check(name+' exact missing facts',decision(name,input,'missing').ids,ids);
+// GA-19 / CA-L05 / review Q1: possession alone still needs the applicable place facts.
+for(const [name,input,id]of [
+ ['vehicle authorization',vehicle,'ca_prop64_use_authorization'],
+ ...['k12_school','daycare','youth_center'].map(place=>[place+' children',{...detail,ca_prop64_possession_place:place,ca_prop64_children_present:'Yes',ca_prop64_use_authorization:'none'},'ca_prop64_children_present'])
+])for(const value of [undefined,'unknown',{value:input[id],unknown:true}]){
+ const saved=JSON.parse(JSON.stringify({...input,[id]:value}));
+ check(name+' remains visible',F.caProp64QuestionApplies(saved,id),true);
+ check(name+' saved uncertainty '+JSON.stringify(value),decision(name,saved,'missing').ids,[id]);
+}
+for(const [id,value]of [['ca_prop64_concentrate_grams','05'],['ca_prop64_flower_grams','028.6']]){
+ const input={...transfer,ca_prop64_transfer_conduct:'personal_transport',ca_prop64_cross_border:'import',ca_prop64_substance:id==='ca_prop64_concentrate_grams'?'concentrate':'flower',[id]:{value,unknown:false}};
+ check('leading-zero saved quantity '+value,decision(value,JSON.parse(JSON.stringify(input)),'review').code,'cross_border_exception');
+ decision('leading-zero unknown quantity '+value,{...input,[id]:{value,unknown:true}},'missing');
+}
 const wrapped=Object.fromEntries(Object.entries(detail).map(([id,value])=>[id,{value,unknown:false}]));decision('wrapped public possession',wrapped,'satisfied','no_offense');
 for(const [input,hidden] of [[detail,['ca_prop64_school_distance','ca_prop64_children_present','ca_prop64_vehicle_container','ca_prop64_vehicle_role','ca_prop64_use_authorization']],[smoking,['ca_prop64_children_present','ca_prop64_vehicle_container','ca_prop64_vehicle_role']],[vehicle,['ca_prop64_school_distance','ca_prop64_children_present','ca_prop64_vehicle_role']]])
  for(const id of hidden)check('irrelevant detail stays hidden '+id,F.caProp64QuestionApplies(input,id),false);
@@ -90,6 +104,9 @@ for(const age of [18,19,20])for(const grams of ["4.0000000000000001",4.0001,7.99
  decision('no unsupported dismissal '+age+'/'+grams,{...input,ca_prop64_branch:'completed-sentence application',ca_prop64_relief_requested:'dismissal/sealing'},'review');
  const alreadyReduced={...input,case_outcome:'Misdemeanor conviction',offense_level:'Misdemeanor'};
  check('no automatic AB133 infraction '+age+'/'+grams,decision('already misdemeanor',alreadyReduced,'review').code,'concentrate_amendment');
+ const infraction={...input,case_outcome:'Infraction conviction',offense_level:'Infraction'};
+ check('Q1 Infraction does not establish felony benefit '+age+'/'+grams,decision('already infraction',infraction,'review').code,'concentrate_amendment');
+ check('Q1 saved Infraction stays held '+age+'/'+grams,decision('saved infraction',JSON.parse(JSON.stringify(infraction)),'review').ids,['ca_prop64_concentrate_grams']);
 }
 decision('exactly4 remains original infraction',{...historicalConcentrate,ca_prop64_concentrate_grams:4},'satisfied','infraction');
 decision('adult21 exactly8 lawful',{...historicalConcentrate,ca_prop64_age_at_offense:21},'satisfied','no_offense');
