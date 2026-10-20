@@ -10,10 +10,32 @@ const {getProfileByJurisdiction}=await import(pathToFileURL(root+'/src/lib/rcap-
 const {projectPublicProfile}=await import(pathToFileURL(root+'/src/lib/rcap-engine/public-profile-projection.ts'));
 // GA-21: reviewed pathway labels must be Spanish; preserve named programmes.
 const englishWords = ["accusation", "act", "administrative", "all", "backstop", "case", "cases", "certificate", "chapter", "charge", "charges", "clean", "code", "completion", "conditional", "court", "destruction", "discretionary", "disposition", "drug", "executive", "expunction", "expunged", "expungement", "factual", "false", "filed", "first", "framework", "identity", "imposition", "innocence", "law", "limitations", "minor", "mistaken", "motion", "of", "offender", "offense", "only", "order", "other", "outcome", "period", "possession", "probation", "program", "quash", "record", "records", "removal", "request", "review", "rule", "sealed", "sentence", "set-aside", "slate", "statute", "suspended", "the", "time", "treatment", "unlawful", "vacate", "variants", "year", "youthful"];
-const names = /\b(?:Clean Slate|REDEEMER|Raise the Age|Second Chance|ARD|BCI|CRISS|DOJ|MRTA|MMRTA|Blake|ePardon|General Sessions|nolle prosequi)\b/gi;
+const names = /\b(?:Clean Slate|REDEEMER|Raise the Age|Second Chance(?: Act)?|ARD|BCI|CRISS|DOJ|MRTA|MMRTA|Blake|ePardon|General Sessions|nolle prosequi)\b/gi;
 const english = new RegExp('\\b(?:' + englishWords.join('|') + ')\\b', 'gi');
 const profiles = JSON.parse(fs.readFileSync('src/lib/expungement-ai/frontend/profiles/all51.json', 'utf8'));
 const citations = /\b(?:Ala\.|D\.C\.|Idaho|Iowa|Mont\.|Ohio Rev\.|Tenn\.|W\. Va\.) Code\b/gi;
+// Lead Spanish review29: citations and glosses follow an existing Spanish rendering.
+function unreviewedEnglish(label) {
+  const withoutCitations = label.replace(names, '').replace(citations, '')
+    .replace(/\((?:AS\s+\d|§\s*\d|Chapter\s+\d|(?:Administrative\s+)?Rule\s+\d)[^()]*\)/gi, '');
+  const withoutGlosses = withoutCitations.replace(/\(([A-Za-z][A-Za-z -]*)\)|«([A-Za-z][A-Za-z -]*)»/g, (span, _paren, _quote, offset) => {
+    const prefix = withoutCitations.slice(0, offset).trim();
+    return prefix && /[a-záéíóúñ»]$/i.test(prefix) && !(prefix.replace(names, '').match(english)?.length) ? '' : span;
+  });
+  // The accepted RI rendering introduces its gloss with words, not parentheses.
+  return withoutGlosses.replace(/\bbajo la figura de [A-Za-z -]+(?= conforme a §\s*\d)/g, '').match(english) ?? [];
+}
+for (const label of [
+  'Confidencialidad (AS 22.35.030 / Administrative Rule 40)',
+  'Medidas (Chapter 55A)', 'Protección conforme a Second Chance Act',
+  'Descargo condicional (conditional discharge)', 'Anulación procesal «quash»',
+  'Medidas para denuncias bajo la figura de filed complaint conforme a § 12-10-12'
+]) assert.deepEqual(unreviewedEnglish(label), [], label);
+for (const label of ['Court order (conditional discharge)', '(conditional discharge)',
+  'Eliminación court order', 'Eliminación (conditional discharge',
+  'Eliminación (court order) court', 'Medidas bajo la figura de filed complaint']) {
+  assert(unreviewedEnglish(label).length > 0, 'Untranslated text must remain flagged: ' + label);
+}
 const failures = []; let labels = 0;
 for (const state of Object.keys(profiles)) {
   const question = projectPublicProfile(getProfileByJurisdiction(state)).questions.find(q => q.id === 'possible_pathway_context');
@@ -24,7 +46,7 @@ for (const state of Object.keys(profiles)) {
     const label = question.optionDisplay?.[option]?.translations?.es?.label;
     labels++;
     if (typeof label !== 'string' || !label.trim()) { failures.push({ state, option, missing: true }); continue; }
-    const words = label.replace(names, '').replace(citations, '').match(english) ?? [];
+    const words = unreviewedEnglish(label);
     if (words.length) failures.push({ state, option, label, words });
   }
 }
