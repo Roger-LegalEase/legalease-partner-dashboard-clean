@@ -61,6 +61,14 @@ jobs:
       - name: Fetch pinned Georgia pre-correction specification witness
         run: git fetch --no-tags --depth=1 origin 75dcf56df74b2f3b00829a32bb90d99516bedafa
 
+      # test-md-scope-restatement replays every first-parent evaluator transition the MD
+      # approved-delta record restates (99d647bd5..ee40c239a, 93 transitions) from the actual
+      # historical bytes. 699 = the first-parent distance from ee40c239a back to 99d647bd5^, so
+      # the oldest parent it reads is the shallow root. Only group e runs it.
+      - name: Fetch the MD pardon scope-restatement history (group e)
+        if: matrix.group == 'e'
+        run: git fetch --no-tags --depth=699 origin ee40c239aab28c9cc090531da7e04464b88b104f
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -293,6 +301,11 @@ jobs:
           node scripts/test-va-protected-pardon-type-source.mjs
           node scripts/test-va-pardon-held-context.mjs
           node scripts/test-ga12-ct-information-category-history.mjs
+
+      # A17 O2. Its own step, and !cancelled(), so a failure earlier in group e cannot skip it.
+      - name: Verify the MD pardon parity scope restatement (group e)
+        if: matrix.group == 'e' && !cancelled()
+        run: node scripts/test-md-scope-restatement.mjs
 
       - name: Verify nationwide correction boundaries (group f)
         if: matrix.group == 'f'
