@@ -1690,6 +1690,19 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
+    // GA-16-M01508 / Q-1fd626b49f5c694da45b and M01510 / Q-8da4428f5701a867dcca.
+    if (factId === "residency_or_location" && msCategoryHistory && !overrideClass
+      && !needsHuman.has(factId) && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)
+      && !input.recordOwnQuestionIds?.has(factId)) {
+      const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
+        source: "ms_additional_location_history",
+        reason: "Earlier generic location remains optional literal context, never the conviction court, its county or municipality, mailing address or service address. The two statutory branches and source-owned handbacks remain separate." });
+      continue;
+    }
+
     if (factId === DC_LEGACY_LOCATION && dcLocationContext && !overrideClass && !needsHuman.has(factId)
       && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)) {
       facts.push({ factId, collection: "conditional", phase: retainedDcLocation ? "render" : "known",
