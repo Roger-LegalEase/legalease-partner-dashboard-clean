@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 504,
-    "rows": 1611,
+    "returnDirectories": 506,
+    "rows": 1613,
     "independentVerdicts": 344,
-    "failRepairRequired": 9,
-    "passIndependent": 334
+    "failRepairRequired": 10,
+    "passIndependent": 333
   },
   "failRepairRequiredFamilies": [
     "ca-prop64-set",
@@ -49,6 +49,7 @@
     "ks-21-6614-prostitution-coercion-set",
     "ks-22-4908-registration-relief-set",
     "ny_160_59_petition-set",
+    "rcap-nv-custom-pleading",
     "rcap-ok-custom-pleading"
   ],
   "refusedAtTheClaimGate": {
@@ -30467,6 +30468,20 @@
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf09",
       "isIndependentVerification": true,
+      "verifiedAtBase": "4ddbc1114bf52fe799628b06b606779a5d29aaae",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows-vf09-20261020-reverify-ks-4ddbc1114.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-ks-custom-pleading",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf09",
+      "isIndependentVerification": true,
       "verifiedAtBase": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
       "failedObligations": [],
       "failedObligationNames": [],
@@ -30474,7 +30489,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows-vf09-20261020-reverify-ks-municipal-1b4dfeaa1.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-ks-custom-pleading",
@@ -31012,7 +31027,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261019-reverify-census-5e7fe802c.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nv-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-nv-custom-pleading",
@@ -31041,6 +31056,29 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nv-custom-pleading",
       "superseded": true
+    },
+    {
+      "familyId": "rcap-nv-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf12",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+      "failedObligations": [
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "REQUIRED_BEFORE_FILING (decrim + pardon routes): legal-design-specifications.json participantFilingRequirements[629] (trackId nv_seal_pardon) and [630] (trackId nv_seal_decrim) list 'Verified criminal history from the Nevada Central Repository' as requirement 'required', requiredBeforeFiling true, citing NRS 179.245(2)(a) and 179.255(3)(a). The packet drops it for both routes: participant-instructions.md lines 106-107 ('Documents you must obtain before filing') say 'This ordinary-route attachment condition is not imposed on the NRS 179.271 request or NRS 179.273 petition', and the route pages leave it out. In both fixtures (canonical aed03010.../121357, boundary 94dc8ffb.../123571, 44 pages each), p4 'WHAT TO PREPARE' (decrim) names only the conviction record and the decriminalizing authority, and p17 'WHAT TO PREPARE' (pardon) names only proof of the pardon; neither page, nor p1-p5 or p14-p18, asks for the Central Repository criminal history. The bound decision NV-SPECIAL-ROUTE-PROCEDURE-2026-09-07 (sha256 7dcc809c...) does not supersede this requirement: its supersedesOnly names only the inherited prosecutor-first, prosecutor-stipulation, ordinary 30-day notice and filing-fee assertions, and its implementation says 'retain real proof-of-pardon and decriminalization record requirements'. The 'not imposed' scoping comes from the builder (scripts/rcap-packet-recovery/nv-special-routes.mjs line 161, commit 2c6db066e), not from a decision. Lead ruling 2026-10-20T14:30:47Z (LEAD_TO_REVIEWER2.md): registry [629]/[630] control; dropping the requirement needs a successor legal decision, which is Roger's. Ordinary routes unaffected: the field map's 84/84 disclosure labels are found verbatim in participant-instructions.md and the ordinary routes keep the attachment (fieldmap-and-census.txt); requiredFactsNotCollected 0 counts only declared fields, so the counter cannot see this.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows-vf12-20261020-reverify-nv-custom-pleading-0116da97d.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-nv-custom-pleading",
+      "superseded": false
     },
     {
       "familyId": "rcap-nv-custom-pleading",
