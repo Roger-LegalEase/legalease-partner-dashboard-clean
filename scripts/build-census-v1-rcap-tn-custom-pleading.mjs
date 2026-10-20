@@ -3237,7 +3237,7 @@ const SPEC = {
         "",
         "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
         "",
-        "Fee as recorded: A clerk's fee applies. Section 40-32-108(a) provides that a person applying for expunction of records under the section must be charged the appropriate court clerk's fee pursuant to T.C.A. § 8-21-401. The amount is set by § 8-21-401, whose current text sits in the licensed code and could not be retrieved from an official Tennessee source on 2026-08-06, so no figure is quoted. The widely circulated $180 figure appears only on a superseded AOC-hosted page and appears nowhere in the enacted text of Public Chapter 268. Public Chapter 719 did not change any fee provision. Fee waiver as recorded: No indigency or fee-waiver provision appears anywhere in the reorganized §§ 40-32-106 through 40-32-110. None is asserted.",
+        "Fee as recorded: A clerk's fee applies. Section 40-32-108(a) provides that a person applying for expunction of records under the section must be charged the appropriate court clerk's fee pursuant to T.C.A. § 8-21-401. The amount is set by § 8-21-401, whose current text sits in the licensed code and could not be retrieved from an official Tennessee source on 2026-08-06, so no figure is quoted. The superseded AOC-hosted fee figure is not used. Ask the clerk of the court where the petition is filed what it charges before filing. Public Chapter 719 did not change any fee provision. Fee waiver as recorded: No indigency or fee-waiver provision appears anywhere in the reorganized §§ 40-32-106 through 40-32-110. None is asserted.",
         "",
         "WHO MUST BE SERVED",
         "",
@@ -3830,7 +3830,7 @@ const SPEC = {
         "",
         "WHAT IT COSTS, AND WHETHER A WAIVER EXISTS",
         "",
-        "Fee as recorded: A clerk's fee applies. Section 40-32-108(a) provides that a person applying for expunction of records under the section must be charged the appropriate court clerk's fee pursuant to T.C.A. § 8-21-401. The amount is set by § 8-21-401, whose current text sits in the licensed code and could not be retrieved from an official Tennessee source on 2026-08-06, so no figure is quoted. The widely circulated $180 figure appears only on a superseded AOC-hosted page and appears nowhere in the enacted text of Public Chapter 268. Public Chapter 719 did not change any fee provision. Fee waiver as recorded: No indigency or fee-waiver provision appears anywhere in the reorganized §§ 40-32-106 through 40-32-110. None is asserted.",
+        "Fee as recorded: A clerk's fee applies. Section 40-32-108(a) provides that a person applying for expunction of records under the section must be charged the appropriate court clerk's fee pursuant to T.C.A. § 8-21-401. The amount is set by § 8-21-401, whose current text sits in the licensed code and could not be retrieved from an official Tennessee source on 2026-08-06, so no figure is quoted. The superseded AOC-hosted fee figure is not used. Ask the clerk of the court where the petition is filed what it charges before filing. Public Chapter 719 did not change any fee provision. Fee waiver as recorded: No indigency or fee-waiver provision appears anywhere in the reorganized §§ 40-32-106 through 40-32-110. None is asserted.",
         "",
         "WHO MUST BE SERVED",
         "",
@@ -4101,7 +4101,7 @@ const SPEC = {
     ],
     [
       "FEE_AND_WAIVER — Expunge an eligible conviction",
-      "Fee as recorded: A clerk's fee applies. Section 40-32-108(a) provides that a person applying for expunction of records under the section must be charged the appropriate court clerk's fee pursuant to T.C.A. § 8-21-401. The amount is set by § 8-21-401, whose current text sits in the licensed code and could not be retrieved from an official Tennessee source on 2026-08-06, so no figure is quoted. The widely circulated $180 figure appears only on a superseded AOC-hosted page and appears nowhere in the enacted text of Public Chapter 268. Public Chapter 719 did not change any fee provision. Fee waiver as recorded: No indigency or fee-waiver provision appears anywhere in the reorganized §§ 40-32-106 through 40-32-110. None is asserted."
+      "Fee as recorded: A clerk's fee applies. Section 40-32-108(a) provides that a person applying for expunction of records under the section must be charged the appropriate court clerk's fee pursuant to T.C.A. § 8-21-401. The amount is set by § 8-21-401, whose current text sits in the licensed code and could not be retrieved from an official Tennessee source on 2026-08-06, so no figure is quoted. The superseded AOC-hosted fee figure is not used. Ask the clerk of the court where the petition is filed what it charges before filing. Public Chapter 719 did not change any fee provision. Fee waiver as recorded: No indigency or fee-waiver provision appears anywhere in the reorganized §§ 40-32-106 through 40-32-110. None is asserted."
     ],
     [
       "SERVICE — Expunge an eligible conviction",
@@ -4133,7 +4133,7 @@ const SPEC = {
     ],
     [
       "FEE_AND_WAIVER — Expunge up to two offences, once in your life",
-      "Fee as recorded: A clerk's fee applies. Section 40-32-108(a) provides that a person applying for expunction of records under the section must be charged the appropriate court clerk's fee pursuant to T.C.A. § 8-21-401. The amount is set by § 8-21-401, whose current text sits in the licensed code and could not be retrieved from an official Tennessee source on 2026-08-06, so no figure is quoted. The widely circulated $180 figure appears only on a superseded AOC-hosted page and appears nowhere in the enacted text of Public Chapter 268. Public Chapter 719 did not change any fee provision. Fee waiver as recorded: No indigency or fee-waiver provision appears anywhere in the reorganized §§ 40-32-106 through 40-32-110. None is asserted."
+      "Fee as recorded: A clerk's fee applies. Section 40-32-108(a) provides that a person applying for expunction of records under the section must be charged the appropriate court clerk's fee pursuant to T.C.A. § 8-21-401. The amount is set by § 8-21-401, whose current text sits in the licensed code and could not be retrieved from an official Tennessee source on 2026-08-06, so no figure is quoted. The superseded AOC-hosted fee figure is not used. Ask the clerk of the court where the petition is filed what it charges before filing. Public Chapter 719 did not change any fee provision. Fee waiver as recorded: No indigency or fee-waiver provision appears anywhere in the reorganized §§ 40-32-106 through 40-32-110. None is asserted."
     ],
     [
       "SERVICE — Expunge up to two offences, once in your life",
@@ -4282,7 +4282,7 @@ const SPEC = {
     "**Fill every labelled dotted blank on the pages for your route**, from the record itself. Do not guess a date, an offence wording, a case number or an office name.",
     "**Sign and date each page that carries a signing line, personally.** The platform never signs for you and never dates a signing line.",
     "**Do not sign or date any certificate or proof of delivery until the papers have actually been delivered.**",
-    "**File the pages for your route where the filing instructions page says they go**, and ask that office what it charges and how it accepts filings before you go.",
+    "**File the pages for your route where the filing instructions page says they go.** For the eligible-conviction and two-offense routes, ask the clerk of the court where the petition is filed what it charges and how it accepts filings before you go; for other routes, ask the filing office named for your route.",
     "**Leave every page that belongs to the court or the prosecuting attorney blank.** Those decisions are not yours to make."
   ],
   "deliberatelyBlank": [
