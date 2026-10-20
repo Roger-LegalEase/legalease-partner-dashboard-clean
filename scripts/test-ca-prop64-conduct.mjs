@@ -31,6 +31,21 @@ decision('environmental large grow',{...cultivation,ca_prop64_plant_count:7,ca_p
 decision('young worker adult seller',{...sale,ca_prop64_used_young_person:'Yes'},'review');
 decision('young worker under21 seller',{...sale,ca_prop64_age_at_offense:20,ca_prop64_used_young_person:'Yes'},'satisfied','misdemeanor');
 decision('crossborder above4 concentrate',{...transfer,ca_prop64_cross_border:'import',ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:4.001},'review');
+// CA-L02 / GA-19: decimal text must stay on its own side of the adopted 4/8/28.5-gram limits.
+for (const [grams, status] of [['3.9999999999999999','satisfied'],['4','satisfied'],['04.0000','satisfied'],['4.0000000000000001','review']]) {
+ const input={...transfer,ca_prop64_transfer_conduct:'personal_transport',ca_prop64_cross_border:'import',ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:grams};
+ const result=decision('exact interstate concentrate '+grams,input,status,'satisfied'===status?'misdemeanor':undefined);
+ if(status==='review')check('interstate exception needs review, not an automatic denial',result.code,'cross_border_exception');
+ decision('saved decimal wrapper '+grams,{...input,ca_prop64_concentrate_grams:{value:grams,unknown:false}},status);
+ decision('unknown decimal '+grams,{...input,ca_prop64_concentrate_grams:{value:grams,unknown:true}},'missing');
+}
+for (const [grams,classification] of [['7.9999999999999999','no_offense'],['8.0000','no_offense'],['8.0000000000000001','misdemeanor']])
+ decision('exact ordinary concentrate '+grams,{...base,ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:grams},'satisfied',classification);
+for (const [grams,status] of [['28.4999999999999999','satisfied'],['28.5000','satisfied'],['28.5000000000000001','review']]) {
+ const result=decision('exact interstate flower '+grams,{...transfer,ca_prop64_cross_border:'import',ca_prop64_flower_grams:grams},status,status==='satisfied'?'misdemeanor':undefined);
+ if(status==='review')check('flower interstate exception',result.code,'cross_border_exception');
+}
+decision('nonzero decimal cannot underflow into a zero-quantity conflict',{...base,ca_prop64_flower_grams:'0.'+'0'.repeat(324)+'1'},'satisfied','no_offense');
 for (const a of [base,sale]) { const cls=a===base?'no_offense':'misdemeanor'; const remedy=a===base?'dismissal/sealing':'redesignation'; decision('completed '+cls,{...a,ca_prop64_branch:'completed-sentence application',ca_prop64_relief_requested:remedy},'satisfied',cls); decision('wrong remedy '+cls,{...a,ca_prop64_branch:'completed-sentence application',ca_prop64_relief_requested:remedy==='redesignation'?'dismissal/sealing':'redesignation'},'review'); }
 for(const value of ['Yes','No','unknown',undefined])decision('legacy is not evidence '+value,{...base,ca_prop64_qualifying_marijuana_offense:value,ca_prop64_lesser_or_no_offense:value},'satisfied');
 decision('legacy only never opens',{ca_prop64_qualifying_marijuana_offense:'Yes',ca_prop64_lesser_or_no_offense:'Yes'},'missing');

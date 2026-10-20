@@ -1,6 +1,6 @@
 import type { PublicQuestion } from "@/lib/rcap-engine/contracts";
 import { caProp64Choice, CA_PROP64_CURRENT, CA_PROP64_COMPLETED } from "@/lib/expungement-ai/ca-prop64-choices";
-import { CA_PROP64_QUANTITY_CONTRACT } from "@/lib/expungement-ai/ca-prop64-quantity";
+import { CA_PROP64_QUANTITY_CONTRACT, caProp64GramsExceed } from "@/lib/expungement-ai/ca-prop64-quantity";
 
 type Answers = Record<string, unknown>;
 type Decision = { status: "satisfied" | "missing" | "review"; code?: string; ids: string[]; classification?: "no_offense" | "infraction" | "misdemeanor" };
@@ -90,14 +90,14 @@ const priorIds = ["ca_prop64_prior_superstrike", "ca_prop64_prior_290c", "ca_pro
 function exceptionApplies(a: Answers) {
   const s = caProp64Section(a), age = number(a.ca_prop64_age_at_offense);
   if (s === "11360" && (a.ca_prop64_cross_border === "none" || a.ca_prop64_cross_border === "export_for_sale" && a.ca_prop64_transfer_conduct === "transport_for_sale") && a.ca_prop64_substance === "flower"
-    && (number(a.ca_prop64_flower_grams) ?? Infinity) <= 28.5 && (number(a.ca_prop64_flower_grams) ?? 0) > 0
+    && !caProp64GramsExceed(a.ca_prop64_flower_grams, 28.5) && caProp64GramsExceed(a.ca_prop64_flower_grams, 0)
     && ["unpaid_gift", "transport_for_sale"].includes(String(a.ca_prop64_transfer_conduct))) return false;
   if (s === "11360" && age !== undefined && age >= 21 && a.ca_prop64_cross_border === "none"
     && ["flower", "concentrate", "both"].includes(String(a.ca_prop64_substance))) {
     const ids = amountIds(a), quantities = ids.map(id => number(a[id]));
-    const small = quantities.every(n => n !== undefined) && quantities.some(n => n! > 0)
-      && (!ids.includes("ca_prop64_flower_grams") || number(a.ca_prop64_flower_grams)! <= 28.5)
-      && (!ids.includes("ca_prop64_concentrate_grams") || number(a.ca_prop64_concentrate_grams)! <= 8);
+    const small = quantities.every(n => n !== undefined) && ids.some(id => caProp64GramsExceed(a[id], 0))
+      && (!ids.includes("ca_prop64_flower_grams") || !caProp64GramsExceed(a.ca_prop64_flower_grams, 28.5))
+      && (!ids.includes("ca_prop64_concentrate_grams") || !caProp64GramsExceed(a.ca_prop64_concentrate_grams, 8));
     if (small && (a.ca_prop64_transfer_conduct === "personal_transport"
       || a.ca_prop64_transfer_conduct === "unpaid_gift" && (number(a.ca_prop64_recipient_age) ?? -1) >= 21)) return false;
   }
@@ -160,10 +160,10 @@ export function caProp64Facts(a: Answers, today: string): Decision {
   if (date(a.ca_prop64_offense_date, today)! >= "2016-11-09" || s === "11362.1") return review("date_or_current_statute", ["ca_prop64_offense_date", "ca_prop64_record_section"]);
   if (a.ca_prop64_court_type === "juvenile") return review("juvenile_forms", ["ca_prop64_court_type"]);
   if (a.ca_prop64_existing_relief !== "none") return review("prior_relief", ["ca_prop64_existing_relief", "ca_prop64_additional_benefit"]);
-  const flower = amountIds(a).includes("ca_prop64_flower_grams") ? number(a.ca_prop64_flower_grams)! : 0;
-  const concentrate = amountIds(a).includes("ca_prop64_concentrate_grams") ? number(a.ca_prop64_concentrate_grams)! : 0;
-  if (["11357", "11360"].includes(s) && amountIds(a).length && flower + concentrate <= 0) return review("record_conflict", amountIds(a));
-  const small = flower <= 28.5 && concentrate <= 8;
+  const flower = amountIds(a).includes("ca_prop64_flower_grams") ? a.ca_prop64_flower_grams : 0;
+  const concentrate = amountIds(a).includes("ca_prop64_concentrate_grams") ? a.ca_prop64_concentrate_grams : 0;
+  if (["11357", "11360"].includes(s) && amountIds(a).length && !caProp64GramsExceed(flower, 0) && !caProp64GramsExceed(concentrate, 0)) return review("record_conflict", amountIds(a));
+  const small = !caProp64GramsExceed(flower, 28.5) && !caProp64GramsExceed(concentrate, 8);
   if (["11357", "11360"].includes(s) && a.ca_prop64_substance === "other") return review("substance", ["ca_prop64_substance"]);
   let classification: Decision["classification"];
   if (s === "11357") {
@@ -173,7 +173,7 @@ export function caProp64Facts(a: Answers, today: string): Decision {
     if (age < 18) classification = "infraction";
     else if (context === "school_children") classification = "misdemeanor";
     else if (age >= 21 && small) classification = "no_offense";
-    else if (age < 21 && concentrate > 4 && concentrate <= 8) return review("concentrate_amendment", ["ca_prop64_concentrate_grams"]);
+    else if (age < 21 && caProp64GramsExceed(concentrate, 4) && !caProp64GramsExceed(concentrate, 8)) return review("concentrate_amendment", ["ca_prop64_concentrate_grams"]);
     else classification = age < 21 && small ? "infraction" : "misdemeanor";
   } else if (s === "11358") {
     const plants = number(a.ca_prop64_plant_count)!;
@@ -193,10 +193,10 @@ export function caProp64Facts(a: Answers, today: string): Decision {
     if (conduct === "unpaid_gift" && (!Number.isInteger(number(a.ca_prop64_recipient_age)) || number(a.ca_prop64_recipient_age)! > 120)) return missing(["ca_prop64_recipient_age"]);
     if (a.ca_prop64_cross_border === "other") return review("cross_border_conduct", ["ca_prop64_cross_border"]);
     if (a.ca_prop64_cross_border === "export_for_sale" && !["sale", "transport_for_sale"].includes(String(conduct))) return review("record_conflict", ["ca_prop64_cross_border", "ca_prop64_transfer_conduct"]);
-    if (age >= 18 && a.ca_prop64_cross_border !== "none" && (flower > 28.5 || concentrate > 4)) return review("cross_border_exception", ["ca_prop64_cross_border"]);
+    if (age >= 18 && a.ca_prop64_cross_border !== "none" && (caProp64GramsExceed(flower, 28.5) || caProp64GramsExceed(concentrate, 4))) return review("cross_border_exception", ["ca_prop64_cross_border"]);
     classification = age < 18 ? "infraction" : a.ca_prop64_cross_border === "import" ? "misdemeanor" : age >= 21 && small && a.ca_prop64_cross_border === "none"
       && (conduct === "personal_transport" || conduct === "unpaid_gift" && number(a.ca_prop64_recipient_age)! >= 21) ? "no_offense"
-      : a.ca_prop64_substance === "flower" && flower <= 28.5 && ["unpaid_gift", "transport_for_sale"].includes(String(conduct)) ? "infraction" : "misdemeanor";
+      : a.ca_prop64_substance === "flower" && !caProp64GramsExceed(flower, 28.5) && ["unpaid_gift", "transport_for_sale"].includes(String(conduct)) ? "infraction" : "misdemeanor";
   }
   if (exceptionApplies(a) && classification !== "no_offense") {
     const priors = number(a.ca_prop64_same_section_priors)!;

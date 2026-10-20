@@ -41,6 +41,8 @@ for(const pair of exactCaResultPairs){
 // Reuse the existing conduct test's literal 11360 unpaid-gift facts with the
 // retained cross-border 'other' review branch, keeping both procedure branches.
 const crossBorderReviewFacts={...facts,charge:'HSC11360',ca_prop64_transfer_conduct:'unpaid_gift',ca_prop64_cross_border:'other',ca_prop64_recipient_age:21,ca_prop64_prior_superstrike:'No',ca_prop64_prior_290c:'No',ca_prop64_same_section_priors:0,ca_prop64_knowing_minor_transaction:'No'};
+// CA-L02: retain the precise saved quantity through the actual public and protected consumers.
+const crossBorderPrecisionFacts={...crossBorderReviewFacts,ca_prop64_transfer_conduct:'personal_transport',ca_prop64_cross_border:'import',ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:'4.0000000000000001'};
 const evaluateAnswers=answers=>evaluate({jurisdiction:'CA',profileVersion:profile.profileVersion,matterId:'synthetic-ca-conduct',answers});
 for(const name of ['currently-serving','completed']){
  const fixture=JSON.parse(fs.readFileSync(new URL(`./fixtures/ca-prop64-protected-baseline/${name}.json`,import.meta.url)));
@@ -64,8 +66,17 @@ for(const name of ['currently-serving','completed']){
  const selected=selectScreeningQuestionIds(profile,pub,positive);for(const id of F.CA_PROP64_LEGACY_IDS)check(name+' legal conclusion not asked '+id,selected.includes(id),false);
  for(const id of F.caProp64ActiveFactIds(positive))check(name+' active fact asked '+id,selected.includes(id),true);
  const hidden={...positive,ca_prop64_plant_count:22,ca_prop64_prior_superstrike:'Yes'};const resumed=sanitizeResumedAnswersForQuestionIds(pub,hidden,selected);for(const id of ['ca_prop64_plant_count','ca_prop64_prior_superstrike',...F.CA_PROP64_LEGACY_IDS])check(name+' hidden raw retained '+id,resumed[id],hidden[id]);
- for(const [label,patch,expected]of [['legacy',{},'needs_more_info'],['positive',facts,target],['zero',{...facts,ca_prop64_flower_grams:0},'needs_review'],['juvenile',{...facts,ca_prop64_court_type:'juvenile'},'needs_review'],['oldrelief',{...facts,ca_prop64_existing_relief:'dismissed',ca_prop64_additional_benefit:'sealing'},'needs_review'],['school',{...facts,ca_prop64_possession_context:'school_children'},name==='completed'?'needs_review':target],['cross-border-other',crossBorderReviewFacts,'needs_review']]){
+ for(const [label,patch,expected]of [['legacy',{},'needs_more_info'],['positive',facts,target],['zero',{...facts,ca_prop64_flower_grams:0},'needs_review'],['juvenile',{...facts,ca_prop64_court_type:'juvenile'},'needs_review'],['oldrelief',{...facts,ca_prop64_existing_relief:'dismissed',ca_prop64_additional_benefit:'sealing'},'needs_review'],['school',{...facts,ca_prop64_possession_context:'school_children'},name==='completed'?'needs_review':target],['cross-border-other',crossBorderReviewFacts,'needs_review'],['cross-border-above-four',crossBorderPrecisionFacts,'needs_review']]){
   const answers={...base,...patch},rawBefore=structuredClone(answers),evaluation=evaluateAnswers(answers).evaluation;scenarios.push({name,label,answers,evaluation});check(name+'/'+label,evaluation.resultCode,expected);
+  if(label==='cross-border-above-four'){
+   check(name+' exact interstate predicate',F.caProp64Facts(answers,'2026-10-12'),{status:'review',code:'cross_border_exception',ids:['ca_prop64_cross_border']});
+   check(name+' precision review remains unpaid',evaluation.paymentAllowed,false);
+   const authoritative=evaluateAnswers(answers),seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:answers,dependencies:{},capturedAt:'2026-10-20T00:00:00Z'});
+   assert(seed);const record={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot},before=structuredClone(record);
+   const patch=P.packetInformationPatch({protectedVerification:record,answers:{}});assert(patch);
+   check(name+' exact decimal saved/no-op preservation',patch.protectedTransition.nextVerification,before);
+   check(name+' precision input not rounded',answers,rawBefore);
+  }
   const exactPair=label==='cross-border-other'?exactCaResultPairs[0]:name==='currently-serving'&&label==='positive'?exactCaResultPairs[1]:null;
   if(exactPair){
    const generated=exactPair.copy==='reason'?evaluation.reasons.map(reason=>reason.text):evaluation.cautions;
