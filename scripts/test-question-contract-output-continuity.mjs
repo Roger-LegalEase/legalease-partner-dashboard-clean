@@ -14,6 +14,7 @@ import {assertNdCustomReceiptSourceSuccession,ND_CUSTOM_RECEIPT_SOURCE_PATH} fro
 import {assertMsGuideEsSourceSuccession,MS_GUIDE_ES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaProp64StackSourceSuccession,CA_PROP64_STACK_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertNdCensusProseSourceSuccession,ND_CENSUS_PROSE_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertB28NvGa20SourceSuccession,B28_NV_GA20_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaSafeAtHomeSourceSuccession,CA_SAFE_AT_HOME_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertLeadSpanishSourceSuccession,LEAD_SPANISH_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -1003,6 +1004,13 @@ check('ND census-prose receipt re-pin hop preserves prior chain and refuses miss
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===ND_CENSUS_PROSE_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/ND census-prose receipt re-pin source succession record bytes changed/);
  assert.throws(()=>assertCaProp64StackSourceSuccession(file=>{if(file===ND_CENSUS_PROSE_SOURCE_PATH)throw Error('missing ND census-prose receipt re-pin record');return readBytes(file);}),/missing ND census-prose receipt re-pin record/);
  for(const input of ["src/lib/expungement-ai/nd-first-offense-family-inputs.ts"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('batch28 GA16 NV location history and GA20 helpers hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertB28NvGa20SourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,35);assert.equal(c.currentUnchangedSourceCount,163);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===B28_NV_GA20_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/batch28 GA16 NV location history and GA20 helpers source succession record bytes changed/);
+ assert.throws(()=>assertNdCensusProseSourceSuccession(file=>{if(file===B28_NV_GA20_SOURCE_PATH)throw Error('missing batch28 GA16 NV location history and GA20 helpers record');return readBytes(file);}),/missing batch28 GA16 NV location history and GA20 helpers record/);
+ for(const input of ["src/lib/expungement-ai/frontend/reviewed-source-question-copy.json", "src/lib/expungement-ai/reviewed-question-copy.ts", "src/lib/rcap-engine/california-prop64-facts.ts"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 // A succession record set must never outlive its call: after an honest load, a later drift still
