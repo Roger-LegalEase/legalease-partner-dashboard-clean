@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 492,
-    "rows": 1599,
+    "returnDirectories": 495,
+    "rows": 1602,
     "independentVerdicts": 344,
-    "failRepairRequired": 16,
-    "passIndependent": 327
+    "failRepairRequired": 17,
+    "passIndependent": 326
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
@@ -46,6 +46,7 @@
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
     "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
     "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+    "ca-prop64-set",
     "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
     "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
     "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
@@ -5873,7 +5874,7 @@
       "evidencePath": "data/rcap-grade-a/codex-cloud/current-byte-independent-verification-ca-prop64-in-infraction-il-cannabis/rows.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-prop64-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ca-prop64-set",
@@ -5943,6 +5944,36 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-prop64-set",
       "superseded": true
+    },
+    {
+      "familyId": "ca-prop64-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf06",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+      "failedObligations": [
+        {
+          "obligation": "KNOWN_PREFILLS",
+          "finding": "KNOWN_PREFILLS: the repository's completeness verifier, run on the current bytes at 0116da97d (verify-packet-completeness --family ca-prop64-set, MASTER_LIBRARY_SOURCE_DIR = the full library), returns FAIL_MISSING_REQUIRED_FACTS with knownRequiredFieldsMissing 22 (3/148 terminal fields written). The 22 known facts not written (auditFamily findings, read-only import): CR-400 EMAIL ADDRESS; CR-400 MAILING ADDRESS; CR-400 STREET ADDRESS; CR-400 TELEPHONE NUMBER; CR-401 Case Number; CR-401 Court mailing address; CR-401 Court street address; CR-401 Defendant; CR-401 Email address; CR-401 Street address; CR-401 Superior Court of California, County of; CR-401 Telephone number; CR-403 Case number; CR-403 Defendant; CR-403 Email address; CR-403 Mailing address; CR-403 People of the State of California v Defendant; CR-403 Street address; CR-403 Superior Court of California, County of; CR-403 Telephone number. The CR-400 field map writes exactly three values per variant (matter.county, matter.case_number, participant.full_legal_name; read back exactly from pdftotext of all four CR-400 fixtures) and refuses the whole 'ATTORNEY OR PARTY WITHOUT ATTORNEY' block as classified_unwritable_by_role, although the participant files self-represented and the platform holds their name, mailing address, telephone and email; CR-401 and CR-403 ship as unchanged official bytes, so their neutral captions (county, court address, case number, defendant), which participant-instructions.md itself assigns to preparer_from_record, stay blank although county, case number and name are written on CR-400. participant-instructions.md says so: 'The current field map writes exactly 3 fields ... It does not fill date of birth, other contact details or every recorded offense fact. Remaining known facts must be bound through a reviewed successor'. The render (renders/*-cr-400-1.png) shows the blank caption block.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        },
+        {
+          "obligation": "REQUIRED_BEFORE_FILING",
+          "finding": "REQUIRED_BEFORE_FILING: the same verifier run reports unclassifiedBlanks 27, blanks whose disposition is neither a disclosed required-before-filing item with a field identity, a protected/actor field, nor not-applicable: CR-400 11357 - Possession of Marijuana; CR-400 11358 - Cultivation of Marijuana; CR-400 11359 - Possession of Marijuana for Sale; CR-400 11360 - Transportation, Distribution, or Importation of Marijuana; CR-400 11362.1 - Personal Use of Marijuana; CR-400 CITY; CR-400 CITY AND ZIP CODE; CR-400 FAX NUMBER; CR-400 FIRM NAME; CR-400 NAME; CR-400 STATE; CR-400 ZIP CODE; CR-401 City; CR-401 Court city and zip code; CR-401 Fax number; CR-401 Firm name; CR-401 Name; CR-401 State; CR-401 Zip code; CR-403 Cas enumber; CR-403 City; CR-403 City and zip code; CR-403 Fax number; CR-403 Firm name; CR-403 Name; CR-403 State; CR-403 Zip. They include the five CR-400 item-1 conviction-section controls (11357, 11358, 11359, 11360, 11362.1), which the instructions disclose only in prose ('Item 1 asks for every applicable statute section'), and the attorney-only caption fields (firm, fax) that a self-represented filer leaves blank but that no field-level disposition classifies. requiredBeforeFilingCount 12 in the field map does not cover them.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "KNOWN_PREFILLS",
+        "REQUIRED_BEFORE_FILING"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20261020-reverify-ca-prop64-0116da97d.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ca-prop64-set",
+      "superseded": false
     },
     {
       "familyId": "ca-prop64-set",
@@ -10934,6 +10965,20 @@
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf03",
       "isIndependentVerification": true,
+      "verifiedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20261020-reverify-0116da97d.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_correct_misattributed_arrest-set",
+      "superseded": false
+    },
+    {
+      "familyId": "dc_correct_misattributed_arrest-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf03",
+      "isIndependentVerification": true,
       "verifiedAtBase": "efda1c0aa5e8e5c6b2b519dca84b0adaee66c595",
       "failedObligations": [],
       "failedObligationNames": [],
@@ -10941,7 +10986,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_correct_misattributed_arrest-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "dc_correct_misattributed_arrest-set",
@@ -44902,6 +44947,20 @@
     {
       "familyId": "wv_nc_diversion_deferred-set",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf11",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf11/rows-vf11-20261020-reverify-wv-nc-0116da97d.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf11/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_nc_diversion_deferred-set",
+      "superseded": false
+    },
+    {
+      "familyId": "wv_nc_diversion_deferred-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vfwv1",
       "isIndependentVerification": true,
       "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
@@ -44911,7 +44970,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfwv1/rows-vfwv1-20261019-reverify-1b48eb358.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family wv_nc_diversion_deferred-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "wv_nc_diversion_deferred-set",
