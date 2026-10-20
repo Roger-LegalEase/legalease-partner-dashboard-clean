@@ -647,8 +647,10 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
       { pathwayId: NY_16059_ROUTE, missingQuestionIds: history.ids ?? [], paymentAllowed: false });
   }
 
+  const caDecision = jurisdiction === "CA" && (isCaProp64Pathway(jurisdiction, preselectedPathway?.id) || caProp64ApplicationRequested(answers))
+    ? caProp64Facts(answers, evaluationToday().toISOString().slice(0, 10)) : null;
   // A21: an explicitly uncertain pardon precedes the Prop64 missing-fact gate.
-  if (jurisdiction === "CA" && isExplicitUnknownAnswer(answers.pardon_status)
+  if (caDecision && isExplicitUnknownAnswer(answers.pardon_status)
     && relevantFactIds(profile, preselectedPathway).has("pardon_status")
     && publicProfile.questions.some(question => question.id === "pardon_status"
       && question.contextOnly !== true && isPrepaymentQuestion(question))) {
@@ -658,8 +660,6 @@ function evaluateProfileRules(profile: EngineProfile, request: ScreeningEvaluati
     }), nextSteps: [text] };
   }
 
-  const caDecision = jurisdiction === "CA" && (isCaProp64Pathway(jurisdiction, preselectedPathway?.id) || caProp64ApplicationRequested(answers))
-    ? caProp64Facts(answers, evaluationToday().toISOString().slice(0, 10)) : null;
   if (caDecision && caDecision.status !== "satisfied") return result(profile, request,
     caDecision.status === "missing" ? "needs_more_info" : "needs_review",
     [reason("CA", `ca_prop64_${caDecision.code}`, CA_PROP64_REASON_COPY[caDecision.code!][0], CA_PROP64_SOURCE)],

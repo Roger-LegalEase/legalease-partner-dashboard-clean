@@ -52,7 +52,7 @@ const base = completePublicAnswers(pub);
 const request = answers => ({ jurisdiction: "CA", profileVersion: profile.profileVersion, matterId: "synthetic-a21", answers });
 const evaluate = answers => evaluateScreening(request(answers));
 const english = 'Confirm whether you received a pardon or similar official relief for this case. Keep "I am not sure" if you do not know, and update your saved answer when you can confirm it. Checkout and packet generation remain unavailable until this fact is resolved.';
-const spanish = 'Confirme si recibió un indulto u otra medida oficial similar para este caso. Mantenga "No estoy seguro/a" si no lo sabe y actualice su respuesta guardada cuando pueda confirmarlo. El pago y la generación del paquete no estarán disponibles hasta que se aclare este hecho.';
+const spanish = 'Confirme si recibió un indulto u otra medida oficial similar para este caso. Mantenga "No estoy seguro" si no lo sabe y actualice su respuesta guardada cuando pueda confirmarlo. El pago y la generación del paquete no estarán disponibles hasta que se aclare este hecho.';
 
 test("A21 counterexample: explicit uncertain pardon precedes missing Prop64 conduct facts", () => {
   const result = evaluate({ ...base, pardon_status: "I am not sure" });
@@ -157,5 +157,16 @@ test("A21 actual result card renders the pardon guidance in English and Spanish"
     })));
     const literal = renderToStaticMarkup(React.createElement("span", null, expected)).slice(6, -7);
     assert.ok(markup.includes(literal), locale + " exact pardon guidance is visible");
+  }
+});
+
+
+test("A21 preserves unrelated arrest-record exclusion precedence", () => {
+  for (const [category, resultCode, reason] of [["None of these", "needs_review", "ca.source_fact_unknown"], ["Sex offense or registration", "likely_not_eligible", "ca.state_exclusion_selected"]]) {
+    const result = evaluate({ ...base, ca_prop64_next_step: "other_relief", possible_pathway_context: "Tool 4 — Arrest record sealing", pardon_status: "I am not sure", state_exclusion_categories: [category] });
+    assert.equal(result.resultCode, resultCode);
+    assert.equal(result.reasons[0].code, reason);
+    assert.equal(result.paymentAllowed, false);
+    assert.equal(result.packetPlan, undefined);
   }
 });
