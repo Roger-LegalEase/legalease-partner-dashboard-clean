@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF09",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+  "verifier": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimLedger": "/workspaces/training-modules-09-10/output/nationwide-correction-execution-20261011/review-evidence/lead-batch29/a9-claims/claim-ledger.json",
+  "claimAssertions": {
+    "rcap-ga-guidance-implementation": "CLAIM_OK VF09 rcap-ga-guidance-implementation (independent-verification, grant set 1c6319b6441f6094)"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound record hash from bytes; these families bind committed repository records and no corpus bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) with amendments A1-A4 applied as written, under the owner's later decisions where one governs the family (OWNER_BATCH_ADOPTION_2026-09-02 Q4: no unconfirmed fee figure is published).",
+    "SERVICE": "Met by a named rule, an affirmative statement that nobody is served, or, where no held record establishes it, a named checkable authority (DET-FEE-AND-WAIVER-001 appliesTo); silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names (A1: the repository answer first)."
+  },
+  "rows": [
+    {
+      "itemId": "rcap-ga-guidance-implementation",
+      "lane": "VF09",
+      "worker": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+      "verifiedAt": "2026-10-20T14:16:14Z",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "MASTER_LIBRARY_SOURCE_DIR=<corpus> node review-evidence/ci-factory/vf-reverify-f3ff92ac2/measure-family.mjs (verify-packet-completeness.mjs --family) in /tmp/legalease-reviewer-20261020 detached at 0116da97daa896e517323f18c01a1a33de0ceaee: PASS_COMPLETE 6/17 written"
+      },
+      "sourceIdentityEvidence": [
+        {
+          "path": "data/record-clearing/legal-design-specifications.json",
+          "sha256Prefix": "10b02286702b",
+          "byteLength": 16830109,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json",
+          "sha256Prefix": "e00332bc0579",
+          "byteLength": 11907,
+          "matchesReceipt": true
+        },
+        {
+          "path": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+          "sha256Prefix": "918bc6616e23",
+          "byteLength": 37333,
+          "matchesReceipt": true
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "sha256Prefix": "eeabd8b97786",
+          "byteLength": 2635434,
+          "matchesReceipt": true
+        }
+      ],
+      "artifactHashes": [
+        {
+          "fixture": "canonical",
+          "sha256": "4483d38b301e8e1dc018ac65e7737cd39df5a8c082603c60b0ba293f9d17f6d0",
+          "byteLength": 14152,
+          "pageCount": 5,
+          "recordAndRasterExact": true
+        },
+        {
+          "fixture": "boundary",
+          "sha256": "7d9c01ba8bb734b99237b923a07b1cc7a64a6771651c626a78203f8f474199e3",
+          "byteLength": 14307,
+          "pageCount": 5,
+          "recordAndRasterExact": true
+        }
+      ],
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "familyId rcap-ga-guidance-implementation agrees across source-receipt, production-field-map, product-wiring and MASTER_QUEUE, all on obligation:track-pathway:GA:ga-rfo:retroactive-first-offender-treatment-under-42-8-66; the census carries the same routeKey (routes[361]) with packetFamilyId rcap-ga-guidance-implementation."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "Recomputed from disk at 0116da97daa896e517323f18c01a1a33de0ceaee: all 4 receipt pins equal the bytes (legal-design-specifications.json 10b02286702b/16830109 B; 2026-08-28-controlling-decisions.json e00332bc0579/11907 B; national-report-2026-08-28.json 918bc6616e23/37333 B; route-obligation-candidate.json eeabd8b97786/2635434 B); receipt-pins.txt."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "declared = rendered = ga-rfo-participant-factual-record-1, ga-rfo-process-guidance-2 (requiredComponentsMissing 0). The committed guidance specification records that no petition is generated on this pre-consent route; the packet says the post-consent petition family is separate and does not substitute for it."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "All 6 recorded writes per fixture read back from pdftotext -layout of the fixture bytes (6/6 both): full legal name, date of birth, mailing address, telephone and email; the boundary differs from the canonical only in those values (text/canonical.txt vs text/boundary.txt). No signature, date, election or authority field is inked."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "production-field-map requiredBeforeFilingCount 9: items C1-C9 of the factual record, each a labelled two-line dotted blank in the committed record's own question wording; participant-instructions.md lists the same nine and the documents to obtain (sentencing record and plea paperwork from the convicting court clerk; GCIC history)."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "routeSelectionsMade 1, the family's single route (Sec. 42-8-66 pre-consent guidance). C1 is printed as the gate question (\"If you were, this is not your route\") and is left to the participant; nothing is pre-answered."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating structure is declared (repeatingRows 0) and none is printed."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "The factual record's DATE and SIGNATURE line is blank with \"Nothing on this page is signed or dated for you\" (p2); no caption and no consent document are produced (instructions \"Things the platform deliberately left blank\"); protectedWrites 0."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "Recomputed here: canonical.pdf 4483d38b301e8e1dc018ac65e7737cd39df5a8c082603c60b0ba293f9d17f6d0/14152 B and boundary.pdf 7d9c01ba8bb734b99237b923a07b1cc7a64a6771651c626a78203f8f474199e3/14307 B, 5 pages each by pdfinfo, equal to reports/rendered-artifacts.json; product-wiring binds the canonical sha. A9 run 39430479568 (RASTER_PASS, rendered at dba387ad6f1fa778edbccd7873772c9c5e7cf839) binds both pins, 10 pages, every PNG sha256 recomputed from the downloaded bytes (rv16-a9-39430479568/RV16-REVIEW-39430479568.json)."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "Each fixture: factual record pp1-2 (identity block, C1-C9, signature line), process guidance pp3-5 (what the route is and who runs it, post-order tracking and checklist, what you do and do not do, cost, service, stops, desks), matching the component order in participant-instructions.md."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "pdftotext -bbox at 0116da97d: 0 words outside the page box and 0 same-band overlapping pairs on either fixture (canonical 1344 / boundary 1350 words). Every page of A9 run 39430479568 viewed: legible, inside margins, the boundary's long name, address and email wrap cleanly, no collision."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "Nothing in this stage is filed (p1, p3 headings); the route's destination is the prosecuting attorney for written consent first, then the convicting court, and the consent step is outside self-help (p4). Equal to the census destination (\"The prosecuting attorney first, then the convicting court\")."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "DET-FEE-AND-WAIVER-001 second prong: \"WHAT IT COSTS\" (p4) states there is no fee and quotes the source, \"There shall be no filing fee charged for a petition filed pursuant to O.C.G.A. Sec. 42-8-66, per Sec. 42-8-66(h)\", with the route contract recording the same; no waiver is needed. The instructions name the clerk of the convicting court and GCIC for the record-copy costs that are not filing fees."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "p4 \"WHO MUST BE SERVED\": nothing is served before the consented filing stage; after consent, service and court distribution follow the separate petition family; the post-order section tracks the court's distribution to the petitioner, prosecuting attorney, GCIC and DDS rather than participant service."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "p4-p5 \"WHEN TO STOP AND GET HELP INSTEAD\": always at the consent stage; the prosecuting attorney declines or does not respond; eligibility turns on what was said at sentencing; a contested evidentiary hearing; immigration. p3 adds a stop for any uncertain post-order date, qualification, distribution or record update; p5 names four Georgia expungement desks."
+        }
+      },
+      "observations": [
+        {
+          "what": "Component identifiers and route key in participant-instructions.md (builder-vocabulary and route-key classes)",
+          "detail": "The instructions table lists `ga-rfo-participant-factual-record-1` / `ga-rfo-process-guidance-2` and ends with \"_Route(s): obligation:track-pathway:GA:ga-rfo:..._\". The PDFs no longer print the route line (removed since 1b48eb358, with the ** emphasis delimiters; text/canonical.1b48eb358-vs-now.diff). Recorded, not scored."
+        }
+      ],
+      "evidence": {
+        "directory": "output/nationwide-correction-execution-20261011/review-evidence/reviewer/rv17-ga-guidance/read-0116da97d",
+        "measure": "facts.json, measure.log",
+        "receipt": "source-receipt.json, receipt-pins.txt",
+        "text": "text/canonical.txt, text/boundary.txt, text/*.1b48eb358-vs-now.diff (old/ holds the 1b48eb358 bytes)",
+        "records": "participant-instructions.md, product-wiring.json, production-field-map.json, json-diff-1b48eb358.txt",
+        "raster": "review-evidence/reviewer/rv16-a9-39430479568/RV16-REVIEW-39430479568.json"
+      },
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion."
+    }
+  ]
+}
