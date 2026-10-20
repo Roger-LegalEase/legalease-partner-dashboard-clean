@@ -5,6 +5,7 @@ on:
     paths:
       - .github/workflows/rcap-nv-special-completion.yml
       - scripts/build-census-v1-rcap-nv-custom-pleading.mjs
+      - scripts/test-nv-route-title-instructions.mjs
       - scripts/rcap-packet-recovery/nv-special-routes.mjs
       - scripts/rcap-packet-recovery/test-nv-special-routes.mjs
       - scripts/rcap-packet-recovery/verify-nv-unchanged-pages.py
@@ -18,6 +19,7 @@ on:
     paths:
       - .github/workflows/rcap-nv-special-completion.yml
       - scripts/build-census-v1-rcap-nv-custom-pleading.mjs
+      - scripts/test-nv-route-title-instructions.mjs
       - scripts/rcap-packet-recovery/nv-special-routes.mjs
       - scripts/rcap-packet-recovery/test-nv-special-routes.mjs
       - scripts/rcap-packet-recovery/verify-nv-unchanged-pages.py
@@ -69,6 +71,8 @@ jobs:
           sudo apt-get install -y --no-install-recommends poppler-utils
           python3 -m venv "$RUNNER_TEMP/nv-pdf-review"
           "$RUNNER_TEMP/nv-pdf-review/bin/pip" install --disable-pip-version-check PyMuPDF==1.26.7
+      - name: Verify route titles and continuation instructions
+        run: node --test scripts/test-nv-route-title-instructions.mjs
       - name: Rebuild twice and compare every tracked family byte
         run: |
           set -euo pipefail
