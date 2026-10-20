@@ -16,6 +16,7 @@ import {assertCaProp64StackSourceSuccession,CA_PROP64_STACK_SOURCE_PATH} from '.
 import {assertNdCensusProseSourceSuccession,ND_CENSUS_PROSE_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertB28NvGa20SourceSuccession,B28_NV_GA20_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertB30CoSourceSuccession,B30_CO_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertB31CaPardonSourceSuccession,B31_CA_PARDON_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaSafeAtHomeSourceSuccession,CA_SAFE_AT_HOME_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertLeadSpanishSourceSuccession,LEAD_SPANISH_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -1019,6 +1020,13 @@ check('batch30 CO JDF417 routing and section 8b hop preserves prior chain and re
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===B30_CO_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/batch30 CO JDF417 routing and section 8b source succession record bytes changed/);
  assert.throws(()=>assertB28NvGa20SourceSuccession(file=>{if(file===B30_CO_SOURCE_PATH)throw Error('missing batch30 CO JDF417 routing and section 8b record');return readBytes(file);}),/missing batch30 CO JDF417 routing and section 8b record/);
  for(const input of ["src/lib/expungement-ai/frontend/reviewed-result-display-copy.json", "src/lib/rcap-engine/conviction-relief-request.ts"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('batch31 CA pardon not-sure hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertB31CaPardonSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,35);assert.equal(c.currentUnchangedSourceCount,163);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===B31_CA_PARDON_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/batch31 CA pardon not-sure source succession record bytes changed/);
+ assert.throws(()=>assertB30CoSourceSuccession(file=>{if(file===B31_CA_PARDON_SOURCE_PATH)throw Error('missing batch31 CA pardon not-sure record');return readBytes(file);}),/missing batch31 CA pardon not-sure record/);
+ for(const input of ["src/lib/expungement-ai/frontend/reviewed-result-display-copy.json"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 // A succession record set must never outlive its call: after an honest load, a later drift still
