@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
 import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * FABLE-PD agency-application treatment — Colorado mistaken-identity
@@ -1172,6 +1173,7 @@ function countCompleteness(maps, writeProofs, instructionsText) {
 
 /* ---- outputs ------------------------------------------------------------------- */
 function writeJson(rel, value) {
+  if (path.basename(rel) === "source-receipt.json") value = preserveIdentityRefresh(fs, path.join(ROOT, rel), value);
   fs.mkdirSync(path.dirname(path.join(ROOT, rel)), { recursive: true });
   fs.writeFileSync(path.join(ROOT, rel), `${JSON.stringify(value, null, 2)}\n`);
 }
