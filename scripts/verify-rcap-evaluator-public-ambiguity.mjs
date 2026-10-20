@@ -36,7 +36,9 @@ function completePublicAnswers(pub) {
     if (id === "disposition_date" || id === "arrest_date") { answers[id] = "2015-01-01"; continue; }
     if (question.type === "yes_no_unsure") { answers[id] = "No"; continue; }
     if (Array.isArray(question.options) && question.options.length) {
-      answers[id] = question.options.find((opt) => !/i am not sure|unknown|prefer not|none of these/i.test(opt)) || question.options[0];
+      const option = question.options.find((opt) => !/i am not sure|unknown|prefer not|none of these/i.test(opt)) || question.options[0];
+      // A public multi_select answer is a list; the evaluator rejects a scalar as an unknown question id.
+      answers[id] = question.type === "multi_select" ? [option] : option;
       continue;
     }
     answers[id] = id.includes("date") ? "2015-01-01" : "N/A";
