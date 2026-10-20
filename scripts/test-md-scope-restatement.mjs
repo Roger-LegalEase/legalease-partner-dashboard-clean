@@ -54,6 +54,8 @@ try {
     ['transition removed',r=>r.deltas[0].scopeRestatement.sharedSourceContinuity[1].transitions.splice(12,1),/exact Item 11/],
     ['MD change relabelled',r=>{r.deltas[0].scopeRestatement.sharedSourceContinuity[1].transitions.find(t=>t.commit.startsWith('252fc5867')).classification='non_md_continuity'},/exact Item 11/],
     ['intermediate acceptance invented',r=>{r.deltas[0].scopeRestatement.sharedSourceContinuity[1].transitions.find(t=>t.commit.startsWith('f84ea78c7')).admission='ACCEPT'},/exact Item 11/],
+    ['VA continuity omitted',r=>r.deltas[0].scopeRestatement.sharedSourceContinuity.pop(),/exact Item 11/],
+    ['VA prior binding forged',r=>{r.deltas[0].scopeRestatement.sharedSourceContinuity[2].sourceBindings[0].previousSha256='0'.repeat(64)},/exact Item 11/],
     ['scope widened',r=>r.deltas[0].scopeRestatement.scope.push('all jurisdictions'),/exact Item 11/],
     ['foreign jurisdiction',r=>r.deltas[0].jurisdiction='VA',/exact Item 11/],
     ['foreign path',r=>r.deltas[0].scopeRestatement.bindings['src/foreign.ts']={priorSha256:'0'.repeat(64),newSha256:'1'.repeat(64)},/exact Item 11/],
@@ -67,5 +69,5 @@ try {
     const changed=structuredClone(fixture);mutate(changed);save(changed);
     assert.throws(()=>loadApprovedParityDeltas({rootDir:dir}),marker,name);checks++;
   }
-  console.log(JSON.stringify({status:'PASS',checks,mutants:15,scope:'MD only; original approval and other delta records unchanged'}));
+  console.log(JSON.stringify({status:'PASS',checks,mutants:17,scope:'MD only; original approval and other delta records unchanged'}));
 } finally { fs.rmSync(dir,{recursive:true,force:true}); }

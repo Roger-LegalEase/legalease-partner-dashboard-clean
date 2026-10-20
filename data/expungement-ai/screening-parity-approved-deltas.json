@@ -304,11 +304,11 @@
           },
           "src/lib/rcap-engine/evaluator.ts": {
             "priorSha256": "7e0a2ff3fb9dc580e81ebc31dbf96c5c8a255da301f106423620087ddacc9a95",
-            "newSha256": "4d8d1b08cfe85780a91b2e74a60c7c500ffc56eaef6fe24e18d913d721cde9b8"
+            "newSha256": "2f832448c0efa6f5989695eab904886090d5b5f39e1c7bc5243b9d7754ba8aa4"
           },
           "src/lib/rcap-engine/public-profile-projection.ts": {
             "priorSha256": "50b74b22af960407689291f5fc1c283b11e77224568454fc0a1ecdba3a1fe0d3",
-            "newSha256": "e7b9978420245dceee4fa674b023e2188db3240e23ffca47c815bf29ae0d7470"
+            "newSha256": "8bad18e499f5e4a451555002b2af4dead0353e781aec2f7280770efef48d3d32"
           }
         },
         "proofPath": "scripts/test-md-source-stage-reconciliation.mjs",
@@ -1483,6 +1483,44 @@
                 "independentReviewSha256": "43bd2a0e1c2b470ef13055d6428a51dddd69b1185a05b856ce06f02a233b8aab"
               }
             ]
+          },
+          {
+            "originalRequirement": "Owner Item12(c) VA record-origin, stacked on Item11 per Lead 2026-10-20T00:44Z",
+            "sourceRange": "f3bbf848e241f331adc871dc33b860ebaeab48ac..5f383a2bc9f452581d1a42656faa463d4452bd9c",
+            "stackBase": "83cdbb5634d5e2ca713900b3599e1e9e20e4bbea",
+            "priorRestatementSha256": "1c7f70facadf703e8e67777cf287ec8752fc3a76823c312d89d8349d26e6e2a5",
+            "sourceBindings": [
+              {
+                "path": "src/lib/rcap-engine/evaluator.ts",
+                "previousSha256": "4d8d1b08cfe85780a91b2e74a60c7c500ffc56eaef6fe24e18d913d721cde9b8",
+                "currentSha256": "2f832448c0efa6f5989695eab904886090d5b5f39e1c7bc5243b9d7754ba8aa4"
+              },
+              {
+                "path": "src/lib/rcap-engine/public-profile-projection.ts",
+                "previousSha256": "e7b9978420245dceee4fa674b023e2188db3240e23ffca47c815bf29ae0d7470",
+                "currentSha256": "8bad18e499f5e4a451555002b2af4dead0353e781aec2f7280770efef48d3d32"
+              }
+            ],
+            "behavioralProofs": [
+              {
+                "path": "scripts/test-va-record-origin.mjs",
+                "sha256": "97e3263fac44850f06ae9fac2fd3e5eb96741ea1ccf91729084cd1f60967cd45"
+              },
+              {
+                "path": "scripts/test-va-record-origin-api.mjs",
+                "sha256": "afa28e764173137482d019acf7e6126b468a03a95d818ee4f75e486ae51563b9"
+              },
+              {
+                "path": "scripts/test-va-three-victim-applicability.mjs",
+                "sha256": "17ae12dc32d3f8a722f36cacbe65dd1cc53cc623ee4b229b3bfb64bac597daa5"
+              },
+              {
+                "path": "scripts/test-md-10103-source-stage.mjs",
+                "sha256": "25aa9fb3ee3c4eb7e54b5544fd6fb85fb34c67099573c21a63297aaeca9d5a54"
+              }
+            ],
+            "independentReview": "REQUIRED on the stacked candidate; no review verdict asserted by this declaration",
+            "statement": "Explicit VA-only origin collection and refusal successor on the already restated shared evaluator/projection. Preserve the MD signed scope, its whole historical transition list, all saved answers and the adopted MD/VA successor union. The candidate must pass current MD and VA behavior proofs. No new MD semantics, commercial authority or legal/language approval is asserted."
           }
         ]
       },

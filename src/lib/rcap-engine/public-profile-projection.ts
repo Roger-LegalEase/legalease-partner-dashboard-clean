@@ -16,6 +16,7 @@ import { ND_FIRST_OFFENSE_FACT_IDS, ND_FIRST_OFFENSE_QUESTIONS } from "@/lib/rca
 import { OR_DISPOSITION_QUESTIONS, OR_DISPOSITION_SOURCE, OR_DISPOSITION_FACT_IDS } from "@/lib/rcap-engine/oregon-disposition-identity";
 import { MT_DEFERRED_FACT_IDS, MT_DEFERRED_QUESTIONS } from "@/lib/rcap-engine/montana-deferred-facts";
 import { MO_MARIJUANA_FACT_IDS, MO_MARIJUANA_STATUS_QUESTIONS } from "@/lib/rcap-engine/missouri-marijuana-status-facts";
+import { VA_RECORD_ORIGIN_ID, VA_RECORD_ORIGIN_QUESTION } from "@/lib/rcap-engine/virginia-record-origin";
 import { AR_RECORD_ORIGIN_ID, AR_RECORD_ORIGIN_QUESTION } from "@/lib/rcap-engine/arkansas-record-origin";
 import { GA_PARDON_FACT_IDS, GA_PARDON_QUESTIONS, GA_PARDON_LABEL, GA_PARDON_OLD_LABEL } from "@/lib/rcap-engine/georgia-pardon-facts";
 import { convictionReliefQuestions } from "@/lib/rcap-engine/conviction-relief-request";
@@ -75,6 +76,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   SD: new Set(SD_SIS_FACT_IDS),
   CT: new Set(CT_PETITION_FACT_IDS.filter(id => id !== "last_conviction_date")),
   AR: new Set([AR_RECORD_ORIGIN_ID]),
+  VA: new Set([VA_RECORD_ORIGIN_ID]),
   DE: new Set(DE_CONVICTION_FACT_IDS),
   KS: new Set(KS_RECORD_SCOPE_FACT_IDS),
   GA: new Set([...GA_SB288_FACT_IDS, ...GA_PARDON_FACT_IDS, ...GA_FIRST_OFFENDER_FACT_IDS, ...convictionReliefQuestions("GA").map(q => q.id)]),
@@ -1169,6 +1171,7 @@ function withWilmaFactQuestions(
     : profile.jurisdiction.code === "SD" ? [...WILMA_FACT_QUESTIONS, ...SD_SIS_QUESTIONS]
     : profile.jurisdiction.code === "CT" ? [...WILMA_FACT_QUESTIONS, ...CT_PETITION_QUESTIONS]
     : profile.jurisdiction.code === "TX" ? [...WILMA_FACT_QUESTIONS, ...TX_ND_QUESTIONS]
+    : profile.jurisdiction.code === "VA" ? [...WILMA_FACT_QUESTIONS, VA_RECORD_ORIGIN_QUESTION]
     : profile.jurisdiction.code === "AR" ? [...WILMA_FACT_QUESTIONS, AR_RECORD_ORIGIN_QUESTION]
     : profile.jurisdiction.code === "CA" ? [...WILMA_FACT_QUESTIONS, ...CA_PROP64_FACT_QUESTIONS, ...(caProbationContract ? CA_12034_QUESTIONS : [])]
     : profile.jurisdiction.code === "GA" ? [...WILMA_FACT_QUESTIONS, ...GA_FIRST_OFFENDER_QUESTIONS, ...GA_PARDON_QUESTIONS, ...GA_SB288_QUESTIONS]

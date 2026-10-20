@@ -1,3 +1,4 @@
+import { VA_RECORD_ORIGIN_ID, VA_RECORD_ORIGIN_SOURCE, virginiaRecordOrigin, virginiaRecordOriginApplies } from "@/lib/rcap-engine/virginia-record-origin";
 import { WY_1502_FACT_IDS, wy1502Context, wy1502QuestionApplies } from "@/lib/rcap-engine/wyoming-1502-facts";
 import { SD_SIS_FACT_IDS, southDakotaSisContext, southDakotaSisQuestionApplies } from "@/lib/rcap-engine/south-dakota-sis-facts";
 import { IL_PROSTITUTION_FACT_ID, illinoisProstitutionContext } from "@/lib/rcap-engine/illinois-prostitution-facts";
@@ -1198,6 +1199,32 @@ export function arkansasRecordOriginHeldSuccessor(snapshot: ProtectedPacketAutho
   const seeded = protectedPacketDraftSeedFromAuthoritative({ authoritative, screeningAnswers: answerRecord(snapshot.screeningAnswers),
     prefilledAnswers: answerRecord(snapshot.prefilledAnswers), packetAnswers: answerRecord(snapshot.packetAnswers), dependencies: snapshot.dependencies,
     capturedAt: "capturedAt" in snapshot ? snapshot.capturedAt : snapshot.verifiedAt });
+  return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
+}
+
+/** A missing origin tightens only an unverified source-bound predecessor. The
+ * hypothetical Virginia answer reproduces its old tuple; it is never saved. */
+export function virginiaRecordOriginHeldSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>,
+  status: ProtectedPacketVerificationRecord["status"]): ProtectedPacketDraftSnapshot | null {
+  const profile = getProfileByJurisdiction("VA"), evaluation = authoritative.evaluation;
+  const maps = { ...snapshot.screeningAnswers, ...snapshot.prefilledAnswers, ...snapshot.packetAnswers };
+  if (!["unverified", "invalidated"].includes(status) || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || !snapshot.pathwayId || !virginiaRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId)
+    || Object.hasOwn(maps, VA_RECORD_ORIGIN_ID) || !profile
+    || snapshot.profileVersion !== profile.profileVersion || snapshot.profileSourceFingerprint !== profile.source?.sourceCorpusSha256
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, snapshot.pathwayId)
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts("VA", snapshot.pathwayId))
+    || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: snapshot.packetPlan?.mode ?? null, sourceFormIds: snapshot.packetPlan?.sourceFormIds ?? [] })
+    || evaluation.resultCode !== "needs_more_info" || evaluation.paymentAllowed
+    || !evaluation.reasons.some(reason => reason.code === "va.record_origin_unknown" && reason.sourceRef === VA_RECORD_ORIGIN_SOURCE)
+    || !evaluation.missingQuestionIds.includes(VA_RECORD_ORIGIN_ID)
+    || !protectedRouteAuthorityMatches({ ...snapshot, resultCode: evaluation.resultCode, paymentAllowed: false }, authoritative)) return null;
+  const previous = evaluateProtectedPacketFacts({ ...snapshot, packetAnswers: { ...snapshot.packetAnswers, [VA_RECORD_ORIGIN_ID]: "virginia" } });
+  if (!previous || !protectedRouteAuthorityMatches(snapshot, previous)) return null;
+  const seeded = protectedPacketDraftSeedFromAuthoritative({ authoritative, screeningAnswers: answerRecord(snapshot.screeningAnswers),
+    prefilledAnswers: answerRecord(snapshot.prefilledAnswers), packetAnswers: answerRecord(snapshot.packetAnswers), dependencies: snapshot.dependencies,
+    capturedAt: "capturedAt" in snapshot ? snapshot.capturedAt : (snapshot as { verifiedAt: string }).verifiedAt });
   return seeded ? preserveUnchangedProtectedFacts(seeded.snapshot, snapshot, new Set()) : null;
 }
 
@@ -2409,6 +2436,14 @@ export function ny16059AdoptedClockHeldSuccessor(snapshot: ProtectedPacketAuthor
 export function virginiaVictimHeldDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
   authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>,
   status: ProtectedPacketVerificationRecord["status"]): NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>> | null {
+  // Reproduce the former comparison tuple only for an already-planless hold;
+  // the inferred origin is neither persisted nor returned as participant data.
+  if (["unverified", "invalidated"].includes(status) && snapshot.jurisdiction === "VA" && snapshot.packetPlan === null
+    && ![snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.packetAnswers].some(map => Object.hasOwn(map, VA_RECORD_ORIGIN_ID))
+    && authoritative.evaluation.reasons.some(reason => reason.code === "va.record_origin_unknown" && reason.sourceRef === VA_RECORD_ORIGIN_SOURCE)) {
+    const previous = evaluateProtectedPacketFacts({ ...snapshot, packetAnswers: { ...snapshot.packetAnswers, [VA_RECORD_ORIGIN_ID]: "virginia" } });
+    return previous ? virginiaVictimHeldDraftSuccessor(snapshot, previous, status) : null;
+  }
   const profile = getProfileByJurisdiction("VA"), evaluation = authoritative.evaluation, route = evaluation.pathwayId;
   if (!["unverified", "invalidated"].includes(status) || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
     || snapshot.jurisdiction !== "VA" || !profile || !route || !virginiaVictimQuestionContract(profile, route)
@@ -2547,7 +2582,7 @@ export function protectedPacketInformationModelFor(
   const neAuthority = snapshot.jurisdiction === "NE" && snapshot.pathwayId === "automatic-nonconviction-sealing"
     ? evaluateProtectedPacketFacts(snapshot) : null;
   if (neAuthority) snapshot = nebraskaAcquittalHeldSuccessor(snapshot, neAuthority) ?? snapshot;
-  if ((isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId) || isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) || snapshot.jurisdiction === "MS" && snapshot.pathwayId === MS_MIP_ROUTE || arkansasRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId))
+  if ((isCaProp64Pathway(snapshot.jurisdiction, snapshot.pathwayId) || isNy16059Packet(snapshot.jurisdiction, snapshot.pathwayId) || snapshot.jurisdiction === "MS" && snapshot.pathwayId === MS_MIP_ROUTE || arkansasRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId) || virginiaRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId))
     && (!canonicalEqual(snapshot.serverFacts, canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId))
       || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: snapshot.packetPlan?.mode ?? null, sourceFormIds: snapshot.packetPlan?.sourceFormIds ?? [] }))) return null;
   if (LEGAL_AUTHORITY_METADATA_SUCCESSORS.some(row => row.jurisdiction === snapshot!.jurisdiction
@@ -2574,7 +2609,7 @@ export function protectedPacketInformationModelFor(
     && protectedRouteAuthorityMatches({ ...snapshot, resultCode: evaluation.resultCode }, authoritative)) {
     snapshot = { ...snapshot, resultCode: evaluation.resultCode };
   }
-  const factualSuccessor = wyoming1502HeldDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProstitutionHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? ohioDiversionDraftSuccessor(snapshot, authoritative) ?? factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative);
+  const factualSuccessor = wyoming1502HeldDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProstitutionHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? ohioDiversionDraftSuccessor(snapshot, authoritative) ?? factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative) ?? virginiaRecordOriginHeldSuccessor(snapshot, authoritative, verification.status);
   if (factualSuccessor) snapshot = factualSuccessor;
   const contractSuccessor = !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)
     ? mnTwoCountyDraftSuccessor(snapshot, authoritative, verification.status) ?? reviewedPacketContractSuccessor(snapshot, evaluation.packetPlan) : null;
@@ -2710,9 +2745,15 @@ export function protectedPacketInformationModelFor(
     legacy.inspection.effectiveInvalidIds,
     heldFactualCorrectionIds, snapshot.dependencies.recordFactConfirmations
   );
+  if (vaHeldSuccessor) {
+    // Previously accepted planless holds remain readable without a new editor.
+    questionSurface.questions = questionSurface.questions.filter(question => question.id !== VA_RECORD_ORIGIN_ID);
+    questionSurface.builderQuestions = questionSurface.builderQuestions.filter(question => question.id !== VA_RECORD_ORIGIN_ID);
+    questionSurface.questionById.delete(VA_RECORD_ORIGIN_ID);
+  }
   questionSurface.questions = legacyShapeQuestionMetadata(questionSurface.questions, legacy.inspection.effectiveInvalidIds);
   questionSurface.builderQuestions = legacyShapeQuestionMetadata(questionSurface.builderQuestions, legacy.inspection.effectiveInvalidIds);
-  if (!packetPlan || arkansasRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId)) for (const id of factualPathwayCorrectionIds(snapshot.jurisdiction, snapshot.pathwayId, initialAnswers)) {
+  if (!packetPlan || arkansasRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId) || virginiaRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId)) for (const id of factualPathwayCorrectionIds(snapshot.jurisdiction, snapshot.pathwayId, initialAnswers)) {
     const question = questionSurface.questions.find(candidate => candidate.id === id);
     if (question && !questionSurface.builderQuestions.some(candidate => candidate.id === id)) questionSurface.builderQuestions.push(question);
   }
@@ -2761,6 +2802,8 @@ export function protectedPacketInformationModelFor(
   }
   if (arkansasRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId) && arkansasRecordOrigin(initialAnswers) === "unknown"
     && !missingInputIds.includes(AR_RECORD_ORIGIN_ID)) missingInputIds.push(AR_RECORD_ORIGIN_ID);
+  if (!vaHeldSuccessor && virginiaRecordOriginApplies(snapshot.jurisdiction, snapshot.pathwayId) && virginiaRecordOrigin(initialAnswers) === "unknown"
+    && !missingInputIds.includes(VA_RECORD_ORIGIN_ID)) missingInputIds.push(VA_RECORD_ORIGIN_ID);
   // Current source completion facts do not alter the evaluator's route/result
   // or stored plan.
   const ctContact = ctCleanSlateContactInputs(snapshot);
@@ -3308,6 +3351,7 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
       || caAutomaticRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)))
     && Object.hasOwn(answers, "record_type")) return [...extra, "record_type"];
   // Felony taxonomy participates in explicit history persistence, not the held editor.
+  if (virginiaRecordOriginApplies(state, pathway)) return [...extra, VA_RECORD_ORIGIN_ID];
   if (arkansasRecordOriginApplies(state, pathway)) return [...extra, AR_RECORD_ORIGIN_ID,
     ...((arNonconvictionRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || includeInactive && arFelonyRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)))
@@ -3583,6 +3627,9 @@ export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtC
       if (allowed.has(id) && model.questions.some(question => question.id === id)) ids.add(id);
     }
   }
+  if (virginiaRecordOriginApplies(model.stateCode, model.pathwayId)
+    && ["guidance_only", "not_covered_yet"].includes(resultCode ?? "")
+    && editablePacketInputIds(model).has(VA_RECORD_ORIGIN_ID)) ids.add(VA_RECORD_ORIGIN_ID);
   // These Arkansas guidance holds still own an explicit record-origin fact.
   // Keep that correction reachable without opening other guidance inputs or
   // changing the route's packet, verification or commercial authority.
@@ -3591,6 +3638,7 @@ export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtC
     && editablePacketInputIds(model).has(AR_RECORD_ORIGIN_ID)) ids.add(AR_RECORD_ORIGIN_ID);
   if (["not_yet", "needs_more_info", "needs_review", "likely_not_eligible"].includes(resultCode ?? "")) {
     for (const id of routeFactualCorrectionIds(model)) {
+      if (id === VA_RECORD_ORIGIN_ID && !model.questions.some(question => question.id === id)) continue;
       if (id === "financial_obligations") {
         const question = model.questions.find(candidate => candidate.id === id);
         const value = { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }[id];

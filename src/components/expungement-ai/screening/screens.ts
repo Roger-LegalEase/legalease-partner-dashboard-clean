@@ -1,3 +1,4 @@
+import { VA_RECORD_ORIGIN_ID } from "@/lib/rcap-engine/virginia-record-origin";
 import { IL_PROSTITUTION_FACT_ID } from "@/lib/rcap-engine/illinois-prostitution-facts";
 import { CT_PETITION_FACT_IDS, ctPetitionDateQuestion } from "@/lib/rcap-engine/connecticut-clean-slate-petition-facts";
 import { GA_SB288_FACT_IDS } from "@/lib/rcap-engine/georgia-sb288-facts";
@@ -124,6 +125,7 @@ export function sanitizeAnswersForQuestionIds(
     // route-scoped evaluation decides whether they are currently relevant.
     || Boolean(profile?.jurisdiction.code === "NV" && NEVADA_176A_ROUTE_SAFETY_FACT_IDS.includes(questionId)
       && profile.questions.some(question => question.id === questionId))
+    || Boolean(profile?.jurisdiction.code === "VA" && [VA_RECORD_ORIGIN_ID, "residency_or_location", "court", "county_or_filing_location"].includes(questionId))
     || Boolean(profile?.jurisdiction.code === "AR" && [AR_RECORD_ORIGIN_ID, "residency_or_location", "court", "county_or_filing_location"].includes(questionId))
     || Boolean(profile?.jurisdiction.code === "IL" && questionId === IL_PROSTITUTION_FACT_ID
       && profile.questions.some(question => question.id === questionId))

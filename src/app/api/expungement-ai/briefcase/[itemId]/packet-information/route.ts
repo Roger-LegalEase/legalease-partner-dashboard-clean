@@ -192,7 +192,7 @@ export async function POST(
   // Match the page's validated successor instead of the historical draft result.
   // This controls owner corrections only; verification and commercial holds remain.
   const savedResult = protectedModel.resultCode;
-  const factualCorrectionIds = protectedModel ? [...factualPathwayCorrectionIds(protectedModel.stateCode, protectedModel.pathwayId, protectedModel.initialAnswers), ...(protectedModel.heldFactualCorrectionIds ?? [])] : [];
+  const factualCorrectionIds = protectedModel ? [...factualPathwayCorrectionIds(protectedModel.stateCode, protectedModel.pathwayId, protectedModel.initialAnswers), ...(protectedModel.heldFactualCorrectionIds ?? [])].filter(id => protectedModel.stateCode !== "VA" || protectedModel.questions.some(question => question.id === id)) : [];
   const financialCorrection = protectedModel && heldPacketCorrectionInputIds(protectedModel, savedResult ?? null).has("financial_obligations");
   if (!protectedModel?.packetPlan && !protectedModel?.caProp64Clarification && !protectedModel?.caJuvenilePreparationFactIds
     && !financialCorrection && !factualCorrectionIds.length

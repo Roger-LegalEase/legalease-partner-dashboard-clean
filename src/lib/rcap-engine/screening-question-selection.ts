@@ -1,3 +1,4 @@
+import { VA_RECORD_ORIGIN_ID, virginiaRecordOriginApplies } from "@/lib/rcap-engine/virginia-record-origin";
 import { wy1502QuestionApplies } from "@/lib/rcap-engine/wyoming-1502-facts";
 import { southDakotaSisQuestionApplies } from "@/lib/rcap-engine/south-dakota-sis-facts";
 import { illinoisProstitutionQuestionApplies } from "@/lib/rcap-engine/illinois-prostitution-facts";
@@ -182,6 +183,7 @@ export function selectScreeningQuestionIds(
     .filter(question => maineNonconvictionQuestionApplies(profile.jurisdiction.code, maineFinancialQuestionPathway, answers, question.id))
     .filter(question => nebraskaNonconvictionQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, answers, question.id))
     .filter(question => louisianaAutomationStatusQuestionApplies(profile.jurisdiction.code, selectedPathway?.id, question.id))
+    .filter(question => question.id !== VA_RECORD_ORIGIN_ID || virginiaRecordOriginApplies(profile.jurisdiction.code, selectedPathway?.id) && answers.jurisdiction_scope !== "Federal")
     .filter(question => question.id !== AR_RECORD_ORIGIN_ID || arkansasRecordOriginApplies(profile.jurisdiction.code, selectedPathway?.id))
     .filter(question => convictionReliefQuestionApplies(profile, answers, question.id))
     .filter(question => profile.jurisdiction.code !== "MS" || !MS_EXACT_TIMING_FACT_IDS.some(id => id === question.id) || msTimingIds.has(question.id))

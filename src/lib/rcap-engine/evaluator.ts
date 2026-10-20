@@ -1,3 +1,4 @@
+import { VA_RECORD_ORIGIN_ID, VA_RECORD_ORIGIN_SOURCE, VA_RECORD_ORIGIN_COPY, virginiaRecordOrigin, virginiaRecordOriginApplies } from "@/lib/rcap-engine/virginia-record-origin";
 import { wy1502Context, wy1502Facts, WY_1502_SOURCE, WY_1502_COPY } from "@/lib/rcap-engine/wyoming-1502-facts";
 import { southDakotaSisContext, southDakotaSisFacts, SD_SIS_COPY, SD_SIS_SOURCE } from "@/lib/rcap-engine/south-dakota-sis-facts";
 import { illinoisProstitutionContext, illinoisProstitutionFacts, IL_PROSTITUTION_FACT_ID, IL_PROSTITUTION_COPY, IL_PROSTITUTION_SOURCE } from "@/lib/rcap-engine/illinois-prostitution-facts";
@@ -303,6 +304,17 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     return { ...evaluated, reasons: [...evaluated.reasons, reason("SD", `sis_${facts.code}`, SD_SIS_COPY[facts.code], SD_SIS_SOURCE)],
       missingQuestionIds: [...new Set([...evaluated.missingQuestionIds, ...facts.ids])],
       nextSteps: [SD_SIS_COPY[facts.code], ...evaluated.nextSteps], paymentAllowed: false };
+  }
+  if (evaluated.pathwayId && virginiaRecordOriginApplies(profile.jurisdiction.code, evaluated.pathwayId)
+    && !["hard_stop", "likely_not_eligible"].includes(evaluated.resultCode)) {
+    const origin = virginiaRecordOrigin(request.answers);
+    if (origin !== "virginia") {
+      const code = origin === "unknown" ? "unknown" : "outside", text = VA_RECORD_ORIGIN_COPY[code][0];
+      return { ...evaluated, resultCode: code === "unknown" ? "needs_more_info" : "likely_not_eligible",
+        reasons: [reason("VA", `record_origin_${code}`, text, VA_RECORD_ORIGIN_SOURCE), ...evaluated.reasons],
+        missingQuestionIds: [...new Set([...evaluated.missingQuestionIds, ...(code === "unknown" ? [VA_RECORD_ORIGIN_ID] : [])])],
+        nextSteps: [text, ...evaluated.nextSteps], paymentAllowed: false };
+    }
   }
   if (!evaluated.pathwayId || !arkansasRecordOriginApplies(profile.jurisdiction.code, evaluated.pathwayId)
     || ["hard_stop", "likely_not_eligible"].includes(evaluated.resultCode)) return evaluated;
