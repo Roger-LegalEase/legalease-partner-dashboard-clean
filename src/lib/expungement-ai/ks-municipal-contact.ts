@@ -9,7 +9,7 @@ export const KS_MUNICIPAL_CONTACT_SOURCE = {
   familyId: "rcap-ks-custom-pleading", page: 1,
   mapPath: "data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/production-field-map.json",
   mapSha256: "cd85d71ca23b942b21297da5dde2da1c446ddee9833c03c901aa6771288c3af2",
-  sourceReceiptSha256: "c8db1ab7efbe38dd36582bc8a27b5c5e99faecda7b4bdf4356bf49ab25bf1430",
+  sourceReceiptSha256: "3bc874983218ff179a8f681b1ab7acfb8d052021fbdaeab7e4196f326edb75c4",
   approvalId: "auth-2026-08-19-owner-legal-approval-completed-output",
   adoptionId: "EXT-ADOPT-01-standing-external-counsel-adoption",
   profileSha256: "a8231b14f6a5e29b2a2923c0705390fdefdf8ad17b711bf8d192a1419131e500",
