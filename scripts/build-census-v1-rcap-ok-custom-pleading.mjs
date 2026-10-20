@@ -3519,7 +3519,7 @@ const SPEC = {
         "",
         "IF THE ANSWER IS YES",
         "",
-        "The motion in this packet is not enough on its own. An arrest-record expungement is a separate route under 22 O.S. Sec. 18, with its own petition, its own hearing and its own cost - the registry records that expunging a court record is free while a separate arrest-record expungement carries a $150 processing fee. Ask about that route before you rely on this one, and do not tell anyone your record is clear on the strength of a section 991c order alone.",
+        "The motion in this packet is not enough on its own. An arrest-record expungement is a separate route under 22 O.S. Sec. 18, with its own petition, its own hearing and its own cost: OSBI states that a separate arrest-record expungement carries a $150 processing fee; the court's fee for this section 991c motion is not established (see BEFORE YOU FILE - SECTION 991c in this packet). Ask about that route before you rely on this one, and do not tell anyone your record is clear on the strength of a section 991c order alone.",
         "",
         "WHAT TO DO",
         "",
@@ -3545,7 +3545,7 @@ const SPEC = {
       "condition": null,
       "body": [
         "IN THE {{DOTS:60}} COURT",
-        "(The Oklahoma district court that entered the deferred sentence - see the filing instructions in this packet)",
+        "(The Oklahoma district court that entered the deferred sentence - see BEFORE YOU FILE - SECTION 991c in this packet)",
         "",
         "IN RE: {{participant.full_legal_name}},",
         "PETITIONER.",
@@ -3635,8 +3635,8 @@ const SPEC = {
           "kind": "rbf",
           "id": "court_identity",
           "label": "The court named in the caption of the petition - the printed line IN THE ............ COURT",
-          "supply": "the Oklahoma district court for the county where the arrest information is located - take the county from the certified court record and confirm the court with that county's district court clerk",
-          "why": "the committed track registry records the venue as the district court in the county where the arrest information is located, and the platform holds no county or court for this participant; the committed generation requirements ask for it directly"
+          "supply": "the Oklahoma district court that entered the deferred sentence - copy its identity from the case record and confirm it with that court's clerk",
+          "why": "the committed ok_991c_deferred track records the venue as the Oklahoma district court that entered the deferred sentence; the participant supplies that court from the case record"
         },
         {
           "kind": "rbf",
@@ -3737,7 +3737,7 @@ const SPEC = {
           "id": "order_court_identity",
           "label": "The court named in the caption of the proposed order - the printed line IN THE ............ COURT",
           "supply": "the same Oklahoma district court you name on the petition, written into the proposed order so the two captions match",
-          "why": "the committed track registry records the venue as the district court in the county where the arrest information is located, and the platform holds no county or court for this participant; the committed generation requirements ask for it directly"
+          "why": "the committed ok_991c_deferred track records the venue as the Oklahoma district court that entered the deferred sentence; the participant supplies that court from the case record"
         },
         {
           "kind": "court",
@@ -3778,7 +3778,7 @@ const SPEC = {
         "",
         "WHAT AN ORDER ON THIS ROUTE ACTUALLY DOES - AND WHAT IT DOES NOT",
         "",
-        "Everything below is quoted from the committed legal-design track registry's own record for this route. Nothing on this page is composed by this build and nothing is filed with it.",
+        "The legal-effect statement below comes from the committed legal-design track registry. Practical filing questions follow it. This disclosure page is not filed with the motion.",
         "",
         "Oklahoma says expungement but in most adult contexts means sealing. Fully sealed records are unavailable to the public and to law enforcement, with OSBI retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement. Title 22 section 19 does not authorise physical destruction, a sealed record may be unsealed on changed conditions or a compelling reason, and under section 19(N) a sealed record not unsealed within ten years may be obliterated or destroyed.",
         "",
@@ -3788,7 +3788,15 @@ const SPEC = {
         "",
         "WHAT THIS PACKET CANNOT PROMISE",
         "",
-        "It cannot promise the court will grant the order, and it cannot promise which category of sealing you will land in. Both are the court's decisions. This page tells you what the committed record says the order does, so that nobody tells you it does more."
+        "It cannot promise the court will grant the order, and it cannot promise which category of sealing you will land in. Both are the court's decisions. This page tells you what the committed record says the order does, so that nobody tells you it does more.",
+        "",
+        "BEFORE YOU FILE - SECTION 991c",
+        "",
+        "File the motion in the Oklahoma district court that entered the deferred sentence. Use that same court in the motion and proposed-order captions.",
+        "",
+        "The held record does not establish a filing fee or fee waiver for the section 991c motion. Before filing, ask the clerk of the Oklahoma district court that entered the deferred sentence whether a fee applies and whether a fee waiver is available. The separate $150 OSBI arrest-record processing fee does not establish the fee for this court-record motion.",
+        "",
+        "The held record does not establish service or notice requirements for this section 991c motion. Before filing, ask the clerk of the Oklahoma district court that entered the deferred sentence who must receive the motion or notice and how. Do not assume that the section 18 court-notice procedure applies to this motion."
       ],
       "writes": [
         {
@@ -4556,11 +4564,11 @@ const SPEC = {
     ],
     [
       "FEE_AND_WAIVER — Update an Oklahoma deferred sentence so the case shows as dismissed",
-      "Fee as recorded: Not established for the section 991c motion. The Oklahoma State Bureau of Investigation states that expunging a court record is free; a separate arrest-record expungement carries a $150 processing fee. Fee waiver as recorded: Not established."
+      "The held record does not establish a filing fee or fee waiver for the section 991c motion. Before filing, ask the clerk of the Oklahoma district court that entered the deferred sentence whether a fee applies and whether a fee waiver is available. The separate $150 OSBI arrest-record processing fee does not establish the fee for this court-record motion."
     ],
     [
       "SERVICE — Update an Oklahoma deferred sentence so the case shows as dismissed",
-      "Service as recorded: Not established. Notice as recorded: Not established for this motion."
+      "The held record does not establish service or notice requirements for this section 991c motion. Before filing, ask the clerk of the Oklahoma district court that entered the deferred sentence who must receive the motion or notice and how. Do not assume that the section 18 court-notice procedure applies to this motion."
     ],
     [
       "SELF_HELP_STOP — Update an Oklahoma deferred sentence so the case shows as dismissed",
@@ -4657,11 +4665,11 @@ const SPEC = {
     ]
   ],
   "steps": [
-    "**Read the filing instructions page for your route.** It names the court or office this goes to, what the record says about cost and about service, and when to stop.",
+    "**Read the filing instructions page for your route.** It names the court or office this goes to, what the record says about cost and about service, and when to stop. For section 991c, read BEFORE YOU FILE - SECTION 991c in this packet instead.",
     "**Fill every labelled dotted blank on the pages for your route**, from the record itself. Do not guess a date, an offence wording, a case number or an office name.",
     "**Sign and date each page that carries a signing line, personally.** The platform never signs for you and never dates a signing line.",
     "**Do not sign or date any certificate or proof of delivery until the papers have actually been delivered.**",
-    "**File the pages for your route where the filing instructions page says they go**, and ask that office what it charges and how it accepts filings before you go.",
+    "**File the pages for your route where the filing instructions page says they go**, and ask that office what it charges and how it accepts filings before you go. For section 991c, use the court named under BEFORE YOU FILE - SECTION 991c in this packet.",
     "**Leave every page that belongs to the court or the prosecuting attorney blank.** Those decisions are not yours to make."
   ],
   "deliberatelyBlank": [
