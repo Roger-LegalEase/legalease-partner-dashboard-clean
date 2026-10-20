@@ -780,6 +780,7 @@ function readableCaption(label) {
  * appearance this build flattened.
  */
 const OUTPUT_GLYPH_READING_FAMILIES = new Set([
+  "ny_160_59_petition-set",
   "pa_6308_underage-set",
   "nj_ordinance-set",
   "nj_disorderly_persons-set",
