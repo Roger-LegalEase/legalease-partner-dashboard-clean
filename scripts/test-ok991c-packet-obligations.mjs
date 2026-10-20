@@ -44,6 +44,10 @@ for(const fixture of ['canonical','boundary']){
   assert.ok(text.includes(`${heading} File the motion in the ${court}.`));
   assert.ok(!text.includes('see BEFORE YOU FILE on the effect-disclosure page'));
  });
+ check(`${fixture}: arrest-record screen distinguishes OSBI processing from the unknown motion fee`,()=>{
+  assert.ok(text.includes("OSBI states that a separate arrest-record expungement carries a $150 processing fee; the court's fee for this section 991c motion is not established (see BEFORE YOU FILE - SECTION 991c in this packet)."));
+  assert.ok(!text.includes('the registry records that expunging a court record is free'));
+ });
  check(`${fixture}: fee/service uncertainty and arrest-record limits survive in saved bytes`,()=>{
   assert.ok(text.includes(fee));
   assert.ok(text.includes(service));

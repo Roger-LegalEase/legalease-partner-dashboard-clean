@@ -3519,7 +3519,7 @@ const SPEC = {
         "",
         "IF THE ANSWER IS YES",
         "",
-        "The motion in this packet is not enough on its own. An arrest-record expungement is a separate route under 22 O.S. Sec. 18, with its own petition, its own hearing and its own cost - the registry records that expunging a court record is free while a separate arrest-record expungement carries a $150 processing fee. Ask about that route before you rely on this one, and do not tell anyone your record is clear on the strength of a section 991c order alone.",
+        "The motion in this packet is not enough on its own. An arrest-record expungement is a separate route under 22 O.S. Sec. 18, with its own petition, its own hearing and its own cost: OSBI states that a separate arrest-record expungement carries a $150 processing fee; the court's fee for this section 991c motion is not established (see BEFORE YOU FILE - SECTION 991c in this packet). Ask about that route before you rely on this one, and do not tell anyone your record is clear on the strength of a section 991c order alone.",
         "",
         "WHAT TO DO",
         "",
