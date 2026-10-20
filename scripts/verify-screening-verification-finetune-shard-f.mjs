@@ -91,6 +91,12 @@ const expected = {
   }
 };
 
+// Item11: exact MD source-stage metadata and MT no-filing effective-date successors.
+// Historical pins remain below; no other profile surface is admitted.
+const legalSurfaceSuccessors = {
+  MD: { prior: '36be6bbc3d24856bd12dd39a700ba70a783b6131d35cc7b1b7298e176bac4e2d', current: 'bd0b611760fa85e664b42251c353033361c691e1ca75a2611b5b0955c2156a53' },
+  MT: { prior: '0097fa8710970de4209af06ed911f6dada0c557484d4bd7dda07eb9af4eced37', current: 'd1dc5f78502c559d913a7114e5bc08c8574e8fe716c0d7180bf370532cf92496' }
+};
 const legalSurfaceHashes = {
   // Rehashed for Batch B: Louisiana gained a contract for the art. 977(D)/998
   // route and had two ungated LD-LA-05 contracts superseded by gated ones.
@@ -371,7 +377,9 @@ for (const [state, spec] of Object.entries(expected)) {
   delete legalSurface.questionLifecycle;
   for (const pathway of legalSurface.pathways ?? []) delete pathway.lawrenceRatification;
   const hash = crypto.createHash("sha256").update(JSON.stringify(legalSurface)).digest("hex");
-  check(hash === legalSurfaceHashes[state], `${state}: legal/route/packet profile surface changed (${hash})`);
+  const successor = legalSurfaceSuccessors[state];
+  check(hash === legalSurfaceHashes[state] || successor?.prior === legalSurfaceHashes[state] && hash === successor.current,
+    `${state}: legal/route/packet profile surface changed (${hash})`);
 }
 
 const manifest = readJson(MANIFEST_PATH);
