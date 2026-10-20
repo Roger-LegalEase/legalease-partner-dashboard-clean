@@ -851,7 +851,7 @@ const SPEC = {
       "routeKey": "obligation:track-pathway:WV:wv_drug_conditional_discharge:first-offense-drug-possession-conditional-discharge-relief",
       "statute": "W. Va. Code § 60A-4-407(a); W. Va. Code § 60A-4-407(b); W. Va. Code § 60A-4-407(c); W. Va. Code § 60A-4-401(c); W. Va. Code § 60A-4-407a",
       "instrument": "West Virginia § 60A-4-407 Expungement Application",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the composed pages for this route, in their titles and bodies; no page prints a route footer"
     }
   ],
   "obligationTable": [
