@@ -618,7 +618,11 @@ const CA17_NEUTRAL_WRITES = Object.freeze({
   }),
 });
 
-function caMappingsForFamilyForm(familyId, config, formNumber) {
+function caMappingsForFamilyForm(familyId, config, formNumber,
+  prop64Facts = { ...CANONICAL, "filer.representation": "self_represented" }) {
+  if (familyId === CA_PROP64_FAMILY) return caProp64CaptionBindings({
+    familyId, facts: prop64Facts,
+  }).mappings[formNumber];
   const base = formNumber === config.primaryForm ? CA_PRIMARY_WRITES[config.primaryForm] : {};
   if (formNumber === config.primaryForm) assert.ok(base, `${config.primaryForm}: no bounded primary mapping`);
   if (familyId !== CA17_FAMILY_ID) return base;
@@ -637,7 +641,8 @@ function caFactsForPacket(familyId, fixture, variant) {
   const offenseFacts = familyId === CA17_FAMILY_ID ? ca17FixtureFacts(fixture).facts : {};
   const familyFacts = familyId === CA17_FAMILY_ID
     ? { knownDeliveredDocumentName: "Petition for Dismissal (CR-180)" } : {};
-  return { ...base, ...familyFacts, ...offenseFacts, ...variant.controlFacts };
+  return { ...base, ...familyFacts, ...offenseFacts, ...variant.controlFacts,
+    ...(familyId === CA_PROP64_FAMILY ? { "filer.representation": "self_represented" } : {}) };
 }
 
 // Exact semantic aliases for source labels whose wording does not match the
@@ -1485,7 +1490,7 @@ function caBridgeRequest(familyId, config, resolved, mode) {
       formNumber: source.formNumber,
       sourcePath,
       sha256: source.sha256,
-      derivedPath: source.formNumber === config.primaryForm || familyId === CA17_FAMILY_ID
+      derivedPath: source.formNumber === config.primaryForm || [CA17_FAMILY_ID, CA_PROP64_FAMILY].includes(familyId)
         ? abs(`${out}/derived-sources/${source.formNumber.toLowerCase()}-pikepdf-unlocked.pdf`)
         : null,
     })),
@@ -1584,9 +1589,9 @@ function caFinalizerCensus(formCensus) {
  * the sibling CA families that share the same four-form packet shape.
  */
 function caRefusalDisposition(source, field, {
-  familyId = null, formNumber = null, measuredMc031Labels = false,
+  familyId = null, formNumber = null, measuredMc031Labels = false, filerRepresentation = null,
 } = {}) {
-  const prop64 = caProp64RefusalDisposition(field, { familyId, formNumber });
+  const prop64 = caProp64RefusalDisposition(field, { familyId, formNumber, filerRepresentation });
   if (prop64) return prop64;
   const subject = `${field.name} ${field.tooltip ?? ""}`;
   const pushButton = field.fieldType === "/Btn" && field.flags?.includes("pushButton") === true;
@@ -1801,7 +1806,8 @@ function caRefusalDisposition(source, field, {
   return requiredBeforeFiling("the platform holds no exact fact for this terminal field; surface the field to the participant and do not guess.");
 }
 
-function caMapAndCensus(familyId, config, bridge) {
+function caMapAndCensus(familyId, config, bridge,
+  prop64Facts = { ...CANONICAL, "filer.representation": "self_represented" }) {
   const documents = [];
   const writes = [];
   const selections = [];
@@ -1843,7 +1849,7 @@ function caMapAndCensus(familyId, config, bridge) {
     const source = CA_FORMS[formNumber];
     const form = bridge.forms[formNumber];
     assert.ok(form, `${formNumber}: pikepdf census missing`);
-    const formMappings = caMappingsForFamilyForm(familyId, config, formNumber);
+    const formMappings = caMappingsForFamilyForm(familyId, config, formNumber, prop64Facts);
     const mappedNames = new Set();
     const fieldRows = form.fields.map((field) => {
       const baseFactId = formMappings[field.name] ?? null;
@@ -1917,6 +1923,7 @@ function caMapAndCensus(familyId, config, bridge) {
       }
       const disposition = caRefusalDisposition(source, field, {
         familyId, formNumber,
+        filerRepresentation: prop64Facts["filer.representation"],
         measuredMc031Labels: config.useMeasuredMc031Labels === true && formNumber === "MC-031",
       });
       /*
@@ -1976,7 +1983,7 @@ function caMapAndCensus(familyId, config, bridge) {
       derivativesUsedForMeasurement: false,
       explicitMappingsByVariant: Object.fromEntries(variants.map((variant) => [variant.variantId, {
         ...Object.fromEntries(config.formNumbers.flatMap((formNumber) =>
-          Object.entries(caMappingsForFamilyForm(familyId, config, formNumber)))),
+          Object.entries(caMappingsForFamilyForm(familyId, config, formNumber, prop64Facts)))),
         ...variant.textControls,
       }])),
       statutorySelectionsByVariant: Object.fromEntries(variants.map((variant) => [variant.variantId,
@@ -5120,7 +5127,7 @@ async function buildCa(familyId, config) {
     resetOwnedCaOutput(familyId);
     const bridge = runPikepdfBridge(caBridgeRequest(familyId, config, resolved, "create"));
     const derivatives = normalizeDerivativeRecords(bridge.derivatives);
-    const expectedDerivativeForms = familyId === CA17_FAMILY_ID
+    const expectedDerivativeForms = [CA17_FAMILY_ID, CA_PROP64_FAMILY].includes(familyId)
       ? config.formNumbers : [config.primaryForm];
     assert.deepEqual(derivatives.map((row) => row.formNumber).sort(), [...expectedDerivativeForms].sort(),
       `${familyId}: source-derived form set drifted`);
@@ -5173,6 +5180,9 @@ async function buildCa(familyId, config) {
       const packetDocuments = [];
       for (const document of packet.documents) {
         const formCensus = bridge.forms[document.formNumber];
+        const formVariant = familyId === CA_PROP64_FAMILY ? { ...variant,
+          selections: variant.selections.filter(row => row.fieldName.startsWith(`${document.formNumber}[0].`)),
+        } : variant;
         const sourceRow = resolvedByForm.get(document.formNumber);
         assert.ok(formCensus && sourceRow, `${packet.packetId}/${document.formNumber}: source evidence absent`);
         let proof;
@@ -5193,7 +5203,7 @@ async function buildCa(familyId, config) {
           const unwritableFields = finalizerCensus.filter((field) => !writableNames.has(field.name))
             .map((field) => ({ field: field.name }));
           const result = await finalizeCaPrimaryFixture({
-            formCensus, variant,
+            formCensus, variant: formVariant,
             officialOptions: {
               sourceBytes: derivedBytes,
               expectedSha256: derivative.derivedSha256,
@@ -5223,7 +5233,7 @@ async function buildCa(familyId, config) {
           proof = await verifyCaArtifact({
             familyId, formNumber: document.formNumber, formCensus, fieldMap,
             outputFile: document.file, outputBytes: result.bytes,
-            report: result.report, facts, fixture: packet.fixture, variant,
+            report: result.report, facts, fixture: packet.fixture, variant: formVariant,
             routeTextReport: result.routeTextReport,
             selectionReport: result.selectionReport,
             pdfLibWarnings: result.pdfLibWarnings,
@@ -5669,7 +5679,7 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
   const resolvedByForm = new Map(resolved.map((row) => [row.source.formNumber, row]));
   const receipt = readJson(`${out}/source-receipt.json`);
   checkReceipt(familyId, receipt, resolved);
-  const expectedDerivativeForms = familyId === CA17_FAMILY_ID
+  const expectedDerivativeForms = [CA17_FAMILY_ID, CA_PROP64_FAMILY].includes(familyId)
     ? config.formNumbers : [config.primaryForm];
   assert.deepEqual(receipt.derivedRepairs.map((row) => row.formNumber).sort(),
     [...expectedDerivativeForms].sort());
@@ -5738,7 +5748,9 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
       : /signature|sigdate|service|mailing certificate|attorney|atty|lawyer|prosecutor|clerk|agency/i;
     const exactCa17Neutral = familyId === CA17_FAMILY_ID
       && Object.hasOwn(CA17_NEUTRAL_WRITES[write.formNumber] ?? {}, write.fieldName);
-    assert.equal(protectedSubject.test(subject) && !exactCa17Neutral, false,
+    const exactProp64Caption = familyId === CA_PROP64_FAMILY
+      && caMappingsForFamilyForm(familyId, config, write.formNumber)?.[write.fieldName] === write.factId;
+    assert.equal(protectedSubject.test(subject) && !exactCa17Neutral && !exactProp64Caption, false,
       `${write.fieldName}: protected field is writable`);
   }
   if (config.participantMarksStatutoryElections) {
@@ -5794,6 +5806,9 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
     for (const document of packet.documents) {
       const sourceRow = resolvedByForm.get(document.formNumber);
       const formCensus = bridge.forms[document.formNumber];
+      const formVariant = familyId === CA_PROP64_FAMILY ? { ...variant,
+        selections: variant.selections.filter(row => row.fieldName.startsWith(`${document.formNumber}[0].`)),
+      } : variant;
       const artifact = rendered.artifacts.find((candidate) =>
         candidate.packetId === packet.packetId && candidate.formNumber === document.formNumber);
       const recordedProof = actual.artifacts.find((candidate) =>
@@ -5812,7 +5827,7 @@ async function checkCa(familyId, config, { quiet = false, requireCompletionClaim
           familyId, formNumber: document.formNumber, formCensus, fieldMap,
           outputFile: artifact.file, outputBytes: bytes,
           report: { written: recordedProof.finalizerWritten, refused: recordedProof.finalizerRefused },
-          facts, fixture: packet.fixture, variant,
+          facts, fixture: packet.fixture, variant: formVariant,
           routeTextReport: recordedProof.routeTextReport,
           selectionReport: recordedProof.selectionReport,
           pdfLibWarnings: recordedProof.pdfLibWarnings,
@@ -6347,14 +6362,14 @@ export function caProp64CompletionInstructionsForReview(fieldMap) {
   return caParticipantInstructions(CA_PROP64_FAMILY, requireFamily(CA_PROP64_FAMILY), fieldMap);
 }
 
-export function caProp64CompletionMetadataForReview(census) {
+export function caProp64CompletionMetadataForReview(census, facts) {
   assert.equal(census.familyId, CA_PROP64_FAMILY);
   for (const document of census.documents)
     assert.equal(document.pinnedOfficialSha256, CA_FORMS[document.formNumber]?.sha256,
       `${document.formNumber}: source pin changed`);
   return caMapAndCensus(CA_PROP64_FAMILY, requireFamily(CA_PROP64_FAMILY), {
     forms: Object.fromEntries(census.documents.map((document) => [document.formNumber, document])),
-  });
+  }, facts);
 }
 
 // A successor review goes into a fresh directory. Existing official sources,
@@ -6388,7 +6403,7 @@ export async function renderCaProp64CaptionReview({ sourcePaths, outputDirectory
   const bridge = runPikepdfBridge({ mode: "create", writeScratch: true,
     scratchDir: path.join(destination, "official-content-streams"), targets });
   for (const derivative of bridge.derivatives) enhancedFidelityContract(derivative);
-  const original = caMapAndCensus(CA_PROP64_FAMILY, config, bridge);
+  const original = caMapAndCensus(CA_PROP64_FAMILY, config, bridge, held.facts);
   const fieldMap = structuredClone(original.fieldMap);
   // This review map is specific to the supplied factual record and variant.
   const rows = original.documents.flatMap(document => document.dispositions);
