@@ -28,6 +28,7 @@ const sources = {
   reviewPage: read("src/app/briefcase/[packetId]/review/page.tsx"),
   verificationAction: readOptional("src/components/expungement-ai/PacketVerificationAction.tsx"),
   verificationClient: readOptional("src/components/expungement-ai/packet-verification-client.ts"),
+  packetInformationRoute: read("src/app/api/expungement-ai/briefcase/[itemId]/packet-information/route.ts"),
   checkoutButton: read("src/app/expungement-ai/pay/ConsumerCheckoutButton.tsx"),
   checkoutRoute: read("src/app/api/expungement-ai/checkout/route.ts"),
   packetReadyPage: read("src/app/expungement-ai/packet-ready/page.tsx"),
@@ -234,7 +235,12 @@ function approvedCommercialFlowViolations(input) {
     require(input.briefcaseViews.includes("BriefcasePresentationItem") && !input.briefcaseViews.includes("ConsumerBriefcaseItem"), "Briefcase overview must consume only the sanitized presentation type.");
     require(input.reviewPage.includes("decorateBriefcaseItemForPresentation") && input.reviewPage.includes('item?.packetDraft.status === "available"'), "Final review must consume the protected packet draft.");
     require(input.reviewPage.includes("<PacketVerificationAction") && !input.reviewPage.includes("packetInformationModelFor(storedItem)"), "Final review must delegate commerce actions to explicit protected verification.");
-    require(input.verificationClient.includes("body: JSON.stringify({ answers, verify: true })"), "The protected client must send the exact explicit-verification POST payload.");
+    require(
+      input.verificationClient.includes("body: JSON.stringify({ answers, verify: true, expectedRevision })")
+        && input.packetInformationRoute.includes('if (parsed.expectedRevision === null) {\n    return NextResponse.json({ ok: false, error: "expected_revision_required" }, { status: 428 });\n  }')
+        && input.packetInformationRoute.includes('if (parsed.expectedRevision !== protectedRead.value.revision) {\n    return NextResponse.json({ ok: false, error: "revision_conflict" }, { status: 409 });\n  }'),
+      "The protected client must send the exact explicit-verification POST payload."
+    );
     require(input.reviewPage.includes("initiallyVerified={initiallyVerified}") && input.reviewPage.includes('const initiallyVerified = item?.verificationStatus === "verified" && reviewSafety.safe;'), "The review action must derive its initial state from protected verification status and current review safety.");
     require(input.reviewPage.includes('packetReady={item.artifact.status === "ready"}'), "The review action must derive packet readiness from protected artifact readiness.");
     require(input.reviewPage.includes('mode={sponsored ? "sponsored" : item.paymentState === "paid" ? "paid" : "consumer"}'), "The review action mode must derive from protected payment state.");
