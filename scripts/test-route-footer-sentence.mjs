@@ -1,5 +1,5 @@
-// A family whose participant instructions say "Every page states its own route in its footer" must print a
-// route footer where its fixture PDFs promise one. The sentence is true only while the renderer prints
+// A family whose participant instructions say "Every page states its own route in its footer" (or OK's "Every page
+// states in its footer every declared route…") must print a route footer where its fixture PDFs promise one. The sentence is true only while the renderer prints
 // Route: lines (courtFacingRows blanks "Route: obligation:" rows), so a rerender that drops the footer
 // while the sentence stays must fail here, as it did for NV.
 //
@@ -10,7 +10,9 @@ import path from "node:path";
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 
-const SENTENCE = "Every page states its own route in its footer";
+const PROMISE = /every page states\b[^.]*\bin its footer/i;
+for (const s of ["Every page states its own route in its footer", "Every page states in its footer every declared route the set it belongs to serves"])
+  assert(PROMISE.test(s), `"${s}" must read as a footer promise`);
 const ROOT = "data/rcap-all50/overlays/census-v1";
 // Any form, key or readable label, any case: a key-only or case-sensitive probe misreads KS and "ROUTE:".
 // A footer sits at the page foot: every fixture footer is among its page's last 3 non-empty lines (2026-10-20: 220 last,
@@ -27,7 +29,7 @@ export function requiredFooterPages(pages, manifest) {
   return pages.map((_, i) => i + 1).filter((p) => everyPage || last[p - 1]);
 }
 export function missingFooterPages(instructions, pages, manifest) {
-  if (!instructions.includes(SENTENCE)) return [];
+  if (!PROMISE.test(instructions)) return [];
   return requiredFooterPages(pages, manifest).filter((p) => !hasRoute(pages[p - 1]));
 }
 
@@ -37,7 +39,7 @@ for (const state of fs.readdirSync(ROOT).sort()) {
     const dir = path.join(ROOT, state, family), instructionsPath = path.join(dir, "participant-instructions.md");
     if (!fs.existsSync(instructionsPath)) continue;
     const instructions = fs.readFileSync(instructionsPath, "utf8");
-    if (!instructions.includes(SENTENCE)) continue;
+    if (!PROMISE.test(instructions)) continue;
     const report = JSON.parse(fs.readFileSync(path.join(dir, "reports/rendered-artifacts.json"), "utf8"));
     const fixtures = fs.readdirSync(path.join(dir, "fixtures")).filter((f) => f.endsWith(".pdf")).sort();
     assert(fixtures.length > 0, `${dir}: the sentence is present but there is no fixture PDF to hold it to`);
@@ -52,7 +54,7 @@ for (const state of fs.readdirSync(ROOT).sort()) {
     }
   }
 }
-assert(families.length > 0, `no overlay carries "${SENTENCE}"; retire this guard`);
+assert(families.length > 0, `no overlay carries a footer promise (${PROMISE}); retire this guard`);
 
 const failures = families.map((f) => ({ pdf: f.pdf, missing: missingFooterPages(f.instructions, f.pages, f.manifest) })).filter((f) => f.missing.length);
 assert.deepEqual(failures, [], "the instructions promise a route footer that these pages do not print");
@@ -71,7 +73,7 @@ for (const f of families) {
     assert.deepEqual(missingFooterPages(f.instructions, f.pages.map((t, i) => (i === p - 1 ? `${strip(t)}\nfiled under route: obligation:x\n` : t)), f.manifest), [p], `${f.pdf}: "route:" inside a foot line is not page ${p}'s footer`);
   }
   assert.deepEqual(missingFooterPages(f.instructions, f.pages.map(strip), f.manifest), finals, `${f.pdf}: dropping every footer must fail`);
-  assert.deepEqual(missingFooterPages(f.instructions.replaceAll(SENTENCE, ""), f.pages.map(strip), f.manifest), [], `${f.pdf}: no sentence, no promise`);
+  assert.deepEqual(missingFooterPages(f.instructions.replace(new RegExp(PROMISE, "gi"), ""), f.pages.map(strip), f.manifest), [], `${f.pdf}: no sentence, no promise`);
   assert.deepEqual(missingFooterPages(f.instructions, f.pages.map((t) => t.replace(/^(\s*)route:/gim, "$1ROUTE:")), f.manifest), [], `${f.pdf}: an upper-case ROUTE: footer still counts`);
 }
 console.log(JSON.stringify({ status: "PASS_ROUTE_FOOTER_SENTENCE", fixtures: families.length,
