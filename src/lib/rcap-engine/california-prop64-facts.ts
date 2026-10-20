@@ -195,7 +195,11 @@ export function caProp64Facts(a: Answers, today: string): Decision {
     if (age < 18) classification = "infraction";
     else if (context === "school_children") classification = "misdemeanor";
     else if (age >= 21 && small) classification = "no_offense";
-    else if (age < 21 && caProp64GramsExceed(concentrate, 4) && !caProp64GramsExceed(concentrate, 8)) return review("concentrate_amendment", ["ca_prop64_concentrate_grams"]);
+    else if (age < 21 && caProp64GramsExceed(concentrate, 4) && !caProp64GramsExceed(concentrate, 8)) {
+      // CA-L01: the later-amendment dispute does not erase the original felony-to-misdemeanor benefit.
+      if (a.offense_level !== "Felony") return review("concentrate_amendment", ["ca_prop64_concentrate_grams"]);
+      classification = "misdemeanor";
+    }
     else classification = age < 21 && small ? "infraction" : "misdemeanor";
   } else if (s === "11358") {
     const plants = number(a.ca_prop64_plant_count)!;

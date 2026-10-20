@@ -81,6 +81,23 @@ for(const [input,hidden] of [[detail,['ca_prop64_school_distance','ca_prop64_chi
  for(const id of hidden)check('irrelevant detail stays hidden '+id,F.caProp64QuestionApplies(input,id),false);
 const stale={...detail,ca_prop64_vehicle_role:'operator',ca_prop64_children_present:'Yes',ca_prop64_use_authorization:'medical'};
 decision('hidden saved facts do not rewrite public possession',stale,'satisfied','no_offense');
+// CA-L01 / GA-19, adopted v3 section4: original Prop64 benefit survives the AB133 dispute.
+const historicalConcentrate={...base,ca_prop64_age_at_offense:20,ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:8};
+for(const age of [18,19,20])for(const grams of ["4.0000000000000001",4.0001,7.9999,8]){
+ const input={...historicalConcentrate,ca_prop64_age_at_offense:age,ca_prop64_concentrate_grams:grams};
+ decision('original misdemeanor benefit '+age+'/'+grams,input,'satisfied','misdemeanor');
+ decision('completed original benefit '+age+'/'+grams,{...input,ca_prop64_branch:'completed-sentence application',ca_prop64_relief_requested:'redesignation'},'satisfied','misdemeanor');
+ decision('no unsupported dismissal '+age+'/'+grams,{...input,ca_prop64_branch:'completed-sentence application',ca_prop64_relief_requested:'dismissal/sealing'},'review');
+ const alreadyReduced={...input,case_outcome:'Misdemeanor conviction',offense_level:'Misdemeanor'};
+ check('no automatic AB133 infraction '+age+'/'+grams,decision('already misdemeanor',alreadyReduced,'review').code,'concentrate_amendment');
+}
+decision('exactly4 remains original infraction',{...historicalConcentrate,ca_prop64_concentrate_grams:4},'satisfied','infraction');
+decision('adult21 exactly8 lawful',{...historicalConcentrate,ca_prop64_age_at_offense:21},'satisfied','no_offense');
+decision('under18 retains own rule',{...historicalConcentrate,ca_prop64_age_at_offense:17},'satisfied','infraction');
+decision('postinitiative conduct not historical branch',{...historicalConcentrate,ca_prop64_offense_date:'2016-11-09'},'review');
+for(const [id,value]of [['ca_prop64_age_at_offense','unknown'],['ca_prop64_concentrate_grams',{value:8,unknown:true}]])decision('uncertainty does not establish reduction '+id,{...historicalConcentrate,[id]:value},'missing');
+check('conflicting conviction levels not promoted',decision('conflicting conviction',{...historicalConcentrate,case_outcome:'Misdemeanor conviction'},'review').code,'record_conflict');
+for(const currentAge of [21,50])decision('age at conduct, not current age '+currentAge,{...historicalConcentrate,age:currentAge},'satisfied','misdemeanor');
 for (const a of [base,sale]) { const cls=a===base?'no_offense':'misdemeanor'; const remedy=a===base?'dismissal/sealing':'redesignation'; decision('completed '+cls,{...a,ca_prop64_branch:'completed-sentence application',ca_prop64_relief_requested:remedy},'satisfied',cls); decision('wrong remedy '+cls,{...a,ca_prop64_branch:'completed-sentence application',ca_prop64_relief_requested:remedy==='redesignation'?'dismissal/sealing':'redesignation'},'review'); }
 for(const value of ['Yes','No','unknown',undefined])decision('legacy is not evidence '+value,{...base,ca_prop64_qualifying_marijuana_offense:value,ca_prop64_lesser_or_no_offense:value},'satisfied');
 decision('legacy only never opens',{ca_prop64_qualifying_marijuana_offense:'Yes',ca_prop64_lesser_or_no_offense:'Yes'},'missing');
