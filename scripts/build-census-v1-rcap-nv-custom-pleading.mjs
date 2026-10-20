@@ -3496,43 +3496,43 @@ const SPEC = {
   },
   "composedFromNote": "the committed legal-design track registry (data/record-clearing/legal-design-track-registry.json), the committed custom-pleading specifications (data/record-clearing/legal-design-specifications.json) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
   "formIdentityNote": "No committed record names an official statewide participant form for this route; the committed specifications record its component set as composed pleadings. Every page in this packet is therefore composed by this build from the committed records, and no official form was substituted or invented.",
-  "routeSelectionNote": "This family carries more than one statutory route. Every composed page states its own route in its footer and its own statutory ground in its body, and the participant instructions carry a table saying which set of pages belongs to which situation. No election control is printed on any page, because the route is determined by the participant's own record and not by a box on a form.",
+  "routeSelectionNote": "This family carries more than one statutory route. Each component's first-page title names its route. Continuation pages carry no route marker. The participant instructions carry a table saying which set of pages belongs to which situation. No election control is printed on any page, because the route is determined by the participant's own record and not by a box on a form.",
   "routeSelectionsMade": [
     {
       "routeKey": "obligation:track-only:NV:nv_seal_decrim",
       "statute": "NRS 179.271; NRS 179.285",
       "instrument": "repository_record_step: nv_seal_decrim-repository-record-step-1; primary_filing: nv_seal_decrim-primary-filing-2; proposed_order: nv_seal_decrim-proposed-order-3; declaration_and_verification: nv_seal_decrim-declaration-and-verification-4; stipulation: nv_seal_decrim-stipulation-5; prosecutor_submission_instructions: nv_seal_decrim-prosecutor-submission-instructions-6; filing_and_service_instructions: nv_seal_decrim-filing-and-service-instructions-7",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the first-page title of each component for this route; continuation pages carry no route marker"
     },
     {
       "routeKey": "obligation:track-only:NV:nv_seal_multi",
       "statute": "NRS 179.2595; NRS 179.245; NRS 179.255",
       "instrument": "repository_record_step: nv_seal_multi-repository-record-step-1; primary_filing: nv_seal_multi-primary-filing-2; proposed_order: nv_seal_multi-proposed-order-3; declaration_and_verification: nv_seal_multi-declaration-and-verification-4; stipulation: nv_seal_multi-stipulation-5; prosecutor_submission_instructions: nv_seal_multi-prosecutor-submission-instructions-6; filing_and_service_instructions: nv_seal_multi-filing-and-service-instructions-7",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the first-page title of each component for this route; continuation pages carry no route marker"
     },
     {
       "routeKey": "obligation:track-only:NV:nv_seal_pardon",
       "statute": "NRS 179.273; NRS 213; NRS 179.285",
       "instrument": "repository_record_step: nv_seal_pardon-repository-record-step-1; primary_filing: nv_seal_pardon-primary-filing-2; proposed_order: nv_seal_pardon-proposed-order-3; declaration_and_verification: nv_seal_pardon-declaration-and-verification-4; stipulation: nv_seal_pardon-stipulation-5; prosecutor_submission_instructions: nv_seal_pardon-prosecutor-submission-instructions-6; filing_and_service_instructions: nv_seal_pardon-filing-and-service-instructions-7",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the first-page title of each component for this route; continuation pages carry no route marker"
     },
     {
       "routeKey": "obligation:track-pathway:NV:nv_seal_conviction:general-conviction-record-sealing-under-nrs-179-245",
       "statute": "NRS 179.245; NRS 179.2405; NRS 179.2445; NRS 179.265; NRS 179.275; NRS 179.285; NRS 179.295; NRS 179.301; NRS 176A.850",
       "instrument": "repository_record_step: nv_seal_conviction-repository-record-step-1; primary_filing: nv_seal_conviction-primary-filing-2; proposed_order: nv_seal_conviction-proposed-order-3; declaration_and_verification: nv_seal_conviction-declaration-and-verification-4; stipulation: nv_seal_conviction-stipulation-5; prosecutor_submission_instructions: nv_seal_conviction-prosecutor-submission-instructions-6; filing_and_service_instructions: nv_seal_conviction-filing-and-service-instructions-7",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the first-page title of each component for this route; continuation pages carry no route marker"
     },
     {
       "routeKey": "obligation:track-pathway:NV:nv_seal_nonconviction:non-conviction-record-sealing",
       "statute": "NRS 179.255; NRS 179.255(1); NRS 179.255(3); NRS 179.255(4); NRS 179.255(9); NRS 179.2445; NRS 179.265; NRS 179.275; NRS 179.285; NRS 179.295; NRS 179.301",
       "instrument": "repository_record_step: nv_seal_nonconviction-repository-record-step-1; primary_filing: nv_seal_nonconviction-primary-filing-2; proposed_order: nv_seal_nonconviction-proposed-order-3; declaration_and_verification: nv_seal_nonconviction-declaration-and-verification-4; stipulation: nv_seal_nonconviction-stipulation-5; prosecutor_submission_instructions: nv_seal_nonconviction-prosecutor-submission-instructions-6; filing_and_service_instructions: nv_seal_nonconviction-filing-and-service-instructions-7",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the first-page title of each component for this route; continuation pages carry no route marker"
     },
     {
       "routeKey": "obligation:track-pathway:NV:nv_seal_reentry:reentry-program-sealing-under-nrs-179-259",
       "statute": "NRS 179.259; NRS 179.2445; NRS 179.275; NRS 179.285",
       "instrument": "repository_record_step: nv_seal_reentry-repository-record-step-1; primary_filing: nv_seal_reentry-primary-filing-2; proposed_order: nv_seal_reentry-proposed-order-3; declaration_and_verification: nv_seal_reentry-declaration-and-verification-4; stipulation: nv_seal_reentry-stipulation-5; prosecutor_submission_instructions: nv_seal_reentry-prosecutor-submission-instructions-6; filing_and_service_instructions: nv_seal_reentry-filing-and-service-instructions-7",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the first-page title of each component for this route; continuation pages carry no route marker"
     }
   ],
   "obligationTable": [
@@ -3669,7 +3669,7 @@ const SPEC = {
       ]
     ],
     "footnotes": [
-      "Every page states its own route in its footer. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at."
+      "Each component's first-page title names its route. Continuation pages carry no route marker. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at."
     ]
   },
   "documentsToObtain": [
