@@ -175,10 +175,13 @@ for(const file of ['scripts/lib/ms-paid-packet-proof.mjs','scripts/verify-ms-pai
 check('proof generator refuses existing private output before any PostgreSQL',()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'ms-proof-write-guard-'));
  const target=path.join(dir,'preserved.json');fs.writeFileSync(target,'preserve these bytes');
- const before=fs.readdirSync(os.tmpdir()).filter(name=>name.startsWith('rcap-epg-')).sort();
- try{assert.throws(()=>execFileSync(process.execPath,['scripts/verify-ms-paid-packet-proof.mjs','--output',target],{stdio:'pipe'}),error=>/refusing to overwrite an existing proof/.test(String(error.stderr)));
+ // The child's own TMPDIR: other ephemeral-PG users' rcap-epg-* come and go in the shared tmpdir (FLAKY-018).
+ const tmp=path.join(dir,'tmp');fs.mkdirSync(tmp);
+ try{assert.throws(()=>execFileSync(process.execPath,['scripts/verify-ms-paid-packet-proof.mjs','--output',target],{stdio:'pipe',env:{...process.env,TMPDIR:tmp}}),error=>/refusing to overwrite an existing proof/.test(String(error.stderr)));
  assert.equal(fs.readFileSync(target,'utf8'),'preserve these bytes');
- assert.deepEqual(fs.readdirSync(os.tmpdir()).filter(name=>name.startsWith('rcap-epg-')).sort(),before);
+ const left=fs.readdirSync(tmp);
+ assert.ok(left.some(name=>name.startsWith('ms-paid-proof-imports-')),'the child must write into its own TMPDIR, or the check below sees nothing');
+ assert.deepEqual(left.filter(name=>name.startsWith('rcap-epg-')),[]);
  }finally{fs.rmSync(dir,{recursive:true});}
 });
 console.log(`PASS: ${checks} exact MS output-continuity/ancestry/refusal controls; no protected delivery or commercial authorization.`);
