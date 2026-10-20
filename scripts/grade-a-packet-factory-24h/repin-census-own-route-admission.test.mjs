@@ -82,3 +82,6 @@ test('the composed block says the own route moved by the admitted ids, 5/6 witho
   assert.doesNotMatch(block.whatThisDoesNotClaim,/does not bind/);
   assert.match(block.whatThisDoesNotClaim,/lapsed when ids were added to a route this family binds; it is restored only under measuredRowAdmission/);
 });
+test('the committed receipt is the planner\'s composition from the pre-apply receipt, byte for byte',()=>{
+  assert.equal(composeFromPreApply(),fs.readFileSync(`${directory}/source-receipt.json`,'utf8'));
+});
