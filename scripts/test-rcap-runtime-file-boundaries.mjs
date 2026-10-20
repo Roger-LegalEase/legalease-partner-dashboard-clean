@@ -27,12 +27,13 @@ for (const p of treatments('data/rcap-all50/composed-routes')) {
 assert.ok(refs.size > 0,'current evidence references must be enumerated');
 for(const ref of refs){assert.equal(exists(ref),true,ref);missing=path.join(root,ref);assert.equal(exists(ref),false,`missing original evidence refuses: ${ref}`);missing=undefined;}
 for(const p of ['package.json','data/rcap-all50/composed-routes/../review-artifacts/c-dependency-correction-assignment.json','data/rcap-all50/composed-routes/../../package.json','data/rcap-all50/composed-routes//route.json','/etc/passwd','data/rcap-all50/composed-routes/..\\package.json']) assert.equal(exists(p),false,p);
-const {loadMsPaidConsumerSuccessor,MS_PAID_SUCCESSOR_DECISION_PATH:decisionPath,MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH:priorDecisionPath,MS_PAID_SUCCESSOR_FIRST_DECISION_PATH:firstDecisionPath}=await import('../src/lib/rcap/fulfillment/paid-consumer-successor.ts');
+const {loadMsPaidConsumerSuccessor,MS_PAID_SUCCESSOR_DECISION_PATH:decisionPath,MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH:priorDecisionPath,MS_PAID_SUCCESSOR_SECOND_DECISION_PATH: secondDecisionPath, MS_PAID_SUCCESSOR_FIRST_DECISION_PATH:firstDecisionPath}=await import('../src/lib/rcap/fulfillment/paid-consumer-successor.ts');
 const approval=JSON.parse(fs.readFileSync(decisionPath));
 const {QUESTION_CONTRACT_SUCCESSOR_PATH,QUESTION_CONTRACT_OUTPUT_PATH,MS_QUESTION_CONTRACT_PREDECESSOR_PATH}=await import('../src/lib/rcap/fulfillment/question-contract-source-successor.mjs');
 const successor=JSON.parse(fs.readFileSync(QUESTION_CONTRACT_SUCCESSOR_PATH));
-const closure=[...new Set([decisionPath,priorDecisionPath,firstDecisionPath,
+const closure=[...new Set([decisionPath,priorDecisionPath,secondDecisionPath,firstDecisionPath,approval.currentCommercialArtifactApproval.path,
  ...approval.preservedEvidence.map(e=>e.path),...approval.approvedArtifacts.map(a=>a.path),
+ "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf",
  QUESTION_CONTRACT_SUCCESSOR_PATH,QUESTION_CONTRACT_OUTPUT_PATH,MS_QUESTION_CONTRACT_PREDECESSOR_PATH,
  ...successor.preservedEvidence.map(e=>e.path)])];
 const scratch=fs.mkdtempSync(path.join(os.tmpdir(),'rcap-original-evidence-'));

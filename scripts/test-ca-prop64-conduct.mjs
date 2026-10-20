@@ -31,6 +31,73 @@ decision('environmental large grow',{...cultivation,ca_prop64_plant_count:7,ca_p
 decision('young worker adult seller',{...sale,ca_prop64_used_young_person:'Yes'},'review');
 decision('young worker under21 seller',{...sale,ca_prop64_age_at_offense:20,ca_prop64_used_young_person:'Yes'},'satisfied','misdemeanor');
 decision('crossborder above4 concentrate',{...transfer,ca_prop64_cross_border:'import',ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:4.001},'review');
+// CA-L02 / GA-19: decimal text must stay on its own side of the adopted 4/8/28.5-gram limits.
+for (const [grams, status] of [['3.9999999999999999','satisfied'],['4','satisfied'],['04.0000','satisfied'],['4.0000000000000001','review']]) {
+ const input={...transfer,ca_prop64_transfer_conduct:'personal_transport',ca_prop64_cross_border:'import',ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:grams};
+ const result=decision('exact interstate concentrate '+grams,input,status,'satisfied'===status?'misdemeanor':undefined);
+ if(status==='review')check('interstate exception needs review, not an automatic denial',result.code,'cross_border_exception');
+ decision('saved decimal wrapper '+grams,{...input,ca_prop64_concentrate_grams:{value:grams,unknown:false}},status);
+ decision('unknown decimal '+grams,{...input,ca_prop64_concentrate_grams:{value:grams,unknown:true}},'missing');
+}
+for (const [grams,classification] of [['7.9999999999999999','no_offense'],['8.0000','no_offense'],['8.0000000000000001','misdemeanor']])
+ decision('exact ordinary concentrate '+grams,{...base,ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:grams},'satisfied',classification);
+for (const [grams,status] of [['28.4999999999999999','satisfied'],['28.5000','satisfied'],['28.5000000000000001','review']]) {
+ const result=decision('exact interstate flower '+grams,{...transfer,ca_prop64_cross_border:'import',ca_prop64_flower_grams:grams},status,status==='satisfied'?'misdemeanor':undefined);
+ if(status==='review')check('flower interstate exception',result.code,'cross_border_exception');
+}
+decision('nonzero decimal cannot underflow into a zero-quantity conflict',{...base,ca_prop64_flower_grams:'0.'+'0'.repeat(324)+'1'},'satisfied','no_offense');
+// CA-L05 / GA-19: distinguish acts and places without assigning an exception from a saved combined answer.
+const detail={...base,ca_prop64_possession_context:'public_or_vehicle_use',ca_prop64_possession_act:'possession_only',ca_prop64_possession_place:'public_place'};
+decision('public possession alone',detail,'satisfied','no_offense');
+decision('public possession under21',{...detail,ca_prop64_age_at_offense:20},'satisfied','infraction');
+decision('public possession over limit',{...detail,ca_prop64_flower_grams:28.6},'satisfied','misdemeanor');
+decision('completed public possession',{...detail,ca_prop64_branch:'completed-sentence application',ca_prop64_relief_requested:'dismissal/sealing'},'satisfied','no_offense');
+const smoking={...detail,ca_prop64_possession_act:'smoking',ca_prop64_school_distance:'outside_1000',ca_prop64_use_authorization:'none'};
+const vehicle={...detail,ca_prop64_possession_place:'vehicle',ca_prop64_vehicle_container:'open',ca_prop64_use_authorization:'none'};
+for(const [name,patch] of [
+ ['public smoking',smoking],['public ingestion',{...detail,ca_prop64_possession_act:'ingestion',ca_prop64_use_authorization:'none'}],
+ ['school smoking children',{...smoking,ca_prop64_school_distance:'within_1000',ca_prop64_children_present:'Yes'}],
+ ['school smoking no children',{...smoking,ca_prop64_school_distance:'within_1000',ca_prop64_children_present:'No'}],
+ ['private medical exception not inferred',{...smoking,ca_prop64_possession_place:'private_residence',ca_prop64_use_authorization:'medical'}],
+ ['licensed exception not inferred',{...smoking,ca_prop64_use_authorization:'licensed_location'}],
+ ['open container',vehicle],['sealed container historical review',{...vehicle,ca_prop64_vehicle_container:'sealed'}],
+ ['driver consumption',{...vehicle,ca_prop64_possession_act:'ingestion',ca_prop64_vehicle_role:'operator'}],
+ ['passenger consumption',{...vehicle,ca_prop64_possession_act:'ingestion',ca_prop64_vehicle_role:'passenger'}],
+ ...['k12_school','daycare','youth_center'].map(place=>[place,{...detail,ca_prop64_possession_place:place,ca_prop64_children_present:'Yes',ca_prop64_use_authorization:'none'}]),
+ ['custody',{...detail,ca_prop64_possession_place:'correctional'}],['other act',{...detail,ca_prop64_possession_act:'other'}],['other place',{...detail,ca_prop64_possession_place:'other'}]
+]){const r=decision('distinct '+name,patch,'review');check('distinct '+name+' reason',r.code,'restricted_conduct');}
+for(const [name,input,ids] of [
+ ['saved combined answer',{...base,ca_prop64_possession_context:'public_or_vehicle_use'},['ca_prop64_possession_act','ca_prop64_possession_place']],
+ ['unknown act',{...detail,ca_prop64_possession_act:{value:'possession_only',unknown:true}},['ca_prop64_possession_act']],
+ ['unknown place',{...detail,ca_prop64_possession_place:'unknown'},['ca_prop64_possession_place']],
+ ['smoking distance',{...smoking,ca_prop64_school_distance:undefined},['ca_prop64_school_distance']],
+ ['nearby children',{...smoking,ca_prop64_school_distance:'within_1000',ca_prop64_children_present:'unknown'},['ca_prop64_children_present']],
+ ['container',{...vehicle,ca_prop64_vehicle_container:'unknown'},['ca_prop64_vehicle_container']],
+ ['passenger or driver',{...vehicle,ca_prop64_possession_act:'ingestion'},['ca_prop64_vehicle_role']],
+ ['authorization',{...smoking,ca_prop64_use_authorization:'unknown'},['ca_prop64_use_authorization']]
+])check(name+' exact missing facts',decision(name,input,'missing').ids,ids);
+const wrapped=Object.fromEntries(Object.entries(detail).map(([id,value])=>[id,{value,unknown:false}]));decision('wrapped public possession',wrapped,'satisfied','no_offense');
+for(const [input,hidden] of [[detail,['ca_prop64_school_distance','ca_prop64_children_present','ca_prop64_vehicle_container','ca_prop64_vehicle_role','ca_prop64_use_authorization']],[smoking,['ca_prop64_children_present','ca_prop64_vehicle_container','ca_prop64_vehicle_role']],[vehicle,['ca_prop64_school_distance','ca_prop64_children_present','ca_prop64_vehicle_role']]])
+ for(const id of hidden)check('irrelevant detail stays hidden '+id,F.caProp64QuestionApplies(input,id),false);
+const stale={...detail,ca_prop64_vehicle_role:'operator',ca_prop64_children_present:'Yes',ca_prop64_use_authorization:'medical'};
+decision('hidden saved facts do not rewrite public possession',stale,'satisfied','no_offense');
+// CA-L01 / GA-19, adopted v3 section4: original Prop64 benefit survives the AB133 dispute.
+const historicalConcentrate={...base,ca_prop64_age_at_offense:20,ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:8};
+for(const age of [18,19,20])for(const grams of ["4.0000000000000001",4.0001,7.9999,8]){
+ const input={...historicalConcentrate,ca_prop64_age_at_offense:age,ca_prop64_concentrate_grams:grams};
+ decision('original misdemeanor benefit '+age+'/'+grams,input,'satisfied','misdemeanor');
+ decision('completed original benefit '+age+'/'+grams,{...input,ca_prop64_branch:'completed-sentence application',ca_prop64_relief_requested:'redesignation'},'satisfied','misdemeanor');
+ decision('no unsupported dismissal '+age+'/'+grams,{...input,ca_prop64_branch:'completed-sentence application',ca_prop64_relief_requested:'dismissal/sealing'},'review');
+ const alreadyReduced={...input,case_outcome:'Misdemeanor conviction',offense_level:'Misdemeanor'};
+ check('no automatic AB133 infraction '+age+'/'+grams,decision('already misdemeanor',alreadyReduced,'review').code,'concentrate_amendment');
+}
+decision('exactly4 remains original infraction',{...historicalConcentrate,ca_prop64_concentrate_grams:4},'satisfied','infraction');
+decision('adult21 exactly8 lawful',{...historicalConcentrate,ca_prop64_age_at_offense:21},'satisfied','no_offense');
+decision('under18 retains own rule',{...historicalConcentrate,ca_prop64_age_at_offense:17},'satisfied','infraction');
+decision('postinitiative conduct not historical branch',{...historicalConcentrate,ca_prop64_offense_date:'2016-11-09'},'review');
+for(const [id,value]of [['ca_prop64_age_at_offense','unknown'],['ca_prop64_concentrate_grams',{value:8,unknown:true}]])decision('uncertainty does not establish reduction '+id,{...historicalConcentrate,[id]:value},'missing');
+check('conflicting conviction levels not promoted',decision('conflicting conviction',{...historicalConcentrate,case_outcome:'Misdemeanor conviction'},'review').code,'record_conflict');
+for(const currentAge of [21,50])decision('age at conduct, not current age '+currentAge,{...historicalConcentrate,age:currentAge},'satisfied','misdemeanor');
 for (const a of [base,sale]) { const cls=a===base?'no_offense':'misdemeanor'; const remedy=a===base?'dismissal/sealing':'redesignation'; decision('completed '+cls,{...a,ca_prop64_branch:'completed-sentence application',ca_prop64_relief_requested:remedy},'satisfied',cls); decision('wrong remedy '+cls,{...a,ca_prop64_branch:'completed-sentence application',ca_prop64_relief_requested:remedy==='redesignation'?'dismissal/sealing':'redesignation'},'review'); }
 for(const value of ['Yes','No','unknown',undefined])decision('legacy is not evidence '+value,{...base,ca_prop64_qualifying_marijuana_offense:value,ca_prop64_lesser_or_no_offense:value},'satisfied');
 decision('legacy only never opens',{ca_prop64_qualifying_marijuana_offense:'Yes',ca_prop64_lesser_or_no_offense:'Yes'},'missing');
@@ -41,6 +108,19 @@ for (const charge of ['HSC11357','HSC §11357(a)','H&S11357','Health and Safety 
 for (const charge of ['11357','Case number 11357','Not HSC11357','Cannabis conviction']) decision('prose needs explicit section '+charge,{...base,charge},'missing');
 for (const charge of ['PC11357','Penal Code §11357','HSC11357 and PC459','HSC11357 and 11359']) decision('different or multiple laws '+charge,{...base,charge,ca_prop64_record_section:'11357'},'review');
 decision('explicit section with generic prose',{...base,charge:'Cannabis conviction',ca_prop64_record_section:'11357'},'satisfied');
+// CA-L05 controlling cases concern separate Penal Code convictions: Boatwright/accessory,
+// Medina/conspiracy, and Supreme Court Raybon (2021)/prison possession. No case-date eligibility cutoff.
+for(const [caseName,charge]of [['Boatwright','PC 32'],['Medina','Penal Code § 182(a)(1)'],['Raybon (2021)','California PC 4573.6(a)']]){
+ for(const conviction_date of ['2000-01-01','2018-01-01','2019-01-01','2021-01-01']){
+  const input={...base,charge,conviction_date};check(caseName+' final statute preserved '+conviction_date,F.caProp64Section(input),'other');
+  check(caseName+' separate review '+conviction_date,decision(caseName,input,'review'),{status:'review',code:'different_statute',ids:['ca_prop64_record_section']});
+ }
+ for(const explicit of ['other','unknown'])check(caseName+' consistent answer '+explicit,F.caProp64Facts({...base,charge,ca_prop64_record_section:explicit},'2026-10-12').code,'different_statute');
+ check(caseName+' contradictory HSC answer remains conflict',F.caProp64Facts({...base,charge,ca_prop64_record_section:'11357'},'2026-10-12').code,'record_conflict');
+ decision(caseName+' wrapped citation',{...base,charge:{value:charge,unknown:false}},'review');
+}
+for(const charge of ['PC 32 and HSC 11357','PC 182(a)(1) and HSC 11360'])check('mixed laws remain conflict '+charge,F.caProp64Facts({...base,charge},'2026-10-12').code,'record_conflict');
+for(const charge of ['Case number 4573.6','Possibly PC 32','32'])decision('unconfirmed citation stays missing '+charge,{...base,charge},'missing');
 decision('unsafe plant count',{...cultivation,ca_prop64_plant_count:Number.MAX_SAFE_INTEGER+1},'missing');
 decision('unsafe residence count',{...cultivation,ca_prop64_residence_total:Number.MAX_SAFE_INTEGER+1},'review');
 decision('unsafe prior count',{...sale,ca_prop64_same_section_priors:Number.MAX_SAFE_INTEGER+1},'missing');

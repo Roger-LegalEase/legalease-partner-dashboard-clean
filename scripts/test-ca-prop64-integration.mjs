@@ -41,6 +41,13 @@ for(const pair of exactCaResultPairs){
 // Reuse the existing conduct test's literal 11360 unpaid-gift facts with the
 // retained cross-border 'other' review branch, keeping both procedure branches.
 const crossBorderReviewFacts={...facts,charge:'HSC11360',ca_prop64_transfer_conduct:'unpaid_gift',ca_prop64_cross_border:'other',ca_prop64_recipient_age:21,ca_prop64_prior_superstrike:'No',ca_prop64_prior_290c:'No',ca_prop64_same_section_priors:0,ca_prop64_knowing_minor_transaction:'No'};
+// CA-L02: retain the precise saved quantity through the actual public and protected consumers.
+const crossBorderPrecisionFacts={...crossBorderReviewFacts,ca_prop64_transfer_conduct:'personal_transport',ca_prop64_cross_border:'import',ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:'4.0000000000000001'};
+// CA-L05: a saved broad context is not a substitute for distinct conduct/location facts.
+const publicPossession={...facts,ca_prop64_possession_context:'public_or_vehicle_use',ca_prop64_possession_act:'possession_only',ca_prop64_possession_place:'public_place'};
+const publicSmoking={...publicPossession,ca_prop64_possession_act:'smoking',ca_prop64_school_distance:'outside_1000',ca_prop64_use_authorization:'none'};
+const vehicleUse={...publicPossession,ca_prop64_possession_act:'ingestion',ca_prop64_possession_place:'vehicle',ca_prop64_vehicle_container:'open',ca_prop64_vehicle_role:'operator',ca_prop64_use_authorization:'none'};
+const originalConcentrateBenefit={...facts,ca_prop64_age_at_offense:20,ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:8,ca_prop64_relief_requested:'redesignation'};
 const evaluateAnswers=answers=>evaluate({jurisdiction:'CA',profileVersion:profile.profileVersion,matterId:'synthetic-ca-conduct',answers});
 for(const name of ['currently-serving','completed']){
  const fixture=JSON.parse(fs.readFileSync(new URL(`./fixtures/ca-prop64-protected-baseline/${name}.json`,import.meta.url)));
@@ -64,8 +71,55 @@ for(const name of ['currently-serving','completed']){
  const selected=selectScreeningQuestionIds(profile,pub,positive);for(const id of F.CA_PROP64_LEGACY_IDS)check(name+' legal conclusion not asked '+id,selected.includes(id),false);
  for(const id of F.caProp64ActiveFactIds(positive))check(name+' active fact asked '+id,selected.includes(id),true);
  const hidden={...positive,ca_prop64_plant_count:22,ca_prop64_prior_superstrike:'Yes'};const resumed=sanitizeResumedAnswersForQuestionIds(pub,hidden,selected);for(const id of ['ca_prop64_plant_count','ca_prop64_prior_superstrike',...F.CA_PROP64_LEGACY_IDS])check(name+' hidden raw retained '+id,resumed[id],hidden[id]);
- for(const [label,patch,expected]of [['legacy',{},'needs_more_info'],['positive',facts,target],['zero',{...facts,ca_prop64_flower_grams:0},'needs_review'],['juvenile',{...facts,ca_prop64_court_type:'juvenile'},'needs_review'],['oldrelief',{...facts,ca_prop64_existing_relief:'dismissed',ca_prop64_additional_benefit:'sealing'},'needs_review'],['school',{...facts,ca_prop64_possession_context:'school_children'},name==='completed'?'needs_review':target],['cross-border-other',crossBorderReviewFacts,'needs_review']]){
+ for(const [label,patch,expected]of [['legacy',{},'needs_more_info'],['positive',facts,target],['zero',{...facts,ca_prop64_flower_grams:0},'needs_review'],['juvenile',{...facts,ca_prop64_court_type:'juvenile'},'needs_review'],['oldrelief',{...facts,ca_prop64_existing_relief:'dismissed',ca_prop64_additional_benefit:'sealing'},'needs_review'],['school',{...facts,ca_prop64_possession_context:'school_children'},name==='completed'?'needs_review':target],['cross-border-other',crossBorderReviewFacts,'needs_review'],['original-concentrate-benefit',originalConcentrateBenefit,target],['concentrate-already-misdemeanor',{...originalConcentrateBenefit,case_outcome:'Misdemeanor conviction',offense_level:'Misdemeanor'},'needs_review'],['cross-border-above-four',crossBorderPrecisionFacts,'needs_review'],['public-possession',publicPossession,target],['public-smoking',publicSmoking,'needs_review'],['vehicle-driver',vehicleUse,'needs_review'],['vehicle-passenger',{...vehicleUse,ca_prop64_vehicle_role:'passenger'},'needs_review'],['legacy-combined',{...facts,ca_prop64_possession_context:'public_or_vehicle_use'},'needs_more_info'],['unknown-act',{...publicPossession,ca_prop64_possession_act:'unknown'},'needs_more_info'],['near-school',{...publicSmoking,ca_prop64_school_distance:'within_1000',ca_prop64_children_present:'Yes'},'needs_review'],['missing-detail-distance',{...publicSmoking,ca_prop64_school_distance:undefined},'needs_more_info'],['missing-detail-children',{...publicSmoking,ca_prop64_school_distance:'within_1000'},'needs_more_info'],['missing-detail-container',{...vehicleUse,ca_prop64_vehicle_container:undefined},'needs_more_info'],['missing-detail-role',{...vehicleUse,ca_prop64_vehicle_role:undefined},'needs_more_info'],['missing-detail-authorization',{...publicSmoking,ca_prop64_use_authorization:undefined},'needs_more_info'],...['PC 32','Penal Code § 182(a)(1)','California PC 4573.6(a)'].map(charge=>['penal-code-'+charge,{...facts,charge},'needs_review'])]){
   const answers={...base,...patch},rawBefore=structuredClone(answers),evaluation=evaluateAnswers(answers).evaluation;scenarios.push({name,label,answers,evaluation});check(name+'/'+label,evaluation.resultCode,expected);
+  if(label==='cross-border-above-four'){
+   check(name+' exact interstate predicate',F.caProp64Facts(answers,'2026-10-12'),{status:'review',code:'cross_border_exception',ids:['ca_prop64_cross_border']});
+   check(name+' precision review remains unpaid',evaluation.paymentAllowed,false);
+   const authoritative=evaluateAnswers(answers),seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:answers,dependencies:{},capturedAt:'2026-10-20T00:00:00Z'});
+   assert(seed);const record={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot},before=structuredClone(record);
+   const patch=P.packetInformationPatch({protectedVerification:record,answers:{}});assert(patch);
+   check(name+' exact decimal saved/no-op preservation',patch.protectedTransition.nextVerification,before);
+   check(name+' precision input not rounded',answers,rawBefore);
+  }
+  if(['public-possession','public-smoking','vehicle-driver','vehicle-passenger','legacy-combined','unknown-act','near-school'].includes(label)||label.startsWith('missing-detail-')||label.startsWith('penal-code-')){
+   const ids=selectScreeningQuestionIds(profile,pub,answers);
+   for(const id of F.caProp64ActiveFactIds(answers))check(name+'/'+label+' selected '+id,ids.includes(id),true);
+   const authoritative=evaluateAnswers(answers),seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:answers,dependencies:{},capturedAt:'2026-10-20T00:00:00Z'});assert(seed);
+   const saved={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot},before=structuredClone(saved);
+   const noop=P.packetInformationPatch({protectedVerification:saved,answers:{}});assert(noop);
+   check(name+'/'+label+' protected no-op preserves all maps',noop.protectedTransition.nextVerification,before);
+   check(name+'/'+label+' raw input unchanged',answers,rawBefore);
+   if(expected!==target)check(name+'/'+label+' no payment from restricted or incomplete facts',evaluation.paymentAllowed,false);
+   if(label.startsWith('penal-code-'))check(name+'/'+label+' actual final statute review',F.caProp64Facts(answers,'2026-10-12').code,'different_statute');
+   if(label==='legacy-combined'){
+    check(name+' combined answer cannot verify',P.caProp64ClarificationPatch({protectedVerification:saved,answers:{},verify:true}),null);
+    check(name+' hidden vehicle child cannot be injected',P.caProp64ClarificationPatch({protectedVerification:saved,answers:{ca_prop64_vehicle_container:'sealed'}}),null);
+    const corrected=P.caProp64ClarificationPatch({protectedVerification:saved,answers:{ca_prop64_possession_act:'possession_only',ca_prop64_possession_place:'public_place'}});assert(corrected);
+    const next=corrected.protectedTransition.nextVerification;
+    check(name+' clarified public possession gets existing route',P.protectedPacketInformationModelFor(next)?.pathwayId,fixture.pathwayId);
+    check(name+' changed facts invalidate old verification',next.status,'invalidated');
+    check(name+' combined raw context retained',next.draftSnapshot.screeningAnswers.ca_prop64_possession_context,'public_or_vehicle_use');
+    check(name+' explicit conduct correction saved',next.draftSnapshot.packetAnswers.ca_prop64_possession_act,'possession_only');
+   }
+   if(label==='vehicle-driver'){
+    const correction=P.caProp64ClarificationPatch({protectedVerification:saved,answers:{ca_prop64_possession_act:'possession_only',ca_prop64_possession_place:'public_place'}});assert(correction);
+    const next=correction.protectedTransition.nextVerification,model=P.protectedPacketInformationModelFor(next);assert(model);
+    check(name+' former vehicle facts retained',next.draftSnapshot.screeningAnswers.ca_prop64_vehicle_role,'operator');
+    check(name+' former vehicle facts hidden after correction',model.questions.some(q=>q.id==='ca_prop64_vehicle_role'),false);
+    const resumed=sanitizeResumedAnswersForQuestionIds(pub,{...answers,ca_prop64_possession_act:'possession_only',ca_prop64_possession_place:'public_place'},selectScreeningQuestionIds(profile,pub,{...answers,ca_prop64_possession_act:'possession_only',ca_prop64_possession_place:'public_place'}));
+    check(name+' resume retains hidden vehicle fact',resumed.ca_prop64_vehicle_role,'operator');
+   }
+  }
+  if(label==='original-concentrate-benefit'||label==='concentrate-already-misdemeanor'){
+   check(name+'/'+label+' factual classification',F.caProp64Facts(answers,'2026-10-12'),label==='original-concentrate-benefit'?{status:'satisfied',ids:[],classification:'misdemeanor'}:{status:'review',code:'concentrate_amendment',ids:['ca_prop64_concentrate_grams']});
+   const authoritative=evaluateAnswers(answers),seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:answers,dependencies:{},capturedAt:'2026-10-20T00:00:00Z'});assert(seed);
+   const saved={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot},before=structuredClone(saved);
+   const noop=P.packetInformationPatch({protectedVerification:saved,answers:{}});assert(noop);
+   check(name+'/'+label+' saved no-op retains all original facts',noop.protectedTransition.nextVerification,before);
+   check(name+'/'+label+' does not rewrite quantity or requested remedy',answers,rawBefore);
+   if(label==='concentrate-already-misdemeanor')check(name+' no automatic later-amendment payment',evaluation.paymentAllowed,false);
+  }
   const exactPair=label==='cross-border-other'?exactCaResultPairs[0]:name==='currently-serving'&&label==='positive'?exactCaResultPairs[1]:null;
   if(exactPair){
    const generated=exactPair.copy==='reason'?evaluation.reasons.map(reason=>reason.text):evaluation.cautions;
@@ -76,7 +130,7 @@ for(const name of ['currently-serving','completed']){
   }
 
   const response=await POST(new Request('http://localhost/api/expungement-ai/evaluate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jurisdiction:'CA',profileVersion:profile.profileVersion,matterId:'synthetic-ca-handler',answers})}));const body=await response.json();check(name+'/'+label+' actual handler',[response.status,body.resultCode],[200,expected]);
-  for(const locale of ['en','es']){const value={locale,setLocale:()=>{},t:(key,fallback,vars)=>t(locale,key,fallback,vars),text:(text,options)=>resolveRuntimeText(locale,text,options)};const markup=renderToStaticMarkup(React.createElement(LocalizationContext.Provider,{value},React.createElement(ScreeningResult,{evaluation,stateName:'California',questionPromptById:Object.fromEntries(pub.questions.map(q=>[q.id,q.prompt])),hasScreeningSession:false,onEditAnswers:()=>{},onPacketAction:()=>{}})));renders.push({name,label,locale,markup});if(exactPair){const exactRendered=renderToStaticMarkup(React.createElement('span',null,exactPair[locale])).slice(6,-7);check(name+'/'+label+'/'+locale+' exact literal generated copy rendered',markup.includes(exactRendered),true);} for(const reason of evaluation.reasons.filter(r=>Object.values(F.CA_PROP64_REASON_COPY).some(([en])=>en===r.text))){const text=resolveRuntimeText(locale,reason.text);check(name+'/'+label+'/'+locale+' reason rendered',markup.includes(renderToStaticMarkup(React.createElement('span',null,text)).slice(6,-7)),true);if(locale==='es')check(name+'/'+label+' Spanish reason',text!==reason.text,true);}}
+  for(const locale of ['en','es']){const value={locale,setLocale:()=>{},t:(key,fallback,vars)=>t(locale,key,fallback,vars),text:(text,options)=>resolveRuntimeText(locale,text,options)};const markup=renderToStaticMarkup(React.createElement(LocalizationContext.Provider,{value},React.createElement(ScreeningResult,{evaluation,stateName:'California',questionPromptById:Object.fromEntries(pub.questions.map(q=>[q.id,q.prompt])),hasScreeningSession:false,onEditAnswers:()=>{},onPacketAction:()=>{}})));renders.push({name,label,locale,markup});if(exactPair){const exactRendered=renderToStaticMarkup(React.createElement('span',null,exactPair[locale])).slice(6,-7);check(name+'/'+label+'/'+locale+' exact literal generated copy rendered',markup.includes(exactRendered),true);} for(const id of evaluation.missingQuestionIds){const q=F.CA_PROP64_FACT_QUESTIONS.find(q=>q.id===id);if(q&&['ca_prop64_possession_act','ca_prop64_possession_place','ca_prop64_school_distance','ca_prop64_children_present','ca_prop64_vehicle_container','ca_prop64_vehicle_role','ca_prop64_use_authorization'].includes(id)){const expected=locale==='es'?q.translations.es.prompt:q.prompt;check(name+'/'+label+'/'+locale+' missing prompt '+id,markup.includes(renderToStaticMarkup(React.createElement('span',null,expected)).slice(6,-7)),true);}} for(const reason of evaluation.reasons.filter(r=>Object.values(F.CA_PROP64_REASON_COPY).some(([en])=>en===r.text))){const text=resolveRuntimeText(locale,reason.text);check(name+'/'+label+'/'+locale+' reason rendered',markup.includes(renderToStaticMarkup(React.createElement('span',null,text)).slice(6,-7)),true);if(locale==='es')check(name+'/'+label+' Spanish reason',text!==reason.text,true);}}
  }
 }
 const failed=checks.filter(c=>!c.pass),report={status:failed.length?'FAIL':'PASS',checks:checks.length,scenarios:scenarios.length,renders:renders.length,failed,details:checks,scenarioDetails:scenarios,renderDetails:renders,limits:['Pure protected transitions and real stateless handlers/SSR; not DB/browser/RLS acceptance or professional approval.']};

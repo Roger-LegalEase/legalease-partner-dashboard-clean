@@ -74,7 +74,9 @@ for (const rel of SUBJECTS) {
   });
 
   /* ---- direction two: stale evidence is not laundered ------------------- */
-  it(`${name}: an annotation whose source moved again is NOT carried forward`, () => {
+  /* Ruling B' (2026-10-20): the stale note is not laundered into a live claim,
+   * and it is not lost either -- it rides as history on the moved pin. */
+  it(`${name}: an annotation whose source moved again is carried as history, never as a live block`, () => {
     const rebuilt = asRebuilt(committed);
     const target = held[0].at;
     const movedTo = "f".repeat(64);
@@ -82,24 +84,59 @@ for (const rel of SUBJECTS) {
     eachPin(rebuilt, (pin, at) => { if (at === target) { pin.sha256 = movedTo; touched += 1; } });
     assert.ok(touched > 0, "the source this rebuild measured differs from the one the annotation was written against");
 
-    const { document, carried, dropped } = carryForwardIdentityRefresh(committed, rebuilt);
+    const { document, carried, dropped, history } = carryForwardIdentityRefresh(committed, rebuilt, { on: "2026-10-20T04:00:00Z" });
     const survived = annotationsIn(document).map((a) => a.at);
     assert.ok(!survived.includes(target), "a stale comparison does not become current by being copied forward");
     assert.equal(carried.length, 2, "and the two annotations that ARE still true are still preserved");
-    assert.equal(dropped.length, 1);
-    assert.equal(dropped[0].path, target);
-    assert.equal(dropped[0].measuredNow, movedTo);
-    assert.match(dropped[0].why, /moved again/);
+    assert.equal(dropped.length, 0);
+    assert.equal(history.length, 1);
+    assert.equal(history[0].path, target);
+    assert.equal(history[0].measuredNow, movedTo);
+    assert.match(history[0].why, /moved again/);
+    const moved = [];
+    eachPin(document, (pin, at) => { if (at === target) moved.push(pin); });
+    const entry = moved[0].identityRefreshHistory.at(-1);
+    assert.equal(moved[0].identityRefresh, undefined, "no live block sits on the moved pin");
+    assert.equal(moved[0].identityRefreshHistory.length, 1);
+    assert.equal(entry.writtenAgainst, held[0].sha256);
+    assert.deepEqual(entry.supersededBy, { measuredNow: movedTo, on: "2026-10-20", by: "rebuild", why: history[0].why });
+    assert.equal(entry.writtenAgainstByteLength, moved[0].byteLength ?? null);
+    const { writtenAgainst, writtenAgainstByteLength, supersededBy, ...verbatim } = entry;
+    assert.deepEqual(verbatim, held[0].annotation, "the prior block rides verbatim inside the history entry");
   });
 
-  it(`${name}: a source reverted to the pre-refresh identity is not annotated`, () => {
+  it(`${name}: a source reverted to the pre-refresh identity is a move too: history, no live block`, () => {
     const rebuilt = asRebuilt(committed);
     const target = held[0].at;
     const wasSha = held[0].annotation.was.sha256;
     eachPin(rebuilt, (pin, at) => { if (at === target) pin.sha256 = wasSha; });
-    const { document, dropped } = carryForwardIdentityRefresh(committed, rebuilt);
+    const { document, dropped, history } = carryForwardIdentityRefresh(committed, rebuilt);
     assert.ok(!annotationsIn(document).map((a) => a.at).includes(target));
-    assert.equal(dropped.length, 1);
+    assert.equal(dropped.length, 0);
+    assert.equal(history.length, 1);
+  });
+
+  it(`${name}: history survives the next rebuild, on an unmoved pin and on a pin that moves again`, () => {
+    const target = held[0].at;
+    const once = asRebuilt(committed);
+    eachPin(once, (pin, at) => { if (at === target) pin.sha256 = "f".repeat(64); });
+    const first = carryForwardIdentityRefresh(committed, once, { on: "2026-10-20T04:00:00Z" }).document;
+    /* unmoved second rebuild: the history rides along, still no live block */
+    const again = asRebuilt(first);
+    eachPin(again, (pin) => { delete pin.identityRefreshHistory; });
+    const second = carryForwardIdentityRefresh(first, again, { on: "2026-10-21T04:00:00Z" });
+    const pins = []; eachPin(second.document, (pin, at) => { if (at === target) pins.push(pin); });
+    assert.equal(pins[0].identityRefresh, undefined);
+    assert.equal(pins[0].identityRefreshHistory.length, 1);
+    assert.equal(second.carried.length, 2, "the two live blocks on unmoved pins still carry");
+    /* a planner re-pin later writes a live block; a further unmoved rebuild keeps both */
+    const repinned = structuredClone(second.document);
+    eachPin(repinned, (pin, at) => { if (at === target) pin.identityRefresh = { was: { sha256: held[0].sha256 }, anchorsCompared: 1, anchorsIdentical: 1, why: "measured re-pin" }; });
+    const third = asRebuilt(repinned);
+    eachPin(third, (pin) => { delete pin.identityRefreshHistory; });
+    const kept = []; eachPin(carryForwardIdentityRefresh(repinned, third).document, (pin, at) => { if (at === target) kept.push(pin); });
+    assert.equal(kept[0].identityRefresh.why, "measured re-pin");
+    assert.equal(kept[0].identityRefreshHistory.length, 1);
   });
 }
 

@@ -66,7 +66,15 @@ export const MS_PROOF_EXECUTION_INPUTS=['scripts/lib/rcap-ephemeral-pg.mjs','scr
   // Mandatory current VA record origin source-only record, distinct from modules.
   'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-va-record-origin-20261020-v1.json',
   // Mandatory current GA-21 reviewed Spanish labels source-only record, distinct from modules.
-  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga21-spanish-labels-20261020-v1.json'];
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga21-spanish-labels-20261020-v1.json',
+  // Mandatory current ND custom-pleading receipt pin source-only record, distinct from modules.
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-nd-custom-receipt-20261020-v1.json',
+  // Mandatory current MS shared Spanish guide pages source-only record, distinct from modules.
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ms-guide-es-20261020-v1.json',
+  // Mandatory current CA Proposition 64 stack source-only record, distinct from modules.
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ca-prop64-stack-20261020-v1.json',
+  // Mandatory current ND census-prose receipt re-pin source-only record, distinct from modules.
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-nd-census-prose-20261020-v1.json'];
 // Exact import paths observed by the actual verifier imports-only probe;
 // the full execution must reproduce this set before emitting a current proof.
 export const MS_PROOF_OBSERVED_INPUTS=[
@@ -433,12 +441,43 @@ export function loadMsPaidPacketProof({readBytes=file=>fs.readFileSync(file), st
   const september=JSON.parse(septemberBytes);
   assert.equal(september.schemaVersion,'rcap-ms-paid-packet-proof/v2');
   assert.equal(september.supersededProof.path,MS_PAID_PACKET_PROOF_RETIRED);
-  assert.equal(september.supersededProof.decisionSha256,approval.supersededDecisionSha256);
+  // The September proof names v2. v4 supersedes v3, so the v2 digest is read from the
+  // hash-pinned October 11 proof that measured v3, and v4 is bound to that v3 explicitly.
+  assert.equal(september.supersededProof.decisionSha256,predecessor.ownerDecision.supersededDecisionSha256);
+  assert.equal(approval.supersededDecisionSha256,predecessor.ownerDecision.decisionSha256,'the current decision must supersede the decision the October 11 proof measured');
   assert.equal(september.supersededProof.artifactBytesStillReproduce,false);
   assert.equal(hash(readBytes(MS_PAID_PACKET_PROOF_RETIRED)),'1a3454cb515003281c33f196b16c788fd3b9c5e18692829169794a5b686f183c','September 14 historical proof changed');
   assert.deepEqual(Object.keys(proof).sort(),[...Object.keys(predecessor),'outputContinuity','observedExecution'].sort(),'unlisted proof fields');
-  for(const key of Object.keys(predecessor).filter(key=>!['schemaVersion','sourceSha','inputs','supersededProof'].includes(key)))
+  for(const key of Object.keys(predecessor).filter(key=>!['schemaVersion','sourceSha','inputs','supersededProof','ownerDecision','results','sourceAuthority','unapprovedDeterminismControls'].includes(key)))
     assert.deepEqual(proof[key],predecessor[key],`historical packet meaning changed: ${key}`);
+  // A successor decision may move only artifact identity; every other result fact keeps its proven value.
+  assert.deepEqual(proof.ownerDecision,approval,'the proof must measure the current decision');
+  // Only the decision and its relocated review evidence may move in the source authority.
+  const movedAuthority=new Map([[predecessor.ownerDecision.decisionPath,{path:approval.decisionPath,sha256:approval.decisionSha256}],
+    [predecessor.ownerDecision.reviewEvidencePath,{path:approval.reviewEvidencePath,sha256:approval.reviewEvidenceSha256}]]);
+  const expectedSource=structuredClone(predecessor.sourceAuthority);
+  expectedSource.boundInputs.authorityInputs=expectedSource.boundInputs.authorityInputs.map(row=>movedAuthority.has(row.path)?{...row,...movedAuthority.get(row.path)}:row);
+  expectedSource.boundInputsSha256=hash(stableStringify(expectedSource.boundInputs));
+  assert.deepEqual(proof.sourceAuthority,expectedSource,'historical packet meaning changed: sourceAuthority');
+  // Every result binds the codified-authority hash, which the decision move changes; a moved artifact also
+  // changes its own identity. Nothing else may move, and each hash is recomputed as the contract does below.
+  const authorityKey='codified-authority:'+approval.packetFamilyId;
+  const expectedResults=structuredClone(predecessor.results); const movedIds=new Set();
+  for(const row of expectedResults){
+    assert.equal(row.verificationBoundInputs.officialSourceSha256ById[authorityKey],predecessor.sourceAuthority.boundInputsSha256,`${row.id}: authority link`);
+    row.verificationBoundInputs.officialSourceSha256ById[authorityKey]=expectedSource.boundInputsSha256;
+    const entry=approval.approvedArtifacts.find(a=>a.id===row.id);
+    if(entry&&entry.sha256!==row.artifactSha256){
+      movedIds.add(row.id);
+      row.artifactPath=entry.path; row.artifactSha256=entry.sha256; row.verificationBoundInputs.artifactInputSha256=entry.sha256;
+    }
+    row.verificationBoundInputsSha256=hash(`rcap-final-verification-bound-inputs/v1\n${stableStringify(row.verificationBoundInputs)}`);
+  }
+  assert.deepEqual(proof.results,expectedResults,'historical packet meaning changed: results');
+  // The unapproved boundary render of a moved artifact moves with it (same renderer change); the generator checks its determinism.
+  const expectedUnapproved=structuredClone(predecessor.unapprovedDeterminismControls);
+  for(const row of expectedUnapproved)if(movedIds.has(row.id))row.unapprovedRenderSha256=proof.unapprovedDeterminismControls.find(r=>r.id===row.id)?.unapprovedRenderSha256;
+  assert.deepEqual(proof.unapprovedDeterminismControls,expectedUnapproved,'historical packet meaning changed: unapprovedDeterminismControls');
   assert.equal(proof.chargedConductSafetyControls.length,4);
   assert.deepEqual(proof.chargedConductSafetyControls.map(c=>c.scenario).sort(),['absent','legacy_only','unknown','yes']);
   assert.ok(proof.chargedConductSafetyControls.every(c=>c.refused===true
@@ -453,7 +492,22 @@ export function loadMsPaidPacketProof({readBytes=file=>fs.readFileSync(file), st
   assert.equal(hash(outputBytes),proof.outputContinuity.sha256,'current output inventory proof changed');
   const currentOutput=JSON.parse(outputBytes);
   assertMsObservedExecution(proof);
-  const requiredInventory=[...new Set([...Object.keys(predecessor.inputs),...currentOutput.sources.map(input=>input.file),
+  // A moved artifact retires its prior review evidence and raster pages from the inventory and adds the
+  // current decision, evidence, artifact and pages; the new pages must be exactly the reviewed page digests.
+  const priorEvidence=JSON.parse(readBytes(predecessor.ownerDecision.reviewEvidencePath));
+  const currentEvidence=JSON.parse(readBytes(approval.reviewEvidencePath));
+  const retiredInputs=new Set(); const addedInputs=new Set([approval.decisionPath,approval.reviewEvidencePath]);
+  if(predecessor.ownerDecision.reviewEvidencePath!==approval.reviewEvidencePath)retiredInputs.add(predecessor.ownerDecision.reviewEvidencePath);
+  for(const id of movedIds){
+    const before=priorEvidence.rasterReview.artifacts.find(a=>a.id===id), after=currentEvidence.rasterReview.artifacts.find(a=>a.id===id);
+    assert.notEqual(before.rasterDirectory,after.rasterDirectory,`${id}: a moved artifact needs its own reviewed rasters`);
+    for(const file of Object.keys(predecessor.inputs))if(file.startsWith(before.rasterDirectory+'/'))retiredInputs.add(file);
+    const pages=Object.keys(proof.inputs).filter(file=>file.startsWith(after.rasterDirectory+'/'));
+    assert.deepEqual(pages.map(file=>proof.inputs[file]).sort(),[...after.pageSha256].sort(),`incomplete or undeclared MS proof input inventory: ${id} reviewed raster pages`);
+    for(const file of pages)addedInputs.add(file);
+    addedInputs.add(approval.approvedArtifacts.find(a=>a.id===id).path);
+  }
+  const requiredInventory=[...new Set([...Object.keys(predecessor.inputs).filter(file=>!retiredInputs.has(file)),...addedInputs,...currentOutput.sources.map(input=>input.file),
     proof.outputContinuity.path,proof.outputContinuity.continuity.path,proof.outputContinuity.previousContinuity.path,proof.outputContinuity.previousOutput.path,proof.outputContinuity.earlierContinuity.path,proof.outputContinuity.earlierOutput.path,proof.outputContinuity.sameDatePredecessorContinuity.path,proof.outputContinuity.sameDatePredecessorOutput.path,proof.outputContinuity.latestPredecessorContinuity.path,proof.outputContinuity.latestPredecessorOutput.path,proof.outputContinuity.immediatePredecessorContinuity.path,proof.outputContinuity.immediatePredecessorOutput.path,proof.outputContinuity.priorRevisionContinuity.path,proof.outputContinuity.priorRevisionOutput.path,proof.outputContinuity.acceptedRevisionContinuity.path,proof.outputContinuity.acceptedRevisionOutput.path,proof.outputContinuity.executedRevisionContinuity.path,proof.outputContinuity.executedRevisionOutput.path,proof.outputContinuity.renderedRevisionContinuity.path,proof.outputContinuity.renderedRevisionOutput.path,proof.outputContinuity.observedRevisionContinuity.path,proof.outputContinuity.observedRevisionOutput.path,proof.outputContinuity.measuredRevisionContinuity.path,proof.outputContinuity.measuredRevisionOutput.path,proof.outputContinuity.boundRevisionContinuity.path,proof.outputContinuity.boundRevisionOutput.path,proof.outputContinuity.validatedRevisionContinuity.path,proof.outputContinuity.validatedRevisionOutput.path,proof.outputContinuity.recordedRevisionContinuity.path,proof.outputContinuity.recordedRevisionOutput.path,proof.outputContinuity.capturedRevisionContinuity.path,proof.outputContinuity.capturedRevisionOutput.path,proof.outputContinuity.retainedRevisionContinuity.path,proof.outputContinuity.retainedRevisionOutput.path,proof.outputContinuity.continuedRevisionContinuity.path,proof.outputContinuity.continuedRevisionOutput.path,proof.outputContinuity.reviewedRevisionContinuity.path,proof.outputContinuity.reviewedRevisionOutput.path,proof.outputContinuity.integratedRevisionContinuity.path,proof.outputContinuity.integratedRevisionOutput.path,proof.outputContinuity.revalidatedRevisionContinuity.path,proof.outputContinuity.revalidatedRevisionOutput.path,proof.outputContinuity.sourcePredecessorContinuity.path,proof.outputContinuity.sourcePredecessorOutput.path,proof.outputContinuity.artifactPredecessorContinuity.path,proof.outputContinuity.artifactPredecessorOutput.path,MS_PAID_PACKET_PROOF_PREDECESSOR,...MS_PROOF_EXECUTION_INPUTS,...MS_PROOF_OBSERVED_INPUTS])].sort();
   assert.deepEqual(Object.keys(proof.inputs).sort(),requiredInventory,'incomplete or undeclared MS proof input inventory');
   for(const [file,expected] of Object.entries(proof.inputs))assert.equal(hash(readBytes(file)),expected,`stale MS packet proof: ${file}`);

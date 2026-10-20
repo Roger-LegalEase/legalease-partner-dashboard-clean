@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX02",
+  "laneKind": "repair",
+  "baseSha": "0e7e94cad6a6ca68f2e1f2a9ed01f593c5026c2f",
+  "branch": "codex/batch26-repair-returns-20261020",
+  "isIndependentVerification": false,
+  "preparedOn": "2026-10-20",
+  "preparedBy": "Codex product/source/packet implementation worker under Lead Claude's 2026-10-20T04:33Z release. This is an implementation return, not independent verification or a cloud-worker grant.",
+  "grantsAsserted": [],
+  "grantBasis": "Lead 2026-10-20T04:33Z assigns census-pending-family:ME:juvenile-sealing to FIX02. The claim ledger at 0e7e94cad6a6ca68f2e1f2a9ed01f593c5026c2f records released=false. No claim is asserted or changed here. Lead owns release of the live repair grant in batch26.",
+  "rows": [
+    {
+      "itemId": "census-pending-family:ME:juvenile-sealing",
+      "familyId": "census-pending-family:ME:juvenile-sealing",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "SERVICE",
+        "SOURCE_IDENTITY"
+      ],
+      "historicalVerdicts": [
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261019-reverify-census-5e7fe802c.json",
+          "sha256": "66e2c2fcdba260d4facca184a93c752dbd29ee02a8107d91127d78c51ea1d3b0",
+          "lane": "VF02",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "failedObligationNames": [
+            "SOURCE_IDENTITY",
+            "SERVICE"
+          ],
+          "preserved": true,
+          "readAt": "8b6452ff5b05c8fd488d1c35b8c87036a698617f"
+        }
+      ],
+      "actualDefect": {
+        "SERVICE": "The packet denies a service requirement that its own delivered artifact states. Both fixtures (pdftotext -layout, line 20) print JV-043's own instruction: 'Please note: You are required to provide a copy of this petition to the prosecuting attorney’s office.' participant-instructions.md says the opposite three times: 'No committed record this packet binds states a service requirement for this petition, and JV-043 carries no certificate-of-service block of any kind. Ask the clerk ... whether anyone must be served and how' (line 41); step 6 'No record this packet binds answers either question' (line 96); and 'Whether anyone must be served. No committed record states a service requirement' (line 108). The prosecuting attorney is never mentioned in the instructions. The repository already holds the answer twice: the bound official form (above), and the committed memo data/record-clearing/legal-design-intake/ME.memo.json (fadc5e312ee3f225d27359efb3c89c7eb2336d919201afd00be39f0b1c7f798b), tracks[0].unresolvedQuestions[0], which records 'the juvenile form JV-043, which states on its face that the petitioner must provide a copy to the prosecuting attorney'. Under DET-FEE-AND-WAIVER-001 A1/A2 (ask the repository first; the family's own bound source documents count as held) a named-authority referral cannot stand in for a rule the repository holds, and under A4 a packet may not tell the participant it does not state what its own artifact states. These bytes are unchanged since the build commit 568aed850, an ancestor of VF02's PASS base b8a2495f4; the VF02 row's statement that it read the full page text did not catch this line.",
+        "SOURCE_IDENTITY": "Recomputed from disk here. committedRecords: single-routes.json 1bd1efb03ad57f4c6d8efd690532b74d2e2ac53c05a9c3103d15a3de72c80bdd (102577 B) exact; legal-design-track-registry.json b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0 (16781025 B) exact; ME-maine.json f33ef12f104eab887a40bee4d2e3aca8e947dfd3570265912fb4c4455e00883d (156951 B) exact; route-obligation-candidate.json: pinned f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81 (2629290 B) recovered as drift/route-obligation-candidate.json.pinned.f6fc0814; CURRENT eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9 (2635434 B). This family's entry routes[39] (pinned) / routes[40] (current) for obligation:runtime-contract-cohort:ME:juvenile-sealing:serious_or_oui_three_year_petition is IDENTICAL object-for-object (canonical sorted-key digest e5dea130a0bf9c8f38c2873d35f555847889f01324f652d5cb71dfd3a6156f79 in both); census metadata other than sourceFingerprint identical (e04de6df3f062cbb447313e7cd44264a261f70e02560055bfd0c7861c4b13ba3 in both). The worklist is not pinned by this receipt. The census drift alone would be refreshable. The defect is the receipt's official-form pin: documents[0] (official-form:JV-043) records sha256 79d0e40df56d060a4bd51f9f022cc95b444b5791f486c3e7c92640d76ed095e7 with byteLength 172380. The official binary IS held in this worktree, committed at reference/chat-parallel-2026-09-07/chat6/me/JV-043-Rev-12-21.pdf (git blob 46da5a49e08dad680019dd96dca431b74c5897a2, the gitBlob named by the committed record data/rcap-grade-a/chat-parallel-2026-09-07/chat6-source-legal/me-jv043-source-receipt.json, and the path MASTER_QUEUE sourceHashes names). Recomputed here it hashes to 79d0e40d... exactly but is 173449 bytes, which is also what that committed receipt (byteLength 173449) and ME-maine.json packetGenerator.pathways[4].formCandidates (sizeBytes 173449) record. 172380 is the receipt's own derivedByteLength for the decrypted transport copy, written into the official binary's byteLength; it has been so since the build commit 568aed850. The SHA-256 identity is exact; the byte-length pin is not, so the receipt's allSourcesExact: true is not true as written. pdfinfo confirms the held binary is AES-256 encrypted, as the receipt says."
+      },
+      "correction": "Participant instructions now state JV-043's held requirement to provide a copy to the prosecuting attorney's office; the clerk referral covers unresolved method and timing only. The official JV-043 receipt records the actual 173449-byte source, retaining the separate 172380-byte decrypted transport identity. The census pin is refreshed with the authorized same-anchor evidence. Both previously rendered PDFs are unchanged.",
+      "repairCommits": {
+        "authored": {
+          "6182e4fb3": "6182e4fb3bc0fb85fac77cbfdd8866b9b8b6cda5",
+          "2409a9ef3": "2409a9ef316093ccad3dd5e92d7c190519d31319",
+          "1617d7de3": "1617d7de3e86ca669489f3d1b7ac3f28cd0630c2"
+        },
+        "note": "Exact provenance: 6182e4fb3bc0fb85fac77cbfdd8866b9b8b6cda5 SERVICE instruction correction; 2409a9ef316093ccad3dd5e92d7c190519d31319 official-source length correction; 1617d7de3e86ca669489f3d1b7ac3f28cd0630c2 authorized census identity refresh. Artifacts and counters measured at 1617d7de3e86ca669489f3d1b7ac3f28cd0630c2; dispatch base is baseSha above. Historical verdict bytes remain preserved."
+      },
+      "packetBytesChanged": false,
+      "artifacts": [
+        {
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "fa7bd28a1f28cfb38f3f1da3a98d97f2ba3e7827e1c813a43ee51560f225144d",
+          "byteLength": 168354,
+          "pageCount": 1,
+          "pageCountBasis": "pdfinfo (Poppler) on exact committed PDF bytes; no rendering or rebuild",
+          "changed": false,
+          "sha256BeforeRepair": "fa7bd28a1f28cfb38f3f1da3a98d97f2ba3e7827e1c813a43ee51560f225144d",
+          "byteLengthBeforeRepair": 168354,
+          "pageCountBeforeRepair": 1,
+          "beforeBasis": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "afterBasis": "1617d7de3e86ca669489f3d1b7ac3f28cd0630c2"
+        },
+        {
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "69618b989b84945c1f0bf121430b589ecbec6368087cf620901c5a286c45aabb",
+          "byteLength": 168440,
+          "pageCount": 1,
+          "pageCountBasis": "pdfinfo (Poppler) on exact committed PDF bytes; no rendering or rebuild",
+          "changed": false,
+          "sha256BeforeRepair": "69618b989b84945c1f0bf121430b589ecbec6368087cf620901c5a286c45aabb",
+          "byteLengthBeforeRepair": 168440,
+          "pageCountBeforeRepair": 1,
+          "beforeBasis": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "afterBasis": "1617d7de3e86ca669489f3d1b7ac3f28cd0630c2"
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterBasis": "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/reports/completeness-counters.json at 1617d7de3e86ca669489f3d1b7ac3f28cd0630c2, sha256 c8d69f1c2bc7e394e056da2f287538ea4fe45fbc148d9508ed1beeaeb7ea4b6a. All nine native builder counters are numeric zero. This is retained implementation evidence, not an independent PASS_COMPLETE or new raster.",
+      "rasterState": "PDF_BYTES_UNCHANGED_REUSE_REQUIRES_ADMISSION",
+      "rasterRequired": false,
+      "independentRereadRequired": true,
+      "supportingArtifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/participant-instructions.md",
+          "sha256": "978d67ba6778773911dbe00c6f259c571f40d5b2f285b41fa9b509fca292684a",
+          "byteLength": 12808,
+          "sha256BeforeRepair": "6e6777e8bebcd5de02d68b3e41c07ab1b27c1dce40cb73c9b525005f77f16c91",
+          "byteLengthBeforeRepair": 12658,
+          "changed": true,
+          "beforeBasis": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "afterBasis": "1617d7de3e86ca669489f3d1b7ac3f28cd0630c2"
+        },
+        {
+          "path": "data/rcap-all50/overlays/census-v1/me/census-pending-family:me:juvenile-sealing--official-pdf-fill/source-receipt.json",
+          "sha256": "98d008b25c4d17aabeceee16bf22802245e19bfe06b8c5e78872f7188ff16d35",
+          "byteLength": 25543,
+          "sha256BeforeRepair": "4e8399417942358de0456e85266b1f5593814404fb18298c9ba6fb94858c4738",
+          "byteLengthBeforeRepair": 14516,
+          "changed": true,
+          "beforeBasis": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "afterBasis": "1617d7de3e86ca669489f3d1b7ac3f28cd0630c2"
+        }
+      ],
+      "rasterBasis": "Both fixtures are byte-identical to the selected failed-verdict base and the repair parent. No new raster is claimed or requested solely for this correction; Lead and Acceptance determine admission or reuse of existing exact-byte raster evidence."
+    }
+  ]
+}

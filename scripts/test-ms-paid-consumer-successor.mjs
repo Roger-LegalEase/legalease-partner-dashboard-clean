@@ -8,7 +8,7 @@ import { register } from 'node:module';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const { loadMsPaidConsumerSuccessor, MS_PAID_SUCCESSOR_DECISION_PATH: decisionPath,
   MS_PAID_SUCCESSOR_PRIOR_DECISION_PATH: priorDecisionPath,
-  MS_PAID_SUCCESSOR_FIRST_DECISION_PATH: firstDecisionPath, MS_PAID_SUCCESSOR_ROUTE: route } =
+  MS_PAID_SUCCESSOR_SECOND_DECISION_PATH: secondDecisionPath, MS_PAID_SUCCESSOR_FIRST_DECISION_PATH: firstDecisionPath, MS_PAID_SUCCESSOR_ROUTE: route } =
   await import('../src/lib/rcap/fulfillment/paid-consumer-successor.ts');
 const { QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH } =
   await import('../src/lib/rcap/fulfillment/question-contract-source-successor.mjs');
@@ -21,12 +21,11 @@ function check(label, run) { run(); passed++; console.log(`PASS ${label}`); }
 function writeDecision(decision) { fs.writeFileSync(path.join(scratch, decisionPath), JSON.stringify(decision)); }
 try {
   // The whole superseded chain and the approved bytes are custody inputs now,
-  // not only the evidence list: the loader reads all of them. The chain is two
-  // links deep since v3, so v1 is copied too -- the loader verifies that v2
-  // still names v1 exactly, and a fixture missing it would fail for the wrong
-  // reason in every control below.
-  for (const rel of [decisionPath, priorDecisionPath, firstDecisionPath,
+  // not only the evidence list: v4 -> v3 -> v2 -> v1 must all be present
+  // so each mutation is refused for its own reason.
+  for (const rel of [decisionPath, priorDecisionPath, secondDecisionPath, firstDecisionPath, approved.currentCommercialArtifactApproval.path,
     ...approved.preservedEvidence.map(e => e.path), ...approved.approvedArtifacts.map(a => a.path),
+    "data/rcap-ledger/grade-a/artifacts/ms-nonconviction-successor-review-full-es.pdf",
     QUESTION_CONTRACT_SUCCESSOR_PATH, QUESTION_CONTRACT_OUTPUT_PATH, MS_QUESTION_CONTRACT_PREDECESSOR_PATH,
     ...sourceSuccessor.preservedEvidence.map(e => e.path)]) {
     fs.mkdirSync(path.dirname(path.join(scratch, rel)), { recursive: true });
@@ -43,10 +42,14 @@ try {
     assert.equal(a.routeId, route); assert.equal(a.trackId, 'ms-nonconv');
     assert.equal(a.packetContentsChanged, true, 'the successor packet contents changed and the approval says so');
     assert.equal(a.approvedArtifacts.length, 3);
+    assert.equal(a.decisionId,'MS-NONCONV-PAID-CONSUMER-SUCCESSOR-20261019-V4');
+    assert.equal(a.approvedArtifacts.find(a=>a.id==='full-es').sha256,'f80520fbb425435b19b1e5d97d3214c56d2c469fcc7c660035258d0d57926fcd');
     assert.equal(a.decisionSha256, crypto.createHash('sha256').update(fs.readFileSync(path.join(scratch,decisionPath))).digest('hex'));
   });
   const artifact = (d, id) => d.approvedArtifacts.find(a => a.id === id);
   const mutations = {
+    'changed commercial approval binding': d => d.currentCommercialArtifactApproval.sha256 = '0'.repeat(64),
+    'redirected commercial approval binding': d => d.currentCommercialArtifactApproval.path = d.supersedes.path,
     'other route': d => d.routeId += '-other', 'other track': d => d.trackId = 'ms-misd-addl',
     'other family': d => d.packetSetId = 'ms-misd-addl-set', 'wrong price': d => d.priceCents = 100,
     'no paid approval': d => d.consumerPaidAuthorized = false,
@@ -103,9 +106,20 @@ try {
     // does not stop at the immediate predecessor.
     'a chain whose tail no longer names the first decision':
       (d, tree) => {
-        const v2 = JSON.parse(fs.readFileSync(path.join(tree, priorDecisionPath), 'utf8'));
+        const v2 = JSON.parse(fs.readFileSync(path.join(tree, secondDecisionPath), 'utf8'));
         v2.supersedes.sha256 = '0'.repeat(64);
-        fs.writeFileSync(path.join(tree, priorDecisionPath), JSON.stringify(v2));
+        fs.writeFileSync(path.join(tree, secondDecisionPath), JSON.stringify(v2));
+        // Observe descent so a later custody guard cannot make this control pass accidentally.
+        const read = fs.readFileSync;
+        let followedFirst = false;
+        try {
+          fs.readFileSync = (file, ...options) => {
+            if (file === path.join(tree, firstDecisionPath)) followedFirst = true;
+            return read(file, ...options);
+          };
+          assert.equal(loadMsPaidConsumerSuccessor(tree), null);
+          assert.equal(followedFirst, false, 'v3 -> v2 must refuse before following the first decision');
+        } finally { fs.readFileSync = read; }
       }
   };
   for (const [label, mutate] of Object.entries(mutations)) {
@@ -117,6 +131,7 @@ try {
     check(`refuses ${label}`, () => assert.equal(loadMsPaidConsumerSuccessor(scratch), null));
     // Restore whatever the mutation may have touched, so each refusal is its own.
     fs.copyFileSync(path.join(root, priorDecisionPath), path.join(scratch, priorDecisionPath));
+    fs.copyFileSync(path.join(root, secondDecisionPath), path.join(scratch, secondDecisionPath));
     fs.copyFileSync(path.join(root, firstDecisionPath), path.join(scratch, firstDecisionPath));
   }
   fs.copyFileSync(path.join(root, decisionPath), path.join(scratch, decisionPath));

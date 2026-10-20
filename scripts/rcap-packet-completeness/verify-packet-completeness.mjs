@@ -578,8 +578,25 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
      */
     const readings = [glyphs, appearances].filter((n) => typeof n === "number");
     const visible = readings.reduce((a, b) => a + b, 0);
-    if (readings.length > 0 && typeof reported === "number" && reported > 0 && visible === 0) {
-      note("invisibleWrites", { fixture: artifact.fixture, reportedByFinalizer: reported, glyphsInOutput: glyphs, appearancesInOutput: appearances, why: "the finalizer reported values but the output bytes carry no glyph and no flattened appearance" });
+    /*
+     * An appearance is not ink. A reader that also counts the appearances that
+     * paint nothing (appearancesThatPaintNothingReadFromOutputBytes) lets the
+     * rule tell "appearances present" from "ink present": when every flattened
+     * appearance paints nothing, the finalizer's values reached no page, however
+     * many appearances the bytes carry. The glyph count is not consulted: the
+     * reader counts every glyph an appearance draws, whitespace included, and an
+     * appearance that paints nothing draws only whitespace, so a whitespace-only
+     * write is as invisible as an empty one. A record without that reading keeps
+     * the sum rule above.
+     */
+    const paintNothing = artifact.appearancesThatPaintNothingReadFromOutputBytes ?? null;
+    const nothingPainted = typeof paintNothing === "number" && typeof appearances === "number"
+      && appearances > 0 && paintNothing === appearances;
+    if (readings.length > 0 && typeof reported === "number" && reported > 0 && (visible === 0 || nothingPainted)) {
+      note("invisibleWrites", { fixture: artifact.fixture, reportedByFinalizer: reported, glyphsInOutput: glyphs, appearancesInOutput: appearances, ...(nothingPainted ? { appearancesThatPaintNothing: paintNothing } : {}),
+        why: nothingPainted
+          ? "the finalizer reported values but every flattened appearance in the output bytes paints nothing (no visible glyph and no other painting operator)"
+          : "the finalizer reported values but the output bytes carry no glyph and no flattened appearance" });
     }
     const outsideBoxes = artifact.nonWhitespaceGlyphsOutsideMeasuredWriteBoxes;
     if (typeof outsideBoxes === "number" && outsideBoxes > 0) {

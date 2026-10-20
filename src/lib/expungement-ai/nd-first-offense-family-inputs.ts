@@ -8,7 +8,7 @@ export const ND_FIRST_OFFENSE_FAMILY = {
   componentId: "nd-marijuana-first-offense-seal-primary-filing-1",
   mapPath: "data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/production-field-map.json",
   mapSha256: "299d785562fe77ba5ffe310a8afbd7c377dd3384e7954ccb67d1839b213f5000",
-  sourceReceiptSha256: "9d4093cbd88492a42a515ecc361e6d8e6e1c31d2b16fcacd757988d8f2bd106d",
+  sourceReceiptSha256: "0040ae2cf5bbeae2e466751da42f4406fa5b65613bfa621a7108d72b897ed5e4",
   approvalId: "auth-2026-08-19-owner-legal-approval-completed-output",
   adoptionId: "EXT-ADOPT-01-standing-external-counsel-adoption",
   legacySpecificationCanonicalSha256: "c221c7d4f735d15526a1f5ac97b85055556f4b0c6ef1b2cf8327ce87af42f2f7",

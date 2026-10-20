@@ -20,7 +20,7 @@ export const VA_RECORD_ORIGIN_QUESTION: PublicQuestion = {
   id: VA_RECORD_ORIGIN_ID, stage: "pathway_routing", type: "single_choice", required: false,
   contextOnly: false, doesNotSelectPathway: true, lifecyclePhase: "prepay_hard_disqualifier",
   prompt: "Which jurisdiction created the record you want cleared?",
-  helperText: "Use the jurisdiction of this case or arrest record, not where you live now. A federal record is different from an Virginia state or local record, even if the federal case was in Virginia. The filing court and county are separate questions.",
+  helperText: "Use the jurisdiction of this case or arrest record, not where you live now. A federal record is different from a Virginia state or local record, even if the federal case was in Virginia. The filing court and county are separate questions.",
   options: ["virginia", "other_state", "federal", "unknown"],
   optionDisplay: {
     virginia: { label: "Virginia state or local record", translations: { es: { label: "Expediente estatal o local de Virginia" } } },
@@ -35,6 +35,6 @@ export const VA_RECORD_ORIGIN_QUESTION: PublicQuestion = {
 };
 
 export const VA_RECORD_ORIGIN_COPY = {
-  unknown: ["Confirm which jurisdiction created this case or arrest record. An earlier location answer or a State or local answer does not establish that it is an Virginia record.", "Confirme qué jurisdicción creó el expediente del caso o arresto. Una respuesta anterior sobre el lugar o una respuesta de Estatal o local no establece que sea un expediente de Virginia."],
+  unknown: ["Confirm which jurisdiction created this case or arrest record. An earlier location answer or a State or local answer does not establish that it is a Virginia record.", "Confirme qué jurisdicción creó el expediente del caso o arresto. Una respuesta anterior sobre el lugar o una respuesta de Estatal o local no establece que sea un expediente de Virginia."],
   outside: ["These Virginia record-clearing procedures apply to Virginia records. The other-state or federal record you identified needs the procedure for that jurisdiction; changing where you live or file does not change the record's origin.", "Estos procedimientos de limpieza de antecedentes de Virginia se aplican a expedientes de Virginia. El expediente de otro estado o federal que indicó necesita el procedimiento de esa jurisdicción; cambiar dónde vive o presenta la solicitud no cambia el origen del expediente."]
 } as const;

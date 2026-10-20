@@ -165,6 +165,65 @@ export function loadCurrentCommercialArtifactApprovals(root = process.cwd(),
       }))
     });
   }
+  // An installed MS successor never falls back to obsolete bytes. Its source
+  // pin binds the owner instruction and the complete measured/reviewed tuple.
+  const msRoute = 'MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal';
+  const msMovePath = 'data/rcap-grade-a/legal-decisions/MS_NONCONVICTION_ARTIFACT_MOVE_2026-10-20.json';
+  let msMovePresent = false;
+  try { readBytes(msMovePath); msMovePresent = true; }
+  catch (error) { if (error?.code !== 'ENOENT') approvals.delete(msRoute); }
+  if (msMovePresent) {
+    approvals.delete(msRoute);
+    try {
+      const readBound = binding => {
+        const value = readBytes(binding.path);
+        if (digest(value) !== binding.sha256) throw new Error(`MS successor evidence changed: ${binding.path}`);
+        return value;
+      };
+      const binding = {
+        path: 'data/rcap-grade-a/legal-decisions/OWNER_CURRENT_COMMERCIAL_ARTIFACT_APPROVAL_MS_NONCONVICTION_2026-10-20.json',
+        sha256: 'a36699d585649a2204f21bf02537b13144606c35c5bbf571b8ab0036db49f50b'
+      };
+      const next = JSON.parse(readBound(binding).toString('utf8'));
+      const move = JSON.parse(readBound(next.explainedMove).toString('utf8'));
+      readBound(next.supersedesArtifactDigestConditionOnly);
+      readBound(next.ownerInstructionEvidence);
+      for (const entry of next.preservedEvidence) readBound(entry);
+      const measured = JSON.parse(readBound(next.boundTo.batch).toString('utf8'));
+      const visual = JSON.parse(readBound(next.boundTo.visualReview).toString('utf8'));
+      readBound(visual.independentPreparation);
+      readBound(visual.evidence.custodySuccessor.copiedFromAcceptanceDraft);
+      if (move.routeId !== msRoute || next.routeId !== msRoute
+        || measured.worktreeHead !== next.boundTo.commit
+        || measured.results.length !== 3 || next.approvedArtifacts.length !== 3
+        || visual.evidence.rasterReview.artifacts.length !== 3) throw new Error('MS successor tuple mismatch');
+      for (const artifact of next.approvedArtifacts) {
+        const result = measured.results.find(row => row.id === artifact.artifactId);
+        const raster = visual.evidence.rasterReview.artifacts.find(row => row.id === artifact.artifactId);
+        const artifactBytes = readBound(artifact);
+        if (!result?.deterministic || result.sha256 !== artifact.sha256 || result.byteLength !== artifactBytes.length
+          || raster?.sourcePdf !== artifact.path || raster.sourcePdfSha256 !== artifact.sha256
+          || raster.pagesReviewed !== artifact.pageCount || raster.pageSha256.length !== artifact.pageCount) {
+          throw new Error('MS successor artifact/review mismatch');
+        }
+        for (const [index, sha256] of raster.pageSha256.entries()) readBound({
+          path: `${raster.rasterDirectory}/page-${String(index + 1).padStart(String(artifact.pageCount).length, '0')}.png`, sha256
+        });
+      }
+      const primary = next.approvedArtifacts.find(a => a.variant === 'full' && a.locale === 'en');
+      approvals.set(msRoute, { path: binding.path, sha256: binding.sha256,
+        recordId: next.decisionId, artifactSha256: primary.sha256,
+        artifactPageCount: primary.pageCount, decidedAt: next.decidedAt, owner: next.owner,
+        boundToCommit: next.boundTo.commit, boundToBatchSha256: next.boundTo.batch.sha256,
+        boundToVisualReviewSha256: next.boundTo.visualReview.sha256,
+        approvedArtifacts: next.approvedArtifacts,
+        preservedPriorApproval: next.supersedesArtifactDigestConditionOnly,
+        artifactSuccessor: { routeId: msRoute, decision: binding, rawOutput: next.boundTo.batch,
+          artifactDigests: next.approvedArtifacts, createsOwnerApproval: false,
+          commercialAuthorityGranted: false, productionAuthorized: false },
+        commercialAuthorityGranted: false, productionAuthorized: false });
+    } catch { /* Missing, unreadable or drifted successor evidence holds only MS. */ }
+  }
   // An explained current move removes only this route's obsolete current-byte
   // claim. It cannot add an approval. All 18 original approval artifacts remain.
   let moveRecordPresent = false;

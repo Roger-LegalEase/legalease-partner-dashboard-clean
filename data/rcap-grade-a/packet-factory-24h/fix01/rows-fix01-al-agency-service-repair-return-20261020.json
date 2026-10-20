@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "rcap-packet-factory-lane-rows/v1",
+  "lane": "FIX01",
+  "laneKind": "repair",
+  "baseSha": "0e7e94cad6a6ca68f2e1f2a9ed01f593c5026c2f",
+  "branch": "codex/batch26-repair-returns-20261020",
+  "isIndependentVerification": false,
+  "preparedOn": "2026-10-20",
+  "preparedBy": "Codex product/source/packet implementation worker under Lead Claude's 2026-10-20T04:33Z release. This is an implementation return, not independent verification or a cloud-worker grant.",
+  "grantsAsserted": [],
+  "grantBasis": "Lead 2026-10-20T04:33Z assigns agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge to FIX01. The claim ledger at 0e7e94cad6a6ca68f2e1f2a9ed01f593c5026c2f records released=false. No claim is asserted or changed here. Lead owns release of the live repair grant in batch26.",
+  "rows": [
+    {
+      "itemId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+      "familyId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+      "status": "COMPLETED",
+      "laneKind": "repair",
+      "repairedByThisLane": true,
+      "obligationsRepaired": [
+        "SERVICE"
+      ],
+      "historicalVerdicts": [
+        {
+          "path": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20261019-reverify-census-5e7fe802c.json",
+          "sha256": "268b54a3dc84424d77034b4044e541543f298f43f072fc8c5a05cfefb0e51380",
+          "lane": "VF01",
+          "verdict": "FAIL_REPAIR_REQUIRED",
+          "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "failedObligationNames": [
+            "SERVICE"
+          ],
+          "preserved": true,
+          "readAt": "8b6452ff5b05c8fd488d1c35b8c87036a698617f"
+        }
+      ],
+      "actualDefect": {
+        "SERVICE": "The packet is silent on service. Neither the PDF nor participant-instructions.md says whether anyone besides the receiving agency must be served or sent a copy. Neither states a service rule or an affirmative nobody-is-served statement with its mechanism, and neither names an authority for that question. The only occurrence of 'service' is in 'the recorded court window is 30 days after receipt or service of that final decision', which concerns the separate appeal. The held records give no rule: the controlling decision's serviceWorkflow is empty (researchTrackDecisions[4]) and AL.memo.json records service as 'Unresolved.'. Naming ALEA/ACJIC for the 'submission method and destination' answers where the challenge goes, not who must be served. Under this lane's standard (a named rule, or an affirmative nobody-is-served statement with the mechanism; silence does not meet it), and under DET-FEE-AND-WAIVER-001 as extended to SERVICE (a named checkable authority may stand in only where it is named for the question), this is not met. The selected VF01 row scored this obligation PASS on the submission mechanism and called it 'the thinnest of the fifteen'. This lane does not accept that reading. Not a C1 effect."
+      },
+      "correction": "The preparation guide and participant instructions now distinguish the unserved guide from a future agency challenge. They state that held sources do not establish who must receive a copy or notice and name ALEA/ACJIC or the originating agency records unit to confirm that question and how, without inventing a service rule.",
+      "repairCommits": {
+        "authored": {
+          "0826aaff9": "0826aaff968adf9ae5fc88c69cb60024b8be031d"
+        },
+        "note": "Exact provenance: 0826aaff968adf9ae5fc88c69cb60024b8be031d bounded product correction. Artifacts and counters measured at 0826aaff968adf9ae5fc88c69cb60024b8be031d; dispatch base is baseSha above. Historical verdict bytes remain preserved."
+      },
+      "packetBytesChanged": true,
+      "artifacts": [
+        {
+          "role": "canonical",
+          "path": "data/rcap-all50/overlays/census-v1/al/agency-application-treatment:obligation:research-decision-route:al:al-uncharged-arrest:agency-record-challenge--official-pdf-fill/fixtures/canonical.pdf",
+          "sha256": "3a623ddd053ba69285f8ff51da9eab1b8dd38664c766462b247937e8014f8372",
+          "byteLength": 6329,
+          "pageCount": 2,
+          "pageCountBasis": "pdfinfo (Poppler) on exact committed PDF bytes; no rendering or rebuild",
+          "changed": true,
+          "sha256BeforeRepair": "95fed142e8fab838496cc9bf531e2268a4d45c9e3c375f8dab1e70a7ec1303c5",
+          "byteLengthBeforeRepair": 5918,
+          "pageCountBeforeRepair": 2,
+          "beforeBasis": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "afterBasis": "0826aaff968adf9ae5fc88c69cb60024b8be031d"
+        },
+        {
+          "role": "boundary",
+          "path": "data/rcap-all50/overlays/census-v1/al/agency-application-treatment:obligation:research-decision-route:al:al-uncharged-arrest:agency-record-challenge--official-pdf-fill/fixtures/boundary.pdf",
+          "sha256": "27f03f93313603b66fee97cae8cf85425820cc8f307c3979bb392f34435d34d4",
+          "byteLength": 6439,
+          "pageCount": 2,
+          "pageCountBasis": "pdfinfo (Poppler) on exact committed PDF bytes; no rendering or rebuild",
+          "changed": true,
+          "sha256BeforeRepair": "c9a3b9b16e77d75105628785ea19e9168e3d0a2318a43efd8a253e4450e39ea7",
+          "byteLengthBeforeRepair": 6041,
+          "pageCountBeforeRepair": 2,
+          "beforeBasis": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "afterBasis": "0826aaff968adf9ae5fc88c69cb60024b8be031d"
+        }
+      ],
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfterBasis": "data/rcap-all50/overlays/census-v1/al/agency-application-treatment:obligation:research-decision-route:al:al-uncharged-arrest:agency-record-challenge--official-pdf-fill/reports/completeness-counters.json at 0826aaff968adf9ae5fc88c69cb60024b8be031d, sha256 cad07cacc21f4f5172f6ec0793e1017b905e8216c9de1dddfe5657638a9f8597. All nine native builder counters are numeric zero. This is retained implementation evidence, not an independent PASS_COMPLETE or new raster.",
+      "rasterState": "BUILT_RASTER_PENDING",
+      "rasterRequired": true,
+      "independentRereadRequired": true,
+      "supportingArtifacts": [
+        {
+          "path": "data/rcap-all50/overlays/census-v1/al/agency-application-treatment:obligation:research-decision-route:al:al-uncharged-arrest:agency-record-challenge--official-pdf-fill/participant-instructions.md",
+          "sha256": "258a9f3d641287f5bbecbb18a314c2a0696bc39717167cbeb766054bdedbfe51",
+          "byteLength": 3116,
+          "sha256BeforeRepair": "56e27621cb4040948bae327f9c915cd4a51c186c6225b693dae7e00005c33aee",
+          "byteLengthBeforeRepair": 2781,
+          "changed": true,
+          "beforeBasis": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
+          "afterBasis": "0826aaff968adf9ae5fc88c69cb60024b8be031d"
+        }
+      ]
+    }
+  ]
+}

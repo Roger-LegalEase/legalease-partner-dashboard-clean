@@ -31,7 +31,7 @@ const SEARCH_SYNONYMS: Record<Locale, Record<string, string[]>> = {
     "libertad condicional": ["probatoria", "diferid", "desv"], probatoria: ["libertad condicional", "diferid"],
     borrar: ["elimin", "cancel", "expung", "destru"], eliminar: ["borr", "cancel", "expung", "destru"],
     victima: ["trata"], identidad: ["equivoc", "error"], "persona equivocada": ["identidad", "equivoc", "error"],
-    prostitucion: ["sexual"],
+    prostitucion: ["sexual"], perdon: ["indulto", "clemencia"], "primera vez": ["primer"], "primer delito": ["primer"],
   },
 };
 const normalizeSearch = (value: string, locale: Locale) => value.trim().toLocaleLowerCase(locale).normalize("NFD").replace(/\p{M}/gu, "");

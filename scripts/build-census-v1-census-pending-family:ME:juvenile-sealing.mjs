@@ -367,7 +367,7 @@ const SPEC = {
   ],
 
   service: [
-    "**No committed record this packet binds states a service requirement for this petition, and JV-043 carries no certificate-of-service block of any kind.** Ask the clerk of the court you are filing in whether anyone must be served and how.",
+    "**Provide a copy of the petition to the prosecuting attorney’s office.** JV-043 expressly requires that copy. The form does not state the delivery method or deadline; ask the Juvenile Court clerk how and when to provide it.",
     "No committed record states a notarization requirement for this petition. JV-043 carries a plain signature line, not a jurat."
   ],
 
@@ -382,7 +382,7 @@ const SPEC = {
     "**Get proof of your final discharge** from the Juvenile Court, and the docket number and court location from its file.",
     "**Fill in the blanks listed below** on the petition: the court location, the docket number, and the gender box on the caption line.",
     "**Sign and date the petition personally.** This platform never signs for you and never dates a signing line.",
-    "**Ask the clerk what the filing fee is, if any, and whether anyone must be served**, before you file. No record this packet binds answers either question.",
+    "**Ask the clerk what the filing fee is, if any, and how and when to provide the required copy to the prosecuting attorney’s office**, before you file. JV-043 requires that copy; the held record does not establish a fee, delivery method or deadline.",
     "**File the petition with the Juvenile Court**, with your proof of final discharge."
   ],
 
@@ -394,7 +394,7 @@ const SPEC = {
 
   notTold: [
     "What the filing fee is, or whether there is one. No committed record this packet binds states a fee for this petition or states that there is none.",
-    "Whether anyone must be served. No committed record states a service requirement, and the form carries no certificate-of-service block.",
+    "How and when to provide the required copy to the prosecuting attorney’s office. JV-043 states the copy requirement but does not specify the delivery method or deadline; ask the Juvenile Court clerk.",
     "Which court location takes the petition. The route-obligation census records this route's destination as \"not recorded\".",
     "Whether the court will grant it. The standard the compiled record gives is discretionary — the court may grant unless the public's right to information substantially outweighs the juvenile's privacy interest."
   ],
@@ -499,7 +499,7 @@ const SPEC = {
   ],
 
   counselQuestions: [
-    "The packet states no filing fee and no service requirement because no committed record it binds states either, and directs the participant to the clerk for both. Confirm that delegation, or supply the content.",
+    "JV-043 requires a copy to the prosecuting attorney’s office. The packet states that requirement and directs the participant to the Juvenile Court clerk for the delivery method and deadline. The filing fee remains unestablished; confirm the fee and delivery details before promotion.",
     "The route's destination is recorded as \"not recorded\" and the packet asks the participant to write in the court location. Confirm that is right for a Juvenile Court filing, or supply the venue rule.",
     "The three gender checkboxes on the caption line are left for the participant as required-before-filing items rather than being treated as an election. Confirm that treatment.",
     "The guide opens by telling the participant they may be on the automatic branch and should not file at all. Confirm the wording of that warning against the statute."

@@ -31,8 +31,23 @@ function check(name,fn){try{fn();checks++;}catch(error){error.message=`${name}: 
 check('actual observed module inventory refuses omission, drift and invention',()=>assert.equal(observedInventoryControls(proof),8));
 check('actual current v4 proof validates three exact approved outputs',()=>{
   const actual=load();assert.equal(actual.proof.schemaVersion,'rcap-ms-paid-packet-proof/v4');
-  assert.equal(actual.proof.results.length,3);assert.deepEqual(actual.proof.results,prior.results);
-  assert.deepEqual(actual.proof.ownerDecision,prior.ownerDecision);
+  assert.equal(actual.proof.results.length,3);
+  // The v4 decision changes only full-es artifact identity; every other result
+  // and verification fact must retain its previously proven value.
+  const expectedResults=structuredClone(prior.results);
+  const spanish=expectedResults.find(row=>row.id==='full-es');
+  spanish.artifactPath='data/rcap-ledger/grade-a/artifacts/ms-nonconviction-2026-10-20/full-es.pdf';
+  spanish.artifactSha256='f80520fbb425435b19b1e5d97d3214c56d2c469fcc7c660035258d0d57926fcd';
+  spanish.verificationBoundInputs.artifactInputSha256=spanish.artifactSha256;
+  // Every result binds the codified-authority hash; the v4 decision moves it (the loader verified the new source authority).
+  assert.notEqual(actual.proof.sourceAuthority.boundInputsSha256,prior.sourceAuthority.boundInputsSha256);
+  for(const row of expectedResults){
+    row.verificationBoundInputs.officialSourceSha256ById['codified-authority:ms-nonconv-set']=actual.proof.sourceAuthority.boundInputsSha256;
+    row.verificationBoundInputsSha256=createHash('sha256').update(`rcap-final-verification-bound-inputs/v1\n${stableStringify(row.verificationBoundInputs)}`).digest('hex');
+  }
+  assert.deepEqual(actual.proof.results,expectedResults);
+  assert.equal(approval.decisionSha256,'f0a6172f40d82047259e59bbb46632f9e204f3c51081dda1cb81db0fb91177e1');
+  assert.deepEqual(actual.proof.ownerDecision,approval);
   assert.equal(actual.proof.outputContinuity.inputCount,198);
   const continuity=actual.proof.outputContinuity;
   assert.equal(continuity.sourcePredecessorOutput.path,'data/rcap-grade-a/participant-data-rights/question-contract-output-reproduction-20261016-v20.json');
@@ -138,6 +153,10 @@ const namedSourceExecutionRefusals={
  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-md-police-reconciliation-20261019-v1.json':{name:'Error',message:'Question-contract source successor refused: MD police-record reconciliation source succession record bytes changed'},
  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-va-record-origin-20261020-v1.json':{name:'Error',message:'Question-contract source successor refused: VA record origin source succession record bytes changed'},
  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga21-spanish-labels-20261020-v1.json':{name:'Error',message:'Question-contract source successor refused: GA-21 reviewed Spanish labels source succession record bytes changed'},
+ 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-nd-custom-receipt-20261020-v1.json':{name:'Error',message:'Question-contract source successor refused: ND custom-pleading receipt pin source succession record bytes changed'},
+ 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ms-guide-es-20261020-v1.json':{name:'Error',message:'Question-contract source successor refused: MS shared Spanish guide pages source succession record bytes changed'},
+ 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ca-prop64-stack-20261020-v1.json':{name:'Error',message:'Question-contract source successor refused: CA Proposition 64 stack source succession record bytes changed'},
+ 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-nd-census-prose-20261020-v1.json':{name:'Error',message:'Question-contract source successor refused: ND census-prose receipt re-pin source succession record bytes changed'},
  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga-va-spec-successor-gates-20261017-v1.json':{name:'Error',message:'Question-contract source successor refused: GA/VA spec successor gates source succession record bytes changed'},
  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga-pardon-contact-successor-20261017-v1.json':{name:'Error',message:'Question-contract source successor refused: GA pardon contact successor source succession record bytes changed'},
  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ga-pardon-spec-pin-20261017-v1.json':{name:'Error',message:'Question-contract source successor refused: GA pardon spec-pin source succession record bytes changed'},

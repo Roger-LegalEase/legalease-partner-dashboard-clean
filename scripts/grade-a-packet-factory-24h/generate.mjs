@@ -1599,6 +1599,10 @@ function onlyChangeIsAnIdentityRefresh(declaredBase, directory) {
     eachPin(doc, (rec, key) => {
       if (!paths.has(key)) return;
       delete rec.identityRefresh;
+      /* Ruling B' (2026-10-20): a rebuild carries a superseded block as
+       * identityRefreshHistory on the pin; on a refreshed path it is part of
+       * the same normalised identity. A path without a live block keeps it. */
+      delete rec.identityRefreshHistory;
       delete rec.sha256;
       delete rec.byteLength;
     });

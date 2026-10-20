@@ -19,6 +19,8 @@ The platform wrote only the identity and contact facts it holds: full legal name
 
 ## Route boundary
 
+The legal review behind this guide has not verified Section 29-16-10 at an official New Mexico source. Stop before applying until the statutory text has been checked at an official source and the receiving agency and request format are established. Ask a New Mexico attorney to resolve the statutory-text gap and the New Mexico Department of Public Safety to confirm the receiving agency and format.
+This preparation guide is not served on anyone and is not a court filing. The held sources do not establish a service or notice rule for the agency request. Before submitting a request, ask the New Mexico Department of Public Safety whether anyone besides the receiving agency must receive a copy or notice and how.
 Do not use a Rule 1-077.1 court form and do not file this guide with a court. Confirm the state DNA identification system's administrative center and its accepted written-request format with DPS first.
 Do not apply if a prior felony conviction or a pending felony charge authorizing DNA collection may exist; obtain counsel. Obtain certified documentation, or use a sworn affirmation only in the branch and form the confirmed receiving office accepts.
 The recorded 30- or 45-day agency periods are post-request processing periods, never prefiling waits.

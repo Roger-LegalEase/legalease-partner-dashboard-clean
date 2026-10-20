@@ -10,6 +10,10 @@ import {assertVaGuardMemoSourceSuccession,VA_GUARD_MEMO_SOURCE_PATH} from '../sr
 import {assertMdPoliceReconciliationSourceSuccession,MD_POLICE_RECONCILIATION_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertVaRecordOriginSourceSuccession,VA_RECORD_ORIGIN_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGa21SpanishLabelsSourceSuccession,GA21_SPANISH_LABELS_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertNdCustomReceiptSourceSuccession,ND_CUSTOM_RECEIPT_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertMsGuideEsSourceSuccession,MS_GUIDE_ES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertCaProp64StackSourceSuccession,CA_PROP64_STACK_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertNdCensusProseSourceSuccession,ND_CENSUS_PROSE_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaSafeAtHomeSourceSuccession,CA_SAFE_AT_HOME_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertLeadSpanishSourceSuccession,LEAD_SPANISH_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -143,10 +147,19 @@ check('actual continuity reader paths fit the exact MS required inventory union 
   const source = fs.readFileSync('scripts/lib/ms-paid-packet-proof.mjs', 'utf8');
   const match = source.match(/const requiredInventory=(\[\.\.\.new Set\(\[[\s\S]*?\]\)\]\.sort\(\));/);
   assert.ok(match, 'use the real existing MS inventory expression, not a copied list');
-  const context = { ...msProofInventory,
+  // The expression filters with the loader's retired/added sets; run the loader's real derivation, not a copy.
+  const delta = source.match(/(const priorEvidence=[\s\S]*?)\n  const requiredInventory=/);
+  assert.ok(delta, 'use the real MS retired/added input derivation');
+  const msProof = JSON.parse(readBytes(msProofInventory.MS_PAID_PACKET_PROOF));
+  const context = { ...msProofInventory, assert, readBytes,
     predecessor: JSON.parse(readBytes(msProofInventory.MS_PAID_PACKET_PROOF_PREDECESSOR)),
-    currentOutput: proof, proof: { outputContinuity: actual } };
-  const inventory = expression => new Set(runInNewContext(expression, context));
+    // the loader asserts ownerDecision deep-equals the live approval
+    approval: msProof.ownerDecision,
+    currentOutput: proof, proof: { inputs: msProof.inputs, outputContinuity: actual } };
+  // same moved-artifact rule as the loader's results loop
+  context.movedIds = new Set(context.predecessor.results.filter(row => {
+    const entry = context.approval.approvedArtifacts.find(a => a.id === row.id); return entry && entry.sha256 !== row.artifactSha256; }).map(row => row.id));
+  const inventory = expression => new Set(runInNewContext(`(()=>{${delta[1]}\nreturn ${expression};})()`, context));
   const required = inventory(match[1]);
   assert.ok([...reads].every(file => required.has(file)), 'every actual continuity read must enter MS source inventory');
   for (const token of ['retainedRevisionContinuity', 'retainedRevisionOutput', 'continuedRevisionContinuity', 'continuedRevisionOutput', 'reviewedRevisionContinuity', 'reviewedRevisionOutput', 'integratedRevisionContinuity', 'integratedRevisionOutput', 'revalidatedRevisionContinuity', 'revalidatedRevisionOutput', 'artifactPredecessorContinuity', 'artifactPredecessorOutput', 'sourcePredecessorContinuity', 'sourcePredecessorOutput']) {
@@ -962,6 +975,34 @@ check('GA-21 reviewed Spanish labels hop preserves prior chain and refuses missi
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===GA21_SPANISH_LABELS_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/GA-21 reviewed Spanish labels source succession record bytes changed/);
  assert.throws(()=>assertVaRecordOriginSourceSuccession(file=>{if(file===GA21_SPANISH_LABELS_SOURCE_PATH)throw Error('missing GA-21 reviewed Spanish labels record');return readBytes(file);}),/missing GA-21 reviewed Spanish labels record/);
  for(const input of ["src/lib/expungement-ai/frontend/profiles/all51.json"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('ND custom-pleading receipt pin hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertNdCustomReceiptSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,30);assert.equal(c.currentUnchangedSourceCount,168);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===ND_CUSTOM_RECEIPT_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/ND custom-pleading receipt pin source succession record bytes changed/);
+ assert.throws(()=>assertGa21SpanishLabelsSourceSuccession(file=>{if(file===ND_CUSTOM_RECEIPT_SOURCE_PATH)throw Error('missing ND custom-pleading receipt pin record');return readBytes(file);}),/missing ND custom-pleading receipt pin record/);
+ for(const input of ["src/lib/expungement-ai/nd-first-offense-family-inputs.ts"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('MS shared Spanish guide pages hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertMsGuideEsSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,31);assert.equal(c.currentUnchangedSourceCount,167);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===MS_GUIDE_ES_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/MS shared Spanish guide pages source succession record bytes changed/);
+ assert.throws(()=>assertNdCustomReceiptSourceSuccession(file=>{if(file===MS_GUIDE_ES_SOURCE_PATH)throw Error('missing MS shared Spanish guide pages record');return readBytes(file);}),/missing MS shared Spanish guide pages record/);
+ for(const input of ["src/lib/rcap/supplemental/guide-renderer.ts"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('CA Proposition 64 stack hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertCaProp64StackSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,33);assert.equal(c.currentUnchangedSourceCount,165);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===CA_PROP64_STACK_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/CA Proposition 64 stack source succession record bytes changed/);
+ assert.throws(()=>assertMsGuideEsSourceSuccession(file=>{if(file===CA_PROP64_STACK_SOURCE_PATH)throw Error('missing CA Proposition 64 stack record');return readBytes(file);}),/missing CA Proposition 64 stack record/);
+ for(const input of ["src/lib/expungement-ai/ca-prop64-quantity.ts", "src/lib/expungement-ai/frontend/ca-prop64-reviewed-choices.json", "src/lib/expungement-ai/frontend/reviewed-result-display-copy.json", "src/lib/rcap-engine/california-prop64-facts.ts"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('ND census-prose receipt re-pin hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertNdCensusProseSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,33);assert.equal(c.currentUnchangedSourceCount,165);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===ND_CENSUS_PROSE_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/ND census-prose receipt re-pin source succession record bytes changed/);
+ assert.throws(()=>assertCaProp64StackSourceSuccession(file=>{if(file===ND_CENSUS_PROSE_SOURCE_PATH)throw Error('missing ND census-prose receipt re-pin record');return readBytes(file);}),/missing ND census-prose receipt re-pin record/);
+ for(const input of ["src/lib/expungement-ai/nd-first-offense-family-inputs.ts"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 // A succession record set must never outlive its call: after an honest load, a later drift still
