@@ -7353,8 +7353,9 @@
       "operation": "rapid-repair",
       "lane": "FIX03",
       "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
+      "released": true,
+      "releasedAt": "2026-10-20T04:36:18.989Z",
+      "releaseReason": "FIX03 repair return rows-fix03-nd-deferred-service-repair-return-20261020.json lands in this batch (SERVICE repaired by Codex bd9e11f7520f704eb767ebaa12e18fe6888ed654, re-cut patch-identically in this stack); lead release per the repair-row rule"
     },
     {
       "subjectType": "packet-family",
@@ -16008,7 +16009,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "de0996a53cbf6fa1ca9455d3d3fa1b7fbc9bf030e532e70b15d5e62dc00a6be5",
+  "claimsDigest": "196a21056f718b4748e8568ec1965ea0c43746e97d082703f0e266ceb7134688",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -44120,6 +44121,15 @@
       "laneKind": "independent-verification",
       "releasedAt": "2026-10-20T03:27:54.135Z",
       "reason": "re-pinned at the batch25 tip through the pathway-scoped profile adapter with Acceptance's VF01 PASS read at a6ace3c7d as the measured re-verification (the one drifted leaf sits in the clean-slate pathway, not this route's); the PASS read is selected; no read is owed (verify F34)"
+    },
+    {
+      "lane": "FIX03",
+      "subjectType": "packet-family",
+      "subjectId": "nd-deferred-imposition-records-set",
+      "operation": "rapid-repair",
+      "laneKind": "repair",
+      "releasedAt": "2026-10-20T04:36:18.989Z",
+      "reason": "FIX03 repair return rows-fix03-nd-deferred-service-repair-return-20261020.json lands in this batch (SERVICE repaired by Codex bd9e11f7520f704eb767ebaa12e18fe6888ed654, re-cut patch-identically in this stack); lead release per the repair-row rule"
     }
   ],
   "reissues": [
