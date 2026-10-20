@@ -1651,6 +1651,19 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
+    // GA-16-M01616 / Q-a2f3f43ff3e49ae2ce48: court/county are separate later-actor fields.
+    if (factId === "residency_or_location" && sdSisCategoryHistory && !overrideClass
+      && !needsHuman.has(factId) && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)
+      && !input.recordOwnQuestionIds?.has(factId)) {
+      const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
+        source: "sd_sis_location_history",
+        reason: "Earlier generic location remains optional literal context, never the original court, county, mailing address or a document value. Court/county handbacks and conditional enforcement retain their separate source ownership." });
+      continue;
+    }
+
     // GA-16-M01571 / Q-3243544293c0222d2708: the exact NV family has separate court/contact facts.
     if (factId === "residency_or_location" && nvProgramCategoryHistory && !overrideClass
       && !needsHuman.has(factId) && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)

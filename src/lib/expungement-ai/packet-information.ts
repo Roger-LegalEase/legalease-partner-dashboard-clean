@@ -3321,7 +3321,8 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
     ? [...convictionReliefQuestions(state).filter(q => includeInactive || convictionReliefQuestionApplies(profile, answers, q.id)).map(q => q.id),
       "case_outcome", ...(state === "GA" ? ["ga_original_first_offender", "pardon_status"] : [])] : [];
   if (includeInactive && Object.hasOwn(answers, "residency_or_location")
-    && nvProgramCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) extra.push("residency_or_location");
+    && (nvProgramCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
+      || sdSisCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)))) extra.push("residency_or_location");
   if (includeInactive && Object.hasOwn(answers, "offense_category")
     && (ilProstitutionCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || nvProgramCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
@@ -3607,6 +3608,12 @@ export function isTexasNondisclosureGuidanceCorrection(model: Parameters<typeof 
 
 export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): Set<string> {
   const ids = heldCourtCompletionInputIds(model, resultCode);
+  // GA-16-M01616: the held SIS page still owns an earlier optional location correction.
+  if (resultCode === "guidance_only"
+    && sdSisCategoryIsHistory(getProfileByJurisdiction(model.stateCode), model.pathwayId,
+      packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))
+    && model.questions.some(question => question.id === "residency_or_location" && question.required === false)
+    && editablePacketInputIds(model).has("residency_or_location")) ids.add("residency_or_location");
   const mdCaptionQuestion = mdJuvenileCaptionQuestion(getProfileByJurisdiction(model.stateCode), model.pathwayId,
     packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`));
   if (resultCode === "not_covered_yet" && mdCaptionQuestion
