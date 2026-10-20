@@ -273,7 +273,9 @@ check('KY felony: no collection consumer; saved overlapping labels remain litera
  assert.equal(packetFulfillmentAuthority('KY','felony-conviction-431073','checkout creation').allowed,false);
 });
 const safety=s=>Object.fromEntries(['pathwayId','resultCode','paymentAllowed','selectedTrackId','packetPlan','requiredInputIds'].map(k=>[k,s[k]]));
+const ran=[];
 for(const context of leg(shard[0])){
+ran.push(caseKey(context));
 const {state,route,result,payment,reason}=context,key=`${state}:${route}`;
 const witness=witnesses.find(f=>f.pathwayKey===key);assert(witness);
 check(key+': exact source purpose and unchanged authority',()=>{
@@ -361,6 +363,8 @@ for(const [label,outcome] of [['original-witness',witness.answers.case_outcome],
  }
 }
 }
+// Bind the shard self-check to what the loop actually ran, not to what leg() intends.
+assert.deepEqual(ran,leg(shard[0]).map(caseKey),'the case loop must run exactly this leg');
 // Existing unsupported/held results and fulfillment refusal remain separate from history.
 // Legal classification and route selection remain governed by their existing answers.
 // Run the real HTTP handler with isolated in-memory auth/store boundaries.
@@ -440,4 +444,4 @@ for(const [id,original] of [...records]){
  authenticated=true;verified=true;owner='synthetic-dc-fl-owner';
 }
 delete globalThis.__dcFlPetitionHistoryTransport;
-console.log(JSON.stringify({status:'PASS_DC_FL_PETITION_OPTIONAL_HISTORY',shard:shard.join('/'),ran:leg(shard[0]).map(caseKey),checks,httpCases,originalIds:["Q-688bf057ef651e46a54b","Q-6e06a84342a41f34e1d2","Q-7ed646d227c26f9acc32","Q-0c86d50a75c852085df7","Q-f66a6b6b457285d85751","Q-8a323b249717d2c2b890","Q-fb2109e5a0379589fe4c","Q-9026faa3fca7a143a0df","Q-bf040ed86c19172840d6",'Q-f998590180601fe00713','Q-30353f219d82ca7eeb62','Q-4897a00f86c67fc5c57a','Q-4c4d60127b04b08d3f41','Q-d6c2af7ef42f979932f3','Q-50a58ca23c5c2ba26a76','Q-213a19004dbda41dfce2','Q-e7a0b9cbb9047649e8e0','Q-6b16d8ce7d8fc029c19e','Q-6add858b65f867a82b70','Q-502bf587f9925e5e6e79','Q-00caec14a5a59750b527','Q-748f73bc4bcf41923fcc','Q-6acd9d8d275e7be59682','Q-8c94453e5af32f59406d','Q-8105d5d0b28ebd1e4a67','Q-c8633872a982712e7803','Q-94c8f0620f0384854d98','Q-ab7cc6744570b24e17d4','Q-481c00319478c8236160','Q-1ee2fb0eca77febaf2b6','QD-fb5a90b4c42ab7e486c1','Q-46a17f0eb164e9cdcf27','Q-47d5c5f19e70f0fbcbec','Q-73e3915ed9d087f8b531','Q-6fce98651a27d2a3b8c6','Q-65a2e556a51d224b2917','Q-50dcf8b1a91162a70705','Q-5ec575d17ded0b87051d','Q-79e780778f4a487dd39b'],routes:cases.map(c=>c.state+':'+c.route),limits:['Existing DC/FL/GA outcomes, HI and LA screening readiness and KY unsupported/held/guidance outcomes retained; actual NO_RECORD checkout and payment refusal unchanged; no whole GA17 closure.','No database, output rendering, source change, hosted authorization or commercial delivery; draft EN/ES needs qualified review.']}));
+console.log(JSON.stringify({status:'PASS_DC_FL_PETITION_OPTIONAL_HISTORY',shard:shard.join('/'),ran,checks,httpCases,originalIds:["Q-688bf057ef651e46a54b","Q-6e06a84342a41f34e1d2","Q-7ed646d227c26f9acc32","Q-0c86d50a75c852085df7","Q-f66a6b6b457285d85751","Q-8a323b249717d2c2b890","Q-fb2109e5a0379589fe4c","Q-9026faa3fca7a143a0df","Q-bf040ed86c19172840d6",'Q-f998590180601fe00713','Q-30353f219d82ca7eeb62','Q-4897a00f86c67fc5c57a','Q-4c4d60127b04b08d3f41','Q-d6c2af7ef42f979932f3','Q-50a58ca23c5c2ba26a76','Q-213a19004dbda41dfce2','Q-e7a0b9cbb9047649e8e0','Q-6b16d8ce7d8fc029c19e','Q-6add858b65f867a82b70','Q-502bf587f9925e5e6e79','Q-00caec14a5a59750b527','Q-748f73bc4bcf41923fcc','Q-6acd9d8d275e7be59682','Q-8c94453e5af32f59406d','Q-8105d5d0b28ebd1e4a67','Q-c8633872a982712e7803','Q-94c8f0620f0384854d98','Q-ab7cc6744570b24e17d4','Q-481c00319478c8236160','Q-1ee2fb0eca77febaf2b6','QD-fb5a90b4c42ab7e486c1','Q-46a17f0eb164e9cdcf27','Q-47d5c5f19e70f0fbcbec','Q-73e3915ed9d087f8b531','Q-6fce98651a27d2a3b8c6','Q-65a2e556a51d224b2917','Q-50dcf8b1a91162a70705','Q-5ec575d17ded0b87051d','Q-79e780778f4a487dd39b'],routes:cases.map(c=>c.state+':'+c.route),limits:['Existing DC/FL/GA outcomes, HI and LA screening readiness and KY unsupported/held/guidance outcomes retained; actual NO_RECORD checkout and payment refusal unchanged; no whole GA17 closure.','No database, output rendering, source change, hosted authorization or commercial delivery; draft EN/ES needs qualified review.']}));
