@@ -2,13 +2,15 @@
   "schemaVersion": "rcap-packet-factory-lane-rows/v1",
   "lane": "FIX03",
   "laneKind": "repair",
-  "baseSha": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
-  "branch": "codex/ga-rfo-component-set-20261020",
+  "baseSha": "da28a8e60202261b24f69863569a52411ca20146",
+  "branch": "codex/ga-yfo-fix03-return-20261020",
   "isIndependentVerification": false,
   "preparedOn": "2026-10-20",
   "preparedBy": "Codex product/source/packet implementation worker",
-  "grantsAsserted": [],
-  "grantBasis": "Lead 2026-10-20T12:49:45Z assigns the reviewer COMPONENT_SET work order. Implementation return only; no cloud-worker grant or independent acceptance asserted.",
+  "grantsAsserted": [
+    "FIX03 composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route: CLAIM_OK on immutable local batch30 ledger 0af05195ba8f96bd0adfe5fce306aec388947bc4"
+  ],
+  "grantBasis": "Lead 2026-10-20T17:19:00Z and17:20:05Z explicitly release this return-row successor. Native gate confirms live FIX03 on the recorded batch30 ledger; no release or grant mutation by worker.",
   "rows": [
     {
       "itemId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
@@ -70,7 +72,20 @@
       ],
       "rasterState": "BUILT_RASTER_PENDING",
       "rasterRequired": true,
-      "independentRereadRequired": true
+      "independentRereadRequired": true,
+      "implementationCommit": "da28a8e60202261b24f69863569a52411ca20146",
+      "claimEvidence": {
+        "lane": "FIX03",
+        "ledgerAtCommit": "0af05195ba8f96bd0adfe5fce306aec388947bc4",
+        "ledgerPath": "data/rcap-grade-a/packet-factory-24h/claim-ledger.json",
+        "ledgerSha256": "5fc3cc20e6e06543356a1aeaf7f32adfb7e5cb1408b81b010be88820bff82337",
+        "operation": "--can-assert FIX03 composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+        "result": "CLAIM_OK",
+        "grantSet": "540fbc6d269a7b11",
+        "readOnly": true,
+        "releaseOwner": "Lead; release and raster still owed"
+      },
+      "evidenceReuse": "All12 paths returned in da28a8e60 are byte-identical at local batch30 0af05195ba8f96bd0adfe5fce306aec388947bc4. Original implementation checks and independent Acceptance remain applicable; this successor records the confirmed live FIX03 claim only. No rebuild, test edit or new raster."
     }
   ]
 }
