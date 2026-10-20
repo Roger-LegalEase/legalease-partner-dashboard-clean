@@ -665,7 +665,20 @@ if (problems.length) {
 const text = `${JSON.stringify(doc, null, 2)}\n`;
 if (CHECK) {
   const committed = fs.existsSync(path.join(ROOT, OUT)) ? fs.readFileSync(path.join(ROOT, OUT), "utf8") : null;
-  if (committed !== text) { console.error(`VERIFIER_RETURNS.json does not converge with the return directories.`); process.exit(1); }
+  if (committed !== text) {
+    /* Name what moved. On 2026-10-20 a pushed-history clone refused 40 rows twice
+     * where the committed file carries 39, and the 40th was past the ten printed
+     * above, so the flaky refusal left no identity behind. The committed file is
+     * the durable copy of the last run's refusals; print only the delta. */
+    let prior = {};
+    try { prior = JSON.parse(committed ?? "{}"); } catch { prior = {}; }
+    const was = new Set(prior.refusedRows ?? []), now = new Set(problems);
+    for (const p of problems) if (!was.has(p)) console.error(`  refused now, not in the committed file: ${p}`);
+    for (const p of prior.refusedRows ?? []) if (!now.has(p)) console.error(`  refused in the committed file, not now: ${p}`);
+    const sections = Object.keys({ ...prior, ...doc }).filter((k) => JSON.stringify(prior[k]) !== JSON.stringify(doc[k]));
+    console.error(`VERIFIER_RETURNS.json does not converge with the return directories (sections that differ: ${sections.join(", ") || "none; byte-level only"}).`);
+    process.exit(1);
+  }
   console.log(`verifier returns converge: ${doc.counts.independentVerdicts} independent verdict(s), ${failed.length} FAIL_REPAIR_REQUIRED.`);
   process.exit(0);
 }
