@@ -23,6 +23,16 @@ const A17_REPINS = {
   "sd-sis-record-correction-stage-2026-09-28": {"path":"src/lib/expungement-ai/frontend/profiles/all51.json","sha256":"baf0daeff56a7588021b5d49181b4b6828e38a7ecd545c11348188abefaf2bb5","repinnedTo":"eb048480da0ee51b7613172b95a2b8dcf34097fad8203909ac3d601f0273d7ea","behaviouralProof":"scripts/verify-sd-escalation-selection.mjs"}
 };
 const A17_REPINS_SHA256 = '5311fb17ede0afa69870af4382e7756d61e89ff710acf737678a95d1d5e14a0d'; // the five appended entries, reasons included, in record order
+// A27 (owner-authorized 2026-10-20): one further md-pardon evaluator re-pin, appended after the A17 one.
+const A27_REPIN = {"path":"src/lib/rcap-engine/evaluator.ts","sha256":"295faa3388dd4619fe58649abfc5a934950247bd410013a8655f1a106e2a2989","repinnedTo":"492e957b951885184d70ee8b6d12950a2e2a3e51d11b015e2ca3bbf893f67c25","behaviouralProof":"scripts/verify-md-10-103-signed-approval.mjs"};
+const A27_REPIN_SHA256 = 'c28fc7f5881bf1578229e1ec150507012e54a2318b3755454353d34c1a96b22d'; // the appended entry, reason included
+function withoutA27(delta) {
+  const tail = delta.supersededSha256.at(-1);
+  assert.deepEqual({path:tail.path,sha256:tail.sha256,repinnedTo:tail.repinnedTo,behaviouralProof:tail.behaviouralProof},
+    A27_REPIN, `${delta.id}: the reviewed A27 re-pin is its last supersession`);
+  assert.equal(createHash('sha256').update(JSON.stringify(tail)).digest('hex'), A27_REPIN_SHA256, 'exactly the reviewed A27 re-pin');
+  return {...delta, supersededSha256: delta.supersededSha256.slice(0, -1)};
+}
 const a17Appended = [];
 function withoutA17(delta) {
   const expected = A17_REPINS[delta.id];
@@ -34,7 +44,7 @@ function withoutA17(delta) {
   const {supersededSha256, ...rest} = delta;
   return supersededSha256.length > 1 ? {...rest, supersededSha256: supersededSha256.slice(0, -1)} : rest;
 }
-assert.deepEqual(withoutA17(history), previous.deltas.find(d => d.id === md.id), 'all historical approval fields preserved');
+assert.deepEqual(withoutA17(withoutA27(history)), previous.deltas.find(d => d.id === md.id), 'all historical approval fields preserved');
 assert.deepEqual(record.deltas.filter(d => d !== md).map(withoutA17), previous.deltas.filter(d => d.id !== md.id), 'other approvals unchanged');
 assert.equal(a17Appended.length, Object.keys(A17_REPINS).length, 'every reviewed A17 re-pin present');
 assert.equal(createHash('sha256').update(JSON.stringify(a17Appended)).digest('hex'), A17_REPINS_SHA256, 'exactly the reviewed A17 re-pins');
@@ -96,18 +106,20 @@ try {
     ['proof weakened',()=>fs.appendFileSync(path.join(dir,scopeRestatement.proofPath),'\n// changed proof'),/proof bytes changed/],
     ['current source drift',()=>fs.appendFileSync(path.join(dir,'src/lib/rcap-engine/evaluator.ts'),'\n// drift'),/approval does not cover these bytes/],
     // A17 post-binding re-pin: valid only as recorded, refused when removed, unreachable, bypassing or malformed.
-    ['post-binding re-pin removed',r=>a17Hop(r,(hops,i)=>hops.splice(i,1)),/approval does not cover these bytes/],
+    // With A27 appended after it, losing or redirecting the A17 hop leaves A27's starting hash unreachable.
+    ['post-binding re-pin removed',r=>a17Hop(r,(hops,i)=>hops.splice(i,1)),/which the authorization chain never reaches/],
     ['post-binding re-pin from an unreachable hash',r=>a17Hop(r,(hops,i)=>{hops[i].sha256='0'.repeat(64)}),/which the authorization chain never reaches/],
     ['re-pin bypasses the Item 11 binding',r=>a17Hop(r,(hops,i)=>{hops[i].sha256=scopeRestatement.bindings[EVALUATOR].priorSha256}),/scope restatement does not continue the historical chain/],
-    ['post-binding re-pin to invented bytes',r=>a17Hop(r,(hops,i)=>{hops[i].repinnedTo='0'.repeat(64)}),/approval does not cover these bytes/],
+    ['post-binding re-pin to invented bytes',r=>a17Hop(r,(hops,i)=>{hops[i].repinnedTo='0'.repeat(64)}),/which the authorization chain never reaches/],
     ['post-binding re-pin recorded twice',r=>a17Hop(r,(hops,i)=>hops.push(structuredClone(hops[i]))),/superseded twice at the same hash/],
     ['post-binding re-pin without a real reason',r=>a17Hop(r,(hops,i)=>{hops[i].reason='updated'}),/reason is missing or too short/],
-    ['post-binding re-pin cites a missing proof',r=>a17Hop(r,(hops,i)=>{hops[i].behaviouralProof='scripts/verify-nothing-at-all.mjs'}),/as proof, and it does not exist/]
+    ['post-binding re-pin cites a missing proof',r=>a17Hop(r,(hops,i)=>{hops[i].behaviouralProof='scripts/verify-nothing-at-all.mjs'}),/as proof, and it does not exist/],
+    ['A27 re-pin removed',r=>{const hops=r.deltas[0].supersededSha256;assert.equal(hops.at(-1).repinnedTo,A27_REPIN.repinnedTo);hops.pop()},/approval does not cover these bytes/]
   ];
   for (const [name, mutate, marker] of mutants) {
     for(const [file,bytes] of originals)fs.writeFileSync(path.join(dir,file),bytes);
     const changed=structuredClone(fixture);mutate(changed);save(changed);
     assert.throws(()=>loadApprovedParityDeltas({rootDir:dir}),marker,name);checks++;
   }
-  console.log(JSON.stringify({status:'PASS',checks,mutants:mutants.length,scope:'MD only; original approval and other delta records unchanged except the reviewed A17 re-pins'}));
+  console.log(JSON.stringify({status:'PASS',checks,mutants:mutants.length,scope:'MD only; original approval and other delta records unchanged except the reviewed A17 and A27 re-pins'}));
 } finally { fs.rmSync(dir,{recursive:true,force:true}); }

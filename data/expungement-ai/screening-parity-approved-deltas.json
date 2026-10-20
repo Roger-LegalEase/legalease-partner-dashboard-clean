@@ -273,6 +273,14 @@
           "reason": "Commits caa3376ed (2026-10-20, GA20 CA Prop 64 evaluator seam: the generic exclusion question is dropped on the Prop 64 application branch), 0cd4b6ae0, 2fb2c88f4 and ee8ef9d79 (2026-10-20, Colorado section 8(b) misdemeanor review routing and its reviewed English/Spanish copy) changed the shared evaluator for California and Colorado only. The Maryland pardon signed-date statement is unaffected and still holds over the new bytes: scripts/verify-md-10-103-signed-approval.mjs passes at the batch30 tip (as do verify-rcap-md-police-record-deadline.mjs). The chain previously ended at the Item 11 scope-restatement binding; this re-pin continues forward from it and does not alter the restatement. Roger Roman authorized recording this unsigned re-pin on 2026-10-20 (owner action A17: \"i authorize\"); it signs nothing and approves no new behaviour.",
           "behaviouralProof": "scripts/verify-md-10-103-signed-approval.mjs",
           "repinnedTo": "295faa3388dd4619fe58649abfc5a934950247bd410013a8655f1a106e2a2989"
+        },
+        {
+          "path": "src/lib/rcap-engine/evaluator.ts",
+          "sha256": "295faa3388dd4619fe58649abfc5a934950247bd410013a8655f1a106e2a2989",
+          "supersededOn": "2026-10-20",
+          "reason": "Commit 388ac60e3 (2026-10-20, owner directive A21: a California pardon answer of \"not sure\" routes to needs_review) changed the shared evaluator for California only: a pardon_status early return before the Prop 64 gate. No Maryland question, rule or deadline changes. The Maryland pardon signed-date statement still holds over the new bytes: scripts/verify-md-10-103-signed-approval.mjs passes at the batch31a tip (the exact arrest date stays out of free screening, is collected after the claim and before checkout, and is retained in protected source facts). This re-pin continues the chain from the A17 re-pin and does not alter the Item 11 scope restatement. Roger Roman authorized recording this unsigned re-pin on 2026-10-20 (owner action A27: \"i authorize\"); it signs nothing and approves no new behaviour.",
+          "behaviouralProof": "scripts/verify-md-10-103-signed-approval.mjs",
+          "repinnedTo": "492e957b951885184d70ee8b6d12950a2e2a3e51d11b015e2ca3bbf893f67c25"
         }
       ],
       "projectionsNote": "The approved participant-facing counts are 35 -> 36, which is the compiled Maryland profile. The aggregate carries a reduced projection of the same single question, whose own counts are 17 -> 18. Both are recorded and both are enforced; neither is substituted for the other.",
