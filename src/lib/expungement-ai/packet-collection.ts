@@ -1105,6 +1105,16 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
     if (msFirstContext && !overrideClass && !needsHuman.has(factId) && !unresolvedScopeFor(factId)) {
+      // GA-16-M01514 / Q-7aaf83fbc78f127f31d1: preserve literal history without supplying source facts.
+      if (factId === "residency_or_location" && !decidesRouteFor(factId) && !input.recordOwnQuestionIds?.has(factId)) {
+        const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+          .some(answers => answers && Object.hasOwn(answers, factId));
+        facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+          group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
+          source: "ms_first_location_history",
+          reason: "Earlier generic location remains optional literal context. Separate jurisdiction, conviction-court, county or municipality, mailing and prosecutor-service facts retain their own meanings." });
+        continue;
+      }
       if (factId === "offense_category") {
         facts.push({ factId, collection: "conditional", phase: "known", active: false, optional: true, group,
           source: "ms_first_offender_legacy_category_context",

@@ -1,3 +1,4 @@
+import { msFirstLocationQuestion } from "@/lib/expungement-ai/ms-first-location-context";
 import { gaSb288LocationQuestion } from "@/lib/expungement-ai/ga-sb288-location-context";
 import { sdSisLocationQuestion } from "@/lib/expungement-ai/sd-sis-location-context";
 import { nvProgramLocationQuestion } from "@/lib/expungement-ai/nv-program-location-context";
@@ -139,6 +140,9 @@ export function reviewedPacketQuestion<T extends PublicQuestion>(question: T, co
     const location = msAdditionalLocationQuestion(question, getProfileByJurisdiction(context.state), context.pathwayId ?? null,
       packetSpecificationFor(`${context.state}:${context.pathwayId ?? ""}`));
     if (location !== question) return location;
+    const first = msFirstLocationQuestion(question, getProfileByJurisdiction(context.state), context.pathwayId ?? null,
+      packetSpecificationFor(`${context.state}:${context.pathwayId ?? ""}`));
+    if (first !== question) return first;
   }
   if (question.id === "residency_or_location" && context.state === "GA") {
     const location = gaSb288LocationQuestion(question, getProfileByJurisdiction(context.state), context.pathwayId ?? null,

@@ -3242,6 +3242,8 @@ export function packetCollectionFor(input: {
   const specification = packetSpecificationFor(`${input.jurisdiction}:${input.pathwayId ?? ""}`) ?? null;
   // GA-16-M01455: pinned rule67/exclusion13 consume jurisdiction_scope, never a literal city.
   if (gaSb288CategoryIsHistory(profile, input.pathwayId, specification)) decidingFactIds.delete("residency_or_location");
+  // GA-16-M01514: this source contract uses separate jurisdiction and conviction-court facts.
+  if (msFirstOffenderSourceContract(profile, input.pathwayId, specification)) decidingFactIds.delete("residency_or_location");
   const originQuestion = mnTargetOriginQuestion(profile, input.pathwayId, specification);
   const originAnswers = { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers };
   const originConfirmed = originQuestion && !input.unresolvedSavedFactIds?.includes(MN_TARGET_ORIGIN_ID)
@@ -3309,7 +3311,8 @@ export function packetCollectionFor(input: {
  * clarification. A saved fact identifies its control, never a replacement route. */
 export function factualPathwayCorrectionIds(state: string, pathway: string | null, answers: Record<string, unknown>, includeInactive = false): string[] {
   const profile = getProfileByJurisdiction(state);
-  if (msFirstOffenderSourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [...MS_FIRST_OFFENDER_COLLECTION_IDS];
+  if (msFirstOffenderSourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [...MS_FIRST_OFFENDER_COLLECTION_IDS,
+    ...(includeInactive && Object.hasOwn(answers, "residency_or_location") ? ["residency_or_location"] : [])];
   if (ohJuvenileSourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return ohJuvenileStageFactIds(answers, includeInactive);
   if (state === "DE") return delawareProtectedCorrectionIds(profile ?? undefined, pathway, answers, includeInactive);
   if (mnTwoCountySourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [
@@ -3664,6 +3667,7 @@ export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtC
     && msFirstOffenderSourceContract(getProfileByJurisdiction(model.stateCode), model.pathwayId, packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))) {
     const allowed = editablePacketInputIds(model);
     for (const id of MS_FIRST_OFFENDER_COLLECTION_IDS) if (allowed.has(id) && model.questions.some(question => question.id === id)) ids.add(id);
+    if (allowed.has("residency_or_location") && model.questions.some(question => question.id === "residency_or_location" && question.required === false)) ids.add("residency_or_location");
   }
   if (resultCode === "guidance_only" && ohJuvenileSourceContract(getProfileByJurisdiction(model.stateCode), model.pathwayId, packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))) {
     const allowed = editablePacketInputIds(model);
