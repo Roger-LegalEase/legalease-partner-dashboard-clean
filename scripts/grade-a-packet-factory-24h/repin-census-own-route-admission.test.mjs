@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {ADAPTERS, compareAnchors, planFamily, recoverBytesByDigest, sha256} from './repin-lapsed-source-identities.mjs';
+import {ADAPTERS, compareAnchors, driftedPinsOf, recoverBytesByDigest, sha256} from './repin-lapsed-source-identities.mjs';
 // The real case: rcap-nd-custom-pleading's census pin f6fc0814 against the census on disk, and VF06's read at bf02d8073.
 const recordPath='data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json';
 const adapter=ADAPTERS.get(recordPath);
@@ -49,16 +49,17 @@ test('each admission condition refuses on its own',()=>{
   assert.match(admit(mutate(e=>{e.requiredSourceIds=[...e.requiredSourceIds,'packet-spec-source:not-named-by-the-row'];})).why,/names the changed route and every added id.*not-named-by-the-row/);
   assert.match(admit(current,{rows:[{...vf06,evidencePath:'data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20261019-reverify-census-5e7fe802c.json'}]}).why,/names the changed route/);
 });
-test('the census bytes on disk are the ones VF06 read, and the pin is the one it named',()=>{
-  assert.equal(receipt.committedRecords.find(r=>r.pathInRepository===recordPath).sha256,PINNED);
+test('the census bytes on disk are the ones VF06 read, and the old pin is the one it named',()=>{
+  assert.equal(receipt.committedRecords.find(r=>r.pathInRepository===recordPath).sha256,sha256(fs.readFileSync(recordPath)));
   assert.notEqual(PINNED,sha256(fs.readFileSync(recordPath)));
   const row=JSON.stringify(JSON.parse(fs.readFileSync(vf06.evidencePath)).rows.find(r=>r.itemId===familyId&&r.verifiedAtBase===vf06.verifiedAtBase));
   assert.ok(row.includes(sha256(fs.readFileSync(recordPath))));assert.ok(row.includes(PINNED.slice(0,8)));
 });
-test('end to end: the live drifted pin plans REFRESHABLE with the admission recorded on the record',()=>{
-  const plan=planFamily({familyId,directory});
-  assert.equal(plan.outcome,'REFRESHABLE',plan.why);
-  const record=plan.records.find(r=>r.path===recordPath);
-  assert.equal(record.anchorsCompared,6);assert.equal(record.anchorsIdentical,6);
-  assert.deepEqual(record.measuredRowAdmission,admit().admission);
+test('the applied block records 6/6, the admission and the superseded block; the census pin no longer drifts',()=>{
+  const block=receipt.committedRecords.find(r=>r.pathInRepository===recordPath).identityRefresh;
+  assert.equal(block.anchorsCompared,6);assert.equal(block.anchorsIdentical,6);
+  assert.deepEqual(block.was,{sha256:PINNED,byteLength:recovered.bytes.length});
+  assert.deepEqual(block.measuredRowAdmission,admit().admission);
+  assert.ok(block.previousIdentityRefresh&&block.previousIdentityRefresh.anchorsCompared===block.previousIdentityRefresh.anchorsIdentical);
+  assert.deepEqual(driftedPinsOf(receipt).filter(d=>(d.pin?.pathInRepository??d.path)===recordPath),[]);
 });
