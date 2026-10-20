@@ -138,6 +138,7 @@ function composedBody(componentId, facts) {
     L.push(`MAILING ADDRESS: ${address}`);
     L.push(`TELEPHONE: ${phone}`);
     L.push(`EMAIL: ${email}`);
+    L.push("", "No held source states a service duty for this motion. Ask the clerk of court of the sentencing court whether the state's attorney must receive a copy.");
   } else {
     L.push(`Prepared for: ${name}`, "");
     L.push("READ THIS PAGE WHETHER OR NOT ANYTHING IS FILED. The seal that follows a deferred imposition of sentence is narrower than people expect, and expecting more from it is a recorded reason to stop and get advice.", "");
@@ -219,6 +220,7 @@ function participantInstructions(rbf) {
   out.push(`# What you must do before you file — ${ROUTE.routeName}`, "");
   out.push(`This packet is prepared for **${ROUTE.legalName}**.`, "");
   out.push("This packet carries two alternatives and at most one applies, selected by whether the automatic term operated. On the **verification unit** nothing is filed: N.D.R.Crim.P. 32.1 makes the withdrawal, dismissal and sealing a mandatory term of the court's own deferral order, effective sixty-one days after probation expires or terminates. On the **motion unit** — where the automatic term did not operate — you file the composed motion under N.D.C.C. § 12.1-32-07.1 in the existing criminal case. No official form exists for that motion.", "");
+  out.push("No held source states a service duty for this motion. Ask the clerk of court of the sentencing court whether the state's attorney must receive a copy.", "");
   out.push("The platform filled in what it holds about you: your name, your mailing address, your telephone number and your email. Every case fact is a labelled dotted blank listed below, and you fill it from the record itself, never from memory.", "");
 
   out.push("## What is in this packet", "");

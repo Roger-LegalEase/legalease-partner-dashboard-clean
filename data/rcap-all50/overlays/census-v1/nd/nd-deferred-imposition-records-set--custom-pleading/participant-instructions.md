@@ -4,6 +4,8 @@ This packet is prepared for **Deferred Imposition of Sentence: Automatic Withdra
 
 This packet carries two alternatives and at most one applies, selected by whether the automatic term operated. On the **verification unit** nothing is filed: N.D.R.Crim.P. 32.1 makes the withdrawal, dismissal and sealing a mandatory term of the court's own deferral order, effective sixty-one days after probation expires or terminates. On the **motion unit** — where the automatic term did not operate — you file the composed motion under N.D.C.C. § 12.1-32-07.1 in the existing criminal case. No official form exists for that motion.
 
+No held source states a service duty for this motion. Ask the clerk of court of the sentencing court whether the state's attorney must receive a copy.
+
 The platform filled in what it holds about you: your name, your mailing address, your telephone number and your email. Every case fact is a labelled dotted blank listed below, and you fill it from the record itself, never from memory.
 
 ## What is in this packet
