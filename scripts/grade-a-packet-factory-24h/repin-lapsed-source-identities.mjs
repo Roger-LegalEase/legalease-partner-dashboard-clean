@@ -430,8 +430,20 @@ const sourceDeterminationAdapter = {
   scopeFrom({ receipt, pin, currentDoc }) {
     const byId = this.index(currentDoc, "current");
     const match = /^captain-source-identity-determination:(.+)$/.exec(pin.recordId ?? "");
-    const hits = currentDoc.determinations.filter(row => row.id === match?.[1]);
-    if (!match || hits.length !== 1 || !byId.has(receipt.familyId)
+    /* A pin written before this adapter existed carries no recordId
+     * (fl-administrative-set, 2026-10-20). Then the one determination naming
+     * this family is the scope; none or several is a refusal, never a guess.
+     * An explicit recordId still decides. */
+    let determinationId = match?.[1] ?? null;
+    let scopedBy = "recordId";
+    if (pin.recordId == null) {
+      const naming = currentDoc.determinations.filter(row => Array.isArray(row?.families) && row.families.includes(receipt.familyId));
+      if (naming.length !== 1) throw new Refusal(`source determination pin carries no recordId and ${naming.length} determination(s) name this family; exactly one is required`);
+      determinationId = naming[0].id;
+      scopedBy = "the unique determination naming this family";
+    }
+    const hits = currentDoc.determinations.filter(row => row.id === determinationId);
+    if (!determinationId || hits.length !== 1 || !byId.has(receipt.familyId)
       || !hits[0].families?.includes(receipt.familyId)) throw new Refusal("source determination pin does not uniquely bind this family");
     const priorProofs = pin.identityRefresh?.anchorScope?.derivation?.excludedAcquisitionEvidence ?? [];
     for (const proof of priorProofs) {
@@ -464,7 +476,7 @@ const sourceDeterminationAdapter = {
         || (evidence.selectedSourcePages && (!Array.isArray(evidence.selectedSourcePages) || evidence.selectedSourcePages.some(p => !Number.isInteger(p))))) continue;
       excludedAcquisitionEvidence.push({ path: p, sha256: sha256(bytes), byteLength: bytes.length, familyId: evidence.familyId, itemId: evidence.itemId });
     }
-    return { anchorIds: [receipt.familyId], derivation: { determinationId: match[1], globalMetadataComparedAsOneAnchor: true, excludedAcquisitionEvidence } };
+    return { anchorIds: [receipt.familyId], derivation: { determinationId, scopedBy, globalMetadataComparedAsOneAnchor: true, excludedAcquisitionEvidence } };
   },
   anchorsOf(doc, scope, side) {
     const byId = this.index(doc, side);
@@ -475,8 +487,10 @@ const sourceDeterminationAdapter = {
     for (const id of scope.anchorIds) {
       if (!byId.has(id)) throw new Refusal(`source reconciliation ${id} absent from ${side} record`);
       const row = byId.get(id);
-      const supported = new Set(["familyId", "group", "disposition", "sourceReplacements", "exactNextAction"]);
+      const supported = new Set(["familyId", "group", "disposition", "sourceReplacements", "exactNextAction", "satisfiedWithoutStandaloneBinary"]);
       if (Object.keys(row).some(k => !supported.has(k))) throw new Refusal(`ambiguous source reconciliation dependencies for ${id}`);
+      if (row.satisfiedWithoutStandaloneBinary !== undefined && (!Array.isArray(row.satisfiedWithoutStandaloneBinary)
+        || row.satisfiedWithoutStandaloneBinary.some(v => typeof v !== "string" || !v.startsWith("official-form:")))) throw new Refusal(`ambiguous satisfiedWithoutStandaloneBinary for ${id}`);
       if (row.sourceReplacements && (Array.isArray(row.sourceReplacements) || typeof row.sourceReplacements !== "object"
         || Object.entries(row.sourceReplacements).some(([key, values]) => !key.startsWith("official-form:") || !Array.isArray(values) || values.some(v => typeof v !== "string" || !v.startsWith("official-form:"))))) throw new Refusal(`ambiguous source replacements for ${id}`);
       out.set(`sourceReconciliation:${id}`, row);
