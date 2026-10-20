@@ -469,13 +469,15 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
       if (key.length < 4) continue;
       const here = writtenInDocument.get(doc);
       if (!here.has(key)) here.set(key, new Set());
-      here.get(key).add(fieldGroup(w.name));
+      here.get(key).add(String(w.name ?? ""));
     }
   }
   const writtenBeside = (blank) => {
     const here = writtenInDocument.get(String(blank.document ?? "")) ?? new Map();
     const group = fieldGroup(blank.name);
-    const binds = (key) => [...(here.get(key) ?? [])].some((g) => !g || !group || g === group);
+    // Across groups, the same leaf field repeated in another page's header (Page1 caption CaseNumber[0], Page2 PxCaption CaseNumber[0]) is the same fact.
+    const leaf = (n) => String(n ?? "").split(".").pop().replace(/\[\d+\]$/, "").toLowerCase();
+    const binds = (key) => [...(here.get(key) ?? [])].some((n) => { const g = fieldGroup(n); return !g || !group || g === group || leaf(n) === leaf(blank.name); });
     return binds(normLabel(blank.label)) || binds(normLabel(blank.name));
   };
 
