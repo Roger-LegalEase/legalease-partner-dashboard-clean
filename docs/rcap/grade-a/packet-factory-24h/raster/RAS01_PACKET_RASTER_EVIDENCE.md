@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `9429de25df6aa34b8994e3f0116ebe76172fe27f`
+**Minimum required ancestor:** `23c6c1660fbd086eea936a5de9efa4b0dea1ba7a`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -538,8 +538,8 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### rcap-nv-custom-pleading
 
-- canonical `data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/fixtures/canonical.pdf` — `aed030107fe36b8a4b96a6e9809db821dbed96910eac78487bf772546a1d9d30`
-- boundary `data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/fixtures/boundary.pdf` — `94dc8ffb9b290c954e394aaf937f529126f02591bbdeef1f73e11870a43e292e`
+- canonical `data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/fixtures/canonical.pdf` — `d46f9ea6099cbfca5978f4da3474dde5bb7615928fbe01b6cf3902f610d4e5ec`
+- boundary `data/rcap-all50/overlays/census-v1/nv/rcap-nv-custom-pleading--custom-pleading/fixtures/boundary.pdf` — `6b37e72da6ef11dd14cc103bb21ac5920b060b410b855dc626fd7e8ce3154b3d`
 - expected pages 44 · requested scale 2.5
 - built by (no builder lane recorded)
 
