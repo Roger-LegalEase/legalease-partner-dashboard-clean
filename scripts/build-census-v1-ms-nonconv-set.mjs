@@ -148,10 +148,12 @@ const INTRODUCTION = PETITION_DOC.sections.find((s) => s.heading === "Introducti
 const IDENTITY = PETITION_DOC.sections.find((s) => s.kind === "pleading_identity_list");
 const PRAYER = PETITION_DOC.sections.find((s) => s.heading === "Prayer for relief");
 const ORDER_DOC = SPEC.documents.find((d) => d.documentId === "ms-proposed-order");
+const ORDER_IDENTITY = ORDER_DOC?.sections.find((s) => s.kind === "pleading_identity_list");
+const TRANSMISSION = ORDER_DOC?.sections.find((s) => s.heading === "Certified transmission");
 const CERTIFICATION = ORDER_DOC?.sections.find((s) => s.kind === "clerk_certification_block");
 const MCIC = ORDER_DOC?.sections.find((s) => s.kind === "confidential_identifier_addendum");
 const SERVICE = SPEC.documents.find((d) => d.documentId === "ms-service-and-attachments")?.sections.find((s) => s.kind === "service_certificate");
-for (const section of [INTRODUCTION, IDENTITY, PRAYER, CERTIFICATION, MCIC, SERVICE]) assert.ok(section?.body, "Current specification section must be present");
+for (const section of [INTRODUCTION, IDENTITY, PRAYER, ORDER_IDENTITY, TRANSMISSION, CERTIFICATION, MCIC, SERVICE]) assert.ok(section?.body, "Current specification section must be present");
 assert.equal(IDENTITY.fields.length, 12);
 assert.equal(MCIC.fields.length, 16);
 const EXTRA_PETITION_FACTS = {
@@ -249,7 +251,7 @@ function composedBody(componentId, facts) {
    * jurat and the whole notarial certificate on one page, and the long form
    * costs four lines the certificate needs. The direction it prints sends the
    * participant to the petition's own caption, where the long form is printed
-   * in full, so nothing is lost -- and both blanks are declared and disclosed
+   * in full, so nothing is lost -- and the blanks are declared and disclosed
    * in participant-instructions.md either way.
    */
   const caption = (partyLine, { compact = false } = {}) => {
@@ -257,7 +259,7 @@ function composedBody(componentId, facts) {
     if (!compact) {
       L.push("(WRITE THE COURT IN WHICH THE CASE WAS PENDING - JUSTICE, COUNTY, CIRCUIT OR MUNICIPAL - AND ITS COUNTY, OR FOR A MUNICIPAL COURT ITS CITY)", "");
     }
-    L.push(compact ? "STATE OF MISSISSIPPI" : "Plaintiff name exactly as shown on the docket: " + DOTS(25));
+    L.push("Plaintiff name exactly as shown on the docket: " + DOTS(25));
     L.push("v.");
     L.push(`${name}, ${partyLine}`, "");
     L.push("Cause No. " + DOTS(44));
@@ -359,7 +361,7 @@ function composedBody(componentId, facts) {
      * first half is on the previous sheet. The caption is repeated above it, in
      * the same form the proposed order and the certificate of service repeat
      * it, so the sheet is unmistakably part of this petition and not a loose
-     * page. Its two caption blanks are declared and disclosed like theirs.
+     * page. Its caption blanks are declared and disclosed like theirs.
      */
     L.push(KEEP_ON_ONE_PAGE);
     caption("PETITIONER", { compact: true });
@@ -390,6 +392,11 @@ function composedBody(componentId, facts) {
     L.push("ORDER GRANTING EXPUNCTION OF RECORD", "");
     L.push("(This order is tendered with the petition for the Court's consideration, which is Mississippi practice. Every finding below is a proposal for the Court to make; nothing in it is an assertion of fact by the preparer, and nothing on this page is completed for the Court.)", "");
     L.push(`THIS CAUSE came before the Court on the petition of ${name} for expungement of the record of a case under Miss. Code Ann. Sec. 99-19-71(4), and the Court, having considered the petition, would find that the case falls within Sec. 99-19-71(4): an arrest was made, the person arrested was released, and the case was dismissed or the charges were dropped or there was no disposition of the case, or the person was found not guilty at trial.`, "");
+    L.push(ORDER_IDENTITY.body, "");
+    for (const id of ORDER_IDENTITY.fields) L.push(ORDER_IDENTITY.fieldLabels[id] + ": " +
+      (id === "date_of_birth" ? dob : id === "social_security_number_last_four"
+        ? ORDER_IDENTITY.fieldValueTemplates[id].replace("{{social_security_number_last_four}}", DOTS(4)) : DOTS(36)));
+    L.push("");
     L.push("IT IS THEREFORE ORDERED that the record of the case described in the petition is expunged, and that every person and agency keeping an official record of the arrest or the case shall expunge it, including the following, each named by the petitioner from the case record:", "");
     L.push("Agency that made the arrest or issued the citation, as the order must direct it:");
     L.push(DOTS(), "");
@@ -398,6 +405,9 @@ function composedBody(componentId, facts) {
     L.push("Any other person or agency keeping an official record of the case:");
     L.push(DOTS(), "");
     L.push("PROVIDED that the existing records of fingerprints are excepted from this order, as Miss. Code Ann. Sec. 99-19-71 provides; that the Mississippi Criminal Information Center shall retain a nonpublic record solely for the purpose of determining, in subsequent proceedings, whether the person is a first offender; and that upon entry of this order the petitioner is restored, in contemplation of law, to the status the petitioner occupied before the arrest, and shall not be held thereafter guilty of perjury for failure to recite the arrest, except as Sec. 99-19-71(3) provides for first-offender determinations.", "");
+    L.push(TRANSMISSION.body
+      .replaceAll("{{arresting_agency}}", "Arresting agency: " + DOTS(24))
+      .replaceAll("{{other_recordkeeping_agencies}}", DOTS(30)), "");
     /* The machine trailer closes the preparer's half of the order here, above
      * the execution and approval band, instead of printing after it. It used to
      * be the last ink on the order's second page, below "JUDICIAL OFFICER OF THE
@@ -586,6 +596,9 @@ function maps() {
         "a date written before the petition is signed would be false"),
       /* The verification sheet's own caption, in the same shape the proposed
        * order and the certificate of service declare theirs. */
+      h.rbf("verification_plaintiff_name", "Plaintiff name in the caption above the verification",
+        "the same plaintiff name copied from the docket and written in the petition's caption",
+        "the verification belongs to the same petition; do not infer the plaintiff from the state"),
       h.rbf("verification_court", "Court named in the caption above the verification, with its county or city",
         "the same court and county (or city) as the petition's caption",
         "the court the case was pending in is a case fact the participant establishes from the record"),
@@ -635,7 +648,8 @@ function maps() {
   {
     const h = mapHelpers("proposed_order");
     const writes = [h.write("petitioner_name", "Petitioner named in the caption of this proposed order", "participant.full_legal_name"),
-      h.write("date_of_birth", MCIC.fieldLabels.date_of_birth, "participant.date_of_birth")];
+      h.write("date_of_birth", MCIC.fieldLabels.date_of_birth, "participant.date_of_birth"),
+      h.write("order_identity_date_of_birth", ORDER_IDENTITY.fieldLabels.date_of_birth, "participant.date_of_birth")];
     const refusals = [
       h.rbf("order_court", "Court named in the caption of the proposed order, with its county or city",
         "the same court and county (or city) as the petition's caption",
@@ -661,6 +675,13 @@ function maps() {
     ];
     refusals.push(h.rbf("case_caption_plaintiff_name", EXTRA_PETITION_FACTS.case_caption_plaintiff_name,
       SPEC.requiredFacts.find(f => f.factId === "case_caption_plaintiff_name").prompt, "Copy the exact docket caption; do not infer the plaintiff."));
+    for (const id of ORDER_IDENTITY.fields.filter(id => id !== "date_of_birth")) refusals.push(h.rbf("order_identity_" + id,
+      "Order identity - " + ORDER_IDENTITY.fieldLabels[id], SPEC.requiredFacts.find(f => f.factId === id).prompt,
+      "Copy the same case fact from the record into the public order identity list; only the last four SSN digits belong here."));
+    refusals.push(h.rbf("transmission_arresting_agency", "Arresting agency in the certified-transmission direction",
+      SPEC.requiredFacts.find(f => f.factId === "arresting_agency").prompt, "Use the same arresting agency identified from the case record."));
+    refusals.push(h.rbf("transmission_other_custodians", "Additional custodians in the certified-transmission direction",
+      SPEC.requiredFacts.find(f => f.factId === "other_recordkeeping_agencies").prompt, "Name the additional custodians from the case record; do not infer them."));
     for (const id of MCIC.fields.filter(id => id !== "date_of_birth")) refusals.push(h.rbf(id, MCIC.fieldLabels[id],
       SPEC.requiredFacts.find(f => f.factId === id).prompt, "Court/MCIC processing copy only; confirm the identifier-delivery method before participant delivery."));
     for (const [id, label] of [["clerk_signature", "Clerk signature"], ["certification_date", "Certification date"], ["court_seal", "Court seal"]])

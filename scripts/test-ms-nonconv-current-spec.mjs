@@ -65,16 +65,32 @@ for(const [fixture,values] of Object.entries(FAMILY.fixtures)){
   check(name+' Prayer does not duplicate field label',!normalize(p).includes('other recordkeeping agencies identified from the record: Other recordkeeping agencies identified from the record:'));
   for(const id of mcic.fields)check(name+' addendum label '+id,contains(addendum,mcic.fieldLabels[id]));
   check(name+' service current body',bodyParts(body.certificate_of_service,service.body));
+  const orderIdentity=section('ms-proposed-order','pleading_identity_list');
+  check(name+' order identity declaration',contains(o,orderIdentity.body));
+  const orderIdentityList=normalize(o).split(normalize(orderIdentity.body))[1]?.split('IT IS THEREFORE ORDERED')[0]??'';
+  for(const id of orderIdentity.fields)check(name+' public order identity '+id,contains(orderIdentityList,orderIdentity.fieldLabels[id]));
+  check(name+' public order identity reuses date of birth',contains(orderIdentityList,orderIdentity.fieldLabels.date_of_birth+': '+values['participant.date_of_birth']));
+  check(name+' public order SSN remains last-four/confidential reference',contains(orderIdentityList,'Provided in the confidential MCIC addendum; last four'));
+  check(name+' certified transmission declaration',bodyParts(o,document('ms-proposed-order').sections.find(s=>s.heading==='Certified transmission').body));
   for(const id of ['primary_filing','proposed_order','certificate_of_service'])check(name+' plaintiff blank '+id,contains(body[id],'Plaintiff name exactly as shown on the docket:'));
   check(name+' no literal placeholders',!Object.values(body).some(s=>s.includes('{{')));
  }
  const verificationPages=pages.filter(page=>/^\s*VERIFICATION\s*$/m.test(page)&&page.trim().startsWith('IN THE'));
  check(fixture+' exactly one verification sheet',verificationPages.length===1);
- check(fixture+' verification sheet unchanged',verificationPages.length===1&&sha(verificationPages[0].replace(/\s+/g,' ').trim())===verificationHashes[fixture]);
+ check(fixture+' verification caption uses docket plaintiff',verificationPages.length===1&&contains(verificationPages[0],'Plaintiff name exactly as shown on the docket:')&&!verificationPages[0].includes('STATE OF MISSISSIPPI'));
+ // Only the explicitly repaired plaintiff caption may differ from the retained verification hash.
+ const originalCaption=verificationPages[0]?.replace(/Plaintiff name exactly as shown on the docket:\s*\.{25}/,'STATE OF MISSISSIPPI');
+ check(fixture+' verification oath and notarial sheet otherwise unchanged',verificationPages.length===1&&sha(originalCaption.replace(/\s+/g,' ').trim())===verificationHashes[fixture]);
 }
 const receipt=JSON.parse(fs.readFileSync(path.join(directory,'source-receipt.json'))),pin=receipt.compositionSources.find(s=>s.path===specPath);
 check('receipt current specification',pin?.sha256===sha(specBytes)&&pin?.byteLength===specBytes.length);
 check('artifact report current specification',artifacts.specificationConformance.specificationSha256===sha(specBytes)&&artifacts.specificationConformance.specificationByteLength===specBytes.length);
+const orderMap=maps.find(m=>m.documentId==='proposed_order');
+for(const variant of ['canonical','boundary']){
+ check(variant+' verification plaintiff explicitly disclosed',maps.find(m=>m.documentId==='primary_filing')[variant+'Refusals'].some(r=>r.field.endsWith('.verification_plaintiff_name')&&r.requiredBeforeFiling));
+ for(const id of section('ms-proposed-order','pleading_identity_list').fields.filter(id=>id!=='date_of_birth'))check(variant+' public order blank declared '+id,orderMap[variant+'Refusals'].some(r=>r.field.endsWith('.order_identity_'+id)&&r.requiredBeforeFiling));
+ check(variant+' public order date of birth is owned fact',orderMap[variant+'Writes'].some(w=>w.field.endsWith('.order_identity_date_of_birth')&&w.factId==='participant.date_of_birth'));
+}
 const baseFailures=rows.filter(row=>!row.pass);
 console.log(JSON.stringify({phase:'current-specification',checks:rows.length,failures:baseFailures}));
 assert.equal(baseFailures.length,0,'default fixture/specification checks must pass before the mixed branch proof');

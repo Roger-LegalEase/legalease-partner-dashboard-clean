@@ -64,6 +64,7 @@ A notary who only watches you sign has not done what this petition needs. Missis
 | Social Security Number | What are the last four digits of that Social Security number? |
 | Cause number in the caption above the verification | the same cause number as the petition's caption |
 | Court named in the caption above the verification, with its county or city | the same court and county (or city) as the petition's caption |
+| Plaintiff name in the caption above the verification | the same plaintiff name copied from the docket and written in the petition's caption |
 
 ### proposed_order — Order Granting Expunction of Record
 
@@ -85,11 +86,24 @@ A notary who only watches you sign has not done what this petition needs. Missis
 | Agency that made the arrest or issued the citation, as the order must direct it | the arresting or citing agency's name, from the case papers, so the order reaches its records |
 | Cause number in the caption of the proposed order | the same cause number as the petition's caption |
 | Court named in the caption of the proposed order, with its county or city | the same court and county (or city) as the petition's caption |
+| Order identity - Agency Number | What agency case or arrest number does the record show? |
+| Order identity - Aliases shown on the record | What aliases or other names does the arrest or court record list? |
+| Order identity - Date of Arrest | What date does the record give for the actual arrest? |
+| Order identity - Arresting Agency | Which agency made the arrest? |
+| Order identity - Charge at Arrest | What charge appears on the court record? |
+| Order identity - Charge Classification | How does the record classify the charge? |
+| Order identity - Code Section or Ordinance | What exact statute or ordinance citation appears for the charge? |
+| Order identity - Name used at the time of arrest | What name did the arrest record use? |
+| Order identity - Race | What race value does the arrest record use? |
+| Order identity - Sex | What sex value does the arrest record use? |
+| Order identity - Social Security Number | What are the last four digits of that Social Security number? |
 | Any other person or agency keeping an official record of the case, to be named in the order | any other office the case papers show keeping an official record of the arrest or the case |
 | Sheriff's department of the county, where its records carry the case | the county sheriff's department, where its records carry the case |
 | Race | What race value does the arrest record use? |
 | Sex | What sex value does the arrest record use? |
 | Social Security Number | What Social Security number must the court-approved MCIC processing copy use? |
+| Arresting agency in the certified-transmission direction | Which agency made the arrest? |
+| Additional custodians in the certified-transmission direction | What other agencies or offices does the record show as keeping this case? |
 
 ### certificate_of_service — Certificate of Service
 
