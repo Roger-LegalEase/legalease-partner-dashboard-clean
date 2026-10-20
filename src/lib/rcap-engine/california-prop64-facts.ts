@@ -62,6 +62,9 @@ export function caProp64Section(a: Answers): string | undefined {
   // A docket number or citation to another code is not a Health and Safety
   // Code conviction. Prose remains raw record information; use the separate
   // factual question to identify its section, without discarding conflicts.
+  // CA-L05: an exact Penal Code conviction is not a missing Health and Safety Code citation.
+  const exactPenalCode = /^(?:(?:California|Cal\.?|CA)\s+)?(?:P\.?C\.?|Penal\s+Code)\s*(?:§\s*|section\s*)?\d+(?:\.\d+)?(?:\s*\([a-z0-9]+\))*\s*$/i.test(text);
+  if (exactPenalCode) return explicit && !["unknown", "other"].includes(String(explicit)) ? "conflict" : "other";
   const otherCode = /\b(?:P\.?C\.?|Penal\s+Code|V\.?C\.?|Vehicle\s+Code|B\.?P\.?C\.?|Business\s+and\s+Professions\s+Code|W\.?I\.?C\.?|Welfare\s+and\s+Institutions\s+Code|U\.?S\.?C\.?)\s*(?:§\s*|section\s*)?\d/i.test(text);
   if (otherCode) return explicit && explicit !== "unknown" || codes.length > 0 ? "conflict" : undefined;
   if (codes.length > 1 || codes.length === 1 && explicit && explicit !== "unknown" && codes[0] !== explicit) return "conflict";
@@ -112,7 +115,23 @@ export function caProp64ActiveFactIds(a: Answers): string[] {
   ids.push("ca_prop64_offense_date", "ca_prop64_age_at_offense", "ca_prop64_court_type", "ca_prop64_existing_relief");
   if (a.ca_prop64_existing_relief !== "none" && knownChoice(a, "ca_prop64_existing_relief")) ids.push("ca_prop64_additional_benefit");
   if (["11357", "11360", "11362.1"].includes(s!)) ids.push("ca_prop64_substance", ...amountIds(a));
-  if (["11357", "11362.1"].includes(s!)) ids.push("ca_prop64_possession_context");
+  if (["11357", "11362.1"].includes(s!)) {
+    ids.push("ca_prop64_possession_context");
+    if (a.ca_prop64_possession_context === "public_or_vehicle_use") {
+      ids.push("ca_prop64_possession_act", "ca_prop64_possession_place");
+      const act = a.ca_prop64_possession_act, place = a.ca_prop64_possession_place;
+      if (act === "smoking" && ["public_place", "private_residence"].includes(String(place))) {
+        ids.push("ca_prop64_school_distance");
+        if (a.ca_prop64_school_distance === "within_1000") ids.push("ca_prop64_children_present");
+      }
+      if (["k12_school", "daycare", "youth_center"].includes(String(place))) ids.push("ca_prop64_children_present");
+      if (place === "vehicle") {
+        ids.push("ca_prop64_vehicle_container");
+        if (act === "smoking" || act === "ingestion") ids.push("ca_prop64_vehicle_role");
+      }
+      if (act === "smoking" || act === "ingestion" || ["private_residence", "k12_school", "daycare", "youth_center", "vehicle"].includes(String(place))) ids.push("ca_prop64_use_authorization");
+    }
+  }
   if (s === "11358") {
     ids.push("ca_prop64_plant_count");
     if ((number(a.ca_prop64_age_at_offense) ?? 0) >= 21 && (number(a.ca_prop64_plant_count) ?? Infinity) <= 6) {
@@ -169,7 +188,10 @@ export function caProp64Facts(a: Answers, today: string): Decision {
   if (s === "11357") {
     const context = a.ca_prop64_possession_context;
     if (context === "custody" || context === "other") return review("possession_context", ["ca_prop64_possession_context"]);
-    if (context === "public_or_vehicle_use") return review("restricted_conduct", ["ca_prop64_possession_context"]);
+    // A saved combined answer is clarified by actual conduct and place, never by an inferred exception.
+    if (context === "public_or_vehicle_use" && !(a.ca_prop64_possession_act === "possession_only" && a.ca_prop64_possession_place === "public_place")) {
+      return review("restricted_conduct", ["ca_prop64_possession_context", "ca_prop64_possession_act", "ca_prop64_possession_place"]);
+    }
     if (age < 18) classification = "infraction";
     else if (context === "school_children") classification = "misdemeanor";
     else if (age >= 21 && small) classification = "no_offense";
@@ -244,6 +266,13 @@ export const CA_PROP64_FACT_QUESTIONS: PublicQuestion[] = [
   q("ca_prop64_flower_grams", "How many grams of cannabis, excluding concentrate, were involved?", "¿Cuántos gramos de cannabis, sin incluir concentrado, estaban involucrados?", undefined, undefined, "number_or_range"),
   q("ca_prop64_concentrate_grams", "How many grams of concentrated cannabis were involved?", "¿Cuántos gramos de cannabis concentrado estaban involucrados?", undefined, undefined, "number_or_range"),
   q("ca_prop64_possession_context", "Where and how was the cannabis possessed or used?", "¿Dónde y cómo se poseía o usaba el cannabis?", [["ordinary", "Possession only, outside the places listed below", "Solo posesión, fuera de los lugares indicados abajo"], ["school_children", "On K–12 school grounds while school or related programs were open", "En una escuela de kínder a grado 12 durante clases o programas relacionados"], ["public_or_vehicle_use", "Smoking or use in public, near children, or in a vehicle", "Fumar o consumir en público, cerca de menores o en un vehículo"], ["custody", "In a jail, prison, or other correctional facility", "En una cárcel, prisión u otro centro correccional"], ["other", "Another context or more than one", "Otro contexto o más de uno"], ["unknown", "I am not sure", "No estoy seguro"]]),
+  q("ca_prop64_possession_act", "What did you do with the cannabis in that situation?", "¿Qué hizo con el cannabis en esa situación?", [["possession_only", "Possessed it without smoking or consuming it", "Lo poseía sin fumarlo ni consumirlo"], ["smoking", "Smoked it", "Lo fumó"], ["ingestion", "Consumed it without smoking", "Lo consumió sin fumar"], ["other", "Other conduct or more than one", "Otra conducta o más de una"], ["unknown", "I am not sure", "No estoy seguro"]], ["Clarify the combined public or vehicle answer. Possession, smoking and other consumption have different rules.", "Aclare la respuesta que combina el uso en público o en un vehículo. La posesión, fumar y otras formas de consumo tienen reglas distintas."]),
+  q("ca_prop64_possession_place", "Where did that conduct happen?", "¿Dónde ocurrió esa conducta?", [["public_place", "A public place, outside the grounds and vehicles listed below", "Un lugar público, fuera de los terrenos y vehículos indicados abajo"], ["private_residence", "A private residence or its grounds", "Una residencia privada o su terreno"], ["k12_school", "On K–12 school grounds", "En los terrenos de una escuela de kínder a grado 12"], ["daycare", "On day care center grounds", "En los terrenos de una guardería"], ["youth_center", "On youth center grounds", "En los terrenos de un centro juvenil"], ["vehicle", "In a vehicle, boat or aircraft", "En un vehículo, embarcación o aeronave"], ["correctional", "In a jail, prison or other correctional facility", "En una cárcel, prisión u otro centro correccional"], ["other", "Another place or more than one", "Otro lugar o más de uno"], ["unknown", "I am not sure", "No estoy seguro"]]),
+  q("ca_prop64_school_distance", "Was the smoking within 1,000 feet of a school, day care center or youth center?", "¿Se fumó a una distancia de 1,000 pies o menos de una escuela, guardería o centro juvenil?", [["within_1000", "Yes, within 1,000 feet", "Sí, a 1,000 pies o menos"], ["outside_1000", "No, more than 1,000 feet away", "No, a más de 1,000 pies"], ["unknown", "I am not sure", "No estoy seguro"]]),
+  q("ca_prop64_children_present", "Were children present at that school, day care center or youth center at the time?", "¿Había menores presentes en esa escuela, guardería o centro juvenil en ese momento?", yesNo),
+  q("ca_prop64_vehicle_container", "How was the cannabis contained in the vehicle, boat or aircraft?", "¿Cómo estaba contenido el cannabis en el vehículo, embarcación o aeronave?", [["sealed", "In a sealed, unopened container", "En un recipiente sellado y sin abrir"], ["open", "In an open or unsealed container or package", "En un recipiente o paquete abierto o sin sellar"], ["no_container", "Not in a container or package", "No estaba en un recipiente ni paquete"], ["unknown", "I am not sure", "No estoy seguro"]]),
+  q("ca_prop64_vehicle_role", "Were you operating the vehicle, boat or aircraft, or were you a passenger?", "¿Estaba conduciendo u operando el vehículo, embarcación o aeronave, o era pasajero?", [["operator", "Driver or operator", "Conductor u operador"], ["passenger", "Passenger", "Pasajero"], ["other", "Another role", "Otra función"], ["unknown", "I am not sure", "No estoy seguro"]]),
+  q("ca_prop64_use_authorization", "Was there a medical recommendation or a license for cannabis use at that location?", "¿Había una recomendación médica o una licencia para el consumo de cannabis en ese lugar?", [["none", "Neither", "Ninguna de las dos"], ["medical", "A medical recommendation", "Una recomendación médica"], ["licensed_location", "A license for cannabis use at that location", "Una licencia para el consumo de cannabis en ese lugar"], ["other", "Another authorization or more than one", "Otra autorización o más de una"], ["unknown", "I am not sure", "No estoy seguro"]], ["These details need review under the law that applies to the record. An authorization does not by itself establish an exception.", "Estos detalles necesitan revisión conforme a la ley aplicable al registro. Una autorización no establece por sí sola una excepción."]),
   q("ca_prop64_plant_count", "How many living cannabis plants did your conduct involve?", "¿Cuántas plantas vivas de cannabis involucró su conducta?", undefined, undefined, "number_or_range"),
   q("ca_prop64_residence_total", "How many living cannabis plants were at the residence in total, including other people's plants?", "¿Cuántas plantas vivas de cannabis había en total en la residencia, incluidas las de otras personas?", undefined, undefined, "number_or_range"),
   q("ca_prop64_private_residence", "Were the plants kept inside a private residence or on its grounds?", "¿Se guardaban las plantas dentro de una residencia privada o en su terreno?", yesNo),
