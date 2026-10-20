@@ -449,21 +449,34 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
   // service is the prosecutor's. Matching them across documents reported six
   // correctly-declared blanks as facts the packet already held.
   const normLabel = (x) => String(x ?? "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  // And within one document, to the field's own AcroForm group, because one form
+  // prints the same label for different people: CR-400's filer and court blocks
+  // both print "STREET ADDRESS:", and CR-401's filer and server both print "Name".
+  // Matching across those groups read the court's address and the server's name
+  // as facts the packet held once the filer's were written. The group is the
+  // parent in the field's own indexed name, fixed by the official PDF; any other
+  // name is not a form path and keeps the document scope.
+  const fieldGroup = (name) => /^[^.]+\[\d+\](\.[^.]+\[\d+\])+$/.test(String(name ?? "")) ? String(name).replace(/\.[^.]+$/, "") : "";
   const writtenInDocument = new Map();
   for (const w of writes) {
     const doc = String(w.document ?? "");
-    if (!writtenInDocument.has(doc)) writtenInDocument.set(doc, new Set());
+    if (!writtenInDocument.has(doc)) writtenInDocument.set(doc, new Map());
     // A footer/section heading is shared page context, not a fact identity.
     // Exact field names, specific printed labels and fact ids still bind.
     const specificLabel = normLabel(w.label) !== normLabel(w.sectionHeading) ? w.label
       : normLabel(w.printedLabel) !== normLabel(w.sectionHeading) ? w.printedLabel : null;
     for (const key of [normLabel(specificLabel), normLabel(w.name)]) {
-      if (key.length >= 4) writtenInDocument.get(doc).add(key);
+      if (key.length < 4) continue;
+      const here = writtenInDocument.get(doc);
+      if (!here.has(key)) here.set(key, new Set());
+      here.get(key).add(fieldGroup(w.name));
     }
   }
   const writtenBeside = (blank) => {
-    const here = writtenInDocument.get(String(blank.document ?? "")) ?? new Set();
-    return here.has(normLabel(blank.label)) || here.has(normLabel(blank.name));
+    const here = writtenInDocument.get(String(blank.document ?? "")) ?? new Map();
+    const group = fieldGroup(blank.name);
+    const binds = (key) => [...(here.get(key) ?? [])].some((g) => !g || !group || g === group);
+    return binds(normLabel(blank.label)) || binds(normLabel(blank.name));
   };
 
   const instructionsPath = path.join(ROOT, `${dir}/participant-instructions.md`);
