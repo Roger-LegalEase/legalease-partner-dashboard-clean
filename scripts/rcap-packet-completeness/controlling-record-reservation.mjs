@@ -46,7 +46,7 @@ const norm = (value) => String(value ?? "").normalize("NFKC").replace(/[“”]/
  * Verify one reservation claim.
  *
  *   claim          { trackId, componentId, item, entrySha256 } from the field-map row
- *   blank          { id, document, label } of the blank
+ *   blank          { id, name, document, label } of the blank; name is the bare field the writes carry
  *   registrySha256 the registry pin this packet binds (its receipt's committed record)
  *   documentTitle  the official title the packet binds for claim.componentId
  *   fixtureWrites  every write in every fixture, as { document, field }
@@ -65,7 +65,9 @@ export function verifyControllingReservation({ root, claim, blank, registrySha25
   if (!component || component.officialFormId !== blank.document || entry.whereInPacket !== documentTitle) {
     return fail("the registry entry reserves a blank on a different component than the one this blank is on");
   }
-  if ((fixtureWrites ?? []).some((w) => w.document === blank.document && w.field === blank.id)) {
+  // Writes carry the bare field; the corpus reader's blank.id is namespaced "<document>:<field>", so compare on name.
+  if (!blank.name) return fail("the blank names no field to hold against the fixture writes");
+  if ((fixtureWrites ?? []).some((w) => w.document === blank.document && w.field === blank.name)) {
     return fail("a reserved blank is written in at least one fixture");
   }
   const lines = String(instructions ?? "").split(/\r?\n/).map(norm);

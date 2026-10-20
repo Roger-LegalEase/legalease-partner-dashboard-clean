@@ -98,3 +98,26 @@ test("a serialized proof, a required-before-filing declaration or an election is
   assert.equal(classify(proof, { disposition: "REQUIRED_BEFORE_FILING" }), "KNOWN_FACT_NOT_WRITTEN");
   assert.equal(classify(proof, {}, { ...blank, isSelectionControl: true }), "ROUTE_OPTION_NOT_SELECTED");
 });
+
+test("auditFamily refuses the reservation when a bare DOB write appears in actual-writes (A1) or the cover-sheet canonicalWrites (A2)", async () => {
+  // Imported here: the corpus reader needs the master-library environment; the tests above do not.
+  const { auditPreparedInputs } = await import("./rcap-packet-completeness/verify-packet-completeness.mjs");
+  const real = { fieldMap: read("production-field-map.json"), actualWrites: read("reports/actual-writes.json"),
+    rendered: read("reports/rendered-artifacts.json"), receipt, census: read("field-census.census-v1.json"),
+    approval: read("approval-request.json"), instructions };
+  const audit = (mutate) => { const p = structuredClone(real); mutate(p); return auditPreparedInputs(DIR, "ks-22-4908-registration-relief-set", p); };
+  const dob = { field: "DOB", document: blank.document, documentId: blank.document, value: "02/14/1999" };
+  const reserved = (r) => (r.controllingReservationMeasurements ?? []).filter((m) => m.document === blank.document);
+
+  const control = audit(() => {});
+  assert.equal(control.result, "PASS_COMPLETE");
+  assert.equal(reserved(control).length, 1, "the committed reservation verifies on the reader path");
+
+  const a1 = audit((p) => p.actualWrites.documents.find((d) => d.documentId === blank.document).actualWrites.push(dob));
+  const a2 = audit((p) => p.fieldMap.maps.find((m) => m.documentId === blank.document).canonicalWrites.push(dob));
+  for (const [name, r] of [["A1", a1], ["A2", a2]]) {
+    assert.equal(reserved(r).length, 0, `${name}: a written DOB is not a reservation`);
+    assert.notEqual(r.result, "PASS_COMPLETE", `${name}: the audit fails`);
+    assert.ok(r.findings.some((f) => f.counter === "knownRequiredFieldsMissing" && String(f.field).endsWith(":DOB")), `${name}: the DOB is a known fact not written`);
+  }
+});
