@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
+import { stripMarkdownEmphasis } from "./rcap-custom-pleading/composed-page-markdown.mjs";
 /**
  * FABLE-PC composed-treatment builder — Georgia retroactive First Offender
  * treatment, O.C.G.A. § 42-8-66: process guidance and the participant's own
@@ -637,7 +638,8 @@ function composedBody(componentId, facts) {
   const c = COMPONENT[componentId];
   const lines = [c.title.toUpperCase(), ""];
   for (const raw of c.body) {
-    lines.push(String(raw).replace(/\{\{([A-Za-z0-9_.:]+)\}\}/g, (_m, token) => {
+    // Remove authored markup before interpolation so participant facts stay literal.
+    lines.push(stripMarkdownEmphasis(String(raw)).replace(/\{\{([A-Za-z0-9_.:]+)\}\}/g, (_m, token) => {
       if (token === "DOTS") return DOTS();
       if (token.startsWith("DOTS:")) return DOTS(Number(token.slice(5)));
       const value = facts[token];
