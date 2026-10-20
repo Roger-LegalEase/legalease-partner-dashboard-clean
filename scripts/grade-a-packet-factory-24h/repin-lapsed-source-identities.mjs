@@ -990,6 +990,94 @@ const nyCompiledProfileAdapter = {
   }
 };
 
+// Compiled state profiles (schemaVersion 2.0.0, the WV/NY top-level key set)
+// pinned by one pathway: recordId "compiled-profile:<stem>#<pathwayId>". Scope
+// is that pathway's entry in `pathways` and in `packetGenerator.pathways` plus
+// every shared section of the profile; only the other pathways' entries are set
+// aside. The receipt's single route key must carry the pathway id as a segment,
+// and a refresh follows a measured re-verification row recording the current
+// digest, as the NY adapter requires. (OK human-trafficking-survivor-relief,
+// 2026-10-20: a66ccc373 reworded one waiting rule of the clean-slate pathway.)
+const PROFILES_DIR = "src/lib/rcap-engine/compiled/profiles";
+const PROFILE_PATHWAY_PREFIXES = ["compiledProfile:pathways:", "compiledProfile:packetGenerator:pathways:"];
+const profilePathwayId = (entry) => (entry && typeof entry === "object" && !Array.isArray(entry)) ? (entry.pathwayId ?? entry.id) : undefined;
+const pathwayScopedProfileAdapter = {
+  recordPath: PROFILES_DIR,
+  describe: "compiled state profile scoped by the pinned pathway (its rule and packet entries plus every shared section; the other pathways set aside)",
+
+  index(doc, side) {
+    if (!doc || typeof doc !== "object" || Array.isArray(doc) || doc.schemaVersion !== "2.0.0" || typeof doc.jurisdiction?.code !== "string") {
+      throw new Refusal(`the ${side} record is not the 2.0.0 compiled profile schema this adapter describes`);
+    }
+    const unknown = Object.keys(doc).filter((key) => !WV_PROFILE_TOP_KEYS.has(key));
+    if (unknown.length) throw new Refusal(`ambiguous ${side} compiled profile fields: ${unknown.join(", ")}`);
+    const packet = doc.packetGenerator;
+    if (!Array.isArray(doc.pathways) || !packet || typeof packet !== "object" || Array.isArray(packet) || !Array.isArray(packet.pathways)) {
+      throw new Refusal(`the ${side} compiled profile does not carry pathways and packetGenerator.pathways arrays`);
+    }
+    const out = new Map();
+    for (const key of [...WV_PROFILE_TOP_KEYS].filter((k) => k !== "pathways" && k !== "packetGenerator").sort()) out.set(`compiledProfile:${key}`, doc[key] ?? null);
+    for (const key of Object.keys(packet).filter((k) => k !== "pathways").sort()) out.set(`compiledProfile:packetGenerator:${key}`, packet[key]);
+    for (const [list, prefix] of [[doc.pathways, PROFILE_PATHWAY_PREFIXES[0]], [packet.pathways, PROFILE_PATHWAY_PREFIXES[1]]]) {
+      for (const entry of list) {
+        const id = profilePathwayId(entry);
+        if (typeof id !== "string" || !id) throw new Refusal(`a ${side} compiled profile pathway entry carries no id`);
+        if (out.has(prefix + id)) throw new Refusal(`the ${side} compiled profile names pathway ${id} twice`);
+        out.set(prefix + id, entry);
+      }
+    }
+    return out;
+  },
+
+  scopeFrom({ receipt, pin, currentDoc, laneReturnRoot = path.join(ROOT, LANE_RETURNS) }) {
+    const stem = path.basename(this.recordPath, ".json");
+    const named = /^compiled-profile:([^#]+)#(.+)$/.exec(pin.recordId ?? "");
+    if (!named || named[1] !== stem || pin.pathInRepository !== this.recordPath) {
+      throw new Refusal(`compiled-profile pin does not name one pathway of ${stem} (recordId ${pin.recordId ?? "absent"})`);
+    }
+    const pathwayId = named[2];
+    if (!Array.isArray(receipt.routeKeys) || receipt.routeKeys.length !== 1 || !receipt.routeKeys[0].split(":").includes(pathwayId)) {
+      throw new Refusal(`the receipt's route keys do not corroborate pathway ${pathwayId}`);
+    }
+    const indexed = this.index(currentDoc, "current");
+    const own = PROFILE_PATHWAY_PREFIXES.map((prefix) => prefix + pathwayId);
+    const absent = own.filter((id) => !indexed.has(id));
+    if (absent.length) throw new Refusal(`the current compiled profile no longer carries pathway ${pathwayId} (${absent.join(", ")})`);
+    const digest = sha256(fs.readFileSync(path.join(ROOT, this.recordPath)));
+    const measuredReVerification = measuredReVerificationsRecording(receipt.familyId, digest, laneReturnRoot);
+    if (measuredReVerification.length === 0) {
+      throw new Refusal(`no independent re-verification row for ${receipt.familyId} records the current digest ${digest.slice(0, 12)} of this record; a refresh here follows a measured re-verification`);
+    }
+    const otherPathways = [...indexed.keys()].filter((id) => PROFILE_PATHWAY_PREFIXES.some((prefix) => id.startsWith(prefix)) && !own.includes(id)).sort();
+    return {
+      anchorIds: [...indexed.keys()].filter((id) => !otherPathways.includes(id)),
+      derivation: {
+        recordId: pin.recordId,
+        familyId: receipt.familyId,
+        routeKey: receipt.routeKeys[0],
+        pathwayId,
+        setAside: { kind: "other-pathways-of-this-profile", reason: "the pin names one pathway; another pathway's rules and packet entry are not ones this family reads", fields: otherPathways },
+        measuredReVerification
+      }
+    };
+  },
+
+  anchorsOf(doc, scope, side) {
+    const indexed = this.index(doc, side);
+    const out = new Map();
+    for (const id of scope.anchorIds) {
+      if (!indexed.has(id)) throw new Refusal(`the ${side} compiled profile lacks required anchor ${id}`);
+      out.set(id, indexed.get(id));
+    }
+    return out;
+  }
+};
+const dedicatedProfiles = new Set([WV_COMPILED_PROFILE, NY_COMPILED_PROFILE]);
+const pathwayProfilePaths = (() => {
+  try { return fs.readdirSync(path.join(ROOT, PROFILES_DIR)).filter((n) => n.endsWith(".json")).map((n) => `${PROFILES_DIR}/${n}`).filter((p) => !dedicatedProfiles.has(p)); }
+  catch { return []; }
+})();
+
 // Whole-file route-contract pins may move for another jurisdiction. Scope is
 // the receipt's exact route-contract identity, corroborated by its own route
 // keys; compare the complete route (including every service/failure branch)
@@ -1435,7 +1523,8 @@ export const ADAPTERS = new Map([
   [DECISIONS, decisionsAdapter],
   [CENSUS, censusAdapter],
   [WORKLIST, worklistAdapter],
-  ...memoPaths.map((p) => [p, { ...memoAdapter, recordPath: p }])
+  ...memoPaths.map((p) => [p, { ...memoAdapter, recordPath: p }]),
+  ...pathwayProfilePaths.map((p) => [p, { ...pathwayScopedProfileAdapter, recordPath: p }])
 ]);
 
 /* ------------------------------------------------------------------ *
