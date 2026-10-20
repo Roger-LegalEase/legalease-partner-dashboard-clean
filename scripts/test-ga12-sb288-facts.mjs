@@ -143,10 +143,21 @@ check('category is not a new collection gate',()=>{
  const c=resolvePacketCollection(input);const f=c.facts.find(f=>f.factId==='offense_category');assert.equal(f.active,false);assert.equal(f.optional,true);assert.equal(f.source,'ga_sb288_category_history');assert.equal(c.derivedFacts.offense_category,undefined);
  assert.notEqual(resolvePacketCollection({...input,recordOwnQuestionIds:new Set(['offense_category'])}).facts.find(f=>f.factId==='offense_category').source,'ga_sb288_category_history');
 });
+// GA-12-M00732 / Q-2d80a89dd926657a1873: saved labels cannot replace the actual conditional facts.
+for(const facts of [{},{ga_sb288_final_citations:'16-5-95'},{ga_sb288_final_citations:undefined},{ga_sb288_final_citations:'16-5-20(d)',ga_sb288_under21_at_arrest:'No'}])check('category values preserve the full factual decision/'+JSON.stringify(facts),()=>{
+ const answers={...base,...facts},expected=evalFor(answers).evaluation;
+ for(const raw of ['Misdemeanor','Felony','Sex offense','Count 1 theft; count 2 amended',{unknown:true},{value:'Original charge',unknown:false}]){
+  const record=modelFor(answers);record.draftSnapshot.packetAnswers.offense_category=structuredClone(raw);
+  record.draftHash=P.protectedPacketDraftHash(record.draftSnapshot);const before=structuredClone(record);
+  assert.deepEqual(P.evaluateProtectedPacketFacts(record.draftSnapshot,undefined,expected.matterId).evaluation,expected);
+  assert.deepEqual(record,before);
+ }
+});
 for(const map of ['screeningAnswers','prefilledAnswers','packetAnswers'])for(const raw of ['Old broad category','Count 1 theft; count 2 amended',null,{value:'Old category',unknown:true},['Legacy shape']])check('saved history/'+map+'/'+JSON.stringify(raw),()=>{
  const record=modelFor(base);record.draftSnapshot[map].offense_category=raw;record.draftHash=P.protectedPacketDraftHash(record.draftSnapshot);const before=structuredClone(record);
  const m=P.protectedPacketInformationModelFor(record);assert(!m.missingInputIds.includes('offense_category'));assert.equal(m.questions.find(q=>q.id==='offense_category')?.required,false);
  const patch=P.packetInformationPatch({protectedVerification:record,answers:{}});assert(patch);assert.deepEqual(patch.protectedTransition.nextVerification,before);assert.deepEqual(record,before);
+ assert.deepEqual(P.evaluateProtectedPacketFacts(record.draftSnapshot,undefined,'TEST-sb288').evaluation,evalFor(base).evaluation);
 });
 check('missing protected citations render a multiline record control',()=>{
  const missing=modelFor({...base,ga_sb288_final_citations:undefined});
@@ -175,4 +186,58 @@ for(const q of G.GA_SB288_QUESTIONS)check('inactive/resumed raw preservation/'+q
  const a={...base,ga_sb288_conviction_count:'2',ga_sb288_final_citations:'16-5-20(d)\n16-5-90',ga_sb288_single_incident:'Yes',ga_sb288_under21_at_arrest:'No',ga_sb288_stalking_family_violence:'Yes'};
  assert.deepEqual(sanitizeResumedAnswersForQuestionIds(parsedProfile.data,a,['ownership_scope'])[q.id],a[q.id]);
 });
-console.log(JSON.stringify({status:'PASS',checks,originalId:'Q-2d80a89dd926657a1873',route:key,liveCalls:0,limits:['Review-only factual consumer; no legal eligibility finding or route promotion.','Independent timing/authority and adopted packet stops remain; no output regeneration.','Supplemental EN/ES copy requires qualified review.']}));
+const {isDeepStrictEqual}=await import('node:util');
+// Reviewer3 D1: actual POST writes must stay within the selected synthetic matter.
+const {pathToFileURL}=await import('node:url');const {default:ts}=await import('typescript');
+const records=new Map([['synthetic-first',modelFor(base)],['synthetic-second',modelFor(base)]]);let httpCases=0;
+for(const [id,record]of records){record.draftSnapshot.prefilledAnswers.offense_category='Original '+id;record.draftSnapshot.packetAnswers.offense_category='Saved '+id;record.draftHash=P.protectedPacketDraftHash(record.draftSnapshot);}
+let authenticated = true, verified = true, owner = 'synthetic-ga-owner';
+let saves = 0;
+const itemFor = id => ({ id, jurisdiction: 'GA', artifactRefs: {} });
+globalThis.__sb288Transport = {
+  getRcapBriefcaseAuthState: async () => ({ isAuthenticated: authenticated, isVerified: verified, userId: owner }),
+  getBriefcaseItem: async (user, id) => user === 'synthetic-ga-owner' && records.has(id) ? itemFor(id) : null,
+  readProtectedPacketVerification: async ({ consumerAuthUserId, briefcaseItemId }) => {
+    assert.equal(consumerAuthUserId, 'synthetic-ga-owner');
+    return { ok: true, value: structuredClone(records.get(briefcaseItemId)) };
+  },
+  persistProtectedPacketVerification: async ({ consumerAuthUserId, briefcaseItemId, transition }) => {
+    assert.equal(consumerAuthUserId, 'synthetic-ga-owner');
+    assert.equal(transition.expectedPriorRevision, records.get(briefcaseItemId).revision);
+    records.set(briefcaseItemId, structuredClone(transition.nextVerification)); saves++;
+    return { ok: true, value: structuredClone(records.get(briefcaseItemId)) };
+  },
+  decorateBriefcaseItemForPresentation: async () => ({ commercialActions: {} }),
+  protectedPacketVerificationSeedFromTrustedSource: () => { throw Error('No substitute source'); },
+  readTrustedBriefcasePresentationSource: () => { throw Error('No substitute source'); }
+};
+const apiUrl = pathToFileURL(`${process.cwd()}/src/app/api/expungement-ai/briefcase/[itemId]/packet-information/route.ts`).href;
+let source = fs.readFileSync(new URL(apiUrl), 'utf8');
+for (const [bindings, module] of [
+  [['getRcapBriefcaseAuthState'], '@/lib/rcap/briefcase/auth'],
+  [['getBriefcaseItem'], '@/lib/expungement-ai/briefcase'],
+  [['decorateBriefcaseItemForPresentation', 'protectedPacketVerificationSeedFromTrustedSource', 'readTrustedBriefcasePresentationSource'], '@/lib/expungement-ai/briefcase-presentation-authority'],
+  [['persistProtectedPacketVerification', 'readProtectedPacketVerification'], '@/lib/expungement-ai/verification-cas']
+]) {
+  const pattern = new RegExp('import \\{\\s*' + bindings.join(',\\s*') + '\\s*\\} from "' + module + '";');
+  assert(pattern.test(source));
+  source = source.replace(pattern, bindings.map(name => `const ${name}=(...args:unknown[])=>(globalThis as any).__sb288Transport.${name}(...args);`).join('\n'));
+}
+register('data:text/javascript,' + encodeURIComponent('let d;export function initialize(x){d=x}export async function load(u,c,n){return u===d.url?{format:"module",source:d.source,shortCircuit:true}:n(u,c)}'),
+  { data: { url: apiUrl, source: ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText } });
+const API = await import(apiUrl);
+const post = (id, answers, extra = {}) => API.POST(new Request(`http://isolated.invalid/api/expungement-ai/briefcase/${id}/packet-information`,
+  { method: 'POST', body: JSON.stringify({ expectedRevision: records.get(id).revision, answers, ...extra }) }),
+{ params: Promise.resolve({ itemId: id }) });
+
+for(const [id,value]of [['synthetic-first',{value:'Amended literal category',unknown:false}],['synthetic-second',{unknown:true}]]){
+ const otherId=[...records.keys()].find(key=>key!==id),other=structuredClone(records.get(otherId)),before=structuredClone(records.get(id));
+ let response=await post(id,{offense_category:value});httpCases++;
+ check(id+' HTTP category change isolates the other matter',()=>{assert.equal(response.status,200);assert.deepEqual(records.get(otherId),other);const next=records.get(id);assert.deepEqual(next.draftSnapshot.packetAnswers.offense_category,value);for(const map of ['screeningAnswers','prefilledAnswers','packetAnswers'])if(Object.hasOwn(before.draftSnapshot[map],'offense_category'))assert(next.draftSnapshot.dependencies.semanticAnswerHistory.some(h=>h.factId==='offense_category'&&h.source===map&&isDeepStrictEqual(h.value,before.draftSnapshot[map].offense_category)));for(const record of records.values())assert.deepEqual(P.evaluateProtectedPacketFacts(record.draftSnapshot,undefined,'TEST-sb288').evaluation,evalFor(base).evaluation);});
+ const stable=structuredClone(records.get(id));response=await post(id,{offense_category:value});httpCases++;check(id+' repeated HTTP answer preserves revision/history',()=>{assert.equal(response.status,200);assert.deepEqual(records.get(id),stable);assert.deepEqual(records.get(otherId),other);});
+}
+// Each POST crosses CAS, including exact no-op transitions.
+assert.equal(saves,httpCases);delete globalThis.__sb288Transport;
+
+
+console.log(JSON.stringify({status:'PASS',checks,httpCases,originalId:'Q-2d80a89dd926657a1873',route:key,liveCalls:0,limits:['Review-only factual consumer; no legal eligibility finding or route promotion.','Independent timing/authority and adopted packet stops remain; no output regeneration.','Supplemental EN/ES copy requires qualified review.']}));
