@@ -1381,13 +1381,71 @@ const censusAdapter = {
     return { anchorIds: [...new Set(routeKeys)].sort(), derivation: { fromReceiptRouteKeys: routeKeys, sharedMetadataComparedExceptSourceFingerprint: true, countsNotCompared: true, ...measuredOrFingerprintOnly({ receipt, pin, recordPath: this.recordPath, currentDoc, laneReturnRoot, recover }) } };
   },
 
+  /* The one route field a measured-row admission may see past, by name. */
+  ADMITTED_ROUTE_FIELDS: ["requiredSourceIds"],
+  /*
+   * MEASURED-ROW ADMISSION FOR THE FAMILY'S OWN ROUTE (lead ruling 2026-10-20 for ND
+   * custom pleading: re-admit without a rebuild via a source-identity row plus a
+   * census re-pin). A route this family binds may differ only by ids ADDED to
+   * requiredSourceIds, and only when the family's own PASS row was read on the
+   * current census bytes and names the route and every added id. Nothing removed,
+   * no other field, no reordering; shared metadata is still compared whole.
+   */
+  measuredRowAdmission({ receipt, oldDoc, currentDoc, scope, differing, measuredRows }) {
+    if (!Array.isArray(measuredRows) || measuredRows.length === 0) return { ok: false, why: "no PASS_COMPLETE_INDEPENDENT row for this family records the current census digest" };
+    const notRoutes = differing.filter((name) => !name.startsWith("route:"));
+    if (notRoutes.length) return { ok: false, why: `an anchor other than this family's routes differs: ${notRoutes.join(", ")}` };
+    const currentDigest = sha256(fs.readFileSync(path.join(ROOT, this.recordPath)));
+    const readOnCurrentBytes = measuredRows.filter((m) => {
+      try { return sha256(execFileSync("git", ["show", `${m.verifiedAtBase}:${this.recordPath}`], { cwd: ROOT, maxBuffer: 1 << 28, stdio: ["ignore", "pipe", "ignore"] })) === currentDigest; }
+      catch { return false; }
+    });
+    if (readOnCurrentBytes.length === 0) return { ok: false, why: "no measured row was read at a base whose census bytes are the current ones" };
+    const oldBy = this.index(oldDoc, "recovered historical"), curBy = this.index(currentDoc, "current");
+    const admittedAdditions = {};
+    for (const name of differing) {
+      const key = name.slice("route:".length);
+      const o = oldBy.get(key), c = curBy.get(key);
+      if (!o || !c) return { ok: false, why: `route ${key} is not on both sides` };
+      const changed = [...new Set([...Object.keys(o), ...Object.keys(c)])].filter((f) => canonical(o[f]) !== canonical(c[f])).sort();
+      const outside = changed.filter((f) => !this.ADMITTED_ROUTE_FIELDS.includes(f));
+      if (outside.length) return { ok: false, why: `route ${key} changed outside the admitted field list: ${outside.join(", ")}` };
+      const before = o.requiredSourceIds, after = c.requiredSourceIds;
+      if (!Array.isArray(before) || !Array.isArray(after) || [...before, ...after].some((id) => typeof id !== "string")) return { ok: false, why: `route ${key} requiredSourceIds is not a list of ids on both sides` };
+      const removed = before.filter((id) => !after.includes(id));
+      if (removed.length) return { ok: false, why: `route ${key} removed requiredSourceIds: ${removed.join(", ")}` };
+      const added = after.filter((id) => !before.includes(id));
+      if (canonical(after.filter((id) => !added.includes(id))) !== canonical(before)) return { ok: false, why: `route ${key} reordered or duplicated requiredSourceIds` };
+      admittedAdditions[key] = { field: "requiredSourceIds", added };
+    }
+    const rowText = (m) => {
+      try {
+        const doc = JSON.parse(fs.readFileSync(path.join(ROOT, m.evidencePath), "utf8"));
+        const row = (doc.rows ?? []).find((r) => (r?.itemId ?? r?.familyId) === receipt.familyId && r.verdict === "PASS_COMPLETE_INDEPENDENT" && (r.verifiedAtBase ?? null) === m.verifiedAtBase);
+        return row ? JSON.stringify(row) : "";
+      } catch { return ""; }
+    };
+    const unnamed = (text) => Object.entries(admittedAdditions).flatMap(([key, a]) => [key, ...a.added]).filter((s) => !text.includes(s));
+    const naming = readOnCurrentBytes.filter((m) => unnamed(rowText(m)).length === 0);
+    if (naming.length === 0) return { ok: false, why: `no measured row read on the current bytes names the changed route and every added id (first row misses: ${unnamed(rowText(readOnCurrentBytes[0])).join(", ")})` };
+    /* The comparison without the admission stays on the record: it is why the measured row was needed. */
+    const withoutAdmission = { anchorsCompared: scope.anchorIds.length + 1, anchorsIdentical: scope.anchorIds.length + 1 - differing.length, differing: [...differing], outcome: "REFUSED" };
+    return { ok: true, admission: { rule: "measured-row admission (own route): the only change to a route this family binds is ids added to requiredSourceIds, nothing removed or reordered; the family's own PASS row was read on the current census bytes and names the route and every added id; shared metadata identical except sourceFingerprint", withoutAdmission, measuredReVerification: naming, admittedAdditions } };
+  },
+
   anchorsOf(doc, scope, side) {
     const byKey = this.index(doc, side);
     const { sourceFingerprint: _f, ...metadata } = doc.metadata;
     const out = new Map([["censusSharedMetadata", metadata]]);
+    /* Granted only by measuredRowAdmission() above: the named additions leave the
+     * anchor on both sides (the historical side never carried them), so the block
+     * records identical anchors, as generate.mjs requires. */
+    const admitted = scope.derivation?.measuredRowAdmission?.admittedAdditions ?? {};
     for (const key of scope.anchorIds) {
       if (!byKey.has(key)) throw new Refusal(`route ${key} is absent from the ${side} census; the entry this family binds left the record and it owes a fresh read`, { anchor: key, side });
-      out.set(`route:${key}`, byKey.get(key));
+      const entry = byKey.get(key);
+      const added = admitted[key]?.added ?? [];
+      out.set(`route:${key}`, added.length ? { ...entry, requiredSourceIds: entry.requiredSourceIds.filter((id) => !added.includes(id)) } : entry);
     }
     return out;
   }
