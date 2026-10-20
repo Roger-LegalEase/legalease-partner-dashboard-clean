@@ -39,6 +39,12 @@ test("a flat name on either side keeps the document scope", () => {
   assert.deepEqual(dispositions([write("street", "participant.street")], [blank("F[0].P1[0].Court[0].CrtStreet[0]")]), { KNOWN_FACT_NOT_WRITTEN: 1 });
 });
 
+// Reviewer3: a field repeated in a later page header (same leaf name, another group) is the same fact.
+test("the same leaf field repeated in another group's header still binds", () => {
+  const caption = { ...write("F[0].Page1[0].RightCaption[0].CaseNumber[0].CaseNumber[0]", "case.number"), effectiveLabel: "CASE NUMBER:" };
+  assert.deepEqual(dispositions([caption], [{ ...blank("F[0].Page2[0].PxCaption[0].CaseNumber[0]"), effectiveLabel: "CASE NUMBER:" }]), { KNOWN_FACT_NOT_WRITTEN: 1 });
+});
+
 test("a declared fact id binds across groups", () => {
   assert.deepEqual(dispositions([filer], [blank("F[0].P1[0].Court[0].CrtStreet[0]", "participant.street")]), { KNOWN_FACT_NOT_WRITTEN: 1 });
 });
