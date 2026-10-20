@@ -126,6 +126,7 @@ async function censusDocument(doc, bytes) {
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const FAMILY='nd-prohibit-remote-public-access-set';
+export const ROUTE_KEYS=['obligation:track-only:ND:nd-prohibit-remote-public-access'];
 const OUT='data/rcap-all50/overlays/census-v1/nd/nd-prohibit-remote-public-access-set--official-pdf-fill';
 const ADOPTION='data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json';
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
@@ -222,7 +223,7 @@ async function main(){
   await appendInstructions(packet,instructions(),fixture);stampDeterministic(packet);const bytes=await packet.save();const rel=`${OUT}/fixtures/${label}.pdf`;fs.writeFileSync(path.join(ROOT,rel),bytes);const saved=await PDFDocument.load(fs.readFileSync(path.join(ROOT,rel)));assert(saved.getPageCount()>31,'Source31pages plus supplemental instructions required');artifacts.push({fixture:label,file:rel,sha256:sha(bytes),byteLength:bytes.length,pageCount:saved.getPageCount(),classification:'DIAGNOSTIC_NON_FILING'});
  }
  const route=JSON.parse(fs.readFileSync(path.join(ROOT,'data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json'))); // Retained as authoritative input; no route rewritten.
- write(`${OUT}/source-receipt.json`,{schemaVersion:'rcap-family-source-receipt/v1',familyId:FAMILY,implementationStrategy:'official_pdf_fill',jurisdiction:'ND',allSourcesExact:true,adoptionEvidence:ADOPTION,adoptionSnapshotSha256:sha(fs.readFileSync(path.join(ROOT,adoptionPath))),documents:docs.map(d=>({documentId:d.documentId,sourceIds:[d.sourceId],pathInRepository:d.source.heldCorpusPath,sha256:d.source.sha256,byteLength:d.bytes.length,pageCount:d.pages.length,acroFieldCount:d.fields.length}))});
+ write(`${OUT}/source-receipt.json`,{schemaVersion:'rcap-family-source-receipt/v1',familyId:FAMILY,routeKeys:ROUTE_KEYS,implementationStrategy:'official_pdf_fill',jurisdiction:'ND',allSourcesExact:true,adoptionEvidence:ADOPTION,adoptionSnapshotSha256:sha(fs.readFileSync(path.join(ROOT,adoptionPath))),documents:docs.map(d=>({documentId:d.documentId,sourceIds:[d.sourceId],pathInRepository:d.source.heldCorpusPath,sha256:d.source.sha256,byteLength:d.bytes.length,pageCount:d.pages.length,acroFieldCount:d.fields.length}))});
  write(`${OUT}/field-census.census-v1.json`,{schemaVersion:'rcap-official-form-field-census/v1-census-v1',familyId:FAMILY,documents:docs.map(d=>({documentId:d.documentId,pageGeometry:d.pageGeometry,fieldCount:d.fields.length,fields:d.fields}))});
  write(`${OUT}/reports/author-render-results.json`,{familyId:FAMILY,artifacts,results,independentAcceptance:false,completenessStatus:'NOT_YET_AUDITED'});
  write(`${OUT}/fixture-facts.json`,{classification:'DIAGNOSTIC_NON_FILING',fixtures:FIXTURES});fs.writeFileSync(path.join(ROOT,OUT,'participant-instructions.md'),instructions());
