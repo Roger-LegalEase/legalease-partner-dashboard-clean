@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
 /**
  * The Colorado arrest-record sealing family — `co_petition_seal_arrest-set`.
  *
@@ -1127,6 +1128,7 @@ function countCompleteness(maps, writeProofs, artifacts, instructionsText) {
 
 /* ---- artifacts ------------------------------------------------------------- */
 function writeJson(rel, value) {
+  if (path.basename(rel) === "source-receipt.json") value = preserveIdentityRefresh(fs, path.join(ROOT, rel), value);
   fs.mkdirSync(path.dirname(path.join(ROOT, rel)), { recursive: true });
   fs.writeFileSync(path.join(ROOT, rel), `${JSON.stringify(value, null, 2)}\n`);
 }
