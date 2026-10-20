@@ -160,7 +160,8 @@ function safeAnswer(question, pathway, timingBucket) {
     case "possible_pathway_context":
       return pathway.label;
     case "state_exclusion_categories":
-      return options.find((option) => /none of these/i.test(option)) ?? ["None of these"];
+      // A multi_select answer is a list; typed validation (6a55e0650) rejects a scalar as an unknown question id.
+      return [options.find((option) => /none of these/i.test(option)) ?? "None of these"];
     case "pending_cases":
     case "new_convictions_during_waiting_period":
       return options.find((option) => /^no$/i.test(option)) ?? "No";
@@ -179,7 +180,7 @@ function safeAnswer(question, pathway, timingBucket) {
     case "single_choice":
       return options.find((option) => /^no$|none of these/i.test(option)) ?? options[0];
     case "multi_select":
-      return options.find((option) => /none of these/i.test(option)) ?? options[0];
+      return [options.find((option) => /none of these/i.test(option)) ?? options[0]];
     case "yes_no_unsure":
     case "yes_no_prefer_not_to_say":
       return options.find((option) => /^yes$/i.test(option)) ?? "Yes";
