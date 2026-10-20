@@ -145,10 +145,19 @@ check('actual continuity reader paths fit the exact MS required inventory union 
   const source = fs.readFileSync('scripts/lib/ms-paid-packet-proof.mjs', 'utf8');
   const match = source.match(/const requiredInventory=(\[\.\.\.new Set\(\[[\s\S]*?\]\)\]\.sort\(\));/);
   assert.ok(match, 'use the real existing MS inventory expression, not a copied list');
-  const context = { ...msProofInventory,
+  // The expression filters with the loader's retired/added sets; run the loader's real derivation, not a copy.
+  const delta = source.match(/(const priorEvidence=[\s\S]*?)\n  const requiredInventory=/);
+  assert.ok(delta, 'use the real MS retired/added input derivation');
+  const msProof = JSON.parse(readBytes(msProofInventory.MS_PAID_PACKET_PROOF));
+  const context = { ...msProofInventory, assert, readBytes,
     predecessor: JSON.parse(readBytes(msProofInventory.MS_PAID_PACKET_PROOF_PREDECESSOR)),
-    currentOutput: proof, proof: { outputContinuity: actual } };
-  const inventory = expression => new Set(runInNewContext(expression, context));
+    // the loader asserts ownerDecision deep-equals the live approval
+    approval: msProof.ownerDecision,
+    currentOutput: proof, proof: { inputs: msProof.inputs, outputContinuity: actual } };
+  // same moved-artifact rule as the loader's results loop
+  context.movedIds = new Set(context.predecessor.results.filter(row => {
+    const entry = context.approval.approvedArtifacts.find(a => a.id === row.id); return entry && entry.sha256 !== row.artifactSha256; }).map(row => row.id));
+  const inventory = expression => new Set(runInNewContext(`(()=>{${delta[1]}\nreturn ${expression};})()`, context));
   const required = inventory(match[1]);
   assert.ok([...reads].every(file => required.has(file)), 'every actual continuity read must enter MS source inventory');
   for (const token of ['retainedRevisionContinuity', 'retainedRevisionOutput', 'continuedRevisionContinuity', 'continuedRevisionOutput', 'reviewedRevisionContinuity', 'reviewedRevisionOutput', 'integratedRevisionContinuity', 'integratedRevisionOutput', 'revalidatedRevisionContinuity', 'revalidatedRevisionOutput', 'artifactPredecessorContinuity', 'artifactPredecessorOutput', 'sourcePredecessorContinuity', 'sourcePredecessorOutput']) {
