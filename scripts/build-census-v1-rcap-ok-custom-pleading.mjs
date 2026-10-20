@@ -4362,103 +4362,103 @@ const SPEC = {
   },
   "composedFromNote": "the committed legal-design track registry (data/record-clearing/legal-design-track-registry.json), the committed custom-pleading specifications (data/record-clearing/legal-design-specifications.json) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
   "formIdentityNote": "No committed record names an official statewide participant form for this route; the committed specifications record its component set as composed pleadings. Every page in this packet is therefore composed by this build from the committed records, and no official form was substituted or invented.",
-  "routeSelectionNote": "This family carries more than one statutory route. Every composed page states its own route in its footer and its own statutory ground in its body, and the participant instructions carry a table saying which set of pages belongs to which situation. No election control is printed on any page, because the route is determined by the participant's own record and not by a box on a form.",
+  "routeSelectionNote": "This family carries more than one statutory route. Each component's first-page title names the situation its set is for, and each set's petition and proposed order state its statutory ground. Where a set serves more than one route, the last page of each of its components closes with every declared route that set serves; a set that serves one route prints no route on its pages. The participant instructions carry a table saying which set of pages belongs to which situation. No election control is printed on any page, because the route is determined by the participant's own record and not by a box on a form.",
   "routeSelectionsMade": [
     {
       "routeKey": "obligation:track-only:OK:ok_identity_theft",
       "statute": "22 O.S. § 18; 22 O.S. § 19; 22 O.S. § 19a; 22 O.S. § 60.18; 22 O.S. § 991c; Senate Bill 2030 (2026)",
       "instrument": "free_route_screen: ok_identity_theft-free-route-screen-1; primary_filing: ok_identity_theft-primary-filing-2; proposed_order: ok_identity_theft-proposed-order-3; record_gathering_instructions: ok_identity_theft-record-gathering-instructions-4; fee_disclosure: ok_identity_theft-fee-disclosure-5; hearing_instructions: ok_identity_theft-hearing-instructions-6; effect_disclosure: ok_identity_theft-effect-disclosure-7",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "each component's first-page title (the situation) and the set's petition and proposed order (the statutory ground); the set serves only this route and no page prints its route key"
     },
     {
       "routeKey": "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:misdemeanor-deferred-dismissal-expungement",
       "statute": "22 O.S. § 18; 22 O.S. § 19; 22 O.S. § 19a; 22 O.S. § 60.18; 22 O.S. § 991c; Senate Bill 2030 (2026)",
       "instrument": "free_route_screen: ok_18_19_deferred_dismissal-free-route-screen-1; primary_filing: ok_18_19_deferred_dismissal-primary-filing-2; proposed_order: ok_18_19_deferred_dismissal-proposed-order-3; record_gathering_instructions: ok_18_19_deferred_dismissal-record-gathering-instructions-4; fee_disclosure: ok_18_19_deferred_dismissal-fee-disclosure-5; hearing_instructions: ok_18_19_deferred_dismissal-hearing-instructions-6; effect_disclosure: ok_18_19_deferred_dismissal-effect-disclosure-7",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "each component's first-page title (the situation), the set's petition and proposed order (the statutory ground), and the foot of each component's last page, which lists every route the set serves"
     },
     {
       "routeKey": "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:nonviolent-felony-deferred-dismissal-expungement",
       "statute": "22 O.S. § 18; 22 O.S. § 19; 22 O.S. § 19a; 22 O.S. § 60.18; 22 O.S. § 991c; Senate Bill 2030 (2026)",
       "instrument": "free_route_screen: ok_18_19_deferred_dismissal-free-route-screen-1; primary_filing: ok_18_19_deferred_dismissal-primary-filing-2; proposed_order: ok_18_19_deferred_dismissal-proposed-order-3; record_gathering_instructions: ok_18_19_deferred_dismissal-record-gathering-instructions-4; fee_disclosure: ok_18_19_deferred_dismissal-fee-disclosure-5; hearing_instructions: ok_18_19_deferred_dismissal-hearing-instructions-6; effect_disclosure: ok_18_19_deferred_dismissal-effect-disclosure-7",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "each component's first-page title (the situation), the set's petition and proposed order (the statutory ground), and the foot of each component's last page, which lists every route the set serves"
     },
     {
       "routeKey": "obligation:track-pathway:OK:ok_18_19_deferred_dismissal:up-to-two-felony-deferred-dismissal-expungement",
       "statute": "22 O.S. § 18; 22 O.S. § 19; 22 O.S. § 19a; 22 O.S. § 60.18; 22 O.S. § 991c; Senate Bill 2030 (2026)",
       "instrument": "free_route_screen: ok_18_19_deferred_dismissal-free-route-screen-1; primary_filing: ok_18_19_deferred_dismissal-primary-filing-2; proposed_order: ok_18_19_deferred_dismissal-proposed-order-3; record_gathering_instructions: ok_18_19_deferred_dismissal-record-gathering-instructions-4; fee_disclosure: ok_18_19_deferred_dismissal-fee-disclosure-5; hearing_instructions: ok_18_19_deferred_dismissal-hearing-instructions-6; effect_disclosure: ok_18_19_deferred_dismissal-effect-disclosure-7",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "each component's first-page title (the situation), the set's petition and proposed order (the statutory ground), and the foot of each component's last page, which lists every route the set serves"
     },
     {
       "routeKey": "obligation:track-pathway:OK:ok_18_19_felony_conviction:felony-reclassified-as-a-misdemeanor",
       "statute": "22 O.S. § 18; 22 O.S. § 19; 22 O.S. § 19a; 22 O.S. § 60.18; 22 O.S. § 991c; Senate Bill 2030 (2026)",
       "instrument": "Oklahoma § 18 Expungement Petition — reclassified felony",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "each component's first-page title (the situation), the set's petition and proposed order (the statutory ground), and the foot of each component's last page, which lists every route the set serves"
     },
     {
       "routeKey": "obligation:track-pathway:OK:ok_18_19_felony_conviction:not-more-than-two-eligible-felony-convictions-expungement",
       "statute": "22 O.S. § 18; 22 O.S. § 19; 22 O.S. § 19a; 22 O.S. § 60.18; 22 O.S. § 991c; Senate Bill 2030 (2026)",
       "instrument": "free_route_screen: ok_18_19_felony_conviction-free-route-screen-1; primary_filing: ok_18_19_felony_conviction-primary-filing-2; proposed_order: ok_18_19_felony_conviction-proposed-order-3; record_gathering_instructions: ok_18_19_felony_conviction-record-gathering-instructions-4; fee_disclosure: ok_18_19_felony_conviction-fee-disclosure-5; hearing_instructions: ok_18_19_felony_conviction-hearing-instructions-6; effect_disclosure: ok_18_19_felony_conviction-effect-disclosure-7",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "each component's first-page title (the situation), the set's petition and proposed order (the statutory ground), and the foot of each component's last page, which lists every route the set serves"
     },
     {
       "routeKey": "obligation:track-pathway:OK:ok_18_19_felony_conviction:one-eligible-nonviolent-felony-conviction-expungement",
       "statute": "22 O.S. § 18; 22 O.S. § 19; 22 O.S. § 19a; 22 O.S. § 60.18; 22 O.S. § 991c; Senate Bill 2030 (2026)",
       "instrument": "free_route_screen: ok_18_19_felony_conviction-free-route-screen-1; primary_filing: ok_18_19_felony_conviction-primary-filing-2; proposed_order: ok_18_19_felony_conviction-proposed-order-3; record_gathering_instructions: ok_18_19_felony_conviction-record-gathering-instructions-4; fee_disclosure: ok_18_19_felony_conviction-fee-disclosure-5; hearing_instructions: ok_18_19_felony_conviction-hearing-instructions-6; effect_disclosure: ok_18_19_felony_conviction-effect-disclosure-7",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "each component's first-page title (the situation), the set's petition and proposed order (the statutory ground), and the foot of each component's last page, which lists every route the set serves"
     },
     {
       "routeKey": "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:fine-only-misdemeanor-conviction-expungement",
       "statute": "22 O.S. § 18; 22 O.S. § 19; 22 O.S. § 19a; 22 O.S. § 60.18; 22 O.S. § 991c; Senate Bill 2030 (2026)",
       "instrument": "Oklahoma § 18 Expungement Petition — fine-only misdemeanor",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "each component's first-page title (the situation), the set's petition and proposed order (the statutory ground), and the foot of each component's last page, which lists every route the set serves"
     },
     {
       "routeKey": "obligation:track-pathway:OK:ok_18_19_misdemeanor_conviction:other-eligible-misdemeanor-conviction-expungement",
       "statute": "22 O.S. § 18; 22 O.S. § 19; 22 O.S. § 19a; 22 O.S. § 60.18; 22 O.S. § 991c; Senate Bill 2030 (2026)",
       "instrument": "free_route_screen: ok_18_19_misdemeanor_conviction-free-route-screen-1; primary_filing: ok_18_19_misdemeanor_conviction-primary-filing-2; proposed_order: ok_18_19_misdemeanor_conviction-proposed-order-3; record_gathering_instructions: ok_18_19_misdemeanor_conviction-record-gathering-instructions-4; fee_disclosure: ok_18_19_misdemeanor_conviction-fee-disclosure-5; hearing_instructions: ok_18_19_misdemeanor_conviction-hearing-instructions-6; effect_disclosure: ok_18_19_misdemeanor_conviction-effect-disclosure-7",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "each component's first-page title (the situation), the set's petition and proposed order (the statutory ground), and the foot of each component's last page, which lists every route the set serves"
     },
     {
       "routeKey": "obligation:track-pathway:OK:ok_18_19_nonconviction:acquittal-dismissal-or-other-no-conviction-expungement",
       "statute": "22 O.S. § 18; 22 O.S. § 19; 22 O.S. § 19a; 22 O.S. § 60.18; 22 O.S. § 991c; Senate Bill 2030 (2026)",
       "instrument": "free_route_screen: ok_18_19_nonconviction-free-route-screen-1; primary_filing: ok_18_19_nonconviction-primary-filing-2; proposed_order: ok_18_19_nonconviction-proposed-order-3; record_gathering_instructions: ok_18_19_nonconviction-record-gathering-instructions-4; fee_disclosure: ok_18_19_nonconviction-fee-disclosure-5; hearing_instructions: ok_18_19_nonconviction-hearing-instructions-6; effect_disclosure: ok_18_19_nonconviction-effect-disclosure-7",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "each component's first-page title (the situation), the set's petition and proposed order (the statutory ground), and the foot of each component's last page, which lists every route the set serves"
     },
     {
       "routeKey": "obligation:track-pathway:OK:ok_18_19_nonconviction:arrest-with-no-charges-filed",
       "statute": "22 O.S. § 18; 22 O.S. § 19; 22 O.S. § 19a; 22 O.S. § 60.18; 22 O.S. § 991c; Senate Bill 2030 (2026)",
       "instrument": "Oklahoma § 18 Expungement Petition — arrest with no charges",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "each component's first-page title (the situation), the set's petition and proposed order (the statutory ground), and the foot of each component's last page, which lists every route the set serves"
     },
     {
       "routeKey": "obligation:track-pathway:OK:ok_18_19_nonconviction:conviction-reversed-and-case-dismissed",
       "statute": "22 O.S. § 18; 22 O.S. § 19; 22 O.S. § 19a; 22 O.S. § 60.18; 22 O.S. § 991c; Senate Bill 2030 (2026)",
       "instrument": "Oklahoma § 18 Expungement Petition — reversal and dismissal",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "each component's first-page title (the situation), the set's petition and proposed order (the statutory ground), and the foot of each component's last page, which lists every route the set serves"
     },
     {
       "routeKey": "obligation:track-pathway:OK:ok_18_19_nonconviction:dna-factual-innocence-expungement",
       "statute": "22 O.S. § 18; 22 O.S. § 19; 22 O.S. § 19a; 22 O.S. § 60.18; 22 O.S. § 991c; Senate Bill 2030 (2026)",
       "instrument": "Oklahoma § 18 Expungement Petition — DNA factual innocence",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "each component's first-page title (the situation), the set's petition and proposed order (the statutory ground), and the foot of each component's last page, which lists every route the set serves"
     },
     {
       "routeKey": "obligation:track-pathway:OK:ok_18_19_pardon:pardon-based-expungement",
       "statute": "22 O.S. § 18; 22 O.S. § 19; 22 O.S. § 19a; 22 O.S. § 60.18; 22 O.S. § 991c; Senate Bill 2030 (2026)",
       "instrument": "Oklahoma § 18 Expungement Petition — full pardon",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "each component's first-page title (the situation) and the set's petition and proposed order (the statutory ground); the set serves only this route and no page prints its route key"
     },
     {
       "routeKey": "obligation:track-pathway:OK:ok_991c_deferred:deferred-sentence-court-record-expungement-under-991-c",
       "statute": "22 O.S. § 991c; 22 O.S. § 18; 22 O.S. § 19",
       "instrument": "Oklahoma § 991c Court-Record Expungement Packet",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "each component's first-page title (the situation) and the set's petition and proposed order (the statutory ground); the set serves only this route and no page prints its route key"
     },
     {
       "routeKey": "obligation:track-pathway:OK:ok_vpo_60_18:victim-protective-order-record-relief",
       "statute": "22 O.S. § 18; 22 O.S. § 19; 22 O.S. § 19a; 22 O.S. § 60.18; 22 O.S. § 991c; Senate Bill 2030 (2026)",
       "instrument": "Oklahoma VPO Sealing Motion under § 60.18",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "each component's first-page title (the situation) and the set's petition and proposed order (the statutory ground); the set serves only this route and no page prints its route key"
     }
   ],
   "obligationTable": [
@@ -4623,7 +4623,7 @@ const SPEC = {
       ],
       [
         "Clear an Oklahoma arrest that did not end in a conviction",
-        "The section 18 categories include records where the person was not charged, was acquitted, was factually innocent, or where the charge was dismissed. All four are declared routes of one track and all four are served by this one set of pages, which is why the petition names all four in its footer rather than one of them. WHICH of the four you are on is a fact of your own record, and it changes the allegations you write on the petition - the committed generation requirements ask for the disposition and its date directly. If you cannot tell which, that is a question for a lawyer, not one to guess at.",
+        "The section 18 categories include records where the person was not charged, was acquitted, was factually innocent, or where the charge was dismissed. All four are declared routes of one track and all four are served by this one set of pages, which is why the petition names all four at the foot of its last page rather than one of them. WHICH of the four you are on is a fact of your own record, and it changes the allegations you write on the petition - the committed generation requirements ask for the disposition and its date directly. If you cannot tell which, that is a question for a lawyer, not one to guess at.",
         "**4 declared routes**, all served by this one set: `acquittal-dismissal-or-other-no-conviction-expungement`; `arrest-with-no-charges-filed`; `conviction-reversed-and-case-dismissed`; `dna-factual-innocence-expungement`"
       ],
       [
@@ -4643,7 +4643,7 @@ const SPEC = {
       ]
     ],
     "footnotes": [
-      "Every page states in its footer every declared route the set it belongs to serves, so the sixteen routes this family declares are the sixteen the pages name. Where a set serves more than one route, the routes share one instrument and differ in the facts you allege, not in the paper. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at."
+      "Each component's first-page title names the situation its set is for. Where a set serves more than one route, the last page of each of its components closes with \"Routes this set serves\" and lists every declared route that set serves; a set that serves one route lists none on its pages, and its route is the one this table names. No other page lists a declared route. Where a set serves more than one route, the routes share one instrument and differ in the facts you allege, not in the paper. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at."
     ]
   },
   "documentsToObtain": [
