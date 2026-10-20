@@ -77,8 +77,19 @@ check('guard refuses changed source/spec/own-category',()=>{
  assert(history(profile,route,spec));assert(!history(profile,route,null));const p=structuredClone(profile);p.source.sourceCorpusSha256='changed';assert(!history(p,route,spec));assert(!G.wy1502Context(p,route));const s=structuredClone(spec);s.requiredFacts.push({factId:'offense_category'});assert(!history(profile,route,s));
  const input={jurisdiction:'WY',pathwayId:route,requiredInputIds:['offense_category'],serverFacts:{},screeningAnswers:base,savedAnswers:{},specification:spec,questionById:new Map()};const f=resolvePacketCollection(input).facts[0];assert.equal(f.source,'wy1502_category_history');assert.equal(f.active,false);assert.equal(f.optional,true);assert.notEqual(resolvePacketCollection({...input,recordOwnQuestionIds:new Set(['offense_category'])}).facts[0].source,f.source);
 });
+// GA-12-M01009 / Q-51b8ea53b02426f2f685: saved labels cannot replace the actual conditional facts.
+for(const facts of [{},{wy1502_firearm:'Yes'},{wy1502_firearm:'I am not sure'},{wy1502_multiple:'Yes',wy1502_related:'No'}])check('category values preserve the full factual decision/'+JSON.stringify(facts),()=>{
+ const answers={...base,...facts},expected=evalFor(answers).evaluation;
+ for(const raw of ['Misdemeanor','Felony','Sex offense','Count 1 theft; count 2 amended',{unknown:true},{value:'Original charge',unknown:false}]){
+  const record=modelFor(answers);record.draftSnapshot.packetAnswers.offense_category=structuredClone(raw);
+  record.draftHash=P.protectedPacketDraftHash(record.draftSnapshot);const before=structuredClone(record);
+  assert.deepEqual(P.evaluateProtectedPacketFacts(record.draftSnapshot,undefined,expected.matterId).evaluation,expected);
+  assert.deepEqual(record,before);
+ }
+});
 for(const map of maps)for(const raw of ['Weapons offense','W.S. 6-8-101',{unknown:true,value:'Completed deferral'},null,['Old shape']])check('category is literal history/'+map+'/'+JSON.stringify(raw),()=>{
  const record=modelFor(base);record.draftSnapshot[map].offense_category=raw;record.draftHash=P.protectedPacketDraftHash(record.draftSnapshot);const before=structuredClone(record),m=P.protectedPacketInformationModelFor(record);assert(m);assert(!m.missingInputIds.includes('offense_category'));const r=P.evaluateProtectedPacketFacts(record.draftSnapshot).evaluation;assert.equal(r.reasons[0].code,'wy.felony1502_record_review');assert.equal(r.paymentAllowed,false);assert.deepEqual(P.packetInformationPatch({protectedVerification:record,answers:{}}).protectedTransition.nextVerification,before);
+ assert.deepEqual(P.evaluateProtectedPacketFacts(record.draftSnapshot,undefined,'TEST-wy1502').evaluation,evalFor(base).evaluation);
 });
 check('citation text never classifies an exclusion or grants readiness',()=>{
  for(const citation of ['6-8-101','6-8-102','6-2-301','Title 23 firearm exception','6-3-402\n6-3-402','Amended final judgment under review']){

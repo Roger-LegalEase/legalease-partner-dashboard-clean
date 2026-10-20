@@ -88,11 +88,22 @@ check('collection category history preserves explicit ownership',()=>{
  const f=resolvePacketCollection(input).facts[0];assert.equal(f.source,'il_prostitution_category_history');assert.equal(f.active,false);assert.equal(f.optional,true);
  assert.notEqual(resolvePacketCollection({...input,recordOwnQuestionIds:new Set(['offense_category'])}).facts[0].source,f.source);
 });
+// GA-12-M00755 / Q-3ab8bb479903ec6dc680: saved labels cannot replace the actual conditional facts.
+for(const facts of [{},{[idFact]:'No'},{[idFact]:'I am not sure'},{court_requirements_completed:'no'}])check('category values preserve the full factual decision/'+JSON.stringify(facts),()=>{
+ const answers={...base,...facts},expected=evalFor(answers).evaluation;
+ for(const raw of ['Misdemeanor','Felony','Sex offense','Count 1 theft; count 2 amended',{unknown:true},{value:'Original charge',unknown:false}]){
+  const record=modelFor(answers);record.draftSnapshot.packetAnswers.offense_category=structuredClone(raw);
+  record.draftHash=P.protectedPacketDraftHash(record.draftSnapshot);const before=structuredClone(record);
+  assert.deepEqual(P.evaluateProtectedPacketFacts(record.draftSnapshot,undefined,expected.matterId).evaluation,expected);
+  assert.deepEqual(record,before);
+ }
+});
 for(const map of maps)for(const raw of ['Class 4 felony prostitution','Amended to Class 2 theft',{value:'Class 4 prostitution',unknown:true},null,['Old category']])check('raw category cannot classify/'+map+'/'+JSON.stringify(raw),()=>{
  const record=modelFor(base);record.draftSnapshot[map].offense_category=raw;record.draftHash=P.protectedPacketDraftHash(record.draftSnapshot);const before=structuredClone(record);
  const m=P.protectedPacketInformationModelFor(record);assert(m);assert(!m.missingInputIds.includes('offense_category'));
  assert.equal(P.evaluateProtectedPacketFacts(record.draftSnapshot).evaluation.reasons[0].code,'il.prostitution_record_review');
  assert.deepEqual(P.packetInformationPatch({protectedVerification:record,answers:{}}).protectedTransition.nextVerification,before);
+ assert.deepEqual(P.evaluateProtectedPacketFacts(record.draftSnapshot,undefined,'TEST-il-prostitution').evaluation,evalFor(base).evaluation);
 });
 check('actual authority and price remain closed',()=>{
  const s=modelFor(base).draftSnapshot,f=F.packetFulfillmentAuthority('IL',route,'checkout creation',{trackId:s.selectedTrackId});assert.equal(f.allowed,false);assert.equal(f.reason,`${key}: STALE. ${key} holds every proof, but the server could not observe the current world to confirm they still hold.`);

@@ -55,6 +55,31 @@ for (const [questionRecordId, route] of cases) {
         ? 'dc.source_fact_unknown' : 'dc.actual_innocence_basis_not_established');
     }
   });
+  // GA-12-M00709: a category is neither an innocence finding nor a substitute for the basis.
+  for (const [basis, expectedCode] of [
+    [answers.actual_innocence_basis, `dc.compiled_rule_match.route-${route}`],
+    ['I am not sure', 'dc.source_fact_unknown'],
+    ['Dismissal alone', 'dc.actual_innocence_basis_not_established']
+  ]) check(`${route}: category values preserve the factual outcome/${basis}`, () => {
+    const facts = { ...answers, actual_innocence_basis: basis };
+    const run = candidate => evaluate({ jurisdiction: 'DC', profileVersion: profile.profileVersion,
+      matterId: `synthetic-${questionRecordId}`, answers: candidate }).evaluation;
+    const evaluated = evaluate({ jurisdiction: 'DC', profileVersion: profile.profileVersion,
+      matterId: `synthetic-${questionRecordId}`, answers: facts });
+    const expected = evaluated.evaluation;
+    const saved = P.protectedPacketDraftSeedFromAuthoritative({ authoritative: evaluated, screeningAnswers: facts,
+      packetAnswers: {}, dependencies: {}, capturedAt: '2026-10-17T00:00:00.000Z' });
+    assert(saved);
+    assert.equal(expected.reasons[0].code, expectedCode);
+    for (const raw of ['Misdemeanor', 'Felony', 'Sex offense', 'Count 1 theft; count 2 amended',
+      { unknown: true }, { value: 'Original charge', unknown: false }]) {
+      assert.throws(() => run({ ...facts, [category]: raw }), error => error.invalidQuestionIds?.includes(category));
+      const snapshot = structuredClone(saved.snapshot);snapshot.packetAnswers[category] = structuredClone(raw);
+      const before = structuredClone(snapshot);
+      assert.deepEqual(P.evaluateProtectedPacketFacts(snapshot, undefined, expected.matterId).evaluation, expected);
+      assert.deepEqual(snapshot, before);
+    }
+  });
   const seed = P.protectedPacketDraftSeedFromAuthoritative({ authoritative, screeningAnswers: answers,
     packetAnswers: {}, dependencies: {}, capturedAt: '2026-10-17T00:00:00.000Z' });
   assert(seed);
@@ -95,6 +120,7 @@ for (const [questionRecordId, route] of cases) {
       assert(!m.missingInputIds.includes(category));
       assert.deepEqual(record, before);
       assert.deepEqual(safety(record.draftSnapshot), safety(seed.snapshot));
+      assert.deepEqual(P.evaluateProtectedPacketFacts(record.draftSnapshot, undefined, authoritative.evaluation.matterId).evaluation, authoritative.evaluation);
       const patch = P.packetInformationPatch({ existingItem: { id: `synthetic-${questionRecordId}`, jurisdiction: 'DC', artifactRefs: {} },
         answers: {}, protectedVerification: record });
       assert(patch);
