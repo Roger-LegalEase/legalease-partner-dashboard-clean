@@ -3240,6 +3240,8 @@ export function packetCollectionFor(input: {
   if(wy1501Context(profile,input.pathwayId,{...input.screeningAnswers,...input.prefilledAnswers,...input.savedAnswers}))for(const id of wy1501FactIds({...input.screeningAnswers,...input.prefilledAnswers,...input.savedAnswers}))decidingFactIds.add(id);
   for (const id of texasNondisclosureFactIds(profile, input.pathwayId, { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers })) decidingFactIds.add(id);
   const specification = packetSpecificationFor(`${input.jurisdiction}:${input.pathwayId ?? ""}`) ?? null;
+  // GA-16-M01455: pinned rule67/exclusion13 consume jurisdiction_scope, never a literal city.
+  if (gaSb288CategoryIsHistory(profile, input.pathwayId, specification)) decidingFactIds.delete("residency_or_location");
   const originQuestion = mnTargetOriginQuestion(profile, input.pathwayId, specification);
   const originAnswers = { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers };
   const originConfirmed = originQuestion && !input.unresolvedSavedFactIds?.includes(MN_TARGET_ORIGIN_ID)
@@ -3323,6 +3325,8 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
   if (includeInactive && Object.hasOwn(answers, "residency_or_location")
     && (nvProgramCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || sdSisCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)))) extra.push("residency_or_location");
+  if (includeInactive && Object.hasOwn(answers, "residency_or_location")
+    && gaSb288CategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) extra.push("residency_or_location");
   if (includeInactive && Object.hasOwn(answers, "offense_category")
     && (ilProstitutionCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || nvProgramCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
@@ -3621,6 +3625,12 @@ export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtC
   // GA-16-M01461: preserve the optional location edit on the held identity route.
   if (["needs_review", "needs_more_info", "not_yet", "likely_not_eligible"].includes(resultCode ?? "")
     && ilIdentityCategoryIsHistory(getProfileByJurisdiction(model.stateCode), model.pathwayId,
+      packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))
+    && model.questions.some(question => question.id === "residency_or_location" && question.required === false)
+    && editablePacketInputIds(model).has("residency_or_location")) ids.add("residency_or_location");
+  // GA-16-M01455: the held SB288 page retains the optional literal-history editor.
+  if (["needs_review", "needs_more_info", "not_yet", "likely_not_eligible"].includes(resultCode ?? "")
+    && gaSb288CategoryIsHistory(getProfileByJurisdiction(model.stateCode), model.pathwayId,
       packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))
     && model.questions.some(question => question.id === "residency_or_location" && question.required === false)
     && editablePacketInputIds(model).has("residency_or_location")) ids.add("residency_or_location");

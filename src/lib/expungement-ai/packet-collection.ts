@@ -1703,6 +1703,19 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
+    // GA-16-M01455 / Q-921725114b8166900e39: jurisdiction and caption facts have separate consumers.
+    if (factId === "residency_or_location" && gaSb288CategoryHistory && !overrideClass
+      && !needsHuman.has(factId) && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)
+      && !input.recordOwnQuestionIds?.has(factId)) {
+      const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
+        source: "ga_sb288_location_history",
+        reason: "Earlier generic location remains optional literal context. The existing case-jurisdiction gate and separate convicting-court, county, mailing and prosecutor-service facts retain their own meanings." });
+      continue;
+    }
+
     if (factId === DC_LEGACY_LOCATION && dcLocationContext && !overrideClass && !needsHuman.has(factId)
       && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)) {
       facts.push({ factId, collection: "conditional", phase: retainedDcLocation ? "render" : "known",

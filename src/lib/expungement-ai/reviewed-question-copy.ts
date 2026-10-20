@@ -1,3 +1,4 @@
+import { gaSb288LocationQuestion } from "@/lib/expungement-ai/ga-sb288-location-context";
 import { sdSisLocationQuestion } from "@/lib/expungement-ai/sd-sis-location-context";
 import { nvProgramLocationQuestion } from "@/lib/expungement-ai/nv-program-location-context";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
@@ -136,6 +137,11 @@ export function reviewedPacketQuestion<T extends PublicQuestion>(question: T, co
   }
   if (question.id === "residency_or_location" && context.state === "MS") {
     const location = msAdditionalLocationQuestion(question, getProfileByJurisdiction(context.state), context.pathwayId ?? null,
+      packetSpecificationFor(`${context.state}:${context.pathwayId ?? ""}`));
+    if (location !== question) return location;
+  }
+  if (question.id === "residency_or_location" && context.state === "GA") {
+    const location = gaSb288LocationQuestion(question, getProfileByJurisdiction(context.state), context.pathwayId ?? null,
       packetSpecificationFor(`${context.state}:${context.pathwayId ?? ""}`));
     if (location !== question) return location;
   }
