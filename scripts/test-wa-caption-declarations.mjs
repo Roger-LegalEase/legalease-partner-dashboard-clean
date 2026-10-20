@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {runInNewContext} from 'node:vm';
+import {readsAsUnmoved} from './grade-a-packet-factory-24h/repin-lapsed-source-identities.mjs';
 const base='bf02d807328f4edfe1ff2541127563bb8b371086';
 const file='scripts/build-census-v1-rcap-wa-custom-pleading-clean-tracks.mjs';
 const prior=p=>execFileSync('git',['show',`${base}:${p}`]);
@@ -51,6 +52,9 @@ check('both caption requirements reach participant instructions and disclosure r
 check('all nine measured counters zero; byte evidence, protected fields and source history preserved',()=>{
  const counts=JSON.parse(fs.readFileSync(`${dir}/reports/completeness-counters.json`)).counters;
  assert.equal(Object.keys(counts).length,9);for(const n of Object.values(counts))assert.equal(n,0);
- for(const file of ['reports/actual-writes.json','reports/rendered-artifacts.json','source-receipt.json'])assert.deepEqual(fs.readFileSync(`${dir}/${file}`),prior(`${dir}/${file}`));
+ for(const file of ['reports/actual-writes.json','reports/rendered-artifacts.json'])assert.deepEqual(fs.readFileSync(`${dir}/${file}`),prior(`${dir}/${file}`));
+ // The receipt may since carry a census identity re-pin (2026-10-20); anything else the generator would read as movement.
+ const receipt=readsAsUnmoved(prior(`${dir}/source-receipt.json`).toString(),fs.readFileSync(`${dir}/source-receipt.json`,'utf8'));
+ assert.ok(receipt.ok,receipt.why);
 });
 console.log(JSON.stringify({passed,failed:0}));
