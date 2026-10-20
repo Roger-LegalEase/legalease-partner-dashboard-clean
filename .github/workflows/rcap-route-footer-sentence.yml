@@ -1,6 +1,7 @@
 name: RCAP Route-Footer Sentence
 
-# Holds "Every page states its own route in its footer" to the fixture PDFs that carry it.
+# Holds what each family says about route footers (participant instructions, field-map routeSelectionNote/statedOn)
+# to its fixture PDFs, both ways. Any overlay's statement, fixture or page manifest can change the answer, so all trigger it.
 # The workflow file is in its own paths, so it always runs on a PR that adds or changes it.
 on:
   pull_request:
@@ -9,12 +10,9 @@ on:
       - scripts/test-route-footer-sentence.mjs
       - scripts/rcap-custom-pleading/court-facing-rows.mjs
       - data/rcap-all50/overlays/census-v1/**/participant-instructions.md
-      - data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/**
-      - data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/**
-      - data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/**
-      - data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/**
-      - data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/**
-      - data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/**
+      - data/rcap-all50/overlays/census-v1/**/production-field-map.json
+      - data/rcap-all50/overlays/census-v1/**/fixtures/*.pdf
+      - data/rcap-all50/overlays/census-v1/**/reports/rendered-artifacts.json
 permissions:
   contents: read
 jobs:
