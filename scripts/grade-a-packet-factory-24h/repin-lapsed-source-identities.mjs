@@ -1732,10 +1732,30 @@ export function driftedPinsOf(receipt) {
     const { bytes, from, triedBases } = currentBytesOf(at, { receipt, pin });
     if (bytes === null) { drifted.push({ pin, at, now: null, from, triedBases, missing: true }); return; }
     const now = sha256(bytes);
-    if (now !== pin.sha256) drifted.push({ pin, at, now, bytes, from, triedBases, missing: false });
+    if (now !== pin.sha256) { drifted.push({ pin, at, now, bytes, from, triedBases, missing: false }); return; }
+    /* Ruling B' (2026-10-20): a rebuild re-pins from disk and carries the prior
+     * block as history, so the pin equals the bytes while nobody has compared
+     * the last proven digest (the newest entry's writtenAgainst) with them. That
+     * is the drift to plan: recover that blob, compare through the adapter, and
+     * write the live block with the entry as its predecessor. */
+    const newest = historyPredecessorOf(pin);
+    if (newest && newest.writtenAgainst !== now) {
+      drifted.push({
+        pin: { ...pin, sha256: newest.writtenAgainst, byteLength: typeof newest.writtenAgainstByteLength === "number" ? newest.writtenAgainstByteLength : undefined },
+        at, now, bytes, from, triedBases, missing: false,
+        fromHistory: { writtenAgainst: newest.writtenAgainst, supersededBy: newest.supersededBy ?? null }
+      });
+    }
   });
   drifted.unmeasurable = unmeasurable;
   return drifted;
+}
+
+/** The newest history entry of a pin that carries history and no live block, when it names a digest. */
+export function historyPredecessorOf(pin) {
+  if (pin.identityRefresh || !Array.isArray(pin.identityRefreshHistory) || pin.identityRefreshHistory.length === 0) return null;
+  const newest = pin.identityRefreshHistory[pin.identityRefreshHistory.length - 1];
+  return newest && isDigest(newest.writtenAgainst) ? newest : null;
 }
 
 /* ------------------------------------------------------------------ *
@@ -1771,6 +1791,7 @@ export function doctrineNormalise(text, refreshedPathsFromCurrent) {
   doctrineEachPin(doc, (rec, at) => {
     if (!refreshedPathsFromCurrent.has(at)) return;
     delete rec.identityRefresh;
+    delete rec.identityRefreshHistory;
     delete rec.sha256;
     delete rec.byteLength;
   });
@@ -1859,7 +1880,7 @@ export function planReceipt({ familyId, directory, receiptPath, beforeText, on =
 
   const records = [];
   for (const d of drifted) {
-    const record = { path: d.at, pinned: d.pin.sha256, now: d.missing ? "MISSING" : d.now, resolvedFrom: d.from, recordId: d.pin.recordId ?? null };
+    const record = { path: d.at, pinned: d.pin.sha256, now: d.missing ? "MISSING" : d.now, resolvedFrom: d.from, recordId: d.pin.recordId ?? null, ...(d.fromHistory ? { fromHistory: d.fromHistory } : {}) };
     if (d.missing) {
       record.outcome = "REFUSED";
       record.triedBases = d.triedBases;
@@ -1971,7 +1992,9 @@ export function composeRefreshedReceipt(plan, { note = null } = {}) {
     throw new Refusal("escaped receipt repair is limited to the exact DE single-route pin");
   }
   eachPin(receipt, (pin, at) => {
-    const record = byPathAndPin.get(`${at}\u0000${pin.sha256}`);
+    const predecessor = historyPredecessorOf(pin);
+    const record = byPathAndPin.get(`${at}\u0000${pin.sha256}`)
+      ?? (predecessor ? byPathAndPin.get(`${at}\u0000${predecessor.writtenAgainst}`) : undefined);
     if (!record) return;
     const beforePin = structuredClone(pin);
     const block = {
@@ -1992,7 +2015,7 @@ export function composeRefreshedReceipt(plan, { note = null } = {}) {
        * applied and what the family still owes. Free text from the operator,
        * never composed here. */
       ...(note ? { appliedUnder: String(note) } : {}),
-      previousIdentityRefresh: pin.identityRefresh ? structuredClone(pin.identityRefresh) : null,
+      previousIdentityRefresh: pin.identityRefresh ? structuredClone(pin.identityRefresh) : predecessor ? structuredClone(predecessor) : null,
       whatThisDoesNotClaim: "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
     };
     const shape = annotationIsSourceBound(block);
