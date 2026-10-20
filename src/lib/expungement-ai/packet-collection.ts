@@ -1,3 +1,4 @@
+import { vaPardonLocationApplies } from "@/lib/expungement-ai/va-pardon-location-context";
 import { wy1502Context } from "@/lib/rcap-engine/wyoming-1502-facts";
 import { southDakotaSisContext } from "@/lib/rcap-engine/south-dakota-sis-facts";
 import { illinoisProstitutionContext } from "@/lib/rcap-engine/illinois-prostitution-facts";
@@ -1006,6 +1007,8 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const iaCategoryHistory = iaCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const ctCategoryHistory = ctInformationCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId ?? null,
     specification, { ...available, ...input.savedAnswers }, [...input.unresolvedSavedFactIds ?? []]);
+  const vaPardonLocationContext = vaPardonLocationApplies(getProfileByJurisdiction(input.jurisdiction), input.pathwayId ?? null, specification,
+    { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers }, [...input.unresolvedSavedFactIds ?? []]);
   const msFirstContext = msFirstOffenderSourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const msFirstQuestions = new Map(msFirstContext ? msFirstOffenderSourceQuestions().map(question => [question.id, question]) : []);
   const requiredInputIds = dedupe([...(isCaProp64Pathway(input.jurisdiction, input.pathwayId) ? [CA_SAFE_AT_HOME_ID] : []), ...input.requiredInputIds, ...(msFirstContext ? MS_FIRST_OFFENDER_COLLECTION_IDS : []), ...(ohJuvenileContext ? OH_JUVENILE_STAGE_IDS : []), ...mnTwoCountyIds, ...mnStageQuestions.map(question => question.id), ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
@@ -1723,6 +1726,19 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
         source: "ga_sb288_location_history",
         reason: "Earlier generic location remains optional literal context. The existing case-jurisdiction gate and separate convicting-court, county, mailing and prosecutor-service facts retain their own meanings." });
+      continue;
+    }
+
+    // GA-16-M01643 / Q-aae46f53eb742ee526b6: a known record origin is not a receiving court.
+    if (factId === "residency_or_location" && vaPardonLocationContext && !overrideClass
+      && !needsHuman.has(factId) && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)
+      && !input.recordOwnQuestionIds?.has(factId)) {
+      const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
+        source: "va_pardon_location_history",
+        reason: "Earlier generic location remains optional literal context. The adopted record-origin fact, actual pardon and receiving-court/case facts stay separate; this context supplies no court form or fulfillment authority." });
       continue;
     }
 
