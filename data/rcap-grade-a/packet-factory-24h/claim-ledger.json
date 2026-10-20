@@ -5314,10 +5314,10 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF67",
+      "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-12T04:40:28.216Z",
+      "released": false,
+      "releasedAt": null,
       "releaseReason": "Independent current-byte PASS in data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-kansas-submitted-by-prostitution-coercion-current-20260912.json; central34672497941 exact originals and all15 obligations accepted. Captain integration remains required."
     },
     {
@@ -16039,7 +16039,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "d3a10ed6d852c90ce866af2676a1fdb780fcbd37fcbdd274c1e9ef9b2b01eb22",
+  "claimsDigest": "4a6b8daa93fb6a144ac1707dc19b885d8750d4fd21386f275044a7533edd1215",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -69049,6 +69049,17 @@
       "previouslyReleasedAt": "2026-09-06T18:29:58.941Z",
       "transferredAt": "2026-10-20T17:53:11.478Z",
       "reason": "NV pp4/p17 record-requirement repair (Codex f08d9eb38 + CI content successor 78ef8b60b, Acceptance ACCEPT nv-record-f08d9eb38/REVIEW.json) returns on the repair lane"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "ks-21-6614-prostitution-coercion-set",
+      "operation": "independent-verification",
+      "laneKind": "independent-verification",
+      "fromLane": "VF67",
+      "toLane": "VF05",
+      "previouslyReleasedAt": "2026-09-12T04:40:28.216Z",
+      "transferredAt": "2026-10-20T20:01:09.692Z",
+      "reason": "KS 21-6614 FIX02 repair returned (64c4cb6bb) on the accepted cd411365f; successor-1 (36ecdb7e2) put KS at BUILT_RASTER_PENDING and the raster regeneration restores its RASTER_PASS row, so the fresh independent read moves to VF05 now (CI control; VF67 has no assignment, a reissue would fail F35)"
     }
   ],
   "grants": [
