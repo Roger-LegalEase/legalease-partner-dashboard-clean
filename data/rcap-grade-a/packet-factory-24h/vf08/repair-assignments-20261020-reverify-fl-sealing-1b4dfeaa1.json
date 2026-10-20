@@ -1,0 +1,22 @@
+{
+ "schemaVersion": "rcap-independent-verification-repair-assignments/v1",
+ "lane": "VF08",
+ "worker": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+ "assignmentCount": 1,
+ "assignments": [
+  {
+   "itemId": "fl-sealing-set",
+   "lane": "VF08",
+   "assignedBy": "VERIFICATION-REVIEWER-CLAUDE (independent; built, repaired and rendered none of these packets)",
+   "verifiedAtBase": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/fl/fl-sealing-set--custom-pleading",
+   "failedObligationNames": [
+    "FEE_AND_WAIVER"
+   ],
+   "decisiveDefect": "FEE_AND_WAIVER: the route is two filings, and the packet answers cost for only the first. Stage 1: the official FDLE application's checklist (page 5) states 'A NONREFUNDABLE money order, cashier's check, or personal check in the amount of $75.00', matching registry/FL.memo rules.fees '$75 nonrefundable FDLE processing fee at Stage 1'. Stage 2: the participant files the Rule 3.989 petition, sworn statement, proposed order and certificate of service with the circuit or county court, and nothing in the packet (pages 7-10 or participant-instructions.md) says what that filing costs, that it is free, or whom to ask. The registry's 'Certified copies are county-dependent' is not carried either. The waiver limb is also silent: the held rule is 'The source review does not address a fee waiver for the FDLE processing fee', and the packet names no office that answers it. Under DET-FEE-AND-WAIVER-001, where no held source establishes a fee the packet must name a specific checkable authority; silence 'is different in kind', and holding is per fact (A3). The earlier PASS reads (vffl1, vffl2, vfflfinal1) rested on 'No unsupported waiver or automatic court fee exemption is asserted', i.e. on the absence of a false statement, which the standard does not count as an answer.",
+   "repairScope": "participant-instructions.md only (no PDF component carries instructions, so no fixture bytes or raster move): add one cost paragraph to the two-stage sequence that (1) states the Stage 1 FDLE processing fee as held ('$75, nonrefundable', as the FDLE checklist prints) and that no held source addresses a waiver of it, naming the FDLE Seal & Expunge Section (the address the form prints) as the office to ask; (2) states that no held source establishes a court filing fee for the Stage 2 petition and that certified copies are county-dependent, naming the clerk of the circuit or county court in the circuit of arrest as the office to ask before filing. Publish no Stage 2 figure (owner Q4). No other change.",
+   "grantsNothing": "Assignment only; opens no route."
+  }
+ ],
+ "grantsNothing": "Assignments only; this file opens no route, sets no price and authorises no promotion."
+}
