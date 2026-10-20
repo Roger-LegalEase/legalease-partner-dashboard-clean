@@ -913,6 +913,13 @@ function msGuideEsSourceSuccessionChain(readBytes) {
 export const CA_PROP64_STACK_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-ca-prop64-stack-20261020-v1.json';
 export const CA_PROP64_STACK_SOURCE_SHA256 = 'de3af76bc9b0bb3a6dfb2fb21b3d9d01e3b507e1f7b7fbc6638926caa32a55db';
 export function assertCaProp64StackSourceSuccession(readBytes) {
+  const { record } = caProp64StackSourceSuccessionChain(readBytes);
+  // Retain the immutable CA Proposition 64 stack 33/165 scope; the separately pinned ND census-prose receipt re-pin
+  // hop checks the complete current chain without rewriting it.
+  assertNdCensusProseSourceSuccession(readBytes);
+  return record;
+}
+function caProp64StackSourceSuccessionChain(readBytes) {
   const bytes=readBytes(CA_PROP64_STACK_SOURCE_PATH);
   insist(sha(bytes)===CA_PROP64_STACK_SOURCE_SHA256,'CA Proposition 64 stack source succession record bytes changed');
   const record=JSON.parse(bytes.toString('utf8'));
@@ -932,9 +939,35 @@ export function assertCaProp64StackSourceSuccession(readBytes) {
     insist(row.beforeSha256===(current.get(row.file)??v21[row.file]??null),'CA Proposition 64 stack disconnected source hop');current.set(row.file,row.afterSha256);
   }
   insist(current.size===33,'CA Proposition 64 stack current thirty-three-source inventory');
+  return { record, current };
+}
+
+// ND first-offense census re-pin prose (Acceptance F1 on e3d98e495): CI makes the planner's census identityRefresh why/wha
+export const ND_CENSUS_PROSE_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-nd-census-prose-20261020-v1.json';
+export const ND_CENSUS_PROSE_SOURCE_SHA256 = '1cda53d201f8ff1acca47279da31a4bc72ccdbe4e3bfe41078d501272116db94';
+export function assertNdCensusProseSourceSuccession(readBytes) {
+  const bytes=readBytes(ND_CENSUS_PROSE_SOURCE_PATH);
+  insist(sha(bytes)===ND_CENSUS_PROSE_SOURCE_SHA256,'ND census-prose receipt re-pin source succession record bytes changed');
+  const record=JSON.parse(bytes.toString('utf8'));
+  const { record: prior, current }=caProp64StackSourceSuccessionChain(readBytes);
+  insist(record.schemaVersion==='rcap-question-contract-nd-census-prose-source-succession/v1'
+    && record.recordId==='ND-CENSUS-PROSE-SOURCE-SUCCESSION-20261020'
+    && record.kind==='technical_source_only' && record.engineeringCommit==='ac954ed2c6961f9c8c986fa8dc62bdc5bc9acb49'
+    && equal(record.previousNamedSource,{path:CA_PROP64_STACK_SOURCE_PATH,sha256:CA_PROP64_STACK_SOURCE_SHA256,currentChangedSourceCount:33,currentUnchangedSourceCount:165})
+    && equal(record.historicalContinuity,prior.historicalContinuity) && equal(record.historicalOutput,prior.historicalOutput)
+    && record.sourceCount===198 && record.currentChangedSourceCount===33 && record.currentUnchangedSourceCount===165
+    && equal(record.historicalArtifactScope,{routeCount:6,artifactCount:18,reexecuted:false,changed:false})
+    && ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'].every(key=>record[key]===false),'ND census-prose receipt re-pin source succession scope');
+  insist(Array.isArray(record.transitions) && equal(record.transitions.map(row=>row.file),["src/lib/expungement-ai/nd-first-offense-family-inputs.ts"]),'ND census-prose receipt re-pin source succession inventory');
+  insist(current.size===33,'ND census-prose receipt re-pin prior thirty-three-source inventory');
+  const v21={};
+  for(const row of record.transitions){
+    insist(row.beforeSha256===(current.get(row.file)??v21[row.file]??null),'ND census-prose receipt re-pin disconnected source hop');current.set(row.file,row.afterSha256);
+  }
+  insist(current.size===33,'ND census-prose receipt re-pin current thirty-three-source inventory');
   // Always fresh, including after success or a previous failed read. No accessor
   // recursion: prior records are read as exact pinned raw bytes.
-  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact CA Proposition 64 stack source succession`);
+  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact ND census-prose receipt re-pin source succession`);
   return record;
 }
 
@@ -947,7 +980,7 @@ function currentSourceSuccessions(readBytes) {
     caNoPhone: assertCaNoPhoneContactSourceSuccession(readBytes), gaCt: assertGaSb288CtPetitionSourceSuccession(readBytes),
     gaGuide: assertGaGuideSpanishSourceSuccession(readBytes), ctPrepay: assertCtPrepayRecordFactsSourceSuccession(readBytes),
     ilSdWy: assertIlSdWyRecordFactsSourceSuccession(readBytes), ohCopy: assertOhJuvenileCopySourceSuccession(readBytes),
-    caSafe: assertCaSafeAtHomeSourceSuccession(readBytes), leadEs: assertLeadSpanishSourceSuccession(readBytes), leadEs2: assertLeadSpanishLayer2SourceSuccession(readBytes), mnMemo: assertMnGuardMemoSourceSuccession(readBytes), vaMemo: assertVaGuardMemoSourceSuccession(readBytes), mdPolice: assertMdPoliceReconciliationSourceSuccession(readBytes), vaOrigin: assertVaRecordOriginSourceSuccession(readBytes), ga21Labels: assertGa21SpanishLabelsSourceSuccession(readBytes), ndReceipt: assertNdCustomReceiptSourceSuccession(readBytes), msGuideEs: assertMsGuideEsSourceSuccession(readBytes), caProp64: assertCaProp64StackSourceSuccession(readBytes) };
+    caSafe: assertCaSafeAtHomeSourceSuccession(readBytes), leadEs: assertLeadSpanishSourceSuccession(readBytes), leadEs2: assertLeadSpanishLayer2SourceSuccession(readBytes), mnMemo: assertMnGuardMemoSourceSuccession(readBytes), vaMemo: assertVaGuardMemoSourceSuccession(readBytes), mdPolice: assertMdPoliceReconciliationSourceSuccession(readBytes), vaOrigin: assertVaRecordOriginSourceSuccession(readBytes), ga21Labels: assertGa21SpanishLabelsSourceSuccession(readBytes), ndReceipt: assertNdCustomReceiptSourceSuccession(readBytes), msGuideEs: assertMsGuideEsSourceSuccession(readBytes), caProp64: assertCaProp64StackSourceSuccession(readBytes), ndProse: assertNdCensusProseSourceSuccession(readBytes) };
 }
 const onceSuccessions = readBytes => { let value; return () => value ??= currentSourceSuccessions(readBytes); };
 
@@ -981,6 +1014,7 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, 
   const ndReceipt = atFile(s.ndReceipt);
   const msGuideEs = atFile(s.msGuideEs);
   const caProp64 = atFile(s.caProp64);
+  const ndProse = atFile(s.ndProse);
   const caDigest = ca ? ca.afterSha256 : previousDigest;
   const nyDigest = ny ? ny.afterSha256 : caDigest;
   const gaDigest = ga ? ga.afterSha256 : nyDigest;
@@ -1002,12 +1036,13 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, 
   const ga21LabelsDigest = ga21Labels ? ga21Labels.afterSha256 : vaOriginDigest;
   const ndReceiptDigest = ndReceipt ? ndReceipt.afterSha256 : ga21LabelsDigest;
   const msGuideEsDigest = msGuideEs ? msGuideEs.afterSha256 : ndReceiptDigest;
-  const currentDigest = caProp64 ? caProp64.afterSha256 : msGuideEs ? msGuideEs.afterSha256 : ndReceipt ? ndReceipt.afterSha256 : ga21Labels ? ga21Labels.afterSha256 : vaOrigin ? vaOrigin.afterSha256 : mdPolice ? mdPolice.afterSha256 : vaMemo ? vaMemo.afterSha256 : mnMemo ? mnMemo.afterSha256 : leadEs2 ? leadEs2.afterSha256 : leadEs ? leadEs.afterSha256 : caSafe ? caSafe.afterSha256 : ohCopy ? ohCopy.afterSha256 : ilSdWy ? ilSdWy.afterSha256 : ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
-  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null || ilSdWy != null || ohCopy != null || caSafe != null || leadEs != null || leadEs2 != null || mnMemo != null || vaMemo != null || mdPolice != null || vaOrigin != null || ga21Labels != null || ndReceipt != null || msGuideEs != null || caProp64 != null)
+  const caProp64Digest = caProp64 ? caProp64.afterSha256 : msGuideEsDigest;
+  const currentDigest = ndProse ? ndProse.afterSha256 : caProp64 ? caProp64.afterSha256 : msGuideEs ? msGuideEs.afterSha256 : ndReceipt ? ndReceipt.afterSha256 : ga21Labels ? ga21Labels.afterSha256 : vaOrigin ? vaOrigin.afterSha256 : mdPolice ? mdPolice.afterSha256 : vaMemo ? vaMemo.afterSha256 : mnMemo ? mnMemo.afterSha256 : leadEs2 ? leadEs2.afterSha256 : leadEs ? leadEs.afterSha256 : caSafe ? caSafe.afterSha256 : ohCopy ? ohCopy.afterSha256 : ilSdWy ? ilSdWy.afterSha256 : ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
+  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null || ilSdWy != null || ohCopy != null || caSafe != null || leadEs != null || leadEs2 != null || mnMemo != null || vaMemo != null || mdPolice != null || vaOrigin != null || ga21Labels != null || ndReceipt != null || msGuideEs != null || caProp64 != null || ndProse != null)
     && (!ca || ca.beforeSha256 === previousDigest) && (!ny || ny.beforeSha256 === caDigest)
     && (!ga || ga.beforeSha256 === nyDigest) && (!gaContact || gaContact.beforeSha256 === gaDigest)
     && (!gates || gates.beforeSha256 === contactDigest) && (!caNoPhone || caNoPhone.beforeSha256 === gatesDigest)
-    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest) && (!gaGuide || gaGuide.beforeSha256 === gaCtDigest) && (!ctPrepay || ctPrepay.beforeSha256 === gaGuideDigest) && (!ilSdWy || ilSdWy.beforeSha256 === ctPrepayDigest) && (!ohCopy || ohCopy.beforeSha256 === ilSdWyDigest) && (!caSafe || caSafe.beforeSha256 === ohCopyDigest) && (!leadEs || leadEs.beforeSha256 === caSafeDigest) && (!leadEs2 || leadEs2.beforeSha256 === leadEsDigest) && (!mnMemo || mnMemo.beforeSha256 === leadEs2Digest) && (!vaMemo || vaMemo.beforeSha256 === mnMemoDigest) && (!mdPolice || mdPolice.beforeSha256 === vaMemoDigest) && (!vaOrigin || vaOrigin.beforeSha256 === mdPoliceDigest) && (!ga21Labels || ga21Labels.beforeSha256 === vaOriginDigest) && (!ndReceipt || ndReceipt.beforeSha256 === ga21LabelsDigest) && (!msGuideEs || msGuideEs.beforeSha256 === ndReceiptDigest) && (!caProp64 || caProp64.beforeSha256 === msGuideEsDigest)
+    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest) && (!gaGuide || gaGuide.beforeSha256 === gaCtDigest) && (!ctPrepay || ctPrepay.beforeSha256 === gaGuideDigest) && (!ilSdWy || ilSdWy.beforeSha256 === ctPrepayDigest) && (!ohCopy || ohCopy.beforeSha256 === ilSdWyDigest) && (!caSafe || caSafe.beforeSha256 === ohCopyDigest) && (!leadEs || leadEs.beforeSha256 === caSafeDigest) && (!leadEs2 || leadEs2.beforeSha256 === leadEsDigest) && (!mnMemo || mnMemo.beforeSha256 === leadEs2Digest) && (!vaMemo || vaMemo.beforeSha256 === mnMemoDigest) && (!mdPolice || mdPolice.beforeSha256 === vaMemoDigest) && (!vaOrigin || vaOrigin.beforeSha256 === mdPoliceDigest) && (!ga21Labels || ga21Labels.beforeSha256 === vaOriginDigest) && (!ndReceipt || ndReceipt.beforeSha256 === ga21LabelsDigest) && (!msGuideEs || msGuideEs.beforeSha256 === ndReceiptDigest) && (!caProp64 || caProp64.beforeSha256 === msGuideEsDigest) && (!ndProse || ndProse.beforeSha256 === caProp64Digest)
     && currentDigest === actual, `${label}: ${file}`);
 }
 

@@ -13,6 +13,7 @@ import {assertGa21SpanishLabelsSourceSuccession,GA21_SPANISH_LABELS_SOURCE_PATH}
 import {assertNdCustomReceiptSourceSuccession,ND_CUSTOM_RECEIPT_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertMsGuideEsSourceSuccession,MS_GUIDE_ES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaProp64StackSourceSuccession,CA_PROP64_STACK_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertNdCensusProseSourceSuccession,ND_CENSUS_PROSE_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaSafeAtHomeSourceSuccession,CA_SAFE_AT_HOME_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertLeadSpanishSourceSuccession,LEAD_SPANISH_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -995,6 +996,13 @@ check('CA Proposition 64 stack hop preserves prior chain and refuses missing/tam
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===CA_PROP64_STACK_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/CA Proposition 64 stack source succession record bytes changed/);
  assert.throws(()=>assertMsGuideEsSourceSuccession(file=>{if(file===CA_PROP64_STACK_SOURCE_PATH)throw Error('missing CA Proposition 64 stack record');return readBytes(file);}),/missing CA Proposition 64 stack record/);
  for(const input of ["src/lib/expungement-ai/ca-prop64-quantity.ts", "src/lib/expungement-ai/frontend/ca-prop64-reviewed-choices.json", "src/lib/expungement-ai/frontend/reviewed-result-display-copy.json", "src/lib/rcap-engine/california-prop64-facts.ts"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('ND census-prose receipt re-pin hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertNdCensusProseSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,33);assert.equal(c.currentUnchangedSourceCount,165);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===ND_CENSUS_PROSE_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/ND census-prose receipt re-pin source succession record bytes changed/);
+ assert.throws(()=>assertCaProp64StackSourceSuccession(file=>{if(file===ND_CENSUS_PROSE_SOURCE_PATH)throw Error('missing ND census-prose receipt re-pin record');return readBytes(file);}),/missing ND census-prose receipt re-pin record/);
+ for(const input of ["src/lib/expungement-ai/nd-first-offense-family-inputs.ts"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 // A succession record set must never outlive its call: after an honest load, a later drift still
