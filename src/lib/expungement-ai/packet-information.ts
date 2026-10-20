@@ -1,3 +1,4 @@
+import { VA_RECORD_CONTEXT_IDS, VA_RECORD_CONTEXT_QUESTIONS, virginiaRecordContextApplies } from "@/lib/expungement-ai/virginia-record-context";
 import { VA_RECORD_ORIGIN_ID, VA_RECORD_ORIGIN_SOURCE, virginiaRecordOrigin, virginiaRecordOriginApplies } from "@/lib/rcap-engine/virginia-record-origin";
 import { MD_JUVENILE_DOCUMENT_QUESTIONS } from "@/lib/expungement-ai/md-juvenile-document-questions";
 import { WY_1502_FACT_IDS, wy1502Context, wy1502QuestionApplies } from "@/lib/rcap-engine/wyoming-1502-facts";
@@ -3387,7 +3388,9 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
       || caAutomaticRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)))
     && Object.hasOwn(answers, "record_type")) return [...extra, "record_type"];
   // Felony taxonomy participates in explicit history persistence, not the held editor.
-  if (virginiaRecordOriginApplies(state, pathway)) return [...extra, VA_RECORD_ORIGIN_ID];
+  if (virginiaRecordOriginApplies(state, pathway)) return [...extra, VA_RECORD_ORIGIN_ID,
+    ...VA_RECORD_CONTEXT_IDS.filter(id => virginiaRecordContextApplies(state, pathway, answers)
+      || includeInactive && Object.hasOwn(answers, id))];
   if (arkansasRecordOriginApplies(state, pathway)) return [...extra, AR_RECORD_ORIGIN_ID,
     ...((arNonconvictionRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || includeInactive && arFelonyRecordIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)))
@@ -3666,7 +3669,13 @@ export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtC
   }
   if (virginiaRecordOriginApplies(model.stateCode, model.pathwayId)
     && ["guidance_only", "not_covered_yet"].includes(resultCode ?? "")
-    && editablePacketInputIds(model).has(VA_RECORD_ORIGIN_ID)) ids.add(VA_RECORD_ORIGIN_ID);
+    && editablePacketInputIds(model).has(VA_RECORD_ORIGIN_ID)) {
+    ids.add(VA_RECORD_ORIGIN_ID);
+  }
+  if (virginiaRecordContextApplies(model.stateCode, model.pathwayId, { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers })) {
+    const allowed = editablePacketInputIds(model);
+    for (const id of VA_RECORD_CONTEXT_IDS) if (allowed.has(id)) ids.add(id);
+  }
   // These Arkansas guidance holds still own an explicit record-origin fact.
   // Keep that correction reachable without opening other guidance inputs or
   // changing the route's packet, verification or commercial authority.
@@ -4133,6 +4142,17 @@ function protectedPacketQuestionSurface(
         questionById.set(question.id, question);
       }
     }
+  }
+  if (virginiaRecordContextApplies(profile.jurisdiction.code, pathwayId, { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers })) {
+    for (const question of VA_RECORD_CONTEXT_QUESTIONS) {
+      questionById.set(question.id, question);
+      questions.push(question);
+      builderQuestions.push(question);
+    }
+    builderSections.push({ id: "va_optional_record_context", heading: "Optional Virginia record context",
+      description: "The county or city and court level describe this record, not a future filing destination.",
+      translations: { es: { heading: "Contexto opcional del expediente de Virginia", description: "El condado o la ciudad y el nivel del tribunal describen este expediente, no el lugar de una presentación futura." } },
+      questionIds: VA_RECORD_CONTEXT_IDS });
   }
   return { questionById, questions, builderQuestions, builderSections, collection };
 }

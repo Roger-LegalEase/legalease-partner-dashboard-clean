@@ -1,3 +1,4 @@
+import { VA_RECORD_CONTEXT_IDS } from "@/lib/expungement-ai/virginia-record-context";
 import { isMsTimingDisplayText } from "@/lib/expungement-ai/reviewed-result-copy";
 import { msExactTimingQuestionIds } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { readProtectedPacketVerification } from "@/lib/expungement-ai/verification-cas";
@@ -55,6 +56,8 @@ export default async function BriefcasePacketPage({
   const completionCorrectionAvailable = item?.authorityStatus === "protected_draft"
     && item.jurisdiction && item.packetDraft.status === "available"
     && heldPacketCorrectionInputIds({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode).size > 0;
+  const vaOptionalContext = completionCorrectionAvailable && item?.jurisdiction === "VA" && item.paymentState === "unavailable"
+    && item.packetDraft.status === "available" && VA_RECORD_CONTEXT_IDS.every(id => item.packetDraft.status === "available" && item.packetDraft.questions.some(q => q.id === id && q.contextOnly));
   const savedCaseGuidanceCorrection = completionCorrectionAvailable && item?.jurisdiction && item.packetDraft.status === "available"
     && (isNebraskaNonconvictionGuidanceCorrection({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode)
       || isLouisianaAutomationStatusGuidanceCorrection({ ...item.packetDraft, stateCode: item.jurisdiction, pathwayId: item.pathwayId }, item.resultCode)
@@ -86,7 +89,7 @@ export default async function BriefcasePacketPage({
         <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${storedItem.id}/packet-information`}><LocalizedCopy {...CA_PROP64_CLARIFICATION_COPY.legacy_heading} /></Link>
       </p> : null}
       {completionCorrectionAvailable && item ? <p className="mb-5 rounded border border-amber-300 p-4">
-        <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${item.id}/packet-information`}><LocalizedCopy en={savedCaseGuidanceCorrection ? "Review saved case answers" : eligibilityCorrection ? "Review saved eligibility answers" : "Review saved completion answers"} es={savedCaseGuidanceCorrection ? "Revise las respuestas guardadas sobre el caso" : eligibilityCorrection ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} /></Link>
+        <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${item.id}/packet-information`}><LocalizedCopy en={vaOptionalContext ? "Review optional record context" : savedCaseGuidanceCorrection ? "Review saved case answers" : eligibilityCorrection ? "Review saved eligibility answers" : "Review saved completion answers"} es={vaOptionalContext ? "Revise el contexto opcional del expediente" : savedCaseGuidanceCorrection ? "Revise las respuestas guardadas sobre el caso" : eligibilityCorrection ? "Revise las respuestas guardadas sobre la elegibilidad" : "Revise las respuestas guardadas sobre el cumplimiento"} /></Link>
       </p> : null}
       {item?.packetDraft.status === "available" && item.packetDraft.gaPardonPreparationAvailable ? <p className="mb-5 rounded border border-slate-300 p-4">
         <Link className="inline-flex min-h-11 items-center font-semibold underline" href={`/briefcase/${item.id}/packet-information?preparation=ga-pardon`}><LocalizedCopy en="Prepare your petition information" es="Prepare la información para su petición" /></Link>
