@@ -303,17 +303,51 @@ test("reader: an enrolment is judged against the declaration, not against the fi
  * correctly stops describing the row. That is the packet changing, which this test
  * has nothing to say about; it is only the reader that is on trial here.
  */
-test("no family loses a RASTER_PASS it had already earned", () => {
-  const lost = [];
+/*
+ * A family outside the matrix for a VERDICT reason is not a lost receipt.
+ *
+ * The census landing (batch23b, 2026-10-19) moved seventeen baseline families
+ * to FAIL_REPAIR_REQUIRED and one to LEGAL_BLOCKED; generate-raster-queue.mjs
+ * then left them out of the matrix, and this test read that as seventeen
+ * receipts a reader change had cost. The generator says why each one is out
+ * (MASTER_QUEUE rasterEnrolmentRefusal: "the current failed obligations have
+ * not been repaired", "an open legal input"), and OUT_OF_SCOPE is a verdict of
+ * its own. Those are listed by name with the reason and not counted. A family
+ * the generator still expects a receipt from (no refusal, in scope) is counted
+ * exactly as before, and the test below proves the exemption cannot swallow one.
+ */
+const familyOf = (id) => (master.families ?? []).find((x) => x.familyId === id) ?? null;
+const outsideForAVerdictReason = (id) => {
+  const f = familyOf(id);
+  if (Array.isArray(f?.rasterEnrolmentRefusal) && f.rasterEnrolmentRefusal.length) return `${f.state}: ${f.rasterEnrolmentRefusal.join("; ")}`;
+  if (f?.state === "OUT_OF_SCOPE") return "OUT_OF_SCOPE";
+  return null;
+};
+const lostReceipts = (rows) => {
+  const lost = [], outside = [];
   for (const b of baseline.rows) {
-    const row = rowOf(b.familyId);
-    if (!row) { lost.push(`${b.familyId}: dropped out of the live raster matrix entirely`); continue; }
-    if (row.currentRasterState !== "RASTER_PASS") {
-      lost.push(`${b.familyId}: RASTER_PASS -> ${row.currentRasterState}`);
-    }
+    const row = rows.find((r) => r.familyId === b.familyId) ?? null;
+    const reason = outsideForAVerdictReason(b.familyId);
+    const line = !row ? `${b.familyId}: dropped out of the live raster matrix entirely`
+      : row.currentRasterState !== "RASTER_PASS" ? `${b.familyId}: RASTER_PASS -> ${row.currentRasterState}` : null;
+    if (!line) continue;
+    if (reason) outside.push(`${line} (${reason})`); else lost.push(line);
   }
+  return { lost, outside };
+};
+
+test("no family loses a RASTER_PASS it had already earned", () => {
+  const { lost, outside } = lostReceipts(queue.rows ?? []);
+  for (const line of outside) console.log(`outside the matrix for a verdict reason, not counted: ${line}`);
   assert.deepEqual(lost, [],
     `a reader change must cost no standing receipt; ${lost.length} of ${baseline.count} were lost`);
+});
+
+test("the verdict exemption is not silent: a proven family dropped from the matrix is still a lost receipt", () => {
+  const victim = baseline.rows.find((b) => !outsideForAVerdictReason(b.familyId) && rowOf(b.familyId)?.currentRasterState === "RASTER_PASS");
+  assert.ok(victim, "a baseline family with a standing receipt and no verdict reason exists");
+  const { lost } = lostReceipts((queue.rows ?? []).filter((r) => r.familyId !== victim.familyId));
+  assert.deepEqual(lost, [`${victim.familyId}: dropped out of the live raster matrix entirely`]);
 });
 
 test("no family's document set is restated while its bytes stand still", () => {
