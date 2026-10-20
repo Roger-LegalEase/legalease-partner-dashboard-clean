@@ -1,0 +1,37 @@
+name: RCAP Route-Footer Sentence
+
+# Holds "Every page states its own route in its footer" to the fixture PDFs that carry it.
+# The workflow file is in its own paths, so it always runs on a PR that adds or changes it.
+on:
+  pull_request:
+    paths:
+      - .github/workflows/rcap-route-footer-sentence.yml
+      - scripts/test-route-footer-sentence.mjs
+      - scripts/rcap-custom-pleading/court-facing-rows.mjs
+      - data/rcap-all50/overlays/census-v1/**/participant-instructions.md
+      - data/rcap-all50/overlays/census-v1/ks/rcap-ks-custom-pleading--custom-pleading/**
+      - data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/**
+      - data/rcap-all50/overlays/census-v1/nd/rcap-nd-custom-pleading--custom-pleading/**
+      - data/rcap-all50/overlays/census-v1/sc/rcap-sc-custom-pleading--custom-pleading/**
+      - data/rcap-all50/overlays/census-v1/tn/rcap-tn-custom-pleading--custom-pleading/**
+      - data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading/**
+permissions:
+  contents: read
+jobs:
+  route-footer-sentence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install poppler
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+      - name: Hold the route-footer sentence to the fixture PDFs
+        run: node scripts/test-route-footer-sentence.mjs
