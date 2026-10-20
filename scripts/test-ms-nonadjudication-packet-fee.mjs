@@ -17,6 +17,7 @@ for(const [name,value]of surfaces){
  assert.equal(typeof value,'string',`${name}: fee surface exists`);
  const text=value.replace(/\s+/g,' ');
  assert.ok(!text.includes('So: expect to be asked for $150'),`${name}: no unconfirmed amount to expect`);
+ assert.ok(!text.includes('$150'),`${name}: no sibling fee figure published on this route`);
  assert.ok(text.includes(scope),`${name}: distinct statutory ground retained`);
  assert.ok(text.includes(uncertainty),`${name}: fee applicability remains unresolved`);
  assert.ok(text.includes(`So: ask the ${court} what that court charges for this petition before you go`),`${name}: current amount comes from the named clerk`);
