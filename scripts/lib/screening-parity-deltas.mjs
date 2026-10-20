@@ -403,21 +403,27 @@ function authorizedRuntimeHash(delta, candidate, runtimeReauthorizations) {
     (entry) => entry.path === candidate && typeof entry[REPIN_KEY] === "string"
   );
   const consumed = new Set();
-  for (let hop = 0; hop < repins.length; hop += 1) {
-    const next = repins.find((entry) => entry.sha256 === expected && !consumed.has(entry));
-    if (!next) break;
-    consumed.add(next);
-    expected = next[REPIN_KEY];
+  const walkRepins = () => {
+    for (let hop = 0; hop < repins.length; hop += 1) {
+      const next = repins.find((entry) => entry.sha256 === expected && !consumed.has(entry));
+      if (!next) break;
+      consumed.add(next);
+      expected = next[REPIN_KEY];
+    }
+  };
+  walkRepins();
+  const binding = delta.scopeRestatement?.bindings[candidate];
+  if (binding) {
+    if (expected !== binding.priorSha256) reject(`${delta.id} scope restatement does not continue the historical chain for ${candidate}`);
+    expected = binding.newSha256;
+    // A restatement is not the end of history: later unrelated edits re-pin
+    // forward from its newSha256 exactly as they do from a signed hash.
+    walkRepins();
   }
   for (const entry of repins) {
     if (!consumed.has(entry)) {
       reject(`${delta.id} re-pins ${candidate} from ${entry.sha256.slice(0, 12)}…, which the authorization chain never reaches`);
     }
-  }
-  const binding = delta.scopeRestatement?.bindings[candidate];
-  if (binding) {
-    if (expected !== binding.priorSha256) reject(`${delta.id} scope restatement does not continue the historical chain for ${candidate}`);
-    expected = binding.newSha256;
   }
   return expected;
 }
