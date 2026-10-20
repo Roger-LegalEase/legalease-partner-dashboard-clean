@@ -845,7 +845,7 @@ const SPEC = {
   },
   "composedFromNote": "the committed legal-design track registry (data/record-clearing/legal-design-track-registry.json), the committed custom-pleading specifications (data/record-clearing/legal-design-specifications.json) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
   "formIdentityNote": "No committed record names an official statewide participant form for this route; the committed specifications record its component set as composed pleadings. Every page in this packet is therefore composed by this build from the committed records, and no official form was substituted or invented.",
-  "routeSelectionNote": "One route, one instrument set: every composed page states this route's statutory ground in its own title and body, and no election control exists on any composed page.",
+  "routeSelectionNote": "One route, one instrument set: each component's first page names this route in its title; the petition, supporting affidavit, records checklist and filing instructions state its statutory ground (W. Va. Code § 60A-4-407); no election control exists on any composed page.",
   "routeSelectionsMade": [
     {
       "routeKey": "obligation:track-pathway:WV:wv_drug_conditional_discharge:first-offense-drug-possession-conditional-discharge-relief",
