@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "rcap-independent-verification-rows/v1",
+  "lane": "VF03",
+  "laneKind": "independent-verification",
+  "generatedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+  "verifier": "ACCEPTANCE-CLAUDE (independent; built, repaired and rendered none of these packets)",
+  "preflight": "claim.mjs --assert was run per subject at assembly and its result is recorded per family in claimAssertions (CLAIM_OK: the lane holds the live claim; ALREADY_RELEASED, GRANTED_ELSEWHERE_BUT_RELEASED, NOT_GRANTED: no live claim exists and this return is filed under the lane that holds the family's current verdict, the generator's claim invariant applying to active assignments only); the packet-build environment preflight is not applicable to a verification reading on this machine",
+  "claimAssertions": {
+    "dc_correct_misattributed_arrest-set": "CLAIM_OK VF03 dc_correct_misattributed_arrest-set (independent-verification, grant set b15f165126c84d71)"
+  },
+  "obligationSet": [
+    "ROUTE_IDENTITY",
+    "SOURCE_IDENTITY",
+    "COMPONENT_SET",
+    "KNOWN_PREFILLS",
+    "REQUIRED_BEFORE_FILING",
+    "ROUTE_OPTIONS",
+    "REPEATING_ROWS",
+    "PROTECTED_FIELDS",
+    "ARTIFACTS",
+    "PAGE_ORDER",
+    "CLIPPING_AND_OVERLAP",
+    "FILING_DESTINATION",
+    "FEE_AND_WAIVER",
+    "SERVICE",
+    "SELF_HELP_STOP"
+  ],
+  "standardApplied": {
+    "measuredHere": "Every obligation was measured in this lane from the committed artifacts at the base sha named above: artifact hashes recomputed from bytes, page counts read with pdfinfo, every recorded write read back from pdftotext output, word geometry from pdftotext -bbox checked against the page box and same-band pairs, committed-record pins recomputed from disk, the repository completeness verifier run here for the nine counters. No counter was copied from a builder self-report.",
+    "lapsedPins": "Where a receipt's whole-file pin had drifted, the pinned blob was recovered from git history, the family's own entries were compared between the pinned and current versions, and the row records the CURRENT digest and byte length as the pin it verified against; receipts on disk are not edited by this lane.",
+    "SOURCE_IDENTITY": "Met only by recomputing every bound hash from bytes: committed repository records from disk, and any bound held corpus instrument from the bytes of the held copy, with its face anchors read from those bytes.",
+    "FEE_AND_WAIVER": "DET-FEE-AND-WAIVER-001 (data/rcap-grade-a/fable-packet-factory/DETERMINATION_FEE_AND_WAIVER_STANDARD.json) applied as written.",
+    "SERVICE": "Met by a named rule, or an affirmative statement that nobody is served with the mechanism that replaces it; silence or an unnamed office does not meet it.",
+    "SELF_HELP_STOP": "Met when the packet states where the platform stops and a lawyer takes over, measured against the controlling decision's stop conditions.",
+    "FILING_DESTINATION": "Met when the participant-facing instructions name the court, clerk or agency the route names."
+  },
+  "rows": [
+    {
+      "itemId": "dc_correct_misattributed_arrest-set",
+      "lane": "VF03",
+      "worker": "ACCEPTANCE-CLAUDE (independent; built, repaired and rendered none of these packets)",
+      "verifiedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/dc/dc-correct-misattributed-arrest-set--custom-pleading",
+      "nineCounters": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0,
+        "allZero": true,
+        "measuredHere": true,
+        "howMeasured": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family dc_correct_misattributed_arrest-set run by measure-family.mjs in a detached worktree at base 0116da97d (PASS_COMPLETE, 7/17 written); the counter line parsed from that run."
+      },
+      "proofObligations": {
+        "ROUTE_IDENTITY": {
+          "result": "PASS",
+          "detail": "product-wiring.json, source-receipt.json, production-field-map.json and the MASTER_QUEUE row declare the identical route key set ['obligation:track-only:DC:dc_correct_misattributed_arrest']; familyId agrees across every record (measure-family.mjs familyIdAgrees true)."
+        },
+        "SOURCE_IDENTITY": {
+          "result": "PASS",
+          "detail": "The MASTER_QUEUE row binds no document source (CUSTOM_PLEADING_FROM_CODIFIED_TEXT, officialFormFamily NONE, sourceHashes []); source-receipt.json documents[0] binds one reference instrument read for the filing-channel steps: DC Superior Court Criminal Division 'How to Seal or Expunge Your Criminal Record', Rev. 2024-04-10, sha256 310381f170d1875ef7a40e9e71c8653c1ea5c847628a6c718ea9016c0e312712, 47232 bytes. Recomputed here from the bytes of the held copy (master library Edition 1, uploaded by the owner 2026-10-20 for A8 and verified 336/336 against the committed local-source-corpus-index.json): sha256 and byte length equal the pin; pdfinfo 1 page as indexed. The receipt's faceAnchorsVerified (19 anchors) were each found in pdftotext output of those bytes: 19/19. The family's filing-channel facts were cross-checked against the sheet: criminalmotionsealteam@dcsc.gov, criminalcustomerservice@dcsc.gov, (202) 727-4245 (MPD arrest history), 500 Indiana Avenue NW, Room 4001, Criminal Division, Superior Court, 'up to six months' all appear on the sheet; the only packet values not on it are the synthetic participant's own written facts."
+        },
+        "COMPONENT_SET": {
+          "result": "PASS",
+          "detail": "rendered-artifacts.json componentSet ['primary_filing','prosecutor_service','filing_instructions'] equals the declared set; packets list the three documents for both fixtures; 0 selection controls, 0 canonical refusals, 0 repeating rows; the fresh run measured requiredComponentsMissing 0."
+        },
+        "KNOWN_PREFILLS": {
+          "result": "PASS",
+          "detail": "Read back here from pdftotext output of each fixture's own bytes: every value actual-writes.json records as written was found, canonical 7/7 and boundary 7/7 (name, date of birth, mailing address, telephone, email and the case facts the platform holds); refusedFieldsWithInk [] in both; nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0; the fresh run measured invisibleWrites 0 and knownRequiredFieldsMissing 0."
+        },
+        "REQUIRED_BEFORE_FILING": {
+          "result": "PASS",
+          "detail": "The field map declares 5 required-before-filing items (fingerprints taken; the movant's sworn statement; other reliable identification presented; the case number; the prosecuting office's name and mailing address); each disclosureLabel was found verbatim in participant-instructions.md's 'The items you must supply' tables (5/5, checked here) and each prints as a labelled dotted blank; the fresh run measured requiredFactsNotCollected 0 and unclassifiedBlanks 0."
+        },
+        "ROUTE_OPTIONS": {
+          "result": "PASS",
+          "detail": "routeSelectionsMade is [] and the packet carries no selection control (rendered-artifacts selectionControls 0): the statute fixes the motion's content and no election is left to the participant; the fresh run measured requiredOptionsMissing 0."
+        },
+        "REPEATING_ROWS": {
+          "result": "PASS",
+          "detail": "No repeating rows in the composed pleadings (rendered-artifacts repeatingRows 0); the fresh run measured incompleteRows 0."
+        },
+        "PROTECTED_FIELDS": {
+          "result": "PASS",
+          "detail": "Read here from canonical.pdf text: the movant's sworn signature and its date (page 2, 'DATE \u2026 SIGNATURE OF MOVANT, SWORN UNDER OATH'), the service page's date of service and signature (page 3) are dotted rules with no value; the motion's own case number is left to the Seal Team; refusedFieldsWithInk [] in both fixtures; the fresh run measured protectedWrites 0; the guide lists exactly these as deliberately left blank."
+        },
+        "ARTIFACTS": {
+          "result": "PASS",
+          "detail": "canonical.pdf sha256 31beb81d0a97122b9517b17d58d04527aba2bae88ecd157e05b9755a4dd35a27, 13447 bytes, 5 pages and boundary.pdf sha256 f1086e078bce597b9629f86afc4e0f683d4d1c41ff704d3aee5d94caeccb0d72, 13698 bytes, 5 pages, recomputed here, equal reports/rendered-artifacts.json; no unrecorded PDF under fixtures/ and none missing. RASTER_QUEUE.json's rasterReceipt for the family (run 39303947794, job 118238061195, RASTER_PASS, 10 pages) is bound to exactly these digests, and product-wiring.json (refreshed in e5e741e5d) pins the same canonical digest."
+        },
+        "PAGE_ORDER": {
+          "result": "PASS",
+          "detail": "pdfinfo 5 pages = recorded 5 for both fixtures; rendered-artifacts pageManifest: packet pages 1-2 primary_filing, 3 prosecutor_service, 4-5 filing_instructions, contiguous from 1, in the packets' document order; the pdftotext page breaks show the same headings in that order (motion caption on page 1, the sworn signature block on page 2, 'COPY FOR THE PROSECUTING OFFICE' on page 3, 'FILING INSTRUCTIONS' from page 4)."
+        },
+        "CLIPPING_AND_OVERLAP": {
+          "result": "PASS",
+          "detail": "Measured geometrically here with pdftotext -bbox: canonical 1297 words, boundary 1298 words, 0 outside the page box, 0 same-band overlapping pairs; the builder's byte proof records nonWhitespaceGlyphsOutsideMeasuredWriteBoxes 0 in both; the fresh run measured visualDefects 0. Beyond geometry, the owner-dispatched central raster of these bytes passed (RASTER_PASS, 10 pages measured at scale 2.5, problems [] and environmentProblems [], run 39303947794 on 2026-10-19)."
+        },
+        "FILING_DESTINATION": {
+          "result": "PASS",
+          "detail": "The route names the DC Superior Court Criminal Division; participant-instructions.md and the filing-instructions page name the filing channel exactly as the held sheet does (read here from its bytes): send the arrest record, disposition and motion to criminalmotionsealteam@dcsc.gov, where the Seal Team gives the motion a case number and assigns it to a judge, with the Criminal Division at 500 Indiana Avenue NW, Room 4001 named for anything else. See observations[0] on the telephone label."
+        },
+        "FEE_AND_WAIVER": {
+          "result": "PASS",
+          "detail": "Met under DET-FEE-AND-WAIVER-001 theStandard met[2]: the held sheet states no fee (0 fee statements in its text, read here), and the guide and the filing-instructions page ('MONEY') state that no held source establishes a filing fee, that filing is free, or a waiver procedure, and send the participant to a specific checkable authority identified well enough to reach: the Criminal Division at 500 Indiana Avenue NW, Room 4001, by telephone and in person, or the Seal Team at criminalmotionsealteam@dcsc.gov (both on the sheet). Every fee line in both fixtures and the instructions was read (fee-claims.txt): no figure, no free-filing claim, no internal contradiction (A4). See observations[0] on the telephone label."
+        },
+        "SERVICE": {
+          "result": "PASS",
+          "detail": "Met by a named rule and a dedicated component: the prosecutor_service page ('COPY FOR THE PROSECUTING OFFICE') with the office and service address left for the participant to confirm with the clerk, the instructions' step 6 ('Serve the prosecuting office, using the service page, after asking the Criminal Division clerk's office or the Seal Team which office prosecuted your case and its correct service address'), and the recorded rule that the prosecutor need not respond unless the Court orders it. The page states it is not proof of service and is completed only when the copy actually goes out."
+        },
+        "SELF_HELP_STOP": {
+          "result": "PASS",
+          "detail": "'When to stop and get help instead of filing' lists the stops (opposition or court-ordered response; a hearing; the participant may in fact have been the person arrested; fingerprints taken or other reliable identification presented; a federal, military, tribal or out-of-jurisdiction record; immigration, firearm, licensing, clearance, childcare, healthcare or law-enforcement employment consequences) and names five organisations with telephone numbers from the court's own instruction sheet; 'What this packet is not' states the limits. approval-request.json: approvedForLive false, live false, commercialRoutesOpened 0. Cross-checked here against the held sheet's bytes: all five organisations and their telephone numbers in the packet and in participant-instructions.md equal the sheet (5/5, selfhelp-orgs-crosscheck.txt)."
+        }
+      },
+      "evidence": "review-evidence/acceptance/dc-vf03-0116da97d/ (facts.json, measure.log, dc-sheet.txt/.sha256/.pdfinfo, source-identity.txt, channel-crosscheck.txt, fee-claims.txt, dc-canonical.txt, dc-boundary.txt); draft history review-evidence/acceptance/ak-dc-reread-20261020/draft/",
+      "failedObligationNames": [],
+      "commercialRoutesOpened": false,
+      "overlayDirectoriesModified": false,
+      "grantsNothing": "This row is a verification reading. It opens no route, sets no price and authorises no promotion.",
+      "verifiedAt": "2026-10-20T13:03:50Z",
+      "observations": [
+        {
+          "what": "Telephone label: the packet calls 202-879-1373 'the Criminal Division clerk's office'; the held sheet prints 202-879-1373 on the Criminal Division letterhead and gives '(202) 879-1362' as the Criminal Division clerk's office for questions.",
+          "detail": "Sheet line 4 (letterhead under 'Criminal Division', '500 Indiana Ave NW, Room 4001'): '202-879-1373'; sheet lines 30-31: 'If you have any questions, you can email criminalmotionsealteam@dcsc.gov or call the Criminal Division clerk\u2019s office at (202) 879-1362.' The packet prints \"the Criminal Division clerk's office, 500 Indiana Avenue NW, Room 4001, Washington, DC (202-879-1373)\" four times (canonical text lines 51-52, 71-72, 104-105, 118-119; boundary likewise) and instructions.md lines 48, 50, 58. Both numbers are the court's own and the address and Seal Team email are exact, so the named authority is reachable and no obligation fails; the label does not match the source. Correction for the builder owner: print (202) 879-1362 where the packet says 'clerk's office', or keep 202-879-1373 and call it 'the Criminal Division'. Not scored as a failure; raised for the lead.",
+          "scoredAsFailure": false
+        },
+        {
+          "what": "This read supersedes the 4f387fa2d draft (14/15 measured, SOURCE_IDENTITY waiting on A8).",
+          "detail": "No file under the family directory changed between 4f387fa2d and 0116da97d (git diff empty); every obligation was re-measured here at 0116da97d; the ARTIFACTS digests equal the draft and the RASTER_PASS receipt (run 39303947794).",
+          "scoredAsFailure": false
+        }
+      ]
+    }
+  ]
+}
