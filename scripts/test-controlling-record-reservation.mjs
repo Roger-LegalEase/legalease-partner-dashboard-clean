@@ -42,6 +42,11 @@ test("mutant 2: the reserved blank is written in one fixture", () => {
   assert.equal(classify(proof), "KNOWN_FACT_NOT_WRITTEN");
 });
 
+test("a blank that names no bare field cannot be held against the fixture writes", () => {
+  const proof = verifyControllingReservation(inputs({ blank: { ...blank, name: undefined } }));
+  assert.match(proof.failure, /names no field/);
+});
+
 test("mutant 3: the reserved blank or the registry entry is missing from the disclosure", () => {
   // Each text is removed on its own, so the label check and the entry check are each the only thing refusing.
   for (const drop of [blank.label, row.controllingReservation.item]) {
