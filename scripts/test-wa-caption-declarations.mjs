@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
 import {runInNewContext} from 'node:vm';
 import {readsAsUnmoved} from './grade-a-packet-factory-24h/repin-lapsed-source-identities.mjs';
 const base='bf02d807328f4edfe1ff2541127563bb8b371086';
@@ -56,5 +57,11 @@ check('all nine measured counters zero; byte evidence, protected fields and sour
  // The receipt may since carry a census identity re-pin (2026-10-20); anything else the generator would read as movement.
  const receipt=readsAsUnmoved(prior(`${dir}/source-receipt.json`).toString(),fs.readFileSync(`${dir}/source-receipt.json`,'utf8'));
  assert.ok(receipt.ok,receipt.why);
+ // readsAsUnmoved sets aside sha256/byteLength on refreshed pins, so hold every pin to the bytes it names (Acceptance 1c9147698).
+ for(const pin of JSON.parse(fs.readFileSync(`${dir}/source-receipt.json`)).committedRecords){
+  const bytes=fs.readFileSync(pin.pathInRepository);
+  assert.equal(pin.sha256,createHash('sha256').update(bytes).digest('hex'),pin.pathInRepository);
+  assert.equal(pin.byteLength,bytes.length,pin.pathInRepository);
+ }
 });
 console.log(JSON.stringify({passed,failed:0}));
