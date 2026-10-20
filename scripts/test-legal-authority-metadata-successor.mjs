@@ -11,10 +11,7 @@ register('data:text/javascript,'+encodeURIComponent(`import{createRequire}from'n
 const {legalAuthorityMetadataDraftSuccessor:successor,profileAuthorityFingerprint:fp}=await import(pathToFileURL(modulePath));
 let checks=0;const rows=[];
 for(const[name,route]of[
- ['GA-georgia','automatic-restriction-of-qualifying-post-july-1-2013-non-convictions'],
  ['MD-maryland','police-record-expungement-when-no-charge-was-filed-under-10-103'],
- ['MT-montana','non-conviction-criminal-history-removal-through-criss'],
- ['ND-north-dakota','non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05'],
  ['OK-oklahoma','clean-slate-automatic-expungement'],
  ['SC-south-carolina','diversion-or-program-completion-expungement']]){
  const file='src/lib/rcap-engine/compiled/profiles/'+name+'.json';

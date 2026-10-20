@@ -92,10 +92,24 @@ function routeTypeFor(contract, current) {
  * reading "three years" on a Mississippi felony needs to know that number is
  * the post-July-2026 rule and that the five-year figure elsewhere is stale.
  */
+/**
+ * Routes whose effective-date sentence reads "took effect on" instead of
+ * "governs filings on or after": the CT automatic erasure route and the two
+ * no-filing routes item 11 (2026-10-19) adopted exactly. The participant-facing
+ * sentence is adopted wording, not a derivation from filingRequired: a general
+ * no-filing rule rewrote GA/MT/ND text nobody adopted and failed their exact
+ * profile pins (Onboarding at 0e7e94cad).
+ */
+const NO_FILING_EFFECTIVE_DATE_WORDING = new Set([
+  "CT:cannabis-conviction-erasure",
+  "OK:clean-slate-automatic-expungement",
+  "SC:diversion-or-program-completion-expungement"
+]);
+
 function waitingRulesFor(contract) {
   const lines = [contract.timing.anchorText];
   if (contract.effectiveFrom) {
-    lines.push(routeIsAutomaticOrNoFiling(contract)
+    lines.push(NO_FILING_EFFECTIVE_DATE_WORDING.has(contract.routeKey)
       ? `This rule took effect on ${contract.effectiveFrom}.`
       : `This rule governs filings on or after ${contract.effectiveFrom}.`);
   }

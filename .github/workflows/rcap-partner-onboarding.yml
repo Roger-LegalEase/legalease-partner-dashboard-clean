@@ -95,6 +95,12 @@ jobs:
         if: matrix.group == 'g'
         run: node scripts/verify-rcap-prepay-question-gate.mjs
 
+      # 2 s. The compiled profiles are generated from the approved route contracts; a66ccc373
+      # rewrote GA/MT/ND participant wording through the generator and failed groups d/e/f at 0e7e94cad.
+      - name: Verify compiled profiles converge with the approved contracts
+        if: matrix.group == 'g'
+        run: node scripts/apply-legal-authority-to-profiles.mjs --check
+
       - name: Install PDF text verification dependency
         run: |
           if ! command -v pdftotext >/dev/null 2>&1; then
