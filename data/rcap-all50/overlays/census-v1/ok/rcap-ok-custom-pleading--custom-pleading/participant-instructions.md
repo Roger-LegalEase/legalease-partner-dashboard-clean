@@ -124,26 +124,19 @@ Each of these is carried here in the words of the committed record it comes from
 
 - **Clear an Oklahoma record that is not yours** — One petition per county; combine same-county arrests
 - **Clear an Oklahoma record that is not yours** — The proposed order must name every agency
-- **Clear an Oklahoma record that is not yours** — Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.
 - **Clear an Oklahoma case after a deferred sentence was dismissed** — One petition per county; combine same-county arrests
 - **Clear an Oklahoma case after a deferred sentence was dismissed** — The proposed order must name every agency
-- **Clear an Oklahoma case after a deferred sentence was dismissed** — Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.
 - **Clear an Oklahoma felony conviction** — One petition per county; combine same-county arrests
 - **Clear an Oklahoma felony conviction** — The proposed order must name every agency
-- **Clear an Oklahoma felony conviction** — Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.
 - **Clear an Oklahoma misdemeanor conviction** — One petition per county; combine same-county arrests
 - **Clear an Oklahoma misdemeanor conviction** — The proposed order must name every agency
-- **Clear an Oklahoma misdemeanor conviction** — Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.
 - **Clear an Oklahoma arrest that did not end in a conviction** — One petition per county; combine same-county arrests
 - **Clear an Oklahoma arrest that did not end in a conviction** — The proposed order must name every agency
-- **Clear an Oklahoma arrest that did not end in a conviction** — Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.
 - **Clear an Oklahoma record after a pardon** — One petition per county; combine same-county arrests
 - **Clear an Oklahoma record after a pardon** — The proposed order must name every agency
-- **Clear an Oklahoma record after a pardon** — Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.
 - **Update an Oklahoma deferred sentence so the case shows as dismissed** — Always pair a § 991c motion with a § 18 arrest-record screen
 - **Clear an Oklahoma protective order record** — One petition per county; combine same-county arrests
 - **Clear an Oklahoma protective order record** — The proposed order must name every agency
-- **Clear an Oklahoma protective order record** — Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.
 
 ## Documents you must obtain before filing
 

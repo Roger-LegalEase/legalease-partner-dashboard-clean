@@ -280,8 +280,6 @@ const SPEC = {
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
         "",
-        "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
-        "",
         "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
         "",
         "THE QUESTION THIS PAGE EXISTS TO ASK",
@@ -816,8 +814,6 @@ const SPEC = {
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
         "",
-        "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
-        "",
         "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
         "",
         "THE QUESTION THIS PAGE EXISTS TO ASK",
@@ -1351,8 +1347,6 @@ const SPEC = {
         "Oklahoma now seals some records WITHOUT a petition. If your record is one of them, filing the petition in this packet costs you money and time you did not have to spend.",
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
-        "",
-        "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
         "",
         "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
         "",
@@ -1901,8 +1895,6 @@ const SPEC = {
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
         "",
-        "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
-        "",
         "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
         "",
         "THE QUESTION THIS PAGE EXISTS TO ASK",
@@ -2436,8 +2428,6 @@ const SPEC = {
         "Oklahoma now seals some records WITHOUT a petition. If your record is one of them, filing the petition in this packet costs you money and time you did not have to spend.",
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
-        "",
-        "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
         "",
         "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
         "",
@@ -2973,8 +2963,6 @@ const SPEC = {
         "Oklahoma now seals some records WITHOUT a petition. If your record is one of them, filing the petition in this packet costs you money and time you did not have to spend.",
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
-        "",
-        "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
         "",
         "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
         "",
@@ -3823,8 +3811,6 @@ const SPEC = {
         "Oklahoma now seals some records WITHOUT a petition. If your record is one of them, filing the petition in this packet costs you money and time you did not have to spend.",
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
-        "",
-        "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them.",
         "",
         "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
         "",
@@ -4687,20 +4673,12 @@ const SPEC = {
       "The proposed order must name every agency"
     ],
     [
-      "Clear an Oklahoma record that is not yours",
-      "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them."
-    ],
-    [
       "Clear an Oklahoma case after a deferred sentence was dismissed",
       "One petition per county; combine same-county arrests"
     ],
     [
       "Clear an Oklahoma case after a deferred sentence was dismissed",
       "The proposed order must name every agency"
-    ],
-    [
-      "Clear an Oklahoma case after a deferred sentence was dismissed",
-      "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them."
     ],
     [
       "Clear an Oklahoma felony conviction",
@@ -4711,20 +4689,12 @@ const SPEC = {
       "The proposed order must name every agency"
     ],
     [
-      "Clear an Oklahoma felony conviction",
-      "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them."
-    ],
-    [
       "Clear an Oklahoma misdemeanor conviction",
       "One petition per county; combine same-county arrests"
     ],
     [
       "Clear an Oklahoma misdemeanor conviction",
       "The proposed order must name every agency"
-    ],
-    [
-      "Clear an Oklahoma misdemeanor conviction",
-      "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them."
     ],
     [
       "Clear an Oklahoma arrest that did not end in a conviction",
@@ -4735,20 +4705,12 @@ const SPEC = {
       "The proposed order must name every agency"
     ],
     [
-      "Clear an Oklahoma arrest that did not end in a conviction",
-      "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them."
-    ],
-    [
       "Clear an Oklahoma record after a pardon",
       "One petition per county; combine same-county arrests"
     ],
     [
       "Clear an Oklahoma record after a pardon",
       "The proposed order must name every agency"
-    ],
-    [
-      "Clear an Oklahoma record after a pardon",
-      "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them."
     ],
     [
       "Update an Oklahoma deferred sentence so the case shows as dismissed",
@@ -4761,10 +4723,6 @@ const SPEC = {
     [
       "Clear an Oklahoma protective order record",
       "The proposed order must name every agency"
-    ],
-    [
-      "Clear an Oklahoma protective order record",
-      "Building the packet product against the pre-SB 2030 text risks generating paid petitions for people who could have used a free portal, and risks telling people they are Clean Slate eligible when the amendment removed them."
     ]
   ],
   "notTold": [],
