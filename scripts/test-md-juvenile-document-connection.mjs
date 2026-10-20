@@ -82,6 +82,31 @@ await save(input, { confirmRecordFacts: ['county'] });
 check('all exact owner values persist through API', () => { for (const [id, value] of Object.entries(input)) assert.deepEqual(stored.draftSnapshot.packetAnswers[id], value, id); });
 check('original screening remains exact', () => assert.deepEqual(stored.draftSnapshot.screeningAnswers, originalRecord.draftSnapshot.screeningAnswers));
 const positiveRecord = structuredClone(stored);
+const preparationAnswers = Object.fromEntries(Object.entries(positiveRecord.draftSnapshot.packetAnswers)
+  .filter(([id]) => id.startsWith('md_juvenile_')));
+const ordinarySave = await request('POST', { answers: { county: 'Baltimore County' } }, url.split('?')[0]);
+check('ordinary county save preserves the 27 source answers', () => {
+  assert.equal(Object.keys(preparationAnswers).length, 27);
+  assert.equal(ordinarySave.status, 200, JSON.stringify(ordinarySave.value));
+  assert.equal(stored.draftSnapshot.packetAnswers.county, 'Baltimore County');
+  for (const [id, value] of Object.entries(positiveRecord.draftSnapshot.packetAnswers))
+    if (id !== 'county') assert.deepEqual(stored.draftSnapshot.packetAnswers[id], value, id);
+  assert.deepEqual(stored.draftSnapshot.screeningAnswers, positiveRecord.draftSnapshot.screeningAnswers);
+  assert.deepEqual(stored.draftSnapshot.prefilledAnswers, positiveRecord.draftSnapshot.prefilledAnswers);
+  assert.deepEqual(ordinarySave.value.commercialActions, { fulfillmentAvailable: false, checkoutAllowed: false, generationAllowed: false });
+});
+const afterOrdinarySave = structuredClone(stored);
+const ordinaryNoop = await request('POST', { answers: {} }, url.split('?')[0]);
+check('ordinary no-op after preparation preserves the complete record', () => {
+  assert.equal(ordinaryNoop.status, 200); assert.deepEqual(stored, afterOrdinarySave);
+});
+check('preparation verification is refused at the shared save boundary', () => {
+  assert.equal(P.packetInformationPatch({ existingItem: item, answers: {}, verify: true,
+    mdJuvenilePreparation: true, protectedVerification: stored }), null);
+  assert.deepEqual(stored, afterOrdinarySave);
+});
+stored = structuredClone(positiveRecord);
+
 const { mdJuvenileProtectedDocumentPreparation: prepare } = await import('../src/lib/expungement-ai/md-juvenile-document-preparation.ts');
 const sourceBytes = verifySource(fs.readFileSync(path.join(root, SOURCE.path))), census = await censusOf(sourceBytes), source = await PDFDocument.load(sourceBytes, { updateMetadata: false });
 const decoded = (doc, ref) => Buffer.from(decodePDFRawStream(doc.context.lookup(ref)).decode());
