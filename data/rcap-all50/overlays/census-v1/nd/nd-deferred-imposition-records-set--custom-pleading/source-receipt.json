@@ -23,33 +23,158 @@
   "compositionSources": [
     {
       "path": "data/record-clearing/legal-design-intake/ND.memo.json",
-      "sha256": "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0",
-      "byteLength": 218868
-    },
-    {
-      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
-      "byteLength": 3708050,
+      "sha256": "ed7115190428a940d401d97614df85bcc17c1f511b807cf2cda7b8b462d231c3",
+      "byteLength": 224879,
       "identityRefresh": {
-        "refreshedOn": "2026-09-10",
+        "refreshedOn": "2026-10-20",
         "was": {
-          "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
-          "byteLength": 3683419
+          "sha256": "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0",
+          "byteLength": 218868
         },
-        "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for nd-deferred-imposition-records-set and the record's global authority fields were recovered from the blob carrying the previous pin (d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
-        "recoveredFromCommit": "d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c",
+        "why": "The record was rewritten around this receipt's anchors. 1 named entry moved between the blob carrying the previous pin and the bytes on disk (nd-nonconviction-auto-close-verify), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
         "anchorsCompared": 2,
         "anchorDetail": [
-          "recordGlobalMetadata: identical",
-          "packetSet:nd-deferred-imposition-records-set: identical"
+          "memoMetadata: identical",
+          "track:nd-deferred-imposition-records: identical"
         ],
         "anchorsIdentical": 2,
         "identicalAnchorSha256": {
-          "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
-          "packetSet:nd-deferred-imposition-records-set": "c3ae8b4ad7f87346f71d71e3f5fe7ee8baa5591bb219e8911c84765df21eed99"
+          "memoMetadata": "ccfbe308d4e629b0cd3ffcc7eeab321468fb144e24ce6d9185f2814feaf859f6",
+          "track:nd-deferred-imposition-records": "5025a4f332937895d6359e53093df79364ba798cdb9038b193ac585eff6a7947"
         },
-        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
-        "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "nd-deferred-imposition-records"
+          ],
+          "derivation": {
+            "fromPinRecordId": null,
+            "fromReceiptRouteKeys": [
+              "nd-deferred-imposition-records"
+            ],
+            "routeKeysNamingNoTrack": [],
+            "memoMetadataComparedAsOneAnchor": true,
+            "measuredReVerification": [
+              {
+                "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20261020-reverify-nd-deferred-0116da97d.json",
+                "lane": "VF08",
+                "verifiedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee"
+              }
+            ]
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "nd-nonconviction-auto-close-verify"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "8ebf489378f5c1fed4644eaa88cf3548fbfcd947",
+          "commit": "93ba021bbbb84f6a11f5802a9471c6e5767a9f21",
+          "commitsWithThisPath": 4,
+          "distinctBlobs": 2,
+          "blobsHashed": 2
+        },
+        "previousIdentityRefresh": null,
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
+      }
+    },
+    {
+      "path": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "sha256": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
+      "byteLength": 3738732,
+      "identityRefresh": {
+        "refreshedOn": "2026-10-20",
+        "was": {
+          "sha256": "b28edfb93eb2e3953dea5bdbe2915476c9752c12df2a46cb61f98e786a77cc5c",
+          "byteLength": 3708050
+        },
+        "why": "The record was rewritten around this receipt's anchors. 8 named entries moved between the blob carrying the previous pin and the bytes on disk (co_motion_seal_conviction-set, co_petition_seal_arrest-set, de_discretionary_family_court-set, de_discretionary_superior_court-set, il-seal-edu-set, va_exp_absolute_pardon-set, wv_nc_acquittal_dismissal-set, wv_nc_diversion_deferred-set), and this receipt anchors no entry that moved: every entry it binds, and this record's global authority fields, were recovered from that blob and compared object-for-object, order-independent, against the current record, and all 5 were identical.",
+        "anchorsCompared": 5,
+        "anchorDetail": [
+          "packetManifestSharedMetadata: identical",
+          "packetSet:dc_innocence_expungement-set: identical",
+          "packetSet:il-prostitution-j-vacate-set: identical",
+          "packetSet:ms-misd-addl-set: identical",
+          "packetSet:nd-deferred-imposition-records-set: identical"
+        ],
+        "anchorsIdentical": 5,
+        "identicalAnchorSha256": {
+          "packetManifestSharedMetadata": "cb026b3c9058bf43be30ef637b88a3819076dce69cda50b9ab42968aecf79298",
+          "packetSet:dc_innocence_expungement-set": "1534c812ff61dd053c78273e92b99c0fd7424407f9a0a0f35f5b2cb2a7cf2374",
+          "packetSet:il-prostitution-j-vacate-set": "7979cb3ffa4903e16a943b12772d110fa4a0d83af5f36d431b0c06cd89881257",
+          "packetSet:ms-misd-addl-set": "c2213f54e772adf855ac2c04cabf6a65678dfd7d89de463d9fd23eb5f20b7f7a",
+          "packetSet:nd-deferred-imposition-records-set": "5f22068029872124042904ce75d575288b5d918f61efa4483514428f6692c9a4"
+        },
+        "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, one trailing newline, UTF-8",
+        "anchorScope": {
+          "anchorIds": [
+            "nd-deferred-imposition-records-set"
+          ],
+          "derivation": {
+            "declarations": [
+              {
+                "basis": "receipt.familyId exact packetSetId",
+                "packetSetId": "nd-deferred-imposition-records-set"
+              },
+              {
+                "basis": "receipt.routeKeys:obligation:unit:ND:nd-deferred-imposition-records:nd_deferred_dismissal_motion",
+                "packetSetId": "nd-deferred-imposition-records-set"
+              },
+              {
+                "basis": "receipt.routeKeys:obligation:unit:ND:nd-deferred-imposition-records:nd_deferred_verify_automatic_seal",
+                "packetSetId": "nd-deferred-imposition-records-set"
+              }
+            ],
+            "globalMetadataComparedAsOneAnchor": true,
+            "measuredReVerification": [
+              {
+                "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20261020-reverify-nd-deferred-0116da97d.json",
+                "lane": "VF08",
+                "verifiedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee"
+              }
+            ]
+          }
+        },
+        "entriesThatMovedInThisRecord": [
+          "co_motion_seal_conviction-set",
+          "co_petition_seal_arrest-set",
+          "de_discretionary_family_court-set",
+          "de_discretionary_superior_court-set",
+          "il-seal-edu-set",
+          "va_exp_absolute_pardon-set",
+          "wv_nc_acquittal_dismissal-set",
+          "wv_nc_diversion_deferred-set"
+        ],
+        "recoveredFrom": {
+          "method": "git rev-list --all -- <path>, deduplicated by blob id, each blob hashed until the pin matched",
+          "blobId": "d744a59beb35f31bb71f66e6c57acc7886410fbc",
+          "commit": "b3f6fbc7acda9c96295eaa66636b49dc7ca2c656",
+          "commitsWithThisPath": 72,
+          "distinctBlobs": 64,
+          "blobsHashed": 9
+        },
+        "previousIdentityRefresh": {
+          "refreshedOn": "2026-09-10",
+          "was": {
+            "sha256": "6076f7346c41bbef18623060c8c0397bded4149e55c2e975693b0da217541eec",
+            "byteLength": 3683419
+          },
+          "why": "data/record-clearing/legal-design-packet-set-manifests.json was rewritten around this receipt's anchors. This receipt binds no part of it that moved: the entry for nd-deferred-imposition-records-set and the record's global authority fields were recovered from the blob carrying the previous pin (d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c) and compared object-for-object, order-independent, against the current record, and all 2 were identical.",
+          "recoveredFromCommit": "d798dc66bb305d0ccdc79d7f0450dd4e4f333d9c",
+          "anchorsCompared": 2,
+          "anchorDetail": [
+            "recordGlobalMetadata: identical",
+            "packetSet:nd-deferred-imposition-records-set: identical"
+          ],
+          "anchorsIdentical": 2,
+          "identicalAnchorSha256": {
+            "recordGlobalMetadata": "eb4a53fc38ac633369b073f1e43e3d322389a4add7a0f3deec0f0ef90a145ead",
+            "packetSet:nd-deferred-imposition-records-set": "c3ae8b4ad7f87346f71d71e3f5fe7ee8baa5591bb219e8911c84765df21eed99"
+          },
+          "canonicalisation": "keys sorted recursively, JSON.stringify with no spacing, UTF-8",
+          "whatThisDoesNotEstablish": "It re-anchors a whole-file pin whose bound content did not move. It renews no independent verification, no raster acceptance and no approval, and it opens no route."
+        },
+        "whatThisDoesNotClaim": "Nothing about the packet's bytes, its obligations, its counters or its verdict. It restores an identity binding that lapsed on an edit to entries this family does not bind, and it opens no route and grants no approval."
       }
     }
   ],
