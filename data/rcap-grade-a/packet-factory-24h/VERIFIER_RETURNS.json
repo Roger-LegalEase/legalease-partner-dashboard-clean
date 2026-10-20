@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 485,
-    "rows": 1592,
+    "returnDirectories": 489,
+    "rows": 1596,
     "independentVerdicts": 344,
-    "failRepairRequired": 13,
-    "passIndependent": 330
+    "failRepairRequired": 15,
+    "passIndependent": 328
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
@@ -47,6 +47,8 @@
     "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
     "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
     "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+    "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+    "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
     "ks-21-6614-prostitution-coercion-set",
     "ks-22-4908-registration-relief-set",
     "ms-nonconv-set",
@@ -8227,6 +8229,20 @@
     {
       "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261020-reverify-de-1018-1b4dfeaa1.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
+      "superseded": false
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf05",
       "isIndependentVerification": true,
       "verifiedAtBase": "5e7fe802ca21d39c444d5e110b8e8f63be1a1f27",
@@ -8236,7 +8252,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20261019-reverify-census-5e7fe802c.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
@@ -8424,6 +8440,29 @@
     {
       "familyId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+      "failedObligations": [
+        {
+          "obligation": "COMPONENT_SET",
+          "finding": "COMPONENT_SET: the owner decision this packet binds (LA-IMM-01, recorded as controlling decision CLD-2026-08-28-GA-RFO in 2026-08-28-controlling-decisions.json, and projected into the bound effective route record national-report-2026-08-28.json routes[3] packetComponents) says 'The packet should include' ten items. Five are participant-obtained records and are disclosed under 'Documents you must obtain before filing' (written consent/joinder/endorsement; judgment, sentence and disposition records; original-eligibility evidence; branch evidence; rehabilitation and interests-of-justice exhibits). Four are packet-prepared documents that are neither rendered nor disclosed as something the participant obtains: (1) the proposed order, which LA-IMM-01 also requires to 'expressly address the current restriction and court-record sealing duties' for a discharge entered on or after July 1, 2026; (2) the hearing-request election; (3) the certificate of service or local notice document; (4) the post-order restriction, sealing and verification instructions. Both fixtures (canonical 61ebc643…/10525, boundary 3c7ea1d4…/10708, 4 pages) render only ga-retroactive-first-offender-42-8-66-petition-1 (pp1-2) and -filing-instructions-2 (pp3-4). The packet's own filing-instructions page 3 lists all ten under 'WHAT THE COMMITTED ROUTE RECORD SAYS THE PACKET SHOULD INCLUDE', and participant-instructions.md step 4 tells the participant to 'Include the written-consent document, proposed order, hearing-request election, certificate of service or local notice document, … and post-order instructions', but nothing in the packet supplies them or says where they come from. The route record's own deliveryGates (ga_42_8_66_petition_family_build) list 'proposed order component', 'hearing-election component', 'service or local-notice component' and 'supporting-record checklist component' as build items. requiredComponentsMissing 0 counts only the field map's two declared components, so the counter cannot see this.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "COMPONENT_SET"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20261020-reverify-ga-yfo-1b4dfeaa1.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "superseded": false
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf05",
       "isIndependentVerification": true,
       "verifiedAtBase": "88d688b8b6910f0c501cab0d72633554220d822b",
@@ -8513,7 +8552,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf12/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf12/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
@@ -8998,6 +9037,29 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "superseded": true
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FEE_AND_WAIVER: both fixtures (canonical b6c18f61…/13425, boundary c31fa423…/13627), filing-instructions page 5, and participant-instructions.md line 22 (FEE_AND_WAIVER row) print 'So: expect to be asked for $150, and ask the clerk's office of the Mississippi court that granted nonadjudication and entered the dismissal or closure order what that court charges for this petition before you go'. That publishes a figure to the participant as the amount to expect on a § 99-15-26(5) petition, which no held record supports: the profile's only $150 line is keyed to § 99-19-72 petitions under § 99-19-71 (A3: a line keyed to a different statute is a sibling inference), the packet itself says no bound record settles whether that fee reaches § 99-15-26(5), and owner decision Q4 (OWNER_BATCH_ADOPTION_2026-09-02, 'DO NOT PUBLISH AN UNCONFIRMED FEE … direct the participant to the specific clerk or agency for the current amount. Add a figure only when current primary authority or the official form supports it') forbids exactly this. The registry design for this remedy (legal-design-track-registry tracks[251] ms-nonadj) agrees: 'No amount is published here. Section 99-19-72's fee applies by its terms to petitions under § 99-19-71 and does not reach § 99-15-26. The participant confirms with the clerk.' Everything else in the fee section holds: it attributes the profile's § 99-19-72 lines correctly, separates § 99-15-26(5) from § 99-19-71, names the specific clerk for the amount, and says no record states a waiver (A4 holds; nothing stated is denied). Only the instruction to expect $150 is the defect. Prior PASS reads of this wording (vf03 at e10890c11, vf36 at 5c718222c) did not measure it against owner Q4; the sibling RV-02 route on the same profile (intervention-court § 99-19-71(4), VF04 PASS today) publishes no figure, and ms-fel-set now prints 0 '$150' after Q4.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20261020-reverify-ms-nonadj-1b4dfeaa1.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
       "superseded": false
     },
     {
@@ -9114,6 +9176,20 @@
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "superseded": true
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf06",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20261020-reverify-ms-uncharged-1b4dfeaa1.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf06/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
       "superseded": false
     },
