@@ -76,7 +76,9 @@ export const MS_PROOF_EXECUTION_INPUTS=['scripts/lib/rcap-ephemeral-pg.mjs','scr
   // Mandatory current ND census-prose receipt re-pin source-only record, distinct from modules.
   'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-nd-census-prose-20261020-v1.json',
   // Mandatory current batch28 GA16 NV location history and GA20 helpers source-only record, distinct from modules.
-  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b28-nv-ga20-20261020-v1.json'];
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b28-nv-ga20-20261020-v1.json',
+  // Mandatory current batch30 CO JDF417 routing and section 8b source-only record, distinct from modules.
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b30-co-20261020-v1.json'];
 // Exact import paths observed by the actual verifier imports-only probe;
 // the full execution must reproduce this set before emitting a current proof.
 export const MS_PROOF_OBSERVED_INPUTS=[
