@@ -65,7 +65,8 @@ for (const f of families) {
   assert.deepEqual(required, f.pages.map((t, i) => (hasRoute(t) ? i + 1 : null)).filter(Boolean), `${f.pdf}: the guard must cover every footer the family prints`);
   for (const p of required) {
     assert.deepEqual(missingFooterPages(f.instructions, f.pages.map((t, i) => (i === p - 1 ? strip(t) : t)), f.manifest), [p], `${f.pdf}: dropping page ${p}'s footer must fail`);
-    const body = `Route: a body line\n${"body\n".repeat(FOOT_LINES)}`;
+    // A fixed 2-line pad, not FOOT_LINES: on SC's 1-line footer pages the body line sits 4th from the foot, so any wider window fails here.
+    const body = "Route: a body line\nbody\nbody\n";
     assert.deepEqual(missingFooterPages(f.instructions, f.pages.map((t, i) => (i === p - 1 ? body + strip(t) : t)), f.manifest), [p], `${f.pdf}: a body line starting "Route:" must not stand in for page ${p}'s footer`);
     assert.deepEqual(missingFooterPages(f.instructions, f.pages.map((t, i) => (i === p - 1 ? `${strip(t)}\nfiled under route: obligation:x\n` : t)), f.manifest), [p], `${f.pdf}: "route:" inside a foot line is not page ${p}'s footer`);
   }
