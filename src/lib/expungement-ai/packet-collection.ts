@@ -1651,6 +1651,19 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
+    // GA-16-M01571 / Q-3243544293c0222d2708: the exact NV family has separate court/contact facts.
+    if (factId === "residency_or_location" && nvProgramCategoryHistory && !overrideClass
+      && !needsHuman.has(factId) && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)
+      && !input.recordOwnQuestionIds?.has(factId)) {
+      const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
+        source: "nv_program_location_history",
+        reason: "Earlier generic location remains optional literal context, never a court, county, mailing address, agency or document value. Exact court and agency handbacks retain their separate source ownership." });
+      continue;
+    }
+
     if (factId === DC_LEGACY_LOCATION && dcLocationContext && !overrideClass && !needsHuman.has(factId)
       && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)) {
       facts.push({ factId, collection: "conditional", phase: retainedDcLocation ? "render" : "known",

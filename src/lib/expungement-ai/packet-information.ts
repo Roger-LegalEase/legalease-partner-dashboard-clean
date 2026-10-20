@@ -3320,6 +3320,8 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
   const extra = profile && relief && relief.status !== "not_applicable"
     ? [...convictionReliefQuestions(state).filter(q => includeInactive || convictionReliefQuestionApplies(profile, answers, q.id)).map(q => q.id),
       "case_outcome", ...(state === "GA" ? ["ga_original_first_offender", "pardon_status"] : [])] : [];
+  if (includeInactive && Object.hasOwn(answers, "residency_or_location")
+    && nvProgramCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) extra.push("residency_or_location");
   if (includeInactive && Object.hasOwn(answers, "offense_category")
     && (ilProstitutionCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || nvProgramCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
