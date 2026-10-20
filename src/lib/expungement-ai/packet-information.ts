@@ -2752,9 +2752,11 @@ export function protectedPacketInformationModelFor(
   );
   if (vaHeldSuccessor) {
     // Previously accepted planless holds remain readable without a new editor.
-    questionSurface.questions = questionSurface.questions.filter(question => question.id !== VA_RECORD_ORIGIN_ID);
-    questionSurface.builderQuestions = questionSurface.builderQuestions.filter(question => question.id !== VA_RECORD_ORIGIN_ID);
-    questionSurface.questionById.delete(VA_RECORD_ORIGIN_ID);
+    const hiddenIds = new Set([VA_RECORD_ORIGIN_ID, ...VA_RECORD_CONTEXT_IDS]);
+    questionSurface.questions = questionSurface.questions.filter(question => !hiddenIds.has(question.id));
+    questionSurface.builderQuestions = questionSurface.builderQuestions.filter(question => !hiddenIds.has(question.id));
+    questionSurface.builderSections = questionSurface.builderSections.filter(section => section.id !== "va_optional_record_context");
+    for (const id of hiddenIds) questionSurface.questionById.delete(id);
   }
   questionSurface.questions = legacyShapeQuestionMetadata(questionSurface.questions, legacy.inspection.effectiveInvalidIds);
   questionSurface.builderQuestions = legacyShapeQuestionMetadata(questionSurface.builderQuestions, legacy.inspection.effectiveInvalidIds);
@@ -3684,7 +3686,7 @@ export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtC
     && editablePacketInputIds(model).has(AR_RECORD_ORIGIN_ID)) ids.add(AR_RECORD_ORIGIN_ID);
   if (["not_yet", "needs_more_info", "needs_review", "likely_not_eligible"].includes(resultCode ?? "")) {
     for (const id of routeFactualCorrectionIds(model)) {
-      if (id === VA_RECORD_ORIGIN_ID && !model.questions.some(question => question.id === id)) continue;
+      if ([VA_RECORD_ORIGIN_ID, ...VA_RECORD_CONTEXT_IDS].includes(id) && !model.questions.some(question => question.id === id)) continue;
       if (id === "financial_obligations") {
         const question = model.questions.find(candidate => candidate.id === id);
         const value = { ...model.screeningAnswers, ...model.prefilledAnswers, ...model.packetAnswers }[id];

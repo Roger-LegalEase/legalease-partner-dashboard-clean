@@ -218,6 +218,20 @@ for(const row of rows){
   const noop=await post({});check(row.originalMember+'/typed-unknown-history-no-new-editor',noop.status,403);
   check(row.originalMember+'/typed-unknown-raw-and-history-preserved',stored,typedBefore);stored=old;
  }
+ if(row.variant==='unknown'){
+  const retained=structuredClone(oldBefore),contextAnswers={va_disposition_locality:{value:'Richmond city',unknown:false},va_court_level:'unknown'};
+  Object.assign(retained.draftSnapshot.packetAnswers,{va_record_origin:'virginia'},contextAnswers);
+  retained.draftHash=P.protectedPacketDraftHash(retained.draftSnapshot);stored=retained;
+  const before=structuredClone(stored),model=P.protectedPacketInformationModelFor(stored);
+  for(const[id,value]of Object.entries(contextAnswers)){
+   check(row.originalMember+'/old-held-context-retained-'+id,model?.initialAnswers[id],value);
+   check(row.originalMember+'/old-held-context-not-offered-'+id,model?.questions.some(q=>q.id===id),false);
+   check(row.originalMember+'/old-held-context-not-editable-'+id,model?P.heldPacketCorrectionInputIds(model,model.resultCode).has(id):true,false);
+  }
+  const denied=await post({va_disposition_locality:'Different city',va_court_level:'circuit'});
+  check(row.originalMember+'/old-held-context-write-refused',denied.status,403);
+  check(row.originalMember+'/old-held-context-write-preserves-record',stored,before);stored=old;
+ }
  // Guard failures are tested after rehashing, so integrity alone cannot conceal
  // a missing source, route, family or envelope applicability check.
  for(const [label,mutate]of [
