@@ -4,6 +4,7 @@ import {register} from 'node:module';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 process.env.RCAP_EVALUATOR_TODAY = '2026-10-20';
 const {evaluateExpungementAiMatter} = await import('../src/lib/rcap-engine/expungement-ai-adapter.ts');
+const {resolveRuntimeText} = await import('../src/lib/expungement-ai/localization.ts');
 const fixture = JSON.parse(fs.readFileSync(new URL('../data/rcap-ledger/public-witness-fixtures.json', import.meta.url), 'utf8'))
   .fixtures.find(row => row.jurisdiction === 'CO' && row.pathwayId === 'petition-based-conviction-sealing-jdf-612-24-72-706');
 assert.ok(fixture);
@@ -27,7 +28,9 @@ for (const hint of [undefined, fixture.answers.possible_pathway_context, 'Juveni
       assert.equal(result.paymentAllowed, false);
       assert.equal(result.reasons[0].code, 'co.state_exclusion_scope_unknown');
       assert.match(result.reasons[0].text, /Section 8\(b\).*consent.*hearing/);
-      assert.match(result.reasons[0].text, /does not consent/);
+      assert.match(result.reasons[0].text, /does not consent.*clear and convincing evidence/);
+      assert.equal(resolveRuntimeText('en', result.reasons[0].text), result.reasons[0].text);
+      assert.equal(resolveRuntimeText('es', result.reasons[0].text), 'Esta categoría por sí sola no determina si se pueden sellar los registros de su condena por un delito menor. La sección 8(b) del formulario JDF 612 contempla el consentimiento del fiscal de distrito o una audiencia y, si el fiscal de distrito no da su consentimiento, exige que usted demuestre ciertos requisitos con pruebas claras y convincentes. Revise la condena y ese procedimiento antes de continuar; esto no significa que se haya determinado que usted cumple los requisitos.');
     } else if (category === 'I am not sure') {
       assert.equal(result.resultCode, 'needs_review');
       assert.equal(result.paymentAllowed, false);

@@ -1221,7 +1221,7 @@ function exclusionReason(profile: EngineProfile, answers: Record<string, Screeni
   if (selectedExclusions.length > 0) {
     // JDF 612 section 8(b) preserves a misdemeanor review path even for an excluded offense.
     if (jurisdiction === "CO" && normalizeCaseOutcome(answers.case_outcome) === "convicted_misdemeanor") {
-      return reason(jurisdiction, "state_exclusion_scope_unknown", "This category alone does not settle whether your misdemeanor conviction can be sealed. Section 8(b) of JDF 612 provides a district-attorney consent or hearing process and a separate showing when the district attorney does not consent. Review the conviction and that process before continuing; this is not a finding that you qualify.", "JDF 612 Rev. 2024-08-07, section 8(b); held SHA-256 8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e");
+      return reason(jurisdiction, "state_exclusion_scope_unknown", "This category alone does not settle whether your misdemeanor conviction can be sealed. Section 8(b) of JDF 612 provides a district-attorney consent or hearing process, and, if the district attorney does not consent, requires you to prove certain conditions by clear and convincing evidence. Review the conviction and that process before continuing; this is not a finding that you qualify.", "JDF 612 Rev. 2024-08-07, section 8(b); held SHA-256 8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e");
     }
     // These legacy categories do not identify a Delaware statutory exclusion.
     // In particular, § 4373(b) limits mandatory relief, while § 4374(a)(2)
