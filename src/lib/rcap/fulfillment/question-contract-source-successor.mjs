@@ -1045,6 +1045,13 @@ function b30CoSourceSuccessionChain(readBytes) {
 export const B31_CA_PARDON_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31-ca-pardon-20261020-v1.json';
 export const B31_CA_PARDON_SOURCE_SHA256 = 'a0e4bcde39a49dd6739d4ee97fd3e6ceba290d2627c1cd9ba1fb51f9cdf66496';
 export function assertB31CaPardonSourceSuccession(readBytes) {
+  const { record } = b31CaPardonSourceSuccessionChain(readBytes);
+  // Retain the immutable batch31 CA pardon not-sure 35/163 scope; the separately pinned batch31 CA pardon copy-entry position
+  // hop checks the complete current chain without rewriting it.
+  assertB31CaOrderSourceSuccession(readBytes);
+  return record;
+}
+function b31CaPardonSourceSuccessionChain(readBytes) {
   const bytes=readBytes(B31_CA_PARDON_SOURCE_PATH);
   insist(sha(bytes)===B31_CA_PARDON_SOURCE_SHA256,'batch31 CA pardon not-sure source succession record bytes changed');
   const record=JSON.parse(bytes.toString('utf8'));
@@ -1064,9 +1071,35 @@ export function assertB31CaPardonSourceSuccession(readBytes) {
     insist(row.beforeSha256===(current.get(row.file)??v21[row.file]??null),'batch31 CA pardon not-sure disconnected source hop');current.set(row.file,row.afterSha256);
   }
   insist(current.size===35,'batch31 CA pardon not-sure current thirty-five-source inventory');
+  return { record, current };
+}
+
+// batch31a A21 fix-forward: CA-A21-PARDON-UNCERTAINTY moves from entries[0] to the end of reviewed-result-display-copy.jso
+export const B31_CA_ORDER_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31-ca-order-20261020-v1.json';
+export const B31_CA_ORDER_SOURCE_SHA256 = '7477340e8b68cec2132af5293007f865c3997bb1583441640c2e6b856ae05123';
+export function assertB31CaOrderSourceSuccession(readBytes) {
+  const bytes=readBytes(B31_CA_ORDER_SOURCE_PATH);
+  insist(sha(bytes)===B31_CA_ORDER_SOURCE_SHA256,'batch31 CA pardon copy-entry position source succession record bytes changed');
+  const record=JSON.parse(bytes.toString('utf8'));
+  const { record: prior, current }=b31CaPardonSourceSuccessionChain(readBytes);
+  insist(record.schemaVersion==='rcap-question-contract-b31-ca-order-source-succession/v1'
+    && record.recordId==='B31-CA-ORDER-SOURCE-SUCCESSION-20261020'
+    && record.kind==='technical_source_only' && record.engineeringCommit==='62cba92f69f84d821f0f33ad703710c6f682a2dd'
+    && equal(record.previousNamedSource,{path:B31_CA_PARDON_SOURCE_PATH,sha256:B31_CA_PARDON_SOURCE_SHA256,currentChangedSourceCount:35,currentUnchangedSourceCount:163})
+    && equal(record.historicalContinuity,prior.historicalContinuity) && equal(record.historicalOutput,prior.historicalOutput)
+    && record.sourceCount===198 && record.currentChangedSourceCount===35 && record.currentUnchangedSourceCount===163
+    && equal(record.historicalArtifactScope,{routeCount:6,artifactCount:18,reexecuted:false,changed:false})
+    && ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'].every(key=>record[key]===false),'batch31 CA pardon copy-entry position source succession scope');
+  insist(Array.isArray(record.transitions) && equal(record.transitions.map(row=>row.file),["src/lib/expungement-ai/frontend/reviewed-result-display-copy.json"]),'batch31 CA pardon copy-entry position source succession inventory');
+  insist(current.size===35,'batch31 CA pardon copy-entry position prior thirty-five-source inventory');
+  const v21={};
+  for(const row of record.transitions){
+    insist(row.beforeSha256===(current.get(row.file)??v21[row.file]??null),'batch31 CA pardon copy-entry position disconnected source hop');current.set(row.file,row.afterSha256);
+  }
+  insist(current.size===35,'batch31 CA pardon copy-entry position current thirty-five-source inventory');
   // Always fresh, including after success or a previous failed read. No accessor
   // recursion: prior records are read as exact pinned raw bytes.
-  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact batch31 CA pardon not-sure source succession`);
+  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact batch31 CA pardon copy-entry position source succession`);
   return record;
 }
 
@@ -1079,7 +1112,7 @@ function currentSourceSuccessions(readBytes) {
     caNoPhone: assertCaNoPhoneContactSourceSuccession(readBytes), gaCt: assertGaSb288CtPetitionSourceSuccession(readBytes),
     gaGuide: assertGaGuideSpanishSourceSuccession(readBytes), ctPrepay: assertCtPrepayRecordFactsSourceSuccession(readBytes),
     ilSdWy: assertIlSdWyRecordFactsSourceSuccession(readBytes), ohCopy: assertOhJuvenileCopySourceSuccession(readBytes),
-    caSafe: assertCaSafeAtHomeSourceSuccession(readBytes), leadEs: assertLeadSpanishSourceSuccession(readBytes), leadEs2: assertLeadSpanishLayer2SourceSuccession(readBytes), mnMemo: assertMnGuardMemoSourceSuccession(readBytes), vaMemo: assertVaGuardMemoSourceSuccession(readBytes), mdPolice: assertMdPoliceReconciliationSourceSuccession(readBytes), vaOrigin: assertVaRecordOriginSourceSuccession(readBytes), ga21Labels: assertGa21SpanishLabelsSourceSuccession(readBytes), ndReceipt: assertNdCustomReceiptSourceSuccession(readBytes), msGuideEs: assertMsGuideEsSourceSuccession(readBytes), caProp64: assertCaProp64StackSourceSuccession(readBytes), ndProse: assertNdCensusProseSourceSuccession(readBytes), b28NvGa20: assertB28NvGa20SourceSuccession(readBytes), b30Co: assertB30CoSourceSuccession(readBytes), b31CaPardon: assertB31CaPardonSourceSuccession(readBytes) };
+    caSafe: assertCaSafeAtHomeSourceSuccession(readBytes), leadEs: assertLeadSpanishSourceSuccession(readBytes), leadEs2: assertLeadSpanishLayer2SourceSuccession(readBytes), mnMemo: assertMnGuardMemoSourceSuccession(readBytes), vaMemo: assertVaGuardMemoSourceSuccession(readBytes), mdPolice: assertMdPoliceReconciliationSourceSuccession(readBytes), vaOrigin: assertVaRecordOriginSourceSuccession(readBytes), ga21Labels: assertGa21SpanishLabelsSourceSuccession(readBytes), ndReceipt: assertNdCustomReceiptSourceSuccession(readBytes), msGuideEs: assertMsGuideEsSourceSuccession(readBytes), caProp64: assertCaProp64StackSourceSuccession(readBytes), ndProse: assertNdCensusProseSourceSuccession(readBytes), b28NvGa20: assertB28NvGa20SourceSuccession(readBytes), b30Co: assertB30CoSourceSuccession(readBytes), b31CaPardon: assertB31CaPardonSourceSuccession(readBytes), b31CaOrder: assertB31CaOrderSourceSuccession(readBytes) };
 }
 const onceSuccessions = readBytes => { let value; return () => value ??= currentSourceSuccessions(readBytes); };
 
@@ -1117,6 +1150,7 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, 
   const b28NvGa20 = atFile(s.b28NvGa20);
   const b30Co = atFile(s.b30Co);
   const b31CaPardon = atFile(s.b31CaPardon);
+  const b31CaOrder = atFile(s.b31CaOrder);
   const caDigest = ca ? ca.afterSha256 : previousDigest;
   const nyDigest = ny ? ny.afterSha256 : caDigest;
   const gaDigest = ga ? ga.afterSha256 : nyDigest;
@@ -1142,12 +1176,13 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, 
   const ndProseDigest = ndProse ? ndProse.afterSha256 : caProp64Digest;
   const b28NvGa20Digest = b28NvGa20 ? b28NvGa20.afterSha256 : ndProseDigest;
   const b30CoDigest = b30Co ? b30Co.afterSha256 : b28NvGa20Digest;
-  const currentDigest = b31CaPardon ? b31CaPardon.afterSha256 : b30Co ? b30Co.afterSha256 : b28NvGa20 ? b28NvGa20.afterSha256 : ndProse ? ndProse.afterSha256 : caProp64 ? caProp64.afterSha256 : msGuideEs ? msGuideEs.afterSha256 : ndReceipt ? ndReceipt.afterSha256 : ga21Labels ? ga21Labels.afterSha256 : vaOrigin ? vaOrigin.afterSha256 : mdPolice ? mdPolice.afterSha256 : vaMemo ? vaMemo.afterSha256 : mnMemo ? mnMemo.afterSha256 : leadEs2 ? leadEs2.afterSha256 : leadEs ? leadEs.afterSha256 : caSafe ? caSafe.afterSha256 : ohCopy ? ohCopy.afterSha256 : ilSdWy ? ilSdWy.afterSha256 : ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
-  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null || ilSdWy != null || ohCopy != null || caSafe != null || leadEs != null || leadEs2 != null || mnMemo != null || vaMemo != null || mdPolice != null || vaOrigin != null || ga21Labels != null || ndReceipt != null || msGuideEs != null || caProp64 != null || ndProse != null || b28NvGa20 != null || b30Co != null || b31CaPardon != null)
+  const b31CaPardonDigest = b31CaPardon ? b31CaPardon.afterSha256 : b30CoDigest;
+  const currentDigest = b31CaOrder ? b31CaOrder.afterSha256 : b31CaPardon ? b31CaPardon.afterSha256 : b30Co ? b30Co.afterSha256 : b28NvGa20 ? b28NvGa20.afterSha256 : ndProse ? ndProse.afterSha256 : caProp64 ? caProp64.afterSha256 : msGuideEs ? msGuideEs.afterSha256 : ndReceipt ? ndReceipt.afterSha256 : ga21Labels ? ga21Labels.afterSha256 : vaOrigin ? vaOrigin.afterSha256 : mdPolice ? mdPolice.afterSha256 : vaMemo ? vaMemo.afterSha256 : mnMemo ? mnMemo.afterSha256 : leadEs2 ? leadEs2.afterSha256 : leadEs ? leadEs.afterSha256 : caSafe ? caSafe.afterSha256 : ohCopy ? ohCopy.afterSha256 : ilSdWy ? ilSdWy.afterSha256 : ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
+  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null || ilSdWy != null || ohCopy != null || caSafe != null || leadEs != null || leadEs2 != null || mnMemo != null || vaMemo != null || mdPolice != null || vaOrigin != null || ga21Labels != null || ndReceipt != null || msGuideEs != null || caProp64 != null || ndProse != null || b28NvGa20 != null || b30Co != null || b31CaPardon != null || b31CaOrder != null)
     && (!ca || ca.beforeSha256 === previousDigest) && (!ny || ny.beforeSha256 === caDigest)
     && (!ga || ga.beforeSha256 === nyDigest) && (!gaContact || gaContact.beforeSha256 === gaDigest)
     && (!gates || gates.beforeSha256 === contactDigest) && (!caNoPhone || caNoPhone.beforeSha256 === gatesDigest)
-    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest) && (!gaGuide || gaGuide.beforeSha256 === gaCtDigest) && (!ctPrepay || ctPrepay.beforeSha256 === gaGuideDigest) && (!ilSdWy || ilSdWy.beforeSha256 === ctPrepayDigest) && (!ohCopy || ohCopy.beforeSha256 === ilSdWyDigest) && (!caSafe || caSafe.beforeSha256 === ohCopyDigest) && (!leadEs || leadEs.beforeSha256 === caSafeDigest) && (!leadEs2 || leadEs2.beforeSha256 === leadEsDigest) && (!mnMemo || mnMemo.beforeSha256 === leadEs2Digest) && (!vaMemo || vaMemo.beforeSha256 === mnMemoDigest) && (!mdPolice || mdPolice.beforeSha256 === vaMemoDigest) && (!vaOrigin || vaOrigin.beforeSha256 === mdPoliceDigest) && (!ga21Labels || ga21Labels.beforeSha256 === vaOriginDigest) && (!ndReceipt || ndReceipt.beforeSha256 === ga21LabelsDigest) && (!msGuideEs || msGuideEs.beforeSha256 === ndReceiptDigest) && (!caProp64 || caProp64.beforeSha256 === msGuideEsDigest) && (!ndProse || ndProse.beforeSha256 === caProp64Digest) && (!b28NvGa20 || b28NvGa20.beforeSha256 === ndProseDigest) && (!b30Co || b30Co.beforeSha256 === b28NvGa20Digest) && (!b31CaPardon || b31CaPardon.beforeSha256 === b30CoDigest)
+    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest) && (!gaGuide || gaGuide.beforeSha256 === gaCtDigest) && (!ctPrepay || ctPrepay.beforeSha256 === gaGuideDigest) && (!ilSdWy || ilSdWy.beforeSha256 === ctPrepayDigest) && (!ohCopy || ohCopy.beforeSha256 === ilSdWyDigest) && (!caSafe || caSafe.beforeSha256 === ohCopyDigest) && (!leadEs || leadEs.beforeSha256 === caSafeDigest) && (!leadEs2 || leadEs2.beforeSha256 === leadEsDigest) && (!mnMemo || mnMemo.beforeSha256 === leadEs2Digest) && (!vaMemo || vaMemo.beforeSha256 === mnMemoDigest) && (!mdPolice || mdPolice.beforeSha256 === vaMemoDigest) && (!vaOrigin || vaOrigin.beforeSha256 === mdPoliceDigest) && (!ga21Labels || ga21Labels.beforeSha256 === vaOriginDigest) && (!ndReceipt || ndReceipt.beforeSha256 === ga21LabelsDigest) && (!msGuideEs || msGuideEs.beforeSha256 === ndReceiptDigest) && (!caProp64 || caProp64.beforeSha256 === msGuideEsDigest) && (!ndProse || ndProse.beforeSha256 === caProp64Digest) && (!b28NvGa20 || b28NvGa20.beforeSha256 === ndProseDigest) && (!b30Co || b30Co.beforeSha256 === b28NvGa20Digest) && (!b31CaPardon || b31CaPardon.beforeSha256 === b30CoDigest) && (!b31CaOrder || b31CaOrder.beforeSha256 === b31CaPardonDigest)
     && currentDigest === actual, `${label}: ${file}`);
 }
 
