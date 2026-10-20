@@ -66,12 +66,13 @@ test('the applied block records 6/6, the admission and the superseded block; the
 });
 // The receipt as pushed at 3c4980d35, before the re-pin (git blob, so a later rebuild of the live receipt cannot move it).
 const PRE_APPLY_BLOB='16ba7a9fcb08a2c1ea5d781b56c6a409229cdc8b';
-const composeFromPreApply=()=>{
+const planFromPreApply=()=>{
   const beforeText=execFileSync('git',['cat-file','blob',PRE_APPLY_BLOB],{encoding:'utf8'});
   const plan=planReceipt({familyId,directory,receiptPath:`${directory}/source-receipt.json`,beforeText,on:new Date('2026-10-20T05:55:55Z')});
   assert.equal(plan.outcome,'REFRESHABLE',plan.why);
-  return composeRefreshedReceipt(plan).text;
+  return plan;
 };
+const composeFromPreApply=()=>composeRefreshedReceipt(planFromPreApply()).text;
 test('the composed block says the own route moved by the admitted ids, 5/6 without the admission (Acceptance F1)',()=>{
   const block=JSON.parse(composeFromPreApply()).committedRecords.find(r=>r.pathInRepository===recordPath).identityRefresh;
   assert.ok(block.entriesThatMovedInThisRecord.includes(routeKey));
@@ -84,4 +85,10 @@ test('the composed block says the own route moved by the admitted ids, 5/6 witho
 });
 test('the committed receipt is the planner\'s composition from the pre-apply receipt, byte for byte',()=>{
   assert.equal(composeFromPreApply(),fs.readFileSync(`${directory}/source-receipt.json`,'utf8'));
+});
+test('an admission naming a route that did not move is refused, not worded as if it had',()=>{
+  const plan=planFromPreApply();
+  const record=plan.records.find(r=>r.path===recordPath);
+  record.measuredRowAdmission.admittedAdditions['obligation:track-pathway:ND:not-a-moved-route:nowhere']={field:'requiredSourceIds',added:['x']};
+  assert.throws(()=>composeRefreshedReceipt(plan),/an admitted route is not among the entries that moved/);
 });
