@@ -13,6 +13,7 @@ import fs from "node:fs";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import { execFileSync } from "node:child_process";
 import { carryForwardIdentityRefresh, eachPin } from "../rcap-packet-completeness/identity-refresh.mjs";
 import {
   driftedPinsOf, historyPredecessorOf, planReceipt, composeRefreshedReceipt, readsAsUnmoved,
@@ -25,7 +26,11 @@ const FAM = "agency-application-treatment:obligation:runtime-only:NM:dna-sample-
 const DIR = "data/rcap-all50/overlays/census-v1/nm/agency-application-treatment:obligation:runtime-only:nm:dna-sample-profile-expungement--official-pdf-fill";
 const RECEIPT = `${DIR}/source-receipt.json`;
 const CENSUS = "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json";
-const committedText = fs.readFileSync(path.join(ROOT, RECEIPT), "utf8");
+/* The NM receipt this test was written against (blob f3cc31230 = RECEIPT at c0c57a070: a live 2026-10-19 census
+ * block on the stale f6fc0814 pin), read from git by its blob id. The receipt on disk is NM's current one and was
+ * rebuilt by its 2026-10-20 repair (53bca7a88), so it no longer carries that block. */
+const RECEIPT_BLOB = "f3cc31230311de44a26786b1a7b9b87af756dd6c";
+const committedText = execFileSync("git", ["cat-file", "blob", RECEIPT_BLOB], { cwd: ROOT, encoding: "utf8" });
 const committed = JSON.parse(committedText);
 const censusPin = (doc) => { let found = null; eachPin(doc, (pin, at) => { if (at === CENSUS) found = pin; }); return found; };
 const onDisk = sha256(fs.readFileSync(path.join(ROOT, CENSUS)));
