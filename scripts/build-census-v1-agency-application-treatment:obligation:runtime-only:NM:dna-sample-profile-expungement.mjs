@@ -3,6 +3,9 @@ import { runIfMain } from "./rcap-custom-pleading/composed-family-host.mjs";
 import { makeAgencyGuidanceFamily } from "./build-census-v1-agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge.mjs";
 
 const FAMILY_ID = "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement";
+const STATUTORY_TEXT_STOP = "The legal review behind this guide has not verified Section 29-16-10 at an official New Mexico source. Stop before applying until the statutory text has been checked at an official source and the receiving agency and request format are established. Ask a New Mexico attorney to resolve the statutory-text gap and the New Mexico Department of Public Safety to confirm the receiving agency and format.";
+const SERVICE_DISCLOSURE = "This preparation guide is not served on anyone and is not a court filing. The held sources do not establish a service or notice rule for the agency request. Before submitting a request, ask the New Mexico Department of Public Safety whether anyone besides the receiving agency must receive a copy or notice and how.";
+
 const FAMILY = makeAgencyGuidanceFamily({
   familyId: FAMILY_ID,
   buildScript: "scripts/build-census-v1-agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement.mjs",
@@ -38,6 +41,8 @@ const FAMILY = makeAgencyGuidanceFamily({
     }
   },
   sections: [
+    { heading: "Stop before applying: statutory text and receiving office", paragraphs: [STATUTORY_TEXT_STOP] },
+    { heading: "Who must receive a copy or notice?", paragraphs: [SERVICE_DISCLOSURE] },
     {
       heading: "What this route is",
       paragraphs: [
@@ -63,6 +68,8 @@ const FAMILY = makeAgencyGuidanceFamily({
     { id: "felony_screen", label: "Prior-felony and pending-authorized-felony screen", what: "confirmation that no disqualifying prior felony conviction or pending felony charge for which DNA collection is authorized exists", authority: "the participant's complete criminal-history records and New Mexico counsel", why: "the platform does not hold a complete criminal history and cannot certify eligibility" }
   ],
   instructions: [
+    STATUTORY_TEXT_STOP,
+    SERVICE_DISCLOSURE,
     "Do not use a Rule 1-077.1 court form and do not file this guide with a court. Confirm the state DNA identification system's administrative center and its accepted written-request format with DPS first.",
     "Do not apply if a prior felony conviction or a pending felony charge authorizing DNA collection may exist; obtain counsel. Obtain certified documentation, or use a sworn affirmation only in the branch and form the confirmed receiving office accepts.",
     "The recorded 30- or 45-day agency periods are post-request processing periods, never prefiling waits."
