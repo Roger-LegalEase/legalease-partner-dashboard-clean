@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
-import {ADAPTERS, compareAnchors, composeRefreshedReceipt, driftedPinsOf, planReceipt, recoverBytesByDigest, sha256} from './repin-lapsed-source-identities.mjs';
+import {ADAPTERS, canonicalSha256, compareAnchors, composeRefreshedReceipt, driftedPinsOf, planReceipt, recoverBytesByDigest, sha256} from './repin-lapsed-source-identities.mjs';
 // The real case: rcap-nd-custom-pleading's census pin f6fc0814 against the census on disk, and VF06's read at bf02d8073.
 const recordPath='data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json';
 const adapter=ADAPTERS.get(recordPath);
@@ -32,6 +32,8 @@ test('the ND census pin is admitted 6/6 on VF06\'s row, the only measured row at
   const narrowed={...scope,derivation:{...scope.derivation,measuredRowAdmission:verdict.admission}};
   const result=compareAnchors({adapter,oldDoc:historical,currentDoc:current,scope:narrowed});
   assert.equal(result.anchorsCompared,6);assert.equal(result.anchorsIdentical,6);
+  // The route anchor is the whole historical route, not a narrowed one (Acceptance F4: stripping every id also compared 6/6).
+  assert.equal(result.identicalAnchorSha256[`route:${routeKey}`],canonicalSha256(entry(historical)));
 });
 test('without the admission the route differs; with it every anchor is identical',()=>{
   assert.deepEqual(compareAnchors({adapter,oldDoc:historical,currentDoc:current,scope}).differing,[`route:${routeKey}`]);
@@ -48,6 +50,10 @@ test('each admission condition refuses on its own',()=>{
   assert.match(admit(mutate(e=>{e.destination='changed';})).why,/outside the admitted field list: destination/);
   assert.match(admit(mutate(e=>{e.requiredSourceIds=[...e.requiredSourceIds].reverse();})).why,/reordered/);
   assert.match(admit(mutate(e=>{e.requiredSourceIds=[...e.requiredSourceIds,'packet-spec-source:not-named-by-the-row'];})).why,/names the changed route and every added id.*not-named-by-the-row/);
+  // Acceptance F2: a prefix of two ids the row names is not itself named.
+  assert.match(admit(mutate(e=>{e.requiredSourceIds=[...e.requiredSourceIds,'packet-spec-source:rcap-nd-custom-pleading'];})).why,/every added id \(first row misses: packet-spec-source:rcap-nd-custom-pleading\)$/);
+  // Acceptance F3: an added id listed twice.
+  assert.match(admit(mutate(e=>{e.requiredSourceIds=[...e.requiredSourceIds,'packet-spec-source:rcap-nd-custom-pleading:production-field-map'];})).why,/lists requiredSourceIds more than once: packet-spec-source:rcap-nd-custom-pleading:production-field-map$/);
   assert.match(admit(current,{rows:[{...vf06,evidencePath:'data/rcap-grade-a/packet-factory-24h/vf06/rows-vf06-20261019-reverify-census-5e7fe802c.json'}]}).why,/names the changed route/);
 });
 test('the census bytes on disk are the ones VF06 read, and the old pin is the one it named',()=>{

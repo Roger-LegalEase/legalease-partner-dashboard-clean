@@ -1413,22 +1413,27 @@ const censusAdapter = {
       if (outside.length) return { ok: false, why: `route ${key} changed outside the admitted field list: ${outside.join(", ")}` };
       const before = o.requiredSourceIds, after = c.requiredSourceIds;
       if (!Array.isArray(before) || !Array.isArray(after) || [...before, ...after].some((id) => typeof id !== "string")) return { ok: false, why: `route ${key} requiredSourceIds is not a list of ids on both sides` };
+      const repeated = after.filter((id, i) => after.indexOf(id) !== i);
+      if (repeated.length) return { ok: false, why: `route ${key} lists requiredSourceIds more than once: ${[...new Set(repeated)].join(", ")}` };
       const removed = before.filter((id) => !after.includes(id));
       if (removed.length) return { ok: false, why: `route ${key} removed requiredSourceIds: ${removed.join(", ")}` };
       const added = after.filter((id) => !before.includes(id));
       if (canonical(after.filter((id) => !added.includes(id))) !== canonical(before)) return { ok: false, why: `route ${key} reordered or duplicated requiredSourceIds` };
       admittedAdditions[key] = { field: "requiredSourceIds", added };
     }
-    const rowText = (m) => {
+    /* Whole values only: a substring match would count a prefix of a named id as named. */
+    const rowStrings = (m) => {
+      const strings = new Set();
+      const walk = (v) => { if (typeof v === "string") strings.add(v); else if (v && typeof v === "object") Object.values(v).forEach(walk); };
       try {
         const doc = JSON.parse(fs.readFileSync(path.join(ROOT, m.evidencePath), "utf8"));
-        const row = (doc.rows ?? []).find((r) => (r?.itemId ?? r?.familyId) === receipt.familyId && r.verdict === "PASS_COMPLETE_INDEPENDENT" && (r.verifiedAtBase ?? null) === m.verifiedAtBase);
-        return row ? JSON.stringify(row) : "";
-      } catch { return ""; }
+        walk((doc.rows ?? []).find((r) => (r?.itemId ?? r?.familyId) === receipt.familyId && r.verdict === "PASS_COMPLETE_INDEPENDENT" && (r.verifiedAtBase ?? null) === m.verifiedAtBase));
+      } catch { /* an unreadable row names nothing */ }
+      return strings;
     };
-    const unnamed = (text) => Object.entries(admittedAdditions).flatMap(([key, a]) => [key, ...a.added]).filter((s) => !text.includes(s));
-    const naming = readOnCurrentBytes.filter((m) => unnamed(rowText(m)).length === 0);
-    if (naming.length === 0) return { ok: false, why: `no measured row read on the current bytes names the changed route and every added id (first row misses: ${unnamed(rowText(readOnCurrentBytes[0])).join(", ")})` };
+    const unnamed = (strings) => Object.entries(admittedAdditions).flatMap(([key, a]) => [key, ...a.added]).filter((s) => !strings.has(s));
+    const naming = readOnCurrentBytes.filter((m) => unnamed(rowStrings(m)).length === 0);
+    if (naming.length === 0) return { ok: false, why: `no measured row read on the current bytes names the changed route and every added id (first row misses: ${unnamed(rowStrings(readOnCurrentBytes[0])).join(", ")})` };
     /* The comparison without the admission stays on the record: it is why the measured row was needed. */
     const withoutAdmission = { anchorsCompared: scope.anchorIds.length + 1, anchorsIdentical: scope.anchorIds.length + 1 - differing.length, differing: [...differing], outcome: "REFUSED" };
     return { ok: true, admission: { rule: "measured-row admission (own route): the only change to a route this family binds is ids added to requiredSourceIds, nothing removed or reordered; the family's own PASS row was read on the current census bytes and names the route and every added id; shared metadata identical except sourceFingerprint", withoutAdmission, measuredReVerification: naming, admittedAdditions } };
