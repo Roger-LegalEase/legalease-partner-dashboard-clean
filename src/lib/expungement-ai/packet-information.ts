@@ -3357,6 +3357,8 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
       ...OR_DISPOSITION_FACT_IDS.filter(id => includeInactive || oregonDispositionQuestionApplies(state, answers, id)),
       ...(oregonContactContract(profile, pathway) ? oregonContactQuestions(answers, includeInactive).map(q => q.id) : [])];
   }
+  if (includeInactive && Object.hasOwn(answers, "residency_or_location")
+    && ilIdentityCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) extra.push("residency_or_location");
   if (dcInnocenceLocationIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
     && Object.hasOwn(answers, DC_LEGACY_LOCATION)) return [...extra, DC_LEGACY_LOCATION];
   if (profile && ndFirstOffenseFamilyContract(profile, pathway)) return [...extra, ...ND_FIRST_OFFENSE_CONTACT_IDS,
@@ -3607,6 +3609,12 @@ export function isTexasNondisclosureGuidanceCorrection(model: Parameters<typeof 
 
 export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): Set<string> {
   const ids = heldCourtCompletionInputIds(model, resultCode);
+  // GA-16-M01461: preserve the optional location edit on the held identity route.
+  if (["needs_review", "needs_more_info", "not_yet", "likely_not_eligible"].includes(resultCode ?? "")
+    && ilIdentityCategoryIsHistory(getProfileByJurisdiction(model.stateCode), model.pathwayId,
+      packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))
+    && model.questions.some(question => question.id === "residency_or_location" && question.required === false)
+    && editablePacketInputIds(model).has("residency_or_location")) ids.add("residency_or_location");
   const mdCaptionQuestion = mdJuvenileCaptionQuestion(getProfileByJurisdiction(model.stateCode), model.pathwayId,
     packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`));
   if (resultCode === "not_covered_yet" && mdCaptionQuestion

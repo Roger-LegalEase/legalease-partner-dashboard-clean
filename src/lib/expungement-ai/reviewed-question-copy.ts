@@ -1,6 +1,7 @@
 import { nvProgramLocationQuestion } from "@/lib/expungement-ai/nv-program-location-context";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { dcInnocenceLocationQuestion } from "@/lib/rcap-engine/dc-innocence-location-context";
+import { ilIdentityLocationQuestion } from "@/lib/expungement-ai/il-identity-location-context";
 import "server-only";
 import catalog from "@/lib/expungement-ai/frontend/reviewed-question-spanish.json";
 import participantCatalog from "@/lib/expungement-ai/frontend/reviewed-participant-copy.json";
@@ -118,6 +119,11 @@ export function reviewedPacketQuestion<T extends PublicQuestion>(question: T, co
   }
   if (question.id === "residency_or_location" && context.state === "DC") {
     const location = dcInnocenceLocationQuestion(question, getProfileByJurisdiction(context.state), context.pathwayId ?? null,
+      packetSpecificationFor(`${context.state}:${context.pathwayId ?? ""}`));
+    if (location !== question) return location;
+  }
+  if (question.id === "residency_or_location" && context.state === "IL") {
+    const location = ilIdentityLocationQuestion(question, getProfileByJurisdiction(context.state), context.pathwayId ?? null,
       packetSpecificationFor(`${context.state}:${context.pathwayId ?? ""}`));
     if (location !== question) return location;
   }
