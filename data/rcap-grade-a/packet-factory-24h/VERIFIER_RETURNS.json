@@ -34,15 +34,13 @@
     }
   ],
   "counts": {
-    "returnDirectories": 496,
-    "rows": 1603,
+    "returnDirectories": 499,
+    "rows": 1606,
     "independentVerdicts": 344,
-    "failRepairRequired": 16,
-    "passIndependent": 327
+    "failRepairRequired": 13,
+    "passIndependent": 330
   },
   "failRepairRequiredFamilies": [
-    "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
-    "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
     "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
     "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
     "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
@@ -55,7 +53,6 @@
     "ks-22-4908-registration-relief-set",
     "nd-deferred-imposition-records-set",
     "ny_160_59_petition-set",
-    "rcap-ga-guidance-implementation",
     "rcap-ok-custom-pleading"
   ],
   "refusedAtTheClaimGate": {
@@ -146,6 +143,20 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20261019-reverify-census-5e7fe802c.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+      "superseded": true
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20261020-reverify-al-arc-0116da97d.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
       "superseded": false
@@ -459,6 +470,20 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261019-reverify-census-5e7fe802c.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+      "superseded": true
+    },
+    {
+      "familyId": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261020-reverify-nm-dna-0116da97d.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
       "superseded": false
@@ -29032,6 +29057,20 @@
     {
       "familyId": "rcap-ga-guidance-implementation",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf09",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "0116da97daa896e517323f18c01a1a33de0ceaee",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows-vf09-20261020-reverify-ga-guidance-0116da97d.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ga-guidance-implementation",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-ga-guidance-implementation",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf65",
       "isIndependentVerification": true,
       "verifiedAtBase": "f31a8a4d86abf2842278535c2c4ae392519bbae1",
@@ -29080,7 +29119,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf65/rows-vf65-20261019-reverify-census-5e7fe802c.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ga-guidance-implementation",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-hi-custom-pleading",
