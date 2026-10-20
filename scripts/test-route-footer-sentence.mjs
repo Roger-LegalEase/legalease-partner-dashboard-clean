@@ -13,7 +13,10 @@ import { execFileSync } from "node:child_process";
 const SENTENCE = "Every page states its own route in its footer";
 const ROOT = "data/rcap-all50/overlays/census-v1";
 // Any form, key or readable label, any case: a key-only or case-sensitive probe misreads KS and "ROUTE:".
-const hasRoute = (text) => /^\s*route:/im.test(text);
+// A footer sits at the page foot: every fixture footer is among its page's last 3 non-empty lines (2026-10-20: 220 last,
+// 30 second, 4 third of 254), so a body line that starts "Route:" cannot stand in for a dropped footer.
+const FOOT_LINES = 3;
+const hasRoute = (text) => text.split("\n").filter((l) => l.trim()).slice(-FOOT_LINES).some((l) => /^\s*route:/i.test(l));
 
 // Pages that must carry a footer. A footer on any page that is not its component's last page (page 1 for KS, MS)
 // means the family prints one on every page; otherwise it prints one on each component's last page (ND, SC, TN, WA).
@@ -62,6 +65,9 @@ for (const f of families) {
   assert.deepEqual(required, f.pages.map((t, i) => (hasRoute(t) ? i + 1 : null)).filter(Boolean), `${f.pdf}: the guard must cover every footer the family prints`);
   for (const p of required) {
     assert.deepEqual(missingFooterPages(f.instructions, f.pages.map((t, i) => (i === p - 1 ? strip(t) : t)), f.manifest), [p], `${f.pdf}: dropping page ${p}'s footer must fail`);
+    const body = `Route: a body line\n${"body\n".repeat(FOOT_LINES)}`;
+    assert.deepEqual(missingFooterPages(f.instructions, f.pages.map((t, i) => (i === p - 1 ? body + strip(t) : t)), f.manifest), [p], `${f.pdf}: a body line starting "Route:" must not stand in for page ${p}'s footer`);
+    assert.deepEqual(missingFooterPages(f.instructions, f.pages.map((t, i) => (i === p - 1 ? `${strip(t)}\nfiled under route: obligation:x\n` : t)), f.manifest), [p], `${f.pdf}: "route:" inside a foot line is not page ${p}'s footer`);
   }
   assert.deepEqual(missingFooterPages(f.instructions, f.pages.map(strip), f.manifest), finals, `${f.pdf}: dropping every footer must fail`);
   assert.deepEqual(missingFooterPages(f.instructions.replaceAll(SENTENCE, ""), f.pages.map(strip), f.manifest), [], `${f.pdf}: no sentence, no promise`);
