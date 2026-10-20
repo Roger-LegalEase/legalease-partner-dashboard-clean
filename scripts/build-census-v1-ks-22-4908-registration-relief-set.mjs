@@ -14,6 +14,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { createKansasBuilder } from "./rcap-official-forms/kansas-statutory-builder.mjs";
+import { STANDARD_FONT_FALLBACK } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 
 const thisFile = fileURLToPath(import.meta.url);
 const ROOT = path.resolve(path.dirname(thisFile), "..");
@@ -26,7 +27,6 @@ const COMBINED_ROUTE = "obligation:unit:KS:ks-22-4908-registration-relief:ks-22-
 const ROUTE_LABEL = "Kansas drug-offender registration relief under K.S.A. 22-4908, with conditional combined expungement under K.S.A. 21-6614";
 const OUT = "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill";
 const BUILD_SCRIPT = "scripts/build-census-v1-ks-22-4908-registration-relief-set.mjs";
-const RETURN_PATH = "data/rcap-grade-a/packet-factory-24h/pf20/ks-22-4908-registration-relief-return-20260913.json";
 const OWNER_RECORD = "data/rcap-grade-a/legal-decisions/OWNER_KJC_PERMISSION_ATTESTATION_2026-09-11.json";
 const SOURCE_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const SOURCE_ADMISSION = "data/rcap-grade-a/packet-factory-24h/pf20/ks-native-source-index-admission-20260913.json";
@@ -164,6 +164,7 @@ const WRITE = (factId, why) => ({ kind: "write", factId, why });
 const NARRATIVE = (factId, why, allowProtectedCategories = []) => ({ kind: "narrative", factId, why, ...(allowProtectedCategories.length ? { allowProtectedCategories } : {}) });
 const SELECT = (basis) => ({ kind: "select", basis });
 const PROTECTED = (reason, selectionControl = false) => ({ kind: "protected", reason, selectionControl });
+const RESERVED = (factId, claim, reason, supply) => ({ kind: "reserved", factId, claim, reason, supply });
 
 const FIELDS = {};
 const declare = (doc, name, label, policy) => { FIELDS[doc + ":" + name] = { label, ...policy }; };
@@ -204,7 +205,12 @@ function registrationCoverFields() {
   declare(d, "DEFENDANTS INFORMATION", "KBI cover sheet — participant full legal name", WRITE("participant.full_legal_name", "the participant identity shown to the KBI"));
   declare(d, "undefined", "KBI cover sheet — street address line 1", WRITE("participant.street_address", "the first address line"));
   declare(d, "ADDRESS", "KBI cover sheet — city, state and ZIP line", NARRATIVE("participant.city_state_zip", "the second address line carries the held city, state and ZIP through the native narrative channel"));
-  declare(d, "DOB", "KBI cover sheet — date of birth", WRITE("participant.date_of_birth", "the held participant date of birth"));
+  // The bound registry reserves this blank (VFKS4 PROTECTED_FIELDS); entrySha256 is reservationEntryDigest of that entry.
+  declare(d, "DOB", "KBI cover sheet — date of birth", RESERVED("participant.date_of_birth", {
+    trackId: "ks-22-4908-registration-relief", componentId: "ks-22-4908-registration-relief-cover-sheet-2",
+    item: "Race and year of birth on the order cover sheet",
+    entrySha256: "8e36525b87de9db76f91ba31e203e0cdfb1470b75e28e25aeb83eeb6574d381f"
+  }, "Left for the participant pending the data-protection review.", "your date of birth as this cover sheet asks for it; mark the race box on the same sheet yourself too"));
   for (const [name, value] of [
     ["WHITE", "White"], ["BLACK", "Black"], ["ASIAN", "Asian"],
     ["PACIFIC ISLAND", "Pacific Island"], ["AMERICAN INDIANALASKAN", "American Indian or Alaskan"], ["UNKNOWN", "Unknown"]
@@ -231,8 +237,9 @@ function combinedExpungementFields() {
   declare(d, "County Kansas on", "Combined expungement item 4 — arrest county", WRITE("matter.county", "the held arrest county; participant must verify it against the arrest record"));
   declare(d, "Date by", "Combined expungement item 4 — arrest date", WRITE("matter.arrest_date", "the held arrest date; participant must verify it against the arrest record"));
   declare(d, "Law Enforcement Agency and charged with the", "Held arresting department fact", NARRATIVE("matter.citing_or_arresting_agency", "the held arresting agency; participant must verify the agency name", ["agency"]));
-  declare(d, "undefined_3", "Held charged offense fact", NARRATIVE("matter.charge", "the held charged offense; participant must verify it against the arrest and charging record"));
-  declare(d, "on", "Held charge fact", NARRATIVE("matter.charge", "the held conviction offense used for the combined route; participant must verify the journal entry"));
+  // Items 4 and 5 print one line each (~200 pt); a long held charge fits them only in the narrower standard face.
+  declare(d, "undefined_3", "Held charged offense fact", { ...NARRATIVE("matter.charge", "the held charged offense; participant must verify it against the arrest and charging record"), standardFontFallback: STANDARD_FONT_FALLBACK.TIMES_ROMAN });
+  declare(d, "on", "Held charge fact", { ...NARRATIVE("matter.charge", "the held conviction offense used for the combined route; participant must verify the journal entry"), standardFontFallback: STANDARD_FONT_FALLBACK.TIMES_ROMAN });
   declare(d, "Date", "Held conviction date fact", NARRATIVE("matter.conviction_date", "the held conviction date; participant must verify the journal entry", ["disposition_or_hearing"]));
   declare(d, "on_2", "Combined expungement item 5 — diversion alternative", NA("the combined fixture is the conviction branch; the diversion alternative is a separate disposition route", "The participant's held disposition is conviction, so this form's diversion alternative does not apply"));
   declare(d, "Date_2", "Combined expungement item 5 — diversion date", NA("the combined fixture is the conviction branch; the diversion date belongs to the unused diversion alternative", "The participant's held disposition is conviction, so the diversion alternative is not reached"));
@@ -290,7 +297,6 @@ const SPEC = {
   printedDateOrderByField: {
     [REG_PET + ":offenses requiring registration on"]: "month_day_year",
     [REG_PET + ":My most recent date of parole discharge or release was"]: "month_day_year",
-    [REG_COVER + ":DOB"]: "month_day_year",
     [EXP_PET + ":County Kansas on"]: "month_day_year",
     [EXP_PET + ":Date"]: "month_day_year",
     [EXP_PET + ":undefined_5"]: "month_day_year"
@@ -344,16 +350,6 @@ const SPEC = {
         '"evidenceType": "owner_attestation"',
         '"dispositionOverride": "LEGAL_CLEAR"',
         FAMILY_ID
-      ]
-    },
-    {
-      recordId: "master-queue-ks-registration",
-      path: "data/rcap-grade-a/packet-factory-24h/MASTER_QUEUE.json",
-      role: "current queue source and legal-resolution record",
-      mustContain: [
-        FAMILY_ID,
-        '"sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES"',
-        '"currentLegalResolution": {'
       ]
     }
   ],
@@ -543,67 +539,11 @@ applyRegistrationPolicy();
 
 export const runFamily = createKansasBuilder(SPEC, FIXTURES, ROUTE_FACTS);
 
-function writeNativeReturn(result) {
-  const completedStatus = result.status === "COMPLETED" ? "COMPLETED" : "STOPPED";
-  const counters = result.counters ?? Object.fromEntries(Object.keys(SPEC.howEachCounterWasTaken).filter((x) => x !== "everyCounterIsMeasured").map((x) => [x, null]));
-  const outputEvidence = fs.existsSync(path.join(ROOT, OUT, "reports/rendered-artifacts.json"))
-    ? JSON.parse(fs.readFileSync(path.join(ROOT, OUT, "reports/rendered-artifacts.json"), "utf8"))
-    : null;
-  const actualWrites = fs.existsSync(path.join(ROOT, OUT, "reports/actual-writes.json"))
-    ? JSON.parse(fs.readFileSync(path.join(ROOT, OUT, "reports/actual-writes.json"), "utf8"))
-    : null;
-  const sourceReceipt = fs.existsSync(path.join(ROOT, OUT, "source-receipt.json"))
-    ? JSON.parse(fs.readFileSync(path.join(ROOT, OUT, "source-receipt.json"), "utf8"))
-    : null;
-  const row = {
-    itemId: FAMILY_ID,
-    familyId: FAMILY_ID,
-    status: completedStatus,
-    laneKind: "packet-build",
-    lane: "PF20",
-    workerBranch: "pf20-ks-22-2410-arrest-20260912b",
-    buildScript: BUILD_SCRIPT,
-    implementationCommit: "generated-before-commit",
-    routeKey: REGISTRATION_ROUTE,
-    routeKeys: [REGISTRATION_ROUTE, COMBINED_ROUTE],
-    counters,
-    allNineCountersZero: result.nineCountersZero === true,
-    directory: OUT,
-    outputDirectory: OUT,
-    artifacts: result.artifactHashes ?? [],
-    artifactStatus: result.artifactHashes?.length ? "RENDERED" : "NOT_RENDERED",
-    sourcesBound: result.sourcesBound ?? [],
-    recordsBound: result.recordsBound ?? [],
-    components: result.components ?? documents.map((d) => d.componentId),
-    requiredBeforeFiling: result.requiredBeforeFiling ?? null,
-    rasterState: "BUILT_RASTER_PENDING",
-    rasterEnrolmentRefusal: "packet build candidate awaits independent semantic acceptance and central current-byte raster",
-    selectedIndependentVerdict: null,
-    terminalClaims: { finalAcceptance: false, terminal: false, production: false },
-    commercialRoutesOpened: 0,
-    generationAllowed: false,
-    productionTouched: false,
-    actualFindings: actualWrites,
-    sourceReceipt,
-    renderedArtifactsEvidence: outputEvidence,
-    nextGate: "freeze current bytes and send this complete candidate to an independent semantic reviewer; raster follows the required semantic acceptance gate"
-  };
-  fs.mkdirSync(path.dirname(path.join(ROOT, RETURN_PATH)), { recursive: true });
-  fs.writeFileSync(path.join(ROOT, RETURN_PATH), JSON.stringify({
-    schemaVersion: "rcap-packet-build-return/v1",
-    recordedAt: "2026-09-13T00:00:00Z",
-    lane: "PF20",
-    familyId: FAMILY_ID,
-    workerBranch: row.workerBranch,
-    status: completedStatus,
-    rows: [row]
-  }, null, 2) + "\n");
-}
-
+/* pf20/ks-22-4908-registration-relief-return-20260913.json is lane history, written once.
+ * A build never rewrites it (the family test pins its bytes across a build). */
 async function main() {
   const argv = process.argv.slice(2);
   const result = await runFamily(argv);
-  if (!argv.includes("--check") && !argv.includes("--verify-deterministic")) writeNativeReturn(result);
   console.log(JSON.stringify(result, null, 2));
   if (result.status === "STOPPED" || result.status === "BLOCKED_SOURCE" || result.status === "DRIFT") process.exitCode = 2;
 }

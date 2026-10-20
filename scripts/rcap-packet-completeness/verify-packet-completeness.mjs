@@ -26,6 +26,7 @@ import { fileURLToPath } from "node:url";
 import { BLANK_DISPOSITIONS, PASS_COUNTERS, RESULT_CLASSES, REFUSAL_CLASSES, classifyField, classifyBlank, rowKeyOf } from "./completeness-contract.mjs";
 import { hasDeclaredMoPacketSet } from "./mo-declared-packet-discovery.mjs";
 import { verifyParticipantLaterCompletionSourceStage } from "./nj-participant-later-completion.mjs";
+import { verifyControllingReservation, RESERVATION_REGISTRY_PATH } from "./controlling-record-reservation.mjs";
 import { createNyCompletionVerifier, nyCompletionInventoryProblems } from "./ny-16059-source-conditions.mjs";
 import { createCaProp64ActorVerifier, caProp64ActorInventoryProblems } from "./ca-prop64-source-actors.mjs";
 
@@ -157,6 +158,8 @@ const normalizeRow = (row, document = null) => ({
       requiredBeforeFilingDeclared: Object.hasOwn(row, "requiredBeforeFiling"),
       routeDeterminedDeclared: Object.hasOwn(row, "routeDetermined"),
     } : {}),
+    // A serialized reservation is a claim, never a proof; the loop below re-verifies it.
+    ...(row.controllingReservation ? { controllingReservation: { ...row.controllingReservation, verified: false } } : {}),
     /*
      * Forwarded for the same reason as the two keys below, and found the same
      * way. The contract refuses a declared required-before-filing field when
@@ -494,16 +497,31 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
     sourceRoot: process.env.MASTER_LIBRARY_SOURCE_DIR, fixtureAudit: true });
   const sourceActorMeasurements = [];
   const sourceStageMeasurements = [];
+  const controllingReservationMeasurements = [];
+  // Every write any fixture carries, from the map and from the bytes, for the reservation's UNWRITTEN condition.
+  const fixtureWrites = [
+    ...(fieldMap?.maps ?? []).flatMap((m) => [...(m.canonicalWrites ?? []), ...(m.boundaryWrites ?? [])]).map((w) => ({ document: w.document ?? w.documentId, field: w.field })),
+    ...(actualWrites?.documents ?? []).flatMap((d) => (d.actualWrites ?? []).map((w) => ({ document: w.document ?? d.documentId, field: w.field })))
+  ];
   for (const blank of blanks) {
     const sourceStage = blank.declared?.sourceStage
       ? verifyParticipantLaterCompletionSourceStage({
         familyId, blank, fieldMap, census, receipt, instructions,
         sourceRoot: process.env.MASTER_LIBRARY_SOURCE_DIR,
       }) : null;
+    const claim = blank.declared?.controllingReservation;
+    const controllingReservation = claim
+      ? verifyControllingReservation({
+        root: ROOT, claim, blank, fixtureWrites, instructions,
+        registrySha256: receipt?.committedRecords?.find((r) => r.pathInRepository === RESERVATION_REGISTRY_PATH)?.sha256,
+        documentTitle: receipt?.documents?.find((d) => d.componentId === claim.componentId)?.officialTitle,
+      }) : null;
+    if (controllingReservation?.verified === true) controllingReservationMeasurements.push({ field: blank.id, document: blank.document, basis: controllingReservation.basis });
     const declared = {
       ...blank.declared,
       sourcePresentation: verifySourcePresentation(blank, { census, receipt, fieldMap, actualWrites, rendered }),
       ...(sourceStage ? { sourceStage } : {}),
+      ...(controllingReservation ? { controllingReservation } : {}),
       factAvailable: (blank.declared?.factId ? availableFacts.has(String(blank.declared.factId)) : false)
         || writtenBeside(blank)
     };
@@ -830,6 +848,7 @@ export function auditPreparedInputs(dir, familyId, inputs = null) {
     },
     ...(sourceActorMeasurements.length ? {sourceActorMeasurements} : {}),
     ...(sourceStageMeasurements.length ? {sourceStageMeasurements} : {}),
+    ...(controllingReservationMeasurements.length ? {controllingReservationMeasurements} : {}),
     outputApprovalStatus: approval?.status ?? null,
     sourceCurrentness: currentness,
     // Not truncated. A completeness record that elides findings is the same
