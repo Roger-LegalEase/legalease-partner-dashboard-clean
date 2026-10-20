@@ -115,6 +115,8 @@ export function convictionReliefRequest(profile: EngineProfile, answers: Answers
  * Keep this boundary exact to the reproduced source routes; program routes and
  * IL actual later vacatur/reversal remain separately available. */
 export function convictionOutcomeCompatible(state: string, answers: Answers, pathwayId: string): boolean {
+  if (state === "CO" && isAdultConvictionAnswer(answers.case_outcome)
+    && pathwayId === "petition-based-non-conviction-sealing-jdf-417-24-72-704") return false;
   if (!isAdultConvictionAnswer(answers.case_outcome) || !CONVICTION_NONCONVICTION_ROUTES[state]?.includes(pathwayId)) return true;
   return state === "IL" && answers.il_record_help === "later_order"
     && (answers.il_later_order === "vacated" || answers.il_later_order === "reversed");
