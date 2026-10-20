@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "4a0a34a8c527d475409cad5e0349ae52116bbfc4",
+  "minimumCaptainSha": "ea5e9a84a4db6b4161a7a01e7b679205e78cb599",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
@@ -80,14 +80,14 @@
     "sourceReady": 1,
     "sourceBlocked": 0,
     "legalBlocked": 1,
-    "verifyPending": 17,
-    "repairRequired": 17,
+    "verifyPending": 19,
+    "repairRequired": 16,
     "sumsToDenominator": true
   },
   "byState": {
-    "FAIL_REPAIR_REQUIRED": 17,
-    "COMPLETE_PACKET_PROVEN": 292,
-    "VERIFY_PENDING": 17,
+    "FAIL_REPAIR_REQUIRED": 16,
+    "COMPLETE_PACKET_PROVEN": 291,
+    "VERIFY_PENDING": 19,
     "OUT_OF_SCOPE": 5,
     "GUIDANCE_READY": 11,
     "SOURCE_READY": 1,
@@ -11191,7 +11191,21 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+        "pinned": "741344600678fb394a60c90ec168d8fbe1d5b2642bc987658f5eac2d56261db1",
+        "now": "215b4b6ac536a930d10001527fdeb35d5ad592f929584a560ad9753f47c27c8c",
+        "allDriftedRecords": [
+          {
+            "path": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+            "pinned": "741344600678fb394a60c90ec168d8fbe1d5b2642bc987658f5eac2d56261db1",
+            "now": "215b4b6ac536a930d10001527fdeb35d5ad592f929584a560ad9753f47c27c8c"
+          }
+        ],
+        "driftedRecordCount": 1,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -11200,7 +11214,7 @@
       "laneReturnLegalHold": null,
       "executionReclassification": null,
       "executionOwner": null,
-      "nextExecutableAction": "Continue from the current nonlegal state COMPLETE_PACKET_PROVEN; all ordinary gates remain. Binding product rule OK-TRAFFICKING-SURVIVOR-22-OS-19C: Use a custom Petition for Expungement under 22 O.S. Section 19c for qualifying prostitution-related charge/conviction relief resulting from human trafficking. Apply the incorporated Section 19(B)-(M) hearing and 30-day notice framework. Do not invent a special statewide notary requirement. Use the current fee and in-forma-pauperis mechanism identified in the supplied disposition where applicable. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
+      "nextExecutableAction": "Continue from the current nonlegal state VERIFY_PENDING; all ordinary gates remain. Binding product rule OK-TRAFFICKING-SURVIVOR-22-OS-19C: Use a custom Petition for Expungement under 22 O.S. Section 19c for qualifying prostitution-related charge/conviction relief resulting from human trafficking. Apply the incorporated Section 19(B)-(M) hearing and 30-day notice framework. Do not invent a special statewide notary requirement. Use the current fee and in-forma-pauperis mechanism identified in the supplied disposition where applicable. Decision record: data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json.",
       "routeMappingStatus": "BOUND",
       "artifactStatus": "RENDERED",
       "completenessStatus": "PASS_COMPLETE",
@@ -11221,7 +11235,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief.mjs",
@@ -11284,17 +11298,22 @@
       "ownerDeliveryTypeRefusal": null,
       "verificationLapsedBecause": {
         "lapse": "BOUND_SOURCE_DRIFTED",
-        "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-        "pinned": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
-        "now": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+        "path": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+        "pinned": "741344600678fb394a60c90ec168d8fbe1d5b2642bc987658f5eac2d56261db1",
+        "now": "215b4b6ac536a930d10001527fdeb35d5ad592f929584a560ad9753f47c27c8c",
         "allDriftedRecords": [
+          {
+            "path": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+            "pinned": "741344600678fb394a60c90ec168d8fbe1d5b2642bc987658f5eac2d56261db1",
+            "now": "215b4b6ac536a930d10001527fdeb35d5ad592f929584a560ad9753f47c27c8c"
+          },
           {
             "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
             "pinned": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
             "now": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9"
           }
         ],
-        "driftedRecordCount": 1,
+        "driftedRecordCount": 2,
         "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
       },
       "terminalTreatment": null,
@@ -14284,10 +14303,10 @@
       },
       "verifierSourceHold": null,
       "selectedIndependentVerdict": {
-        "verdict": "FAIL_REPAIR_REQUIRED",
+        "verdict": "PASS_COMPLETE_INDEPENDENT",
         "lane": "vf03",
-        "verifiedAtBase": "1b48eb358e2dec7b5b016a4e028be0a2d81b8996",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20261019-reverify-1b48eb358.json"
+        "verifiedAtBase": "f3bbf848e241f331adc871dc33b860ebaeab48ac",
+        "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20261020-reverify-f3bbf848e.json"
       },
       "currentLegalResolution": null,
       "rasterEnrolmentRefusal": [
@@ -14295,7 +14314,26 @@
       ],
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+        "pinned": "cda4420e55b6d0604bf24e1e4624ba8258cf769456e3a5545af65ca9626701c3",
+        "now": "ef7ac045778cbb1e3ef340e2bddb2545b7662cb9a6381896f95d7254d12815e1",
+        "allDriftedRecords": [
+          {
+            "path": "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json",
+            "pinned": "cda4420e55b6d0604bf24e1e4624ba8258cf769456e3a5545af65ca9626701c3",
+            "now": "ef7ac045778cbb1e3ef340e2bddb2545b7662cb9a6381896f95d7254d12815e1"
+          },
+          {
+            "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+            "pinned": "9816a479e532017f630e8847e23e709a1b3efc2e554e211edb11cc2ebc0743c1",
+            "now": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9"
+          }
+        ],
+        "driftedRecordCount": 2,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -14321,20 +14359,11 @@
         "visualDefects": 0
       },
       "failingCounters": [],
-      "failedObligationNames": [
-        "SERVICE"
-      ],
-      "failedObligations": [
-        {
-          "obligation": "SERVICE",
-          "finding": "Silence. The packet nowhere states who is served or that nobody is served: a case-insensitive search of participant-instructions.md, filing-instructions.md and the pdftotext output of both fixtures for serv/no one/nobody/copy to/notice finds no service statement at all (the only hit is the 'Current FDLE submission method...' blank). The held rule is 'The source review does not state a service requirement', so the honest deliverable is an affirmative nobody-is-served sentence with the mechanism that replaces it (the application goes to FDLE and the endorsement is obtained directly from the agency head or State Attorney), which the packet already has the facts for but does not say. Under the standard applied here - silence does not meet SERVICE - this is the decisive defect. VF03 passed this obligation on 2026-09-05 as 'the packet asserts none', before the SERVICE standard was written down in VF11; the bytes have not changed, the yardstick has. Repair is one sentence in participant-instructions.md (and ideally on the submission-mechanics block of the page).",
-          "findingReadFrom": "detail",
-          "evidence": null
-        }
-      ],
+      "failedObligationNames": [],
+      "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "FAIL_REPAIR_REQUIRED",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-fl-administrative-set.mjs",

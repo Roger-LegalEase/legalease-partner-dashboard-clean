@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "4a0a34a8c527d475409cad5e0349ae52116bbfc4",
+  "generatedAtCommit": "ea5e9a84a4db6b4161a7a01e7b679205e78cb599",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -2716,8 +2716,7 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-12T07:25:43.365Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -3660,21 +3659,6 @@
       "laneKind": "packet-build",
       "released": true,
       "releasedAt": "2026-09-04T16:41:12.823Z"
-    },
-    {
-      "subjectType": "packet-family",
-      "subjectId": "fl-administrative-set",
-      "familyId": "fl-administrative-set",
-      "itemId": null,
-      "familyIds": [
-        "fl-administrative-set"
-      ],
-      "sourceId": null,
-      "operation": "rapid-repair",
-      "lane": "FIX01",
-      "laneKind": "repair",
-      "released": false,
-      "releasedAt": null
     },
     {
       "subjectType": "packet-family",
@@ -16022,7 +16006,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "4f16ed97b1e0250b3307ef8e4887c8d088e5ac573c6dedbe3d85127e3b66c82c",
+  "claimsDigest": "b92cd553f11a3fe41bad8cc082a0ca02fa4953828dccd2ccba823f6bdfc95c9c",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -56181,6 +56165,36 @@
       "previouslyReleasedAt": "2026-10-19T17:01:29.426Z",
       "reissuedAt": "2026-10-20T02:26:15.795Z",
       "reason": "fresh VF03 PASS read at f3bbf848e admitted in batch24 (bf02d8073); the family re-enters verification and generate.mjs refused the dispatch while its VF04 grant stayed released (REFUSED_UNASSERTABLE_VERIFICATION_DISPATCH, factory 39358466227)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "dispatchNames": "VF01",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-10-20T02:39:12Z",
+      "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
+      "acceptanceCycle": {
+        "previousState": "COMPLETE_PACKET_PROVEN",
+        "currentState": "VERIFY_PENDING",
+        "evidence": {
+          "lapse": "BOUND_SOURCE_DRIFTED",
+          "path": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+          "pinned": "741344600678fb394a60c90ec168d8fbe1d5b2642bc987658f5eac2d56261db1",
+          "now": "215b4b6ac536a930d10001527fdeb35d5ad592f929584a560ad9753f47c27c8c",
+          "allDriftedRecords": [
+            {
+              "path": "src/lib/rcap-engine/compiled/profiles/OK-oklahoma.json",
+              "pinned": "741344600678fb394a60c90ec168d8fbe1d5b2642bc987658f5eac2d56261db1",
+              "now": "215b4b6ac536a930d10001527fdeb35d5ad592f929584a560ad9753f47c27c8c"
+            }
+          ],
+          "driftedRecordCount": 1,
+          "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+        },
+        "evidenceSha256": "eecc299566c2e9092dfa9632d2bd21c3f086da481e0a6225392e9d0597438df3"
+      }
     }
   ],
   "transfers": [
@@ -75022,6 +75036,14 @@
       "operation": "independent-verification",
       "lane": "VF05",
       "withdrawnAt": "2026-10-19T21:57:47Z",
+      "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "fl-administrative-set",
+      "operation": "rapid-repair",
+      "lane": "FIX01",
+      "withdrawnAt": "2026-10-20T02:39:12Z",
       "reason": "obligation dissolved: no current dispatch names this subject for this operation (direct source attachment or state change removed the work)"
     }
   ]
