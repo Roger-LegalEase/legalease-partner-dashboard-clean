@@ -262,7 +262,7 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "src/lib/expungement-ai/reviewed-question-copy.ts",
   "src/lib/expungement-ai/reviewed-result-copy.ts",
   "src/lib/expungement-ai/sensitive-packet-facts.ts",
-  "src/lib/expungement-ai/verification-cas.ts",
+  "src/lib/expungement-ai/verification-cas.ts", "src/lib/expungement-ai/virginia-record-context.ts",
   "src/lib/legal-authority/authority.json",
   "src/lib/legal-authority/conditions.ts",
   "src/lib/legal-authority/index.ts",
