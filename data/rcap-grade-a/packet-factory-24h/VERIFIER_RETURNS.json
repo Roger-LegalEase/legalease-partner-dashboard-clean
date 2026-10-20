@@ -34,11 +34,11 @@
     }
   ],
   "counts": {
-    "returnDirectories": 489,
-    "rows": 1596,
+    "returnDirectories": 492,
+    "rows": 1599,
     "independentVerdicts": 344,
-    "failRepairRequired": 15,
-    "passIndependent": 328
+    "failRepairRequired": 16,
+    "passIndependent": 327
   },
   "failRepairRequiredFamilies": [
     "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
@@ -49,6 +49,7 @@
     "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
     "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
     "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+    "fl-sealing-set",
     "ks-21-6614-prostitution-coercion-set",
     "ks-22-4908-registration-relief-set",
     "ms-nonconv-set",
@@ -11463,6 +11464,20 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261019-reverify.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set",
+      "superseded": true
+    },
+    {
+      "familyId": "de_mandatory_expungement-set",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261020-reverify-de-mandatory-1b4dfeaa1.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family de_mandatory_expungement-set",
       "superseded": false
     },
     {
@@ -11976,6 +11991,29 @@
     {
       "familyId": "fl-sealing-set",
       "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf08",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+      "failedObligations": [
+        {
+          "obligation": "FEE_AND_WAIVER",
+          "finding": "FEE_AND_WAIVER: the route is two filings, and the packet answers cost for only the first. Stage 1: the official FDLE application's checklist (page 5) states 'A NONREFUNDABLE money order, cashier's check, or personal check in the amount of $75.00', matching registry/FL.memo rules.fees '$75 nonrefundable FDLE processing fee at Stage 1'. Stage 2: the participant files the Rule 3.989 petition, sworn statement, proposed order and certificate of service with the circuit or county court, and nothing in the packet (pages 7-10 or participant-instructions.md) says what that filing costs, that it is free, or whom to ask. The registry's 'Certified copies are county-dependent' is not carried either. The waiver limb is also silent: the held rule is 'The source review does not address a fee waiver for the FDLE processing fee', and the packet names no office that answers it. Under DET-FEE-AND-WAIVER-001, where no held source establishes a fee the packet must name a specific checkable authority; silence 'is different in kind', and holding is per fact (A3). The earlier PASS reads (vffl1, vffl2, vfflfinal1) rested on 'No unsupported waiver or automatic court fee exemption is asserted', i.e. on the absence of a false statement, which the standard does not count as an answer.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "FEE_AND_WAIVER"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20261020-reverify-fl-sealing-1b4dfeaa1.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-sealing-set",
+      "superseded": false
+    },
+    {
+      "familyId": "fl-sealing-set",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vffl1",
       "isIndependentVerification": true,
       "verifiedAtBase": "e880ae7fadde5a4886b485ace5fcbdf5b0429371",
@@ -12030,7 +12068,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vfflfinal1/rows-vfflfinal1-fl-sealing-original-final-20260913.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family fl-sealing-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "fl-self-defense-set",
@@ -30245,7 +30283,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf08/rows-vf08-20261019-reverify-census-5e7fe802c.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-ks-custom-pleading",
@@ -30260,6 +30298,20 @@
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf08/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
       "superseded": true
+    },
+    {
+      "familyId": "rcap-ks-custom-pleading",
+      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "lane": "vf09",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "1b4dfeaa14dbf4facf145fd408069acba22d4b32",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf09/rows-vf09-20261020-reverify-ks-municipal-1b4dfeaa1.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf09/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-ks-custom-pleading",
+      "superseded": false
     },
     {
       "familyId": "rcap-ks-custom-pleading",
