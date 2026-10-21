@@ -14,6 +14,8 @@ const spec = { members: specs.flatMap(s => s.members) };
 // The shared tests skip their sibling negatives for exactly these fixture routes, so the fixtures may only hold measured NC
 // members (Reviewer4 2026-10-21): a fixture entry outside this list fails here.
 const NC = new Set([
+  // CA tool-1: Reviewer TABLE 2026-10-21T16:06:44Z (no-consumer, output-13), assigned by the lead 16:07:31Z.
+  'CA:tool-1-dismissal-set-aside GA12 Q-41440690b7f0b71ee058',
   'CO:juvenile-expungement-19-1-306 GA12 Q-8ba92917ff60d81c7f05',
   'CO:juvenile-expungement-19-1-306 GA17 Q-25e1a3f5c0a9545f247a',
   'DE:discretionary-court-expungement-under-11-del-c-4374 GA12 Q-05091f0804053105e852',

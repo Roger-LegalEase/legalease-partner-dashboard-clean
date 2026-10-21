@@ -1394,6 +1394,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     categoryReason: "Earlier California categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
     category: [
       "dismissal-and-set-aside-without-probation-under-penal-code-1203-4a", // GA12 Q-6b657df543ec719b75a9
+      "tool-1-dismissal-set-aside", // GA12 Q-41440690b7f0b71ee058
       "tool-2-automatic-relief", // GA12 Q-6bed0f50e6ae32171fc4
       "tool-3-petition-based-felony-sealing", // GA12 Q-7dade446baddc667d7aa
       "tool-4-arrest-record-sealing", // GA12 Q-b35f8525ff8af8a8c24a

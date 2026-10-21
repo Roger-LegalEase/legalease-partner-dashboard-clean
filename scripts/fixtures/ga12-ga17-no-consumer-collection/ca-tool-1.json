@@ -1,0 +1,184 @@
+{
+ "measuredAt": "8c702cfb0cad999c303305a49d1c166bdcd6397e",
+ "method": "nc-spec.mjs: public witness or reviewer synthetic witness; evaluate() with four deltas; packetCollectionFor at packetPlanForPathway inputs with empty answers",
+ "members": [
+  {
+   "state": "CA",
+   "route": "tool-1-dismissal-set-aside",
+   "group": "GA12",
+   "questionRecordId": "Q-41440690b7f0b71ee058",
+   "fact": "offense_category",
+   "profileHash": "9838b3e3f3986491e4cabecbcbd21eef32825e9ce107f07a77c539f0dee6517b",
+   "witness": {
+    "kind": "ROUTE_REACHING",
+    "basis": "public witness answers at 8c702cfb0 with case_outcome Misdemeanor conviction and the six CA 1203.4 facts (california-1203-4-facts.ts) set to the complete fulfilled-probation path; the public witness itself (no-charge arrest) no longer selects the route",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "answers": {
+     "case_outcome": "Misdemeanor conviction",
+     "financial_obligations": "Yes",
+     "jurisdiction_scope": "State or local",
+     "new_convictions_during_waiting_period": "No",
+     "offense_level": "Misdemeanor",
+     "ownership_scope": "Yes",
+     "pardon_status": "No",
+     "pending_cases": "No",
+     "possible_pathway_context": "Tool 1 — Dismissal / set-aside (PC 1203.4 and variants)",
+     "record_documents": "Yes",
+     "sentence_completion_date": "Yes",
+     "special_preconditions_confirmed": "Yes",
+     "state_exclusion_categories": [
+      "None of these"
+     ],
+     "ca_12034_probation_granted": "yes",
+     "ca_12034_current_status": [
+      "none"
+     ],
+     "ca_12034_relief_election": "fulfilled",
+     "ca_12034_probation_outcome": "fulfilled",
+     "ca_12034_offense_sections": "Penal Code 484(a)"
+    }
+   },
+   "outcomes": [
+    {
+     "label": "witness",
+     "delta": {},
+     "pathwayId": "tool-1-dismissal-set-aside",
+     "resultCode": "needs_review",
+     "paymentAllowed": false,
+     "reason": "ca.probation_preparation",
+     "hasPacketPlan": true
+    },
+    {
+     "label": "uncertain disposition",
+     "delta": {
+      "case_outcome": "I am not sure"
+     },
+     "resultCode": "needs_review",
+     "paymentAllowed": false,
+     "reason": "ca.probation_outcome",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "refused ownership",
+     "delta": {
+      "ownership_scope": "No"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "ca.ownership_scope_hard_stop",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "federal refusal",
+     "delta": {
+      "jurisdiction_scope": "Federal"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "ca.federal_or_out_of_scope",
+     "hasPacketPlan": false
+    }
+   ],
+   "planRequiredInputIds": [
+    "case_outcome",
+    "charge",
+    "contact_information",
+    "county",
+    "court",
+    "criminal_history",
+    "financial_obligations",
+    "jurisdiction",
+    "offense_category",
+    "offense_level",
+    "pardon_status",
+    "participant_full_legal_name",
+    "pathway_id",
+    "pending_cases",
+    "record_type",
+    "residency_or_location",
+    "sentence_completion_date"
+   ],
+   "baseBucket": {
+    "collection": "prepay_confirmation",
+    "source": "route_decision_facts"
+   },
+   "baseOtherFacts": {
+    "case_outcome": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "charge": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "contact_information": {
+     "collection": "prepay_confirmation",
+     "source": "materialization_protection",
+     "optional": null
+    },
+    "county": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "court": {
+     "collection": "render_required",
+     "source": "profile_required_input",
+     "optional": null
+    },
+    "criminal_history": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "financial_obligations": {
+     "collection": "conditional",
+     "source": "ca_12034_specific_probation_facts",
+     "optional": true
+    },
+    "jurisdiction": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "offense_level": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "pardon_status": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "participant_full_legal_name": {
+     "collection": "render_required",
+     "source": "profile_required_input",
+     "optional": null
+    },
+    "pathway_id": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "pending_cases": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "residency_or_location": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "sentence_completion_date": {
+     "collection": "conditional",
+     "source": "ca_12034_specific_probation_facts",
+     "optional": true
+    }
+   }
+  }
+ ]
+}
