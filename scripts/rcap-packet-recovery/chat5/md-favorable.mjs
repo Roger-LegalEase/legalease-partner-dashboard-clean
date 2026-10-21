@@ -224,7 +224,15 @@ export async function renderMdFavorable(input, sourceBytes = fs.readFileSync(pat
   // Add two points of separation without moving the source text or its rule.
   const incidentWidget = form.getTextField('List the Incident').acroField.getWidgets()[0];
   const originalIncidentRect = incidentWidget.getRectangle();
-  incidentWidget.setRectangle({ ...originalIncidentRect, x: originalIncidentRect.x + 2, width: originalIncidentRect.width - 2 });
+  incidentWidget.setRectangle({ ...originalIncidentRect, x: originalIncidentRect.x + 2, width: originalIncidentRect.width - 2, height: 11 });
+  // Two widgets reach into printed text above them: Case Number into the
+  // "City/County" caption, and the incident line into "Agency"'s descenders.
+  // Lower only their tops (bottom, width and source text stay), so the centred
+  // value shrinks and clears it: Case Number to 7pt, both incident lines to 9pt.
+  const caseWidget = form.getTextField('Case Number').acroField.getWidgets()[0];
+  caseWidget.setRectangle({ ...caseWidget.getRectangle(), height: 9 });
+  const continuedWidget = form.getTextField('Incident Continued').acroField.getWidgets()[0];
+  continuedWidget.setRectangle({ ...continuedWidget.getRectangle(), height: 11 });
   const font = await pdf.embedFont(StandardFonts.Helvetica);
   // WinAnsi accents and punctuation are preserved, not transliterated. A
   // character absent from the common font requires handoff before any file
