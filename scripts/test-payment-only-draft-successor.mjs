@@ -13,12 +13,14 @@ if (['removed','left_paid'].includes(mode)) register('data:text/javascript,' + e
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
 const B = await import('../src/lib/expungement-ai/briefcase-presentation-authority.ts');
 const {evaluateAuthoritativeScreeningResult} = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
-const rows = JSON.parse(fs.readFileSync(new URL('./fixtures/payment-only-draft-predecessors.json',import.meta.url))).rows;
+const originalRows = JSON.parse(fs.readFileSync(new URL('./fixtures/payment-only-draft-predecessors.json',import.meta.url))).rows;
+const fneRows = JSON.parse(fs.readFileSync(new URL('./fixtures/payment-route-scope-predecessors.json',import.meta.url))).rows;
+const rows = [...originalRows, ...fneRows];
 let checks = 0; const failures = [];
 const check = (name,fn) => {checks++;try {fn();}catch(e){failures.push({name,error:e.message});}};
 const patch = record => P.packetInformationPatch({protectedVerification:record,answers:{}});
 // O-OD-SAVED exact approved nine-route list; every route also has a native consumer test below.
-const expectedRoutes = [
+const originalRoutes = [
   "FL:court-ordered-expunction-943-0585",
   "HI:dui-under-21-conviction",
   "HI:first-time-drug-conviction",
@@ -29,10 +31,61 @@ const expectedRoutes = [
   "NE:set-aside-incarceration-one-year-or-less",
   "NM:cannabis-sentence-dismissal-incarcerated-person-pathway"
 ];
+// F-NE-2: approved45 plus native AZ (Lead 23:20:52); original9 pin stays independent.
+const fneRoutes = [
+  "AZ:remedy-1-record-sealing",
+  "AR:situation-c-felony-convictions",
+  "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
+  "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+  "DC:dc_actual_innocence_expungement_16_803",
+  "FL:court-ordered-expunction-943-0585",
+  "HI:dui-under-21-conviction",
+  "HI:first-time-drug-conviction",
+  "IA:nonconviction-901c2",
+  "ID:withheld-judgment-idaho-code-19-2604-review-branch",
+  "LA:felony-article-893-e-set-aside-followed-by-expungement",
+  "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement",
+  "LA:non-conviction-arrest-expungement",
+  "MD:adult-non-conviction-expungement-under-crim-proc-10-105",
+  "MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+  "MN:petition-based-expungement-under-609a-02-03",
+  "MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
+  "MO:stolen-or-mistaken-identity-expungement-under-610-145",
+  "MS:eligible-felony-conviction-expungement-99-19-71",
+  "MS:first-offense-dui-expungement",
+  "MS:minor-in-possession-underage-alcohol-expungement",
+  "MT:marijuana-related-redesignation-expungement-under-mmrta",
+  "MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+  "NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146",
+  "ND:deferred-imposition-dismissal-and-sealing",
+  "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+  "ND:marijuana-specific-summary-pardon-or-sealing-relief",
+  "NE:set-aside-incarceration-one-year-or-less",
+  "NE:set-aside-probation-fine-community-service",
+  "NH:annulment-after-dismissal-acquittal-or-nonprosecution",
+  "NJ:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6",
+  "NM:cannabis-sentence-dismissal-incarcerated-person-pathway",
+  "NM:no-conviction-released-without-conviction",
+  "NV:general-conviction-record-sealing-under-nrs-179-245",
+  "OH:adult-non-conviction-sealing-or-expungement-under-2953-33",
+  "OK:acquittal-dismissal-or-other-no-conviction-expungement",
+  "PA:path-a-non-conviction-expungement",
+  "SD:adult-arrest-record-expungement-under-sdcl-23a-3-27",
+  "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+  "UT:path-i-traffic-offense-expungement-or-deletion",
+  "VA:petition-based-sealing",
+  "VA:regime-1-expungement-available-now",
+  "VT:dui-sealing",
+  "WA:non-conviction-record-deletion-under-rcw-10-97-060",
+  "WI:adult-conviction-expungement-under-wis-stat-973-015",
+  "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a"
+];
+const expectedRoutes = [...new Set([...originalRoutes,...fneRoutes])].sort();
 const policySource=fs.readFileSync(new URL('../src/lib/expungement-ai/packet-information.ts',import.meta.url),'utf8');
 const listBody=policySource.match(/const PAYMENT_ONLY_DRAFT_ROUTES = new Set\(\[([\s\S]*?)\]\)/)[1];
 check('approved-route-set',()=>assert.deepEqual([...listBody.matchAll(/"([^"]+)"/g)].map(m=>m[1]).sort(),expectedRoutes));
-check('native-fixture-route-set',()=>assert.deepEqual(rows.map(r=>r.key).sort(),expectedRoutes));
+check('native-fixture-route-set',()=>assert.deepEqual(originalRows.map(r=>r.key).sort(),originalRoutes));
+check('fne-native-fixture-route-set',()=>assert.deepEqual(fneRows.map(r=>r.key).sort(),[...fneRoutes].sort()));
 // A fabricated paid bit on an unrelated held draft never qualifies for this allowlist.
 const outside=JSON.parse(fs.readFileSync(new URL('./fixtures/il1b-native-predecessors.json',import.meta.url))).rows.find(r=>r.name==='legacy-unknown').verification;
 const outsideSnapshot={...outside.draftSnapshot,paymentAllowed:true};
@@ -63,7 +116,8 @@ for (const row of mode.startsWith('remove-route:') ? rows.filter(r=>r.key===mode
   const edited=P.packetInformationPatch({protectedVerification:record,answers:{participant_full_legal_name:'Synthetic Updated Name'}});
   check(`${row.key}:explicit-save-held`,()=>{assert(edited);assert.equal(edited.readyToGenerate,false);assert.equal(edited.protectedTransition.nextVerification.draftSnapshot.paymentAllowed,false);assert.equal(edited.protectedTransition.nextVerification.draftSnapshot.packetAnswers.participant_full_legal_name,'Synthetic Updated Name');});
   check(`${row.key}:read-immutable`,()=>assert.deepEqual(record,before));
-  check(`${row.key}:fresh-readable`,()=>assert(P.protectedPacketInformationModelFor(row.freshRecord)));
+  const fresh = row.freshRecord ?? (() => { const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:authority,screeningAnswers:snapshot.screeningAnswers,prefilledAnswers:snapshot.prefilledAnswers,packetAnswers:snapshot.packetAnswers,dependencies:snapshot.dependencies,capturedAt:snapshot.capturedAt}); return seed && {status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot}; })();
+  check(`${row.key}:fresh-readable`,()=>assert(fresh && P.protectedPacketInformationModelFor(fresh)));
   const presented=await present(record);
   check(`${row.key}:briefcase`,()=>{assert.equal(presented.authorityStatus,'protected_draft');assert.equal(presented.packetDraft.status,'available');assert.equal(presented.resultCode,authority.evaluation.resultCode);assert.equal(presented.reevaluatedPayment,false);assert(Object.values(presented.commercialActions).every(value=>value===false));assert.deepEqual(record,before);});
   for (const field of ['resultCode','pathwayId','packetType','selectedTrackId','treatmentClassification','deferralComponentIds','packetPlan','requiredInputIds','packetFamilyIdentifiers','serverFacts','profileVersion','profileSourceFingerprint','profileAuthorityFingerprint']) {

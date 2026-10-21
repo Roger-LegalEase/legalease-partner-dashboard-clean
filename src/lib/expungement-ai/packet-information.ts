@@ -1292,6 +1292,7 @@ export function illinoisProgramHeldDraftSuccessor(snapshot: ProtectedPacketAutho
 }
 
 // F-D1-SAVED: Lead 2026-10-21 22:26:47; readability only for the four measured D1 withdrawals.
+// shortcut: New routes need native/removal proof; AR misdemeanor/TX55A already held and MS99-19-71(1) conflicts stay omitted.
 const PAYMENT_ONLY_DRAFT_ROUTES = new Set([
   "IL:adult-conviction-sealing", "NE:set-aside-incarceration-one-year-or-less",
   "LA:non-conviction-arrest-expungement", "HI:dui-under-21-conviction",
@@ -1300,7 +1301,48 @@ const PAYMENT_ONLY_DRAFT_ROUTES = new Set([
   "HI:first-time-drug-conviction",
   "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
   "MN:petition-based-expungement-under-609a-02-03",
-  "NM:cannabis-sentence-dismissal-incarcerated-person-pathway"
+  "NM:cannabis-sentence-dismissal-incarcerated-person-pathway",
+  // F-NE-2: measured45 paid predecessors, Lead 2026-10-21 23:13:37; guard manifest5c3f5f1f unchanged.
+  "AR:situation-c-felony-convictions",
+  // Plus non-census AZ ownershipfixture263, native PRE captured; Lead 2026-10-21 23:20:52.
+  "AZ:remedy-1-record-sealing",
+  "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
+  "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+  "DC:dc_actual_innocence_expungement_16_803",
+  "IA:nonconviction-901c2",
+  "ID:withheld-judgment-idaho-code-19-2604-review-branch",
+  "LA:felony-article-893-e-set-aside-followed-by-expungement",
+  "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement",
+  "MD:adult-non-conviction-expungement-under-crim-proc-10-105",
+  "MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+  "MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
+  "MO:stolen-or-mistaken-identity-expungement-under-610-145",
+  "MS:eligible-felony-conviction-expungement-99-19-71",
+  "MS:first-offense-dui-expungement",
+  "MS:minor-in-possession-underage-alcohol-expungement",
+  "MT:marijuana-related-redesignation-expungement-under-mmrta",
+  "MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+  "NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146",
+  "ND:deferred-imposition-dismissal-and-sealing",
+  "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+  "ND:marijuana-specific-summary-pardon-or-sealing-relief",
+  "NE:set-aside-probation-fine-community-service",
+  "NH:annulment-after-dismissal-acquittal-or-nonprosecution",
+  "NJ:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6",
+  "NM:no-conviction-released-without-conviction",
+  "NV:general-conviction-record-sealing-under-nrs-179-245",
+  "OH:adult-non-conviction-sealing-or-expungement-under-2953-33",
+  "OK:acquittal-dismissal-or-other-no-conviction-expungement",
+  "PA:path-a-non-conviction-expungement",
+  "SD:adult-arrest-record-expungement-under-sdcl-23a-3-27",
+  "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+  "UT:path-i-traffic-offense-expungement-or-deletion",
+  "VA:petition-based-sealing",
+  "VA:regime-1-expungement-available-now",
+  "VT:dui-sealing",
+  "WA:non-conviction-record-deletion-under-rcw-10-97-060",
+  "WI:adult-conviction-expungement-under-wis-stat-973-015",
+  "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a"
 ]);
 export function paymentOnlyDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
   authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>, status: string): ProtectedPacketAuthoritySnapshot | null {
