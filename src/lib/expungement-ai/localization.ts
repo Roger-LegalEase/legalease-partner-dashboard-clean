@@ -193,6 +193,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "packet.recovery.7": {"en": "Your payment is preserved. We could not confirm the completed packet yet. Retry the status check or return to this matter later.", "es": "Su pago se conserva. Todavía no pudimos confirmar que el paquete esté completo. Reintente la consulta o vuelva a este asunto más tarde."},
   "packet.recovery.8": {"en": "Your payment is confirmed. We are preparing your packet; this page will open it when it is ready.", "es": "Su pago está confirmado. Estamos preparando su paquete; esta página lo mostrará cuando esté listo."},
   "packet.recovery.9": {"en": "We could not start packet preparation right now. Try again or contact support.", "es": "No pudimos iniciar la preparación del paquete. Inténtelo de nuevo o contacte al soporte."},
+  "packet.recovery.10": {"en": "Your payment is preserved. A packet is not available for this route yet. Your saved information remains available.", "es": "Su pago se conserva. Todavía no hay un paquete disponible para esta ruta. Su información guardada sigue disponible."},
 
   "clinic.integrated.entry.0": {"en": "This clinic is outside its scheduled hours. Check the event time with staff.", "es": "Esta clínica está fuera de su horario. Confirme la hora del evento con el personal."},
   "clinic.integrated.entry.1": {"en": "This event code has expired. Ask Clinic staff for a current code.", "es": "Este código ha vencido. Pida un código vigente al personal de la clínica."},
