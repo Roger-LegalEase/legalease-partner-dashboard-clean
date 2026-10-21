@@ -280,7 +280,7 @@ const SPEC = {
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
         "",
-        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read.",
         "",
         "THE QUESTION THIS PAGE EXISTS TO ASK",
         "",
@@ -289,7 +289,7 @@ const SPEC = {
         "",
         "WHAT LEGALEASE CANNOT TELL YOU HERE",
         "",
-        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "This packet does NOT decide whether the free route reaches you. LegalEase has not resolved what the amended Senate Bill 2030 (2026) text says, so that question is still open. So this page asks it rather than answering it.",
         "",
         "WHAT TO DO",
         "",
@@ -814,7 +814,7 @@ const SPEC = {
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
         "",
-        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read.",
         "",
         "THE QUESTION THIS PAGE EXISTS TO ASK",
         "",
@@ -823,7 +823,7 @@ const SPEC = {
         "",
         "WHAT LEGALEASE CANNOT TELL YOU HERE",
         "",
-        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "This packet does NOT decide whether the free route reaches you. LegalEase has not resolved what the amended Senate Bill 2030 (2026) text says, so that question is still open. So this page asks it rather than answering it.",
         "",
         "WHAT TO DO",
         "",
@@ -1348,7 +1348,7 @@ const SPEC = {
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
         "",
-        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read.",
         "",
         "THE QUESTION THIS PAGE EXISTS TO ASK",
         "",
@@ -1357,7 +1357,7 @@ const SPEC = {
         "",
         "WHAT LEGALEASE CANNOT TELL YOU HERE",
         "",
-        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "This packet does NOT decide whether the free route reaches you. LegalEase has not resolved what the amended Senate Bill 2030 (2026) text says, so that question is still open. So this page asks it rather than answering it.",
         "",
         "WHAT TO DO",
         "",
@@ -1895,7 +1895,7 @@ const SPEC = {
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
         "",
-        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read.",
         "",
         "THE QUESTION THIS PAGE EXISTS TO ASK",
         "",
@@ -1904,7 +1904,7 @@ const SPEC = {
         "",
         "WHAT LEGALEASE CANNOT TELL YOU HERE",
         "",
-        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "This packet does NOT decide whether the free route reaches you. LegalEase has not resolved what the amended Senate Bill 2030 (2026) text says, so that question is still open. So this page asks it rather than answering it.",
         "",
         "WHAT TO DO",
         "",
@@ -2429,7 +2429,7 @@ const SPEC = {
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
         "",
-        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read.",
         "",
         "THE QUESTION THIS PAGE EXISTS TO ASK",
         "",
@@ -2438,7 +2438,7 @@ const SPEC = {
         "",
         "WHAT LEGALEASE CANNOT TELL YOU HERE",
         "",
-        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "This packet does NOT decide whether the free route reaches you. LegalEase has not resolved what the amended Senate Bill 2030 (2026) text says, so that question is still open. So this page asks it rather than answering it.",
         "",
         "WHAT TO DO",
         "",
@@ -2964,7 +2964,7 @@ const SPEC = {
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
         "",
-        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read.",
         "",
         "THE QUESTION THIS PAGE EXISTS TO ASK",
         "",
@@ -2973,7 +2973,7 @@ const SPEC = {
         "",
         "WHAT LEGALEASE CANNOT TELL YOU HERE",
         "",
-        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "This packet does NOT decide whether the free route reaches you. LegalEase has not resolved what the amended Senate Bill 2030 (2026) text says, so that question is still open. So this page asks it rather than answering it.",
         "",
         "WHAT TO DO",
         "",
@@ -3812,7 +3812,7 @@ const SPEC = {
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
         "",
-        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read.",
         "",
         "THE QUESTION THIS PAGE EXISTS TO ASK",
         "",
@@ -3821,7 +3821,7 @@ const SPEC = {
         "",
         "WHAT LEGALEASE CANNOT TELL YOU HERE",
         "",
-        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "This packet does NOT decide whether the free route reaches you. LegalEase has not resolved what the amended Senate Bill 2030 (2026) text says, so that question is still open. So this page asks it rather than answering it.",
         "",
         "WHAT TO DO",
         "",
@@ -4462,7 +4462,7 @@ const SPEC = {
     ],
     [
       "SELF_HELP_STOP — Clear an Oklahoma record that is not yours",
-      "**Stop and get help if:** Any dispute about whether the participant is the subject of the record. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
+      "**Stop and get help if:** Any dispute about whether the participant is the subject of the record. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
     ],
     [
       "FILING_DESTINATION — Clear an Oklahoma case after a deferred sentence was dismissed",
@@ -4478,7 +4478,7 @@ const SPEC = {
     ],
     [
       "SELF_HELP_STOP — Clear an Oklahoma case after a deferred sentence was dismissed",
-      "**Stop and get help if:** Any case where only a section 991c order has been obtained, which leaves the arrest record in place. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
+      "**Stop and get help if:** Any case where only a section 991c order has been obtained, which leaves the arrest record in place. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
     ],
     [
       "FILING_DESTINATION — Clear an Oklahoma felony conviction",
@@ -4494,7 +4494,7 @@ const SPEC = {
     ],
     [
       "SELF_HELP_STOP — Clear an Oklahoma felony conviction",
-      "**Stop and get help if:** Any felony category or waiting-period question, until the categories as amended by SB 2030 are read. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
+      "**Stop and get help if:** Any felony category or waiting-period question, until the categories as amended by SB 2030 are read. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
     ],
     [
       "FILING_DESTINATION — Clear an Oklahoma misdemeanor conviction",
@@ -4510,7 +4510,7 @@ const SPEC = {
     ],
     [
       "SELF_HELP_STOP — Clear an Oklahoma misdemeanor conviction",
-      "**Stop and get help if:** Any waiting-period calculation, until the categories as amended by SB 2030 are read. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
+      "**Stop and get help if:** Any waiting-period calculation, until the categories as amended by SB 2030 are read. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
     ],
     [
       "FILING_DESTINATION — Clear an Oklahoma arrest that did not end in a conviction",
@@ -4526,7 +4526,7 @@ const SPEC = {
     ],
     [
       "SELF_HELP_STOP — Clear an Oklahoma arrest that did not end in a conviction",
-      "**Stop and get help if:** Prosecutor no-refile confirmation, which the review records as a self-help boundary. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
+      "**Stop and get help if:** Prosecutor no-refile confirmation, which the review records as a self-help boundary. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
     ],
     [
       "FILING_DESTINATION — Clear an Oklahoma record after a pardon",
@@ -4542,7 +4542,7 @@ const SPEC = {
     ],
     [
       "SELF_HELP_STOP — Clear an Oklahoma record after a pardon",
-      "**Stop and get help if:** Applying for the pardon itself, which is a Pardon and Parole Board matter and out of scope. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
+      "**Stop and get help if:** Applying for the pardon itself, which is a Pardon and Parole Board matter and out of scope. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
     ],
     [
       "FILING_DESTINATION — Update an Oklahoma deferred sentence so the case shows as dismissed",
@@ -4574,7 +4574,7 @@ const SPEC = {
     ],
     [
       "SELF_HELP_STOP — Clear an Oklahoma protective order record",
-      "**Stop and get help if:** Every protective order matter, until section 60.18 is read and its conditions established. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
+      "**Stop and get help if:** Every protective order matter, until section 60.18 is read and its conditions established. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
     ]
   ],
   "instructionsIntro": [
@@ -4728,7 +4728,7 @@ const SPEC = {
   "notTold": [],
   "stopConditions": [
     "Any dispute about whether the participant is the subject of the record.",
-    "Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+    "Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read.",
     "Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable.",
     "Prosecutor objection, and any contested hearing.",
     "Records in more than one county, which need separate petitions.",
