@@ -8,6 +8,7 @@ const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 const json = x => Buffer.from(JSON.stringify(x));
 const registryPath = 'data/record-clearing/legal-design-track-registry.json';
 const tnTracks = ['tn_pretrial_diversion', 'tn_judicial_diversion', 'tn_eligible_conviction', 'tn_two_offense'];
+const jointTracks = ['al-misd-conviction', 'co_motion_seal_conviction', ...tnTracks];
 const admissionPath = 'data/rcap-grade-a/legal-decisions/SC_SOLICITOR_GUIDANCE_ADMISSION_2026-09-14.json';
 function fixture() {
   const files = new Map(), historical = new Map();
@@ -23,16 +24,18 @@ function fixture() {
   historical.set(originalRuntimeBinding.path, files.get(originalRuntimeBinding.path));
   const registry = {schemaVersion: 'fixture', tracks: [
     {jurisdiction: 'SC', trackId: 'sc_preserved', guidance: 'unchanged'},
+    {jurisdiction: 'AL', trackId: 'al-misd-conviction', source: 'before'},
+    {jurisdiction: 'CO', trackId: 'co_motion_seal_conviction', source: 'before'},
     ...tnTracks.map(trackId => ({jurisdiction: 'TN', trackId, source: 'before'})),
   ]};
   const from = pin(registryPath, json(registry)); historical.set(registryPath, files.get(registryPath));
   const measurements = pin('data/measurements.json', json({bindings: [from]}));
-  registry.tracks.filter(row => row.jurisdiction === 'TN').forEach(row => row.source = 'after');
+  registry.tracks.filter(row => jointTracks.includes(row.trackId)).forEach(row => row.source = 'after');
   const to = pin(registryPath, json(registry));
   const registryReview = {schemaVersion: 'rcap-sc-guidance-registry-successor-review/v1', familyId: 'rcap-sc-custom-pleading',
     status: 'PASS', runtimeBehaviorUnchanged: true, authorSession: '/root', reviewerSession: '/root/independent-fixture',
     commercialRoutesOpened: 0, failures: [], baselineCommit: 'a91c6b41deaafd1d6f5a93c69869fb0e965f21e2',
-    from, to, changedTrackIds: tnTracks, trackCount: 5, preservedScTrackIds: ['sc_preserved']};
+    from, to, changedTrackIds: jointTracks, trackCount: 7, preservedScTrackIds: ['sc_preserved']};
   const originalAdmission = pin(admissionPath, json({runtimeBindingEvidence: originalRuntimeBinding, measurements}));
   historical.set(admissionPath, files.get(admissionPath));
   const review = {schemaVersion: 'rcap-sc-guidance-runtime-successor-review/v1', familyId: 'rcap-sc-custom-pleading', status: 'PASS', verdict: 'PASS_COMPLETE_INDEPENDENT',
@@ -89,6 +92,8 @@ const mutations = [
     registry => registry.schemaVersion = 'changed metadata',
     registry => registry.tracks.push({jurisdiction: 'TN', trackId: 'unreviewed'}),
     registry => registry.tracks[1].jurisdiction = 'SC',
+    registry => registry.tracks[2].jurisdiction = 'SC',
+    registry => registry.tracks[3].jurisdiction = 'SC',
   ].map(mutate => f => {
     const registry = JSON.parse(f.files.get(registryPath)); mutate(registry);
     f.registryReview.to = f.pin(registryPath, json(registry));
