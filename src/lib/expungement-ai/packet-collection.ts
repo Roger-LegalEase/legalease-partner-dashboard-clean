@@ -617,7 +617,7 @@ export function coPetitionRecordIsHistory(profile: EngineProfile | undefined, pa
   return profile?.jurisdiction.code === "CO"
     && (pathwayId === "petition-based-conviction-sealing-jdf-612-24-72-706"
       || pathwayId === "petition-based-non-conviction-sealing-jdf-417-24-72-704")
-    && specification == null && contactRepresentationHash(profile) === "1e74ae18e3815426ae28001f741a954826a985d08164d8ab77820cda0d90d909";
+    && specification == null && contactRepresentationHash(profile) === "ae0087c37912d4d989406b7410cc5e59c16f92119129e985b53791bf5a30d481";
 }
 
 // GA-17 Q-3c3fc0993c643dd02cf7: overlapping history cannot classify this unsupported petition route.
