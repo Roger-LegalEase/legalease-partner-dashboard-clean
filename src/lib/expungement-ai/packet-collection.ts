@@ -1190,6 +1190,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     category: [
       "dc_auto_expungement_16_802", // GA12 Q-17b01d9289e67bead5a9
       "dc_auto_sealing_16_805", // GA12 Q-43bad379c984bdcec522
+      "dc_juvenile_sealing_16_2335", // GA12 Q-81b71dadfadb286ccdf2
       "dc_motion_seal_felony_conviction_8yr_16_806", // GA12 Q-02ab2e4e6d22bdbcddbd
       "dc_motion_seal_misdemeanor_conviction_5yr_16_806", // GA12 Q-49ff4137a70f901c59b5
       "dc_motion_seal_nonconviction_16_806", // GA12 Q-9a6bf799e24f4f09737a
