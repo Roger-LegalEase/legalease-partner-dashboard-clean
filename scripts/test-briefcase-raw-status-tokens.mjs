@@ -49,9 +49,9 @@ const CODES=['packet_ready','packet_ready_with_caution','needs_more_info','not_y
 const RAW=[...CODES,'saved','waiting','needs_attention','completed','denied','trusted_source','unverified','invalidated','facts_complete','in_progress','not_started','sponsored','unpaid','absent','ready','not ready','unavailable','paid','refunded'];
 const ready={status:'ready',canDownload:true,source:'source_driven_packet_plan',packetId:'p1',packetPlanId:null,generatedAt:'2026-10-13T00:00:00Z',documents:[{kind:'full',fileName:'packet.pdf'}]};
 const absent={status:'absent',canDownload:false,documents:[]};
-const history={amountCents:4900,currency:'USD',status:'paid',receipt:null,noCharge:false};
-let checks=0;
-const check=(name,fn)=>{try{fn();checks++;}catch(error){console.error(name);throw error;}};
+const HISTORIES={paid:{amountCents:4900,currency:'USD',status:'paid',receipt:null,noCharge:false},no_charge:{amountCents:0,currency:'USD',status:'paid',receipt:null,noCharge:true},refunded:{amountCents:4000,currency:'USD',status:'refunded',receipt:null,noCharge:false}};
+let checks=0;const failed=[];
+const check=(name,fn)=>{try{fn();checks++;}catch(error){failed.push({name,message:String(error.message).split('\n')[0]});}};
 const decode=s=>s.replace(/&#x27;|&#39;/g,"'").replace(/&quot;/g,'"').replace(/&amp;/g,'&').trim();
 const rawIn=html=>{
   const text=html.replace(/<[^>]+>/g,'\n').split('\n').map(decode).filter(Boolean);
@@ -71,19 +71,24 @@ check('payment-row packet copy is reviewed EN/ES',()=>{
   assert.deepEqual([t('en','packet.display.RCOPY-28a386a1003aa04eb354','x'),t('es','packet.display.RCOPY-28a386a1003aa04eb354','x')],['Packet ready','Paquete listo']);
   assert.deepEqual([t('en','commercial.unavailable','x'),t('es','commercial.unavailable','x')],['Packet not available yet','Paquete aún no disponible']);
 });
-for(const resultCode of CODES)for(const [art,artifact]of [['absent',absent],['ready',ready]])for(const paymentState of ['unpaid','paid','sponsored']){
-  const view={...base,resultCode,artifact,paymentState,paymentHistory:history};
+for(const resultCode of CODES)for(const [art,artifact]of [['absent',absent],['ready',ready]])for(const paymentState of ['unpaid','paid','sponsored'])for(const authorityStatus of ['available','unavailable']){
+  const view={...base,resultCode,artifact,paymentState,authorityStatus},v=`${resultCode}/${art}/${paymentState}/authority-${authorityStatus}`;
   for(const locale of ['en','es']){
-    const label=t(locale,art==='ready'?'packet.display.RCOPY-28a386a1003aa04eb354':'commercial.unavailable','x'),payments=renderIn(locale,React.createElement(PaymentsView,{items:[view]}));
-    check(`PaymentsView ${resultCode}/${art}/${paymentState}/${locale}: reviewed packet copy, no raw token`,()=>{
-      assert(decode(payments).includes(label),label);
-      assert.deepEqual(rawIn(payments),[]);
-    });
+    const label=t(locale,art==='ready'?'packet.display.RCOPY-28a386a1003aa04eb354':'commercial.unavailable','x');
+    for(const [h,paymentHistory]of Object.entries(HISTORIES)){
+      const payments=renderIn(locale,React.createElement(PaymentsView,{items:[{...view,paymentHistory}]}));
+      check(`PaymentsView ${v}/${h}/${locale}: reviewed packet copy, no raw token`,()=>{
+        const hits=rawIn(payments);
+        assert.deepEqual(hits,[],JSON.stringify(hits));
+        assert(decode(payments).includes(label),label);
+      });
+    }
     globalThis.__rawTokensView=view;
     const page=renderIn(locale,await Review({params:Promise.resolve({packetId:item.id})}));
-    check(`review page ${resultCode}/${art}/${paymentState}/${locale}: no raw token`,()=>assert.deepEqual(rawIn(page),[]));
+    check(`review page ${v}/${locale}: no raw token`,()=>{const hits=rawIn(page);assert.deepEqual(hits,[],JSON.stringify(hits));});
   }
 }
 delete globalThis.__rawTokensView;
+if(failed.length){console.error(JSON.stringify({status:'FAIL',failedCount:failed.length,checks,failed},null,1));process.exit(1);}
 console.log(JSON.stringify({status:'PASS_BRIEFCASE_RAW_STATUS_TOKENS',checks,mutations:Object.keys(MUTATIONS),
   limits:['SSR of PaymentsView and the review page with display-only seams; no auth, DB, HTTP or browser.','The enumeration across all Briefcase views and the detail page is the GA17 render probe (review-evidence/ga17/raw-codes).']}));
