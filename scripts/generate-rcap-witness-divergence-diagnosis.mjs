@@ -429,6 +429,16 @@ const diagnosis = {
   records
 };
 
+// F-OR-RETIRED (lead m155): the clearable rule reaches the retired OR (1)(c) route only
+// through a conviction answer. Keep that route's committed row, exact, until the finding is ruled.
+const HELD_FIXTURES = { "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c": "scripts/fixtures/or-1c-witness-fixture-hold.json" };
+for (const [key, file] of Object.entries(HELD_FIXTURES)) {
+  const hold = readJson(file), at = fixtures.findIndex((f) => f.pathwayKey === key);
+  if (at < 0 || hold.fixture?.pathwayKey !== key) throw new Error(`held fixture ${key} has no generated counterpart in ${file}`);
+  fixtures[at] = hold.fixture;
+  records.find((r) => r.pathwayKey === key).fixtureHeld = { file, sourceSha: hold.sourceSha, reason: "F-OR-RETIRED: generated answers contradict the route" };
+}
+
 const fixturePacket = {
   schemaVersion: "rcap-public-witness-fixtures/v1",
   generatedBy: "scripts/generate-rcap-witness-divergence-diagnosis.mjs",
