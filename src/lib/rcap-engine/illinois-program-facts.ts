@@ -99,7 +99,8 @@ export const IL_PROGRAM_QUESTIONS: PublicQuestion[] = [
 ];
 export const IL_PROGRAM_FACT_IDS = IL_PROGRAM_QUESTIONS.map(q => q.id);
 export const IL_PROGRAM_COPY = {
-  "future_date": ["Check the satisfactory termination date against the court order. A future date cannot confirm that the program has ended. Your saved date has not been changed.", "Compare con la orden judicial la fecha en que terminó satisfactoriamente la supervisión o libertad condicional. Una fecha futura no permite confirmar que haya terminado. No se ha cambiado la fecha que guardó."],
+  "other": ["You chose another type of supervision or probation. The court order must show whether it is one of the qualified programs this route uses. Other record-clearing options need separate review.", "Usted eligió otro tipo de supervisión o libertad condicional. La orden judicial debe mostrar si es uno de los programas calificados que utiliza esta vía. Otras opciones para limpiar los antecedentes requieren una revisión separada."],
+  "future_date": ["Check the satisfactory termination date against the court order. A future date cannot confirm that the supervision or probation has ended. Your saved date has not been changed.", "Compare con la orden judicial la fecha en que terminó satisfactoriamente la supervisión o libertad condicional. Una fecha futura no permite confirmar que haya terminado. No se ha cambiado la fecha que guardó."],
   "missing": [
     "Confirm the actual supervision or probation order and termination facts. A general completion answer or an old case date does not establish them.",
     "Confirme la orden real de supervisión o libertad condicional y los hechos de su terminación. Una respuesta general de cumplimiento o una fecha antigua del caso no los establece."
@@ -161,7 +162,8 @@ export function illinoisProgramFacts(a: Answers, today: string): Decision {
   const missing = (...missingQuestionIds: string[]): Decision => ({ status: "missing", code: "missing", missingQuestionIds });
   const review = (code: keyof typeof IL_PROGRAM_COPY): Decision => ({ status: "review", code });
   const type = a.il_program_type;
-  if (type === "ordinary" || type === "other") return review("ordinary");
+  if (type === "ordinary") return review("ordinary");
+  if (type === "other") return review("other");
   if (typeof type !== "string" || type !== "supervision" && !qualified.includes(type)) return missing("il_program_type");
   if (!["Diversion, deferred disposition, supervision, or similar program", "Misdemeanor conviction", "Felony conviction"].includes(String(a.case_outcome))) return missing("case_outcome");
   if (a.il_program_termination === "ongoing") return { status: "not_yet", code: "completion" };

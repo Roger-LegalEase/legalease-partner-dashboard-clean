@@ -6,7 +6,9 @@ process.env.RCAP_EVALUATOR_TODAY = '2026-10-21';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const mode = process.argv[2] ?? 'candidate';
 const mutations = {
-  other_type: ['illinois-program-facts.ts', 'type === "ordinary" || type === "other"', 'type === "ordinary"'],
+  future_today: ['illinois-program-facts.ts', 'if (date.toISOString().slice(0, 10) > today)', 'if (date.toISOString().slice(0, 10) >= today)'],
+  briefcase_future: ['briefcase-presentation-authority.ts', 'illinoisProgramFutureDateDraftSuccessor(snapshot, authoritative, verification.status) ??', ''],
+  other_type: ['illinois-program-facts.ts', 'return review("other");', 'return review("ordinary");'],
   future_date: ['illinois-program-facts.ts', 'if (date.toISOString().slice(0, 10) > today)', 'if (false)'],
   future_successor: ['packet-information.ts', 'const date = scalarAnswerText(answers?.il_program_termination_date)?.trim();', 'return null;'],
   q09: ['illinois-program-facts.ts', 'return missing("il_program_termination");', 'return { status: "satisfied" };'],
@@ -31,6 +33,7 @@ const { parseJurisdictionProfile } = await import('../src/lib/expungement-ai/fro
 const { resolveRuntimeText } = await import('../src/lib/expungement-ai/localization.ts');
 const { POST } = await import('../src/app/api/expungement-ai/evaluate/route.ts');
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
+const B = await import('../src/lib/expungement-ai/briefcase-presentation-authority.ts');
 const rows = JSON.parse(fs.readFileSync(new URL('./fixtures/il1-program-witnesses.json', import.meta.url))).rows;
 const profile = getProfileByJurisdiction('IL'), pub = projectPublicProfile(profile), route = G.IL_PROGRAM_ROUTE;
 const failures = []; let checks = 0;
@@ -50,7 +53,9 @@ for (const row of rows) {
 }
 const cases = [
   ['two-years-exact', {}, 'satisfied'], ['two-years-short', { il_program_termination_date: '2024-10-22' }, 'not_yet'],
-  // IL1b declared successor: future dates need correction, not a calculated wait.
+  // Reviewer F2 / Lead 2026-10-21 21:05:03: old not_yet -> missing for a future date; payment stays false.
+  ['date-today', { il_program_termination_date: '2026-10-21' }, 'not_yet', 'wait'],
+  ['date-tomorrow', { il_program_termination_date: '2026-10-22' }, 'missing', 'future_date'],
   ['date-future', { il_program_termination_date: '2027-01-01' }, 'missing', 'future_date'], ['date-invalid', { il_program_termination_date: '2024-02-30' }, 'missing'],
   ['date-unknown', { il_program_termination_date: { unknown: true } }, 'missing'], ['date-omitted', { il_program_termination_date: undefined }, 'missing'],
   ['date-retained-unknown', { il_program_termination_date: { value: '2024-10-21', unknown: true } }, 'missing'],
@@ -60,7 +65,7 @@ const cases = [
   ['termination-omitted', { il_program_termination: undefined }, 'missing'], ['termination-unknown', { il_program_termination: 'unknown' }, 'missing'],
   ['termination-ongoing', { il_program_termination: 'ongoing' }, 'not_yet'],
   ['ordinary', { il_program_type: 'ordinary' }, 'review', 'ordinary'], ['type-unknown', { il_program_type: 'unknown' }, 'missing'],
-  ['type-other', { il_program_type: 'other' }, 'review', 'ordinary'],
+  ['type-other', { il_program_type: 'other' }, 'review', 'other'],
   ['type-malformed', { il_program_type: ['cannabis_10'] }, 'missing'],
   ['qualified-five-years-short', { il_program_type: 'controlled_410', il_program_termination_date: '2021-10-22' }, 'not_yet'],
   ['qualified-five-years-exact', { il_program_type: 'controlled_410', il_program_termination_date: '2021-10-21' }, 'satisfied'],
@@ -102,7 +107,7 @@ for (const [name, value] of [['scalar','2027-01-01'], ['wrapper',{value:'2027-01
   });
 }
 const other = evaluate(request({...base, il_program_type:'other'})).evaluation;
-check('other-consumer-review', () => { assert.equal(other.resultCode,'needs_review'); assert.equal(other.reasons[0].code,'il.program_ordinary'); assert.equal(other.paymentAllowed,false); });
+check('other-consumer-review', () => { assert.equal(other.resultCode,'needs_review'); assert.equal(other.reasons[0].code,'il.program_other'); assert.deepEqual(other.nextSteps,[G.IL_PROGRAM_COPY.other[0]]); assert.equal(other.paymentAllowed,false); });
 const reckless = { ...base, il_supervision_offense: 'reckless_misdemeanor', age_at_offense: '24', il_reckless_age_25: 'yes', il_other_dui_reckless: 'no', il_program_termination_date: '2026-10-20' };
 for (const [name, patch, expected] of [['reached25', {}, 'satisfied'],['under25-now',{il_reckless_age_25:'no'},'not_yet'],['age25-at-offense',{age_at_offense:'25'},'review'],['other-DUI',{il_other_dui_reckless:'yes'},'review'],['age-unknown',{age_at_offense:'I am not sure'},'missing']]) check(name, () => assert.equal(G.illinoisProgramFacts({ ...reckless, ...patch }, '2026-10-21').status, expected));
 const positive = evaluate(request(base)).evaluation;
@@ -110,7 +115,7 @@ check('native-positive-held-for-form', () => assert(positive.pathwayId === route
 const response = await POST(new Request('http://localhost/api/expungement-ai/evaluate', { method: 'POST', headers: {'content-type':'application/json'}, body: JSON.stringify(request(base)) }));
 const body = await response.json();
 check('public-positive-held', () => assert(response.status === 200 && body.paymentAllowed === false && body.consumerPacketAvailable === false && body.sponsoredPacketAvailable === false && body.reasons[0].code === 'il.program_form_mapping_unavailable'));
-for (const [name, delta, resultCode, copy] of [['other',{il_program_type:'other'},'needs_review','ordinary'],['future',{il_program_termination_date:'2027-01-01'},'needs_more_info','future_date']]) {
+for (const [name, delta, resultCode, copy] of [['other',{il_program_type:'other'},'needs_review','other'],['future',{il_program_termination_date:'2027-01-01'},'needs_more_info','future_date']]) {
   const http = await POST(new Request('http://localhost/api/expungement-ai/evaluate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(request({...base,...delta}))}));
   const body = await http.json();
   check(`public-${name}-held`, () => { assert.equal(http.status,200); assert.equal(body.resultCode,resultCode); assert.equal(body.paymentAllowed,false); assert.equal(body.consumerPacketAvailable,false); assert.equal(body.sponsoredPacketAvailable,false); assert.deepEqual(body.nextSteps,[G.IL_PROGRAM_COPY[copy][0]]); });
@@ -162,6 +167,14 @@ for (const row of nativeB.rows) {
   const noop = P.packetInformationPatch({existingItem:{id:'synthetic-il1b-'+row.name,jurisdiction:'IL',artifactRefs:{}},protectedVerification:v,answers:{}});
   check(`${row.name}:native-noop`, () => { assert(noop); assert.equal(noop.readyToGenerate,false); for (const map of ['screeningAnswers','prefilledAnswers','packetAnswers']) assert.deepEqual(noop.protectedTransition.nextVerification.draftSnapshot[map],v.draftSnapshot[map]); });
   check(`${row.name}:native-original-unchanged`, () => assert.deepEqual(v,before));
+  const item = {id:'00000000-0000-4000-8000-000000000037',jurisdiction:'IL',createdAt:v.draftSnapshot.capturedAt,artifactRefs:{}};
+  const presented = await B.decorateBriefcaseItemForPresentationWithDependencies({consumerAuthUserId:item.id,item},{
+    readProtectedArtifact:async()=>({ok:true,value:null}),readProtectedVerification:async()=>({ok:true,value:v}),
+    readTrustedPendingSource:async()=>({ok:true,value:{jurisdiction:'IL',profileVersion:profile.profileVersion,matterId:item.id,answers:P.protectedPacketScreeningAnswers(v.draftSnapshot),product:'expungement_ai_dtc',sourceSessionId:'synthetic-only',claimedAt:v.draftSnapshot.capturedAt,partnerBenefitActive:false,partnerSlug:null}}),
+    readPaymentAuthority:async()=>({valid:false,reason:'unpaid'}),evaluateAuthoritative:evaluate,
+    readCommercialActions:async()=>({fulfillmentAvailable:false,checkoutAllowed:false,generationAllowed:false})
+  });
+  check(`${row.name}:briefcase`,()=>{assert.equal(presented.authorityStatus,'protected_draft');assert.equal(presented.packetDraft.status,'available');assert.equal(presented.resultCode,future?'needs_more_info':v.draftSnapshot.resultCode);assert(Object.values(presented.commercialActions).every(value=>value===false));assert.deepEqual(v,before);});
   if (future) {
     const change = P.packetInformationPatch({existingItem:{id:'synthetic-il1b-'+row.name,jurisdiction:'IL',artifactRefs:{}},protectedVerification:v,answers:{il_program_termination_date:'2024-10-22'}});
     check(`${row.name}:correctable`, () => { assert(change); assert.equal(change.readyToGenerate,false); assert.equal(change.protectedTransition.nextVerification.draftSnapshot.packetAnswers.il_program_termination_date,'2024-10-22'); });
