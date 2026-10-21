@@ -183,6 +183,10 @@ const saleChoice=F.CA_PROP64_FACT_QUESTIONS.find(q=>q.id==='ca_prop64_transfer_c
 check('CA-02 explicit attempt choice EN/ES',[saleChoice.label,saleChoice.translations.es.label],['Sale, offer or attempt to sell','Venta, oferta o intento de venta']);
 const transportChoice=F.CA_PROP64_FACT_QUESTIONS.find(q=>q.id==='ca_prop64_transfer_conduct').optionDisplay.transport_for_sale;
 check('CA-02 transport choice excludes sale/offer/attempt EN/ES',[transportChoice.label,transportChoice.translations.es.label],['Transport for sale without a sale, offer or attempt to sell','Transporte para venta sin venta, oferta ni intento de venta']);
+// Acceptance obs 2 (02:09Z): the adopted CA-02 question sentence; wire values unchanged.
+const conductQuestion=F.CA_PROP64_FACT_QUESTIONS.find(q=>q.id==='ca_prop64_transfer_conduct');
+check('CA-02 adopted question sentence EN/ES',[conductQuestion.prompt,conductQuestion.translations.es.prompt],['Was the cannabis being transported for sale, transferred without payment, or sold? These are different legal situations.','¿El cannabis se transportaba para la venta, se transfirió sin pago o se vendió? Son situaciones legales distintas.']);
+check('CA-02 wire values unchanged',conductQuestion.options,['sale','transport_for_sale','unpaid_gift','personal_transport','other','unknown']);
 for(const [name,patch,status,classification]of [
  ['adult-unpaid-gift',{},'satisfied','no_offense'],
  ['personal-transport',{ca_prop64_transfer_conduct:'personal_transport'},'satisfied','no_offense'],
