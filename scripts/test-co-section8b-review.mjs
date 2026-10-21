@@ -24,6 +24,12 @@ const questions = projectPublicProfile(profile).questions;
 const convictionHint = profile.pathways.find(pathway => pathway.id === fixture.pathwayId).label;
 const approvedCopy = JSON.parse(fs.readFileSync(new URL('../src/lib/expungement-ai/frontend/reviewed-result-display-copy.json', import.meta.url)))
   .entries.find(entry => entry.id === 'CO-SECTION8B-REVIEW-01');
+// The evaluator and saved reasons keep the reviewed legacy key until A51.
+assert.match(approvedCopy.originalEnglish, /Section 8\(b\)/);
+assert.equal(approvedCopy.en, approvedCopy.originalEnglish.replace('Section 8(b)', 'Section 5(b)'));
+assert.equal(resolveRuntimeText('en', approvedCopy.originalEnglish), approvedCopy.en);
+assert.equal(resolveRuntimeText('es', approvedCopy.originalEnglish), approvedCopy.es);
+assert.match(approvedCopy.es, /sección 5\(b\)/);
 // Acceptance's counterexample uses CO's actual public wires, not the synthetic
 // Misdemeanor conviction value retained in the older controls below.
 for (const outcome of ['Other conviction or adjudication', 'Felony conviction'])
@@ -46,7 +52,8 @@ for (const outcome of ['Other conviction or adjudication', 'Felony conviction'])
         assert.equal(result.reasons[0].code, uncertain ? 'co.state_exclusion_unknown'
           : scopedReview ? 'co.state_exclusion_scope_unknown' : 'co.state_exclusion_selected');
         if (scopedReview && !uncertain) {
-          assert.equal(result.reasons[0].text, approvedCopy.en);
+          assert.equal(result.reasons[0].text, approvedCopy.originalEnglish);
+          assert.equal(resolveRuntimeText('en', result.reasons[0].text), approvedCopy.en);
           assert.equal(resolveRuntimeText('es', result.reasons[0].text), approvedCopy.es);
         }
       }
@@ -68,8 +75,9 @@ for (const hint of [undefined, fixture.answers.possible_pathway_context, 'Juveni
       assert.equal(result.reasons[0].code, 'co.state_exclusion_scope_unknown');
       assert.match(result.reasons[0].text, /Section 8\(b\).*consent.*hearing/);
       assert.match(result.reasons[0].text, /does not consent.*clear and convincing evidence/);
-      assert.equal(resolveRuntimeText('en', result.reasons[0].text), result.reasons[0].text);
-      assert.equal(resolveRuntimeText('es', result.reasons[0].text), 'Esta categoría por sí sola no determina si se pueden sellar los registros de su condena por un delito menor. La sección 8(b) del formulario JDF 612 contempla el consentimiento del fiscal de distrito o una audiencia y, si el fiscal de distrito no da su consentimiento, exige que usted demuestre ciertos requisitos con pruebas claras y convincentes. Revise la condena y ese procedimiento antes de continuar; esto no significa que se haya determinado que usted cumple los requisitos.');
+      assert.equal(resolveRuntimeText('en', result.reasons[0].text), approvedCopy.en);
+      assert.match(resolveRuntimeText('en', result.reasons[0].text), /Section 5\(b\).*consent.*hearing/);
+      assert.equal(resolveRuntimeText('es', result.reasons[0].text), 'Esta categoría por sí sola no determina si se pueden sellar los registros de su condena por un delito menor. La sección 5(b) del formulario JDF 612 contempla el consentimiento del fiscal de distrito o una audiencia y, si el fiscal de distrito no da su consentimiento, exige que usted demuestre ciertos requisitos con pruebas claras y convincentes. Revise la condena y ese procedimiento antes de continuar; esto no significa que se haya determinado que usted cumple los requisitos.');
     } else if (category === 'I am not sure') {
       assert.equal(result.resultCode, 'needs_review');
       assert.equal(result.paymentAllowed, false);
