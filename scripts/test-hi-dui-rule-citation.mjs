@@ -193,18 +193,21 @@ const cases=[
   }
 ];
 
+// OD-BR-1 D1 (LEAD 19:53Z ruling ii): these DUI cases are decided by the drug route's rule, so payment closes; every other captured field is unchanged.
+const d1Closed=new Set(['public','adopted','juvenile_foreign']),paid=(o,c)=>d1Closed.has(c.name)?{...o,paymentAllowed:true}:o;
 let checks=0,failures=0;
 for(const c of cases){
  const w=fixtures.find(f=>f.pathwayKey==='HI:'+c.route);assert(w);
  const answers={...w.answers,...c.delta},before=structuredClone(answers);
  const a=evaluate({jurisdiction:'HI',profileVersion:c.profileVersion,matterId:'synthetic-hi-citation-'+(c.matterName??c.name),answers});
  const {reasons,...rest}=a.evaluation;
- assert.equal(hash(rest),c.semanticHash,c.name+': outcome/payment/gates/plan unchanged');checks++;
+ if(d1Closed.has(c.name)){assert.equal(rest.paymentAllowed,false,c.name+': D1 closed');checks++;}
+ assert.equal(hash(paid(rest,c)),c.semanticHash,c.name+': outcome/payment/gates/plan unchanged');checks++;
  assert.deepEqual(answers,before);checks++;
  try{assert.deepEqual(reasons,c.change?[successor]:c.reason,c.name+': exact declared reason successor');checks++;}
  catch(error){if(!process.argv.includes('--regression-only'))throw error;failures++;console.error(JSON.stringify({name:c.name,wrongReason:reasons[0],error:error.message}));}
  const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:a,screeningAnswers:answers,dependencies:{},capturedAt:'2026-10-19T00:00:00Z'});
- assert.equal(seed?.hash??null,c.draftHash,c.name+': captured predecessor draft hash unchanged');checks++;
+ assert.equal(seed&&d1Closed.has(c.name)?P.protectedPacketDraftHash(paid(seed.snapshot,c)):seed?.hash??null,c.draftHash,c.name+': captured predecessor draft hash unchanged');checks++;
  if(process.argv.includes('--regression-only'))continue;
  if(c.change)for(const locale of ['en','es']){assert.equal(safeUserFacingEngineText(reasons[0].text,{locale}),safeUserFacingEngineText(c.reason[0].text,{locale}));checks++;}
  if(seed)for(const raw of [['Arrest or charge','Court case','Conviction'],{unknown:true,value:'Court case'}]){
