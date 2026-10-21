@@ -8,6 +8,7 @@ import {createHash} from 'node:crypto';
 import {validateMdConviction,mdConvictionFieldMap} from '../rcap-packet-recovery/chat5/md-conviction.mjs';
 import {validateMdCannabis,cannabisMap} from '../rcap-packet-recovery/chat5/md-cannabis.mjs';
 import {PASS_COUNTERS} from './completeness-contract.mjs';
+import {assertMdA46Review} from './md-favorable-native-candidate.mjs';
 
 export const MD_CONDITIONAL_FAMILIES=Object.freeze(['md_10110_conviction-set','md_cannabis_petition-set']);
 export const MD_CONDITIONAL_DIRECTORIES=Object.freeze({
@@ -15,7 +16,7 @@ export const MD_CONDITIONAL_DIRECTORIES=Object.freeze({
   'md_cannabis_petition-set':'data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill',
 });
 export const MD_CONDITIONAL_BINDING='scripts/rcap-packet-completeness/md-conditional-reviewed-inputs.json';
-export const MD_CONDITIONAL_BINDING_SHA='e309b44d1fdd545dfe8626d48eeaa894840a74ff572b24211b05e87e43c66c84';
+export const MD_CONDITIONAL_BINDING_SHA='76854dd4ccc44836bd721da59fa4caa9cc9da7d048c3d3e3b9b9e7950012af79';
 const sha=b=>createHash('sha256').update(b).digest('hex');
 const methods={
   'md_10110_conviction-set':{validate:validateMdConviction,map:mdConvictionFieldMap},
@@ -197,7 +198,13 @@ export function loadMdConditionalCandidate({root,familyId,directory=MD_CONDITION
   assert.equal(fixtures.filter(f=>f.prepared).length,config.positiveFixtures);
   assert.equal(fixtures.filter(f=>!f.prepared).length,config.diagnosticFixtures);
   const componentSet=reconcileDeclaredComponentSet({root,familyId,receipt,fixtures,readFile});
-  return {familyId,directory,config,fixtures,componentSet,filesMatched:measured.size,bindingSha256:MD_CONDITIONAL_BINDING_SHA};
+  // A46: the session08/10 reviews covered the pre-A46 outputs; these bytes are admitted only against the bound A46 record.
+  const primary=receipt.sourceCatalog[config.primaryDocument],helper=measured.get(config.helper);assert.ok(helper,'MD helper is not bound');
+  const a46Review=assertMdA46Review({files:binding.files,read:p=>{assert.ok(measured.has(p),`Unbound MD input: ${p}`);return measured.get(p);},familyId,
+    helperPath:config.helper,helperBlob:createHash('sha1').update(`blob ${helper.length}\0`).update(helper).digest('hex'),
+    source:{documentId:config.primaryDocument,path:primary.path,sha256:primary.sha256,edition:primary.edition},
+    pdfs:config.fixtures.map(f=>({file:f.file,sha256:f.sha256,bytes:measured.get(f.file).length,pages:f.pageCount}))});
+  return {familyId,directory,config,fixtures,componentSet,filesMatched:measured.size,bindingSha256:MD_CONDITIONAL_BINDING_SHA,a46Review};
 }
 
 export function auditMdConditionalCandidate({root,directory,familyId},auditPrepared){
@@ -276,7 +283,7 @@ export function auditMdConditionalCandidate({root,directory,familyId},auditPrepa
       }:null,
       preparedFixtures:prepared.length,expectedDiagnosticFixtures:diagnostics.length,sourceCurrentness:'EXACT',
       staticCounterScope:'Counters cover all exact prepared fixture source fields, and a counter no prepared fixture could measure is published as null rather than summed as zero. All diagnostics are separately measured, with original raw counters/findings preserved and selection refused even when their raw static result is PASS_COMPLETE. requiredComponentsMissing compares this family\'s field map and source receipt against the render only; the packet-set manifest is reconciled separately in componentSetReconciliation and is measured by no counter in this contract.',
-      reviewedInputFilesMatched:loaded.filesMatched,bindingSha256:loaded.bindingSha256,
+      reviewedInputFilesMatched:loaded.filesMatched,bindingSha256:loaded.bindingSha256,a46Review:loaded.a46Review,
       runtimeIntakeCounters:null,runtimeInstalled:false,centralRasterAdmission:false,terminalPromotions:0,packetRebuilds:0};
   }catch(error){return {familyId,directory,result:'FAIL_COMPONENT_SET',auditable:false,
     /* THIS IS A REFUSAL, NOT A COMPONENT READING.

@@ -14,7 +14,7 @@ export {ROOT,hash,json};
 export const FAMILY='md_cannabis_petition-set';
 export const ROUTE='obligation:track-pathway:MD:md_cannabis_petition:cannabis-specific-expungement';
 export const OUT='data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill';
-export const SOURCE={path:'reference/chat-parallel-2026-09-07/chat5/CC-DC-CR-072D.pdf',sha256:'6a5337a5d142c8ae1cc41845bd4c5efb5598e7a64acbda17c9ab70134773f147',bytes:166429,pages:1,edition:'10/2025',driveId:'12qn6XUfmp3TWHQbVaC0dcUkUsw5io7yN',url:'https://www.mdcourts.gov/sites/default/files/court-forms/ccdccr072d.pdf'};
+export const SOURCE={path:'reference/md-law-2026-10-21/CC-DC-CR-072D.pdf',sha256:'87465cb08d93f3469dc4fe7288360aaa650f21e2dee06ebd4f7f05a4998d2703',bytes:167894,pages:1,edition:'10/2025',url:'https://www.mdcourts.gov/sites/default/files/court-forms/ccdccr072d.pdf'};
 export const SOURCES={'CC-DC-CR-072D':SOURCE,'CC-DC-089':COST_SOURCES['CC-DC-089'],'MDJ-008':COST_SOURCES['MDJ-008']};
 export const BASIS={
  no_longer_crime:{field:'possession of controlled dangerous substance',statute:'CR 5-601',years:0,label:'Cannabis possession: conduct no longer a crime',authority:'Criminal Procedure 10-105(a)(11)'},
@@ -121,7 +121,7 @@ function instructions(v,missing,ids){
   ]],
   ['Sources and packet contents',[
    `Complete official components: ${ids.join('; ')}. All source pages are present; separate companion pages are instructions, not filed pleadings or substitutes for official documents. No proposed expungement order, fee-waiver grant, court certificate, general release or authentic criminal-history report is fabricated.`,
-   'Primary authorities: Criminal Procedure 10-105(a)(11)-(12), (b)-(f); 10-110(a)(2)(ii), (b)-(h); 10-107(a)-(b); 10-112. Current Judiciary adult-expungement fee page resolves the old internal free/$30 uncertainty for 072D guilty dispositions. Current filing-fee-waiver page and CC-DC-089 require the conditional MDJ-008. Review date: September 7, 2026.',
+   'Primary authorities: Criminal Procedure 10-105(a)(11)-(12), (b)-(f); 10-110(a)(2)(ii), (b)-(h); 10-107(a)-(b); 10-112. Current Judiciary adult-expungement fee page resolves the old internal free/$30 uncertainty for 072D guilty dispositions. Current filing-fee-waiver page and CC-DC-089 require the conditional MDJ-008. Review date: September 7, 2026; CC-DC-CR-072D form face checked October 21, 2026.',
    'Official form: https://www.mdcourts.gov/sites/default/files/court-forms/ccdccr072d.pdf ; fee/process: https://www.mdcourts.gov/legalhelp/expungement ; costs: https://www.mdcourts.gov/legalhelp/filingfeewaivers ; statutes: https://mgaleg.maryland.gov/mgawebsite/Laws/Statutes .'
   ]]
  ];
@@ -187,7 +187,7 @@ export async function runMdCannabis({outDir=path.join(ROOT,OUT),inputFile=null}=
  write('official-field-census.json',json(census));write('production-field-map.json',json({...maps[ready[0].fixture],conditionalMaps:maps,printedRecitals:BASIS}));
  write('reports/actual-writes.json',json({schemaVersion:'rcap-actual-writes/v1',familyId:FAMILY,derivedFromArtifactBytes:true,documents:actualDocuments,artifacts:actualArtifacts}));
  write('reports/rendered-artifacts.json',json({schemaVersion:'rcap-rendered-artifacts/v1',familyId:FAMILY,pdfs:artifacts,artifacts,renderedFresh:true,derivedFromBytes:true,independentVerificationPending:true}));
- write('source-receipt.json',json({schemaVersion:'chat5-exact-official-sources/v1',familyId:FAMILY,sourceCatalog:SOURCES,sources:Object.entries(SOURCES).map(([documentId,s])=>({documentId,...s})),allSourcesExact:true,officialFacesReadOn:'2026-09-07',liveIssuerBinaryShaMeasured:false,conditionalComponent:'CC-DC-089 all THREE pages and MDJ-008 only on express requested waiver',globalRelationshipCorrection:'Chat14 owns MDJ-008 relationship and narrow fee/record-system clarification; not modified here'}));
+ write('source-receipt.json',json({schemaVersion:'chat5-exact-official-sources/v1',familyId:FAMILY,sourceCatalog:SOURCES,sources:Object.entries(SOURCES).map(([documentId,s])=>({documentId,...s})),allSourcesExact:true,officialFacesReadOn:{'CC-DC-CR-072D':'2026-10-21','CC-DC-089':'2026-09-07','MDJ-008':'2026-09-07'},liveIssuerBinaryShaMeasured:false,conditionalComponent:'CC-DC-089 all THREE pages and MDJ-008 only on express requested waiver',globalRelationshipCorrection:'Chat14 owns MDJ-008 relationship and narrow fee/record-system clarification; not modified here'}));
  write('build-status.json',json({familyId:FAMILY,buildStatus:'state_built',reviewStatus:'qa_review_pending',pdfCount:artifacts.length,completePages:artifacts.reduce((n,a)=>n+a.pageCount,0),runtimeSelectable:false,generationAllowed:false,commercialRoutesOpened:0,selfVerified:false,limitations:['This is the 072D conviction route, not every cannabis charge or civil citation.','Only one selected basis/conviction date per supplied incident; mixed recitals or other PWID unit instruments require explicit component design.','Unknown predicates/financial facts remain diagnostic and unfileable until resolved.','Binary publication, independent review, exact shared-reader integration and central/runtime admission remain separate.']}));
  return artifacts;
 }

@@ -32,11 +32,13 @@ const mutatePorts = (file, change) => {
   return {readFile: altered, hashFile: path => sha(altered(path))};
 };
 
-it('actual 56-member candidate binds 15 four-page outputs with all 705 fields and no default', () => {
-  assert.equal(bound.binding.conditionalDelivery.reviewInputBinding.filesMeasured, 56);
+// A46: 53 re-rendered/source/helper/build members + the bound A46 review record; 48 source fields x 15 fixtures.
+it('actual 54-member candidate binds 15 four-page outputs with all 720 fields and no default', () => {
+  assert.equal(bound.binding.conditionalDelivery.reviewInputBinding.filesMeasured, 54);
   assert.equal(bound.binding.conditionalDelivery.fixtureBindings.length, 15);
   assert.deepEqual(bound.binding.conditionalDelivery.fixtureBindings.map(f => f.fixture), MD_FAVORABLE_FIXTURES);
-  assert.equal(bound.binding.conditionalDelivery.fixtureBindings.reduce((n, f) => n + f.sourceFieldAccounting.total, 0), 705);
+  assert.equal(bound.binding.conditionalDelivery.fixtureBindings.reduce((n, f) => n + f.sourceFieldAccounting.total, 0), 720);
+  assert.equal(bound.binding.conditionalDelivery.independentCandidateReview.a46Review.verdict, 'PASS_A46_MAPPING_AND_OUTPUT');
   assert.equal(bound.binding.conditionalDelivery.fixtureBindings.reduce((n, f) => n + f.pageCount, 0), 60);
   assert.equal(bound.proposedRepresentation.defaultComponentId, null);
   assert.equal(bound.binding.acceptanceReceipt, null);
@@ -69,7 +71,8 @@ for (const artifact of report.pdfs) {
     assert.ok(!selected.optionalBlanks.some(b => b.field === 'Defendant Telephone Number' || b.field === 'Law Enforcement Agency'));
     assert.equal(selected.sourceFieldAccounting.fields.find(f => f.field === 'Defendant Telephone Number').accounting, 'WRITTEN');
     assert.equal(selected.sourceFieldAccounting.fields.find(f => f.field === 'Signature of Defendant').accounting, 'PROTECTED_EXECUTION');
-    assert.equal(new Set(selected.sourceFieldAccounting.fields.map(f => f.field)).size, 47);
+    assert.equal(new Set(selected.sourceFieldAccounting.fields.map(f => f.field)).size, 48);
+    assert.equal(selected.sourceFieldAccounting.fields.find(f => f.field === 'No Finding').accounting, 'UNADOPTED_SOURCE_STATEMENT');
   });
 }
 it('all favorable branches exclude conviction/cannabis waiver, release, notice and proposed-order components', () => {
@@ -119,11 +122,10 @@ for (const [name, change] of [
   });
 }
 for (const file of [
-  'reference/chat-parallel-2026-09-07/chat5/CC-DC-CR-072A.pdf',
+  'reference/md-law-2026-10-21/CC-DC-CR-072A.pdf',
   `${OUT}/fixtures/canonical.pdf`, `${OUT}/fixtures/boundary.facts.json`, `${OUT}/reports/boundary.json`,
   `${OUT}/official-field-census.json`, 'scripts/rcap-packet-recovery/chat5/md-favorable.mjs', bindingPath, adapterPath,
-  'data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-independent-review.json',
-  'data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-guard-delta-03.json'
+  'data/rcap-grade-a/md-a46-20261021/md-a46-independent-review.json'
 ]) {
   it(`matching caller checksum cannot legitimize changed input ${file}`, () => {
     const altered = mutatePorts(file, value => { value[value.length - 1] ^= 1; return value; });
@@ -165,15 +167,15 @@ it('wrong record and family route cannot borrow the declaration', () => {
 it('unrelated family is unchanged', () => {
   assert.equal(bindDeclaredMdFavorableDelivery(record, {familyId: 'unrelated'}), record);
 });
-it('all retained 56 inputs and 15 PDFs/60 pages are unchanged after tests', () => {
+it('all retained 54 inputs and 15 PDFs/60 pages are unchanged after tests', () => {
   for (const member of manifest.files) assert.equal(sha(bytes(member.path)), member.sha256);
   assert.equal(report.pdfs.length, 15);
   assert.equal(report.pdfs.reduce((n, f) => n + f.pageCount, 0), 60);
 });
 const evidence = {schemaVersion: 'rcap-md-favorable-declared-delivery-tests/v1', status: 'PASS', cases: tests.length,
-  measuredAt: new Date().toISOString(), tests, reviewedInputsMeasured: 56, sourceFields: 47, sourceFieldInstances: 705,
-  unchangedPdfs: 15, unchangedPages: 60, packetRenders: 0, runtimeInstalled: false, ownerAuthorizationMeasured: false,
-  scope: 'Actual accepted validator and reviewed native field importer, bound to unchanged source/facts/reports/PDFs and original/guard review. Filesystem-port mutation tests measure refusal, not participant ownership, entitlement, durable render job, private delivery or production behavior.'};
+  measuredAt: new Date().toISOString(), tests, reviewedInputsMeasured: 54, sourceFields: 48, sourceFieldInstances: 720,
+  unchangedPdfs: 0, unchangedPages: 0, packetRenders: 0, runtimeInstalled: false, ownerAuthorizationMeasured: false,
+  scope: 'Actual accepted validator and reviewed native field importer, bound to the A46 re-rendered source/facts/reports/PDFs and the independent A46 review record; the 2026-09-07 original/guard review is not reused. Filesystem-port mutation tests measure refusal, not participant ownership, entitlement, durable render job, private delivery or production behavior.'};
 for (const [flag, value] of [['--report', evidence], ['--binding', bound]]) {
   const i = process.argv.indexOf(flag);
   if (i !== -1) {

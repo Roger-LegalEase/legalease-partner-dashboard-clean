@@ -33,8 +33,8 @@ try{
    else assert.equal(map.allKnownFactsPrepared,false); // Diagnostic result retained, never declared filing-ready.
   });
  }
- mutate('known applicant name may not disappear','canonical',edit=>edit('production-field-map.json',m=>{const w=m.writes.find(w=>w.field==='Text24');assert(w);m.writes=m.writes.filter(x=>x!==w);m.refusals.push({...w,requiredBeforeFiling:true,completenessDisposition:'REQUIRED_BEFORE_FILING',reason:'Missing value'});}),r=>assert(r.counters.knownRequiredFieldsMissing>0));
- mutate('forged signature declaration detected','canonical',edit=>edit('production-field-map.json',m=>m.writes.push({field:'Text29',sourceLabel:'Defendant signature',documentId:'CC-DC-CR-072B',value:'SIGNED'})),r=>assert(r.counters.protectedWrites>0));
+ mutate('known applicant name may not disappear','canonical',edit=>edit('production-field-map.json',m=>{const w=m.writes.find(w=>w.field==='Defendant Name');assert(w);m.writes=m.writes.filter(x=>x!==w);m.refusals.push({...w,requiredBeforeFiling:true,completenessDisposition:'REQUIRED_BEFORE_FILING',reason:'Missing value'});}),r=>assert(r.counters.knownRequiredFieldsMissing>0));
+ mutate('forged signature declaration detected','canonical',edit=>edit('production-field-map.json',m=>m.writes.push({field:'Signature of Defendant',sourceLabel:'Defendant signature',documentId:'CC-DC-CR-072B',value:'SIGNED'})),r=>assert(r.counters.protectedWrites>0));
  mutate('invented judicial order detected','selectable/misdemeanor-waiver',edit=>edit('production-field-map.json',m=>m.writes.push({field:'Judge Signature',sourceLabel:'Judge signature',documentId:'CC-DC-089',value:'SIGNED'})),r=>assert(r.counters.protectedWrites>0));
  mutate('missing component inventory fails','selectable/misdemeanor-waiver',edit=>edit('reports/rendered-artifacts.json',m=>m.packets=[{documents:[]}]),r=>assert(r.counters.requiredComponentsMissing>0));
  mutate('no actual appearance evidence fails','canonical',edit=>edit('reports/actual-writes.json',m=>m.artifacts.forEach(a=>a.flattenedWidgetAppearancesReadFromOutputBytes=0)),r=>assert(r.counters.invisibleWrites>0));
