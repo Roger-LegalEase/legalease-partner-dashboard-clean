@@ -17,7 +17,8 @@ const keys=['ny_16059_additional_cases','ny_16059_case_alias','ny_16059_nysid_kn
 const details={ny_16059_first_case_numbers:'000001',ny_16059_additional_case_numbers:'Case B: 000002; Case C: 000003',ny_16059_case_alias_names:'Synthetic Alex Example',ny_16059_nysid_number:'00123456X',ny_16059_future_case_numbers:'000004 / SCI-0004',ny_16059_future_court:'Synthetic Albany County Court'};
 const savedFutureCase={...F.emptyNyFutureCase('owned-first'),source:'saved_future'};savedFutureCase.savedReview=F.nyFutureCaseReview(F.nyFutureReferences(details),savedFutureCase);
 const futureFacts={[F.NY_FUTURE_ID]:F.encodeNyFutureApplications({version:F.NY_FUTURE_CONTRACT,applications:[{id:'owned-future',laws:['16059'],cases:[savedFutureCase]}]})};
-const known=new Set(['NY-CPL-160.59-PRO-SE-PACKET/AKAs','NY-CPL-160.59-PRO-SE-PACKET/NYSID','NY-CPL-160.59-APPLICATION/Court_Name','NY-CPL-160.59-PRO-SE-PACKET/Court Name 3','NY-CPL-160.59-PRO-SE-PACKET/Case Number 3']);
+// APPLICATION 73a5eeaf requires its own owner-fact binding; the pro-se knownness rule does not apply.
+const known=new Set(['NY-CPL-160.59-APPLICATION/NYSID','NY-CPL-160.59-PRO-SE-PACKET/AKAs','NY-CPL-160.59-PRO-SE-PACKET/NYSID','NY-CPL-160.59-APPLICATION/Court_Name','NY-CPL-160.59-PRO-SE-PACKET/Court Name 3','NY-CPL-160.59-PRO-SE-PACKET/Case Number 3']);
 const touched=new Set(['NY-CPL-160.59-APPLICATION/Docket_Indictment_SCI_Number_2','NY-CPL-160.59-APPLICATION/Court_Name_2','NY-CPL-160.59-APPLICATION/Conviction_Charge_2','NY-CPL-160.59-APPLICATION/Law_Section_Subsection_2','NY-CPL-160.59-APPLICATION/Conviction_Date_2','NY-CPL-160.59-APPLICATION/Sentence_Date_2','NY-CPL-160.59-APPLICATION/Sentence_Term_2','NY-CPL-160.59-APPLICATION/Release_Date_2','NY-CPL-160.59-PRO-SE-PACKET/Case Number 2','NY-CPL-160.59-PRO-SE-PACKET/Court Name 2','NY-CPL-160.59-PRO-SE-PACKET/AKAs','NY-CPL-160.59-PRO-SE-PACKET/NYSID','NY-CPL-160.59-APPLICATION/Court_Name','NY-CPL-160.59-APPLICATION/Conviction_Date','NY-CPL-160.59-APPLICATION/Sentence_Date','NY-CPL-160.59-PRO-SE-PACKET/Case Number 3','NY-CPL-160.59-PRO-SE-PACKET/Court Name 3']);
 for(const example of fixture.rows){
  const old=example.verifiedRecord;
@@ -35,6 +36,10 @@ for(const example of fixture.rows){
    check(`${prefix}/${id}/value privacy`,!JSON.stringify(row).includes('00123456X')&&!JSON.stringify(row).includes('Synthetic Alex Example'));
    if(value==='Yes'&&known.has(id))check(`${prefix}/${id}/known still owed`,row.disposition==='KNOWN_FACT_NOT_WRITTEN');
    else check(`${prefix}/${id}/source unavailable`,row.proofState==='SOURCE_BYTES_UNAVAILABLE'||row.proofState==='SOURCE_PROOF_UNRESOLVED');
+   if(id==='NY-CPL-160.59-APPLICATION/NYSID'){
+    check(`${prefix}/application NYSID exact owner binding`,row.ownedFactIds.includes('ny_16059_nysid_number')===(value==='Yes'));
+    check(`${prefix}/application NYSID never inherits if-known blank exemption`,row.ownedApplicability==='unresolved_source_revision'&&row.disposition!=='NOT_APPLICABLE_ON_THIS_ROUTE');
+   }
    if(touched.has(id))check(`${prefix}/${id}/narrow applicability`,row.ownedApplicability===(value==='No'?'inactive':value==='Yes'&&row.field!=='Release_Date_2'?'active':'unknown'));
    else check(`${prefix}/${id}/unmapped remains unknown`,row.ownedApplicability==='unknown'||row.ownedApplicability==='active'&&row.condition.length===0||row.ownedApplicability==='unresolved_source_revision');
   }
