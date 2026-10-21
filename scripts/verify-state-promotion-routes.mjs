@@ -135,14 +135,19 @@ function readText(relativePath) {
 }
 
 function git(args) {
-  const result = spawnSync("git", args, { cwd: rootDir, encoding: "utf8" });
-  if (result.status !== 0 && result.error && !result.stdout) throw result.error;
-  return (result.stdout || "").split(/\r?\n/).filter(Boolean);
+  // The PR diff exceeds the 1 MiB default; any error (ENOBUFS keeps a truncated stdout) or non-zero exit
+  // must fail the guard, never pass it on a partial file list.
+  const result = spawnSync("git", args, { cwd: rootDir, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+  if (result.error) throw result.error;
+  if (result.status !== 0) throw new Error(`git ${args.join(" ")} exited ${result.status}: ${result.stderr.trim()}`);
+  return result.stdout.split(/\r?\n/).filter(Boolean);
 }
 
 function gitOneLine(args) {
   const result = spawnSync("git", args, { cwd: rootDir, encoding: "utf8" });
-  if (result.status !== 0 || (result.error && !result.stdout)) return null;
+  if (result.error) throw result.error;
+  // Non-zero is a probe miss (absent ref, no merge base); callers record it as a guard failure.
+  if (result.status !== 0) return null;
   return result.stdout.trim() || null;
 }
 
