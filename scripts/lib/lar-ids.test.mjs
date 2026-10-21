@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
-import { larIdRegistry, larKey } from "./lar-ids.mjs";
+import { LAR_ID_FLOOR, larIdRegistry, larKey } from "./lar-ids.mjs";
 
 const item = (routeId, exactMissingItem = "official form") =>
   ({ jurisdiction: "ZZ", routeId, missingItemType: "official_form", exactMissingItem, status: "open" });
@@ -15,26 +15,37 @@ const idsByRoute = (report) => Object.fromEntries(report.items.map((entry) => [e
 // The properties the generator relies on; a registry that numbers in iteration order must fail them.
 function stableIdProperties(factory) {
   const first = run(factory, {}, ["a", "b", "c", "d"].map((route) => item(route)));
-  assert.deepEqual(idsByRoute(first), { a: "LAR-001", b: "LAR-002", c: "LAR-003", d: "LAR-004" });
+  const base = Number(first.items[0].id.slice(4));
+  const id = (offset) => `LAR-${String(base + offset).padStart(3, "0")}`;
+  assert.deepEqual(idsByRoute(first), { a: id(0), b: id(1), c: id(2), d: id(3) });
   assert.deepEqual(run(factory, first, first.items).items, first.items, "a second run over its own output is a fixed point");
   const removed = run(factory, first, ["a", "c", "d"].map((route) => item(route)));
-  assert.deepEqual(idsByRoute(removed), { a: "LAR-001", c: "LAR-003", d: "LAR-004" }, "removing a route keeps every other id");
-  assert.deepEqual(removed.resolvedItems.map((entry) => [entry.id, entry.status]), [["LAR-002", "resolved"]]);
+  assert.deepEqual(idsByRoute(removed), { a: id(0), c: id(2), d: id(3) }, "removing a route keeps every other id");
+  assert.deepEqual(removed.resolvedItems.map((entry) => [entry.id, entry.status]), [[id(1), "resolved"]]);
   const added = run(factory, removed, ["a", "x", "c", "d"].map((route) => item(route)));
-  assert.deepEqual(idsByRoute(added), { a: "LAR-001", x: "LAR-005", c: "LAR-003", d: "LAR-004" }, "a new key takes the next unissued id, never LAR-002");
-  assert.deepEqual(added.resolvedItems.map((entry) => entry.id), ["LAR-002"], "resolved items persist across runs");
+  assert.deepEqual(idsByRoute(added), { a: id(0), x: id(4), c: id(2), d: id(3) }, "a new key takes the next unissued id, never the resolved one");
+  assert.deepEqual(added.resolvedItems.map((entry) => entry.id), [id(1)], "resolved items persist across runs");
   const reopened = run(factory, added, ["a", "b", "x", "c", "d"].map((route) => item(route)));
-  assert.equal(idsByRoute(reopened).b, "LAR-002", "a reopened key gets its own id back");
+  assert.equal(idsByRoute(reopened).b, id(1), "a reopened key gets its own id back");
   assert.deepEqual(reopened.resolvedItems, []);
   const topRemoved = run(factory, first, ["a", "b", "c"].map((route) => item(route)));
   const afterTop = run(factory, topRemoved, ["a", "b", "c", "y"].map((route) => item(route)));
-  assert.equal(idsByRoute(afterTop).y, "LAR-005", "the resolved highest id LAR-004 is never reissued");
+  assert.equal(idsByRoute(afterTop).y, id(4), "the resolved highest id is never reissued");
   const changed = run(factory, first, [item("a"), item("b", "certified disposition"), item("c"), item("d")]);
-  assert.equal(idsByRoute(changed).b, "LAR-005", "a changed missing item is a new key");
-  assert.deepEqual(changed.resolvedItems.map((entry) => entry.id), ["LAR-002"]);
+  assert.equal(idsByRoute(changed).b, id(4), "a changed missing item is a new key");
+  assert.deepEqual(changed.resolvedItems.map((entry) => entry.id), [id(1)]);
 }
 
 test("content-keyed LAR ids are stable, append-only and never reused", () => stableIdProperties(larIdRegistry));
+
+test("a new key never takes a number the old sequential scheme issued (LAR-001..LAR-197)", () => {
+  assert.equal(LAR_ID_FLOOR, 198);
+  assert.equal(run(larIdRegistry, {}, [item("a")]).items[0].id, "LAR-198");
+  const committed = { items: [{ ...item("a"), id: "LAR-001" }, { ...item("b"), id: "LAR-152" }] };
+  const next = run(larIdRegistry, committed, [item("a"), item("b"), item("c")]);
+  assert.deepEqual(idsByRoute(next), { a: "LAR-001", b: "LAR-152", c: "LAR-198" }, "held ids stay; the new key starts at the floor");
+  assert.equal(run(larIdRegistry, { items: [{ ...item("a"), id: "LAR-250" }] }, [item("a"), item("c")]).items[1].id, "LAR-251");
+});
 
 test("mutant: sequential numbering fails the stability properties", () => {
   const sequential = () => { let seq = 0; return { idFor: () => `LAR-${String(++seq).padStart(3, "0")}`, resolvedItems: () => [] }; };

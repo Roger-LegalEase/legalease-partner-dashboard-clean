@@ -6,6 +6,10 @@
 // already has; a new key gets the next number after every id ever issued (open or resolved); a key no
 // longer generated moves to resolvedItems. An id is never given to a different key.
 
+// The old sequential numbering issued LAR-001..LAR-197 (597afa8ab..6f46f2fab, 2026-07-01) to items that
+// are not today's keys; a new key starts above every number it ever used, so none is reissued.
+export const LAR_ID_FLOOR = 198;
+
 export const larKey = (item) => [item.jurisdiction, item.routeId, item.missingItemType, item.exactMissingItem].join("␟");
 
 const idNumber = (id) => {
@@ -24,7 +28,7 @@ export function larIdRegistry(committed = {}) {
   }
   const numbers = [...ids.values()].map(idNumber);
   if (new Set(numbers).size !== numbers.length) throw new Error("one Legal Action Required id names two content keys");
-  let next = Math.max(0, ...numbers) + 1;
+  let next = Math.max(LAR_ID_FLOOR - 1, ...numbers) + 1;
   const issued = new Set();
   return {
     idFor(item) {

@@ -1,7 +1,7 @@
 # Expungement.ai / RCAP — Petition / Application-Route Inventory
 
 > **Audit / report only. No runtime behavior changed by this script.** No route moved between control sets.
-> Head commit `de1c2dae696c5d01a5c652d6a2be994bf7bdfbce`. Ground truth = the live evaluator payment gate. No payment inferred from legal possibility.
+> Head commit `3c3195e41fb1921f94ad207809c72ada18c97381`. Ground truth = the live evaluator payment gate. No payment inferred from legal possibility.
 
 ## Headline totals
 
@@ -120,11 +120,11 @@ _none_
 | `situation-a-non-convictions` | AR | court_petition | court | y | y | y | INTENTIONAL_UNSUPPORTED | permanent_guidance_not_a_paid_product | not_paid_product | - |
 | `situation-b-misdemeanor-convictions` | AR | court_petition | court | y | y | y | RATIFIED_DEPLOYABLE | paid_now | none | - |
 | `situation-c-felony-convictions` | AR | court_petition | court | y | y | y | RATIFIED_DEPLOYABLE | paid_now | none | - |
-| `notation-of-clearance-after-a-wrongful-arrest-under-13-4051` | AZ | court_petition | court | y | y | y | other / unclassified | paid_after_route_metadata_fix | route_metadata | LAR-149 |
+| `notation-of-clearance-after-a-wrongful-arrest-under-13-4051` | AZ | court_petition | court | y | y | y | other / unclassified | paid_after_route_metadata_fix | route_metadata | LAR-198 |
 | `remedy-1-record-sealing` | AZ | court_petition | court | y | y | y | RATIFIED_DEPLOYABLE | paid_now | none | - |
 | `remedy-2-set-aside-of-a-conviction` | AZ | court_motion | court | y | y | y | other / unclassified | paid_after_route_metadata_fix | route_metadata | LAR-005 |
 | `remedy-3-marijuana-expungement` | AZ | court_petition | court | y | y | y | other / unclassified | paid_after_route_metadata_fix | route_metadata | LAR-006 |
-| `dismissal-and-set-aside-without-probation-under-penal-code-1203-4a` | CA | court_motion | court | y | y | y | other / unclassified | paid_after_legal_reconfirmation | legal_reconfirmation | LAR-150 |
+| `dismissal-and-set-aside-without-probation-under-penal-code-1203-4a` | CA | court_motion | court | y | y | y | other / unclassified | paid_after_legal_reconfirmation | legal_reconfirmation | LAR-199 |
 | `prop-64-completed-sentence-application-11361-8` | CA | court_petition | court | y | y | y | RATIFIED_DEPLOYABLE | paid_now | none | - |
 | `prop-64-currently-serving-petition-11361-8` | CA | court_petition | court | y | y | y | RATIFIED_DEPLOYABLE | paid_now | none | - |
 | `tool-1-dismissal-set-aside` | CA | court_motion | court | y | y | y | RATIFIED_DEPLOYABLE | paid_now | none | - |
@@ -140,7 +140,7 @@ _none_
 | `automatic-clean-slate-erasure-for-eligible-post-2000-convictions` | CT | automatic_relief | automatic | y | n | n | other / unclassified | permanent_guidance_not_a_paid_product | automatic_relief_mode | - |
 | `automatic-non-conviction-erasure-under-conn-gen-stat-54-142a` | CT | automatic_relief | automatic | y | n | n | other / unclassified | permanent_guidance_not_a_paid_product | automatic_relief_mode | - |
 | `cannabis-conviction-erasure` | CT | automatic_relief | automatic | y | n | n | other / unclassified | permanent_guidance_not_a_paid_product | automatic_relief_mode | - |
-| `petition-for-erasure-of-cannabis-conviction-records-under-54-142v` | CT | court_petition | court | y | y | y | other / unclassified | paid_after_legal_reconfirmation | legal_reconfirmation | LAR-151 |
+| `petition-for-erasure-of-cannabis-conviction-records-under-54-142v` | CT | court_petition | court | y | y | y | other / unclassified | paid_after_legal_reconfirmation | legal_reconfirmation | LAR-200 |
 | `petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202` | CT | court_petition | court | y | y | y | RATIFIED_DEPLOYABLE | paid_now | none | - |
 | `dc_actual_innocence_expungement_16_803` | DC | court_petition | court | y | y | y | RATIFIED_DEPLOYABLE | paid_now | none | - |
 | `dc_auto_expungement_16_802` | DC | automatic_relief | automatic | n | n | n | other / unclassified | not_currently_operational | not_operational | - |
@@ -206,7 +206,7 @@ _none_
 | `juvenile-petition-610330` | KY | automatic_relief | automatic | y | n | n | other / unclassified | permanent_guidance_not_a_paid_product | automatic_relief_mode | - |
 | `misdemeanor-violation-traffic-conviction` | KY | court_petition | court | y | y | y | INTENTIONAL_UNSUPPORTED | permanent_guidance_not_a_paid_product | not_paid_product | - |
 | `nonconviction-431076` | KY | court_petition | court | y | y | y | other / unclassified | paid_after_legal_reconfirmation | legal_reconfirmation | LAR-032 |
-| `void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276` | KY | court_petition | court | y | y | y | other / unclassified | paid_after_legal_reconfirmation | legal_reconfirmation | LAR-152 |
+| `void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276` | KY | court_petition | court | y | y | y | other / unclassified | paid_after_legal_reconfirmation | legal_reconfirmation | LAR-201 |
 | `automated-expungement-status-verification-art-985-2` | LA | automatic_relief | automatic | y | n | n | other / unclassified | permanent_guidance_not_a_paid_product | automatic_relief_mode | - |
 | `expungement-by-redaction-for-multi-person-records` | LA | court_petition | court | y | y | y | HELD_GUIDANCE | paid_after_legal_reconfirmation | legal_reconfirmation | LAR-034 |
 | `felony-article-893-e-set-aside-followed-by-expungement` | LA | court_motion | court | y | y | y | RATIFIED_DEPLOYABLE | paid_now | none | - |
