@@ -204,9 +204,14 @@ function assertDetectorFailsClosedOnTruncatedDiff() {
       if (!run.stderr.includes("ci-scope-test: forced maxBuffer=1 on git diff")) failures.push(`${prefix}: the forced git diff truncation was not applied; the check proved nothing.`);
       if (run.status === 0) failures.push(`${prefix}: CI scope detector exited 0 on a truncated git diff (fail-open): ${run.stdout.trim().slice(0, 200)}`);
     }
-    const noBase = detect(`${productPrefixes[4]}probe`, ["--base=no-such-ref"]);
-    if (noBase.status !== 0 || !noBase.stdout.includes("using branch-prefix backup")) {
-      failures.push(`CI scope detector must keep the branch-prefix backup when no base can be compared (rc ${noBase.status}).`);
+    // With no comparable base the backup must fail closed: every product affected, so the RCAP guards still run.
+    for (const prefix of productPrefixes) {
+      const noBase = detect(`${prefix}probe`, ["--base=no-such-ref"]);
+      let noBaseScope = {};
+      try { noBaseScope = JSON.parse(noBase.stdout); } catch { /* reported below */ }
+      if (noBase.status !== 0 || !noBase.stderr.includes("using branch-prefix backup") || noBaseScope.rcapAffected !== true) {
+        failures.push(`${prefix}: with no comparable base the branch-prefix backup must report rcapAffected=true (rc ${noBase.status}, rcapAffected=${noBaseScope.rcapAffected}).`);
+      }
     }
     const noBaseOther = detect("codex/probe", ["--base=no-such-ref"]);
     if (noBaseOther.status === 0) failures.push("CI scope detector must throw for a non-product branch with no comparable base.");

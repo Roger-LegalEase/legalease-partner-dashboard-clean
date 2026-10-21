@@ -163,7 +163,7 @@ function main() {
   const baseRef = baseArg ? baseArg.slice("--base=".length) : undefined;
   if (debug) printBaseDebug();
   const changedFiles = changedFilesWithBranchBackup({ baseRef });
-  const scope = classifyFiles(changedFiles);
+  const scope = changedFiles === null ? everyProductAffected() : classifyFiles(changedFiles);
 
   if (githubOutput) writeGithubOutput(scope);
 
@@ -184,8 +184,9 @@ function main() {
   printGroup("Other files", scope.groups.other);
 }
 
-// The branch-prefix backup covers only a base that cannot be compared. A failed or truncated diff read
-// (ENOBUFS on a large PR) must fail the step: an empty list would report rcapAffected=false and skip the guards.
+// The branch-prefix backup covers only a base that cannot be compared, and it fails closed: an unknown diff
+// marks every product affected (null below), never an empty list that would skip the RCAP guards. A failed or
+// truncated diff read (ENOBUFS on a large PR) fails the step.
 function noBaseError(message) {
   return Object.assign(new Error(message), { code: "CI_SCOPE_NO_BASE" });
 }
@@ -197,11 +198,15 @@ function changedFilesWithBranchBackup({ baseRef } = {}) {
     if (error.code !== "CI_SCOPE_NO_BASE") throw error;
     const branch = currentBranchName();
     if (isProductBranchPrefix(branch)) {
-      console.log(`CI scope detector could not compare against the base ref; using branch-prefix backup for ${branch}.`);
-      return [];
+      console.error(`CI scope detector could not compare against the base ref; using branch-prefix backup for ${branch}: every product is treated as affected.`);
+      return null;
     }
     throw error;
   }
+}
+
+function everyProductAffected() {
+  return { ...classifyFiles([]), rcapAffected: true, expungementAiAffected: true, legaleaseAffected: true, otherAffected: true };
 }
 
 function writeGithubOutput(scope) {
