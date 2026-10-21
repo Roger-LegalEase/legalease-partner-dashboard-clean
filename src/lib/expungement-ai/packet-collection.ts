@@ -787,6 +787,30 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "trafficking-survivor-set-aside-and-seal", // GA17 Q-d641e93e73955b0b8ca2
     ],
   },
+  RI: {
+    profileHash: "ddb5d94750f7e7586b38f99656b486c96fbad392938b32179dbf25eb95f54a8a",
+    categoryReason: "Earlier Rhode Island categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "path-a-first-offender-conviction-expungement", // GA12 Q-50cca60f5c7926124ba7
+      "path-b-multiple-misdemeanor-expungement", // GA12 Q-cb04a7aa485b8e2b72d8
+      "path-c-deferred-sentence-expungement", // GA12 Q-953071a0940638aa4080
+      "path-d-non-conviction-sealing-expungement", // GA12 Q-f267c2dff27842604000
+      "path-e-filed-complaint-relief-under-12-10-12", // GA12 Q-4eb0e509dabbd52d3833
+      "path-f-marijuana-possession-expungement", // GA12 Q-6ee35861d87c035055aa
+      "path-g-decriminalized-offense-expungement", // GA12 Q-6657da2a38a7cc5786a2
+      "path-h-commercial-sexual-activity-related-expungement", // GA12 Q-882f1028ec5db3a1c041
+    ],
+    record: [
+      "path-a-first-offender-conviction-expungement", // GA17 Q-b76d3d226ef90e273467
+      "path-b-multiple-misdemeanor-expungement", // GA17 Q-be9c68444b00deaf3e53
+      "path-c-deferred-sentence-expungement", // GA17 Q-231f7301ba7ec275311f
+      "path-d-non-conviction-sealing-expungement", // GA17 Q-315bc91f871d66169b51
+      "path-e-filed-complaint-relief-under-12-10-12", // GA17 Q-837bf7efc9ddfbb653af
+      "path-f-marijuana-possession-expungement", // GA17 Q-e90b9851defd241b9ab1
+      "path-g-decriminalized-offense-expungement", // GA17 Q-b9ef500f7b5744a20048
+      "path-h-commercial-sexual-activity-related-expungement", // GA17 Q-0cf26464d2bc85c7c351
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
