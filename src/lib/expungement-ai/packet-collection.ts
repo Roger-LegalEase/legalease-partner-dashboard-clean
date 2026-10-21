@@ -1359,8 +1359,10 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     categoryReason: "Earlier New York categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
     category: [
       "automatic-clean-slate-sealing-under-cpl-160-57", // GA12 Q-a4e19170bd483d92f65a
+      "automatic-non-conviction-sealing-under-cpl-160-50-160-55", // GA12 Q-ebe3d90a4fde2ef2e8e6
       "conditional-treatment-sealing-under-cpl-160-58", // GA12 Q-f89138cbd1584a2640c1
       "discretionary-conviction-sealing-by-petition-under-cpl-160-59", // GA12 Q-248865769cbca4a8a8f7
+      "marijuana-record-destruction-under-the-mrta", // GA12 Q-6044a5908b4cdd24f29f
     ],
     record: [
     ],
