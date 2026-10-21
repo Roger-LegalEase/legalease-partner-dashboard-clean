@@ -1193,6 +1193,16 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     record: [
     ],
   },
+  CT: {
+    profileHash: "7a0dadd32497d4be04bfad21e8ee8cf3b735168a84a3cd5baf70dcd7039f348c",
+    categoryReason: "Earlier Connecticut categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "absolute-pardon-resulting-in-erasure", // GA12 Q-98e4ea3ca807af2b1e75
+      "petition-for-erasure-of-cannabis-conviction-records-under-54-142v", // GA12 Q-bb10b9d5904f136c12c5
+    ],
+    record: [
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
