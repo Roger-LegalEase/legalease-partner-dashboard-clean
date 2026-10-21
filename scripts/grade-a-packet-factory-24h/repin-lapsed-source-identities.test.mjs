@@ -440,11 +440,47 @@ test("specifications REFUSE: a family binding co_motion_seal_conviction is refus
 
 test("specifications REFUSE: a recordId naming no track, or not in the specifications shape, is refused", () => {
   const currentDoc = SPECS_CHANGES.co[1];
-  for (const recordId of ["legal-design-specifications:no-such-track", "legal-design-specifications:processGuidance#ga-rfo", "committed-record", undefined]) {
+  for (const recordId of ["legal-design-specifications:no-such-track", "legal-design-specifications:noSuchArray#ga-rfo", "legal-design-specifications:processGuidance#no-such-track", "committed-record", undefined]) {
     assert.throws(() => specsAdapter.scopeFrom({ receipt: {}, pin: { recordId, pathInRepository: SPECS }, currentDoc }),
       (e) => e instanceof Refusal, `recordId ${recordId} must refuse`);
   }
   assert.throws(() => specsAdapter.anchorsOf({ ...currentDoc, extra: 1 }, { anchorIds: [] }, "current"), (e) => e instanceof Refusal);
+});
+
+/* GA's receipt names its specifications entry as `processGuidance#ga-rfo`. The lead's rule (16:26:14Z) reads
+ * `<array>#<trackId>` as the WHOLE track, so GA refreshes only when every ga-rfo entry in all four arrays is unchanged. */
+const GA_SPECS = specsPinAt("2f6985f6478247d71de78447bc16680a29136427", "data/rcap-all50/overlays/census-v1/ga/rcap-ga-guidance-implementation--custom-pleading");
+
+test("specifications ACCEPT: GA's processGuidance#ga-rfo anchors the whole ga-rfo track, unchanged across both changes", () => {
+  assert.equal(GA_SPECS.pin.recordId, "legal-design-specifications:processGuidance#ga-rfo");
+  const scope = specsAdapter.scopeFrom({ ...GA_SPECS, currentDoc: SPECS_CHANGES.co[1] });
+  assert.deepEqual(scope.anchorIds, ["ga-rfo"]);
+  for (const pair of Object.values(SPECS_CHANGES)) {
+    const c = specsCompare(specsAdapter, GA_SPECS, pair);
+    assert.equal(c.anchorsCompared, c.anchorsIdentical);
+    assert.deepEqual(c.anchorNames, ["specificationsGlobalMetadata", "specs:ga-rfo"]);
+  }
+});
+
+test("specifications REFUSE: a changed ga-rfo participantFilingRequirements entry refuses GA, though its recordId names processGuidance", () => {
+  const [oldDoc, currentDoc] = SPECS_CHANGES.co;
+  const moved = structuredClone(currentDoc);
+  const entry = moved.participantFilingRequirements.find((e) => e.trackId === "ga-rfo");
+  entry.requirement = `${entry.requirement} (changed)`;
+  const c = specsCompare(specsAdapter, GA_SPECS, [oldDoc, moved]);
+  assert.deepEqual(c.differing, ["specs:ga-rfo"]);
+  const scope = specsAdapter.scopeFrom({ ...GA_SPECS, currentDoc: moved });
+  assert.deepEqual(describeDifference({ adapter: specsAdapter, oldDoc, currentDoc: moved, scope, differing: c.differing })[0].changedFields, ["participantFilingRequirements"]);
+});
+
+test("specifications MUTANT: without the <array>#<trackId> rule GA is refused", () => {
+  const asTrackId = { ...specsAdapter, scopeFrom({ pin, currentDoc }) {
+    const byTrack = specsAdapter.index(currentDoc, "current");
+    const ids = pin.recordId.slice("legal-design-specifications:".length).split("+");
+    for (const id of ids) if (!byTrack.has(id)) throw new Refusal(`no track ${id}`);
+    return { anchorIds: ids };
+  } };
+  assert.throws(() => specsCompare(asTrackId, GA_SPECS, SPECS_CHANGES.co), (e) => e instanceof Refusal);
 });
 
 test("specifications MUTANTS: a widened or narrowed scope is caught", () => {

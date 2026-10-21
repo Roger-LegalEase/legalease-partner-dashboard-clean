@@ -434,11 +434,20 @@ const specificationsAdapter = {
     const byTrack = this.index(currentDoc, "current");
     const match = /^legal-design-specifications:(.+)$/.exec(pin.recordId ?? "");
     if (!match) throw new Refusal(`ambiguous specifications recordId ${JSON.stringify(pin.recordId)}`, { recordId: pin.recordId ?? null });
-    const anchors = match[1].split("+");
+    const anchors = match[1].split("+").map((component) => {
+      const hash = component.indexOf("#");
+      if (hash < 0) return component;
+      // `<array>#<trackId>` (GA: processGuidance#ga-rfo) still anchors the WHOLE track; the array only has to be real (lead 16:26:14Z).
+      const array = component.slice(0, hash);
+      if (!SPECIFICATION_ARRAYS.some((k) => k === array || k.replace(/Specs$/, "") === array)) {
+        throw new Refusal(`the receipt's recordId names ${JSON.stringify(array)}, which is no array in the specifications`, { recordId: pin.recordId, component });
+      }
+      return component.slice(hash + 1);
+    });
     for (const id of anchors) {
       if (!byTrack.has(id)) throw new Refusal(`the receipt's recordId names ${JSON.stringify(id)}, which is no track in the current specifications`, { recordId: pin.recordId, component: id });
     }
-    return { anchorIds: [...new Set(anchors)].sort(), derivation: { fromPinRecordId: anchors, globalMetadataComparedAsOneAnchor: true, measuredReVerification: measuredRowsFor(receipt, this.recordPath) } };
+    return { anchorIds: [...new Set(anchors)].sort(), derivation: { fromPinRecordId: match[1].split("+"), globalMetadataComparedAsOneAnchor: true, measuredReVerification: measuredRowsFor(receipt, this.recordPath) } };
   },
   anchorsOf(doc, scope, side) {
     const byTrack = this.index(doc, side);
