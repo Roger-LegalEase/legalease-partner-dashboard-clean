@@ -18,8 +18,8 @@ The platform filled in your held name, date of birth, mailing address, telephone
 | Question | What the repository establishes, or the authority that answers it |
 | --- | --- |
 | FILING_DESTINATION | No held source establishes the destination for a section 1017A correction after the automatic process did not occur. Contact the clerk of the Family Court that entered the adjudication; ask the clerk which office handles this correction, confirm whether a petition or correction request is needed, and obtain that office's name and postal address. The clerk is an office to ask, not an established filing destination for this request. |
-| FEE_AND_WAIVER | No held source establishes a fee or fee waiver for a section 1017A correction. Ask the clerk of the Family Court that entered the adjudication about any fee and waiver procedure, and confirm them with the office identified to handle the correction before sending anything or paying. |
-| SERVICE | The held records do not establish a service or notice requirement for this correction. Ask the clerk of the Family Court that entered the adjudication whether anyone must receive a copy, and how, before submitting the request. Do not assume that no service is required. |
+| FEE_AND_WAIVER | No held source establishes a fee or fee waiver for a section 1017A correction. Ask the office identified to handle the correction about any fee and waiver procedure before sending anything or paying. |
+| SERVICE | The held records do not establish a service or notice requirement for this correction. Ask the office identified to handle the correction whether anyone must receive a copy, and how, before submitting the request. Do not assume that no service is required. |
 | SELF_HELP_STOP | Stop and seek a lawyer or a legal-aid office if the office disputes eligibility, does not resolve the request, a court petition is required, the record belongs to a different juvenile branch, or an immigration question is involved. |
 
 ## What the committed record says you must know
@@ -53,8 +53,8 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 1. Check whether the record is still there; do not request correction of an expungement that already happened.
 2. No held source establishes the destination for a section 1017A correction after the automatic process did not occur. Contact the clerk of the Family Court that entered the adjudication; ask the clerk which office handles this correction, confirm whether a petition or correction request is needed, and obtain that office's name and postal address. The clerk is an office to ask, not an established filing destination for this request.
 3. Complete the labelled exact-office/postal-address blank with the confirmed office name and postal address before sending; complete C1-C4 from your own record and answers.
-4. No held source establishes a fee or fee waiver for a section 1017A correction. Ask the clerk of the Family Court that entered the adjudication about any fee and waiver procedure, and confirm them with the office identified to handle the correction before sending anything or paying.
-5. The held records do not establish a service or notice requirement for this correction. Ask the clerk of the Family Court that entered the adjudication whether anyone must receive a copy, and how, before submitting the request. Do not assume that no service is required.
+4. No held source establishes a fee or fee waiver for a section 1017A correction. Ask the office identified to handle the correction about any fee and waiver procedure before sending anything or paying.
+5. The held records do not establish a service or notice requirement for this correction. Ask the office identified to handle the correction whether anyone must receive a copy, and how, before submitting the request. Do not assume that no service is required.
 6. Check, sign and date your request personally. Keep copies of what you send and receive.
 7. If the question is not resolved or a court petition is required, seek a lawyer or a legal-aid office.
 
@@ -66,8 +66,8 @@ Each is printed on its page as a labelled dotted blank. Fill every one that belo
 ## What this packet does not tell you
 
 - No held source establishes the destination for a section 1017A correction after the automatic process did not occur. Contact the clerk of the Family Court that entered the adjudication; ask the clerk which office handles this correction, confirm whether a petition or correction request is needed, and obtain that office's name and postal address. The clerk is an office to ask, not an established filing destination for this request.
-- No held source establishes a fee or fee waiver for a section 1017A correction. Ask the clerk of the Family Court that entered the adjudication about any fee and waiver procedure, and confirm them with the office identified to handle the correction before sending anything or paying.
-- The held records do not establish a service or notice requirement for this correction. Ask the clerk of the Family Court that entered the adjudication whether anyone must receive a copy, and how, before submitting the request. Do not assume that no service is required.
+- No held source establishes a fee or fee waiver for a section 1017A correction. Ask the office identified to handle the correction about any fee and waiver procedure before sending anything or paying.
+- The held records do not establish a service or notice requirement for this correction. Ask the office identified to handle the correction whether anyone must receive a copy, and how, before submitting the request. Do not assume that no service is required.
 
 ## When to stop and get help instead of filing
 

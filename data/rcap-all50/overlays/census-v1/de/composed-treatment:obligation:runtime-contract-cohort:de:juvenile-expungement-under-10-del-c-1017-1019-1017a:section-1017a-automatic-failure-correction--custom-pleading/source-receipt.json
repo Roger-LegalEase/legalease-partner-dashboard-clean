@@ -23,11 +23,11 @@
       ],
       "recordId": "route-contract:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a",
       "pathInRepository": "src/lib/legal-authority/routes/single-routes.json",
+      "sha256": "1bd1efb03ad57f4c6d8efd690532b74d2e2ac53c05a9c3103d15a3de72c80bdd",
+      "byteLength": 102577,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed route contract for the Delaware juvenile cohort: the § 1017A automatic branch and the note recording that a petition or correction path exists only where the automatic process did not occur",
       "anchorStatementsVerified": 3,
-      "sha256": "1bd1efb03ad57f4c6d8efd690532b74d2e2ac53c05a9c3103d15a3de72c80bdd",
-      "byteLength": 102577,
       "identityRefresh": {
         "refreshedOn": "2026-10-16",
         "was": {
@@ -90,11 +90,11 @@
       ],
       "recordId": "compiled-profile:DE-delaware#juvenile-expungement-under-10-del-c-1017-1019-1017a",
       "pathInRepository": "src/lib/rcap-engine/compiled/profiles/DE-delaware.json",
+      "sha256": "6e86afdbe8cb283c261dc043f86bf2234b37b7ed10df760e7fd24c299566b801",
+      "byteLength": 140777,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the compiled Delaware juvenile row establishes section 1017A as automatic; shared adult SBI rows do not establish this correction's destination or fees",
-      "anchorStatementsVerified": 2,
-      "sha256": "6e86afdbe8cb283c261dc043f86bf2234b37b7ed10df760e7fd24c299566b801",
-      "byteLength": 140777
+      "anchorStatementsVerified": 2
     },
     {
       "sourceIds": [
@@ -102,39 +102,49 @@
       ],
       "recordId": "route-obligation-census:DE-1017A",
       "pathInRepository": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+      "sha256": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+      "byteLength": 2635434,
       "instrumentKind": "committed_record_bound_as_authority",
       "role": "the committed route-obligation census: this branch's exact key and its recorded participant-facing instrument",
       "anchorStatementsVerified": 2,
-      "sha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
-      "byteLength": 2629290,
-      "identityRefresh": {
-        "was": {
-          "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
-          "byteLength": 2625273
-        },
-        "recoveredFromCommit": "2d01b84f7a57d9bfb2717297783b1951940e506c",
-        "comparedAtCaptainCommit": "40b03f499f47450e7e9fa4e1f64ba9debddf0807",
-        "anchorsCompared": 1,
-        "anchorsIdentical": 1,
-        "method": "Recovered exact historical census blob and compared every bound route object, selected by the receipt family route keys, object-for-object against the current default-generated census. Only whole-file identity changed for these anchors.",
-        "evidencePath": "data/rcap-grade-a/packet-factory-24h/captain-bookkeeping/census-pin-refresh-20260906.json",
-        "finalSnapshotReconciliation": {
-          "previousWholeFileSha256": "d83ba80ff84126e2de5c9f5309eb8b7145e3e078420b54ceedc3c0f5a83795c9",
-          "currentWholeFileSha256": "d03708cb98efce088f1ed40d5d7a0e768bb4fbee51a77c351739640ead7f6dea",
+      "identityRefreshHistory": [
+        {
+          "was": {
+            "sha256": "4d0eb74bbafe6ee30b893b563fc020305d4f2f6ff1e6a0ecde1f3176e144e46f",
+            "byteLength": 2625273
+          },
+          "recoveredFromCommit": "2d01b84f7a57d9bfb2717297783b1951940e506c",
+          "comparedAtCaptainCommit": "40b03f499f47450e7e9fa4e1f64ba9debddf0807",
           "anchorsCompared": 1,
-          "anchorsUnchanged": 1,
-          "reason": "After the final census regeneration, compared the same bound route objects against the preserved historical census before refreshing only whole-file identity. The subsequent reconciliation regenerates dependent state without rewriting this source snapshot.",
-          "newPacketAcceptances": 0
-        },
-        "integrationSnapshotReconciliation": {
-          "previousWholeFileSha256": "d03708cb98efce088f1ed40d5d7a0e768bb4fbee51a77c351739640ead7f6dea",
-          "currentWholeFileSha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
-          "anchorsCompared": 1,
-          "anchorsUnchanged": 1,
-          "reason": "Final worker integrations changed generated fulfillment bookkeeping fingerprints. After settling those inputs at one unchanged Captain commit, regenerate the census and verify every bound historical route object before refreshing only this whole-file reference. Packet bytes and approval verdicts are unchanged.",
-          "newPacketAcceptances": 0
+          "anchorsIdentical": 1,
+          "method": "Recovered exact historical census blob and compared every bound route object, selected by the receipt family route keys, object-for-object against the current default-generated census. Only whole-file identity changed for these anchors.",
+          "evidencePath": "data/rcap-grade-a/packet-factory-24h/captain-bookkeeping/census-pin-refresh-20260906.json",
+          "finalSnapshotReconciliation": {
+            "previousWholeFileSha256": "d83ba80ff84126e2de5c9f5309eb8b7145e3e078420b54ceedc3c0f5a83795c9",
+            "currentWholeFileSha256": "d03708cb98efce088f1ed40d5d7a0e768bb4fbee51a77c351739640ead7f6dea",
+            "anchorsCompared": 1,
+            "anchorsUnchanged": 1,
+            "reason": "After the final census regeneration, compared the same bound route objects against the preserved historical census before refreshing only whole-file identity. The subsequent reconciliation regenerates dependent state without rewriting this source snapshot.",
+            "newPacketAcceptances": 0
+          },
+          "integrationSnapshotReconciliation": {
+            "previousWholeFileSha256": "d03708cb98efce088f1ed40d5d7a0e768bb4fbee51a77c351739640ead7f6dea",
+            "currentWholeFileSha256": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+            "anchorsCompared": 1,
+            "anchorsUnchanged": 1,
+            "reason": "Final worker integrations changed generated fulfillment bookkeeping fingerprints. After settling those inputs at one unchanged Captain commit, regenerate the census and verify every bound historical route object before refreshing only this whole-file reference. Packet bytes and approval verdicts are unchanged.",
+            "newPacketAcceptances": 0
+          },
+          "writtenAgainst": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
+          "writtenAgainstByteLength": 2629290,
+          "supersededBy": {
+            "measuredNow": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
+            "on": "2026-10-21",
+            "by": "rebuild",
+            "why": "the source moved again: the annotation was written against f6fc081419ea and this build measured eeabd8b97786. Nobody has compared anchors across that second move and this build cannot; a live note would assert that comparison, so the note is kept as history and the pin reads as moved until a measured re-pin"
+          }
         }
-      }
+      ]
     }
   ],
   "composedComponentsAuthoredByThisBuild": [
