@@ -30,7 +30,7 @@ for(const [name,id,fixtureName,validate,render] of defs){
    const primary=name==='favorable'?r:r.components.find(c=>c.documentId==='CC-DC-CR-'+id);
    const writes=primary.writes;assert(writes.length>0);for(const w of writes)assert(names.has(w.field),'Mapped field must exist: '+w.field);
    assert(!writes.some(w=>/signature|attorney|signed/i.test(w.field)),'No protected execution written');
-   if(name==='favorable'){assert.equal(r.census.length,48);assert(!writes.some(w=>w.field==='No Finding'),'Unresolved new legal branch must remain unselected');}
+   if(name==='favorable'){assert(JSON.stringify(r.guide).includes('CC-DC-CR-072A, revision 10/01/2026') && !JSON.stringify(r.guide).includes('09/2025'), 'Instruction revision must match the enclosed current form');assert.equal(r.census.length,48);assert(!writes.some(w=>w.field==='No Finding'),'Unresolved new legal branch must remain unselected');}
    else for(const b of primary.blanks)assert(names.has(b.field),'Classified blank must exist: '+b.field);
    assert.equal((await PDFDocument.load(r.bytes)).getForm().getFields().length,0);
    const retained=key==='canonical'||key==='boundary'||key.endsWith('-paid')||name==='favorable';
