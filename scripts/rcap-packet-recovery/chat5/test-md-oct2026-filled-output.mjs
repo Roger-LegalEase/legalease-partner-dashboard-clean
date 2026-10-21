@@ -11,6 +11,7 @@ import {fileURLToPath,pathToFileURL} from 'node:url';
 // and four pinned 072B names describe other boxes. Fixture dates stay historical; date guards are not exercised.
 const root=fileURLToPath(new URL('../../../',import.meta.url));
 const evidence=process.argv.find(a=>a.startsWith('--output='))?.slice(9);
+if(evidence)fs.mkdirSync(path.join(evidence,'filled'),{recursive:true});
 const {PDFDocument}=createRequire(path.join(root,'package.json'))('pdf-lib');
 const hash=b=>createHash('sha256').update(b).digest('hex');
 const norm=s=>String(s).replace(/\s+/g,' ').trim();
@@ -98,7 +99,7 @@ for(const F of FORMS){
   check(key+': input preserved',()=>assert.deepEqual(facts,saved));
   const page=F.name==='favorable'?1:r.pageManifest.find(p=>p.documentId===F.form&&p.sourcePage===1).packetPage;
   const out=path.join(tmp,F.name+'-'+key.replaceAll('/','-')+'.pdf');fs.writeFileSync(out,r.bytes);
-  if(evidence){fs.mkdirSync(path.join(evidence,'filled'),{recursive:true});fs.copyFileSync(out,path.join(evidence,'filled',path.basename(out)));}
+  if(evidence)fs.copyFileSync(out,path.join(evidence,'filled',path.basename(out)));
   const ws=words(out,page),img=gray(out,page,F.name+'-out');
   check(key+': form page renders '+F.form+' (Rev. '+F.rev+')',()=>assert.ok(norm(ws.map(w=>w.text).join(' ')).includes(F.form+' (Rev. '+F.rev+')')));
   check(key+': every page states only revision '+F.rev+' for '+F.form,()=>{
