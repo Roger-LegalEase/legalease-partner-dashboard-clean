@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { preserveIdentityRefresh } from "./rcap-packet-completeness/identity-refresh.mjs";
 import { courtFacingRows } from "./rcap-custom-pleading/court-facing-rows.mjs";
 /**
  * The Virginia petition-based sealing packet family builder.
@@ -1809,7 +1810,7 @@ function writeArtifacts(ctx) {
     maps, generationAllowed: false, runtimeSelectable: false, commercialRoutesOpened: 0
   }, null, 2)}\n`);
 
-  W("source-receipt.json", `${JSON.stringify({
+  W("source-receipt.json", `${JSON.stringify(preserveIdentityRefresh(fs, path.join(ROOT, outDir, "source-receipt.json"), {
     schemaVersion: "rcap-family-source-receipt/v1",
     familyId, worklistGroupId: familyId, jurisdiction: config.jurisdiction,
     implementationStrategy: "official_pdf_fill", custodyClass: "SOURCE_ALREADY_HELD",
@@ -1840,7 +1841,7 @@ function writeArtifacts(ctx) {
     recordObtainAndConfirmActionsAsDelivered: recordRequirements.actions,
     composedComponentsAuthoredByThisBuild: components.filter((c) => c !== "primary_filing"),
     commercialRoutesOpened: 0
-  }, null, 2)}\n`);
+  }), null, 2)}\n`);
 
   W("reports/rendered-artifacts.json", `${JSON.stringify({
     schemaVersion: "rcap-rendered-artifacts/v1", familyId, renderedFresh: true,
