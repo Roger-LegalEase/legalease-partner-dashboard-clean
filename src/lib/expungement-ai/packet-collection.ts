@@ -888,6 +888,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "certain-firearm-carry-conviction-expungement-under-2953-35", // GA12 Q-bb5520a0a7519366f9e1
       "human-trafficking-survivor-conviction-expungement-under-2953-36", // GA12 Q-2e36d0b5c1a1925c7c98
       "human-trafficking-survivor-non-conviction-expungement-under-2953-521", // GA12 Q-daf300450ee87dd55597
+      "juvenile-sealing-and-expungement", // GA12 Q-d9d1c403448604d56ca8
       "marijuana-hashish-possession-expungement-under-2953-321", // GA12 Q-99864a8cfd6d49f59819
     ],
     record: [
@@ -896,6 +897,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "certain-firearm-carry-conviction-expungement-under-2953-35", // GA17 Q-d87c7a2a4e6ba8df8a86
       "human-trafficking-survivor-conviction-expungement-under-2953-36", // GA17 Q-5d9ed4f45d2af7006e2f
       "human-trafficking-survivor-non-conviction-expungement-under-2953-521", // GA17 Q-7c86feef8f3c97e28642
+      "juvenile-sealing-and-expungement", // GA17 Q-2a1e11767600187fe110
       "marijuana-hashish-possession-expungement-under-2953-321", // GA17 Q-463c45ad2785b6a60935
     ],
   },
