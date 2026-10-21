@@ -1252,6 +1252,18 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     record: [
     ],
   },
+  NJ: {
+    profileHash: "c205f7ccca0671e3599268180f9e1286fd9b65f82703d6c39d0ebcd7fb1f1b6d",
+    categoryReason: "Earlier New Jersey categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6", // GA12 Q-d29d1dfeccfe728d2d8b
+      "clean-slate-petition-under-n-j-s-a-2c-52-5-3", // GA12 Q-e4dd744eac889810ece9
+      "marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1", // GA12 Q-6571bc7f5a310ff68fa8
+      "regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3", // GA12 Q-a27a84dcca35f0a9d3ae
+    ],
+    record: [
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
