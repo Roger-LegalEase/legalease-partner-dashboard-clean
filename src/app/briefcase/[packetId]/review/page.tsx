@@ -177,7 +177,6 @@ export default async function PacketAccuracyReviewPage({
           aria-live="polite"
           data-review-branch="unavailable"
           data-authority-status={item ? item.authorityStatus : "no_item"}
-          data-result-code={item?.resultCode ?? ""}
           data-packet-draft-status={item?.packetDraft.status ?? ""}
           data-verification-summary={model ? (summary ? "present" : "null") : "no_model"}
         >

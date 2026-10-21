@@ -453,7 +453,7 @@ export function PaymentsView({ items }: { items: ConsumerPaymentHistoryItem[] })
                     : <LocalizedText k="payment.paid" fallback="paid" />}
               </p>
               <p className="mt-1 text-[#5A6275]"><LocalizedCopy {...packetMatterTitleCopy(item)} /></p>
-              <p className="mt-1 text-[#5A6275]"><LocalizedText k="briefcase.packet_label" fallback="Packet" />: {item.artifact.status === "ready" ? "ready" : "not ready"}</p>
+              <p className="mt-1 text-[#5A6275]">{item.artifact.status === "ready" ? <LocalizedText k="packet.display.RCOPY-28a386a1003aa04eb354" fallback="Packet ready" /> : <LocalizedText k="commercial.unavailable" fallback="Packet not available yet" />}</p>
               {item.paymentHistory!.receipt ? (
                 <a className="mt-3 inline-flex min-h-11 items-center rounded-[10px] border border-[#D9DEE8] bg-white px-4 text-sm font-bold text-[#0B1320]" href={item.paymentHistory!.receipt.actionPath}>
                   <LocalizedText k="briefcase.view_receipt" fallback="View receipt" />
