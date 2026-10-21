@@ -122,11 +122,10 @@ for (const [name, change] of [
   });
 }
 for (const file of [
-  'reference/chat-parallel-2026-09-07/chat5/CC-DC-CR-072A.pdf',
+  'reference/md-law-2026-10-21/CC-DC-CR-072A.pdf',
   `${OUT}/fixtures/canonical.pdf`, `${OUT}/fixtures/boundary.facts.json`, `${OUT}/reports/boundary.json`,
   `${OUT}/official-field-census.json`, 'scripts/rcap-packet-recovery/chat5/md-favorable.mjs', bindingPath, adapterPath,
-  'data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-independent-review.json',
-  'data/rcap-grade-a/chat-parallel-2026-09-07/chat4-review/md-guard-delta-03.json'
+  'data/rcap-grade-a/md-a46-20261021/md-a46-independent-review.json'
 ]) {
   it(`matching caller checksum cannot legitimize changed input ${file}`, () => {
     const altered = mutatePorts(file, value => { value[value.length - 1] ^= 1; return value; });

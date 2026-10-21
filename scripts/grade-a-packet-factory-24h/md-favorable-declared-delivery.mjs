@@ -24,9 +24,9 @@ const EDITION = '10/01/2026';
 const HELPER = 'scripts/rcap-packet-recovery/chat5/md-favorable.mjs';
 const HELPER_BLOB = '717630e062a58c5b0bc55fcd34c1c9711b2d09ec';
 const BINDING = 'scripts/rcap-packet-completeness/md-reviewed-candidate-inputs.json';
-const BINDING_SHA = '38817874f24d820e260503dcc9ef644d36e54f3a1f1df2fe0a19099b9d6e2b45';
+const BINDING_SHA = 'da7c4c7bb5a1edde5eae2fd6058dd478c9294a4329af69f3bfb09e23daedaff1';
 const ADAPTER = 'scripts/rcap-packet-completeness/md-favorable-native-candidate.mjs';
-const ADAPTER_SHA = '53116df817b8656e88e2d1d675e30202c150f8513420367e919083a652212f4a';
+const ADAPTER_SHA = 'e204bd5c0e6f51fe343a641f85e4e2705264238e06a66ad9f5e488eb7126e309';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const blob = bytes => createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 const serialize = value => `${JSON.stringify(value, null, 2)}\n`;
@@ -68,7 +68,7 @@ export function bindDeclaredMdFavorableDelivery(record, family, options = {}) {
   assert.equal(sha(bindingBytes), BINDING_SHA, 'MD reviewed manifest mismatch');
   const manifest = JSON.parse(bindingBytes);
   assert.equal(manifest.familyId, FAMILY);
-  assert.equal(manifest.files.length, 53, 'Incomplete MD reviewed member inventory');
+  assert.equal(manifest.files.length, 54, 'Incomplete MD reviewed member inventory');
   const bytes = new Map();
   for (const member of manifest.files) {
     assert.ok(!bytes.has(member.path), 'Duplicate MD reviewed member');

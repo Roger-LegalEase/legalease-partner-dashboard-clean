@@ -1,0 +1,498 @@
+{
+ "schemaVersion": "rcap-independent-verification-rows/v1",
+ "lane": "MD-A46-20261021",
+ "reviewer": "Reviewer4 (Claude, session output-3e)",
+ "sessionIdentity": "output-3e",
+ "reviewDate": "2026-10-21",
+ "reviewedCommit": "602ec95736ee2b2f8a3f36a977ef607e9279a2b2",
+ "candidateRange": "af3114b245e6017d4d99f90f1257293a691045aa..602ec95736ee2b2f8a3f36a977ef607e9279a2b2",
+ "laterCommitsMoveNoMeasuredBytes": [],
+ "implementationAuthoredByReviewer": false,
+ "packetFilesEdited": false,
+ "priorReviewsReused": false,
+ "counselApproval": false,
+ "productionChanged": false,
+ "method": {
+  "tools": {
+   "tools/a46-measure.py": "95fd823aa3faf0382dfb29342f3da8969baad7673c9587a3218d29e3e5faa2c1",
+   "tools/a46-text.py": "e49e2323d814dc7ef1478b3aef29315c1644a1dbc797cfd9c8d7bb0ab2f11aff",
+   "tools/ink.py": "6d6a240958fd3653cc367f5d176f30137e69a8c2fd35326421cfdd7cfebb8e30"
+  },
+  "evidence": "review-evidence/reviewer4/md-a46/ (REVIEW-STEP1R-602ec9573.md, step-602ec9573/, SHA256SUMS)"
+ },
+ "resolvedFindings": [
+  {
+   "id": "F2",
+   "fixedIn": "602ec95736ee2b2f8a3f36a977ef607e9279a2b2",
+   "summary": "Instruction pages printed a single 'September 7, 2026' source/legal check date although the enclosed primary forms are the bytes retained on 2026-10-21. Each output now states the primary form face check date (2026-10-21) separately from the companion faces and statutes (2026-09-07), and the 072B/072D receipts record officialFacesReadOn per document.",
+   "verifiedBy": "Every page of all 58 outputs compared with the 6f6c30bb4 outputs: exactly one page per output differs and it is the date page; all 58 form pages are pixel-identical; each printed date equals a receipt field; fetch logs under review-evidence/storage/md-forms-oct2026-20261021 and ga20-source-inputs-20261021 show the bound 072A/072B/072D bytes fetched on 2026-10-21."
+  }
+ ],
+ "rows": [
+  {
+   "familyId": "md_10105_favorable-set",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill",
+   "verdict": "PASS_A46_MAPPING_AND_OUTPUT",
+   "verdictScope": "Bounded independent A46 review of the 072A Rev. 10/01/2026 favorable-disposition set: the field mapping to the current official form and the whole committed outputs at 602ec95736ee2b2f8a3f36a977ef607e9279a2b2. It grants no legal, admission, raster, payment or fulfillment authority.",
+   "failedObligations": [],
+   "obligationsMeasured": {
+    "primarySourceBytes": "CC-DC-CR-072A at reference/md-law-2026-10-21/CC-DC-CR-072A.pdf sha256 equals the receipt; receipt edition 10/01/2026.",
+    "wholePdfInventory": "15 PDFs, 60 pages; every file, sha256, byte length and page count equals reports/rendered-artifacts.json.",
+    "textWritesInOfficialRects": "268/268 text writes read back EXACT inside the official widget rect (pdftotext -bbox, printed form words removed); a swapped-rect mutant is detected.",
+    "checkboxInk": "15/15 outputs: the inked boxes on the form page are exactly the fixture's selections (diagnostics mark no basis).",
+    "statedRevision": "15/15 outputs state only revision 10/01/2026 on every page, equal to the form footer and the receipt edition.",
+    "pageOneVisual": "The canonical output's form page was viewed by Reviewer4.",
+    "checkDateStatements": "15/15 outputs state 'CC-DC-CR-072A form face October 21, 2026; statutes and legal pages September 7, 2026' = receipt acquisition.retrievedAndHashedOn and issuerPageAndEditionVisuallyCheckedOn 2026-10-21; no other check date is printed. The canonical date page was viewed by Reviewer4."
+   },
+   "diagnosticsNotApprovedForFiling": [],
+   "excludedScope": [
+    "Current-law eligibility of any route or charge (legal owner).",
+    "Qualified items held by the legal owner: the 10-110(a)(4) association question, the brochure clock and the 072A No Finding branch.",
+    "Raster acceptance (A9) and source admission of the retained official bytes.",
+    "Payment, fulfillment, runtime intake, delivery and any commercial authority.",
+    "Companion components CC-DC-089 and MDJ-008 beyond the revision statements printed for them."
+   ],
+   "measuredIdentities": {
+    "helperPath": "scripts/rcap-packet-recovery/chat5/md-favorable.mjs",
+    "newHelperGitBlob": "717630e062a58c5b0bc55fcd34c1c9711b2d09ec",
+    "primarySource": {
+     "documentId": "CC-DC-CR-072A",
+     "path": "reference/md-law-2026-10-21/CC-DC-CR-072A.pdf",
+     "sha256": "04cb4661a198f7d4036a3cdf359d65db0f28b419fba7b18940322d67185b5e90",
+     "edition": "10/01/2026"
+    },
+    "wholePdfs": [
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "cb6f32a4b6c0aa99994b18327cf5fe6a89535d5d7cdd05fc9ca314e7bdc05898",
+      "bytes": 221553,
+      "pages": 4
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "9b8d9a0c3629be81016febdaf4d7f5a5370633166f90b182392006f9bee55f03",
+      "bytes": 221758,
+      "pages": 4
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/acquittal.pdf",
+      "sha256": "fca296c7297530b8d3bde120f3e965410ba9cb6045215f6979c4e162b774eb40",
+      "bytes": 221552,
+      "pages": 4
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/nolle.pdf",
+      "sha256": "cd082c405ecde846924ee2e0c7b32681ec8b7290f8183ba3774121f67a829cf0",
+      "bytes": 221552,
+      "pages": 4
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/nolle-treatment.pdf",
+      "sha256": "745543b6348e6b2df0a712fccff59d9bbfce1a97829e8cb8eec4687387adbe60",
+      "bytes": 221551,
+      "pages": 4
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/stet.pdf",
+      "sha256": "0ea133a56f91c1f0ee8fb2ab8a76898cbc9c7eb82250541b1ea179da68355995",
+      "bytes": 221548,
+      "pages": 4
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/stet-treatment.pdf",
+      "sha256": "550c1ca2eb10276f7625b950ff1f0c2e689ee7e54688095a2cb45253dde6e3c5",
+      "bytes": 221548,
+      "pages": 4
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/pbj.pdf",
+      "sha256": "ad37acc8bcfc007a3b3b336954f4e9f0e79fb5061a73fd9a9a377d9b46535af5",
+      "bytes": 221554,
+      "pages": 4
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/pbj-no-longer-crime.pdf",
+      "sha256": "b79357d62d511419e21c70b228f79fdc2f54c74c24149f0ccfa13baa4b440871",
+      "bytes": 221649,
+      "pages": 4
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/pbj-dui.pdf",
+      "sha256": "a29473417fc2f9fbf1b84622d173789aa40ee12349bc0df4a39132a153c1ac52",
+      "bytes": 221602,
+      "pages": 4
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/ncr.pdf",
+      "sha256": "ce8aea22e7a1505c37b50e3a7e8cbc80038384cc5c0d0405ae8f0c3a6cfd4413",
+      "bytes": 221551,
+      "pages": 4
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/compromise.pdf",
+      "sha256": "58d1111748ca7e3c62ef33b54febce4c8c49a86e92e1c70596ed957d70644cca",
+      "bytes": 221583,
+      "pages": 4
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/juvenile-transfer.pdf",
+      "sha256": "eed2be21de076026c29212824c9173e753c5294ae0ae16aed6d6b06badef8d68",
+      "bytes": 221424,
+      "pages": 4
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/adult-transfer-circuit.pdf",
+      "sha256": "5bc7a244cbc19957a152b639e366c5961c025194ff7ded0f964264490b998f14",
+      "bytes": 221558,
+      "pages": 4
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/citation.pdf",
+      "sha256": "f3e2ad1634369e83bd714bf004400e11f910f31f726f57d08746bd7149c96a70",
+      "bytes": 221552,
+      "pages": 4
+     }
+    ]
+   }
+  },
+  {
+   "familyId": "md_10110_conviction-set",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill",
+   "verdict": "PASS_A46_MAPPING_AND_OUTPUT",
+   "verdictScope": "Bounded independent A46 review of the 072B Rev. 10/01/2025-2 conviction set: the field mapping to the current official form and the whole committed outputs at 602ec95736ee2b2f8a3f36a977ef607e9279a2b2. It grants no legal, admission, raster, payment or fulfillment authority.",
+   "failedObligations": [],
+   "obligationsMeasured": {
+    "primarySourceBytes": "CC-DC-CR-072B at reference/md-law-2026-10-21/CC-DC-CR-072B.pdf sha256 equals the receipt; receipt edition 10/01/2025-2.",
+    "wholePdfInventory": "25 PDFs, 170 pages; every file, sha256, byte length and page count equals reports/rendered-artifacts.json.",
+    "textWritesInOfficialRects": "474/474 text writes read back EXACT inside the official widget rect (pdftotext -bbox, printed form words removed); a swapped-rect mutant is detected.",
+    "checkboxInk": "25/25 outputs: the inked boxes on the form page are exactly the fixture's selections (diagnostics mark no basis).",
+    "statedRevision": "25/25 outputs state only revision 10/01/2025-2 on every page, equal to the form footer and the receipt edition.",
+    "pageOneVisual": "The canonical output's form page was viewed by Reviewer4.",
+    "checkDateStatements": "25/25 outputs state 'Authorities checked September 7, 2026 ... actual 089/MDJ-008 source faces' and 'Actual 072B source face checked October 21, 2026' = receipt officialFacesReadOn {CC-DC-CR-072B: 2026-10-21, CC-DC-089: 2026-09-07, MDJ-008: 2026-09-07}; liveIssuerBinaryShaMeasured remains false. The canonical date page was viewed by Reviewer4."
+   },
+   "diagnosticsNotApprovedForFiling": [
+    "diagnostic/waiver-missing-financial",
+    "diagnostic/missing-completion"
+   ],
+   "excludedScope": [
+    "Current-law eligibility of any route or charge (legal owner).",
+    "Qualified items held by the legal owner: the 10-110(a)(4) association question, the brochure clock and the 072A No Finding branch.",
+    "Raster acceptance (A9) and source admission of the retained official bytes.",
+    "Payment, fulfillment, runtime intake, delivery and any commercial authority.",
+    "Companion components CC-DC-089 and MDJ-008 beyond the revision statements printed for them."
+   ],
+   "measuredIdentities": {
+    "helperPath": "scripts/rcap-packet-recovery/chat5/md-conviction.mjs",
+    "newHelperGitBlob": "28f7d40337d0fa7b159ecb68efce88db55a7140a",
+    "primarySource": {
+     "documentId": "CC-DC-CR-072B",
+     "path": "reference/md-law-2026-10-21/CC-DC-CR-072B.pdf",
+     "sha256": "47bc720acea515896943e94e1d228b3e8cc380b0ae1d4762dd1928f60f903667",
+     "edition": "10/01/2025-2"
+    },
+    "wholePdfs": [
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "43316b96ec7565ea58a3e7b63188803603ea167912bee7773c439b3032bcc46c",
+      "bytes": 774266,
+      "pages": 5
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/misdemeanor-paid.pdf",
+      "sha256": "43316b96ec7565ea58a3e7b63188803603ea167912bee7773c439b3032bcc46c",
+      "bytes": 774266,
+      "pages": 5
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/misdemeanor-waiver.pdf",
+      "sha256": "a9aa6711071a907d4a5f221675614aea26a2b4c20ec99d5fe3dd2088fab5fb8f",
+      "bytes": 1405730,
+      "pages": 9
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/assault_battery-paid.pdf",
+      "sha256": "65ff883971a4b23ba5d47313600cbe906e2542a627bccff0c99696064cd63e07",
+      "bytes": 774335,
+      "pages": 5
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/assault_battery-waiver.pdf",
+      "sha256": "11b5e91506c20fb39402e45e6495532fc6f9c1afa73efd9e3ee5cbfdadeb1e06",
+      "bytes": 1405801,
+      "pages": 9
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/felony-paid.pdf",
+      "sha256": "560aa80945d1cb7c10ceb32cf7570a4b31de970aa913b0c323f8cf2bcefc4866",
+      "bytes": 774275,
+      "pages": 5
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/felony-waiver.pdf",
+      "sha256": "a0c2dc2a7738d6f872c84f0d9e4570b1b3294a22e0f96bdfeb2c85be5c7a10dd",
+      "bytes": 1405739,
+      "pages": 9
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/burglary_theft-paid.pdf",
+      "sha256": "00bfe91dc1112d64bcfade23237e1c02fec974e2a1821aa202d628176eb5a13c",
+      "bytes": 774343,
+      "pages": 5
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/burglary_theft-waiver.pdf",
+      "sha256": "b2f39fbaf048c3cdf21a3d6e076cf86b64f54440060f70db8f504943d1e2a0c8",
+      "bytes": 1405810,
+      "pages": 9
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/domestic-paid.pdf",
+      "sha256": "d5aab38567b6df8f956164f2cacc4f5088f2b4303d3a9a32fbbd51be513e1eae",
+      "bytes": 774303,
+      "pages": 5
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/domestic-waiver.pdf",
+      "sha256": "b03328e9accf6c134ab95549cc863b54e2a6aa07d34f1c59240941526563d74f",
+      "bytes": 1405766,
+      "pages": 9
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/nuisance-paid.pdf",
+      "sha256": "4dc6864c7b0bf95968eb2cf9d3a4cd323f0c40bd6ee2748e9d4103b471a3b340",
+      "bytes": 774232,
+      "pages": 5
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/nuisance-waiver.pdf",
+      "sha256": "1380f423c6ff7323d1a24f0fabab8994487ee76c2b0c8dcbdfb58d425febe3af",
+      "bytes": 1405696,
+      "pages": 9
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/repealed_sexual-paid.pdf",
+      "sha256": "1c00860c9fa8e4e6e9402a387612daeab5ae985b0c7495d94f9cdf1b39c88eae",
+      "bytes": 774361,
+      "pages": 5
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/repealed_sexual-waiver.pdf",
+      "sha256": "65ed181f0a54989db5233e652b13381c3022ab63fc1a2fcf8110e315963ae33a",
+      "bytes": 1405824,
+      "pages": 9
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/no_longer_crime-paid.pdf",
+      "sha256": "717d98b0f539c5dbfa178d366d3f61a38621176eb31897685936de4e9c57e4e1",
+      "bytes": 774305,
+      "pages": 5
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/no_longer_crime-waiver.pdf",
+      "sha256": "8162ef0e1b59efb76336fb3979d7d8c0adeae5128b2e712c77591a5c1db48c4f",
+      "bytes": 1405769,
+      "pages": 9
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "02246dee219a2e92a0782caa9eff423cf3489660283a419ccab2ea450e582306",
+      "bytes": 1406031,
+      "pages": 9
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/waiver-zero-explicit.pdf",
+      "sha256": "af72ad18c3961a97a58200ff156a669356b871ccc7fbd15fae56598d430bb6be",
+      "bytes": 1405593,
+      "pages": 9
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/diagnostic/waiver-missing-financial.pdf",
+      "sha256": "350254c80355e4844b0e22dda3eac620f62a11acd2ea7e456590e8d7c3faaeb3",
+      "bytes": 1408077,
+      "pages": 10
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/diagnostic/missing-completion.pdf",
+      "sha256": "901f463abe425c6822d283797937aa2b169c1c8718a4dcfa6f1026b15dfc8684",
+      "bytes": 774606,
+      "pages": 5
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/restitution-inability.pdf",
+      "sha256": "9ad29449c064c555c43073d89b7680b481e6df285ae8f3121079c3c3d56a24cf",
+      "bytes": 774276,
+      "pages": 5
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/adult-transfer.pdf",
+      "sha256": "bf80b387861eed2695f1f8a3e4ba49b3058d5b4f10e359c1b397a593e6b818e4",
+      "bytes": 774329,
+      "pages": 5
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/circuit-appellate.pdf",
+      "sha256": "73e54402955c7cb886ac718785d805d253333f189876cbaff8d7a64071d63ac2",
+      "bytes": 774376,
+      "pages": 5
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill/fixtures/selectable/citation.pdf",
+      "sha256": "eed9fe6c1409730dcfc0ee09d6455d35794cdc710ca3d7124249e9794e129fbb",
+      "bytes": 774266,
+      "pages": 5
+     }
+    ]
+   }
+  },
+  {
+   "familyId": "md_cannabis_petition-set",
+   "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill",
+   "verdict": "PASS_A46_MAPPING_AND_OUTPUT",
+   "verdictScope": "Bounded independent A46 review of the 072D Rev. 10/2025 cannabis petition set: the field mapping to the current official form and the whole committed outputs at 602ec95736ee2b2f8a3f36a977ef607e9279a2b2. It grants no legal, admission, raster, payment or fulfillment authority.",
+   "failedObligations": [],
+   "obligationsMeasured": {
+    "primarySourceBytes": "CC-DC-CR-072D at reference/md-law-2026-10-21/CC-DC-CR-072D.pdf sha256 equals the receipt; receipt edition 10/2025.",
+    "wholePdfInventory": "18 PDFs, 133 pages; every file, sha256, byte length and page count equals reports/rendered-artifacts.json.",
+    "textWritesInOfficialRects": "301/301 text writes read back EXACT inside the official widget rect (pdftotext -bbox, printed form words removed); a swapped-rect mutant is detected.",
+    "checkboxInk": "18/18 outputs: the inked boxes on the form page are exactly the fixture's selections (diagnostics mark no basis).",
+    "statedRevision": "18/18 outputs state only revision 10/2025 on every page, equal to the form footer and the receipt edition.",
+    "pageOneVisual": "The canonical output's form page was viewed by Reviewer4.",
+    "checkDateStatements": "18/18 outputs state 'Review date: September 7, 2026; CC-DC-CR-072D form face checked October 21, 2026' = receipt officialFacesReadOn {CC-DC-CR-072D: 2026-10-21, CC-DC-089: 2026-09-07, MDJ-008: 2026-09-07}; liveIssuerBinaryShaMeasured remains false. The canonical date page was viewed by Reviewer4."
+   },
+   "diagnosticsNotApprovedForFiling": [
+    "diagnostic/missing-completion",
+    "diagnostic/unknown-other-offenses",
+    "diagnostic/waiver-missing-financial",
+    "diagnostic/court-record-status-unknown",
+    "diagnostic/missing-contact"
+   ],
+   "excludedScope": [
+    "Current-law eligibility of any route or charge (legal owner).",
+    "Qualified items held by the legal owner: the 10-110(a)(4) association question, the brochure clock and the 072A No Finding branch.",
+    "Raster acceptance (A9) and source admission of the retained official bytes.",
+    "Payment, fulfillment, runtime intake, delivery and any commercial authority.",
+    "Companion components CC-DC-089 and MDJ-008 beyond the revision statements printed for them."
+   ],
+   "measuredIdentities": {
+    "helperPath": "scripts/rcap-packet-recovery/chat5/md-cannabis.mjs",
+    "newHelperGitBlob": "cd62e6dec2857c3fac15d2c952ed52d5565e3f83",
+    "primarySource": {
+     "documentId": "CC-DC-CR-072D",
+     "path": "reference/md-law-2026-10-21/CC-DC-CR-072D.pdf",
+     "sha256": "87465cb08d93f3469dc4fe7288360aaa650f21e2dee06ebd4f7f05a4998d2703",
+     "edition": "10/2025"
+    },
+    "wholePdfs": [
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill/fixtures/canonical.pdf",
+      "sha256": "42431f04c428287369e946e659f487ab8dddfdab7493853704233c81ee3c8ab3",
+      "bytes": 175274,
+      "pages": 6
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill/fixtures/selectable/no_longer_crime-paid.pdf",
+      "sha256": "42431f04c428287369e946e659f487ab8dddfdab7493853704233c81ee3c8ab3",
+      "bytes": 175274,
+      "pages": 6
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill/fixtures/selectable/no_longer_crime-waiver.pdf",
+      "sha256": "118a27e4a4619d0028b9c71d81c5aa5c14abca3ca181b71ad51d3bbec758e9b0",
+      "bytes": 805989,
+      "pages": 10
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill/fixtures/selectable/possession-paid.pdf",
+      "sha256": "3d10cc8efe17f1e40177f50174d83dda4d67ee9b861e45809586d213cea793fb",
+      "bytes": 175219,
+      "pages": 6
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill/fixtures/selectable/possession-waiver.pdf",
+      "sha256": "c23435e82bafee41e5b5153ab5798d69ad2a27f9dee53ad21e35d46d94f724f6",
+      "bytes": 805934,
+      "pages": 10
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill/fixtures/selectable/pwid-paid.pdf",
+      "sha256": "7e842f418bd3c21a5c57dd0c567cddc8c6432d7e286c9ba1637d49e12f4a3370",
+      "bytes": 175349,
+      "pages": 6
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill/fixtures/selectable/pwid-waiver.pdf",
+      "sha256": "3c2138eed3df0639cb786a5ae5ad7ea2d3863c3a75e5c913e7a69df839e1e3b0",
+      "bytes": 806066,
+      "pages": 10
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill/fixtures/boundary.pdf",
+      "sha256": "a6d90072e89b982413c13125ffe313526b26ed9825bdc791e17a43bea1b7f25c",
+      "bytes": 806338,
+      "pages": 10
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill/fixtures/selectable/possession-separate-from-ineligible-unit.pdf",
+      "sha256": "3ecb90d0809b2688efd8472aac98351d29b876c0cbc4977b10d018c1e5da65fa",
+      "bytes": 175353,
+      "pages": 6
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill/fixtures/selectable/pwid-with-minor-traffic.pdf",
+      "sha256": "efd5c171ef08fdb5ca1d5071b9d0646afcdaef0859fb393ac82952c5c13a843c",
+      "bytes": 175477,
+      "pages": 6
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill/fixtures/selectable/pwid-new-conviction-now-eligible.pdf",
+      "sha256": "7e842f418bd3c21a5c57dd0c567cddc8c6432d7e286c9ba1637d49e12f4a3370",
+      "bytes": 175349,
+      "pages": 6
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill/fixtures/selectable/citation.pdf",
+      "sha256": "4a271ccfeb2f132ca8b9a153be1a0e4f3187dee70559d7c74aff1efdf3f58e66",
+      "bytes": 175216,
+      "pages": 6
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill/fixtures/selectable/adult-transfer-waiver.pdf",
+      "sha256": "a6d90072e89b982413c13125ffe313526b26ed9825bdc791e17a43bea1b7f25c",
+      "bytes": 806338,
+      "pages": 10
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill/fixtures/diagnostic/missing-completion.pdf",
+      "sha256": "0b22f4e45d0d168a3d229ee75c7c9ec77ac924c7d9f376233cabf1f991447007",
+      "bytes": 175307,
+      "pages": 6
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill/fixtures/diagnostic/unknown-other-offenses.pdf",
+      "sha256": "5f169d8ecf62819a8496445df0691465cd4d0ccb688cc18b6a181d0859ccccf4",
+      "bytes": 175346,
+      "pages": 6
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill/fixtures/diagnostic/waiver-missing-financial.pdf",
+      "sha256": "3c0c043bd1f1ae17584c2901ebd807f32557ce8c2ec9fe37f10da1ddcfef1a60",
+      "bytes": 808169,
+      "pages": 11
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill/fixtures/diagnostic/court-record-status-unknown.pdf",
+      "sha256": "054bbe603c2c7849a8890f39b80e062c7006a2e9854acab114d3b84e3008f001",
+      "bytes": 175462,
+      "pages": 6
+     },
+     {
+      "file": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill/fixtures/diagnostic/missing-contact.pdf",
+      "sha256": "4a8b938fc4c23fcdf55b6251c8ee18d7c41f8b1e17613947a166d4bedafb1f3c",
+      "bytes": 175129,
+      "pages": 6
+     }
+    ]
+   }
+  }
+ ]
+}
