@@ -25,6 +25,7 @@ import {assertB31dCaL06SourceSuccession,B31D_CA_L06_SOURCE_PATH} from '../src/li
 import {assertB31dGa20CoAlSourceSuccession,B31D_GA20_CO_AL_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertB31dGa20R3SourceSuccession,B31D_GA20_R3_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertB31dMdF1SourceSuccession,B31D_MD_F1_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertB31eStackSourceSuccession,B31E_STACK_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaSafeAtHomeSourceSuccession,CA_SAFE_AT_HOME_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertLeadSpanishSourceSuccession,LEAD_SPANISH_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -1091,6 +1092,13 @@ check('batch31d GA-20 R3 MD O17 F1 hop preserves prior chain and refuses missing
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===B31D_MD_F1_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/batch31d GA-20 R3 MD O17 F1 source succession record bytes changed/);
  assert.throws(()=>assertB31dGa20R3SourceSuccession(file=>{if(file===B31D_MD_F1_SOURCE_PATH)throw Error('missing batch31d GA-20 R3 MD O17 F1 record');return readBytes(file);}),/missing batch31d GA-20 R3 MD O17 F1 record/);
  for(const input of ["src/lib/expungement-ai/frontend/reviewed-source-question-copy.json"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('batch31e staging stack hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertB31eStackSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,35);assert.equal(c.currentUnchangedSourceCount,163);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===B31E_STACK_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/batch31e staging stack source succession record bytes changed/);
+ assert.throws(()=>assertB31dMdF1SourceSuccession(file=>{if(file===B31E_STACK_SOURCE_PATH)throw Error('missing batch31e staging stack record');return readBytes(file);}),/missing batch31e staging stack record/);
+ for(const input of ["src/lib/expungement-ai/frontend/reviewed-result-display-copy.json", "src/lib/expungement-ai/frontend/reviewed-source-question-copy.json", "src/lib/expungement-ai/localization.ts"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 // A succession record set must never outlive its call: after an honest load, a later drift still
