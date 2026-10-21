@@ -48,8 +48,16 @@ const capture = process.argv.includes('--capture');
 const output = process.argv.find(a => a.startsWith('--output='))?.slice(9);
 const baseline = process.argv.find(a => a.startsWith('--baseline='))?.slice(11);
 if (!capture) {
-  assert.equal(hash(question.helperText), "80fe631b8ccee58b0f0e2233ea5245074d067e60f94f8995c973307c2fbf70b1");
-  assert.equal(hash(question.translations.es.helperText), "931265d2dc39f443285cc6ba71b13d618b3028b0260907155e1d9046fe2f15a0");
+  for (const [name, rule, definition] of [
+    ['pardon', '(8) the person:\n(i) is convicted of only one criminal act, and that act is not a crime of violence; and\n(ii) is granted a full and unconditional pardon by the Governor;', 'Maryland Criminal Law §14-101(a)'],
+    ['shielding', '(a) This subtitle does not apply to a conviction of a domestically related crime under § 6–233 of this article.', 'Maryland Criminal Procedure §6-233'],
+  ]) {
+    const at = question.helperText.indexOf(rule);
+    assert(at >= 0, `${name}: the operative exclusion or condition must be visible, not only its definition`);
+    assert(at < question.helperText.indexOf(definition), `${name}: the operative rule precedes its definition`);
+  }
+  assert.equal(hash(question.helperText), "80b9ec27eea3a1217b18101d12f0b6fc285ae846f0494d12caeefe962cbd0855");
+  assert.equal(hash(question.translations.es.helperText), "0bc35ddb23ad782125e8748d9ba5340ff2d0e6014a00e758075bcaebc809429d");
 }
 const cases = [
   ['selected', ['Other named excluded offense']],
@@ -118,7 +126,7 @@ for (const locale of ['en', 'es']) for (const [, raw] of cases) {
   const markup = render(question, 'MD'), helper = locale === 'es' ? question.translations.es.helperText : question.helperText;
   if (!capture) {
     const expected = helper;
-    assert.equal(hash(helper), locale === 'es' ? "931265d2dc39f443285cc6ba71b13d618b3028b0260907155e1d9046fe2f15a0" : "80fe631b8ccee58b0f0e2233ea5245074d067e60f94f8995c973307c2fbf70b1", 'the complete route-labeled source copy matches the reviewed text');
+    assert.equal(hash(helper), locale === 'es' ? "0bc35ddb23ad782125e8748d9ba5340ff2d0e6014a00e758075bcaebc809429d" : "80b9ec27eea3a1217b18101d12f0b6fc285ae846f0494d12caeefe962cbd0855", 'the complete route-labeled source copy matches the reviewed text');
     const escaped = renderToStaticMarkup(React.createElement('span', null, expected)).slice(6, -7);
     assert(markup.includes(escaped), 'the actual localized control renders the complete reviewed sources');
     assert(markup.includes('aria-describedby="q-state_exclusion_categories-helper'), 'the helper stays associated with the control');
