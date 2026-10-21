@@ -687,7 +687,8 @@ for(const [label,delta,expectedResult,expectedReason]of [
    ['uncertain court order',{hi_court_order_confirmed:'I am not sure'},'needs_review','hi.source_fact_unknown'],
    ['missing court order',{hi_court_order_confirmed:undefined},'needs_review','hi.hi_court_order_confirmation_missing']])
 ])check(key+': '+label+' keeps its actual predecessor outcome and raw history',()=>{
- const answers={...witness.answers,...delta};
+ // VA: the 12c record-origin gate precedes every boundary gate, so these rows answer it (virginia) to test what they name; measured at 06a93513e and 3612d96d5, payment stays false.
+ const answers={...witness.answers,...(state==='VA'?{va_record_origin:'virginia'}:{}),...delta};
  const a=evaluate({jurisdiction:state,profileVersion:witness.profileVersion,matterId:'synthetic-boundary-'+route,answers});
  assert.equal(a.evaluation.resultCode,expectedResult);assert.equal(a.evaluation.paymentAllowed,false);assert.equal(a.evaluation.reasons[0].code,expectedReason);
  const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative:a,screeningAnswers:answers,dependencies:{},capturedAt:'2026-10-18T00:00:00Z'});assert(seed);
