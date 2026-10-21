@@ -13,9 +13,9 @@ const mode = process.argv[2] ?? 'candidate';
 assert(['candidate', 'remove-own-pair', 'add-md-foreign'].includes(mode));
 if (mode !== 'candidate') {
   const anchor = mode === 'remove-own-pair'
-    ? '"AR:situation-b-misdemeanor-convictions": "rule-07-there-is-no-limit-on-how-many-misdemeanors-may-be-seale",'
+    ? '"AR:situation-b-misdemeanor-convictions": ["rule-07-there-is-no-limit-on-how-many-misdemeanors-may-be-seale"],'
     : 'const REVIEWED_OWN_CONTENT_PAYMENT_RULES = {';
-  const replacement = mode === 'remove-own-pair' ? '' : anchor + '\n"MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8": "rule-44-shieldable-conviction-4-503-petition-shield-3-yrs-once",';
+  const replacement = mode === 'remove-own-pair' ? '' : anchor + '\n"MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8": ["rule-44-shieldable-conviction-4-503-petition-shield-3-yrs-once"],';
   register('data:text/javascript,' + encodeURIComponent(`export async function load(u,c,next){const r=await next(u,c);if(!u.endsWith('/src/lib/rcap-engine/evaluator.ts'))return r;const s=String(r.source),anchor=${JSON.stringify(anchor)};if(s.split(anchor).length!==2)throw Error('mutant anchor absent or nonunique');return {...r,source:s.replace(anchor,${JSON.stringify(replacement)})};}`));
 }
 const { getProfileByJurisdiction } = await import(url('src/lib/rcap-engine/profile-registry.ts'));
@@ -40,6 +40,38 @@ for (const row of fixture.cases) {
   const actual = evaluateScreening({ jurisdiction: row.jurisdiction, profileVersion: profile.profileVersion, matterId: `verify3-borrowed-${row.jurisdiction}`, answers });
   check(`evaluation:${row.index}:${row.jurisdiction}:${row.expected.pathwayId}`, () => assert.deepEqual(actual, row.expected));
   check(`saved-answers:${row.index}`, () => assert.equal(JSON.stringify(answers), before));
+}
+
+// OD-BR-1 D2: Lead 2026-10-21 18:54:33 adopted these exact own-content pairs.
+const publicOwnPairs = {
+  "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40": "rule-10-mechanism-3-confidentiality-of-acquittals-dismissals-as",
+  "CA:tool-4-arrest-record-sealing": "rule-15-tool-4-arrest-record-sealing-pc-851-91-factual-innocenc",
+  "HI:nonconviction-arrest-expungement": "rule-04-a-complete-application-valid-government-photo-id-paymen",
+  "NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146": "rule-01-family-1-dismissals-and-not-guilty-findings-g-s-15a-146",
+  "ND:deferred-imposition-dismissal-and-sealing": "rule-29-path-d-deferred-imposition-of-sentence-dismissal",
+  "NE:set-aside-probation-fine-community-service": "rule-05-the-sentence-conditions-must-be-satisfactorily-complete",
+  "NH:annulment-after-dismissal-acquittal-or-nonprosecution": "rule-11-for-offenses-disposed-of-before-january-1-2019-a-person",
+  "OH:adult-non-conviction-sealing-or-expungement-under-2953-33": "rule-05-grand-jury-no-bill-non-conviction-sealing-or-expungemen",
+  "VA:regime-1-expungement-available-now": "rule-01-regime-1-expungement-19-2-392-2-available-now"
+};
+const publicFixtures = JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-fixtures.json')).fixtures;
+const publicAnswerSets = JSON.parse(fs.readFileSync('data/rcap-ledger/public-witness-answer-sets.json')).witnesses;
+const { packetFulfillmentAuthority } = await import(url('src/lib/expungement-ai/packet-fulfillment-authority.ts'));
+for (const [key, rule] of [...Object.entries(publicOwnPairs),
+  ['LA:non-conviction-arrest-expungement', null], ['NE:set-aside-incarceration-one-year-or-less', null]]) {
+  check(`${key}:public-rule-ownership`, () => {
+    const [jurisdiction, pathwayId] = key.split(':');
+    const witness = (jurisdiction === 'VA' ? publicAnswerSets : publicFixtures).find(row => row.pathwayKey === key);
+    assert(witness);
+    const answers = structuredClone(jurisdiction === 'VA' ? witness.finalAnswers : witness.answers), before = structuredClone(answers);
+    const profile = getProfileByJurisdiction(jurisdiction);
+    const actual = evaluateScreening({ jurisdiction, profileVersion: profile.profileVersion, matterId: 'synthetic-public-own-content', answers });
+    assert.equal(actual.pathwayId, pathwayId);
+    assert.equal(actual.paymentAllowed, rule !== null);
+    if (rule) assert.equal(actual.reasons[0].code, `${jurisdiction.toLowerCase()}.compiled_rule_match.${rule}`);
+    assert.equal(packetFulfillmentAuthority(jurisdiction, pathwayId, 'checkout creation').allowed, false);
+    assert.deepEqual(answers, before);
+  });
 }
 
 // Remove all route rules only in memory, restoring the shared profile before the next check.
