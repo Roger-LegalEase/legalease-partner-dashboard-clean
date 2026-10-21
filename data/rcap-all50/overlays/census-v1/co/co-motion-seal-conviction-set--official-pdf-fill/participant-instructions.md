@@ -222,7 +222,7 @@ Stop before filing and take the packet to a Colorado lawyer if any of these gove
 
 - The district attorney objects.
 - The court sets a contested hearing.
-- Whether the offence is on the section 8 exclusion list is unclear.
+- Whether the offence is on the section 5 exclusion list is unclear.
 - Restitution or court debt is unpaid or disputed.
 - Immigration, licensing or firearm consequences are in play.
 
