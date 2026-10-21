@@ -764,7 +764,7 @@ function participantInstructions(maps, rbf, laterCompletion) {
   const reserved = maps.flatMap((m) => (m.canonicalRefusals ?? []).filter((r) => r.controllingReservation));
   if (reserved.length > 0) {
     out.push("## Blanks the controlling record leaves to you", "");
-    out.push("LegalEase holds these facts and does not print them: the committed legal-design record for this route reserves each blank for you to complete by hand before filing.", "");
+    out.push("LegalEase holds these facts and does not print them: the controlling record for this route (its committed legal-design record, or a recorded owner decision) reserves each blank for you to complete by hand before filing.", "");
     out.push("| Document | Page | The blank on the document | What to write | Reserved by |", "| --- | --- | --- | --- | --- |");
     for (const r of reserved) out.push(`| ${r.document} | ${r.page} | ${r.effectiveLabel} | ${r.participantMustSupply} | ${r.controllingReservation.item}: ${r.reason} |`);
     out.push("");
