@@ -1,0 +1,329 @@
+{
+ "measuredAt": "d407021612b795d057c15be284be35cf0e0d4385",
+ "method": "nc-spec.mjs: public witness or reviewer synthetic witness; evaluate() with four deltas; packetCollectionFor at packetPlanForPathway inputs with empty answers",
+ "members": [
+  {
+   "state": "NY",
+   "route": "automatic-non-conviction-sealing-under-cpl-160-50-160-55",
+   "group": "GA12",
+   "questionRecordId": "Q-ebe3d90a4fde2ef2e8e6",
+   "fact": "offense_category",
+   "profileHash": "e8a7a2198331e8d752842cf75f4bad3987e5aa54c11a5d447e2efde558158374",
+   "witness": {
+    "kind": "ROUTE_REACHING",
+    "basis": "ga1217/ny-triage/witnesses.json sha256 4b251d88ac3987a081a7f81cbdbe5718e05cf6c06edbca5a53ca073057d92d0c (pinned by Reviewer NY invariance VERDICT 43c0c47e, 2026-10-21T16:11:17Z); no public witness exists for this route",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "answers": {
+     "case_outcome": "Other conviction or adjudication",
+     "court_requirements_completed": "yes",
+     "financial_obligations": "Yes",
+     "jurisdiction_scope": "State or local",
+     "new_convictions_during_waiting_period": "No",
+     "offense_level": "Misdemeanor",
+     "ownership_scope": "Yes",
+     "pending_cases": "No",
+     "possible_pathway_context": "Automatic non-conviction sealing under CPL 160.50 / 160.55",
+     "record_documents": "Yes",
+     "resolved_timing_bucket": "gt_10_years",
+     "sentence_completion_date": "Yes",
+     "special_preconditions_confirmed": "Yes",
+     "state_exclusion_categories": [
+      "None of these"
+     ],
+     "ny_16055_final_judgment": "violation",
+     "ny_16059_request": "other"
+    }
+   },
+   "outcomes": [
+    {
+     "label": "witness",
+     "delta": {},
+     "pathwayId": "automatic-non-conviction-sealing-under-cpl-160-50-160-55",
+     "resultCode": "guidance_only",
+     "paymentAllowed": false,
+     "reason": "ny.partial_seal_guidance",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "uncertain disposition",
+     "delta": {
+      "case_outcome": "I am not sure"
+     },
+     "resultCode": "needs_review",
+     "paymentAllowed": false,
+     "reason": "ny.partial_seal_conflict",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "refused ownership",
+     "delta": {
+      "ownership_scope": "No"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "ny.ownership_scope_hard_stop",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "federal refusal",
+     "delta": {
+      "jurisdiction_scope": "Federal"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "ny.federal_or_out_of_scope",
+     "hasPacketPlan": false
+    }
+   ],
+   "planRequiredInputIds": [
+    "case_outcome",
+    "charge",
+    "contact_information",
+    "court",
+    "criminal_history",
+    "disposition_date",
+    "jurisdiction",
+    "offense_category",
+    "offense_level",
+    "participant_full_legal_name",
+    "pathway_id",
+    "pending_cases",
+    "residency_or_location",
+    "sentence_completion_date"
+   ],
+   "baseBucket": {
+    "collection": "prepay_confirmation",
+    "source": "route_decision_facts"
+   },
+   "baseOtherFacts": {
+    "case_outcome": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "charge": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "contact_information": {
+     "collection": "prepay_confirmation",
+     "source": "materialization_protection",
+     "optional": null
+    },
+    "court": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "criminal_history": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "disposition_date": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "jurisdiction": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "offense_level": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "participant_full_legal_name": {
+     "collection": "render_required",
+     "source": "profile_required_input",
+     "optional": null
+    },
+    "pathway_id": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "pending_cases": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "residency_or_location": {
+     "collection": "render_required",
+     "source": "profile_required_input",
+     "optional": null
+    },
+    "sentence_completion_date": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    }
+   }
+  },
+  {
+   "state": "NY",
+   "route": "marijuana-record-destruction-under-the-mrta",
+   "group": "GA12",
+   "questionRecordId": "Q-6044a5908b4cdd24f29f",
+   "fact": "offense_category",
+   "profileHash": "e8a7a2198331e8d752842cf75f4bad3987e5aa54c11a5d447e2efde558158374",
+   "witness": {
+    "kind": "ROUTE_REACHING",
+    "basis": "ga1217/ny-triage/witnesses.json sha256 4b251d88ac3987a081a7f81cbdbe5718e05cf6c06edbca5a53ca073057d92d0c (pinned by Reviewer NY invariance VERDICT 43c0c47e, 2026-10-21T16:11:17Z); no public witness exists for this route",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "answers": {
+     "case_outcome": "Misdemeanor conviction",
+     "court_requirements_completed": "yes",
+     "financial_obligations": "Yes",
+     "jurisdiction_scope": "State or local",
+     "new_convictions_during_waiting_period": "No",
+     "offense_level": "Misdemeanor",
+     "ownership_scope": "Yes",
+     "pending_cases": "No",
+     "possible_pathway_context": "Marijuana-record destruction under the MRTA",
+     "record_documents": "Yes",
+     "resolved_timing_bucket": "gt_10_years",
+     "sentence_completion_date": "Yes",
+     "special_preconditions_confirmed": "Yes",
+     "state_exclusion_categories": [
+      "None of these"
+     ],
+     "ny_mrta_record_category": "unlawful_possession_conviction",
+     "ny_mrta_mixed_case": "no",
+     "ny_mrta_next_step": "automatic_information"
+    }
+   },
+   "outcomes": [
+    {
+     "label": "witness",
+     "delta": {},
+     "pathwayId": "marijuana-record-destruction-under-the-mrta",
+     "resultCode": "guidance_only",
+     "paymentAllowed": false,
+     "reason": "ny.mrta_automatic_information",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "uncertain disposition",
+     "delta": {
+      "case_outcome": "I am not sure"
+     },
+     "resultCode": "needs_review",
+     "paymentAllowed": false,
+     "reason": "ny.mrta_conflict",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "refused ownership",
+     "delta": {
+      "ownership_scope": "No"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "ny.ownership_scope_hard_stop",
+     "hasPacketPlan": false
+    },
+    {
+     "label": "federal refusal",
+     "delta": {
+      "jurisdiction_scope": "Federal"
+     },
+     "resultCode": "hard_stop",
+     "paymentAllowed": false,
+     "reason": "ny.federal_or_out_of_scope",
+     "hasPacketPlan": false
+    }
+   ],
+   "planRequiredInputIds": [
+    "case_outcome",
+    "charge",
+    "contact_information",
+    "court",
+    "criminal_history",
+    "disposition_date",
+    "jurisdiction",
+    "offense_category",
+    "offense_level",
+    "participant_full_legal_name",
+    "pathway_id",
+    "pending_cases",
+    "residency_or_location",
+    "sentence_completion_date"
+   ],
+   "baseBucket": {
+    "collection": "prepay_confirmation",
+    "source": "route_decision_facts"
+   },
+   "baseOtherFacts": {
+    "case_outcome": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "charge": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "contact_information": {
+     "collection": "prepay_confirmation",
+     "source": "materialization_protection",
+     "optional": null
+    },
+    "court": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "criminal_history": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "disposition_date": {
+     "collection": "render_required",
+     "source": "profile_required_input",
+     "optional": null
+    },
+    "jurisdiction": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "offense_level": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "participant_full_legal_name": {
+     "collection": "render_required",
+     "source": "profile_required_input",
+     "optional": null
+    },
+    "pathway_id": {
+     "collection": "already_known",
+     "source": "server_route_fact",
+     "optional": null
+    },
+    "pending_cases": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    },
+    "residency_or_location": {
+     "collection": "render_required",
+     "source": "profile_required_input",
+     "optional": null
+    },
+    "sentence_completion_date": {
+     "collection": "prepay_confirmation",
+     "source": "route_decision_facts",
+     "optional": null
+    }
+   }
+  }
+ ]
+}

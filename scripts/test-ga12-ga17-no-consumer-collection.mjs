@@ -33,8 +33,11 @@ const NC = new Set([
   'MS:pretrial-intervention-active-case-admission GA17 Q-68b05fc2444ab78b80a9',
   'MT:deferred-sentence-dismissal-or-confidentiality-route GA12 Q-36f94b32930c7fc0e916',
   'MT:deferred-sentence-dismissal-or-confidentiality-route GA17 Q-da2839e57717001e88c0',
+  // NY ×2: Reviewer evaluator-invariance VERDICT 2026-10-21T16:11:17Z (INVARIANT → NC), assigned by the lead 16:12:25Z.
+  'NY:automatic-non-conviction-sealing-under-cpl-160-50-160-55 GA12 Q-ebe3d90a4fde2ef2e8e6',
   'NY:conditional-treatment-sealing-under-cpl-160-58 GA12 Q-f89138cbd1584a2640c1',
   'NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59 GA12 Q-248865769cbca4a8a8f7',
+  'NY:marijuana-record-destruction-under-the-mrta GA12 Q-6044a5908b4cdd24f29f',
   'OK:clean-slate-automatic-expungement GA12 Q-f96c5ed3f036716c4879',
   'OK:clean-slate-automatic-expungement GA17 Q-ecd8c474ef5fd2388e5e',
   'TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a GA12 Q-24ea2697ada09a8abedd',
