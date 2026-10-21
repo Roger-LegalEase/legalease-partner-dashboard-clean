@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "cdf4f7030641fd567c78e84d79da28bd488cb893",
+  "generatedAtCommit": "ea5f706ba8e276e3eedbc54bb76c2a5e60d212ac",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -1540,9 +1540,7 @@
       "operation": "independent-verification",
       "lane": "VF01",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-10-20T17:21:54.772Z",
-      "releaseReason": "Reviewer RV-12 VF01 PASS_COMPLETE_INDEPENDENT row 4a471b8f1 at cf419c9e1 (A9 run 39453393685 RASTER_PASS) merged in batch30"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -2156,10 +2154,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF02",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-10T13:25:26.304Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -8790,11 +8787,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF01",
+      "lane": "VF03",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-10T23:54:07.869Z",
-      "releaseReason": "VF01 stopped after two isolated cold rebuild measurements; all12PDFs reproduce, no independent verdict or raster claim."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -8866,10 +8861,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF09",
+      "lane": "VF04",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-10-20T16:42:14.101Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -8889,18 +8883,16 @@
     {
       "subjectType": "packet-family",
       "subjectId": "rcap-mo-custom-pleading",
-      "itemId": null,
       "familyId": "rcap-mo-custom-pleading",
+      "itemId": null,
       "familyIds": [
         "rcap-mo-custom-pleading"
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VFMOCUSTOMFINAL1",
+      "lane": "VF05",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-14T20:59:37.086Z",
-      "releaseReason": "Accepted current complete packet; no reread owed. Selected committed evidence: data/rcap-grade-a/packet-factory-24h/vfmocustomfinal1/rows-vfmocustomfinal1-mo-custom-original-final-pass-20260914.json"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -8957,10 +8949,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF11",
+      "lane": "VF06",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-09-05T11:12:05.873Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -11701,10 +11692,9 @@
       ],
       "sourceId": null,
       "operation": "independent-verification",
-      "lane": "VF11",
+      "lane": "VF07",
       "laneKind": "independent-verification",
-      "released": true,
-      "releasedAt": "2026-10-20T13:44:37.556Z"
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -16044,7 +16034,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "4447244c3d9510ed446c704c083302cf085209d29c7e975fc1051dbd8d3fcd7f",
+  "claimsDigest": "5ed0f85e95dd51611d784526f537fcc9572e158b8fad78752981ed0eef0bf181",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -56673,6 +56663,241 @@
       "familyState": "FAIL_REPAIR_REQUIRED",
       "reissuedAt": "2026-10-21T04:07:26Z",
       "reason": "the current dispatch names FIX04 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "az_wrongful_arrest_clearance-set",
+      "operation": "independent-verification",
+      "lane": "VF01",
+      "dispatchNames": "VF01",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-10-21T16:42:43Z",
+      "reason": "the current dispatch names VF01 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
+      "acceptanceCycle": {
+        "previousState": "COMPLETE_PACKET_PROVEN",
+        "currentState": "VERIFY_PENDING",
+        "evidence": {
+          "lapse": "BOUND_SOURCE_DRIFTED",
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+          "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b",
+          "allDriftedRecords": [
+            {
+              "path": "data/record-clearing/legal-design-track-registry.json",
+              "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b"
+            },
+            {
+              "path": "data/record-clearing/legal-design-specifications.json",
+              "pinned": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
+              "now": "1dec458ba2717e197c20d9b4eedced43cea8649a8e7fa63c724db477098ce970"
+            }
+          ],
+          "driftedRecordCount": 2,
+          "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+        },
+        "evidenceSha256": "46e2b05a8a859dda6fca5c41993ec5fcd963a80b22d4481d1e4eb4d3fb7efb6f"
+      }
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "co_petition_seal_arrest-set",
+      "operation": "independent-verification",
+      "lane": "VF02",
+      "dispatchNames": "VF02",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-10-21T16:42:43Z",
+      "reason": "the current dispatch names VF02 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
+      "acceptanceCycle": {
+        "previousState": "COMPLETE_PACKET_PROVEN",
+        "currentState": "VERIFY_PENDING",
+        "evidence": {
+          "lapse": "BOUND_SOURCE_DRIFTED",
+          "path": "data/record-clearing/legal-design-intake/CO.memo.json",
+          "pinned": "427574f3179da9da533f9cea374b9afd8cb62072b7fd529be5e12db02ecae591",
+          "now": "9bc20b495047064cb0888610bdc07a5070413f91f1f0d9eb27873ee2bf3e1488",
+          "allDriftedRecords": [
+            {
+              "path": "data/record-clearing/legal-design-intake/CO.memo.json",
+              "pinned": "427574f3179da9da533f9cea374b9afd8cb62072b7fd529be5e12db02ecae591",
+              "now": "9bc20b495047064cb0888610bdc07a5070413f91f1f0d9eb27873ee2bf3e1488"
+            },
+            {
+              "path": "data/record-clearing/legal-design-track-registry.json",
+              "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b"
+            },
+            {
+              "path": "data/record-clearing/legal-design-intake/CO.memo.json",
+              "pinned": "427574f3179da9da533f9cea374b9afd8cb62072b7fd529be5e12db02ecae591",
+              "now": "9bc20b495047064cb0888610bdc07a5070413f91f1f0d9eb27873ee2bf3e1488"
+            }
+          ],
+          "driftedRecordCount": 3,
+          "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+        },
+        "evidenceSha256": "a0c7fb757eef1596913f9756fe1669a5de6d028454d6d73b9e475b34bf69edeb"
+      }
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-hi-custom-pleading",
+      "operation": "independent-verification",
+      "lane": "VF03",
+      "dispatchNames": "VF03",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-10-21T16:42:43Z",
+      "reason": "the current dispatch names VF03 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
+      "acceptanceCycle": {
+        "previousState": "COMPLETE_PACKET_PROVEN",
+        "currentState": "VERIFY_PENDING",
+        "evidence": {
+          "lapse": "BOUND_SOURCE_DRIFTED",
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+          "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b",
+          "allDriftedRecords": [
+            {
+              "path": "data/record-clearing/legal-design-track-registry.json",
+              "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b"
+            }
+          ],
+          "driftedRecordCount": 1,
+          "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+        },
+        "evidenceSha256": "512b43f91eae4ed8b91c6cdde624cfd95d3de539b8648e2417fe94f36549a085"
+      }
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-ks-custom-pleading",
+      "operation": "independent-verification",
+      "lane": "VF04",
+      "dispatchNames": "VF04",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-10-21T16:42:43Z",
+      "reason": "the current dispatch names VF04 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
+      "acceptanceCycle": {
+        "previousState": "COMPLETE_PACKET_PROVEN",
+        "currentState": "VERIFY_PENDING",
+        "evidence": {
+          "lapse": "BOUND_SOURCE_DRIFTED",
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+          "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b",
+          "allDriftedRecords": [
+            {
+              "path": "data/record-clearing/legal-design-track-registry.json",
+              "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b"
+            },
+            {
+              "path": "data/record-clearing/legal-design-specifications.json",
+              "pinned": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
+              "now": "1dec458ba2717e197c20d9b4eedced43cea8649a8e7fa63c724db477098ce970"
+            }
+          ],
+          "driftedRecordCount": 2,
+          "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+        },
+        "evidenceSha256": "46e2b05a8a859dda6fca5c41993ec5fcd963a80b22d4481d1e4eb4d3fb7efb6f"
+      }
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-mo-custom-pleading",
+      "operation": "independent-verification",
+      "lane": "VF05",
+      "dispatchNames": "VF05",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-10-21T16:42:43Z",
+      "reason": "the current dispatch names VF05 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
+      "acceptanceCycle": {
+        "previousState": "COMPLETE_PACKET_PROVEN",
+        "currentState": "VERIFY_PENDING",
+        "evidence": {
+          "lapse": "BOUND_SOURCE_DRIFTED",
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+          "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b",
+          "allDriftedRecords": [
+            {
+              "path": "data/record-clearing/legal-design-track-registry.json",
+              "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b"
+            }
+          ],
+          "driftedRecordCount": 1,
+          "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+        },
+        "evidenceSha256": "512b43f91eae4ed8b91c6cdde624cfd95d3de539b8648e2417fe94f36549a085"
+      }
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-nd-custom-pleading",
+      "operation": "independent-verification",
+      "lane": "VF06",
+      "dispatchNames": "VF06",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-10-21T16:42:43Z",
+      "reason": "the current dispatch names VF06 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
+      "acceptanceCycle": {
+        "previousState": "COMPLETE_PACKET_PROVEN",
+        "currentState": "VERIFY_PENDING",
+        "evidence": {
+          "lapse": "BOUND_SOURCE_DRIFTED",
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+          "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b",
+          "allDriftedRecords": [
+            {
+              "path": "data/record-clearing/legal-design-track-registry.json",
+              "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b"
+            },
+            {
+              "path": "data/record-clearing/legal-design-specifications.json",
+              "pinned": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
+              "now": "1dec458ba2717e197c20d9b4eedced43cea8649a8e7fa63c724db477098ce970"
+            }
+          ],
+          "driftedRecordCount": 2,
+          "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+        },
+        "evidenceSha256": "46e2b05a8a859dda6fca5c41993ec5fcd963a80b22d4481d1e4eb4d3fb7efb6f"
+      }
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "wv_nc_diversion_deferred-set",
+      "operation": "independent-verification",
+      "lane": "VF07",
+      "dispatchNames": "VF07",
+      "familyState": "VERIFY_PENDING",
+      "reissuedAt": "2026-10-21T16:42:43Z",
+      "reason": "the current dispatch names VF07 for this subject, its family is VERIFY_PENDING and owes independent-verification, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster.",
+      "acceptanceCycle": {
+        "previousState": "COMPLETE_PACKET_PROVEN",
+        "currentState": "VERIFY_PENDING",
+        "evidence": {
+          "lapse": "BOUND_SOURCE_DRIFTED",
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+          "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b",
+          "allDriftedRecords": [
+            {
+              "path": "data/record-clearing/legal-design-track-registry.json",
+              "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+              "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b"
+            }
+          ],
+          "driftedRecordCount": 1,
+          "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+        },
+        "evidenceSha256": "512b43f91eae4ed8b91c6cdde624cfd95d3de539b8648e2417fe94f36549a085"
+      }
     }
   ],
   "transfers": [

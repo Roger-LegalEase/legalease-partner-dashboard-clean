@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "cdf4f7030641fd567c78e84d79da28bd488cb893",
+  "minimumCaptainSha": "ea5f706ba8e276e3eedbc54bb76c2a5e60d212ac",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
@@ -24,7 +24,7 @@
     "data/rcap-grade-a/launch-control/COMPLETENESS_REPAIR_WAVE.json": "25e0b55d2dcb4ba14ee26f153a4b3f67e2a45aba3ac13d520b88fe79ca00824e",
     "data/rcap-grade-a/launch-control/S2_SHARED_HOST_ASSIGNMENT.json": "8a3643fcfca028c08ccc10e8e6738a2bceff6a83aa318d01e50208492bf418d2",
     "data/rcap-grade-a/launch-control/WAVE_2_REPAIR_ASSIGNMENTS.json": "215b03405e55c0f4f430d923376e6a61c694fe87cac68f603da240a16701f10a",
-    "data/rcap-all50/local-source-corpus-index.json": "ae194cfc241ade9a8810b848bfdf3c0e8921cd49847505d03f3630851d876df1",
+    "data/rcap-all50/local-source-corpus-index.json": "2c12b86c36037e2b339138df4964c645be2d2e39fbe32ab64e7270bf5df32b31",
     "data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json": "ef7ac045778cbb1e3ef340e2bddb2545b7662cb9a6381896f95d7254d12815e1",
     "data/rcap-grade-a/source-wave-integration/WA_HOMICIDE_CUSTOM_SOURCE_STRATEGY_2026-09-13.json": "6a3e48fd146ac034da5df956d2639c4453b399420d0ebf78a5e00bd995b1e898",
     "data/rcap-grade-a/legal-decisions/SC_SOLICITOR_GUIDANCE_ADMISSION_2026-09-14.json": "bff4646da6eb4072bf4f9e167af4fc60ffbd2d33d8cf02f6721590fa16f9af0f",
@@ -80,26 +80,27 @@
     "sourceReady": 1,
     "sourceBlocked": 0,
     "legalBlocked": 1,
-    "verifyPending": 3,
+    "verifyPending": 9,
     "repairRequired": 5,
     "sumsToDenominator": true
   },
   "byState": {
-    "COMPLETE_PACKET_PROVEN": 306,
+    "COMPLETE_PACKET_PROVEN": 300,
     "BUILT_RASTER_PENDING": 8,
     "GUIDANCE_READY": 14,
     "OUT_OF_SCOPE": 5,
+    "VERIFY_PENDING": 9,
     "FAIL_REPAIR_REQUIRED": 5,
     "SOURCE_READY": 1,
     "HANDOFF_READY": 2,
-    "VERIFY_PENDING": 3,
     "PRODUCT_PATH_PENDING": 1,
     "LEGAL_BLOCKED": 1
   },
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 86,
     "GUIDANCE_AUTHORITY_BOUND": 5,
-    "SOURCE_BOUND_BY_HELD_BYTES": 248,
+    "SOURCE_BOUND_BY_HELD_BYTES": 247,
+    "SOURCE_NAMED_BUT_NOT_HELD: official-form:JDF-612: UNRESOLVED_FORM_IDENTITY — 3 corpus entries share this form number and no custody entry disambiguates": 1,
     "SOURCE_IDENTITY_UNRESOLVED": 4,
     "SOURCE_NAMED_BUT_NOT_HELD: the family names no document-shaped source, so nothing binds": 3
   },
@@ -6522,7 +6523,26 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+        "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b",
+        "allDriftedRecords": [
+          {
+            "path": "data/record-clearing/legal-design-track-registry.json",
+            "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+            "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b"
+          },
+          {
+            "path": "data/record-clearing/legal-design-specifications.json",
+            "pinned": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
+            "now": "1dec458ba2717e197c20d9b4eedced43cea8649a8e7fa63c724db477098ce970"
+          }
+        ],
+        "driftedRecordCount": 2,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -6552,7 +6572,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-az_wrongful_arrest_clearance-set.mjs",
@@ -9181,12 +9201,6 @@
       ],
       "sourceHashes": [
         {
-          "sourceId": "official-form:JDF-612",
-          "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-612__motion-to-seal-conviction-records-district-or-county-court-conviction__REV-2024-08-07__EN.pdf",
-          "sha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
-          "tier": "exact_form_number"
-        },
-        {
           "sourceId": "official-form:JDF-615",
           "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-615__order-to-seal-conviction-records__REV-2024-08-07__EN.pdf",
           "sha256": "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
@@ -9217,19 +9231,14 @@
           "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
-      "sourceBound": true,
+      "sourceStatus": "SOURCE_NAMED_BUT_NOT_HELD: official-form:JDF-612: UNRESOLVED_FORM_IDENTITY — 3 corpus entries share this form number and no custody entry disambiguates",
+      "sourceBound": false,
       "sourceReadiness": {
-        "ready": true,
-        "reasons": [],
+        "ready": false,
+        "reasons": [
+          "official-form:JDF-612: UNRESOLVED_FORM_IDENTITY — 3 corpus entries share this form number and no custody entry disambiguates"
+        ],
         "boundSources": [
-          {
-            "sourceId": "official-form:JDF-612",
-            "path": "private/source-imports/rcap-d-source-packs-2026-08-12/D3/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-612__motion-to-seal-conviction-records-district-or-county-court-conviction__REV-2024-08-07__EN.pdf",
-            "sha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
-            "tier": "exact_form_number",
-            "resolvedBy": "census_form_number_against_committed_index_one_identity_at_several_paths"
-          },
           {
             "sourceId": "official-form:JDF-615",
             "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-615__order-to-seal-conviction-records__REV-2024-08-07__EN.pdf",
@@ -9284,7 +9293,7 @@
           "official-form:JDF-205",
           "official-form:JDF-206"
         ],
-        "boundCount": 6,
+        "boundCount": 5,
         "custodyClass": "NO_ACQUISITION_TASK_NAMED",
         "custodyClassIsTheAcquisitionTaskStatusNotCurrentCustody": "Recorded when the acquisition task was last written and never re-derived. Where it says a source is missing and boundCount is above zero, the binding is the measurement and this field is history.",
         "directAttachment": true
@@ -10068,7 +10077,31 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/record-clearing/legal-design-intake/CO.memo.json",
+        "pinned": "427574f3179da9da533f9cea374b9afd8cb62072b7fd529be5e12db02ecae591",
+        "now": "9bc20b495047064cb0888610bdc07a5070413f91f1f0d9eb27873ee2bf3e1488",
+        "allDriftedRecords": [
+          {
+            "path": "data/record-clearing/legal-design-intake/CO.memo.json",
+            "pinned": "427574f3179da9da533f9cea374b9afd8cb62072b7fd529be5e12db02ecae591",
+            "now": "9bc20b495047064cb0888610bdc07a5070413f91f1f0d9eb27873ee2bf3e1488"
+          },
+          {
+            "path": "data/record-clearing/legal-design-track-registry.json",
+            "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+            "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b"
+          },
+          {
+            "path": "data/record-clearing/legal-design-intake/CO.memo.json",
+            "pinned": "427574f3179da9da533f9cea374b9afd8cb62072b7fd529be5e12db02ecae591",
+            "now": "9bc20b495047064cb0888610bdc07a5070413f91f1f0d9eb27873ee2bf3e1488"
+          }
+        ],
+        "driftedRecordCount": 3,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -10098,7 +10131,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-co_petition_seal_arrest-set.mjs",
@@ -26606,9 +26639,9 @@
       "sourceHashes": [
         {
           "sourceId": "official-form:CC-DC-CR-072A",
-          "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072A.pdf",
-          "sha256": "8dcb7b177cfb8900edc03158b064a57121170761e6f34e2456f08fdc68f82db2",
-          "tier": "exact_identity_confirmed_from_document_text"
+          "path": "private/source-imports/md-official-20261021/ccdccr072A.pdf",
+          "sha256": "04cb4661a198f7d4036a3cdf359d65db0f28b419fba7b18940322d67185b5e90",
+          "tier": "exact_form_number"
         }
       ],
       "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
@@ -26619,10 +26652,10 @@
         "boundSources": [
           {
             "sourceId": "official-form:CC-DC-CR-072A",
-            "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072A.pdf",
-            "sha256": "8dcb7b177cfb8900edc03158b064a57121170761e6f34e2456f08fdc68f82db2",
-            "tier": "exact_identity_confirmed_from_document_text",
-            "resolvedBy": "custody_reconciliation"
+            "path": "private/source-imports/md-official-20261021/ccdccr072A.pdf",
+            "sha256": "04cb4661a198f7d4036a3cdf359d65db0f28b419fba7b18940322d67185b5e90",
+            "tier": "exact_form_number",
+            "resolvedBy": "census_form_number_against_committed_index"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -26732,9 +26765,9 @@
         },
         {
           "sourceId": "official-form:CC-DC-CR-072B",
-          "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
-          "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
-          "tier": "exact_identity_confirmed_from_document_text"
+          "path": "private/source-imports/md-official-20261021/ccdccr072B.pdf",
+          "sha256": "47bc720acea515896943e94e1d228b3e8cc380b0ae1d4762dd1928f60f903667",
+          "tier": "exact_form_number"
         }
       ],
       "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
@@ -26752,10 +26785,10 @@
           },
           {
             "sourceId": "official-form:CC-DC-CR-072B",
-            "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
-            "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
-            "tier": "exact_identity_confirmed_from_document_text",
-            "resolvedBy": "custody_reconciliation"
+            "path": "private/source-imports/md-official-20261021/ccdccr072B.pdf",
+            "sha256": "47bc720acea515896943e94e1d228b3e8cc380b0ae1d4762dd1928f60f903667",
+            "tier": "exact_form_number",
+            "resolvedBy": "census_form_number_against_committed_index"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -26866,9 +26899,9 @@
         },
         {
           "sourceId": "official-form:CC-DC-CR-072D",
-          "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf",
-          "sha256": "6a5337a5d142c8ae1cc41845bd4c5efb5598e7a64acbda17c9ab70134773f147",
-          "tier": "exact_identity_confirmed_from_document_text"
+          "path": "private/source-imports/md-official-20261021/ccdccr072d.pdf",
+          "sha256": "87465cb08d93f3469dc4fe7288360aaa650f21e2dee06ebd4f7f05a4998d2703",
+          "tier": "exact_form_number"
         }
       ],
       "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
@@ -26886,10 +26919,10 @@
           },
           {
             "sourceId": "official-form:CC-DC-CR-072D",
-            "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072d.pdf",
-            "sha256": "6a5337a5d142c8ae1cc41845bd4c5efb5598e7a64acbda17c9ab70134773f147",
-            "tier": "exact_identity_confirmed_from_document_text",
-            "resolvedBy": "custody_reconciliation"
+            "path": "private/source-imports/md-official-20261021/ccdccr072d.pdf",
+            "sha256": "87465cb08d93f3469dc4fe7288360aaa650f21e2dee06ebd4f7f05a4998d2703",
+            "tier": "exact_form_number",
+            "resolvedBy": "census_form_number_against_committed_index"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -27000,9 +27033,9 @@
         },
         {
           "sourceId": "official-form:CC-DC-CR-072B",
-          "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
-          "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
-          "tier": "exact_identity_confirmed_from_document_text"
+          "path": "private/source-imports/md-official-20261021/ccdccr072B.pdf",
+          "sha256": "47bc720acea515896943e94e1d228b3e8cc380b0ae1d4762dd1928f60f903667",
+          "tier": "exact_form_number"
         }
       ],
       "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
@@ -27020,10 +27053,10 @@
           },
           {
             "sourceId": "official-form:CC-DC-CR-072B",
-            "path": "LegalEase Maryland/LegalEase Maryland forms /ccdccr072B.pdf",
-            "sha256": "3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469",
-            "tier": "exact_identity_confirmed_from_document_text",
-            "resolvedBy": "custody_reconciliation"
+            "path": "private/source-imports/md-official-20261021/ccdccr072B.pdf",
+            "sha256": "47bc720acea515896943e94e1d228b3e8cc380b0ae1d4762dd1928f60f903667",
+            "tier": "exact_form_number",
+            "resolvedBy": "census_form_number_against_committed_index"
           }
         ],
         "boundGuidanceAuthorityRecords": [],
@@ -30743,31 +30776,7 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": {
-        "lapse": "BOUND_SOURCE_DRIFTED",
-        "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-        "pinned": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
-        "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82",
-        "allDriftedRecords": [
-          {
-            "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-            "pinned": "83d91d31bf8b0b6c76c5623f4c39cffddcf6b154c1d8de96ffbcb74073d6befb",
-            "now": "fee93664c9795c569acb6b7b92f688f519ccacbf981465b599327f590d3dfb82"
-          },
-          {
-            "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
-            "pinned": "f6fc081419eadf6001fb0b7fa943eaf1175650127bac9cb149c4ff5b593c4a81",
-            "now": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9"
-          },
-          {
-            "path": "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json",
-            "pinned": "386c05ddf3427e766a12bcf926ae4442e910f440694dc15efd5c3187b3e85cd8",
-            "now": "a57ab0a3ea8607245824f1376c796d46403f9a18f49e5e12b1772339b46a0039"
-          }
-        ],
-        "driftedRecordCount": 3,
-        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
-      },
+      "verificationLapsedBecause": null,
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -30797,7 +30806,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "VERIFY_PENDING",
+      "state": "COMPLETE_PACKET_PROVEN",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-mt_deferred_dismissal-set.mjs",
@@ -39461,7 +39470,21 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+        "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b",
+        "allDriftedRecords": [
+          {
+            "path": "data/record-clearing/legal-design-track-registry.json",
+            "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+            "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b"
+          }
+        ],
+        "driftedRecordCount": 1,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -39491,7 +39514,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-hi-custom-pleading.mjs",
@@ -39703,7 +39726,26 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+        "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b",
+        "allDriftedRecords": [
+          {
+            "path": "data/record-clearing/legal-design-track-registry.json",
+            "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+            "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b"
+          },
+          {
+            "path": "data/record-clearing/legal-design-specifications.json",
+            "pinned": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
+            "now": "1dec458ba2717e197c20d9b4eedced43cea8649a8e7fa63c724db477098ce970"
+          }
+        ],
+        "driftedRecordCount": 2,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -39733,7 +39775,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-ks-custom-pleading.mjs",
@@ -39847,7 +39889,21 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+        "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b",
+        "allDriftedRecords": [
+          {
+            "path": "data/record-clearing/legal-design-track-registry.json",
+            "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+            "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b"
+          }
+        ],
+        "driftedRecordCount": 1,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -39877,7 +39933,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-mo-custom-pleading.mjs",
@@ -40035,7 +40091,26 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+        "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b",
+        "allDriftedRecords": [
+          {
+            "path": "data/record-clearing/legal-design-track-registry.json",
+            "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+            "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b"
+          },
+          {
+            "path": "data/record-clearing/legal-design-specifications.json",
+            "pinned": "10b02286702b27a3392530b6435ce3495614a194abc21560939ced0c5d082792",
+            "now": "1dec458ba2717e197c20d9b4eedced43cea8649a8e7fa63c724db477098ce970"
+          }
+        ],
+        "driftedRecordCount": 2,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -40065,7 +40140,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-rcap-nd-custom-pleading.mjs",
@@ -51878,7 +51953,21 @@
       "rasterEnrolmentRefusal": null,
       "legalInputStatus": "SETTLED",
       "ownerDeliveryTypeRefusal": null,
-      "verificationLapsedBecause": null,
+      "verificationLapsedBecause": {
+        "lapse": "BOUND_SOURCE_DRIFTED",
+        "path": "data/record-clearing/legal-design-track-registry.json",
+        "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+        "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b",
+        "allDriftedRecords": [
+          {
+            "path": "data/record-clearing/legal-design-track-registry.json",
+            "pinned": "b62ae6910be2be283eaba5c90b25460f023bb2212a5abdb0e01d3993463681c0",
+            "now": "d0ba0e7d88ad92334713ca8d8375d9f49dbb2023f93ffd631d7792b94417652b"
+          }
+        ],
+        "driftedRecordCount": 1,
+        "meaning": "The receipt pins this record by SHA-256 and the bytes on disk no longer match it, so SOURCE_IDENTITY as verified no longer holds. Usually a re-pin; a rebuild when an anchor the packet names has left the source."
+      },
       "terminalTreatment": null,
       "legalInputBasis": null,
       "wave2LegalBlock": null,
@@ -51908,7 +51997,7 @@
       "failedObligations": [],
       "continuationResult": null,
       "c11Stopped": false,
-      "state": "COMPLETE_PACKET_PROVEN",
+      "state": "VERIFY_PENDING",
       "activeOwner": null,
       "activeOwnerLane": null,
       "buildScript": "scripts/build-census-v1-wv_nc_diversion_deferred-set.mjs",
