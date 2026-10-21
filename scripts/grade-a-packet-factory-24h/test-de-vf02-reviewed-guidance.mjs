@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
-import {assessDeReviewedGuidance} from './de-reviewed-guidance.mjs';
+import {assessDeReviewedGuidance, CURRENT_REVIEW} from './de-reviewed-guidance.mjs';
 import {DE_DIRECTORY, DE_FAMILY, DE_ROUTE, DE_DECISION} from './de-guidance-binding.mjs';
 
 // RV-11 remains the extracted return; its author's supplement supplies explicit
@@ -42,7 +42,13 @@ assert.equal(accepted.outputs.length, 2);
 assert.equal(accepted.outputs.reduce((sum, output) => sum + output.pageCount, 0), 8);
 assert.equal(accepted.sourceChecks.length, 9);
 const refreshed = accepted.sourceChecks.filter(source => !source.matched);
-assert.equal(refreshed.length, 2);
+const RPM = 'data/expungement-ai/route-product-metadata.json';
+const rpmPin = supplement.rows[0].sourceBindings.find(source => source.path === RPM).sha256;
+// The rpm regeneration may refresh exactly one more source; any other path must still match.
+assert.deepEqual(refreshed.map(source => source.path).sort(), [
+  'data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json',
+  'data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json',
+  ...(hash(read(RPM)) === rpmPin ? [] : [RPM])].sort());
 assert.ok(refreshed.every(source => source.scopeUnchanged));
 assert.ok(refreshed.some(source => source.routeKey === DE_ROUTE && /^[a-f0-9]{64}$/.test(source.routeSha256)));
 for (const key of ['reviewAuthoredByIntegrator', 'packetBytesChanged', 'runtimeInstalled',
@@ -136,8 +142,73 @@ for (const key of ['filingPermitted', 'paymentEligible', 'sponsorshipEligible'])
   reject(`delivery cannot grant ${key}`, {}, {readBytes: relative => relative === wiringPath
     ? Buffer.from(JSON.stringify(wiring)) : read(relative)});
 }
+// Reviewer2 de-vf02-rpm-pin/DECISION.md: route-product-metadata.json may move only outside the four DE rows and headCommit.
+const DE_RPM_MANDATORY = 'DE:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a';
+const DE_RPM_JUVENILE = 'DE:juvenile-expungement-under-10-del-c-1017-1019-1017a';
+const NON_DE_RPM = 'AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40';
+const rpmWith = mutate => {
+  const doc = JSON.parse(read(RPM)); mutate(doc);
+  return Buffer.from(JSON.stringify(doc, null, 2) + '\n');
+};
+const withRpm = (bytes, other = {}) => ({readBytes: relative => relative === RPM ? bytes : other[relative] ?? read(relative)});
+const regenerated = rpmWith(doc => {
+  doc.headCommit = '0'.repeat(40);
+  doc.routes[NON_DE_RPM].paymentProductEligible = !doc.routes[NON_DE_RPM].paymentProductEligible;
+});
+// Both review shapes reach the rule: the RV-11 supplement and a VF62-shaped current review
+// bound to the receipt pins (other drifted sources served at their pins so only rpm is exercised).
+const currentRow = {...structuredClone(supplement.rows[0]), lane: 'VF62', reviewer: '/root/de-current', sessionIdentity: '/root/de-current',
+  sourceBindings: JSON.parse(read(`${DE_DIRECTORY}/source-receipt.json`)).compositionSources.map(source => ({path: source.path, sha256: source.sha256}))};
+const currentReview = {schemaVersion: 'rcap-verifier-rows/v2', lane: 'VF62', laneKind: 'independent-verification', isIndependentVerification: true,
+  status: 'COMPLETED', reviewer: currentRow.reviewer, sessionIdentity: currentRow.sessionIdentity, verifiedAtBase: currentRow.verifiedAtBase,
+  actualHeadAtReview: currentRow.verifiedAtBase, builtAnything: false, repairsMade: 0, packetsSelfVerified: 0, rows: [currentRow]};
+const currentReturned = {familyId: DE_FAMILY, verdict: 'PASS_COMPLETE_INDEPENDENT', lane: 'vf62', isIndependentVerification: true,
+  verifiedAtBase: currentRow.verifiedAtBase, evidencePath: CURRENT_REVIEW, failedObligations: [], unmeasuredObligations: []};
+const PINNED_AT = {'data/rcap-grade-a/source-wave-integration/CAPTAIN_SOURCE_IDENTITY_DETERMINATIONS.json': 'c4fc31baad63d00707a2b07a023cafa2ff6a8e43',
+  'data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json': 'a3ca119bd26536cdde7a1b325f7ac3e3594e75c8'};
+const ROUTE_CENSUS = 'data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json';
+const pinnedHistorical = (commit, relative) => readHistorical(PINNED_AT[relative] ?? commit, relative);
+const shapes = [
+  {shape: 'supplemented', input: returned, options: rpmBytes => ({...options(), ...withRpm(rpmBytes)})},
+  {shape: 'current', input: currentReturned, options: rpmBytes => ({currentFamily, readHistorical: pinnedHistorical,
+    readBytes: relative => relative === CURRENT_REVIEW ? Buffer.from(JSON.stringify(currentReview))
+      : relative === ROUTE_CENSUS ? pinnedHistorical(null, relative) : relative === RPM ? rpmBytes : read(relative)})}
+];
+for (const {shape, input, options: shapeOptions} of shapes) {
+  assert.equal(assessDeReviewedGuidance(root, input, shapeOptions(read(RPM))).eligible, true, `${shape}: unchanged rpm`);
+  const rpmDrift = assessDeReviewedGuidance(root, input, shapeOptions(regenerated));
+  assert.equal(rpmDrift.eligible, true, `${shape}: ${rpmDrift.reason}`);
+  const rpmCheck = rpmDrift.sourceChecks.find(source => source.path === RPM);
+  assert.equal(rpmCheck.matched, false);
+  assert.equal(rpmCheck.scopeUnchanged, true);
+  assert.equal(rpmCheck.sha256, rpmPin);
+  assert.equal(rpmCheck.currentSha256, hash(regenerated));
+  assert.match(rpmCheck.deRoutesSha256, /^[a-f0-9]{64}$/);
+  const rejectRpm = (name, rpmBytes) => {
+    const result = assessDeReviewedGuidance(root, input, shapeOptions(rpmBytes));
+    assert.equal(result?.eligible, false, `${shape} ${name}: ${JSON.stringify(result)}`);
+    rejections.push({name: `${shape} ${name}`, reason: result.reason});
+  };
+  for (const [name, mutate] of [
+    ['rpm DE mandatory field changed', doc => {doc.routes[DE_RPM_MANDATORY].paymentProductEligible = true;}],
+    ['rpm DE mandatory row removed', doc => {delete doc.routes[DE_RPM_MANDATORY];}],
+    ['rpm other DE row removed', doc => {delete doc.routes[DE_RPM_JUVENILE];}],
+    ['rpm other DE row changed', doc => {doc.routes[DE_RPM_JUVENILE].openLegalActionRequiredItems.push('LAR-999');}],
+    ['rpm DE row added', doc => {doc.routes['DE:probe'] = structuredClone(doc.routes[NON_DE_RPM]);}],
+    ['rpm note changed', doc => {doc.note += ' changed';}],
+    ['rpm generatedBy changed', doc => {doc.generatedBy = 'other';}],
+    ['rpm top-level key added', doc => {doc.probe = true;}]
+  ]) rejectRpm(name, rpmWith(doc => {doc.headCommit = '0'.repeat(40); mutate(doc);}));
+  rejectRpm('rpm top-level keys reordered', rpmWith(doc => {
+    const {routes} = doc; delete doc.routes; doc.routes = routes;
+    const {headCommit} = doc; delete doc.headCommit; doc.headCommit = headCommit;
+  }));
+  rejectRpm('rpm not generator serialization', Buffer.concat([regenerated, Buffer.from(' ')]));
+}
+reject('rpm drift beside a changed non-rpm source', {}, withRpm(regenerated,
+  {[memoPath]: Buffer.concat([read(memoPath), Buffer.from(' ')])}));
 for (const [relative, digest] of Object.entries(originalHashes))
   assert.equal(hash(read(relative)), digest, `test changed ${relative}`);
 console.log(JSON.stringify({suite: 'de-vf02-reviewed-guidance', status: 'PASS',
-  accepted: 2, rejectionControls: rejections.length, rejections, admission: accepted,
+  accepted: 6, rejectionControls: rejections.length, rejections, admission: accepted,
   packetRebuilds: 0, receiptAndPacketFilesUnchanged: unchangedFiles.length}, null, 2));
