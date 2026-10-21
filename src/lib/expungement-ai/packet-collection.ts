@@ -749,7 +749,10 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     categoryReason: "Earlier Texas categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
     category: [
       "automatic-nondisclosure-for-qualifying-nonviolent-misdemeanor-deferred-adjudication-411-07", // GA12 Q-97bc2a5f998b912adda8
+      "expunction-after-acquittal-not-guilty-disposition-chapter-55a", // GA12 Q-24ea2697ada09a8abedd
       "expunction-after-pardon-or-actual-innocence-relief", // GA12 Q-ece677b818ab583b0a14
+      "expunction-after-qualifying-class-c-deferred-disposition", // GA12 Q-5f780cd6ffe0b6439b4c
+      "expunction-after-qualifying-dismissal-or-quash", // GA12 Q-223607467c30551b5c2b
       "expunction-for-arrest-with-no-charge-filed-after-the-limitations-period", // GA12 Q-b8b91c5dff89cb0adb64
       "first-offense-dwi-nondisclosure", // GA12 Q-7b044f8b2d70a8798aca
       "petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725", // GA12 Q-ecdc2323b7eb7e9089ba
@@ -757,7 +760,10 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     ],
     record: [
       "automatic-nondisclosure-for-qualifying-nonviolent-misdemeanor-deferred-adjudication-411-07", // GA17 Q-824a1ba5bd22b494dfa1
+      "expunction-after-acquittal-not-guilty-disposition-chapter-55a", // GA17 Q-79eaa1fccb7aaba781a1
       "expunction-after-pardon-or-actual-innocence-relief", // GA17 Q-c51c4a1d5b7aa734511a
+      "expunction-after-qualifying-class-c-deferred-disposition", // GA17 Q-225bd1a97176e98a7d2e
+      "expunction-after-qualifying-dismissal-or-quash", // GA17 Q-ef3fc93d77fc46a36bf1
       "expunction-for-arrest-with-no-charge-filed-after-the-limitations-period", // GA17 Q-8d122cfbc96cf12d60cb
       "first-offense-dwi-nondisclosure", // GA17 Q-35df6f53ee29fa1c90ec
       "petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725", // GA17 Q-714293c4107f4534661e
