@@ -1367,6 +1367,20 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "petition-based-sealing", // GA17 Q-431fbd2fdc6dffa45504
     ],
   },
+  CA: {
+    profileHash: "754b7bb08f3b9010549c686c1571eeeb850afc8ac256cf28b20f25a1c6ef4a0f",
+    categoryReason: "Earlier California categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "dismissal-and-set-aside-without-probation-under-penal-code-1203-4a", // GA12 Q-6b657df543ec719b75a9
+      "tool-2-automatic-relief", // GA12 Q-6bed0f50e6ae32171fc4
+      "tool-3-petition-based-felony-sealing", // GA12 Q-7dade446baddc667d7aa
+      "tool-4-arrest-record-sealing", // GA12 Q-b35f8525ff8af8a8c24a
+      "tool-5-proposition-64-marijuana-relief", // GA12 Q-88ad26cfb30862c5f373
+    ],
+    record: [
+      "tool-5-proposition-64-marijuana-relief", // GA17 Q-dff7fe80e1b6d9984b6d
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
