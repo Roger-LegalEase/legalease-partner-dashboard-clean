@@ -1291,6 +1291,28 @@ function illinoisProgramHeldDraftSuccessor(snapshot: ProtectedPacketAuthoritySna
   return protectedRouteAuthorityMatches(projected, authoritative) ? projected : null;
 }
 
+// F-D1-SAVED: Lead 2026-10-21 22:26:47; readability only for the four measured D1 withdrawals.
+const PAYMENT_ONLY_DRAFT_ROUTES = new Set([
+  "IL:adult-conviction-sealing", "NE:set-aside-incarceration-one-year-or-less",
+  "LA:non-conviction-arrest-expungement", "HI:dui-under-21-conviction"
+]);
+export function paymentOnlyDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+  authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>, status: string): ProtectedPacketAuthoritySnapshot | null {
+  const profile = authoritative.profile, evaluation = authoritative.evaluation;
+  if (status !== "unverified" || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || !PAYMENT_ONLY_DRAFT_ROUTES.has(`${snapshot.jurisdiction}:${snapshot.pathwayId}`)
+    || snapshot.paymentAllowed !== true || evaluation.paymentAllowed !== false
+    || snapshot.jurisdiction !== profile.jurisdiction.code || snapshot.profileVersion !== profile.profileVersion
+    || snapshot.profileSourceFingerprint !== (profile.source?.sourceCorpusSha256 ?? null)
+    || snapshot.profileAuthorityFingerprint !== profileAuthorityFingerprint(profile, snapshot.pathwayId)
+    || snapshot.selectedTrackId !== (authoritative.selectedTrackId ?? null)
+    || !canonicalEqual(snapshot.requiredInputIds, evaluation.packetPlan?.requiredInputIds ?? [])
+    || !canonicalEqual(snapshot.packetFamilyIdentifiers, { mode: evaluation.packetPlan?.mode ?? null, sourceFormIds: evaluation.packetPlan?.sourceFormIds ?? [] })
+    || !canonicalEqual(snapshot.serverFacts, canonicalServerFacts(snapshot.jurisdiction, snapshot.pathwayId))) return null;
+  const paymentOnlyProjection = { ...snapshot, paymentAllowed: false };
+  return protectedRouteAuthorityMatches(paymentOnlyProjection, authoritative) ? paymentOnlyProjection : null;
+}
+
 // IL1b: a future termination date needs correction, while its original draft remains held.
 export function illinoisProgramFutureDateDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
   authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>, status: string): ProtectedPacketAuthoritySnapshot | null {
@@ -2738,7 +2760,7 @@ export function protectedPacketInformationModelFor(
     && protectedRouteAuthorityMatches({ ...snapshot, resultCode: evaluation.resultCode }, authoritative)) {
     snapshot = { ...snapshot, resultCode: evaluation.resultCode };
   }
-  const factualSuccessor = illinoisProgramFutureDateDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProgramHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? wyoming1502HeldDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProstitutionHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? ohioDiversionDraftSuccessor(snapshot, authoritative) ?? factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative) ?? virginiaRecordOriginHeldSuccessor(snapshot, authoritative, verification.status);
+  const factualSuccessor = paymentOnlyDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProgramFutureDateDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProgramHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? wyoming1502HeldDraftSuccessor(snapshot, authoritative, verification.status) ?? illinoisProstitutionHeldDraftSuccessor(snapshot, authoritative, verification.status) ?? ohioDiversionDraftSuccessor(snapshot, authoritative) ?? factualPathwayHeldSuccessor(snapshot, authoritative) ?? convictionFallbackHeldSuccessor(snapshot, authoritative) ?? arkansasRecordOriginHeldSuccessor(snapshot, authoritative) ?? virginiaRecordOriginHeldSuccessor(snapshot, authoritative, verification.status);
   if (factualSuccessor) snapshot = factualSuccessor;
   const contractSuccessor = !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)
     ? mnTwoCountyDraftSuccessor(snapshot, authoritative, verification.status) ?? reviewedPacketContractSuccessor(snapshot, evaluation.packetPlan) : null;
@@ -4531,7 +4553,7 @@ function deriveProtectedPacketDraftSnapshot(
   if (mtDeferredPreparation && !mtPreparationIds) return null;
   const caJuvenileIds = caJuvenilePreparation ? caProp64JuvenilePreparationModelFor(verification)?.caJuvenilePreparationFactIds : undefined;
   if (caJuvenilePreparation && !caJuvenileIds) return null;
-  base = illinoisProgramFutureDateDraftSuccessor(base, currentAuthority, verification.status) ?? illinoisProgramHeldDraftSuccessor(base, currentAuthority, verification.status) ?? wyoming1502HeldDraftSuccessor(base, currentAuthority, verification.status) ?? illinoisProstitutionHeldDraftSuccessor(base, currentAuthority, verification.status) ?? ohioDiversionDraftSuccessor(base, currentAuthority) ?? mnTwoCountyDraftSuccessor(base, currentAuthority, verification.status) ?? marylandPoliceHeldDraftSuccessor(base, currentAuthority, verification.status) ?? wyoming1501DraftSuccessor(base,currentAuthority) ?? texasNondisclosureClockDraftSuccessor(base, currentAuthority) ?? texasGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? westVirginiaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? southDakotaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? southCarolinaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? newJerseyMarijuanaStatusFinancialDraftSuccessor(base, currentAuthority) ?? wyoming1401DraftSuccessor(base,currentAuthority) ?? newMexicoGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? montanaRecordFinancialDraftSuccessor(base, currentAuthority) ?? californiaProbationDraftSuccessor(base,currentAuthority) ?? oregonDispositionDraftSuccessor(base, currentAuthority) ?? montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
+  base = paymentOnlyDraftSuccessor(base, currentAuthority, verification.status) ?? illinoisProgramFutureDateDraftSuccessor(base, currentAuthority, verification.status) ?? illinoisProgramHeldDraftSuccessor(base, currentAuthority, verification.status) ?? wyoming1502HeldDraftSuccessor(base, currentAuthority, verification.status) ?? illinoisProstitutionHeldDraftSuccessor(base, currentAuthority, verification.status) ?? ohioDiversionDraftSuccessor(base, currentAuthority) ?? mnTwoCountyDraftSuccessor(base, currentAuthority, verification.status) ?? marylandPoliceHeldDraftSuccessor(base, currentAuthority, verification.status) ?? wyoming1501DraftSuccessor(base,currentAuthority) ?? texasNondisclosureClockDraftSuccessor(base, currentAuthority) ?? texasGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? westVirginiaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? southDakotaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? southCarolinaGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? newJerseyMarijuanaStatusFinancialDraftSuccessor(base, currentAuthority) ?? wyoming1401DraftSuccessor(base,currentAuthority) ?? newMexicoGuidanceFinancialDraftSuccessor(base, currentAuthority) ?? montanaRecordFinancialDraftSuccessor(base, currentAuthority) ?? californiaProbationDraftSuccessor(base,currentAuthority) ?? oregonDispositionDraftSuccessor(base, currentAuthority) ?? montanaDeferredDraftSuccessor(base, currentAuthority) ?? missouriMarijuanaDraftSuccessor(base, currentAuthority) ?? missouriClosureDraftSuccessor(base, currentAuthority) ?? maineNonconvictionDraftSuccessor(base, currentAuthority) ?? louisianaAutomationStatusHeldSuccessor(base, currentAuthority) ?? nebraskaAcquittalHeldSuccessor(base, currentAuthority) ?? kansasRegistrationHeldSuccessor(base, currentAuthority) ?? base;
   base = legalAuthorityMetadataDraftSuccessor(base, currentAuthority, verification.status) ?? base;
   const factualIds = [...factualPathwayCorrectionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...msExactTimingQuestionIds(base.jurisdiction, base.pathwayId, { ...base.screeningAnswers, ...base.prefilledAnswers, ...base.packetAnswers }, true), ...oregonUnselectedCorrectionIds(base), ...missouriUnselectedCorrectionIds(base), ...maineUnselectedCorrectionIds(base), ...nebraskaUnselectedCorrectionIds(base), ...louisianaUnselectedCorrectionIds(base), ...ohioDiversionCorrectionIds(base, currentAuthority)];
   if (gaPreparationIds) factualIds.push(...gaPreparationIds);
