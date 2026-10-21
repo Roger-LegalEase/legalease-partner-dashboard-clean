@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {a9e4SiblingPredecessors,a9e4DiagnosticDriftRefusals} from './lib/a9e4-contact-diagnostic.mjs';
+import {mnR1HistorySiblingPredecessors,mnR1HistoryDriftRefusals} from './lib/mn-r1-history.mjs';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import path from 'node:path';
@@ -238,7 +239,8 @@ for(const [variant,value]of [['known','Earlier Minnesota location'],['absent',un
 const siblings=Object.fromEntries(profile.pathways.filter(p=>p.id!==route).map(p=>[p.id,P.packetCollectionFor({jurisdiction:'MN',pathwayId:p.id,requiredInputIds:packetPlanForPathway(profile,p.id)?.requiredInputIds??[],serverFacts:{jurisdiction:'MN',pathway_id:p.id},screeningAnswers:original,prefilledAnswers:{},savedAnswers:{}})]));
 if(!baseline){
  check('exact-five-sibling-identities',Object.keys(siblings),Object.keys(frozenBefore.siblings));
- const a9e4Siblings=a9e4SiblingPredecessors(siblings);
+ const a9e4Siblings=a9e4SiblingPredecessors(mnR1HistorySiblingPredecessors(siblings));
+ {const id='petition-based-expungement-under-609a-02-03';for(const [key,refused]of mnR1HistoryDriftRefusals(siblings[id],id))check('mn-r1-history-refuses-'+key,refused,true);}
  {const carrier=Object.values(siblings).find(c=>c.facts.some(f=>f.factId==='contact_information'));for(const [key,refused]of a9e4DiagnosticDriftRefusals(carrier))check('a9e4-contact-diagnostic-refuses-'+key,refused,true);}
  const {mn299c11LocationIsContext}=await load('src/lib/expungement-ai/mn-299c11-location-context.ts');
  check('reviewed299C11-source-guard',mn299c11LocationIsContext(profile,mn299SiblingRoute,null),true);

@@ -42,21 +42,10 @@ The correction is applied to every route with a packet plan, which is a superset
 
 ## Prepayment confirmation budget
 
-- Within the target of 8: **280**
-- Over the target: **63**
-- Over the hard cap of 12: **12**
+- Within the target of 8: **315**
+- Over the target: **28**
+- Over the hard cap of 12: **1**
 
 Routes over the cap:
 
 - `MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal` — 18: age_at_offense, charge, court, disposition_date, pending_cases, prior_relief, record_type, residency_or_location, ms_charged_trafficking_distribution_manufacture, court_type, court_name, filing_location, charge_classification, actual_arrest, release_confirmed, disposition_record_wording, nonadjudication_or_diversion, open_co_defendant_matter
-- `ND:dui-record-sealing-under-the-separate-dui-statute` — 13: age_at_offense, charge, contact_information, court, criminal_history, disposition_date, financial_obligations, offense_category, pardon_status, prior_relief, record_type, residency_or_location, sentence_completion_date
-- `ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1` — 13: age_at_offense, charge, contact_information, court, criminal_history, disposition_date, financial_obligations, offense_category, pardon_status, prior_relief, record_type, residency_or_location, sentence_completion_date
-- `ND:marijuana-specific-summary-pardon-or-sealing-relief` — 14: age_at_offense, charge, contact_information, court, criminal_history, disposition_date, financial_obligations, offense_category, pardon_status, prior_relief, record_type, residency_or_location, sentence_completion_date, trafficking_status
-- `ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05` — 13: age_at_offense, charge, contact_information, court, criminal_history, disposition_date, financial_obligations, offense_category, pardon_status, prior_relief, record_type, residency_or_location, sentence_completion_date
-- `UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals` — 13: age_at_offense, charge, contact_information, court, criminal_history, disposition_date, financial_obligations, offense_category, pardon_status, pending_cases, prior_relief, residency_or_location, sentence_completion_date
-- `UT:path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility` — 13: age_at_offense, charge, contact_information, court, criminal_history, disposition_date, financial_obligations, offense_category, pardon_status, pending_cases, prior_relief, record_type, sentence_completion_date
-- `UT:path-e-petition-based-non-conviction-expungement` — 14: age_at_offense, charge, contact_information, court, criminal_history, disposition_date, financial_obligations, offense_category, pardon_status, pending_cases, prior_relief, record_type, residency_or_location, sentence_completion_date
-- `UT:path-i-traffic-offense-expungement-or-deletion` — 13: age_at_offense, charge, contact_information, court, criminal_history, disposition_date, financial_obligations, offense_category, pardon_status, pending_cases, prior_relief, record_type, sentence_completion_date
-- `UT:path-j-cannabis-possession-petition-without-a-bci-certificate` — 14: age_at_offense, charge, contact_information, court, criminal_history, disposition_date, financial_obligations, offense_category, pardon_status, pending_cases, prior_relief, record_type, residency_or_location, sentence_completion_date
-- `UT:path-l-vacatur-human-trafficking-related-expungement` — 13: age_at_offense, charge, contact_information, court, criminal_history, disposition_date, financial_obligations, offense_category, pardon_status, pending_cases, prior_relief, sentence_completion_date, trafficking_status
-- `UT:path-m-juvenile-expungement` — 13: age_at_offense, charge, contact_information, court, criminal_history, disposition_date, financial_obligations, offense_category, pardon_status, pending_cases, prior_relief, residency_or_location, sentence_completion_date
