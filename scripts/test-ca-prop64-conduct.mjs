@@ -181,6 +181,8 @@ for(const a of [base,cultivation,sale,transfer])for(const q of F.CA_PROP64_FACT_
 // GA-19 / CA-L02 / O43: adopted CA-02 conduct contract, including saved wrappers.
 const saleChoice=F.CA_PROP64_FACT_QUESTIONS.find(q=>q.id==='ca_prop64_transfer_conduct').optionDisplay.sale;
 check('CA-02 explicit attempt choice EN/ES',[saleChoice.label,saleChoice.translations.es.label],['Sale, offer or attempt to sell','Venta, oferta o intento de venta']);
+const transportChoice=F.CA_PROP64_FACT_QUESTIONS.find(q=>q.id==='ca_prop64_transfer_conduct').optionDisplay.transport_for_sale;
+check('CA-02 transport choice excludes sale/offer/attempt EN/ES',[transportChoice.label,transportChoice.translations.es.label],['Transport for sale without a sale, offer or attempt to sell','Transporte para venta sin venta, oferta ni intento de venta']);
 for(const [name,patch,status,classification]of [
  ['adult-unpaid-gift',{},'satisfied','no_offense'],
  ['personal-transport',{ca_prop64_transfer_conduct:'personal_transport'},'satisfied','no_offense'],
