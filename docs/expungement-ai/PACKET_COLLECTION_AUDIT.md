@@ -16,8 +16,8 @@ source in this repository yields 97. These are the denominators that actually ex
 | --- | ---: | ---: |
 | Compiled pathways | 344 | 51 |
 | `packet_checkout` legal authority | 104 | 38 |
-| Counsel-ratified deployable | 80 | 47 |
-| Product `paid_now` | 79 | 46 |
+| Counsel-ratified deployable | 79 | 47 |
+| Product `paid_now` | 77 | 45 |
 | Grade-A commercially eligible | 0 | 0 |
 
 The correction is applied to every route with a packet plan, which is a superset of all of them.
@@ -42,8 +42,8 @@ The correction is applied to every route with a packet plan, which is a superset
 
 ## Prepayment confirmation budget
 
-- Within the target of 8: **315**
-- Over the target: **28**
+- Within the target of 8: **316**
+- Over the target: **27**
 - Over the hard cap of 12: **1**
 
 Routes over the cap:
