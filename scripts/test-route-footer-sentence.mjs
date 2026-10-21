@@ -143,6 +143,7 @@ for (const state of fs.readdirSync(ROOT).sort()) {
   }
 }
 assert(families.length > 0, "no overlay states where routes are printed; retire this guard");
+assert(families.some((f) => f.said.noKeyAnywhere && !f.said.closesWithRoutes), "no fixture is held to \"no page prints its route key\" (OK juvenile says it)");
 
 const findings = (f) => ({ pdf: f.pdf, missing: missingFooterPages(f.said, f.pages, f.manifest), denied: deniedFooterPages(f.said, f.pages, f.manifest),
   routeList: f.layoutPages ? routeListProblems(f.layoutPages, f.manifest, f.served) : [], keyed: keyedPages(f.said, f.pages) });
