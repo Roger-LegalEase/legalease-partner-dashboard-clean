@@ -39,22 +39,36 @@ function log(msg) { lines.push(msg); }
 
 // packet-generation.ts is server-only (transitively imports next/headers via the Supabase client), so
 // it cannot be imported in a plain-node verifier. We (a) STATICALLY prove the real
-// assertPacketGenerationAllowed guard requires a packet-ready result + the payment clamp + paid/dry_run,
-// and (b) exercise that exact logic through a mirror for behavioural coverage.
+// assertPacketGenerationAllowed guard requires a packet-ready result + the payment clamp + server payment
+// authority or dry_run, and (b) exercise that exact logic through a mirror for behavioural coverage.
+// Since eb226a146 the paid check is the server's consumerPacketPaymentAuthority, not the item's paymentStatus.
 const PKTGEN_SRC = fs.readFileSync(path.join(ROOT, "src/lib/expungement-ai/packet-generation.ts"), "utf8");
-{
-  const start = PKTGEN_SRC.indexOf("export async function assertPacketGenerationAllowed(");
-  const body = start === -1 ? "" : PKTGEN_SRC.slice(start, PKTGEN_SRC.indexOf("\n}", start));
-  ok(/packet_ready_with_caution/.test(body) && /isConsumerPaymentAllowed\(/.test(body) && /ConsumerPacketPaymentRequiredError/.test(body) && /paymentStatus !== "paid"/.test(body),
-    "assertPacketGenerationAllowed source no longer requires packet-ready + payment clamp + paid/dry_run (guard weakened).");
+function generationGuardHolds(src) {
+  const start = src.indexOf("export async function assertPacketGenerationAllowed(");
+  const body = start === -1 ? "" : src.slice(start, src.indexOf("\n}", start));
+  return /packet_ready_with_caution/.test(body) && /isConsumerPaymentAllowed\(/.test(body)
+    && /if \(paymentRequired && !\(dryRunMode && item\.paymentProvider === "dry_run"\)\) \{/.test(body)
+    && /const payment = await consumerPacketPaymentAuthority\(item\.id, userId\);\s*if \(!payment\.valid\) throw new ConsumerPacketPaymentRequiredError\(\);/.test(body);
 }
-// Mirror of the real assertPacketGenerationAllowed guard (packet-generation.ts:233).
+ok(generationGuardHolds(PKTGEN_SRC),
+  "assertPacketGenerationAllowed source no longer requires packet-ready + payment clamp + server payment authority/dry_run (guard weakened).");
+const GUARD_MUTANTS = {
+  "server payment authority removed": PKTGEN_SRC.replace(/const payment = await consumerPacketPaymentAuthority\(item\.id, userId\);/, "const payment = { valid: true };"),
+  "invalid payment no longer throws": PKTGEN_SRC.replace("if (!payment.valid) throw new ConsumerPacketPaymentRequiredError();", ""),
+  "dry_run exemption outside dry-run mode": PKTGEN_SRC.replace('!(dryRunMode && item.paymentProvider === "dry_run")', '!(item.paymentProvider === "dry_run")'),
+  "payment clamp removed": PKTGEN_SRC.replace("isConsumerPaymentAllowed(", "Boolean(")
+};
+for (const [name, mutant] of Object.entries(GUARD_MUTANTS)) {
+  ok(mutant !== PKTGEN_SRC && !generationGuardHolds(mutant), `Generation-guard mutant "${name}" must RED.`);
+}
+// Mirror of the real assertPacketGenerationAllowed guard (packet-generation.ts, assertPacketGenerationAllowed).
+// serverPaymentValid stands for consumerPacketPaymentAuthority(item.id, userId).valid; no fixture here has a payment.
 function guardAllows(item, dryRunMode = true, paymentRequired = true) {
   const rc = item.resultCode ?? "guidance_only";
   const packetReady = rc === "packet_ready" || rc === "packet_ready_with_caution";
   const paymentAllowed = item.paymentAllowed === true && packetReady; // isConsumerPaymentAllowed
   if (!packetReady || (paymentRequired && !paymentAllowed)) return false;
-  if (paymentRequired && item.paymentStatus !== "paid" && !(dryRunMode && item.paymentProvider === "dry_run")) return false;
+  if (paymentRequired && !(dryRunMode && item.paymentProvider === "dry_run") && item.serverPaymentValid !== true) return false;
   return true;
 }
 
