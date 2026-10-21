@@ -189,6 +189,33 @@ it("a pin the rebuild no longer binds is reported rather than resurrected", () =
   assert.match(dropped[0].why, /nothing to sit on/);
 });
 
+it("a path bound twice keeps each pin's block on that pin when the source moves (VA misdemeanor, 2026-10-21)", () => {
+  const block = (field) => ({ was: { sha256: "b".repeat(64), byteLength: 1 }, anchorsCompared: 1, anchorsIdentical: 1, why: field });
+  const previous = { committedRecordsBound: [
+    { path: "m.json", field: "fees", sha256: "a".repeat(64), identityRefresh: block("fees") },
+    { path: "other.json", sha256: "c".repeat(64) },
+    { path: "m.json", field: "service", sha256: "a".repeat(64), identityRefresh: block("service") }
+  ] };
+  const next = { committedRecordsBound: previous.committedRecordsBound.map(({ identityRefresh, ...pin }) => ({ ...pin, sha256: pin.path === "m.json" ? "f".repeat(64) : pin.sha256 })) };
+  const { document, history } = carryForwardIdentityRefresh(previous, next, { on: "2026-10-21T00:00:00Z" });
+  assert.equal(history.length, 2);
+  const [fees, , service] = document.committedRecordsBound;
+  assert.deepEqual(fees.identityRefreshHistory.map((e) => e.why), ["fees"], "the first pin keeps its own block, and only its own");
+  assert.deepEqual(service.identityRefreshHistory.map((e) => e.why), ["service"], "the second pin keeps its block too");
+});
+
+it("a path bound twice keeps each pin's own history when neither holds a live block", () => {
+  const entry = (field) => ({ was: { sha256: "b".repeat(64), byteLength: 1 }, writtenAgainst: "a".repeat(64), why: field });
+  const previous = { committedRecordsBound: [
+    { path: "m.json", field: "fees", sha256: "a".repeat(64), identityRefreshHistory: [entry("fees")] },
+    { path: "m.json", field: "service", sha256: "a".repeat(64), identityRefreshHistory: [entry("service")] }
+  ] };
+  const next = { committedRecordsBound: previous.committedRecordsBound.map(({ identityRefreshHistory, ...pin }) => pin) };
+  const [fees, service] = carryForwardIdentityRefresh(previous, next, { on: "2026-10-21T00:00:00Z" }).document.committedRecordsBound;
+  assert.deepEqual(fees.identityRefreshHistory.map((e) => e.why), ["fees"], "the first pin carries only its own history");
+  assert.deepEqual(service.identityRefreshHistory?.map((e) => e.why), ["service"], "the second pin keeps its history too");
+});
+
 it("a missing, unreadable or non-JSON previous receipt costs the build nothing", () => {
   const doc = { committedRecords: [{ pathInRepository: "p.json", sha256: "a".repeat(64) }] };
   assert.equal(preserveIdentityRefresh(fs, path.join(ROOT, "no/such/source-receipt.json"), doc), doc);

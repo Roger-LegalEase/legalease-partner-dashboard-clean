@@ -153,7 +153,7 @@ export function carryForwardIdentityRefresh(previous, next, { on = new Date() } 
           history.push({ path: at, writtenAgainst: candidate.writtenAgainst, measuredNow: pin.sha256, entries: pin.identityRefreshHistory.length, why: "prior history carried; the previous pin held no live block" });
         }
         claimed.add(candidate);
-        continue;
+        break;
       }
       const shape = annotationIsSourceBound(candidate.annotation);
       if (!shape.ok) {
@@ -172,7 +172,7 @@ export function carryForwardIdentityRefresh(previous, next, { on = new Date() } 
         const why = `the source moved again: the annotation was written against ${String(candidate.writtenAgainst).slice(0, 12)} and this build measured ${String(pin.sha256).slice(0, 12)}. Nobody has compared anchors across that second move and this build cannot; a live note would assert that comparison, so the note is kept as history and the pin reads as moved until a measured re-pin`;
         pin.identityRefreshHistory = [...(pin.identityRefreshHistory ?? []), ...asHistory(candidate, pin.sha256, why)];
         history.push({ path: at, writtenAgainst: candidate.writtenAgainst, measuredNow: pin.sha256, entries: pin.identityRefreshHistory.length, why });
-        continue;
+        break; // one previous pin per pin: a path bound twice keeps each block on its own pin
       }
 
       /* Reverted to the pre-refresh bytes: the move the annotation records has
