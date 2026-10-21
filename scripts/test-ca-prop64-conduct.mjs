@@ -108,6 +108,40 @@ for(const age of [18,19,20])for(const grams of ["4.0000000000000001",4.0001,7.99
  check('Q1 Infraction does not establish felony benefit '+age+'/'+grams,decision('already infraction',infraction,'review').code,'concentrate_amendment');
  check('Q1 saved Infraction stays held '+age+'/'+grams,decision('saved infraction',JSON.parse(JSON.stringify(infraction)),'review').ids,['ca_prop64_concentrate_grams']);
 }
+// CA-L01 §4(b): relevant-time finality and actual later orders change the additional review, never the original benefit.
+const additionalInfraction={...historicalConcentrate,ca_prop64_additional_infraction_request:'Yes',ca_prop64_judgment_finality_2017:'final',ca_prop64_later_sentence_order:'none',ca_prop64_pending_appeal:'No'};
+const proceduralCases=[
+ ['final',{},'concentrate_final_judgment'],
+ ['nonfinal-at-amendment',{ca_prop64_judgment_finality_2017:'nonfinal'},'concentrate_nonfinal_judgment'],
+ ['valid-reopening',{ca_prop64_later_sentence_order:'vacated_or_recalled'},'concentrate_reopened_judgment'],
+ ['limited-proceeding',{ca_prop64_later_sentence_order:'limited_proceeding'},'concentrate_limited_proceeding'],
+ ['unknown-finality',{ca_prop64_judgment_finality_2017:'unknown'},'concentrate_procedure_unknown'],
+ ['unknown-order',{ca_prop64_later_sentence_order:{value:'vacated_or_recalled',unknown:true}},'concentrate_procedure_unknown'],
+ ['pending-appeal',{ca_prop64_pending_appeal:'Yes'},'concentrate_final_judgment']
+];
+for(const [name,patch,code]of proceduralCases){
+ const answers={...additionalInfraction,...patch};
+ const procedure=F.caProp64ConcentrateProcedure(answers);
+ check(name+' actual procedural review',procedure?.code,code);
+ check(name+' pending appeal is distinct from finality in2017',procedure?.pendingAppeal,patch.ca_prop64_pending_appeal==='Yes');
+ for(const id of ['ca_prop64_additional_infraction_request','ca_prop64_judgment_finality_2017','ca_prop64_later_sentence_order','ca_prop64_pending_appeal'])check(name+' fact remains available '+id,F.caProp64QuestionApplies(answers,id),true);
+ decision(name+' supported original benefit',answers,'satisfied','misdemeanor');
+ decision(name+' completed original benefit',{...answers,ca_prop64_branch:'completed-sentence application',ca_prop64_relief_requested:'redesignation'},'satisfied','misdemeanor');
+ const misdemeanor={...answers,offense_level:'Misdemeanor',case_outcome:'Misdemeanor conviction'};
+ check(name+' no automatic additional entitlement',decision(name+' existing misdemeanor',misdemeanor,'review').code,code);
+ check(name+' saved request and procedure retained',F.caProp64ConcentrateProcedure(JSON.parse(JSON.stringify(answers))),procedure);
+}
+for(const value of [undefined,'No','unknown',{value:'Yes',unknown:true}]){
+ const answers={...additionalInfraction,ca_prop64_additional_infraction_request:value};
+ decision('optional extra request cannot withdraw original '+JSON.stringify(value),answers,'satisfied','misdemeanor');
+ check('no inferred additional election '+JSON.stringify(value),F.caProp64ConcentrateProcedure(answers),null);
+ check('unrequested procedure hidden '+JSON.stringify(value),F.caProp64QuestionApplies(answers,'ca_prop64_judgment_finality_2017'),false);
+}
+for(const patch of [{ca_prop64_concentrate_grams:4},{ca_prop64_concentrate_grams:'8.0000000000000001'},{ca_prop64_age_at_offense:21},{ca_prop64_offense_date:'2016-11-09'},{ca_prop64_substance:'flower'},{ca_prop64_possession_context:'school_children'},{ca_prop64_existing_relief:'reduced'}]){
+ const answers={...additionalInfraction,...patch};
+ check('outside adopted amendment scenario '+JSON.stringify(patch),F.caProp64ConcentrateProcedure(answers),null);
+ check('outside scenario hides request '+JSON.stringify(patch),F.caProp64QuestionApplies(answers,'ca_prop64_additional_infraction_request'),false);
+}
 decision('exactly4 remains original infraction',{...historicalConcentrate,ca_prop64_concentrate_grams:4},'satisfied','infraction');
 decision('adult21 exactly8 lawful',{...historicalConcentrate,ca_prop64_age_at_offense:21},'satisfied','no_offense');
 decision('under18 retains own rule',{...historicalConcentrate,ca_prop64_age_at_offense:17},'satisfied','infraction');
@@ -144,5 +178,41 @@ decision('unsafe prior count',{...sale,ca_prop64_same_section_priors:Number.MAX_
 decision('juvenile needs its forms',{...base,ca_prop64_age_at_offense:17,ca_prop64_court_type:'juvenile'},'review');
 for(const prior of ['reduced','dismissed','dismissed_sealed'])decision('prior relief '+prior,{...base,ca_prop64_existing_relief:prior,ca_prop64_additional_benefit:'sealing'},'review');
 for(const a of [base,cultivation,sale,transfer])for(const q of F.CA_PROP64_FACT_QUESTIONS){check('EN/ES '+q.id,Boolean(q.prompt&&q.translations?.es?.prompt),true);if(Array.isArray(q.options))for(const o of q.options)check('option EN/ES '+q.id+o,Boolean(q.optionDisplay?.[o]?.label&&q.optionDisplay?.[o]?.translations?.es?.label),true);check('conditional '+q.id,F.caProp64QuestionApplies(a,q.id),F.caProp64ActiveFactIds(a).includes(q.id));}
+// GA-19 / CA-L02 / O43: adopted CA-02 conduct contract, including saved wrappers.
+const saleChoice=F.CA_PROP64_FACT_QUESTIONS.find(q=>q.id==='ca_prop64_transfer_conduct').optionDisplay.sale;
+check('CA-02 explicit attempt choice EN/ES',[saleChoice.label,saleChoice.translations.es.label],['Sale, offer or attempt to sell','Venta, oferta o intento de venta']);
+const transportChoice=F.CA_PROP64_FACT_QUESTIONS.find(q=>q.id==='ca_prop64_transfer_conduct').optionDisplay.transport_for_sale;
+check('CA-02 transport choice excludes sale/offer/attempt EN/ES',[transportChoice.label,transportChoice.translations.es.label],['Transport for sale without a sale, offer or attempt to sell','Transporte para venta sin venta, oferta ni intento de venta']);
+for(const [name,patch,status,classification]of [
+ ['adult-unpaid-gift',{},'satisfied','no_offense'],
+ ['personal-transport',{ca_prop64_transfer_conduct:'personal_transport'},'satisfied','no_offense'],
+ ['actual-sale-not-lawful',{ca_prop64_transfer_conduct:'sale'},'satisfied','misdemeanor'],
+ ['transport-for-sale-no-completed-sale',{ca_prop64_transfer_conduct:'transport_for_sale'},'satisfied','infraction'],
+ ['gift-recipient20',{ca_prop64_recipient_age:20},'satisfied','infraction'],
+ ['recipient-uncertain',{ca_prop64_recipient_age:'unknown'},'missing'],
+ ['conduct-uncertain',{ca_prop64_transfer_conduct:'unknown'},'missing'],
+ ['disputed-or-mixed-conduct',{ca_prop64_transfer_conduct:'other'},'review'],
+ ['import-at-flower-limit',{ca_prop64_cross_border:'import'},'satisfied','misdemeanor'],
+ ['import-above-flower-limit',{ca_prop64_cross_border:'import',ca_prop64_flower_grams:'28.5000000000000001'},'review'],
+ ['export-for-sale-at-flower-limit',{ca_prop64_cross_border:'export_for_sale',ca_prop64_transfer_conduct:'transport_for_sale'},'satisfied','infraction'],
+ ['export-contrary-personal-transport',{ca_prop64_cross_border:'export_for_sale',ca_prop64_transfer_conduct:'personal_transport'},'review'],
+ ['import-at-concentrate-limit',{ca_prop64_cross_border:'import',ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:4},'satisfied','misdemeanor'],
+ ['import-above-concentrate-limit',{ca_prop64_cross_border:'import',ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:'4.0000000000000001'},'review'],
+ ['export-at-concentrate-limit',{ca_prop64_cross_border:'export_for_sale',ca_prop64_transfer_conduct:'transport_for_sale',ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:4},'satisfied','misdemeanor'],
+ ['export-above-concentrate-limit',{ca_prop64_cross_border:'export_for_sale',ca_prop64_transfer_conduct:'transport_for_sale',ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:'4.0000000000000001'},'review'],
+ ['ordinary-concentrate-gift-at8',{ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:8},'satisfied','no_offense'],
+ ['concentrate-gift-recipient20',{ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:8,ca_prop64_recipient_age:20},'satisfied','misdemeanor'],
+ ['concentrate-transport-for-sale',{ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:4,ca_prop64_transfer_conduct:'transport_for_sale'},'satisfied','misdemeanor'],
+ ['sale-qualifying-prior',{ca_prop64_transfer_conduct:'sale',ca_prop64_prior_superstrike:'Yes'},'review'],
+ ['sale-registration-prior',{ca_prop64_transfer_conduct:'sale',ca_prop64_prior_290c:'Yes'},'review'],
+ ['sale-two-exact-subsection-priors',{ca_prop64_transfer_conduct:'sale',ca_prop64_same_section_priors:2},'review'],
+ ['sale-knowing-minor',{ca_prop64_transfer_conduct:'sale',ca_prop64_knowing_minor_transaction:'Yes'},'review'],
+ ['sale-minor-knowledge-unknown',{ca_prop64_transfer_conduct:'sale',ca_prop64_knowing_minor_transaction:'unknown'},'missing'],
+ ['offense-date-version',{ca_prop64_offense_date:'2016-11-09'},'review']
+])for(const wrapped of [false,true]){
+ const raw={...transfer,...patch};
+ const answers=wrapped?Object.fromEntries(Object.entries(raw).map(([id,value])=>[id,{value,unknown:false}])):raw;
+ decision('CA-02 '+name+' saved='+wrapped,answers,status,classification);
+}
 console.log(JSON.stringify({status:rows.every(r=>r.pass)?'PASS':'FAIL',checks:rows.length,failures:rows.filter(r=>!r.pass),rows},null,2));
 assert.ok(rows.every(r=>r.pass),'California conduct expectations failed');

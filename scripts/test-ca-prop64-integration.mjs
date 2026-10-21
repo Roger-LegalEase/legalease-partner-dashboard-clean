@@ -90,13 +90,45 @@ for(const name of ['currently-serving','completed']){
    }
   }
  }
+ const transferFacts={...crossBorderReviewFacts,ca_prop64_cross_border:'none'};
+ const conductCases=[
+  ['gift',{},target,'dismissal/sealing'],
+  ['personal-transport',{ca_prop64_transfer_conduct:'personal_transport'},target,'dismissal/sealing'],
+  ['sale-offer-attempt',{ca_prop64_transfer_conduct:'sale'},target,'redesignation'],
+  ['transport-for-sale-without-sale',{ca_prop64_transfer_conduct:'transport_for_sale'},target,'redesignation'],
+  ['recipient-unknown',{ca_prop64_recipient_age:{value:21,unknown:true}},'needs_more_info','dismissal/sealing'],
+  ['disputed-conduct',{ca_prop64_transfer_conduct:'other'},'needs_review','dismissal/sealing'],
+  ['import-exact-four',{ca_prop64_cross_border:'import',ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:'4.0000'},target,'redesignation'],
+  ['export-above-four',{ca_prop64_cross_border:'export_for_sale',ca_prop64_transfer_conduct:'transport_for_sale',ca_prop64_substance:'concentrate',ca_prop64_concentrate_grams:{value:'4.0000000000000001',unknown:false}},'needs_review','redesignation'],
+  ['sale-qualifying-prior',{ca_prop64_transfer_conduct:'sale',ca_prop64_prior_superstrike:'Yes'},'needs_review','redesignation']
+ ].map(([label,patch,expected,remedy])=>['ca-l02-'+label,{...transferFacts,...patch,ca_prop64_relief_requested:remedy},expected]);
  const categoryCases=categories.flatMap(category=>[
   ['ga20-supported/'+category,{...facts,state_exclusion_categories:[category]},target],
   ['ga20-uncertain/'+category,{...facts,ca_prop64_substance:'unknown',state_exclusion_categories:[category]},'needs_more_info'],
   ['ga20-conflicting/'+category,{...facts,ca_prop64_record_section:'11358',state_exclusion_categories:[category]},'needs_review']
  ]);
- for(const [label,patch,expected]of [['legacy',{},'needs_more_info'],['positive',facts,target],['zero',{...facts,ca_prop64_flower_grams:0},'needs_review'],['juvenile',{...facts,ca_prop64_court_type:'juvenile'},'needs_review'],['oldrelief',{...facts,ca_prop64_existing_relief:'dismissed',ca_prop64_additional_benefit:'sealing'},'needs_review'],['school',{...facts,ca_prop64_possession_context:'school_children'},name==='completed'?'needs_review':target],['cross-border-other',crossBorderReviewFacts,'needs_review'],['original-concentrate-benefit',originalConcentrateBenefit,target],['concentrate-already-misdemeanor',{...originalConcentrateBenefit,case_outcome:'Misdemeanor conviction',offense_level:'Misdemeanor'},'needs_review'],['cross-border-above-four',crossBorderPrecisionFacts,'needs_review'],['leading-zero-concentrate',{...crossBorderPrecisionFacts,ca_prop64_concentrate_grams:'05'},'needs_review'],['leading-zero-flower',{...crossBorderPrecisionFacts,ca_prop64_substance:'flower',ca_prop64_flower_grams:{value:'028.6',unknown:false}},'needs_review'],['concentrate-already-infraction',{...originalConcentrateBenefit,case_outcome:'Infraction conviction',offense_level:'Infraction'},'needs_review'],['missing-detail-vehicle-possession-authorization',{...vehicleUse,ca_prop64_possession_act:'possession_only',ca_prop64_use_authorization:undefined},'needs_more_info'],...['k12_school','daycare','youth_center'].map(place=>['missing-detail-'+place+'-children',{...publicPossession,ca_prop64_possession_place:place,ca_prop64_children_present:{value:'Yes',unknown:true},ca_prop64_use_authorization:'none'},'needs_more_info']),['public-possession',publicPossession,target],['public-smoking',publicSmoking,'needs_review'],['vehicle-driver',vehicleUse,'needs_review'],['vehicle-passenger',{...vehicleUse,ca_prop64_vehicle_role:'passenger'},'needs_review'],['legacy-combined',{...facts,ca_prop64_possession_context:'public_or_vehicle_use'},'needs_more_info'],['unknown-act',{...publicPossession,ca_prop64_possession_act:'unknown'},'needs_more_info'],['near-school',{...publicSmoking,ca_prop64_school_distance:'within_1000',ca_prop64_children_present:'Yes'},'needs_review'],['missing-detail-distance',{...publicSmoking,ca_prop64_school_distance:undefined},'needs_more_info'],['missing-detail-children',{...publicSmoking,ca_prop64_school_distance:'within_1000'},'needs_more_info'],['missing-detail-container',{...vehicleUse,ca_prop64_vehicle_container:undefined},'needs_more_info'],['missing-detail-role',{...vehicleUse,ca_prop64_vehicle_role:undefined},'needs_more_info'],['missing-detail-authorization',{...publicSmoking,ca_prop64_use_authorization:undefined},'needs_more_info'],...['PC 32','Penal Code § 182(a)(1)','California PC 4573.6(a)'].map(charge=>['penal-code-'+charge,{...facts,charge},'needs_review']),...categoryCases]){
+ for(const [label,patch,expected]of [['legacy',{},'needs_more_info'],['positive',facts,target],['zero',{...facts,ca_prop64_flower_grams:0},'needs_review'],['juvenile',{...facts,ca_prop64_court_type:'juvenile'},'needs_review'],['oldrelief',{...facts,ca_prop64_existing_relief:'dismissed',ca_prop64_additional_benefit:'sealing'},'needs_review'],['school',{...facts,ca_prop64_possession_context:'school_children'},name==='completed'?'needs_review':target],['cross-border-other',crossBorderReviewFacts,'needs_review'],['original-concentrate-benefit',originalConcentrateBenefit,target],['concentrate-already-misdemeanor',{...originalConcentrateBenefit,case_outcome:'Misdemeanor conviction',offense_level:'Misdemeanor'},'needs_review'],['cross-border-above-four',crossBorderPrecisionFacts,'needs_review'],['leading-zero-concentrate',{...crossBorderPrecisionFacts,ca_prop64_concentrate_grams:'05'},'needs_review'],['leading-zero-flower',{...crossBorderPrecisionFacts,ca_prop64_substance:'flower',ca_prop64_flower_grams:{value:'028.6',unknown:false}},'needs_review'],['concentrate-already-infraction',{...originalConcentrateBenefit,case_outcome:'Infraction conviction',offense_level:'Infraction'},'needs_review'],['missing-detail-vehicle-possession-authorization',{...vehicleUse,ca_prop64_possession_act:'possession_only',ca_prop64_use_authorization:undefined},'needs_more_info'],...['k12_school','daycare','youth_center'].map(place=>['missing-detail-'+place+'-children',{...publicPossession,ca_prop64_possession_place:place,ca_prop64_children_present:{value:'Yes',unknown:true},ca_prop64_use_authorization:'none'},'needs_more_info']),['public-possession',publicPossession,target],['public-smoking',publicSmoking,'needs_review'],['vehicle-driver',vehicleUse,'needs_review'],['vehicle-passenger',{...vehicleUse,ca_prop64_vehicle_role:'passenger'},'needs_review'],['legacy-combined',{...facts,ca_prop64_possession_context:'public_or_vehicle_use'},'needs_more_info'],['unknown-act',{...publicPossession,ca_prop64_possession_act:'unknown'},'needs_more_info'],['near-school',{...publicSmoking,ca_prop64_school_distance:'within_1000',ca_prop64_children_present:'Yes'},'needs_review'],['missing-detail-distance',{...publicSmoking,ca_prop64_school_distance:undefined},'needs_more_info'],['missing-detail-children',{...publicSmoking,ca_prop64_school_distance:'within_1000'},'needs_more_info'],['missing-detail-container',{...vehicleUse,ca_prop64_vehicle_container:undefined},'needs_more_info'],['missing-detail-role',{...vehicleUse,ca_prop64_vehicle_role:undefined},'needs_more_info'],['missing-detail-authorization',{...publicSmoking,ca_prop64_use_authorization:undefined},'needs_more_info'],...['PC 32','Penal Code § 182(a)(1)','California PC 4573.6(a)'].map(charge=>['penal-code-'+charge,{...facts,charge},'needs_review']),...categoryCases,...conductCases]){
   const answers={...base,...patch},rawBefore=structuredClone(answers),evaluation=evaluateAnswers(answers).evaluation;scenarios.push({name,label,answers,evaluation});check(name+'/'+label,evaluation.resultCode,expected);
+  if(label.startsWith('ca-l02-')){
+   const selected=selectScreeningQuestionIds(profile,pub,answers),resumed=sanitizeResumedAnswersForQuestionIds(pub,answers,selected);
+   for(const id of ['ca_prop64_transfer_conduct','ca_prop64_recipient_age','ca_prop64_cross_border','ca_prop64_concentrate_grams','ca_prop64_prior_superstrike'])check(name+'/'+label+' saved fact '+id,resumed[id],answers[id]);
+   check(name+'/'+label+' conduct question visible',selected.includes('ca_prop64_transfer_conduct'),true);
+   const authoritative=evaluateAnswers(answers),seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:answers,dependencies:{},capturedAt:'2026-10-21T01:00:00Z'});assert(seed);
+   const saved={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot},before=structuredClone(saved);
+   const noop=P.packetInformationPatch({protectedVerification:saved,answers:{}});assert(noop);
+   check(name+'/'+label+' protected no-op preserves source maps',noop.protectedTransition.nextVerification,before);
+   check(name+'/'+label+' review or uncertainty remains unpaid',evaluation.paymentAllowed,expected===target);
+   if(label==='ca-l02-sale-offer-attempt'){
+    const correction=P.packetInformationPatch({protectedVerification:saved,answers:{ca_prop64_transfer_conduct:'unpaid_gift',ca_prop64_relief_requested:'dismissal/sealing'}});assert(correction);
+    const next=correction.protectedTransition.nextVerification;
+    check(name+'/'+label+' correction preserves exact original conduct in history',next.draftSnapshot.dependencies.semanticAnswerHistory?.some(entry=>entry.factId==='ca_prop64_transfer_conduct'&&entry.source==='screeningAnswers'&&entry.value==='sale'),true);
+    check(name+'/'+label+' stale conduct cannot shadow correction',next.draftSnapshot.screeningAnswers.ca_prop64_transfer_conduct,undefined);
+    check(name+'/'+label+' original saved snapshot remains unchanged',saved,before);
+    check(name+'/'+label+' correction explicitly saves gift',next.draftSnapshot.packetAnswers.ca_prop64_transfer_conduct,'unpaid_gift');
+    check(name+'/'+label+' correction cannot verify by itself',[next.status,correction.readyToGenerate],['unverified',false]);
+   }
+   check(name+'/'+label+' source answers unchanged',answers,rawBefore);
+  }
   if(label.startsWith('ga20-')){
    const withoutCategory={...answers};delete withoutCategory.state_exclusion_categories;
    check(name+'/'+label+' factual result and sources invariant',evaluation,evaluateAnswers(withoutCategory).evaluation);
@@ -169,6 +201,87 @@ for(const name of ['currently-serving','completed']){
   const response=await POST(new Request('http://localhost/api/expungement-ai/evaluate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jurisdiction:'CA',profileVersion:profile.profileVersion,matterId:'synthetic-ca-handler',answers})}));const body=await response.json();check(name+'/'+label+' actual handler',[response.status,body.resultCode],[200,expected]);
   for(const locale of ['en','es']){const value={locale,setLocale:()=>{},t:(key,fallback,vars)=>t(locale,key,fallback,vars),text:(text,options)=>resolveRuntimeText(locale,text,options)};const markup=renderToStaticMarkup(React.createElement(LocalizationContext.Provider,{value},React.createElement(ScreeningResult,{evaluation,stateName:'California',questionPromptById:Object.fromEntries(pub.questions.map(q=>[q.id,q.prompt])),hasScreeningSession:false,onEditAnswers:()=>{},onPacketAction:()=>{}})));renders.push({name,label,locale,markup});if(exactPair){const exactRendered=renderToStaticMarkup(React.createElement('span',null,exactPair[locale])).slice(6,-7);check(name+'/'+label+'/'+locale+' exact literal generated copy rendered',markup.includes(exactRendered),true);} for(const id of evaluation.missingQuestionIds){const q=F.CA_PROP64_FACT_QUESTIONS.find(q=>q.id===id);if(q&&['ca_prop64_possession_act','ca_prop64_possession_place','ca_prop64_school_distance','ca_prop64_children_present','ca_prop64_vehicle_container','ca_prop64_vehicle_role','ca_prop64_use_authorization'].includes(id)){const expected=locale==='es'?q.translations.es.prompt:q.prompt;check(name+'/'+label+'/'+locale+' missing prompt '+id,markup.includes(renderToStaticMarkup(React.createElement('span',null,expected)).slice(6,-7)),true);}} for(const reason of evaluation.reasons.filter(r=>Object.values(F.CA_PROP64_REASON_COPY).some(([en])=>en===r.text))){const text=resolveRuntimeText(locale,reason.text);check(name+'/'+label+'/'+locale+' reason rendered',markup.includes(renderToStaticMarkup(React.createElement('span',null,text)).slice(6,-7)),true);if(locale==='es')check(name+'/'+label+' Spanish reason',text!==reason.text,true);}}
  }
+}
+// Keep the real HTTP validation; substitute only authenticated storage transport.
+let procedureRecord;
+globalThis.__caProcedureTransport={
+ getRcapBriefcaseAuthState:async()=>({isAuthenticated:true,isVerified:true,userId:'synthetic-ca-owner'}),
+ getBriefcaseItem:async()=>({id:'synthetic-ca-procedure',artifactRefs:{}}),
+ readProtectedPacketVerification:async()=>({ok:true,value:procedureRecord}),
+ persistProtectedPacketVerification:()=>{throw Error('invalid procedure request reached persistence');},
+ decorateBriefcaseItemForPresentation:()=>{throw Error('invalid procedure request reached presentation');},
+ protectedPacketVerificationSeedFromTrustedSource:()=>{throw Error('unexpected seed');},
+ readTrustedBriefcasePresentationSource:()=>{throw Error('unexpected source');}
+};
+const procedureApiPath='src/app/api/expungement-ai/briefcase/[itemId]/packet-information/route.ts';
+let procedureApiSource=fs.readFileSync(procedureApiPath,'utf8');
+for(const [bindings,module] of [
+ [['getRcapBriefcaseAuthState'],'@/lib/rcap/briefcase/auth'],
+ [['getBriefcaseItem'],'@/lib/expungement-ai/briefcase'],
+ [['decorateBriefcaseItemForPresentation','protectedPacketVerificationSeedFromTrustedSource','readTrustedBriefcasePresentationSource'],'@/lib/expungement-ai/briefcase-presentation-authority'],
+ [['persistProtectedPacketVerification','readProtectedPacketVerification'],'@/lib/expungement-ai/verification-cas']
+]){
+ const pattern=new RegExp('import \\{\\s*'+bindings.join(',\\s*')+'\\s*\\} from "'+module+'";');
+ assert(pattern.test(procedureApiSource),module);
+ procedureApiSource=procedureApiSource.replace(pattern,bindings.map(binding=>'const '+binding+'=(...args:unknown[])=>(globalThis as any).__caProcedureTransport.'+binding+'(...args);').join('\n'));
+}
+const procedureApiUrl=pathToFileURL(`${process.cwd()}/${procedureApiPath}`).href;
+register(`data:text/javascript,${encodeURIComponent('let d;export function initialize(data){d=data;}export async function load(u,c,n){return u===d.url?{format:"module",source:d.source,shortCircuit:true}:n(u,c);} ')}`,{data:{url:procedureApiUrl,source:ts.transpileModule(procedureApiSource,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText}});
+const procedureApi=await import(procedureApiUrl);
+// CA-L01 §4(b): real consumers keep the independent original benefit and the separate additional request.
+const procedureIds=['ca_prop64_additional_infraction_request','ca_prop64_judgment_finality_2017','ca_prop64_later_sentence_order','ca_prop64_pending_appeal'];
+for(const name of ['currently-serving','completed'])for(const level of ['Felony','Misdemeanor'])for(const [label,patch,code]of [
+ ['final',{},'concentrate_final_judgment'],
+ ['nonfinal',{ca_prop64_judgment_finality_2017:'nonfinal'},'concentrate_nonfinal_judgment'],
+ ['reopened',{ca_prop64_later_sentence_order:'vacated_or_recalled'},'concentrate_reopened_judgment'],
+ ['limited',{ca_prop64_later_sentence_order:'limited_proceeding'},'concentrate_limited_proceeding'],
+ ['unknown',{ca_prop64_judgment_finality_2017:{value:'nonfinal',unknown:true}},'concentrate_procedure_unknown'],
+ ['pending-appeal',{ca_prop64_pending_appeal:'Yes'},'concentrate_final_judgment']
+]){
+ const fixture=JSON.parse(fs.readFileSync(new URL(`./fixtures/ca-prop64-protected-baseline/${name}.json`,import.meta.url)));
+ const answers={...fixture.answers,...originalConcentrateBenefit,offense_level:level,case_outcome:level+' conviction',ca_prop64_additional_infraction_request:'Yes',ca_prop64_judgment_finality_2017:'final',ca_prop64_later_sentence_order:'none',ca_prop64_pending_appeal:'No',...patch};
+ const before=structuredClone(answers),prefix=`CA-L01/${name}/${level}/${label}`,authoritative=evaluateAnswers(answers),evaluation=authoritative.evaluation;
+ check(prefix+' original benefit or unpaid additional review',evaluation.resultCode,level==='Felony'?(name==='completed'?'packet_ready':'packet_ready_with_caution'):'needs_review');
+ check(prefix+' no new payment entitlement',evaluation.paymentAllowed,level==='Felony');
+ const display=[...evaluation.reasons.map(r=>r.text),...evaluation.cautions];
+ check(prefix+' actual procedural disposition displayed',display.includes(F.CA_PROP64_REASON_COPY[code][0]),true);
+ if(label==='pending-appeal')check(prefix+' petition mechanism not bypassed',display.includes(F.CA_PROP64_REASON_COPY.concentrate_pending_appeal[0]),true);
+ const selected=selectScreeningQuestionIds(profile,pub,answers),resumed=sanitizeResumedAnswersForQuestionIds(pub,answers,selected);
+ for(const id of procedureIds){check(prefix+' asked '+id,selected.includes(id),true);check(prefix+' literal resume '+id,resumed[id],answers[id]);}
+ const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:answers,dependencies:{},capturedAt:'2026-10-21T01:00:00Z'});assert(seed);
+ const saved={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot},savedBefore=structuredClone(saved),model=P.protectedPacketInformationModelFor(saved);assert(model);
+ const noop=P.packetInformationPatch({protectedVerification:saved,answers:{}});assert(noop);
+ check(prefix+' no-op preserves source maps',noop.protectedTransition.nextVerification,savedBefore);
+ for(const id of procedureIds)check(prefix+' optional procedure is not a filing gate '+id,model.questions.find(q=>q.id===id)?.required,false);
+ if(level==='Misdemeanor'){const clarification=P.caProp64ClarificationModelFor(saved);assert(clarification);for(const id of procedureIds){check(prefix+' recovery preserves optional '+id,clarification.questions.find(q=>q.id===id)?.required,false);check(prefix+' recovery required list excludes optional '+id,clarification.requiredInputIds.includes(id),false);check(prefix+' recovery missing list excludes optional '+id,clarification.missingInputIds.includes(id),false);}}
+ const update=P.packetInformationPatch({protectedVerification:saved,answers:{ca_prop64_additional_infraction_request:'No'}});assert(update);
+ const next=update.protectedTransition.nextVerification;
+ check(prefix+' explicit request correction saved',next.draftSnapshot.packetAnswers.ca_prop64_additional_infraction_request,'No');
+ check(prefix+' old request retained in history',next.draftSnapshot.dependencies.semanticAnswerHistory?.some(e=>e.factId==='ca_prop64_additional_infraction_request'&&e.value==='Yes'),true);
+ check(prefix+' edited draft stays unverified',[next.status,next.revision,update.readyToGenerate],['unverified',saved.revision+1,false]);
+ check(prefix+' hidden procedure facts retained',next.draftSnapshot.screeningAnswers.ca_prop64_judgment_finality_2017,answers.ca_prop64_judgment_finality_2017);
+ const retainedEdit=P.packetInformationPatch({protectedVerification:next,answers:{ca_prop64_judgment_finality_2017:'nonfinal'}});assert(retainedEdit);
+ const edited=retainedEdit.protectedTransition.nextVerification.draftSnapshot;
+ check(prefix+' retained fact correction cannot reelect request',edited.packetAnswers.ca_prop64_additional_infraction_request,'No');
+ check(prefix+' no additional procedure from retained facts',F.caProp64ConcentrateProcedure({...edited.screeningAnswers,...edited.prefilledAnswers,...edited.packetAnswers}),null);
+ procedureRecord=saved;
+ for(const [id,value] of [['ca_prop64_judgment_finality_2017','invented_finality'],['ca_prop64_unrecognized_fact','Yes']]){
+  const denied=await procedureApi.POST(new Request('http://localhost/api/expungement-ai/briefcase/synthetic-ca-procedure/packet-information',{method:'POST',body:JSON.stringify({expectedRevision:saved.revision,answers:{[id]:value}})}),{params:Promise.resolve({itemId:'synthetic-ca-procedure'})});
+  check(prefix+' HTTP refuses invalid fact '+id,[denied.status,await denied.json()],[422,{ok:false,error:'invalid_packet_answers',invalidFactIds:[id]}]);
+  check(prefix+' rejection preserves saved answers '+id,procedureRecord,savedBefore);
+ }
+ const response=await POST(new Request('http://localhost/api/expungement-ai/evaluate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jurisdiction:'CA',profileVersion:profile.profileVersion,matterId:'synthetic-ca-finality',answers})})),body=await response.json();
+ check(prefix+' public handler',[response.status,body.resultCode,body.paymentAllowed,body.reasons,body.cautions],[200,evaluation.resultCode,evaluation.paymentAllowed,evaluation.reasons,evaluation.cautions]);
+ for(const locale of ['en','es']){
+  const value={locale,setLocale:()=>{},t:(key,fallback,vars)=>t(locale,key,fallback,vars),text:(text,options)=>resolveRuntimeText(locale,text,options)};
+  const markup=renderToStaticMarkup(React.createElement(LocalizationContext.Provider,{value},React.createElement(ScreeningResult,{evaluation,stateName:'California',questionPromptById:Object.fromEntries(pub.questions.map(q=>[q.id,q.prompt])),hasScreeningSession:false,onEditAnswers:()=>{},onPacketAction:()=>{}})));
+  for(const key of [code,...(label==='pending-appeal'?['concentrate_pending_appeal']:[])]){
+   const text=F.CA_PROP64_REASON_COPY[key][locale==='es'?1:0];
+   check(prefix+'/'+locale+' exact reviewed copy '+key,markup.includes(renderToStaticMarkup(React.createElement('span',null,text)).slice(6,-7)),true);
+  }
+  renders.push({name:prefix,label,locale,markup});
+ }
+ check(prefix+' original answers unchanged',answers,before);scenarios.push({name:prefix,label,evaluation});
 }
 const failed=checks.filter(c=>!c.pass),report={status:failed.length?'FAIL':'PASS',checks:checks.length,scenarios:scenarios.length,renders:renders.length,failed,details:checks,scenarioDetails:scenarios,renderDetails:renders,limits:['Pure protected transitions and real stateless handlers/SSR; not DB/browser/RLS acceptance or professional approval.']};
 const out=process.argv[2];if(out)fs.writeFileSync(out,JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({status:report.status,checks:checks.length,scenarios:scenarios.length,renders:renders.length,failed},null,2));assert.equal(failed.length,0);

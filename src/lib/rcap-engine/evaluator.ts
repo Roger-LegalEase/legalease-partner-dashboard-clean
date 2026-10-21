@@ -42,7 +42,7 @@ import { GA_PARDON_ROUTE, GA_PARDON_COPY, GA_PARDON_SOURCE, georgiaPardonFacts }
 import { convictionReliefRequest, convictionOutcomeCompatible, CONVICTION_RELIEF_COPY, CONVICTION_RELIEF_SOURCE } from "@/lib/rcap-engine/conviction-relief-request";
 import { MS_EXACT_TIMING_FACT_IDS, MS_TIMING_MISSING_TEXT, MS_TIMING_MULTIPLE_MISSING_TEXT, MS_MIP_BOTH_DATE_ID, MS_MIP_BOTH_REVIEW_TEXT, msExactCalendarDate } from "@/lib/rcap-engine/mississippi-exact-timing";
 import { pathwayFromContext } from "@/lib/rcap-engine/pathway-context";
-import { caProp64Facts, caProp64Pathway, caProp64ApplicationRequested, caProp64QuestionApplies, CA_PROP64_SOURCE, CA_PROP64_REASON_COPY, CA_PROP64_PROCEDURE_COPY, CA_PROP64_LEGACY_IDS } from "@/lib/rcap-engine/california-prop64-facts";
+import { caProp64ConcentrateProcedure, caProp64Facts, caProp64Pathway, caProp64ApplicationRequested, caProp64QuestionApplies, CA_PROP64_SOURCE, CA_PROP64_REASON_COPY, CA_PROP64_PROCEDURE_COPY, CA_PROP64_LEGACY_IDS } from "@/lib/rcap-engine/california-prop64-facts";
 import { isCaProp64Pathway, CA_PROP64_COMPLETED } from "@/lib/expungement-ai/ca-prop64-choices";
 import { ny16059Requested, ny16059History, ny16059Clock, NY_16059_ROUTE, NY_16059_SOURCE, NY_16059_REASON_COPY, NY_16059_LEGACY_IDS } from "@/lib/rcap-engine/new-york-16059-facts";
 import { deAdultConviction, delawareConvictionDecision, delawareConvictionRoute, DE_COURT, DE_SBI, DE_SOURCE, DE_REASON_TEXT } from "@/lib/rcap-engine/delaware-conviction-rules";
@@ -2497,6 +2497,7 @@ function result(
   overrides: Partial<ScreeningEvaluation> = {}
 ): ScreeningEvaluation {
   const paymentAllowed = overrides.paymentAllowed === true && (resultCode === "packet_ready" || resultCode === "packet_ready_with_caution");
+  const caProcedure = isCaProp64Pathway(profile.jurisdiction.code, overrides.pathwayId) ? caProp64ConcentrateProcedure(request.answers) : null;
   const convictionRequestReason = reasons.find(item => Object.keys(CONVICTION_RELIEF_COPY)
     .some(code => item.code === `${profile.jurisdiction.code.toLowerCase()}.conviction_relief_${code}`));
   const specificNextStep = convictionRequestReason ?? reasons.find(item => Object.entries(GA_PARDON_COPY).some(([code, [text]]) => item.code === `ga.pardon_${code}` && item.text === text)) ?? reasons.find(isGeorgiaFirstOffenderGuidance);
@@ -2513,7 +2514,9 @@ function result(
       && texasNondisclosureTimingContract(profile, overrides.pathwayId)
       && TX_ND_FACT_IDS.some(id => Object.hasOwn(request.answers, id))
       ? [TX_ND_TIMING_COPY[texasNondisclosureClock(profile, overrides.pathwayId, request.answers, evaluationToday().toISOString().slice(0,10))!.status][0]] : []), ...(isCaProp64Pathway(profile.jurisdiction.code, overrides.pathwayId)
-      ? [CA_PROP64_PROCEDURE_COPY[overrides.pathwayId === CA_PROP64_CURRENT ? "current" : "completed"][0]] : [])],
+      ? [CA_PROP64_PROCEDURE_COPY[overrides.pathwayId === CA_PROP64_CURRENT ? "current" : "completed"][0]] : []), ...(caProcedure
+      ? [...(reasons.some(r => r.text === CA_PROP64_REASON_COPY[caProcedure.code][0]) ? [] : [CA_PROP64_REASON_COPY[caProcedure.code][0]]),
+        ...(caProcedure.pendingAppeal ? [CA_PROP64_REASON_COPY.concentrate_pending_appeal[0]] : [])] : [])],
     nextSteps: specificNextStep ? [specificNextStep.text] : overrides.missingQuestionIds?.includes("financial_obligations")
       ? [FINANCIAL_CLARIFICATION_TEXT, FINANCIAL_OTHER_QUESTIONS_TEXT] : nextStepsForResult(resultCode),
     paymentAllowed,
