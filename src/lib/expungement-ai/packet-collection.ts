@@ -1166,6 +1166,20 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     record: [
     ],
   },
+  MO: {
+    profileHash: "88e33a1958a25c8bd1082df4fccc1ebcba24938d8a4545af68c1a65820c8a750",
+    categoryReason: "Earlier Missouri categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "closed-record-outcome-under-rsmo-610-105", // GA12 Q-5daf517e434f5c47aed1
+      "false-information-or-qualifying-arrest-record-expungement-under-610-122-123", // GA12 Q-7b31b30a82048af5c44f
+      "first-intoxication-related-traffic-or-boating-expungement-under-610-130", // GA12 Q-35247ec81e17ad80e20c
+      "first-minor-in-possession-alcohol-expungement-under-311-326", // GA12 Q-95e16f98859d4d7d2f75
+      "general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140", // GA12 Q-1b0ddb33a01cb171b540
+      "stolen-or-mistaken-identity-expungement-under-610-145", // GA12 Q-a83f973c4465e019063d
+    ],
+    record: [
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
