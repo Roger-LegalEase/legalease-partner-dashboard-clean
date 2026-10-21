@@ -106,6 +106,11 @@ for (const locale of ['en', 'es']) for (const [kind, raw] of cases) {
   const render = (q, state) => renderToStaticMarkup(React.createElement(LocalizationContext.Provider, { value }, React.createElement(QuestionField, { question: q, stateCode: state, value: raw, onChange() { assert.fail('render must not replace a saved answer'); } })));
   const markup = render(question, 'CO'), helper = locale === 'es' ? question.translations.es.helperText : question.helperText;
   if (!capture) {
+    // GA-20 reviewer F1: PDF line wraps must not split a statutory citation.
+    assert(!/\d-\s+\d/.test(helper), 'statutory citations must not contain extraction line-wrap spaces');
+    for (const citation of ['18-1.3-401(13)', '18-18-407', '18-3-401', '24-4.1-302(1)', '18-5-902(1)']) {
+      assert(helper.includes(citation), `source citation ${citation} must remain intact in ${locale}`);
+    }
     assert(helper.includes('JDF 612') && helper.includes('8(a)') && helper.includes('8(b)'));
     assert(helper.includes('19-1-306(8)') && helper.includes('13-3-117') && helper.includes('24-72-704'));
     assert.equal(helper.split('\n').filter(line => line.startsWith('• ')).length, 18);
