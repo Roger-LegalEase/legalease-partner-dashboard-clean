@@ -118,7 +118,7 @@ for (const locale of ['en', 'es']) for (const [kind, raw] of cases) {
     const escaped = renderToStaticMarkup(React.createElement('span', null, helper)).slice(6, -7);
     assert(markup.includes(escaped), 'the actual localized QuestionField renders the entire list');
     assert(markup.includes('whitespace-pre-line'), 'CO exclusion list preserves readable lines');
-    assert(!render(question, 'AL').includes('whitespace-pre-line'), 'no other state gains this rendering change');
+    assert(!render(question, 'AK').includes('whitespace-pre-line'), 'unrelated states keep their existing rendering');
     assert(!render({ ...question, id: 'unrelated_helper' }, 'CO').includes('whitespace-pre-line'), 'no other CO question changes rendering');
     assert(markup.includes('aria-describedby="q-state_exclusion_categories-helper'), 'helper remains associated with the control');
   }

@@ -120,10 +120,22 @@ export function QuestionField({
     </p> : null}
   </>;
   // TODO(save-and-resume): PR 3 attaches the save affordance near readiness helper copy.
+  const helperClass = `text-[13.5px] leading-6 text-[#5A6275]${["CO", "AL"].includes(stateCode) && question.id === "state_exclusion_categories" ? " whitespace-pre-line" : ""}`;
+  // Keep the four adopted AL lists separate; their source headings delimit the reviewed copy.
+  const alExclusionSections = stateCode === "AL" && question.id === "state_exclusion_categories"
+    ? helperText.split(/\n\n(?=[^\n]+ — (?:Alabama Code|Código de Alabama|49 CFR))/) : [];
   const helperNode = question.helperText ? (
-    <p id={helperId} className={`text-[13.5px] leading-6 text-[#5A6275]${stateCode === "CO" && question.id === "state_exclusion_categories" ? " whitespace-pre-line" : ""}`}>
-      {helperText}
-    </p>
+    alExclusionSections.length === 6 && alExclusionSections.slice(1, 5).every(section => section.includes(". ")) ? <>
+      <p id={helperId} className={helperClass}>{alExclusionSections[0]}</p>
+      {alExclusionSections.slice(1, 5).map(section => {
+        const headingEnd = section.indexOf(". ") + 1;
+        return <details key={section.slice(0, headingEnd)}>
+          <summary>{alExclusionSections[0].split(",")[0]} — {section.slice(0, headingEnd)}</summary>
+          <p className={helperClass}>{section.slice(headingEnd).trimStart()}</p>
+        </details>;
+      })}
+      <p className={helperClass}>{alExclusionSections[5]}</p>
+    </> : <p id={helperId} className={helperClass}>{helperText}</p>
   ) : null;
   const errorNode = error ? (
     <p id={errorId} role="alert" className="text-[13px] font-semibold text-[#C2410C]">
