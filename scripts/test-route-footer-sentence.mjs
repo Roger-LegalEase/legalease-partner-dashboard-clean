@@ -4,7 +4,7 @@
 // "…in their titles, bodies and footers"). A promise needs a route footer on the pages it names; "no page prints a route
 // footer" needs none on any page; "continuation pages have/carry no route footer/marker" needs none past each
 // component's first page; OK's "closes with "Routes this set serves"" needs exactly each set's routes on each multi-route
-// component's last page and nowhere else. A rerender that drops footers while a record still promises them (NV, OK
+// component's last page and nowhere else; "no page prints its route key" (OK juvenile) needs no route key on any page. A rerender that drops footers while a record still promises them (NV, OK
 // juvenile), or a record that promises footers the bytes never carried (GA YFO, DE 1017a), fails here.
 //
 //   node scripts/test-route-footer-sentence.mjs        (needs pdftotext from poppler-utils)
@@ -22,6 +22,7 @@ const FOOTER_DENIALS = /\b(?:no|without)\b[^.;,]*\bfooters?\b/gi;
 const NONE_ANYWHERE = /\bno page prints a route footer\b/i;
 const NONE_ON_CONTINUATION = /\bcontinuation pages (?:have|carry) no route (?:footer|marker)\b/i;
 const CLOSES_WITH_ROUTES = 'closes with "Routes this set serves"';
+const NO_KEY_ANYWHERE = /\bno page prints (?:its|a|any) route key\b/i;
 export function statements(instructions, fieldMap) {
   const fm = [fieldMap?.routeSelectionNote, ...(fieldMap?.routeSelectionsMade ?? []).map((r) => r?.statedOn)].filter(Boolean).join(". ");
   const clauses = fm.split(/[.;]/);
@@ -30,7 +31,8 @@ export function statements(instructions, fieldMap) {
     promise: PROMISE.test(instructions) || clauses.some((c) => /\bfooters?\b/i.test(c.replace(FOOTER_DENIALS, ""))),
     noneAnywhere: NONE_ANYWHERE.test(instructions) || NONE_ANYWHERE.test(fm),
     noneOnContinuation: NONE_ON_CONTINUATION.test(instructions) || NONE_ON_CONTINUATION.test(fm),
-    closesWithRoutes: instructions.includes(CLOSES_WITH_ROUTES)
+    closesWithRoutes: instructions.includes(CLOSES_WITH_ROUTES),
+    noKeyAnywhere: NO_KEY_ANYWHERE.test(instructions) || NO_KEY_ANYWHERE.test(fm)
   };
 }
 for (const s of ["Every page states its own route in its footer", "Every page states in its footer every declared route the set it belongs to serves"])
@@ -42,7 +44,8 @@ for (const [note, want] of [
   ["the composed petition and filing instructions, in their titles and bodies; no page prints a route footer", { promise: false, noneAnywhere: true }],
   ["the first-page title of each component for this route. Continuation pages have no route footer; keep each component's pages together, in order.", { promise: false, noneOnContinuation: true }],
   ["the first-page title of each component for this route; continuation pages carry no route marker", { promise: false, noneOnContinuation: true }],
-  ["the composed pages, in the title, the body and the footer, and the official form pages print no footer", { promise: true }]
+  ["the composed pages, in the title, the body and the footer, and the official form pages print no footer", { promise: true }],
+  ["each component's first-page title and the petition's body (the statutory ground); the set serves only this route and no page prints its route key", { promise: false, noKeyAnywhere: true }]
 ]) for (const [k, v] of Object.entries(want)) assert.equal(statements("", { routeSelectionsMade: [{ statedOn: note }] })[k], v, `"${note}" must read as ${k}=${v}`);
 
 const ROOT = "data/rcap-all50/overlays/census-v1";
@@ -97,6 +100,10 @@ export function routeListProblems(layoutPages, manifest, served) {
   });
   return problems;
 }
+// Pages that print a route key the statements say no page prints (non-layout text: a key wrapped at a hyphen still matches its head).
+// OK's multi-set family says it of its single-route sets, whose pages routeListProblems already holds to no key; its listing pages may.
+const deniesKeys = (said) => said.noKeyAnywhere && !said.closesWithRoutes;
+export const keyedPages = (said, pages) => (deniesKeys(said) ? pages.map((t, i) => (HAS_KEY.test(t) ? i + 1 : null)).filter(Boolean) : []);
 
 // Records known to say more than their pages print, each with its reason. They are reported, not failed; a listed family
 // that stops failing must be removed from this list.
@@ -116,7 +123,7 @@ for (const state of fs.readdirSync(ROOT).sort()) {
     const dir = path.join(ROOT, state, family), read = (f) => (fs.existsSync(path.join(dir, f)) ? fs.readFileSync(path.join(dir, f), "utf8") : null);
     const instructions = read("participant-instructions.md") ?? "", fieldMapText = read("production-field-map.json");
     const fieldMap = fieldMapText ? JSON.parse(fieldMapText) : null, said = statements(instructions, fieldMap);
-    if (!said.promise && !said.noneAnywhere && !said.noneOnContinuation && !said.closesWithRoutes) continue;
+    if (!said.promise && !said.noneAnywhere && !said.noneOnContinuation && !said.closesWithRoutes && !said.noKeyAnywhere) continue;
     const reportText = read("reports/rendered-artifacts.json");
     assert(reportText, `${dir}: it states where routes are printed but has no reports/rendered-artifacts.json to hold it to`);
     const report = JSON.parse(reportText);
@@ -138,8 +145,8 @@ for (const state of fs.readdirSync(ROOT).sort()) {
 assert(families.length > 0, "no overlay states where routes are printed; retire this guard");
 
 const findings = (f) => ({ pdf: f.pdf, missing: missingFooterPages(f.said, f.pages, f.manifest), denied: deniedFooterPages(f.said, f.pages, f.manifest),
-  routeList: f.layoutPages ? routeListProblems(f.layoutPages, f.manifest, f.served) : [] });
-const failing = (r) => r.missing.length || r.denied.length || r.routeList.length;
+  routeList: f.layoutPages ? routeListProblems(f.layoutPages, f.manifest, f.served) : [], keyed: keyedPages(f.said, f.pages) });
+const failing = (r) => r.missing.length || r.denied.length || r.routeList.length || r.keyed.length;
 const results = families.map((f) => ({ key: f.key, ...findings(f) }));
 assert.deepEqual(results.filter((r) => failing(r) && !KNOWN_UNREPAIRED.has(r.key)).map(({ key, ...r }) => r), [], "a record says something about route footers that these pages do not bear out");
 const repaired = [...KNOWN_UNREPAIRED.keys()].filter((k) => !results.some((r) => r.key === k && failing(r)));
@@ -174,6 +181,10 @@ for (const f of families.filter((x) => !KNOWN_UNREPAIRED.has(x.key))) {
   }
   if (f.said.noneOnContinuation) {
     assert.deepEqual(deniedFooterPages({ ...f.said, noneAnywhere: false }, f.pages.map((t, i) => (i === 0 ? withFoot(t) : t)), f.manifest), [], `${f.pdf}: a footer on a first page is not a continuation footer`);
+  }
+  if (f.said.noKeyAnywhere && !f.said.closesWithRoutes) for (const key of ["obligation:runtime-only:OK:juvenile-record-expungement", "Route: obligation:track-only:XX:x"]) {
+    const keyed = findings({ ...f, pages: f.pages.map((t, i) => (i === f.pages.length - 1 ? withFoot(t, key) : t)) });
+    assert(failing(keyed) && keyed.keyed.join() === String(f.pages.length), `${f.pdf}: a printed "${key}" must fail "no page prints its route key"`);
   }
   if (f.layoutPages) {
     const listed = f.layoutPages.map((t, i) => (t.includes("Routes this set serves") ? i : -1)).filter((i) => i >= 0);
