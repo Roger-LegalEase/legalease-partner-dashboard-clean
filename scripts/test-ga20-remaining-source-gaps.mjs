@@ -1,5 +1,7 @@
 // GA-20/O17: 22 original associations listed in the reviewed copy's sourceGaps.
 // Display-only disclosure; preserve the complete measured fixture × kind × hint table.
+// Baseline successor: Roger 2026-10-21 14:01:42 tool-3 hold (6e271b424..ee6029b94),
+// plus R2-A 092e71dec VA protected-history projection; measured at 9dcce43c5.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
