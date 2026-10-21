@@ -109,11 +109,12 @@ for (const id of IL_CANNABIS_FACT_IDS) {
 }
 // Preserve the actual legacy outcomes against this change's accepted baseline;
 // these historical synthetic witnesses are not positive source/legal evidence.
+// OD-BR-1 D1 foreign-rule refusal; review-evidence/codex/il1-program-gates/frozen-row-classification.json.
 const before = [
   {
     "pathwayId": "adult-conviction-sealing",
     "resultCode": "packet_ready_with_caution",
-    "paymentAllowed": true,
+    "paymentAllowed": false,
     "reasons": [
       "il.compiled_rule_match.rule-06-order-of-supervision-successfully-completed-expungement"
     ]
