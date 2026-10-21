@@ -121,7 +121,7 @@ export function QuestionField({
   </>;
   // TODO(save-and-resume): PR 3 attaches the save affordance near readiness helper copy.
   const helperNode = question.helperText ? (
-    <p id={helperId} className="text-[13.5px] leading-6 text-[#5A6275]">
+    <p id={helperId} className={`text-[13.5px] leading-6 text-[#5A6275]${stateCode === "CO" && question.id === "state_exclusion_categories" ? " whitespace-pre-line" : ""}`}>
       {helperText}
     </p>
   ) : null;
