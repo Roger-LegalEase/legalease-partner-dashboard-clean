@@ -175,14 +175,14 @@ export function carryForwardIdentityRefresh(previous, next, { on = new Date() } 
         break; // one previous pin per pin: a path bound twice keeps each block on its own pin
       }
 
-      /* Reverted to the pre-refresh bytes: the move the annotation records has
-       * been undone, so the note describes a transition away from where we are.
-       * Unreachable while the comparison above holds, asserted because a future
-       * edit to it must not open this door. */
+      /* The measured bytes are the identity the annotation records as previous.
+       * A source reverted after the note was written is caught above (it is a
+       * move away from writtenAgainst); this is reached by a block recording a
+       * move from X to X, which describes no move at all (R3-CTV7-F2). */
       if (pin.sha256 === candidate.annotation.was.sha256) {
         claimed.add(candidate);
         dropped.push({ path: at, why: "the source reverted to the identity the annotation records as previous", wasSha256: candidate.annotation.was.sha256 });
-        continue;
+        break; // a refused block still uses up this pin's one previous pin
       }
 
       pin.identityRefresh = structuredClone(candidate.annotation);

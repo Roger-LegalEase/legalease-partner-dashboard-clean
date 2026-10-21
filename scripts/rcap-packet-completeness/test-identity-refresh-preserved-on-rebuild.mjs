@@ -257,6 +257,18 @@ it("a path bound twice: a rejected block on the second pin leaves the first pin'
   assert.equal(dropped.length, 1);
 });
 
+it("a path bound twice: a first block recording a move from X to X is dropped and the second pin keeps its own block (R3-CTV7-F2)", () => {
+  const previous = boundTwice({ ...sourceBlock("fees"), was: { sha256: "a".repeat(64), byteLength: 1 } }, sourceBlock("service"));
+  const { document, carried, dropped } = carryForwardIdentityRefresh(previous, rebuiltFrom(previous));
+  const [fees, , service] = document.committedRecordsBound;
+  assert.equal(fees.identityRefresh, undefined, "a block whose previous identity is its own pin records no move, and the first pin takes no other");
+  assert.equal(fees.identityRefreshHistory, undefined);
+  assert.deepEqual(service.identityRefresh, sourceBlock("service"), "the second pin keeps its own block, verbatim");
+  assert.equal(carried.length, 1);
+  assert.equal(dropped.length, 1);
+  assert.match(dropped[0].why, /reverted/);
+});
+
 it("a path bound twice whose source moved: the rejected first block is dropped and the second pin's block is its own history", () => {
   const previous = boundTwice({ ...sourceBlock("fees"), rasterReceipt: { run: "1" } }, sourceBlock("service"));
   const { document, dropped, history } = carryForwardIdentityRefresh(previous, rebuiltFrom(previous, "f".repeat(64)), { on: "2026-10-21T00:00:00Z" });
