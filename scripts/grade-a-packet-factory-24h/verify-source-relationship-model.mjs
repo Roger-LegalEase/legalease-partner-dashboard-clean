@@ -237,7 +237,8 @@ for (const [group, count] of Object.entries(expectedGroups)) {
 /* generate.mjs:2463-2472 sends a BLOCKED_SOURCE read that failed no obligation, on bound sources with no legal
  * hold, to VERIFY_PENDING: it requests the now-possible fresh read. That read is not advancement (only
  * PASS_COMPLETE_INDEPENDENT or FAIL_REPAIR_REQUIRED discharge a product-path hold), so a PRODUCT_PATH_PENDING row
- * with its owner release intact may sit at VERIFY_PENDING and nowhere else (KS 6614 VF05 92ff5d436, 2026-10-21). */
+ * whose permission hold the owner released may sit at VERIFY_PENDING and nowhere else (KS 6614 VF05 92ff5d436,
+ * 2026-10-21). sourcePermissionHoldResolved also requires that row disposition and a LEGAL_CLEAR record. */
 const verifierReturns = readJson(RETURNS);
 const legalResolutions = loadLegalBlockResolutions(ROOT).byFamily;
 const freshReadRequested = (row, family) => {
@@ -245,13 +246,12 @@ const freshReadRequested = (row, family) => {
   const returned = (verifierReturns?.rows ?? []).find((r) => r.familyId === row.familyId && r.verdict === selected?.verdict
     && r.lane === selected?.lane && r.verifiedAtBase === selected?.verifiedAtBase && r.evidencePath === selected?.evidencePath);
   const resolution = legalResolutions.get(row.familyId);
-  return row.disposition === "PRODUCT_PATH_PENDING" && family.state === "VERIFY_PENDING"
-    && family.sourceReadiness?.ready === true && selected?.verdict === "BLOCKED_SOURCE"
+  return family.state === "VERIFY_PENDING" && family.sourceReadiness?.ready === true && selected?.verdict === "BLOCKED_SOURCE"
     && Array.isArray(returned?.failedObligationNames) && returned.failedObligationNames.length === 0
-    && family.currentLegalResolution?.disposition === "LEGAL_CLEAR" && resolution?.disposition === "LEGAL_CLEAR"
-    && resolution.decisionId === family.currentLegalResolution.decisionId
+    && family.currentLegalResolution?.disposition === "LEGAL_CLEAR"
+    && resolution?.decisionId === family.currentLegalResolution.decisionId
     && resolution.decisionRecord === family.currentLegalResolution.decisionRecord
-    && (!row.permissionHold || sourcePermissionHoldResolved(row.familyId, row, resolution));
+    && sourcePermissionHoldResolved(row.familyId, row, resolution);
 };
 if ((recOutput?.byGroup?.LATER ?? 0) !== recRows.filter((row) => row.group === "LATER").length) recProblems.push("output later group is stale");
 if (recOutput?.additiveInput !== USER_SOURCE_ADOPTION_PATH) recProblems.push("output omits the additive determination input");
@@ -432,23 +432,31 @@ if (MUTATIONS) {
       lane: freshReturn.lane, verifiedAtBase: freshReturn.verifiedAtBase, evidencePath: freshReturn.evidencePath }; return j; },
     [REGISTRY]: (j) => { delete j.reconciliation42.families.find((x) => x.familyId === FRESH).advancement; return j; },
   };
+  const ret = (j) => j.rows.find((r) => JSON.stringify(r) === JSON.stringify(freshReturn));
+  const captainRow = (j) => j.reconciliation42.families.find((x) => x.familyId === FRESH);
   const freshCases = [
-    { name: 'a fresh-read request cannot rest at a passing state', file: MASTER, edit: (j) => { ks(j).state = 'VERIFIED_PASS'; return j; } },
-    { name: 'a fresh-read request needs bound sources', file: MASTER, edit: (j) => { ks(j).sourceReadiness.ready = false; return j; } },
-    { name: 'a BLOCKED_LEGAL_INPUT read does not request a fresh read', file: MASTER,
-      edit: (j) => { ks(j).selectedIndependentVerdict.verdict = 'BLOCKED_LEGAL_INPUT'; return j; } },
-    { name: 'a selection with no matching return is refused', file: MASTER,
-      edit: (j) => { ks(j).selectedIndependentVerdict.evidencePath += '.absent'; return j; } },
-    { name: 'a fresh-read request cannot carry a changed legal release identity', file: MASTER,
-      edit: (j) => { ks(j).currentLegalResolution.decisionId = 'forged'; return j; } },
-    { name: 'a fresh-read request cannot sit under a legal hold', file: MASTER,
-      edit: (j) => { ks(j).currentLegalResolution.disposition = 'LEGAL_HOLD'; return j; } },
-    { name: 'a BLOCKED_SOURCE read that failed an obligation is repair, not a fresh-read request', file: RETURNS,
-      edit: (j) => { j.rows.find((r) => JSON.stringify(r) === JSON.stringify(freshReturn)).failedObligationNames = ['SOURCE_IDENTITY']; return j; } },
+    { name: 'a fresh-read request cannot rest at a passing state', edits: { [MASTER]: (j) => { ks(j).state = 'VERIFIED_PASS'; return j; } } },
+    { name: 'a fresh-read request needs bound sources', edits: { [MASTER]: (j) => { ks(j).sourceReadiness.ready = false; return j; } } },
+    { name: 'a BLOCKED_LEGAL_INPUT read does not request a fresh read', edits: {
+      [MASTER]: (j) => { ks(j).selectedIndependentVerdict.verdict = 'BLOCKED_LEGAL_INPUT'; return j; },
+      [RETURNS]: (j) => { ret(j).verdict = 'BLOCKED_LEGAL_INPUT'; return j; } } },
+    { name: 'a selection with no matching return is refused', edits: { [MASTER]: (j) => { ks(j).selectedIndependentVerdict.evidencePath += '.absent'; return j; } } },
+    { name: 'a BLOCKED_SOURCE read that failed an obligation is repair, not a fresh-read request',
+      edits: { [RETURNS]: (j) => { ret(j).failedObligationNames = ['SOURCE_IDENTITY']; return j; } } },
+    { name: 'a fresh-read request cannot sit under a legal hold', edits: { [MASTER]: (j) => { ks(j).currentLegalResolution.disposition = 'LEGAL_HOLD'; return j; } } },
+    { name: 'a fresh-read request cannot carry a changed legal decision identity', edits: { [MASTER]: (j) => { ks(j).currentLegalResolution.decisionId = 'forged'; return j; } } },
+    { name: 'a fresh-read request cannot carry a changed legal decision record', edits: {
+      [MASTER]: (j) => { ks(j).currentLegalResolution.decisionRecord = 'data/rcap-grade-a/legal-decisions/LEGAL_BLOCKED_RESOLUTION_2026-09-11.json'; return j; } } },
+    { name: 'a fresh-read request needs the owner release of its permission hold',
+      edits: { [CAPTAIN_DETERMINATIONS]: (j) => { captainRow(j).permissionHold = 'an unreleased product permission hold'; return j; } } },
+    { name: 'a SOURCE_BLOCKED row cannot use a fresh-read request', edits: {
+      [CAPTAIN_DETERMINATIONS]: (j) => { captainRow(j).disposition = 'SOURCE_BLOCKED'; return j; },
+      [REGISTRY]: (j) => { const rec = j.reconciliation42; rec.families.find((x) => x.familyId === FRESH).decidedDisposition = 'SOURCE_BLOCKED';
+        rec.remainingSourceBlockedFamilyIds = [...rec.remainingSourceBlockedFamilyIds, FRESH].sort(); return j; } } },
   ];
   for (const c of freshCases) {
     if (!results.find((r) => r.id === 'S12')?.ok) { console.log(`NOT_RUN [S12] ${c.name}: its real baseline already fails`); allCaught = false; continue; }
-    const files = [...new Set([MASTER, REGISTRY, c.file])];
+    const files = [...new Set([MASTER, REGISTRY, ...Object.keys(c.edits)])];
     const originals = new Map(files.map((f) => [f, fs.readFileSync(path.join(ROOT, f))]));
     const write = (f, j) => fs.writeFileSync(path.join(ROOT, f), `${JSON.stringify(j, null, 2)}\n`);
     let baseline, out, unchanged;
@@ -456,9 +464,10 @@ if (MUTATIONS) {
       const seeded = new Map(files.map((f) => [f, (freshSeed[f] ?? ((j) => j))(JSON.parse(originals.get(f).toString('utf8')))]));
       for (const [f, j] of seeded) write(f, j);
       baseline = rerun();
-      const mutated = c.edit(structuredClone(seeded.get(c.file)));
-      unchanged = JSON.stringify(mutated) === JSON.stringify(seeded.get(c.file));
-      write(c.file, mutated); out = rerun();
+      const mutated = Object.entries(c.edits).map(([f, edit]) => [f, edit(structuredClone(seeded.get(f)))]);
+      unchanged = mutated.some(([f, j]) => JSON.stringify(j) === JSON.stringify(seeded.get(f)));
+      for (const [f, j] of mutated) write(f, j);
+      out = rerun();
     } finally { for (const [f, bytes] of originals) fs.writeFileSync(path.join(ROOT, f), bytes); }
     const restored = files.every((f) => fs.readFileSync(path.join(ROOT, f)).equals(originals.get(f)));
     if (!/ok\s+S12\b/.test(baseline)) throw new Error(`Seeded fresh-read cell is not green under S12 (${c.name})`);
