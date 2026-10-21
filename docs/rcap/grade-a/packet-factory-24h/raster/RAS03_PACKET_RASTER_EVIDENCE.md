@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `c67853d9c6266e200d48e164b33a657244f7160c`
+**Minimum required ancestor:** `65c138bec8439c1ecfe70c3c6dfd0e809cd2f7c2`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -153,8 +153,8 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction
 
-- canonical `data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/fixtures/canonical.pdf` — `04668f73fac3100e9c1fb0be3a78b5aa622aa18ff8c17107a8e91bbb7bbc24c1`
-- boundary `data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/fixtures/boundary.pdf` — `fe5b1c38e1b0973ec9e9bc8f45d1878672020b3d34acedf576ac57d23bd7523a`
+- canonical `data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/fixtures/canonical.pdf` — `cd6b69d16c292459da334d4d454411caae0d2c89a73ac0698c9e2137905960ac`
+- boundary `data/rcap-all50/overlays/census-v1/de/composed-treatment:obligation:runtime-contract-cohort:de:juvenile-expungement-under-10-del-c-1017-1019-1017a:section-1017a-automatic-failure-correction--custom-pleading/fixtures/boundary.pdf` — `caf795cc796d66740da6c2d0059224918b7fd65c7bd0e107e0b088fef3ef25c2`
 - expected pages 4 · requested scale 2.5
 - built by (no builder lane recorded)
 
@@ -566,8 +566,8 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### rcap-ms-custom-pleading
 
-- canonical `data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/canonical.pdf` — `fc9ad883f98d6203f58ab96aa66376e77241ae12197535ce8415a46bb7647d2c`
-- boundary `data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/boundary.pdf` — `28ee12ccd0e86322e355df6bd6b066dc0ffa58e8f155afcdfbf69f65c89470d4`
+- canonical `data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/canonical.pdf` — `ccd44d6b418afe15d60460af3254b42c23b2c9e8aab5f435107f203029ed2808`
+- boundary `data/rcap-all50/overlays/census-v1/ms/rcap-ms-custom-pleading--custom-pleading/fixtures/boundary.pdf` — `f3c9331f6b15280790f6b22196ea20c24322d941d347bb114dc4eb2766a45467`
 - expected pages 25 · requested scale 2.5
 - built by (no builder lane recorded)
 
