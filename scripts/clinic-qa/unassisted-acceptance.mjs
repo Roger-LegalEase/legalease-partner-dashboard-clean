@@ -5,6 +5,8 @@
 // verification -> what the matter offers and what generation does -> denials -> the fixture's exact cleanup.
 // No simulated success: sponsored packets are a Clinic-event channel pinned to the hosted preview decision, so here
 // B-D5 asserts that nothing is offered and nothing is produced (no job, funding, credit, counter or object).
+// RCAP_ACCEPTANCE_CHANNEL=dtc runs RUN-DTC's pre-payment half the same way: the anonymous consumer screening instead
+// of the program intake, and A-D5 on checkout; payment and the paid half need the owner's RUN-DTC decision.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -20,7 +22,9 @@ const root=process.cwd();
 if(output.startsWith(root+path.sep))execFileSync('git',['check-ignore',output],{stdio:'pipe'});
 fs.mkdirSync(output,{recursive:true,mode:0o700});
 const evidence=path.join(output,`unassisted-${Date.now()}-${randomUUID()}.json`);
-const report={schemaVersion:1,run:'RUN-RCAP-UNASSISTED',sourceSha:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),checks:[],cleanup:{status:'NOT_RUN'}};
+const channel=process.env.RCAP_ACCEPTANCE_CHANNEL??'unassisted';
+assert(['unassisted','dtc'].includes(channel),'RCAP_ACCEPTANCE_CHANNEL is unassisted or dtc');
+const report={schemaVersion:1,run:channel==='dtc'?'RUN-DTC-PRE-PAYMENT':'RUN-RCAP-UNASSISTED',sourceSha:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),checks:[],cleanup:{status:'NOT_RUN'}};
 function check(id,condition,detail){report.checks.push({id,status:condition?'PASS':'FAIL',...(detail===undefined?{}:{detail})});console.log(condition?'PASS':'FAIL',id);return condition;}
 const NOT_CONFIRMED=/^(We could not confirm that your changes were saved\.|No pudimos confirmar que se guardaron sus cambios\.)/;
 const CHANGED_ELSEWHERE=/^(This matter changed in another session\.|Este caso cambió en otra sesión\.)/;
@@ -35,10 +39,11 @@ const lit=value=>"'"+String(value).replaceAll("'","''")+"'";
 const effects=()=>JSON.parse(fixture.sql(`select json_build_object('jobs',(select count(*) from packet_render_jobs),
   'funding',(select count(*) from clinic_packet_funding),'credits',(select count(*) from packet_credit_ledger),
   'provenance',(select count(*) from consumer_packet_artifact_provenance),'objects',(select count(*) from storage.objects),
+  'stripeEvents',(select count(*) from processed_stripe_events),
   'screeningsUsed',(select screenings_used from partner_entitlement where partner_slug=${lit(fixture.program)}));`));
 let browser;
 try{
-  report.simulatedAllocation=await fixture.simulatedAllocation();
+  if(channel==='unassisted')report.simulatedAllocation=await fixture.simulatedAllocation();
   const participant=await fixture.user('participant-unassisted');
   const other=await fixture.user('participant-other');
   const staff=await fixture.user('staff','partner_staff');
@@ -55,18 +60,25 @@ try{
   };
 
   // B1 entry: the program's public page when published (synthetic programs are not), otherwise its intake link.
-  const landing=await page.goto(`/p/${fixture.program}`,{waitUntil:'networkidle'});
-  report.entry={publicLandingHttp:landing?.status()??null};
-  if(landing?.ok())await page.getByRole('link',{name:'Start free screening',exact:true}).first().click();
-  else await page.goto(`/intake/${fixture.program}`,{waitUntil:'networkidle'});
-  const jurisdiction=page.getByRole('combobox',{name:'Screening jurisdiction'});
-  if(await jurisdiction.count()){await jurisdiction.selectOption('MS');await page.getByRole('button',{name:'Continue',exact:true}).click();}
-  await page.getByRole('button',{name:'Start free screening',exact:true}).click();
-  await page.waitForURL(url=>url.pathname==='/expungement-ai/screening/ms');
-  const sessionId=new URL(page.url()).searchParams.get('session');assert.match(sessionId??'',/^[0-9a-f-]{36}$/);fixture.known.add(sessionId);
-  const session=fixture.checked(await fixture.admin.from('screening_sessions').select('partner_slug,jurisdiction,partner_benefit_active').eq('session_id',sessionId).single());
-  check('B1-anonymous-program-entry',session.partner_slug===fixture.program&&session.jurisdiction==='MS'&&session.partner_benefit_active===true
-    &&!(await context.cookies()).some(cookie=>cookie.name.startsWith('sb-')),{publicLandingHttp:report.entry.publicLandingHttp});
+  // DTC: the consumer screening itself, with no program session.
+  let sessionId=null;
+  if(channel==='dtc'){
+    await page.goto('/expungement-ai/screening/ms',{waitUntil:'networkidle'});
+    check('A1-anonymous-consumer-entry',!new URL(page.url()).searchParams.has('session')&&!(await context.cookies()).some(cookie=>cookie.name.startsWith('sb-')));
+  }else{
+    const landing=await page.goto(`/p/${fixture.program}`,{waitUntil:'networkidle'});
+    report.entry={publicLandingHttp:landing?.status()??null};
+    if(landing?.ok())await page.getByRole('link',{name:'Start free screening',exact:true}).first().click();
+    else await page.goto(`/intake/${fixture.program}`,{waitUntil:'networkidle'});
+    const jurisdiction=page.getByRole('combobox',{name:'Screening jurisdiction'});
+    if(await jurisdiction.count()){await jurisdiction.selectOption('MS');await page.getByRole('button',{name:'Continue',exact:true}).click();}
+    await page.getByRole('button',{name:'Start free screening',exact:true}).click();
+    await page.waitForURL(url=>url.pathname==='/expungement-ai/screening/ms');
+    sessionId=new URL(page.url()).searchParams.get('session');assert.match(sessionId??'',/^[0-9a-f-]{36}$/);fixture.known.add(sessionId);
+    const session=fixture.checked(await fixture.admin.from('screening_sessions').select('partner_slug,jurisdiction,partner_benefit_active').eq('session_id',sessionId).single());
+    check('B1-anonymous-program-entry',session.partner_slug===fixture.program&&session.jurisdiction==='MS'&&session.partner_benefit_active===true
+      &&!(await context.cookies()).some(cookie=>cookie.name.startsWith('sb-')),{publicLandingHttp:report.entry.publicLandingHttp});
+  }
 
   // Operated switch: EN -> ES between two screening questions; the same question and session stay on screen.
   const switched={};
@@ -88,8 +100,8 @@ try{
   assert.equal((await claim).status(),200,'Participant claims the actual browser result');
   await page.waitForURL(url=>/^\/briefcase\/(?:matters\/)?[a-f0-9-]{36}$/.test(url.pathname));
   const matterId=new URL(page.url()).pathname.split('/').at(-1);fixture.known.add(matterId);
-  const owned=fixture.checked(await fixture.admin.from('consumer_briefcase_items').select('id,user_id').eq('source_session_id',sessionId));
-  check('B1-claim-one-owned-matter',owned.length===1&&owned[0].id===matterId&&owned[0].user_id===participant.id);
+  const owned=fixture.checked(await fixture.admin.from('consumer_briefcase_items').select('id,source_session_id').eq('user_id',participant.id));
+  check('B1-claim-one-owned-matter',owned.length===1&&owned[0].id===matterId&&(channel==='dtc'||owned[0].source_session_id===sessionId));
 
   // B2 saved facts through the protected API.
   const api=`/api/expungement-ai/briefcase/${matterId}/packet-information`;
@@ -165,12 +177,22 @@ try{
     actionButtons:await panel.getByRole('button').count(),actionLinks:await panel.getByRole('link').count()};
   const generation=await context.request.post('/api/expungement-ai/packet/generate',{data:{briefcaseItemId:matterId}});
   const generated=await generation.json().catch(()=>null);
+  const checkout=channel==='dtc'?await context.request.post('/api/expungement-ai/checkout',{data:{briefcaseItemId:matterId}}):null;
+  const checkoutBody=await checkout?.json().catch(()=>null);
+  const sessionStored=fixture.checked(await fixture.admin.from('consumer_briefcase_items').select('checkout_session_id').eq('id',matterId).single()).checkout_session_id;
   const after=effects();
   report.delivery={offer,generationHttp:generation.status(),resultCode:generated?.resultCode??null,
-    cacheControl:generation.headers()['cache-control']??null,before,after,status:'NOT_APPLICABLE_NO_PACKET_OFFERED'};
+    cacheControl:generation.headers()['cache-control']??null,before,after,status:'NOT_APPLICABLE_NO_PACKET_OFFERED',
+    ...(checkout?{checkoutHttp:checkout.status(),checkoutResultCode:checkoutBody?.resultCode??null,checkoutSessionStored:sessionStored!==null}:{})};
   check('B-D5-nothing-offered',/^(I verified these packet facts|He verificado estos datos del paquete)$/.test(verifyLabel)
     &&offer.unavailableNotice===1&&offer.actionButtons===0&&offer.actionLinks===0,offer);
-  check('B-D5-refusal-typed-fulfillment-not-proven',generation.status()===403&&generated?.resultCode==='fulfillment_not_proven'&&report.delivery.cacheControl==='private, no-store');
+  if(channel==='dtc'){
+    // Offer = fulfilment on the paid path: nothing offered, so checkout must refuse with a typed client error and mint no
+    // Session; generation without payment must refuse too. (Today checkout returns 503 checkout_failed: the 02:32Z finding.)
+    check('A-D5-checkout-typed-refusal-no-session',checkout.status()>=400&&checkout.status()<500&&typeof checkoutBody?.resultCode==='string'&&sessionStored===null,
+      {http:checkout.status(),resultCode:checkoutBody?.resultCode??null,failureClass:checkoutBody?.failureClass??null});
+    check('A-D5-unpaid-generation-refused',[402,403].includes(generation.status()),{http:generation.status()});
+  }else check('B-D5-refusal-typed-fulfillment-not-proven',generation.status()===403&&generated?.resultCode==='fulfillment_not_proven'&&report.delivery.cacheControl==='private, no-store');
   check('B-D5-no-job-funding-credit-counter-or-object',JSON.stringify(after)===JSON.stringify(before),{before,after});
   report.routeProbe='NOT_APPLICABLE: no PDF is produced for this run';
 
@@ -201,7 +223,8 @@ try{
   check('browser-runtime-errors-absent',!report.browserErrors?.length&&!report.browserClose);
   // PARTIAL at best: the sponsored rows this program cannot reach on loopback stay NOT_RUN exclusions.
   report.status=report.failure||report.checks.some(row=>row.status==='FAIL')||report.cleanup.status!=='PASS'?'FAIL':'PARTIAL';
-  report.notRun=['B6-B7-unassisted-sponsored-delivery: not offered by design','R4-delayed-generation: rides RUN-DTC','D3-delivered-pages: no PDF'];
+  report.notRun=channel==='dtc'?['payment, generation, R4, grant download and token denials, D3, A33 probe: the owner RUN-DTC decision (finding 03:02Z)']
+    :['B6-B7-unassisted-sponsored-delivery: not offered by design','R4-delayed-generation: rides RUN-DTC','D3-delivered-pages: no PDF'];
   fs.writeFileSync(evidence,JSON.stringify(report,null,2)+'\n',{flag:'wx',mode:0o600});
   console.log('Evidence:',evidence);
 }
