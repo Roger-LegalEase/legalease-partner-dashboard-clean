@@ -1264,6 +1264,18 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     record: [
     ],
   },
+  TN: {
+    profileHash: "e598683f4fe1b7336e959b3295dd9cd6f9212a1207ab89f365193d9b61d21e4c",
+    categoryReason: "Earlier Tennessee categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106", // GA12 Q-c6c9fa03230c555ef82d
+      "pathway-2-diversion-expunction-under-40-15-105-40-35-313", // GA12 Q-8246dcb76f286d8cf5e6
+      "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107", // GA12 Q-3a3ab9bd323f2a1da3b0
+      "pathway-4-two-offense-expunction-under-40-32-101-k", // GA12 Q-b1f1233251db03f8dc14
+    ],
+    record: [
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
