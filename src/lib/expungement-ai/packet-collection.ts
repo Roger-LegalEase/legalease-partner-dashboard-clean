@@ -1276,6 +1276,18 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     record: [
     ],
   },
+  WY: {
+    profileHash: "6cacd0640d00892a2779a57d824e1da655ae9cb6c71293b3869e5799b6f00804",
+    categoryReason: "Earlier Wyoming categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "adult-non-conviction-expungement-w-s-7-13-1401", // GA12 Q-c8a576dfc34ec1a7016d
+      "human-trafficking-victim-vacatur-w-s-6-2-708", // GA12 Q-5d90f92d1d31ee0d3f53
+      "juvenile-minor-expungement-w-s-14-6-241", // GA12 Q-c1a21bfc795f5e44248c
+      "misdemeanor-conviction-expungement-w-s-7-13-1501", // GA12 Q-ed0db9351a6b18d9e429
+    ],
+    record: [
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
