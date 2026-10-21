@@ -1909,6 +1909,633 @@
         "reviewedFileSha256": "28d66ab11102428cf17f46fde3deed6de88d6e71c9c69db86cc925f7b707a9a8",
         "helperSha256": "87c13b33032dd025263fb5c1a03787fdff6fa53f66fa2b6fdd6e61d9b345055e"
       }
+    },
+    {
+      "reviewId": "GA20-CA-EXPLICIT-SOURCE-GAP-SCREENING",
+      "descriptor": [
+        "state_exclusion_categories",
+        "multi_select",
+        "Did the case involve any of these?",
+        "Some types follow special rules.",
+        [
+          "Violent offense",
+          "Sex offense or registration",
+          "Firearm or weapons",
+          "Other named excluded offense",
+          "None of these",
+          "I am not sure"
+        ],
+        "exclusion_screen",
+        [
+          "present",
+          true
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_hard_disqualifier"
+      ],
+      "scope": [
+        {
+          "surface": "screening",
+          "state": "CA",
+          "routeKey": null
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "Did the case involve any of these?",
+          "helperText": "Some types follow special rules. No named-offense exclusion list is provided here for California."
+        },
+        "es": {
+          "prompt": "¿El caso incluyó alguna de estas situaciones?",
+          "helperText": "Algunos tipos tienen reglas especiales. Aquí no se proporciona una lista de delitos excluidos por nombre para California."
+        }
+      },
+      "predicateAuthorityStatus": "EXPLICIT_SOURCE_GAP_DISPLAY_ONLY_LEAD_20261021_SPANISH69_APPLIED",
+      "sourceAuthority": [
+        "LEAD_TO_CODEX 2026-10-21T13:42:45Z and 13:44:58Z; Spanish PASS 2026-10-21T14:27:41Z"
+      ],
+      "originalFindingIds": [
+        "Q-992158f6748132bedecb",
+        "Q-a2f30c256094d4c00932",
+        "Q-aefb997be1fc93fd1a5d",
+        "Q-8289afcc93e502da713b",
+        "Q-22c2a90ec3bd5721edc3",
+        "Q-73bd8ae566887c633a11",
+        "Q-742a71c159886e55ff51",
+        "Q-0d2d79e69213104c0ee4"
+      ],
+      "sourceGapScope": "No adopted route-to-memo-track mapping supplies a reviewed named-offense list for this pre-route option. Citation candidates and existing single-route decisions are retained as context, not newly adopted mappings. Existing predicates, payment restrictions and saved answers remain unchanged.",
+      "sourceGaps": [
+        {
+          "questionRecordId": "Q-992158f6748132bedecb",
+          "routeKey": "CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/CA.memo.json",
+          "memoSha256": "c9d9f7266f22df9c90ce76507b407343fc50784a715b02a69e86fc713550cbf3",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "ca-1203-4a"
+          ],
+          "existingSingleRouteDecisionIds": [
+            "LEGAL-DESIGN-2026-07-30-CA-01"
+          ]
+        },
+        {
+          "questionRecordId": "Q-a2f30c256094d4c00932",
+          "routeKey": "CA:prop-64-completed-sentence-application-11361-8",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/CA.memo.json",
+          "memoSha256": "c9d9f7266f22df9c90ce76507b407343fc50784a715b02a69e86fc713550cbf3",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "ca-prop64"
+          ],
+          "existingSingleRouteDecisionIds": []
+        },
+        {
+          "questionRecordId": "Q-aefb997be1fc93fd1a5d",
+          "routeKey": "CA:prop-64-currently-serving-petition-11361-8",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/CA.memo.json",
+          "memoSha256": "c9d9f7266f22df9c90ce76507b407343fc50784a715b02a69e86fc713550cbf3",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "ca-prop64"
+          ],
+          "existingSingleRouteDecisionIds": []
+        },
+        {
+          "questionRecordId": "Q-8289afcc93e502da713b",
+          "routeKey": "CA:tool-1-dismissal-set-aside",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/CA.memo.json",
+          "memoSha256": "c9d9f7266f22df9c90ce76507b407343fc50784a715b02a69e86fc713550cbf3",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "ca-1203-4"
+          ],
+          "existingSingleRouteDecisionIds": []
+        },
+        {
+          "questionRecordId": "Q-22c2a90ec3bd5721edc3",
+          "routeKey": "CA:tool-2-automatic-relief",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/CA.memo.json",
+          "memoSha256": "c9d9f7266f22df9c90ce76507b407343fc50784a715b02a69e86fc713550cbf3",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "ca-auto-conviction",
+            "ca-auto-arrest"
+          ],
+          "existingSingleRouteDecisionIds": []
+        },
+        {
+          "questionRecordId": "Q-73bd8ae566887c633a11",
+          "routeKey": "CA:tool-3-petition-based-felony-sealing",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/CA.memo.json",
+          "memoSha256": "c9d9f7266f22df9c90ce76507b407343fc50784a715b02a69e86fc713550cbf3",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [],
+          "existingSingleRouteDecisionIds": []
+        },
+        {
+          "questionRecordId": "Q-742a71c159886e55ff51",
+          "routeKey": "CA:tool-4-arrest-record-sealing",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/CA.memo.json",
+          "memoSha256": "c9d9f7266f22df9c90ce76507b407343fc50784a715b02a69e86fc713550cbf3",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "ca-851-91",
+            "ca-851-8"
+          ],
+          "existingSingleRouteDecisionIds": []
+        },
+        {
+          "questionRecordId": "Q-0d2d79e69213104c0ee4",
+          "routeKey": "CA:tool-5-proposition-64-marijuana-relief",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/CA.memo.json",
+          "memoSha256": "c9d9f7266f22df9c90ce76507b407343fc50784a715b02a69e86fc713550cbf3",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "ca-prop64"
+          ],
+          "existingSingleRouteDecisionIds": []
+        }
+      ],
+      "spanishReview": {
+        "entry": 69,
+        "sha256": "7a2c42e69888c2cbf7f275bccc273088c8941105c501cb893a901a4bc0df78bd"
+      }
+    },
+    {
+      "reviewId": "GA20-MI-EXPLICIT-SOURCE-GAP-SCREENING",
+      "descriptor": [
+        "state_exclusion_categories",
+        "multi_select",
+        "Did the case involve any of these?",
+        "Some types follow special rules.",
+        [
+          "Sex offense or registration",
+          "Domestic violence",
+          "DUI/DWI or serious traffic",
+          "Other named excluded offense",
+          "None of these",
+          "I am not sure"
+        ],
+        "exclusion_screen",
+        [
+          "present",
+          true
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_hard_disqualifier"
+      ],
+      "scope": [
+        {
+          "surface": "screening",
+          "state": "MI",
+          "routeKey": null
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "Did the case involve any of these?",
+          "helperText": "Some types follow special rules. No named-offense exclusion list is provided here for Michigan."
+        },
+        "es": {
+          "prompt": "¿El caso incluyó alguna de estas situaciones?",
+          "helperText": "Algunos tipos tienen reglas especiales. Aquí no se proporciona una lista de delitos excluidos por nombre para Michigan."
+        }
+      },
+      "predicateAuthorityStatus": "EXPLICIT_SOURCE_GAP_DISPLAY_ONLY_LEAD_20261021_SPANISH69_APPLIED",
+      "sourceAuthority": [
+        "LEAD_TO_CODEX 2026-10-21T13:42:45Z and 13:44:58Z; Spanish PASS 2026-10-21T14:27:41Z"
+      ],
+      "originalFindingIds": [
+        "Q-a8afc4571c6d8eaf639f",
+        "Q-56d8bbce395a67ab4594",
+        "Q-da38b81f8a4ddfdf0202",
+        "Q-8b8bee0e63d7131cfb17",
+        "Q-c337a174cc51bd180bd4"
+      ],
+      "sourceGapScope": "No adopted route-to-memo-track mapping supplies a reviewed named-offense list for this pre-route option. Citation candidates and existing single-route decisions are retained as context, not newly adopted mappings. Existing predicates, payment restrictions and saved answers remain unchanged.",
+      "sourceGaps": [
+        {
+          "questionRecordId": "Q-a8afc4571c6d8eaf639f",
+          "routeKey": "MI:automatic-clean-slate-set-aside-under-mcl-780-621g",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/MI.memo.json",
+          "memoSha256": "77a22b791f546758f860d40020a56fbf9bf0580fd2f78516973929e802c58947",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "mi_auto_felony",
+            "mi_auto_misd93",
+            "mi_auto_misd92"
+          ],
+          "existingSingleRouteDecisionIds": []
+        },
+        {
+          "questionRecordId": "Q-56d8bbce395a67ab4594",
+          "routeKey": "MI:first-offense-owi-set-aside-by-application",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/MI.memo.json",
+          "memoSha256": "77a22b791f546758f860d40020a56fbf9bf0580fd2f78516973929e802c58947",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "mi_setaside_first_owi"
+          ],
+          "existingSingleRouteDecisionIds": []
+        },
+        {
+          "questionRecordId": "Q-da38b81f8a4ddfdf0202",
+          "routeKey": "MI:human-trafficking-related-set-aside-application",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/MI.memo.json",
+          "memoSha256": "77a22b791f546758f860d40020a56fbf9bf0580fd2f78516973929e802c58947",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "mi_setaside_trafficking"
+          ],
+          "existingSingleRouteDecisionIds": [
+            "LD-MI-02"
+          ]
+        },
+        {
+          "questionRecordId": "Q-8b8bee0e63d7131cfb17",
+          "routeKey": "MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/MI.memo.json",
+          "memoSha256": "77a22b791f546758f860d40020a56fbf9bf0580fd2f78516973929e802c58947",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "mi_setaside_marihuana"
+          ],
+          "existingSingleRouteDecisionIds": []
+        },
+        {
+          "questionRecordId": "Q-c337a174cc51bd180bd4",
+          "routeKey": "MI:set-aside-by-application-under-mcl-780-621",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/MI.memo.json",
+          "memoSha256": "77a22b791f546758f860d40020a56fbf9bf0580fd2f78516973929e802c58947",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "mi_setaside_application",
+            "mi_setaside_first_owi",
+            "mi_setaside_trafficking",
+            "mi_setaside_csc4_pre2015",
+            "mi_deferral_status"
+          ],
+          "existingSingleRouteDecisionIds": []
+        }
+      ],
+      "spanishReview": {
+        "entry": 69,
+        "sha256": "7a2c42e69888c2cbf7f275bccc273088c8941105c501cb893a901a4bc0df78bd"
+      }
+    },
+    {
+      "reviewId": "GA20-NC-EXPLICIT-SOURCE-GAP-SCREENING",
+      "descriptor": [
+        "state_exclusion_categories",
+        "multi_select",
+        "Did the case involve any of these?",
+        "Some types follow special rules.",
+        [
+          "Violent offense",
+          "Sex offense or registration",
+          "DUI/DWI or serious traffic",
+          "Other named excluded offense",
+          "None of these",
+          "I am not sure"
+        ],
+        "exclusion_screen",
+        [
+          "present",
+          true
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_hard_disqualifier"
+      ],
+      "scope": [
+        {
+          "surface": "screening",
+          "state": "NC",
+          "routeKey": null
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "Did the case involve any of these?",
+          "helperText": "Some types follow special rules. No named-offense exclusion list is provided here for North Carolina."
+        },
+        "es": {
+          "prompt": "¿El caso incluyó alguna de estas situaciones?",
+          "helperText": "Algunos tipos tienen reglas especiales. Aquí no se proporciona una lista de delitos excluidos por nombre para Carolina del Norte."
+        }
+      },
+      "predicateAuthorityStatus": "EXPLICIT_SOURCE_GAP_DISPLAY_ONLY_LEAD_20261021_SPANISH69_APPLIED",
+      "sourceAuthority": [
+        "LEAD_TO_CODEX 2026-10-21T13:42:45Z and 13:44:58Z; Spanish PASS 2026-10-21T14:27:41Z"
+      ],
+      "originalFindingIds": [
+        "Q-09974a425dd50c8f004a",
+        "Q-eda7e0d5f61d0f0362b8",
+        "Q-d99973942eb079ed1eab"
+      ],
+      "sourceGapScope": "No adopted route-to-memo-track mapping supplies a reviewed named-offense list for this pre-route option. Citation candidates and existing single-route decisions are retained as context, not newly adopted mappings. Existing predicates, payment restrictions and saved answers remain unchanged.",
+      "sourceGaps": [
+        {
+          "questionRecordId": "Q-09974a425dd50c8f004a",
+          "routeKey": "NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/NC.memo.json",
+          "memoSha256": "c627062f5080ebfc211653a4903a0afd62e682269c9cfdad305aafb9e1158c47",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "nc_auto_146_a4",
+            "nc_auto_146_a4_agency_followup",
+            "nc_146_dismissal_petition",
+            "nc_146_acquittal_petition",
+            "nc-ls-2"
+          ],
+          "existingSingleRouteDecisionIds": []
+        },
+        {
+          "questionRecordId": "Q-eda7e0d5f61d0f0362b8",
+          "routeKey": "NC:nonviolent-conviction-expunction-under-g-s-15a-145-5",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/NC.memo.json",
+          "memoSha256": "c627062f5080ebfc211653a4903a0afd62e682269c9cfdad305aafb9e1158c47",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "nc_145_5_misdemeanor",
+            "nc_145_5_felony"
+          ],
+          "existingSingleRouteDecisionIds": []
+        },
+        {
+          "questionRecordId": "Q-d99973942eb079ed1eab",
+          "routeKey": "NC:youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/NC.memo.json",
+          "memoSha256": "c627062f5080ebfc211653a4903a0afd62e682269c9cfdad305aafb9e1158c47",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "nc_145_8a_youthful"
+          ],
+          "existingSingleRouteDecisionIds": [
+            "LD-NC-02"
+          ]
+        }
+      ],
+      "spanishReview": {
+        "entry": 69,
+        "sha256": "7a2c42e69888c2cbf7f275bccc273088c8941105c501cb893a901a4bc0df78bd"
+      }
+    },
+    {
+      "reviewId": "GA20-OR-EXPLICIT-SOURCE-GAP-SCREENING",
+      "descriptor": [
+        "state_exclusion_categories",
+        "multi_select",
+        "Did the case involve any of these?",
+        "Some types follow special rules.",
+        [
+          "Violent offense",
+          "Sex offense or registration",
+          "DUI/DWI or serious traffic",
+          "Firearm or weapons",
+          "Other named excluded offense",
+          "None of these",
+          "I am not sure"
+        ],
+        "exclusion_screen",
+        [
+          "present",
+          true
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_hard_disqualifier"
+      ],
+      "scope": [
+        {
+          "surface": "screening",
+          "state": "OR",
+          "routeKey": null
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "Did the case involve any of these?",
+          "helperText": "Some types follow special rules. No named-offense exclusion list is provided here for Oregon."
+        },
+        "es": {
+          "prompt": "¿El caso incluyó alguna de estas situaciones?",
+          "helperText": "Algunos tipos tienen reglas especiales. Aquí no se proporciona una lista de delitos excluidos por nombre para Oregón."
+        }
+      },
+      "predicateAuthorityStatus": "EXPLICIT_SOURCE_GAP_DISPLAY_ONLY_LEAD_20261021_SPANISH69_APPLIED",
+      "sourceAuthority": [
+        "LEAD_TO_CODEX 2026-10-21T13:42:45Z and 13:44:58Z; Spanish PASS 2026-10-21T14:27:41Z"
+      ],
+      "originalFindingIds": [
+        "Q-1407069ac544122b308c",
+        "Q-02b54b8ebe3c33f5ff81",
+        "Q-8d2c356ae7b5d0fa8b52"
+      ],
+      "sourceGapScope": "No adopted route-to-memo-track mapping supplies a reviewed named-offense list for this pre-route option. Citation candidates and existing single-route decisions are retained as context, not newly adopted mappings. Existing predicates, payment restrictions and saved answers remain unchanged.",
+      "sourceGaps": [
+        {
+          "questionRecordId": "Q-1407069ac544122b308c",
+          "routeKey": "OR:marijuana-specific-set-aside-redesignation",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/OR.memo.json",
+          "memoSha256": "1dc9f4fab0f1e2572f192414f0a8d1fab4cc55e76c380c430828921b01dd450a",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "or_marijuana_setaside"
+          ],
+          "existingSingleRouteDecisionIds": [
+            "LD-OR-03"
+          ]
+        },
+        {
+          "questionRecordId": "Q-02b54b8ebe3c33f5ff81",
+          "routeKey": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/OR.memo.json",
+          "memoSha256": "1dc9f4fab0f1e2572f192414f0a8d1fab4cc55e76c380c430828921b01dd450a",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "or_arrest_no_charges"
+          ],
+          "existingSingleRouteDecisionIds": [
+            "LD-OR-01"
+          ]
+        },
+        {
+          "questionRecordId": "Q-8d2c356ae7b5d0fa8b52",
+          "routeKey": "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/OR.memo.json",
+          "memoSha256": "1dc9f4fab0f1e2572f192414f0a8d1fab4cc55e76c380c430828921b01dd450a",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "or_conviction_setaside",
+            "or_contempt_setaside"
+          ],
+          "existingSingleRouteDecisionIds": []
+        }
+      ],
+      "spanishReview": {
+        "entry": 69,
+        "sha256": "7a2c42e69888c2cbf7f275bccc273088c8941105c501cb893a901a4bc0df78bd"
+      }
+    },
+    {
+      "reviewId": "GA20-VA-EXPLICIT-SOURCE-GAP-SCREENING",
+      "descriptor": [
+        "state_exclusion_categories",
+        "multi_select",
+        "Did the case involve any of these?",
+        "Some types follow special rules.",
+        [
+          "Violent offense",
+          "Sex offense or registration",
+          "Domestic violence",
+          "DUI/DWI or serious traffic",
+          "Firearm or weapons",
+          "Other named excluded offense",
+          "None of these",
+          "I am not sure"
+        ],
+        "exclusion_screen",
+        [
+          "present",
+          true
+        ],
+        [
+          "present",
+          false
+        ],
+        "prepay_hard_disqualifier"
+      ],
+      "scope": [
+        {
+          "surface": "screening",
+          "state": "VA",
+          "routeKey": null
+        }
+      ],
+      "successor": {
+        "en": {
+          "prompt": "Did the case involve any of these?",
+          "helperText": "Some types follow special rules. No named-offense exclusion list is provided here for Virginia."
+        },
+        "es": {
+          "prompt": "¿El caso incluyó alguna de estas situaciones?",
+          "helperText": "Algunos tipos tienen reglas especiales. Aquí no se proporciona una lista de delitos excluidos por nombre para Virginia."
+        }
+      },
+      "predicateAuthorityStatus": "EXPLICIT_SOURCE_GAP_DISPLAY_ONLY_LEAD_20261021_SPANISH69_APPLIED",
+      "sourceAuthority": [
+        "LEAD_TO_CODEX 2026-10-21T13:42:45Z and 13:44:58Z; Spanish PASS 2026-10-21T14:27:41Z"
+      ],
+      "originalFindingIds": [
+        "Q-251c943d0bce8b5ceb90",
+        "Q-3ad82d662d2166670f89",
+        "Q-8be93860c3da7cd61ed3"
+      ],
+      "sourceGapScope": "No adopted route-to-memo-track mapping supplies a reviewed named-offense list for this pre-route option. Citation candidates and existing single-route decisions are retained as context, not newly adopted mappings. Existing predicates, payment restrictions and saved answers remain unchanged.",
+      "sourceGaps": [
+        {
+          "questionRecordId": "Q-251c943d0bce8b5ceb90",
+          "routeKey": "VA:automatic-sealing-no-filing",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/VA.memo.json",
+          "memoSha256": "32269fdc2343984a09356aa45d87b8789bb323bacd16e49ae6bbe1bc6471ab3b",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "va_seal_ancillary_matter_only",
+            "va_auto_seal_convictions"
+          ],
+          "existingSingleRouteDecisionIds": []
+        },
+        {
+          "questionRecordId": "Q-3ad82d662d2166670f89",
+          "routeKey": "VA:petition-based-sealing",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/VA.memo.json",
+          "memoSha256": "32269fdc2343984a09356aa45d87b8789bb323bacd16e49ae6bbe1bc6471ab3b",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "va_seal_enumerated_seven_year",
+            "va_seal_ancillary_matter_only",
+            "va_seal_petition_misdemeanor",
+            "va_seal_petition_felony",
+            "va_auto_seal_without_order"
+          ],
+          "existingSingleRouteDecisionIds": []
+        },
+        {
+          "questionRecordId": "Q-8be93860c3da7cd61ed3",
+          "routeKey": "VA:regime-1-expungement-available-now",
+          "optionWire": "Other named excluded offense",
+          "status": "UNRESOLVED_NAMED_OFFENSE_OPTION_MAPPING",
+          "memo": "data/record-clearing/legal-design-intake/VA.memo.json",
+          "memoSha256": "32269fdc2343984a09356aa45d87b8789bb323bacd16e49ae6bbe1bc6471ab3b",
+          "approvedRouteToTrackMappingRecorded": false,
+          "citationCandidateTrackIds": [
+            "va_exp_nonconviction",
+            "va_exp_absolute_pardon",
+            "va_exp_actual_innocence",
+            "va_exp_identity_used_by_another",
+            "va_auto_seal_nonconvictions"
+          ],
+          "existingSingleRouteDecisionIds": []
+        }
+      ],
+      "spanishReview": {
+        "entry": 69,
+        "sha256": "7a2c42e69888c2cbf7f275bccc273088c8941105c501cb893a901a4bc0df78bd"
+      }
     }
   ],
   "optionProposalSha256": "c3465422c32fb8390072a005a51990c3f89216ce60e31baa1954c42c6f551163",
