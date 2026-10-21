@@ -110,6 +110,16 @@ jobs:
         if: matrix.group == 'g'
         run: node scripts/verify-rcap-prepay-question-gate.mjs
 
+      # ~20 s. Payment permission follows reviewed route rules (807d35063) and needs explicit
+      # authority or ratification (f0f1eae4a); the held GA retroactive route only gets its consent
+      # next steps (713d50906). Committed fixtures only, no DB or private source.
+      - name: Verify payment authority ownership
+        if: matrix.group == 'g'
+        run: |
+          node scripts/test-payment-rule-ownership.mjs
+          node scripts/test-payment-authority-default.mjs
+          node scripts/test-ga-retroactive-consent-next-steps.mjs
+
       # 2 s. The compiled profiles are generated from the approved route contracts; a66ccc373
       # rewrote GA/MT/ND participant wording through the generator and failed groups d/e/f at 0e7e94cad.
       - name: Verify compiled profiles converge with the approved contracts
