@@ -210,7 +210,8 @@ export async function runFamily(argv=process.argv.slice(2),root=ROOT) {
  }
  // No output directory exists until every source, route, branch and serialization
  // above succeeds. This builder never emits claims, shared queues or acceptance.
- const emit=(p,value)=>assets.set(`${OUTPUT}/${p}`,Buffer.from(JSON.stringify(p==='source-receipt.json'?preserveIdentityRefresh(fs,path.join(root,OUTPUT,p),value):value,null,2)+'\n'));
+ // The receipt is composed before the output directory exists (the loop below creates it), so its HEAD copy is read from the repository root.
+ const emit=(p,value)=>assets.set(`${OUTPUT}/${p}`,Buffer.from(JSON.stringify(p==='source-receipt.json'?preserveIdentityRefresh(fs,path.join(root,OUTPUT,p),value,{git:a=>execFileSync('git',a,{cwd:root,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<26})}):value,null,2)+'\n'));
  const sourceWrites=fieldRows.filter(r=>r.disposition==='WRITTEN').map(r=>({...r,factId:r.field,kind:'AcroForm',rectBasis:'measured_source_widget'}));
  const sourceBlanks=fieldRows.filter(r=>r.disposition!=='WRITTEN').map(r=>({...r,requiredBeforeFiling:r.disposition==='REQUIRED_BEFORE_FILING',reason:r.disposition,...nativeBlankDeclaration(r),measurementStatus:'Source widget identity/rectangle measured; legal blank classification and protected ink require independent review'}));
  maps.push({documentId:REQUIRED_COMPONENTS[2],formNumber:REQUIRED_COMPONENTS[2],officialFormId:'AOC-G-260',sourceSha256:SOURCE_SHA,structuralClass:'official_pdf_form',conditional:true,documentPolicy:{mode:'participant',documentAcceptsFill:true,routeKey:ROUTE},canonicalWrites:sourceWrites,canonicalRefusals:sourceBlanks});
