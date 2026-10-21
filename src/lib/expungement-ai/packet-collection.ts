@@ -652,6 +652,61 @@ export function okCategoryAndRecordAreHistory(profile: EngineProfile | undefined
     && contactRepresentationHash(profile) === "d0c3f020cc38d939c56585e3f03227b08e865f4fa56377fddd71d0e7359a76c9";
 }
 
+// GA12/GA17 R1: per-state exact source-bound consumers, pinned to the profile hash, one route list per finding. Earlier
+// offense_category / record_type answers stay optional literal history; they never select a route, classify an offense or
+// change a payment decision.
+const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; categoryReason: string;
+  category: readonly string[]; record: readonly string[] }>> = {
+  UT: {
+    profileHash: "bd35a941b0354dd73ca8ca57741a5afc5da7824dd66571d97abb6ff45534ee49",
+    categoryReason: "Earlier Utah categories remain optional literal history. Utah's offense-type classes are carried only through the separate charge-and-statute, offense-class, domestic-violence/assault/sex-related and traffic-rule answers; a category is not evaluated as one, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "path-a-automatic-clean-slate-expungement", // GA12 Q-252e5eaceeb14868ecfd
+      "path-b-automatic-expungement-after-acquittal-or-dismissal-with-prejudice", // GA12 Q-fa8ce3d47b028a9a9297
+      "path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals", // GA12 Q-2333bc4d3b484d36fdbc
+      "path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility", // GA12 Q-e9f3971de039d6458dcc
+      "path-e-petition-based-non-conviction-expungement", // GA12 Q-cf0b883c11fa0a6f2fc3
+      "path-f-petition-based-conviction-expungement", // GA12 Q-650fb69353356a405ac7
+      "path-i-traffic-offense-expungement-or-deletion", // GA12 Q-6f5514279e5ffa50cb3e
+      "path-j-cannabis-possession-petition-without-a-bci-certificate", // GA12 Q-313866182a1e4777029e
+      "path-k-pardon-based-expungement", // GA12 Q-906056c11b74201b4da6
+      "path-l-vacatur-human-trafficking-related-expungement", // GA12 Q-d9d380005932a99444a6
+      "path-m-juvenile-expungement", // GA12 Q-2fe99c51c62078f670e8
+    ],
+    record: [
+      "path-a-automatic-clean-slate-expungement", // GA17 Q-5e88cc7ea97bd8745c1f
+      "path-b-automatic-expungement-after-acquittal-or-dismissal-with-prejudice", // GA17 Q-3784a90b21f601fc7637
+      "path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals", // GA17 Q-24585f480025fdf4a4cb
+      "path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility", // GA17 Q-d8cf948f1c17c4bffa64
+      "path-e-petition-based-non-conviction-expungement", // GA17 Q-ef44181a41b9119ee4e6
+      "path-f-petition-based-conviction-expungement", // GA17 Q-8ab80724ffff8845f3bd
+      "path-i-traffic-offense-expungement-or-deletion", // GA17 Q-a3934d2a19074726f573
+      "path-j-cannabis-possession-petition-without-a-bci-certificate", // GA17 Q-bd3410d058530b0a0f26
+      "path-k-pardon-based-expungement", // GA17 Q-958937ed725e4ea87169
+      "path-l-vacatur-human-trafficking-related-expungement", // GA17 Q-53b2acc2f8354df04528
+      "path-m-juvenile-expungement", // GA17 Q-2ef0ec2a33a7e70da1e7
+    ],
+  },
+};
+
+function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
+  specification: RegisteredSpecification | null | undefined, list: "category" | "record") {
+  const code = profile?.jurisdiction.code ?? "";
+  const entry = Object.hasOwn(R1_SOURCE_BOUND_HISTORY, code) ? R1_SOURCE_BOUND_HISTORY[code] : undefined;
+  return entry && entry[list].includes(pathwayId ?? "") && specification == null
+    && contactRepresentationHash(profile) === entry.profileHash ? entry : undefined;
+}
+
+export function r1CategoryIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
+  specification: RegisteredSpecification | null | undefined): boolean {
+  return r1SourceBoundHistoryEntry(profile, pathwayId, specification, "category") !== undefined;
+}
+
+export function r1RecordIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
+  specification: RegisteredSpecification | null | undefined): boolean {
+  return r1SourceBoundHistoryEntry(profile, pathwayId, specification, "record") !== undefined;
+}
+
 // GA-17 Q-8105d5d0b28ebd1e4a67 / Q-c8633872a982712e7803 / Q-94c8f0620f0384854d98.
 // GA-17 Q-748f73bc4bcf41923fcc / Q-6acd9d8d275e7be59682 / Q-8c94453e5af32f59406d.
 // Q-ab7cc6744570b24e17d4 / Q-481c00319478c8236160 / Q-1ee2fb0eca77febaf2b6: the same history-only consumer.
@@ -662,6 +717,7 @@ export function dcFlPetitionRecordIsHistory(profile: EngineProfile | undefined, 
   specification: RegisteredSpecification | null | undefined): boolean {
   if (specification != null) return false;
   return okCategoryAndRecordAreHistory(profile, pathwayId, specification)
+    || r1RecordIsHistory(profile, pathwayId, specification)
     || profile?.jurisdiction.code === "DC"
     && ["dc_motion_seal_misdemeanor_conviction_5yr_16_806", "dc_motion_seal_nonconviction_16_806", "dc_auto_expungement_16_802", "dc_auto_sealing_16_805", "dc_juvenile_sealing_16_2335"].includes(pathwayId ?? "")
     && contactRepresentationHash(profile) === "bcc070d365fb97ad2cd7a5296ca4c8ba516dcf37708fb2b5c852c0d5d1566830"
@@ -1030,6 +1086,7 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const maCategoryHistory = maThreeRouteCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const maAdditionalCategoryHistory = maAdditionalCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const okCategoryHistory = okCategoryAndRecordAreHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
+  const r1CategoryHistory = r1SourceBoundHistoryEntry(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification, "category");
   const maMeCategoryHistory = maMeCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const iaCategoryHistory = iaCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const ctCategoryHistory = ctInformationCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId ?? null,
@@ -1081,14 +1138,15 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
-    if ((okCategoryHistory || arCategoryHistory || alCategoryHistory || hiCategoryHistory || iaCategoryHistory || maMeCategoryHistory || maAdditionalCategoryHistory || maCategoryHistory || laCategoryHistory || kyCategoryHistory || ctCategoryHistory || wy1502CategoryHistory || sdSisCategoryHistory || ilProstitutionCategoryHistory || dcCategoryHistory || ilCategoryHistory || msCategoryHistory || gaSb288CategoryHistory || ctPetitionCategoryHistory || nvProgramCategoryHistory) && factId === "offense_category" && !overrideClass
+    if ((r1CategoryHistory || okCategoryHistory || arCategoryHistory || alCategoryHistory || hiCategoryHistory || iaCategoryHistory || maMeCategoryHistory || maAdditionalCategoryHistory || maCategoryHistory || laCategoryHistory || kyCategoryHistory || ctCategoryHistory || wy1502CategoryHistory || sdSisCategoryHistory || ilProstitutionCategoryHistory || dcCategoryHistory || ilCategoryHistory || msCategoryHistory || gaSb288CategoryHistory || ctPetitionCategoryHistory || nvProgramCategoryHistory) && factId === "offense_category" && !overrideClass
       && !needsHuman.has(factId) && !input.recordOwnQuestionIds?.has(factId)) {
       const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
         .some(answers => answers && Object.hasOwn(answers, factId));
       facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
         group: retained ? group : null, active: retained, optional: true,
-        source: okCategoryHistory ? "ok_category_history" : maMeCategoryHistory ? "ma_me_category_history" : maAdditionalCategoryHistory ? "ma_additional_category_history" : maCategoryHistory ? "ma_three_route_category_history" : laCategoryHistory ? "la_three_route_category_history" : kyCategoryHistory ? "ky_three_route_category_history" : arCategoryHistory ? "ar_bound_category_history" : wy1502CategoryHistory ? "wy1502_category_history" : sdSisCategoryHistory ? "sd_sis_category_history" : ilProstitutionCategoryHistory ? "il_prostitution_category_history" : hiCategoryHistory ? "hi_three_route_category_history" : iaCategoryHistory ? "ia_three_route_category_history" : alCategoryHistory ? "al_three_route_category_history" : nvProgramCategoryHistory ? "nv_program_category_history" : ctPetitionCategoryHistory ? "ct_petition_category_history" : gaSb288CategoryHistory ? "ga_sb288_category_history" : msCategoryHistory ? "ms_additional_category_history" : ilCategoryHistory ? "il_identity_category_history" : dcCategoryHistory ? "dc_innocence_category_history" : "ct_information_category_history",
-        reason: okCategoryHistory
+        source: r1CategoryHistory ? "r1_category_history" : okCategoryHistory ? "ok_category_history" : maMeCategoryHistory ? "ma_me_category_history" : maAdditionalCategoryHistory ? "ma_additional_category_history" : maCategoryHistory ? "ma_three_route_category_history" : laCategoryHistory ? "la_three_route_category_history" : kyCategoryHistory ? "ky_three_route_category_history" : arCategoryHistory ? "ar_bound_category_history" : wy1502CategoryHistory ? "wy1502_category_history" : sdSisCategoryHistory ? "sd_sis_category_history" : ilProstitutionCategoryHistory ? "il_prostitution_category_history" : hiCategoryHistory ? "hi_three_route_category_history" : iaCategoryHistory ? "ia_three_route_category_history" : alCategoryHistory ? "al_three_route_category_history" : nvProgramCategoryHistory ? "nv_program_category_history" : ctPetitionCategoryHistory ? "ct_petition_category_history" : gaSb288CategoryHistory ? "ga_sb288_category_history" : msCategoryHistory ? "ms_additional_category_history" : ilCategoryHistory ? "il_identity_category_history" : dcCategoryHistory ? "dc_innocence_category_history" : "ct_information_category_history",
+        reason: r1CategoryHistory ? r1CategoryHistory.categoryReason
+        : okCategoryHistory
           ? "Earlier Oklahoma categories remain optional literal history. Charge and statute, disposition, offense level, timing, court and applicable record-specific facts remain separate; a category does not establish statutory classification or eligibility."
         : maMeCategoryHistory
           ? "These source-bound consumers use separate disposition, offense-level, timing and court facts. Earlier categories remain optional literal history and establish neither statutory classification nor eligibility."
