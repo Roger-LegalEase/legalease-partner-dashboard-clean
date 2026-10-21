@@ -283,5 +283,23 @@ for(const name of ['currently-serving','completed'])for(const level of ['Felony'
  }
  check(prefix+' original answers unchanged',answers,before);scenarios.push({name:prefix,label,evaluation});
 }
+// CA-L03 / O44 (DR13 CA-03, v3 §5): real consumers show each prior-relief distinction, unpaid, with its reviewed EN/ES copy.
+const stillUnlawfulSale={charge:'HSC11359',ca_prop64_prior_superstrike:'No',ca_prop64_prior_290c:'No',ca_prop64_same_section_priors:0,ca_prop64_knowing_minor_transaction:'No',ca_prop64_used_young_person:'No'};
+for(const name of ['currently-serving','completed'])for(const [label,patch,code]of [
+ ['denied',{ca_prop64_existing_relief:'denied'},'prior_relief_denied'],
+ ['already-ordered',{ca_prop64_existing_relief:'dismissed_sealed',ca_prop64_additional_benefit:'sealing'},'prior_relief_record_correction'],
+ ['record-update',{ca_prop64_existing_relief:'reduced',ca_prop64_additional_benefit:'record_update'},'prior_relief_record_correction'],
+ ['omitted-sealing',{ca_prop64_existing_relief:'dismissed',ca_prop64_additional_benefit:'sealing'},'prior_relief_additional_request'],
+ ['omitted-unsupported',{...stillUnlawfulSale,ca_prop64_existing_relief:'reduced',ca_prop64_additional_benefit:'dismissal'},'remedy_conflict'],
+ ['contested-or-other',{ca_prop64_existing_relief:'reduced',ca_prop64_additional_benefit:'other'},'prior_relief']
+]){
+ const fixture=JSON.parse(fs.readFileSync(new URL(`./fixtures/ca-prop64-protected-baseline/${name}.json`,import.meta.url)));
+ const answers={...fixture.answers,...facts,...patch},before=structuredClone(answers),prefix=`CA-L03/${name}/${label}`,evaluation=evaluateAnswers(answers).evaluation;
+ check(prefix+' held for review, unpaid',[evaluation.resultCode,evaluation.paymentAllowed],['needs_review',false]);
+ check(prefix+' adopted distinction displayed',evaluation.reasons.map(r=>r.text),[F.CA_PROP64_REASON_COPY[code][0]]);
+ for(const locale of ['en','es'])check(prefix+' reviewed copy '+locale,resolveRuntimeText(locale,F.CA_PROP64_REASON_COPY[code][0]),F.CA_PROP64_REASON_COPY[code][locale==='es'?1:0]);
+ check(prefix+' additional result asked only for granted relief',selectScreeningQuestionIds(profile,pub,answers).includes('ca_prop64_additional_benefit'),label!=='denied');
+ check(prefix+' original answers unchanged',answers,before);scenarios.push({name:prefix,label,evaluation});
+}
 const failed=checks.filter(c=>!c.pass),report={status:failed.length?'FAIL':'PASS',checks:checks.length,scenarios:scenarios.length,renders:renders.length,failed,details:checks,scenarioDetails:scenarios,renderDetails:renders,limits:['Pure protected transitions and real stateless handlers/SSR; not DB/browser/RLS acceptance or professional approval.']};
 const out=process.argv[2];if(out)fs.writeFileSync(out,JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({status:report.status,checks:checks.length,scenarios:scenarios.length,renders:renders.length,failed},null,2));assert.equal(failed.length,0);
