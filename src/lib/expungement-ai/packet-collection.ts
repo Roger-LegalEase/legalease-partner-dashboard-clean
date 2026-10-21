@@ -1128,6 +1128,18 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "youthful-first-offender-restriction-route", // GA17 Q-b16fc9a9eaf374ee138e
     ],
   },
+  CO: {
+    profileHash: "1e74ae18e3815426ae28001f741a954826a985d08164d8ab77820cda0d90d909",
+    categoryReason: "Earlier Colorado categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "automatic-clean-slate-sealing-13-3-117", // GA12 Q-f1db160874208d5020cc
+      "petition-based-conviction-sealing-jdf-612-24-72-706", // GA12 Q-6494b446a54f2fa4132f
+      "petition-based-non-conviction-sealing-jdf-417-24-72-704", // GA12 Q-fa4052b5baf06ea52e36
+    ],
+    record: [
+      "automatic-clean-slate-sealing-13-3-117", // GA17 Q-b716564db24866ec8d11
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
