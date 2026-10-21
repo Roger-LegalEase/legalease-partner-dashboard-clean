@@ -21,6 +21,9 @@ const { packetSpecificationFor } = await import('../src/lib/rcap/grade-a/packet-
 // GA-17 Q-4466b7cd2b8cfb099728 / QD-fb5a90b4c42ab7e486c1.
 // Current held consumer proof; the historical blank builder is not re-certified.
 const route='tool-3-petition-based-felony-sealing', key=`CA:${route}`;
+// CA tool-3 containment 6e271b424 (Roger-approved, recorded by Lead 2026-10-21; registry status held_guidance): the held route
+// reports guidance_only / ca.lawrence_hold_guidance_only. Predecessor needs_review / ca.waiting_rule_not_executed; payment false in both.
+const heldResult='guidance_only', heldReason='ca.lawrence_hold_guidance_only';
 const read=p=>JSON.parse(fs.readFileSync(p));
 const witness=read('data/rcap-ledger/public-witness-fixtures.json').fixtures.find(f=>f.pathwayKey===key);
 assert(witness);
@@ -51,8 +54,8 @@ for(const [label,outcome] of [['original-witness',witness.answers.case_outcome],
  const original={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};
  records.set('synthetic-'+label,original);
  check(label+': actual held route and absent taxonomy',()=>{
-  assert.equal(a.evaluation.pathwayId,route);assert.equal(a.evaluation.resultCode,'needs_review');assert.equal(a.evaluation.paymentAllowed,false);
-  assert.equal(a.evaluation.reasons[0].code,'ca.waiting_rule_not_executed');
+  assert.equal(a.evaluation.pathwayId,route);assert.equal(a.evaluation.resultCode,heldResult);assert.equal(a.evaluation.paymentAllowed,false);
+  assert.equal(a.evaluation.reasons[0].code,heldReason);
   const m=P.protectedPacketInformationModelFor(original);assert(m);
   assert(!m.builderQuestions.some(q=>q.id==='record_type'));assert(!m.missingInputIds.includes('record_type'));
   const q=m.questions.find(q=>q.id==='record_type');if(q){assert.equal(q.required,false);assert(q.helperText.includes('overlap'));}
@@ -64,8 +67,8 @@ for(const [label,outcome] of [['original-witness',witness.answers.case_outcome],
    const m=P.protectedPacketInformationModelFor(record);assert(m);const q=m.questions.find(q=>q.id==='record_type');assert(q);assert.equal(q.required,false);assert(q.helperText.includes('overlap'));assert(q.translations.es.helperText.includes('coincidir'));
    assert(!m.missingInputIds.includes('record_type'));
    const r=P.evaluateProtectedPacketFacts(record.draftSnapshot).evaluation;
-   assert.equal(r.pathwayId,route);assert.equal(r.resultCode,'needs_review');assert.equal(r.paymentAllowed,false);
-   assert.equal(r.reasons[0].code,'ca.waiting_rule_not_executed');
+   assert.equal(r.pathwayId,route);assert.equal(r.resultCode,heldResult);assert.equal(r.paymentAllowed,false);
+   assert.equal(r.reasons[0].code,heldReason);
    assert.deepEqual(safety(record.draftSnapshot),safety(seed.snapshot));
    assert.deepEqual(P.packetInformationPatch({protectedVerification:record,answers:{}}).protectedTransition.nextVerification,before);
    assert.deepEqual(record,before);
@@ -130,7 +133,7 @@ for(const [id,original] of [...records]){
    for(const map of maps){const entry=next.draftSnapshot.dependencies.semanticAnswerHistory.find(h=>h.factId==='record_type'&&h.source===map);assert(entry,map);assert.deepEqual(entry.value,stored.draftSnapshot[map].record_type);
     for(const fact of ['case_outcome','offense_level','age_at_offense','age','sentence_completion_date'])assert.deepEqual(next.draftSnapshot[map][fact],stored.draftSnapshot[map][fact]);}
    assert.equal(next.draftSnapshot.paymentAllowed,false);assert.equal(next.status,'unverified');assert.equal(body.readyToGenerate,false);assert(!body.missingInputIds.includes('record_type'));
-   assert.equal(P.evaluateProtectedPacketFacts(next.draftSnapshot).evaluation.reasons[0].code,'ca.waiting_rule_not_executed');
+   assert.equal(P.evaluateProtectedPacketFacts(next.draftSnapshot).evaluation.reasons[0].code,heldReason);
    for(const[k,v]of otherMatters)assert.deepEqual(records.get(k),v);
   });
  }
