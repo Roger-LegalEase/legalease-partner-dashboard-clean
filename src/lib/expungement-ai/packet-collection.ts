@@ -985,6 +985,24 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "sex-trafficking-victim-vacatur-and-expungement", // GA17 Q-bdb22ef6c8161084b37f
     ],
   },
+  MD: {
+    profileHash: "758b4fde34401e6a8778e6fe15dc64184f3319cdb336d24055c0fe9265544207",
+    categoryReason: "Earlier Maryland categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "adult-non-conviction-expungement-under-crim-proc-10-105", // GA12 Q-1ac39767ebd38f67205f
+      "automatic-expungement-under-crim-proc-10-105-1", // GA12 Q-8bceb546e5c92b856e55
+      "cannabis-specific-expungement", // GA12 Q-1bfea6abba26156d604b
+      "eligible-conviction-expungement-under-crim-proc-10-110", // GA12 Q-490cfd616dd97bfc8df2
+      "second-chance-act-shielding", // GA12 Q-2366ddaaf367add0a243
+    ],
+    record: [
+      "adult-non-conviction-expungement-under-crim-proc-10-105", // GA17 Q-435bcf23d31f9f1a474c
+      "automatic-expungement-under-crim-proc-10-105-1", // GA17 Q-764036348a0a72c4295a
+      "cannabis-specific-expungement", // GA17 Q-f4d5d773c2868e5c9d1a
+      "eligible-conviction-expungement-under-crim-proc-10-110", // GA17 Q-3c0d28cff0082c9af2fc
+      "second-chance-act-shielding", // GA17 Q-7d682e0e897adec4533e
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
