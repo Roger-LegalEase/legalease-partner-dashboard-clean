@@ -280,7 +280,7 @@ const SPEC = {
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
         "",
-        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read.",
         "",
         "THE QUESTION THIS PAGE EXISTS TO ASK",
         "",
@@ -289,7 +289,7 @@ const SPEC = {
         "",
         "WHAT LEGALEASE CANNOT TELL YOU HERE",
         "",
-        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "This packet does NOT decide whether the free route reaches you. LegalEase has not resolved what the amended Senate Bill 2030 (2026) text says, so that question is still open. So this page asks it rather than answering it.",
         "",
         "WHAT TO DO",
         "",
@@ -382,12 +382,12 @@ const SPEC = {
         "{{DOTS}}",
         "",
         "[C10 - ide tribal record] Was the case handled in a tribal court, or does a tribal record exist for the same events?",
-        "(Asked because Oklahoma orders do not reach tribal records and the review records tribal records as a live post-McGirt issue requiring explicit escalation.)",
+        "(Asked because Oklahoma orders do not reach tribal records, and tribal records are a live issue after McGirt that needs help beyond this packet.)",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
         "[C11 - ide free route checked] Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything?",
-        "(Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition and the review's central warning is that a paid petition must not be generated for someone entitled to a free route.)",
+        "(Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition, and no one entitled to that free route should pay for a petition.)",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
@@ -515,14 +515,14 @@ const SPEC = {
           "kind": "rbf",
           "id": "fact_ideTribalRecord",
           "label": "Item C10 - ide tribal record",
-          "supply": "Was the case handled in a tribal court, or does a tribal record exist for the same events? (Asked because Oklahoma orders do not reach tribal records and the review records tribal records as a live post-McGirt issue requiring explicit escalation.)",
+          "supply": "Was the case handled in a tribal court, or does a tribal record exist for the same events? (Asked because Oklahoma orders do not reach tribal records, and tribal records are a live issue after McGirt that needs help beyond this packet.)",
           "why": "the committed track registry records this as a required generation input for ok_identity_theft, and the platform holds no value for it"
         },
         {
           "kind": "rbf",
           "id": "fact_ideFreeRouteChecked",
           "label": "Item C11 - ide free route checked",
-          "supply": "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything? (Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition and the review's central warning is that a paid petition must not be generated for someone entitled to a free route.)",
+          "supply": "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything? (Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition, and no one entitled to that free route should pay for a petition.)",
           "why": "the committed track registry records this as a required generation input for ok_identity_theft, and the platform holds no value for it"
         },
         {
@@ -814,7 +814,7 @@ const SPEC = {
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
         "",
-        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read.",
         "",
         "THE QUESTION THIS PAGE EXISTS TO ASK",
         "",
@@ -823,7 +823,7 @@ const SPEC = {
         "",
         "WHAT LEGALEASE CANNOT TELL YOU HERE",
         "",
-        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "This packet does NOT decide whether the free route reaches you. LegalEase has not resolved what the amended Senate Bill 2030 (2026) text says, so that question is still open. So this page asks it rather than answering it.",
         "",
         "WHAT TO DO",
         "",
@@ -916,12 +916,12 @@ const SPEC = {
         "{{DOTS}}",
         "",
         "[C10 - 18 tribal record] Was the case handled in a tribal court, or does a tribal record exist for the same events?",
-        "(Asked because Oklahoma orders do not reach tribal records and the review records tribal records as a live post-McGirt issue requiring explicit escalation.)",
+        "(Asked because Oklahoma orders do not reach tribal records, and tribal records are a live issue after McGirt that needs help beyond this packet.)",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
         "[C11 - 18 free route checked] Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything?",
-        "(Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition and the review's central warning is that a paid petition must not be generated for someone entitled to a free route.)",
+        "(Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition, and no one entitled to that free route should pay for a petition.)",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
@@ -1049,14 +1049,14 @@ const SPEC = {
           "kind": "rbf",
           "id": "fact_18_TribalRecord",
           "label": "Item C10 - 18 tribal record",
-          "supply": "Was the case handled in a tribal court, or does a tribal record exist for the same events? (Asked because Oklahoma orders do not reach tribal records and the review records tribal records as a live post-McGirt issue requiring explicit escalation.)",
+          "supply": "Was the case handled in a tribal court, or does a tribal record exist for the same events? (Asked because Oklahoma orders do not reach tribal records, and tribal records are a live issue after McGirt that needs help beyond this packet.)",
           "why": "the committed track registry records this as a required generation input for ok_18_19_deferred_dismissal, and the platform holds no value for it"
         },
         {
           "kind": "rbf",
           "id": "fact_18_FreeRouteChecked",
           "label": "Item C11 - 18 free route checked",
-          "supply": "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything? (Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition and the review's central warning is that a paid petition must not be generated for someone entitled to a free route.)",
+          "supply": "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything? (Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition, and no one entitled to that free route should pay for a petition.)",
           "why": "the committed track registry records this as a required generation input for ok_18_19_deferred_dismissal, and the platform holds no value for it"
         },
         {
@@ -1348,7 +1348,7 @@ const SPEC = {
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
         "",
-        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read.",
         "",
         "THE QUESTION THIS PAGE EXISTS TO ASK",
         "",
@@ -1357,7 +1357,7 @@ const SPEC = {
         "",
         "WHAT LEGALEASE CANNOT TELL YOU HERE",
         "",
-        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "This packet does NOT decide whether the free route reaches you. LegalEase has not resolved what the amended Senate Bill 2030 (2026) text says, so that question is still open. So this page asks it rather than answering it.",
         "",
         "WHAT TO DO",
         "",
@@ -1400,7 +1400,7 @@ const SPEC = {
         "",
         "A. THE RELIEF THIS PETITION ASKS FOR, AS THE COMMITTED RECORD STATES IT",
         "",
-        "The section 18 categories provide petition routes for felony convictions, including a reclassified-felony route with a short window that the review directs be screened before the longer routes, and a one-felony route carrying a separate-misdemeanour look-back. Both are recorded as manual completion items because the category text was amended again by SB 2030 and has not been read. Oklahoma says expungement but in most adult contexts means sealing: expungement is statutorily defined as the sealing of criminal records and of any public civil record involving actions brought by and against the State arising from the same arrest, transaction or occurrence. Fully sealed records are unavailable to the public and to law enforcement, with the Oklahoma State Bureau of Investigation retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement, and which category a participant lands in is a material outcome difference that must be disclosed. On an order the official actions are deemed never to have occurred, the person and criminal justice agencies may reply that no such action occurred and no such record exists, and employers, schools and state and local agencies may not require disclosure of sealed information. Title 22 section 19 does not authorise physical destruction; a sealed record may be unsealed later on a finding of changed conditions or compelling reason, and under section 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
+        "The section 18 categories provide petition routes for felony convictions, including a reclassified-felony route with a short window, and a one-felony route carrying a separate-misdemeanour look-back. Both are recorded as manual completion items because the category text was amended again by SB 2030 and has not been read. Oklahoma says expungement but in most adult contexts means sealing: expungement is statutorily defined as the sealing of criminal records and of any public civil record involving actions brought by and against the State arising from the same arrest, transaction or occurrence. Fully sealed records are unavailable to the public and to law enforcement, with the Oklahoma State Bureau of Investigation retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement, and which category a participant lands in is a material outcome difference that must be disclosed. On an order the official actions are deemed never to have occurred, the person and criminal justice agencies may reply that no such action occurred and no such record exists, and employers, schools and state and local agencies may not require disclosure of sealed information. Title 22 section 19 does not authorise physical destruction; a sealed record may be unsealed later on a finding of changed conditions or compelling reason, and under section 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
         "",
         "B. THE PETITIONER",
         "",
@@ -1450,12 +1450,12 @@ const SPEC = {
         "{{DOTS}}",
         "",
         "[C10 - 18 tribal record] Was the case handled in a tribal court, or does a tribal record exist for the same events?",
-        "(Asked because Oklahoma orders do not reach tribal records and the review records tribal records as a live post-McGirt issue requiring explicit escalation.)",
+        "(Asked because Oklahoma orders do not reach tribal records, and tribal records are a live issue after McGirt that needs help beyond this packet.)",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
         "[C11 - 18 free route checked] Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything?",
-        "(Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition and the review's central warning is that a paid petition must not be generated for someone entitled to a free route.)",
+        "(Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition, and no one entitled to that free route should pay for a petition.)",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
@@ -1465,12 +1465,12 @@ const SPEC = {
         "{{DOTS}}",
         "",
         "[C13 - fel reclassified] Has the offence you were convicted of since been reclassified as a misdemeanour?",
-        "(Asked because the review directs that the reclassified-felony route be screened before the longer routes, and it carries a much shorter window.)",
+        "(Asked before the longer routes because the reclassified-felony route carries a much shorter window.)",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
         "[C14 - fel other misdemeanors] Have you had any separate misdemeanour convictions, and when?",
-        "(Asked because the one-felony route carries a separate-misdemeanour look-back the review directs be encoded.)",
+        "(Asked because the one-felony route carries a separate-misdemeanour look-back.)",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
@@ -1589,14 +1589,14 @@ const SPEC = {
           "kind": "rbf",
           "id": "fact_18_TribalRecord",
           "label": "Item C10 - 18 tribal record",
-          "supply": "Was the case handled in a tribal court, or does a tribal record exist for the same events? (Asked because Oklahoma orders do not reach tribal records and the review records tribal records as a live post-McGirt issue requiring explicit escalation.)",
+          "supply": "Was the case handled in a tribal court, or does a tribal record exist for the same events? (Asked because Oklahoma orders do not reach tribal records, and tribal records are a live issue after McGirt that needs help beyond this packet.)",
           "why": "the committed track registry records this as a required generation input for ok_18_19_felony_conviction, and the platform holds no value for it"
         },
         {
           "kind": "rbf",
           "id": "fact_18_FreeRouteChecked",
           "label": "Item C11 - 18 free route checked",
-          "supply": "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything? (Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition and the review's central warning is that a paid petition must not be generated for someone entitled to a free route.)",
+          "supply": "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything? (Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition, and no one entitled to that free route should pay for a petition.)",
           "why": "the committed track registry records this as a required generation input for ok_18_19_felony_conviction, and the platform holds no value for it"
         },
         {
@@ -1610,14 +1610,14 @@ const SPEC = {
           "kind": "rbf",
           "id": "fact_felReclassified",
           "label": "Item C13 - fel reclassified",
-          "supply": "Has the offence you were convicted of since been reclassified as a misdemeanour? (Asked because the review directs that the reclassified-felony route be screened before the longer routes, and it carries a much shorter window.)",
+          "supply": "Has the offence you were convicted of since been reclassified as a misdemeanour? (Asked before the longer routes because the reclassified-felony route carries a much shorter window.)",
           "why": "the committed track registry records this as a required generation input for ok_18_19_felony_conviction, and the platform holds no value for it"
         },
         {
           "kind": "rbf",
           "id": "fact_felOtherMisdemeanors",
           "label": "Item C14 - fel other misdemeanors",
-          "supply": "Have you had any separate misdemeanour convictions, and when? (Asked because the one-felony route carries a separate-misdemeanour look-back the review directs be encoded.)",
+          "supply": "Have you had any separate misdemeanour convictions, and when? (Asked because the one-felony route carries a separate-misdemeanour look-back.)",
           "why": "the committed track registry records this as a required generation input for ok_18_19_felony_conviction, and the platform holds no value for it"
         },
         {
@@ -1895,7 +1895,7 @@ const SPEC = {
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
         "",
-        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read.",
         "",
         "THE QUESTION THIS PAGE EXISTS TO ASK",
         "",
@@ -1904,7 +1904,7 @@ const SPEC = {
         "",
         "WHAT LEGALEASE CANNOT TELL YOU HERE",
         "",
-        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "This packet does NOT decide whether the free route reaches you. LegalEase has not resolved what the amended Senate Bill 2030 (2026) text says, so that question is still open. So this page asks it rather than answering it.",
         "",
         "WHAT TO DO",
         "",
@@ -1947,7 +1947,7 @@ const SPEC = {
         "",
         "A. THE RELIEF THIS PETITION ASKS FOR, AS THE COMMITTED RECORD STATES IT",
         "",
-        "The section 18 categories provide petition routes for misdemeanour convictions on stated waiting periods and prior-record conditions. Because section 18 has been amended in three consecutive years and renumbered, the screen runs on the category description rather than the paragraph number, which is the review's single best judgment call and is preserved here. Oklahoma says expungement but in most adult contexts means sealing: expungement is statutorily defined as the sealing of criminal records and of any public civil record involving actions brought by and against the State arising from the same arrest, transaction or occurrence. Fully sealed records are unavailable to the public and to law enforcement, with the Oklahoma State Bureau of Investigation retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement, and which category a participant lands in is a material outcome difference that must be disclosed. On an order the official actions are deemed never to have occurred, the person and criminal justice agencies may reply that no such action occurred and no such record exists, and employers, schools and state and local agencies may not require disclosure of sealed information. Title 22 section 19 does not authorise physical destruction; a sealed record may be unsealed later on a finding of changed conditions or compelling reason, and under section 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
+        "The section 18 categories provide petition routes for misdemeanour convictions on stated waiting periods and prior-record conditions. Because section 18 has been amended in three consecutive years and renumbered, the screen runs on the category description rather than the paragraph number. Oklahoma says expungement but in most adult contexts means sealing: expungement is statutorily defined as the sealing of criminal records and of any public civil record involving actions brought by and against the State arising from the same arrest, transaction or occurrence. Fully sealed records are unavailable to the public and to law enforcement, with the Oklahoma State Bureau of Investigation retaining them for research and statistical purposes; partially sealed records are hidden from the public but remain available to law enforcement, and which category a participant lands in is a material outcome difference that must be disclosed. On an order the official actions are deemed never to have occurred, the person and criminal justice agencies may reply that no such action occurred and no such record exists, and employers, schools and state and local agencies may not require disclosure of sealed information. Title 22 section 19 does not authorise physical destruction; a sealed record may be unsealed later on a finding of changed conditions or compelling reason, and under section 19(N) a record ordered sealed that is not unsealed within ten years may be obliterated or destroyed at the end of that period.",
         "",
         "B. THE PETITIONER",
         "",
@@ -1997,12 +1997,12 @@ const SPEC = {
         "{{DOTS}}",
         "",
         "[C10 - 18 tribal record] Was the case handled in a tribal court, or does a tribal record exist for the same events?",
-        "(Asked because Oklahoma orders do not reach tribal records and the review records tribal records as a live post-McGirt issue requiring explicit escalation.)",
+        "(Asked because Oklahoma orders do not reach tribal records, and tribal records are a live issue after McGirt that needs help beyond this packet.)",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
         "[C11 - 18 free route checked] Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything?",
-        "(Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition and the review's central warning is that a paid petition must not be generated for someone entitled to a free route.)",
+        "(Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition, and no one entitled to that free route should pay for a petition.)",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
@@ -2130,14 +2130,14 @@ const SPEC = {
           "kind": "rbf",
           "id": "fact_18_TribalRecord",
           "label": "Item C10 - 18 tribal record",
-          "supply": "Was the case handled in a tribal court, or does a tribal record exist for the same events? (Asked because Oklahoma orders do not reach tribal records and the review records tribal records as a live post-McGirt issue requiring explicit escalation.)",
+          "supply": "Was the case handled in a tribal court, or does a tribal record exist for the same events? (Asked because Oklahoma orders do not reach tribal records, and tribal records are a live issue after McGirt that needs help beyond this packet.)",
           "why": "the committed track registry records this as a required generation input for ok_18_19_misdemeanor_conviction, and the platform holds no value for it"
         },
         {
           "kind": "rbf",
           "id": "fact_18_FreeRouteChecked",
           "label": "Item C11 - 18 free route checked",
-          "supply": "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything? (Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition and the review's central warning is that a paid petition must not be generated for someone entitled to a free route.)",
+          "supply": "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything? (Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition, and no one entitled to that free route should pay for a petition.)",
           "why": "the committed track registry records this as a required generation input for ok_18_19_misdemeanor_conviction, and the platform holds no value for it"
         },
         {
@@ -2429,7 +2429,7 @@ const SPEC = {
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
         "",
-        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read.",
         "",
         "THE QUESTION THIS PAGE EXISTS TO ASK",
         "",
@@ -2438,7 +2438,7 @@ const SPEC = {
         "",
         "WHAT LEGALEASE CANNOT TELL YOU HERE",
         "",
-        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "This packet does NOT decide whether the free route reaches you. LegalEase has not resolved what the amended Senate Bill 2030 (2026) text says, so that question is still open. So this page asks it rather than answering it.",
         "",
         "WHAT TO DO",
         "",
@@ -2531,12 +2531,12 @@ const SPEC = {
         "{{DOTS}}",
         "",
         "[C10 - 18 tribal record] Was the case handled in a tribal court, or does a tribal record exist for the same events?",
-        "(Asked because Oklahoma orders do not reach tribal records and the review records tribal records as a live post-McGirt issue requiring explicit escalation.)",
+        "(Asked because Oklahoma orders do not reach tribal records, and tribal records are a live issue after McGirt that needs help beyond this packet.)",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
         "[C11 - 18 free route checked] Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything?",
-        "(Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition and the review's central warning is that a paid petition must not be generated for someone entitled to a free route.)",
+        "(Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition, and no one entitled to that free route should pay for a petition.)",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
@@ -2546,7 +2546,7 @@ const SPEC = {
         "{{DOTS}}",
         "",
         "[C13 - ncv no refile] Has the prosecutor confirmed the case will not be refiled?",
-        "(Asked because prosecutor no-refile confirmation is a self-help boundary the review identifies, and several non-conviction categories turn on it.)",
+        "(Asked because prosecutor no-refile confirmation is a point where self-help ends, and several non-conviction categories turn on it.)",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
@@ -2665,14 +2665,14 @@ const SPEC = {
           "kind": "rbf",
           "id": "fact_18_TribalRecord",
           "label": "Item C10 - 18 tribal record",
-          "supply": "Was the case handled in a tribal court, or does a tribal record exist for the same events? (Asked because Oklahoma orders do not reach tribal records and the review records tribal records as a live post-McGirt issue requiring explicit escalation.)",
+          "supply": "Was the case handled in a tribal court, or does a tribal record exist for the same events? (Asked because Oklahoma orders do not reach tribal records, and tribal records are a live issue after McGirt that needs help beyond this packet.)",
           "why": "the committed track registry records this as a required generation input for ok_18_19_nonconviction, and the platform holds no value for it"
         },
         {
           "kind": "rbf",
           "id": "fact_18_FreeRouteChecked",
           "label": "Item C11 - 18 free route checked",
-          "supply": "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything? (Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition and the review's central warning is that a paid petition must not be generated for someone entitled to a free route.)",
+          "supply": "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything? (Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition, and no one entitled to that free route should pay for a petition.)",
           "why": "the committed track registry records this as a required generation input for ok_18_19_nonconviction, and the platform holds no value for it"
         },
         {
@@ -2686,7 +2686,7 @@ const SPEC = {
           "kind": "rbf",
           "id": "fact_ncvNoRefile",
           "label": "Item C13 - ncv no refile",
-          "supply": "Has the prosecutor confirmed the case will not be refiled? (Asked because prosecutor no-refile confirmation is a self-help boundary the review identifies, and several non-conviction categories turn on it.)",
+          "supply": "Has the prosecutor confirmed the case will not be refiled? (Asked because prosecutor no-refile confirmation is a point where self-help ends, and several non-conviction categories turn on it.)",
           "why": "the committed track registry records this as a required generation input for ok_18_19_nonconviction, and the platform holds no value for it"
         },
         {
@@ -2964,7 +2964,7 @@ const SPEC = {
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
         "",
-        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read.",
         "",
         "THE QUESTION THIS PAGE EXISTS TO ASK",
         "",
@@ -2973,7 +2973,7 @@ const SPEC = {
         "",
         "WHAT LEGALEASE CANNOT TELL YOU HERE",
         "",
-        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "This packet does NOT decide whether the free route reaches you. LegalEase has not resolved what the amended Senate Bill 2030 (2026) text says, so that question is still open. So this page asks it rather than answering it.",
         "",
         "WHAT TO DO",
         "",
@@ -3066,12 +3066,12 @@ const SPEC = {
         "{{DOTS}}",
         "",
         "[C10 - 18 tribal record] Was the case handled in a tribal court, or does a tribal record exist for the same events?",
-        "(Asked because Oklahoma orders do not reach tribal records and the review records tribal records as a live post-McGirt issue requiring explicit escalation.)",
+        "(Asked because Oklahoma orders do not reach tribal records, and tribal records are a live issue after McGirt that needs help beyond this packet.)",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
         "[C11 - 18 free route checked] Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything?",
-        "(Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition and the review's central warning is that a paid petition must not be generated for someone entitled to a free route.)",
+        "(Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition, and no one entitled to that free route should pay for a petition.)",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
@@ -3199,14 +3199,14 @@ const SPEC = {
           "kind": "rbf",
           "id": "fact_18_TribalRecord",
           "label": "Item C10 - 18 tribal record",
-          "supply": "Was the case handled in a tribal court, or does a tribal record exist for the same events? (Asked because Oklahoma orders do not reach tribal records and the review records tribal records as a live post-McGirt issue requiring explicit escalation.)",
+          "supply": "Was the case handled in a tribal court, or does a tribal record exist for the same events? (Asked because Oklahoma orders do not reach tribal records, and tribal records are a live issue after McGirt that needs help beyond this packet.)",
           "why": "the committed track registry records this as a required generation input for ok_18_19_pardon, and the platform holds no value for it"
         },
         {
           "kind": "rbf",
           "id": "fact_18_FreeRouteChecked",
           "label": "Item C11 - 18 free route checked",
-          "supply": "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything? (Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition and the review's central warning is that a paid petition must not be generated for someone entitled to a free route.)",
+          "supply": "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything? (Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition, and no one entitled to that free route should pay for a petition.)",
           "why": "the committed track registry records this as a required generation input for ok_18_19_pardon, and the platform holds no value for it"
         },
         {
@@ -3812,7 +3812,7 @@ const SPEC = {
         "",
         "WHAT THE COMMITTED RECORD SAYS, IN ITS OWN WORDS",
         "",
-        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+        "The registry records, as a point where self-help ends: Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read.",
         "",
         "THE QUESTION THIS PAGE EXISTS TO ASK",
         "",
@@ -3821,7 +3821,7 @@ const SPEC = {
         "",
         "WHAT LEGALEASE CANNOT TELL YOU HERE",
         "",
-        "This packet does NOT decide whether the free route reaches you. No committed record in this repository resolves the amended Senate Bill 2030 (2026) text, and the registry records that question as open. So this page asks it rather than answering it.",
+        "This packet does NOT decide whether the free route reaches you. LegalEase has not resolved what the amended Senate Bill 2030 (2026) text says, so that question is still open. So this page asks it rather than answering it.",
         "",
         "WHAT TO DO",
         "",
@@ -3914,12 +3914,12 @@ const SPEC = {
         "{{DOTS}}",
         "",
         "[C10 - vpo tribal record] Was the case handled in a tribal court, or does a tribal record exist for the same events?",
-        "(Asked because Oklahoma orders do not reach tribal records and the review records tribal records as a live post-McGirt issue requiring explicit escalation.)",
+        "(Asked because Oklahoma orders do not reach tribal records, and tribal records are a live issue after McGirt that needs help beyond this packet.)",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
         "[C11 - vpo free route checked] Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything?",
-        "(Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition and the review's central warning is that a paid petition must not be generated for someone entitled to a free route.)",
+        "(Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition, and no one entitled to that free route should pay for a petition.)",
         "{{DOTS}}",
         "{{DOTS}}",
         "",
@@ -4047,14 +4047,14 @@ const SPEC = {
           "kind": "rbf",
           "id": "fact_vpoTribalRecord",
           "label": "Item C10 - vpo tribal record",
-          "supply": "Was the case handled in a tribal court, or does a tribal record exist for the same events? (Asked because Oklahoma orders do not reach tribal records and the review records tribal records as a live post-McGirt issue requiring explicit escalation.)",
+          "supply": "Was the case handled in a tribal court, or does a tribal record exist for the same events? (Asked because Oklahoma orders do not reach tribal records, and tribal records are a live issue after McGirt that needs help beyond this packet.)",
           "why": "the committed track registry records this as a required generation input for ok_vpo_60_18, and the platform holds no value for it"
         },
         {
           "kind": "rbf",
           "id": "fact_vpoFreeRouteChecked",
           "label": "Item C11 - vpo free route checked",
-          "supply": "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything? (Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition and the review's central warning is that a paid petition must not be generated for someone entitled to a free route.)",
+          "supply": "Would you like us to check first whether your record is one that Oklahoma now seals without a petition, before you pay anything? (Asked first and deliberately, because SB 2030 provides for sealing of certain records without petition, and no one entitled to that free route should pay for a petition.)",
           "why": "the committed track registry records this as a required generation input for ok_vpo_60_18, and the platform holds no value for it"
         },
         {
@@ -4462,7 +4462,7 @@ const SPEC = {
     ],
     [
       "SELF_HELP_STOP — Clear an Oklahoma record that is not yours",
-      "**Stop and get help if:** Any dispute about whether the participant is the subject of the record. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
+      "**Stop and get help if:** Any dispute about whether the participant is the subject of the record. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
     ],
     [
       "FILING_DESTINATION — Clear an Oklahoma case after a deferred sentence was dismissed",
@@ -4478,7 +4478,7 @@ const SPEC = {
     ],
     [
       "SELF_HELP_STOP — Clear an Oklahoma case after a deferred sentence was dismissed",
-      "**Stop and get help if:** Any case where only a section 991c order has been obtained, which leaves the arrest record in place. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
+      "**Stop and get help if:** Any case where only a section 991c order has been obtained, which leaves the arrest record in place. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
     ],
     [
       "FILING_DESTINATION — Clear an Oklahoma felony conviction",
@@ -4494,7 +4494,7 @@ const SPEC = {
     ],
     [
       "SELF_HELP_STOP — Clear an Oklahoma felony conviction",
-      "**Stop and get help if:** Any felony category or waiting-period question, until the categories as amended by SB 2030 are read. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
+      "**Stop and get help if:** Any felony category or waiting-period question, until the categories as amended by SB 2030 are read. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
     ],
     [
       "FILING_DESTINATION — Clear an Oklahoma misdemeanor conviction",
@@ -4510,7 +4510,7 @@ const SPEC = {
     ],
     [
       "SELF_HELP_STOP — Clear an Oklahoma misdemeanor conviction",
-      "**Stop and get help if:** Any waiting-period calculation, until the categories as amended by SB 2030 are read. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
+      "**Stop and get help if:** Any waiting-period calculation, until the categories as amended by SB 2030 are read. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
     ],
     [
       "FILING_DESTINATION — Clear an Oklahoma arrest that did not end in a conviction",
@@ -4526,7 +4526,7 @@ const SPEC = {
     ],
     [
       "SELF_HELP_STOP — Clear an Oklahoma arrest that did not end in a conviction",
-      "**Stop and get help if:** Prosecutor no-refile confirmation, which the review records as a self-help boundary. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
+      "**Stop and get help if:** Prosecutor no-refile confirmation, which the review records as a self-help boundary. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
     ],
     [
       "FILING_DESTINATION — Clear an Oklahoma record after a pardon",
@@ -4542,7 +4542,7 @@ const SPEC = {
     ],
     [
       "SELF_HELP_STOP — Clear an Oklahoma record after a pardon",
-      "**Stop and get help if:** Applying for the pardon itself, which is a Pardon and Parole Board matter and out of scope. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
+      "**Stop and get help if:** Applying for the pardon itself, which is a Pardon and Parole Board matter and out of scope. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
     ],
     [
       "FILING_DESTINATION — Update an Oklahoma deferred sentence so the case shows as dismissed",
@@ -4574,7 +4574,7 @@ const SPEC = {
     ],
     [
       "SELF_HELP_STOP — Clear an Oklahoma protective order record",
-      "**Stop and get help if:** Every protective order matter, until section 60.18 is read and its conditions established. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
+      "**Stop and get help if:** Every protective order matter, until section 60.18 is read and its conditions established. **Stop and get help if:** Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. **Stop and get help if:** Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable. **Stop and get help if:** Prosecutor objection, and any contested hearing. **Stop and get help if:** Records in more than one county, which need separate petitions. **Stop and get help if:** Federal, tribal, military and out-of-state records. Tribal records are a live Oklahoma issue post-McGirt and are an explicit escalation. **Stop and get help if:** Immigration exposure. **Stop and get help if:** Tribal records are not reachable and are a live Oklahoma issue"
     ]
   ],
   "instructionsIntro": [
@@ -4599,7 +4599,7 @@ const SPEC = {
       ],
       [
         "Clear an Oklahoma felony conviction",
-        "The section 18 categories provide petition routes for felony convictions, including a reclassified-felony route with a short window that the review directs be screened before the longer routes, and a one-felony route carrying a separate-misdemeanour look-back.",
+        "The section 18 categories provide petition routes for felony convictions, including a reclassified-felony route with a short window, and a one-felony route carrying a separate-misdemeanour look-back.",
         "**3 declared routes**, all served by this one set: `felony-reclassified-as-a-misdemeanor`; `not-more-than-two-eligible-felony-convictions-expungement`; `one-eligible-nonviolent-felony-conviction-expungement`"
       ],
       [
@@ -4728,7 +4728,7 @@ const SPEC = {
   "notTold": [],
   "stopConditions": [
     "Any dispute about whether the participant is the subject of the record.",
-    "Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read. Recommending a paid petition to someone entitled to a free route is the specific harm the review warns against.",
+    "Any participant who may be reached by the SB 2030 sealing-without-petition route, until the amended text is read.",
     "Any category question, which is screened by description rather than by paragraph number because three consecutive years of amendments have made the numbering unstable.",
     "Prosecutor objection, and any contested hearing.",
     "Records in more than one county, which need separate petitions.",
