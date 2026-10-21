@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `9804e63eb0d252452035869cc79363a9f65880ee`
+**Minimum required ancestor:** `448c14848b54ce71df46c8b2fdb694e9d66e185f`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -383,21 +383,21 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 ### md_10105_favorable-set
 
 - **15 documents**, and the receipt must cover every one of them:
-  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/canonical.pdf` — `cb6f32a4b6c0aa99994b18327cf5fe6a89535d5d7cdd05fc9ca314e7bdc05898` · 4 page(s)
-  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/acquittal.pdf` — `fca296c7297530b8d3bde120f3e965410ba9cb6045215f6979c4e162b774eb40` · 4 page(s)
-  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/adult-transfer-circuit.pdf` — `5bc7a244cbc19957a152b639e366c5961c025194ff7ded0f964264490b998f14` · 4 page(s)
-  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/citation.pdf` — `f3e2ad1634369e83bd714bf004400e11f910f31f726f57d08746bd7149c96a70` · 4 page(s)
-  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/compromise.pdf` — `58d1111748ca7e3c62ef33b54febce4c8c49a86e92e1c70596ed957d70644cca` · 4 page(s)
-  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/juvenile-transfer.pdf` — `eed2be21de076026c29212824c9173e753c5294ae0ae16aed6d6b06badef8d68` · 4 page(s)
-  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/ncr.pdf` — `ce8aea22e7a1505c37b50e3a7e8cbc80038384cc5c0d0405ae8f0c3a6cfd4413` · 4 page(s)
-  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/nolle-treatment.pdf` — `745543b6348e6b2df0a712fccff59d9bbfce1a97829e8cb8eec4687387adbe60` · 4 page(s)
-  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/nolle.pdf` — `cd082c405ecde846924ee2e0c7b32681ec8b7290f8183ba3774121f67a829cf0` · 4 page(s)
-  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/pbj-dui.pdf` — `a29473417fc2f9fbf1b84622d173789aa40ee12349bc0df4a39132a153c1ac52` · 4 page(s)
-  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/pbj-no-longer-crime.pdf` — `b79357d62d511419e21c70b228f79fdc2f54c74c24149f0ccfa13baa4b440871` · 4 page(s)
-  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/pbj.pdf` — `ad37acc8bcfc007a3b3b336954f4e9f0e79fb5061a73fd9a9a377d9b46535af5` · 4 page(s)
-  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/stet-treatment.pdf` — `550c1ca2eb10276f7625b950ff1f0c2e689ee7e54688095a2cb45253dde6e3c5` · 4 page(s)
-  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/stet.pdf` — `0ea133a56f91c1f0ee8fb2ab8a76898cbc9c7eb82250541b1ea179da68355995` · 4 page(s)
-  - boundary `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/boundary.pdf` — `9b8d9a0c3629be81016febdaf4d7f5a5370633166f90b182392006f9bee55f03` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/canonical.pdf` — `94ca31b13a28e5b464521cc2c506084b8902a20cb4d10d2da608bb30c5f9051f` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/acquittal.pdf` — `96371ea77f1f7742ba4916a188f7c4b4bf7c5ef5dd0b3440d0202da1ce3bc2c7` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/adult-transfer-circuit.pdf` — `9ea528ba97a18758b835b489a53b12db3b796e54071447c294bacce7323bf98b` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/citation.pdf` — `76f2d437e202d3a586c757dda440fa556e30371ace97d58c7d61fc9fae6683b7` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/compromise.pdf` — `685f7af63e68e2de5f095d716739c577d9040e1154f12f8600ea3947196866f5` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/juvenile-transfer.pdf` — `15b0c15720ec3dd29f5e81d7639dab74dac3529b80a10ca2d3609dcc1a2fcc9f` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/ncr.pdf` — `addae721aa1f377d13304bb17d0cbedb968802be5670e183964ffcc28a0d7947` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/nolle-treatment.pdf` — `11cfc1d3b50dd0516991bdcdc8ca493826dae525e01cf094bfd622af680b992c` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/nolle.pdf` — `1f972e9fa8679eae4ad20be9ada418009545879a4ff67e81db7a6355621d5059` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/pbj-dui.pdf` — `f964a4568a884588482c6d24b22a2cfd86da68b5136a3f288040c668992d9edb` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/pbj-no-longer-crime.pdf` — `8afbc6bd5d3ed29ba58ec61d9a830a581e8fd7f06228274ff1bf70fade29086d` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/pbj.pdf` — `6654225d18dd2cb6a7f397988f7d7016b4d7aa68d0d6e54bc5490fed5f767831` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/stet-treatment.pdf` — `ef6c385d33523a592566dd56be72cddd4bea5033a29f3d44e0db86c6b656e017` · 4 page(s)
+  - canonical `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/stet.pdf` — `d8b0d5202b537a8642fd33f656b793a5c1170bfe0860b71b0fc6f5c62403d7dc` · 4 page(s)
+  - boundary `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/boundary.pdf` — `84cbca292d5269c97c11fd20a376323efc7787908b61e471cbcacb9311e39360` · 4 page(s)
 - the row pins `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/canonical.pdf` and `data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/boundary.pdf` as its primary pair; that is which document the row is keyed by, not the extent of what is rendered
 - expected pages 60 across all documents · requested scale 2.5
 - built by (no builder lane recorded)
