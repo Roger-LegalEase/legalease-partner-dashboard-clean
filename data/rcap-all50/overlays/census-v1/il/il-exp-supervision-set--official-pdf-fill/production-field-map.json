@@ -63,7 +63,8 @@
       "effectiveLabel": "Page 1 - Request to Expunge Records",
       "factId": "route.selection",
       "isSelectionControl": true,
-      "routeDetermined": true
+      "routeDetermined": true,
+      "routeReason": "item 1: this route asks the court to expunge"
     },
     {
       "fieldId": "EXP-AD Request:Arrest or Case Number - 1",
@@ -105,7 +106,19 @@
       "effectiveLabel": "9 - For at least one case, I received a sentence of supervision",
       "factId": "route.selection",
       "isSelectionControl": true,
-      "routeDetermined": true
+      "routeDetermined": true,
+      "routeReason": "item 9: the supervision expungement ground this route is built for"
+    },
+    {
+      "fieldId": "EXP-AD Request:12 - Seal Records",
+      "fieldName": "12 - Seal Records",
+      "documentId": "EXP-AD Request",
+      "page": 4,
+      "effectiveLabel": "12 - Seal Records",
+      "factId": "route.selection",
+      "isSelectionControl": true,
+      "routeDetermined": true,
+      "routeReason": "item 12: this route carries no sealing authority, and Request page 4 says a filer requesting only expungement checks the No box"
     },
     {
       "fieldId": "EXP-AD Request:Outcome - For example RV S or P - 1",
@@ -113,47 +126,10 @@
       "documentId": "EXP-AD Request",
       "page": 2,
       "effectiveLabel": "Outcome - For example RV S or P - 1",
-      "factId": "matter.outcome"
-    },
-    {
-      "fieldId": "EXP-AD Request:4 - Arresting Agency - 1",
-      "fieldName": "4 - Arresting Agency - 1",
-      "documentId": "EXP-AD Request",
-      "page": 4,
-      "effectiveLabel": "4 - Arresting Agency - 1",
-      "factId": "matter.arresting_agency"
-    },
-    {
-      "fieldId": "EXP-AD Request:4 - Date of Arrest - 1",
-      "fieldName": "4 - Date of Arrest - 1",
-      "documentId": "EXP-AD Request",
-      "page": 4,
-      "effectiveLabel": "4 - Date of Arrest - 1",
-      "factId": "matter.arrest_date"
-    },
-    {
-      "fieldId": "EXP-AD Request:4 - Outcome - 1",
-      "fieldName": "4 - Outcome - 1",
-      "documentId": "EXP-AD Request",
-      "page": 4,
-      "effectiveLabel": "4 - Outcome - 1",
-      "factId": "matter.outcome"
-    },
-    {
-      "fieldId": "EXP-AD Request:4 - Arrest or Case Number - 1",
-      "fieldName": "4 - Arrest or Case Number - 1",
-      "documentId": "EXP-AD Request",
-      "page": 4,
-      "effectiveLabel": "4 - Arrest or Case Number - 1",
-      "factId": "matter.case_number"
-    },
-    {
-      "fieldId": "EXP-AD Request:4 - List all charges for each case number - 1",
-      "fieldName": "4 - List all charges for each case number - 1",
-      "documentId": "EXP-AD Request",
-      "page": 4,
-      "effectiveLabel": "4 - List all charges for each case number - 1",
-      "factId": "matter.charge"
+      "factId": "matter.outcome",
+      "outcomeDerivedFrom": "route",
+      "outcomeMeaning": "Supervision Successfully Completed",
+      "printedLegend": "Outcome Abbreviations for Expungement, EXP-AD Request page 2"
     },
     {
       "fieldId": "EXP-AD Request:P6 - Print Name2",
@@ -1014,17 +990,6 @@
       "routeDetermined": false
     },
     {
-      "fieldId": "EXP-AD Request:12 - Seal Records",
-      "fieldName": "12 - Seal Records",
-      "documentId": "EXP-AD Request",
-      "page": 4,
-      "effectiveLabel": "Participant choice: 12 - Seal Records",
-      "reason": "A participant election or financial fact not determined by this packet route",
-      "refusalClass": "participant_sworn_narrative_or_legal_election",
-      "isSelectionControl": true,
-      "routeDetermined": false
-    },
-    {
       "fieldId": "EXP-AD Request:Arrest or Case Number - 2",
       "fieldName": "Arrest or Case Number - 2",
       "documentId": "EXP-AD Request",
@@ -1042,6 +1007,18 @@
       "documentId": "EXP-AD Request",
       "page": 4,
       "effectiveLabel": "Unused additional-record slot: 4 - Arrest or Case Number - 2",
+      "reason": "Optional participant-authored additional-record slot; the platform does not invent it. This fixture carries one complete record, so the unused row remains wholly blank.",
+      "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant"
+    },
+    {
+      "fieldId": "EXP-AD Request:4 - Arresting Agency - 1",
+      "fieldName": "4 - Arresting Agency - 1",
+      "documentId": "EXP-AD Request",
+      "page": 4,
+      "effectiveLabel": "Unused additional-record slot: 4 - Arresting Agency - 1",
       "reason": "Optional participant-authored additional-record slot; the platform does not invent it. This fixture carries one complete record, so the unused row remains wholly blank.",
       "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
       "factAvailable": false,
@@ -1073,6 +1050,18 @@
       "role": "participant"
     },
     {
+      "fieldId": "EXP-AD Request:4 - Date of Arrest - 1",
+      "fieldName": "4 - Date of Arrest - 1",
+      "documentId": "EXP-AD Request",
+      "page": 4,
+      "effectiveLabel": "Unused additional-record slot: 4 - Date of Arrest - 1",
+      "reason": "Optional participant-authored additional-record slot; the platform does not invent it. This fixture carries one complete record, so the unused row remains wholly blank.",
+      "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant"
+    },
+    {
       "fieldId": "EXP-AD Request:4 - Date of Arrest - 2",
       "fieldName": "4 - Date of Arrest - 2",
       "documentId": "EXP-AD Request",
@@ -1085,11 +1074,35 @@
       "role": "participant"
     },
     {
+      "fieldId": "EXP-AD Request:4 - Outcome - 1",
+      "fieldName": "4 - Outcome - 1",
+      "documentId": "EXP-AD Request",
+      "page": 4,
+      "effectiveLabel": "Unused additional-record slot: 4 - Outcome - 1",
+      "reason": "Optional participant-authored additional-record slot; the platform does not invent it. This fixture carries one complete record, so the unused row remains wholly blank.",
+      "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant"
+    },
+    {
       "fieldId": "EXP-AD Request:4 - Outcome - 2",
       "fieldName": "4 - Outcome - 2",
       "documentId": "EXP-AD Request",
       "page": 4,
       "effectiveLabel": "Unused additional-record slot: 4 - Outcome - 2",
+      "reason": "Optional participant-authored additional-record slot; the platform does not invent it. This fixture carries one complete record, so the unused row remains wholly blank.",
+      "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant"
+    },
+    {
+      "fieldId": "EXP-AD Request:4 - Arrest or Case Number - 1",
+      "fieldName": "4 - Arrest or Case Number - 1",
+      "documentId": "EXP-AD Request",
+      "page": 4,
+      "effectiveLabel": "Unused additional-record slot: 4 - Arrest or Case Number - 1",
       "reason": "Optional participant-authored additional-record slot; the platform does not invent it. This fixture carries one complete record, so the unused row remains wholly blank.",
       "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
       "factAvailable": false,
@@ -1114,6 +1127,18 @@
       "documentId": "EXP-AD Request",
       "page": 4,
       "effectiveLabel": "Unused additional-record slot: 4 - Arresting Agency - 3",
+      "reason": "Optional participant-authored additional-record slot; the platform does not invent it. This fixture carries one complete record, so the unused row remains wholly blank.",
+      "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+      "factAvailable": false,
+      "routeDetermined": false,
+      "role": "participant"
+    },
+    {
+      "fieldId": "EXP-AD Request:4 - List all charges for each case number - 1",
+      "fieldName": "4 - List all charges for each case number - 1",
+      "documentId": "EXP-AD Request",
+      "page": 4,
+      "effectiveLabel": "Unused additional-record slot: 4 - List all charges for each case number - 1",
       "reason": "Optional participant-authored additional-record slot; the platform does not invent it. This fixture carries one complete record, so the unused row remains wholly blank.",
       "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
       "factAvailable": false,
