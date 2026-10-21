@@ -717,6 +717,32 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "path-k-human-trafficking-vacatur-expungement", // GA17 Q-afd2b456ce01f7e7429e
     ],
   },
+  LA: {
+    profileHash: "a0bf1a76b91c555e5b0cca05b96d6b9a34721db466c7beffdc20fbd86f1e36e6",
+    categoryReason: "Earlier Louisiana categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "felony-article-893-e-set-aside-followed-by-expungement", // GA12 Q-b30729ed956e8d23062e
+      "felony-ten-year-clean-period-expungement", // GA12 Q-b233741a48310919da10
+      "first-offender-pardon-felony-expungement", // GA12 Q-a2228520d97dcc903ff3
+      "first-offense-marijuana-expungement-after-90-days-art-998", // GA12 Q-028a5d4a6e578c29a060
+      "human-trafficking-survivor-expungement-fee-exempt-route", // GA12 Q-1f0e7d0488d670e692cd
+      "immediate-expungement-after-successful-court-program-completion-art-985-3", // GA12 Q-22065414a244c656a67f
+      "interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction", // GA12 Q-7500ec895a5603e69c15
+      "misdemeanor-article-894-b-set-aside-followed-by-expungement", // GA12 Q-c2f2a4248850b31ea8ca
+      "misdemeanor-five-year-clean-period-expungement", // GA12 Q-8063c22833109ea3d94e
+    ],
+    record: [
+      "felony-article-893-e-set-aside-followed-by-expungement", // GA17 Q-4d1424ca5f2137df7aa0
+      "felony-ten-year-clean-period-expungement", // GA17 Q-5f8172fac27c22dd9f75
+      "first-offender-pardon-felony-expungement", // GA17 Q-abcb2d7a03cf6b8b18a2
+      "first-offense-marijuana-expungement-after-90-days-art-998", // GA17 Q-94f70a6bc5afb8db8b2e
+      "human-trafficking-survivor-expungement-fee-exempt-route", // GA17 Q-ffc39f9d7d89d27baba6
+      "immediate-expungement-after-successful-court-program-completion-art-985-3", // GA17 Q-836fc9f1ee674d99ab75
+      "interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction", // GA17 Q-695fc1058b1ca3cd5828
+      "misdemeanor-article-894-b-set-aside-followed-by-expungement", // GA17 Q-ee9e78ee9b492f5731fa
+      "misdemeanor-five-year-clean-period-expungement", // GA17 Q-c3d27d726a5efb8a9e60
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
