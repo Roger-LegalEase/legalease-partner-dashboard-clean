@@ -1350,6 +1350,18 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     record: [
     ],
   },
+  VA: {
+    profileHash: "8b9e5e8eb7100788dae197f75a552d4e831918fc11d5fa74218652c1f8a7ca1c",
+    categoryReason: "Earlier Virginia categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "automatic-sealing-no-filing", // GA12 Q-b420d66eab568ef36c73
+      "petition-based-sealing", // GA12 Q-3ce00ceb17e74f3c6601
+    ],
+    record: [
+      "automatic-sealing-no-filing", // GA17 Q-7070ec841b5d0fe78fc1
+      "petition-based-sealing", // GA17 Q-431fbd2fdc6dffa45504
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
