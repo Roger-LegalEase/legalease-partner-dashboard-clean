@@ -1,43 +1,44 @@
 {
   "schemaVersion": "rcap-official-form-field-census/v1-census-v1",
   "familyId": "co_motion_seal_conviction-set",
-  "captionBasis": "These two forms interleave their glyph runs, so text extracted from the content stream comes back scrambled (\"Case NumEer\", \"Motion to -CSoeanvil ctNoinon Records\"). A printed-caption check cannot be run on them, and a match loose enough to accept the scrambled text would pass on anything. Captions here are the AcroForm field names Colorado authored, which are meaningful and section-keyed, plus the printed section heading. The scrambled extraction at each widget's own coordinate is recorded beside it as evidence, for the reviewer who reads the paper.",
+  "captionBasis": "Recorded per document. JDF 612 and JDF 615 at R: July 1, 2025 read back cleanly, so the printed line at each widget's coordinate is genuine caption evidence beside the AcroForm field name Colorado authored. A document whose stream is scrambled keeps the field name plus the printed section heading, with the scrambled extraction recorded beside each field for the reviewer who reads the paper.",
   "documents": [
     {
       "documentId": "JDF-612",
       "formNumber": "JDF-612",
-      "sourceSha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
+      "sourceSha256": "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b",
+      "textReadsCleanly": true,
       "pageCount": 5,
-      "fieldCount": 63,
-      "corpusIndexDeclaresFieldCount": 63,
+      "fieldCount": 64,
+      "corpusIndexDeclaresFieldCount": 64,
       "fields": [
         {
-          "field": "Group_CourtType",
+          "field": "Court",
           "page": 1,
           "rect": {
-            "x": 89.67,
-            "y": 645.22,
-            "width": 12.24,
+            "x": 207.6,
+            "y": 644.2,
+            "width": 148.8,
             "height": 12.24
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "radiogroup",
+          "pdfType": "dropdown",
           "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": true,
           "multiline": false,
           "maxLength": null,
           "section": "Section A — Court",
-          "effectiveLabel": "District Court or County Court (selection)",
+          "effectiveLabel": "County Court or District Court (selection)",
           "policy": "election",
           "factId": null,
           "printedTextAtCoordinate": [
             {
               "y": 648,
-              "extracted": "District County"
+              "extracted": "Type: (ex: County or District)"
             },
             {
-              "y": 629,
-              "extracted": "Colorado County :"
+              "y": 632,
+              "extracted": "Colorado County:"
             }
           ]
         },
@@ -45,10 +46,10 @@
           "field": "County",
           "page": 1,
           "rect": {
-            "x": 163.7,
-            "y": 627.73,
-            "width": 186.82,
-            "height": 10.8
+            "x": 162.98,
+            "y": 629.06,
+            "width": 193.64,
+            "height": 12.24
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -62,12 +63,12 @@
           "factId": "matter.county",
           "printedTextAtCoordinate": [
             {
-              "y": 629,
-              "extracted": "Colorado County :"
+              "y": 632,
+              "extracted": "Colorado County:"
             },
             {
-              "y": 616,
-              "extracted": "Court $d dress\u001d"
+              "y": 613,
+              "extracted": "Court Address:"
             }
           ]
         },
@@ -75,16 +76,16 @@
           "field": "Court Address",
           "page": 1,
           "rect": {
-            "x": 153.44,
-            "y": 614.81,
-            "width": 197.07,
-            "height": 10.8
+            "x": 158.29,
+            "y": 597.81,
+            "width": 198.11,
+            "height": 29.52
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
           "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
-          "multiline": false,
+          "multiline": true,
           "maxLength": null,
           "section": "Section A — Court",
           "effectiveLabel": "Court Address",
@@ -92,12 +93,12 @@
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 616,
-              "extracted": "Court $d dress\u001d"
+              "y": 584,
+              "extracted": "This box is for court use only."
             },
             {
-              "y": 605,
-              "extracted": "This box is for court use only."
+              "y": 613,
+              "extracted": "Court Address:"
             }
           ]
         },
@@ -105,10 +106,10 @@
           "field": "Case Number",
           "page": 1,
           "rect": {
-            "x": 420.17,
-            "y": 564.14,
-            "width": 110.73,
-            "height": 10.8
+            "x": 418.64,
+            "y": 541.84,
+            "width": 121.36,
+            "height": 12.24
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -122,23 +123,23 @@
           "factId": "matter.case_number",
           "printedTextAtCoordinate": [
             {
-              "y": 566,
-              "extracted": "1umber\u001d"
+              "y": 544,
+              "extracted": "vs. Number:"
             },
             {
-              "y": 561,
-              "extracted": "v."
+              "y": 529,
+              "extracted": "Division/Courtroom:"
             }
           ]
         },
         {
-          "field": "Division",
+          "field": "D/C",
           "page": 1,
           "rect": {
-            "x": 420.06,
-            "y": 549.47,
-            "width": 110.73,
-            "height": 10.8
+            "x": 463.69,
+            "y": 526.46,
+            "width": 76.31,
+            "height": 12.24
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -147,47 +148,17 @@
           "multiline": false,
           "maxLength": null,
           "section": "Section C — Case Details",
-          "effectiveLabel": "Division",
+          "effectiveLabel": "Division/Courtroom",
           "policy": "protect",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 550,
-              "extracted": "Division\u001d"
+              "y": 525,
+              "extracted": "Defendant:"
             },
             {
-              "y": 542,
-              "extracted": "Defend\u001d ant"
-            }
-          ]
-        },
-        {
-          "field": "Courtroom",
-          "page": 1,
-          "rect": {
-            "x": 430.86,
-            "y": 533.87,
-            "width": 99.87,
-            "height": 10.8
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": false,
-          "isSelectionControl": false,
-          "multiline": false,
-          "maxLength": null,
-          "section": "Section C — Case Details",
-          "effectiveLabel": "Courtroom",
-          "policy": "protect",
-          "factId": null,
-          "printedTextAtCoordinate": [
-            {
-              "y": 535,
-              "extracted": "Courtroom\u001d"
-            },
-            {
-              "y": 542,
-              "extracted": "Defend\u001d ant"
+              "y": 529,
+              "extracted": "Division/Courtroom:"
             }
           ]
         },
@@ -195,10 +166,10 @@
           "field": "∆ DoB",
           "page": 1,
           "rect": {
-            "x": 169.66,
-            "y": 421.64,
-            "width": 154.47,
-            "height": 12.24
+            "x": 167.83,
+            "y": 409.87,
+            "width": 168.86,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -206,29 +177,29 @@
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Section D — My Information",
-          "effectiveLabel": "Birth Date",
+          "section": "Section 2 — My Information",
+          "effectiveLabel": "Date of Birth",
           "policy": "write",
           "factId": "participant.date_of_birth",
           "printedTextAtCoordinate": [
             {
-              "y": 423,
-              "extracted": "Date o f Birth:"
+              "y": 414,
+              "extracted": "Date of Birth:"
             },
             {
-              "y": 405,
-              "extracted": "Mailing $(with citddress\u001d y/stat e/zip)"
+              "y": 397,
+              "extracted": "Mailing Address:"
             }
           ]
         },
         {
-          "field": "Address",
+          "field": "∆ Street Address",
           "page": 1,
           "rect": {
-            "x": 261.51,
-            "y": 403.74,
-            "width": 278.43,
-            "height": 12.24
+            "x": 184.59,
+            "y": 392.73,
+            "width": 366.53,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -236,29 +207,29 @@
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Section D — My Information",
-          "effectiveLabel": "Current Mailing Address (with city/state/zip)",
+          "section": "Section 2 — My Information",
+          "effectiveLabel": "Mailing Address",
           "policy": "write",
-          "factId": "participant.full_mailing_address",
+          "factId": "participant.street_address",
           "printedTextAtCoordinate": [
             {
-              "y": 405,
-              "extracted": "Mailing $(with citddress\u001d y/stat e/zip)"
+              "y": 397,
+              "extracted": "Mailing Address:"
             },
             {
-              "y": 388,
-              "extracted": "Phon e:"
+              "y": 380,
+              "extracted": "City, State, & Zip:"
             }
           ]
         },
         {
-          "field": "Phone",
+          "field": "∆ CSZ",
           "page": 1,
           "rect": {
-            "x": 142.61,
-            "y": 387.07,
-            "width": 181.8,
-            "height": 12.24
+            "x": 225.34,
+            "y": 375.01,
+            "width": 325.78,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -266,29 +237,59 @@
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Section D — My Information",
+          "section": "Section 2 — My Information",
+          "effectiveLabel": "City, State, & Zip",
+          "policy": "write",
+          "factId": "participant.city_state_zip",
+          "printedTextAtCoordinate": [
+            {
+              "y": 380,
+              "extracted": "City, State, & Zip:"
+            },
+            {
+              "y": 362,
+              "extracted": "Phone:"
+            }
+          ]
+        },
+        {
+          "field": "∆ Phone",
+          "page": 1,
+          "rect": {
+            "x": 141.54,
+            "y": 357.89,
+            "width": 182.63,
+            "height": 15.12
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "pdfType": "text",
+          "hiddenUntilTheFormRevealsIt": false,
+          "isSelectionControl": false,
+          "multiline": false,
+          "maxLength": null,
+          "section": "Section 2 — My Information",
           "effectiveLabel": "Phone",
           "policy": "write",
           "factId": "participant.phone",
           "printedTextAtCoordinate": [
             {
-              "y": 388,
-              "extracted": "Phon e:"
+              "y": 362,
+              "extracted": "Phone:"
             },
             {
-              "y": 371,
-              "extracted": "(ma il \u001d"
+              "y": 345,
+              "extracted": "Email:"
             }
           ]
         },
         {
-          "field": "Email",
+          "field": "∆ Email",
           "page": 1,
           "rect": {
-            "x": 138.65,
-            "y": 369.94,
-            "width": 185.72,
-            "height": 12.24
+            "x": 136.83,
+            "y": 340.61,
+            "width": 258.67,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -296,179 +297,119 @@
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Section D — My Information",
+          "section": "Section 2 — My Information",
           "effectiveLabel": "Email",
           "policy": "write",
           "factId": "participant.email",
           "printedTextAtCoordinate": [
             {
-              "y": 371,
-              "extracted": "(ma il \u001d"
+              "y": 345,
+              "extracted": "Email:"
             },
             {
-              "y": 388,
-              "extracted": "Phon e:"
+              "y": 322,
+              "extracted": "Do you need an interpreter? No Yes, in (language)"
             }
           ]
         },
         {
-          "field": "6A.0",
+          "field": "Group_Interp",
           "page": 1,
           "rect": {
-            "x": 126.6,
-            "y": 292.5,
-            "width": 9.36,
-            "height": 9.36
+            "x": 268.87,
+            "y": 318.8,
+            "width": 13.68,
+            "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "checkbox",
+          "pdfType": "radiogroup",
           "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": true,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
-          "effectiveLabel": "District or County Court records to be sealed (selection)",
+          "section": "Section 2 — My Information",
+          "effectiveLabel": "Whether you need an interpreter (selection)",
           "policy": "election",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 294,
-              "extracted": "Distror Cicout nty CoCuarset 1u mber\u001d"
+              "y": 322,
+              "extracted": "Do you need an interpreter? No Yes, in (language)"
             },
             {
-              "y": 274,
-              "extracted": "Prosecu $tttino rgney"
+              "y": 299,
+              "extracted": "I want to attend court events: In-person Virtually (by phone or web video)"
             }
           ]
         },
         {
-          "field": "6A.1",
+          "field": "Language",
           "page": 1,
           "rect": {
-            "x": 355.22,
-            "y": 292.61,
-            "width": 184.96,
-            "height": 13.68
+            "x": 409.25,
+            "y": 317.75,
+            "width": 130.75,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
-          "effectiveLabel": "Court case number of the records to be sealed",
+          "section": "Section 2 — My Information",
+          "effectiveLabel": "Interpreter language, if you need one",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 294,
-              "extracted": "Distror Cicout nty CoCuarset 1u mber\u001d"
+              "y": 322,
+              "extracted": "Do you need an interpreter? No Yes, in (language)"
             },
             {
-              "y": 274,
-              "extracted": "Prosecu $tttino rgney"
+              "y": 299,
+              "extracted": "I want to attend court events: In-person Virtually (by phone or web video)"
             }
           ]
         },
         {
-          "field": "6C.0",
+          "field": "Group_Event",
           "page": 1,
           "rect": {
-            "x": 126.56,
-            "y": 254.19,
-            "width": 9.36,
-            "height": 9.36
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "checkbox",
-          "hiddenUntilTheFormRevealsIt": false,
-          "isSelectionControl": true,
-          "multiline": false,
-          "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
-          "effectiveLabel": "Sheriff's Department holds records (selection)",
-          "policy": "election",
-          "factId": null,
-          "printedTextAtCoordinate": [
-            {
-              "y": 255,
-              "extracted": "Sheriff¶s De Sartment"
-            },
-            {
-              "y": 242,
-              "extracted": "Mailing $ ddress\u001d"
-            }
-          ]
-        },
-        {
-          "field": "6C.1",
-          "page": 1,
-          "rect": {
-            "x": 220.06,
-            "y": 240.47,
-            "width": 320.24,
+            "x": 268.78,
+            "y": 295.66,
+            "width": 13.68,
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
-          "isSelectionControl": false,
-          "multiline": false,
-          "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
-          "effectiveLabel": "Sheriff's Department — Mailing Address",
-          "policy": "supply",
-          "factId": null,
-          "printedTextAtCoordinate": [
-            {
-              "y": 242,
-              "extracted": "Mailing $ ddress\u001d"
-            },
-            {
-              "y": 255,
-              "extracted": "Sheriff¶s De Sartment"
-            }
-          ]
-        },
-        {
-          "field": "6B.0",
-          "page": 1,
-          "rect": {
-            "x": 126.61,
-            "y": 273.31,
-            "width": 9.36,
-            "height": 9.36
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "checkbox",
+          "pdfType": "radiogroup",
           "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": true,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
-          "effectiveLabel": "Prosecuting Attorney holds records (selection)",
+          "section": "Section 2 — My Information",
+          "effectiveLabel": "Whether you want to attend court events in person or virtually (selection)",
           "policy": "election",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 274,
-              "extracted": "Prosecu $tttino rgney"
+              "y": 299,
+              "extracted": "I want to attend court events: In-person Virtually (by phone or web video)"
             },
             {
-              "y": 255,
-              "extracted": "Sheriff¶s De Sartment"
+              "y": 279,
+              "extracted": "To switch your choice: Use form JDF 76 – General Motion. File at least 48 hours"
             }
           ]
         },
         {
-          "field": "6D.0",
-          "page": 1,
+          "field": "3D.0",
+          "page": 2,
           "rect": {
-            "x": 126.5,
-            "y": 221.74,
-            "width": 9.36,
-            "height": 9.36
+            "x": 126,
+            "y": 707.39,
+            "width": 13.68,
+            "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "checkbox",
@@ -476,149 +417,115 @@
           "isSelectionControl": true,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
-          "effectiveLabel": "Colorado Bureau of Investigation holds records (selection)",
-          "policy": "election",
-          "factId": null,
-          "printedTextAtCoordinate": [
-            {
-              "y": 223,
-              "extracted": "Colorado Bureau(Require of In ved)stigation"
-            },
-            {
-              "y": 210,
-              "extracted": "ATTN Identificati-Seals, 690 Kipling St. STE 3000, Lakewon ood, CO 80215"
-            }
-          ]
-        },
-        {
-          "field": "6E.0",
-          "page": 1,
-          "rect": {
-            "x": 126.56,
-            "y": 190.54,
-            "width": 9.36,
-            "height": 9.36
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "checkbox",
-          "hiddenUntilTheFormRevealsIt": false,
-          "isSelectionControl": true,
-          "multiline": false,
-          "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
+          "section": "Section 3 — Records to be Sealed",
           "effectiveLabel": "A law enforcement agency holds records (selection)",
           "policy": "election",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 192,
-              "extracted": "Law Enforce(Nmame en)t: Case Nu mber:"
-            },
-            {
-              "y": 178,
-              "extracted": "Mailing $ ddress\u001d"
+              "y": 711,
+              "extracted": "Law Enforcement: (Agency Name)"
             }
           ]
         },
         {
-          "field": "6E.1",
-          "page": 1,
+          "field": "3D.1",
+          "page": 2,
           "rect": {
-            "x": 256.43,
-            "y": 190.51,
-            "width": 121.75,
-            "height": 12.24
+            "x": 285.1,
+            "y": 705.97,
+            "width": 254.9,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
-          "effectiveLabel": "Law Enforcement agency — Name",
+          "section": "Section 3 — Records to be Sealed",
+          "effectiveLabel": "Law Enforcement agency — Agency Name",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 192,
-              "extracted": "Law Enforce(Nmame en)t: Case Nu mber:"
+              "y": 711,
+              "extracted": "Law Enforcement: (Agency Name)"
             },
             {
-              "y": 178,
-              "extracted": "Mailing $ ddress\u001d"
+              "y": 687,
+              "extracted": "Agency Mailing Address:"
             }
           ]
         },
         {
-          "field": "6E.2",
-          "page": 1,
+          "field": "3D.3",
+          "page": 2,
           "rect": {
-            "x": 448.04,
-            "y": 190.51,
-            "width": 92.13,
-            "height": 12.24
+            "x": 247.39,
+            "y": 653.91,
+            "width": 220.34,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
-          "effectiveLabel": "Law Enforcement agency — that agency's own file number",
+          "section": "Section 3 — Records to be Sealed",
+          "effectiveLabel": "Law Enforcement agency — Agency Case Number",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 192,
-              "extracted": "Law Enforce(Nmame en)t: Case Nu mber:"
+              "y": 658,
+              "extracted": "Agency Case Number:"
             },
             {
-              "y": 178,
-              "extracted": "Mailing $ ddress\u001d"
+              "y": 635,
+              "extracted": "Law Enforcement: (Agency Name)"
             }
           ]
         },
         {
-          "field": "6E.3",
-          "page": 1,
+          "field": "4D.2",
+          "page": 2,
           "rect": {
-            "x": 220.92,
-            "y": 177.09,
-            "width": 319.42,
-            "height": 12.24
+            "x": 255.59,
+            "y": 670.28,
+            "width": 284.41,
+            "height": 32.4
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
-          "multiline": false,
+          "multiline": true,
           "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
-          "effectiveLabel": "Law Enforcement agency — Mailing Address",
+          "section": "Section 3 — Records to be Sealed",
+          "effectiveLabel": "Law Enforcement agency — Agency Mailing Address",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 178,
-              "extracted": "Mailing $ ddress\u001d"
+              "y": 658,
+              "extracted": "Agency Case Number:"
             },
             {
-              "y": 192,
-              "extracted": "Law Enforce(Nmame en)t: Case Nu mber:"
+              "y": 687,
+              "extracted": "Agency Mailing Address:"
             }
           ]
         },
         {
-          "field": "6F.0",
-          "page": 1,
+          "field": "3E.0",
+          "page": 2,
           "rect": {
-            "x": 126.44,
-            "y": 158.53,
-            "width": 9.36,
-            "height": 9.36
+            "x": 125.94,
+            "y": 631.54,
+            "width": 13.68,
+            "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "checkbox",
@@ -626,119 +533,119 @@
           "isSelectionControl": true,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
+          "section": "Section 3 — Records to be Sealed",
           "effectiveLabel": "A second law enforcement agency holds records (selection)",
           "policy": "election",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 159,
-              "extracted": "/aZ (nfor(ceNamm ee)nt\u001d Case Nu mber:"
+              "y": 635,
+              "extracted": "Law Enforcement: (Agency Name)"
             },
             {
-              "y": 146,
-              "extracted": "Mailing $ ddress\u001d"
+              "y": 612,
+              "extracted": "Agency Mailing Address:"
             }
           ]
         },
         {
-          "field": "6F.1",
-          "page": 1,
+          "field": "3E.1",
+          "page": 2,
           "rect": {
-            "x": 256.14,
-            "y": 157.68,
-            "width": 121.75,
-            "height": 12.24
+            "x": 285.04,
+            "y": 630.61,
+            "width": 254.96,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
-          "effectiveLabel": "Second law enforcement agency — Name",
+          "section": "Section 3 — Records to be Sealed",
+          "effectiveLabel": "Second law enforcement agency — Agency Name",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 159,
-              "extracted": "/aZ (nfor(ceNamm ee)nt\u001d Case Nu mber:"
+              "y": 635,
+              "extracted": "Law Enforcement: (Agency Name)"
             },
             {
-              "y": 146,
-              "extracted": "Mailing $ ddress\u001d"
+              "y": 612,
+              "extracted": "Agency Mailing Address:"
             }
           ]
         },
         {
-          "field": "6F.2",
-          "page": 1,
+          "field": "3E.3",
+          "page": 2,
           "rect": {
-            "x": 447.93,
-            "y": 157.84,
-            "width": 92.13,
-            "height": 12.24
+            "x": 247.17,
+            "y": 577.9,
+            "width": 220.34,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
-          "effectiveLabel": "Second law enforcement agency — that agency's own file number",
+          "section": "Section 3 — Records to be Sealed",
+          "effectiveLabel": "Second law enforcement agency — Agency Case Number",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 159,
-              "extracted": "/aZ (nfor(ceNamm ee)nt\u001d Case Nu mber:"
+              "y": 582,
+              "extracted": "Agency Case Number:"
             },
             {
-              "y": 146,
-              "extracted": "Mailing $ ddress\u001d"
+              "y": 559,
+              "extracted": "Other: (Name)"
             }
           ]
         },
         {
-          "field": "6F.3",
-          "page": 1,
+          "field": "4E.2",
+          "page": 2,
           "rect": {
-            "x": 220.8,
-            "y": 144.75,
-            "width": 319.42,
-            "height": 12.24
+            "x": 255.54,
+            "y": 594.27,
+            "width": 284.46,
+            "height": 32.4
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
-          "multiline": false,
+          "multiline": true,
           "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
-          "effectiveLabel": "Second law enforcement agency — Mailing Address",
+          "section": "Section 3 — Records to be Sealed",
+          "effectiveLabel": "Second law enforcement agency — Agency Mailing Address",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 146,
-              "extracted": "Mailing $ ddress\u001d"
+              "y": 582,
+              "extracted": "Agency Case Number:"
             },
             {
-              "y": 159,
-              "extracted": "/aZ (nfor(ceNamm ee)nt\u001d Case Nu mber:"
+              "y": 612,
+              "extracted": "Agency Mailing Address:"
             }
           ]
         },
         {
-          "field": "6G.0",
-          "page": 1,
+          "field": "3F.0",
+          "page": 2,
           "rect": {
-            "x": 126.56,
-            "y": 125.57,
-            "width": 9.36,
-            "height": 9.36
+            "x": 125.93,
+            "y": 556.13,
+            "width": 13.68,
+            "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "checkbox",
@@ -746,89 +653,85 @@
           "isSelectionControl": true,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
+          "section": "Section 3 — Records to be Sealed",
           "effectiveLabel": "Another agency holds records (selection)",
           "policy": "election",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 127,
-              "extracted": "2th\u001d e r"
-            },
-            {
-              "y": 113,
-              "extracted": "Mailing $ ddress\u001d"
+              "y": 559,
+              "extracted": "Other: (Name)"
             }
           ]
         },
         {
-          "field": "6G.1",
-          "page": 1,
+          "field": "3F.1",
+          "page": 2,
           "rect": {
-            "x": 174.12,
-            "y": 125.38,
-            "width": 366.05,
-            "height": 13.68
+            "x": 207.21,
+            "y": 554.38,
+            "width": 332.79,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
+          "section": "Section 3 — Records to be Sealed",
           "effectiveLabel": "Other agency — Name",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 127,
-              "extracted": "2th\u001d e r"
+              "y": 559,
+              "extracted": "Other: (Name)"
             },
             {
-              "y": 113,
-              "extracted": "Mailing $ ddress\u001d"
+              "y": 536,
+              "extracted": "Mailing Address:"
             }
           ]
         },
         {
-          "field": "6G.2",
-          "page": 1,
+          "field": "3F.2",
+          "page": 2,
           "rect": {
-            "x": 220.75,
-            "y": 111.96,
-            "width": 318.93,
-            "height": 13.68
+            "x": 224.47,
+            "y": 518.57,
+            "width": 315.53,
+            "height": 32.4
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
-          "multiline": false,
+          "multiline": true,
           "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
+          "section": "Section 3 — Records to be Sealed",
           "effectiveLabel": "Other agency — Mailing Address",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 113,
-              "extracted": "Mailing $ ddress\u001d"
+              "y": 536,
+              "extracted": "Mailing Address:"
             },
             {
-              "y": 127,
-              "extracted": "2th\u001d e r"
+              "y": 500,
+              "extracted": "Other: (Name)"
             }
           ]
         },
         {
-          "field": "6H.0",
-          "page": 1,
+          "field": "3G.0",
+          "page": 2,
           "rect": {
-            "x": 126.68,
-            "y": 93.01,
-            "width": 9.36,
-            "height": 9.36
+            "x": 125.93,
+            "y": 497.66,
+            "width": 13.68,
+            "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "checkbox",
@@ -836,119 +739,81 @@
           "isSelectionControl": true,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
+          "section": "Section 3 — Records to be Sealed",
           "effectiveLabel": "A second other agency holds records (selection)",
           "policy": "election",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 94,
-              "extracted": "2th\u001d e r"
-            },
-            {
-              "y": 81,
-              "extracted": "Mailing $ ddress\u001d"
+              "y": 500,
+              "extracted": "Other: (Name)"
             }
           ]
         },
         {
-          "field": "6H.1",
-          "page": 1,
+          "field": "3G.1",
+          "page": 2,
           "rect": {
-            "x": 174.08,
-            "y": 92.65,
-            "width": 366.05,
-            "height": 13.68
+            "x": 207.21,
+            "y": 496.07,
+            "width": 332.79,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
+          "section": "Section 3 — Records to be Sealed",
           "effectiveLabel": "Second other agency — Name",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 94,
-              "extracted": "2th\u001d e r"
+              "y": 500,
+              "extracted": "Other: (Name)"
             },
             {
-              "y": 81,
-              "extracted": "Mailing $ ddress\u001d"
+              "y": 477,
+              "extracted": "Mailing Address:"
             }
           ]
         },
         {
-          "field": "6H.2",
-          "page": 1,
+          "field": "3G.2",
+          "page": 2,
           "rect": {
-            "x": 220.72,
-            "y": 79.23,
-            "width": 318.93,
-            "height": 13.68
+            "x": 224.47,
+            "y": 460.1,
+            "width": 315.53,
+            "height": 32.4
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
-          "multiline": false,
+          "multiline": true,
           "maxLength": null,
-          "section": "Section 6 — Records to be Sealed",
+          "section": "Section 3 — Records to be Sealed",
           "effectiveLabel": "Second other agency — Mailing Address",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 81,
-              "extracted": "Mailing $ ddress\u001d"
-            },
-            {
-              "y": 94,
-              "extracted": "2th\u001d e r"
+              "y": 477,
+              "extracted": "Mailing Address:"
             }
           ]
         },
         {
-          "field": "7A.1",
+          "field": "4.1",
           "page": 2,
           "rect": {
-            "x": 230.21,
-            "y": 660.69,
-            "width": 309.76,
+            "x": 126,
+            "y": 384.77,
+            "width": 13.68,
             "height": 13.68
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
-          "isSelectionControl": false,
-          "multiline": false,
-          "maxLength": null,
-          "section": "Section 7 — Offence Information",
-          "effectiveLabel": "Petty offence(s) you were convicted of",
-          "policy": "supply",
-          "factId": null,
-          "printedTextAtCoordinate": [
-            {
-              "y": 662,
-              "extracted": "Petty Off ense(s) of"
-            },
-            {
-              "y": 645,
-              "extracted": "0LVGHPHDQRU RI2 IIHQVH V"
-            }
-          ]
-        },
-        {
-          "field": "7A.0",
-          "page": 2,
-          "rect": {
-            "x": 126.56,
-            "y": 661.32,
-            "width": 9.36,
-            "height": 9.36
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "checkbox",
@@ -956,59 +821,59 @@
           "isSelectionControl": true,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 7 — Offence Information",
+          "section": "Section 4 — Offence Information",
           "effectiveLabel": "Convicted of a petty offence (selection)",
           "policy": "election",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 662,
-              "extracted": "Petty Off ense(s) of"
+              "y": 388,
+              "extracted": "Petty Offense(s) of"
             },
             {
-              "y": 645,
-              "extracted": "0LVGHPHDQRU RI2 IIHQVH V"
+              "y": 370,
+              "extracted": "Misdemeanor Offense(s) of"
             }
           ]
         },
         {
-          "field": "7B.1",
+          "field": "4.2",
           "page": 2,
           "rect": {
-            "x": 267.91,
-            "y": 643.12,
-            "width": 272.46,
-            "height": 13.68
+            "x": 230.08,
+            "y": 383.62,
+            "width": 309.92,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 7 — Offence Information",
-          "effectiveLabel": "Misdemeanor offence(s) you were convicted of",
+          "section": "Section 4 — Offence Information",
+          "effectiveLabel": "Petty offence(s) you were convicted of",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 645,
-              "extracted": "0LVGHPHDQRU RI2 IIHQVH V"
+              "y": 388,
+              "extracted": "Petty Offense(s) of"
             },
             {
-              "y": 628,
-              "extracted": ")HORQ\\ 2IIH QVH V RI"
+              "y": 370,
+              "extracted": "Misdemeanor Offense(s) of"
             }
           ]
         },
         {
-          "field": "7B.0",
+          "field": "4.3",
           "page": 2,
           "rect": {
-            "x": 126.95,
-            "y": 643.76,
-            "width": 9.36,
-            "height": 9.36
+            "x": 126,
+            "y": 367.35,
+            "width": 13.68,
+            "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "checkbox",
@@ -1016,29 +881,59 @@
           "isSelectionControl": true,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 7 — Offence Information",
+          "section": "Section 4 — Offence Information",
           "effectiveLabel": "Convicted of a misdemeanor (selection)",
           "policy": "election",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 645,
-              "extracted": "0LVGHPHDQRU RI2 IIHQVH V"
+              "y": 370,
+              "extracted": "Misdemeanor Offense(s) of"
             },
             {
-              "y": 628,
-              "extracted": ")HORQ\\ 2IIH QVH V RI"
+              "y": 353,
+              "extracted": "Felony Offense(s) of"
             }
           ]
         },
         {
-          "field": "7C.0",
+          "field": "4.4",
           "page": 2,
           "rect": {
-            "x": 126.62,
-            "y": 626.74,
-            "width": 9.36,
-            "height": 9.36
+            "x": 267.77,
+            "y": 366.23,
+            "width": 272.23,
+            "height": 15.12
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "pdfType": "text",
+          "hiddenUntilTheFormRevealsIt": false,
+          "isSelectionControl": false,
+          "multiline": false,
+          "maxLength": null,
+          "section": "Section 4 — Offence Information",
+          "effectiveLabel": "Misdemeanor offence(s) you were convicted of",
+          "policy": "supply",
+          "factId": null,
+          "printedTextAtCoordinate": [
+            {
+              "y": 370,
+              "extracted": "Misdemeanor Offense(s) of"
+            },
+            {
+              "y": 353,
+              "extracted": "Felony Offense(s) of"
+            }
+          ]
+        },
+        {
+          "field": "4.5",
+          "page": 2,
+          "rect": {
+            "x": 126,
+            "y": 349.84,
+            "width": 13.68,
+            "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "checkbox",
@@ -1046,59 +941,59 @@
           "isSelectionControl": true,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 7 — Offence Information",
+          "section": "Section 4 — Offence Information",
           "effectiveLabel": "Convicted of a felony (selection)",
           "policy": "election",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 628,
-              "extracted": ")HORQ\\ 2IIH QVH V RI"
+              "y": 353,
+              "extracted": "Felony Offense(s) of"
             },
             {
-              "y": 645,
-              "extracted": "0LVGHPHDQRU RI2 IIHQVH V"
+              "y": 330,
+              "extracted": "Date Sentenced:"
             }
           ]
         },
         {
-          "field": "7C.1",
+          "field": "4.6",
           "page": 2,
           "rect": {
-            "x": 237.15,
-            "y": 626.11,
-            "width": 302.89,
-            "height": 13.68
+            "x": 237.18,
+            "y": 348.88,
+            "width": 302.82,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 7 — Offence Information",
+          "section": "Section 4 — Offence Information",
           "effectiveLabel": "Felony offence(s) you were convicted of",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 628,
-              "extracted": ")HORQ\\ 2IIH QVH V RI"
+              "y": 353,
+              "extracted": "Felony Offense(s) of"
             },
             {
-              "y": 645,
-              "extracted": "0LVGHPHDQRU RI2 IIHQVH V"
+              "y": 330,
+              "extracted": "Date Sentenced:"
             }
           ]
         },
         {
-          "field": "7D",
+          "field": "4.7",
           "page": 2,
           "rect": {
-            "x": 185.15,
-            "y": 603.36,
+            "x": 184.86,
+            "y": 325.64,
             "width": 174.93,
-            "height": 13.68
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -1106,163 +1001,29 @@
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 7 — Offence Information",
+          "section": "Section 4 — Offence Information",
           "effectiveLabel": "Date sentenced",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 605,
-              "extracted": "Date Sen tenced:"
+              "y": 330,
+              "extracted": "Date Sentenced:"
             },
             {
-              "y": 587,
-              "extracted": "Probation\u0012Parole Super vision Termination Date:"
+              "y": 313,
+              "extracted": "Probation/Parole Supervision Termination Date:"
             }
           ]
         },
         {
-          "field": "Group_7A",
+          "field": "4.8",
           "page": 2,
           "rect": {
-            "x": 178.8,
-            "y": 508.8,
-            "width": 13.68,
-            "height": 13.68
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "radiogroup",
-          "hiddenUntilTheFormRevealsIt": false,
-          "isSelectionControl": true,
-          "multiline": false,
-          "maxLength": null,
-          "section": "Section 7 — Offence Information",
-          "effectiveLabel": "Whether any of these drug offences were committed before 1 October 2013 (selection)",
-          "policy": "election",
-          "factId": null,
-          "printedTextAtCoordinate": [
-            {
-              "y": 511,
-              "extracted": "<es. No ."
-            }
-          ]
-        },
-        {
-          "field": "Group_7B",
-          "page": 2,
-          "rect": {
-            "x": 178.79,
-            "y": 339.7,
-            "width": 13.68,
-            "height": 13.68
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "radiogroup",
-          "hiddenUntilTheFormRevealsIt": false,
-          "isSelectionControl": true,
-          "multiline": false,
-          "maxLength": null,
-          "section": "Section 7 — Offence Information",
-          "effectiveLabel": "Whether the charges involved psilocybin or psilocin and the underlying act is no longer unlawful (selection)",
-          "policy": "election",
-          "factId": null,
-          "printedTextAtCoordinate": [
-            {
-              "y": 343,
-              "extracted": "<es. No ."
-            }
-          ]
-        },
-        {
-          "field": "Group_7C",
-          "page": 2,
-          "rect": {
-            "x": 178.68,
-            "y": 258.1,
-            "width": 13.68,
-            "height": 13.68
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "radiogroup",
-          "hiddenUntilTheFormRevealsIt": false,
-          "isSelectionControl": true,
-          "multiline": false,
-          "maxLength": null,
-          "section": "Section 7 — Offence Information",
-          "effectiveLabel": "Whether you were a victim of human trafficking and committed the offence as a result (selection)",
-          "policy": "election",
-          "factId": null,
-          "printedTextAtCoordinate": [
-            {
-              "y": 261,
-              "extracted": "No."
-            },
-            {
-              "y": 244,
-              "extracted": "<e. sEligibiliC.R.S. ty under § 24-72-707"
-            }
-          ]
-        },
-        {
-          "field": "Group_8B",
-          "page": 3,
-          "rect": {
-            "x": 160.55,
-            "y": 298.54,
-            "width": 13.68,
-            "height": 13.68
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "radiogroup",
-          "hiddenUntilTheFormRevealsIt": false,
-          "isSelectionControl": true,
-          "multiline": false,
-          "maxLength": null,
-          "section": "Section 8 — Eligibility",
-          "effectiveLabel": "Which branch of the sealing statute this motion is brought under (selection)",
-          "policy": "election",
-          "factId": null,
-          "printedTextAtCoordinate": [
-            {
-              "y": 302,
-              "extracted": "Is eligible f Co.R.r sSe24. a-72li§-7§n0 go6 ur 707 n. der"
-            }
-          ]
-        },
-        {
-          "field": "Group_8B_1",
-          "page": 3,
-          "rect": {
-            "x": 196.93,
-            "y": 235.04,
-            "width": 13.68,
-            "height": 13.68
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "radiogroup",
-          "hiddenUntilTheFormRevealsIt": false,
-          "isSelectionControl": true,
-          "multiline": false,
-          "maxLength": null,
-          "section": "Section 8 — Eligibility",
-          "effectiveLabel": "Whether the district attorney consents, whether you are asking for a hearing on consent, or whether consent is refused (selection)",
-          "policy": "election",
-          "factId": null,
-          "printedTextAtCoordinate": [
-            {
-              "y": 238,
-              "extracted": "The district atto tron teyh ec s onesaelintnsg."
-            }
-          ]
-        },
-        {
-          "field": "7E",
-          "page": 2,
-          "rect": {
-            "x": 322.44,
-            "y": 586.01,
+            "x": 322.31,
+            "y": 308.3,
             "width": 181.8,
-            "height": 13.68
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -1270,37 +1031,145 @@
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 7 — Offence Information",
+          "section": "Section 4 — Offence Information",
           "effectiveLabel": "Probation or parole supervision termination date",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 587,
-              "extracted": "Probation\u0012Parole Super vision Termination Date:"
-            },
-            {
-              "y": 605,
-              "extracted": "Date Sen tenced:"
+              "y": 313,
+              "extracted": "Probation/Parole Supervision Termination Date:"
             }
           ]
         },
         {
-          "field": "8B.2",
+          "field": "Group_4A",
+          "page": 2,
+          "rect": {
+            "x": 178.8,
+            "y": 233.89,
+            "width": 13.68,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "pdfType": "radiogroup",
+          "hiddenUntilTheFormRevealsIt": false,
+          "isSelectionControl": true,
+          "multiline": false,
+          "maxLength": null,
+          "section": "Section 4 — Offence Information",
+          "effectiveLabel": "Whether any of these drug offences were committed before 1 October 2013 (selection)",
+          "policy": "election",
+          "factId": null,
+          "printedTextAtCoordinate": [
+            {
+              "y": 237,
+              "extracted": "Yes No"
+            }
+          ]
+        },
+        {
+          "field": "Group_4B",
+          "page": 2,
+          "rect": {
+            "x": 178.68,
+            "y": 105.61,
+            "width": 13.68,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "pdfType": "radiogroup",
+          "hiddenUntilTheFormRevealsIt": false,
+          "isSelectionControl": true,
+          "multiline": false,
+          "maxLength": null,
+          "section": "Section 4 — Offence Information",
+          "effectiveLabel": "Whether you were a victim of human trafficking and committed the offence as a result (selection)",
+          "policy": "election",
+          "factId": null,
+          "printedTextAtCoordinate": [
+            {
+              "y": 109,
+              "extracted": "No"
+            },
+            {
+              "y": 91,
+              "extracted": "Yes Eligibility under C.R.S. § 24-72-707"
+            }
+          ]
+        },
+        {
+          "field": "Group_5B",
+          "page": 3,
+          "rect": {
+            "x": 160.22,
+            "y": 153.88,
+            "width": 13.68,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "pdfType": "radiogroup",
+          "hiddenUntilTheFormRevealsIt": false,
+          "isSelectionControl": true,
+          "multiline": false,
+          "maxLength": null,
+          "section": "Section 5 — Eligibility",
+          "effectiveLabel": "Which branch of the sealing statute this motion is brought under (selection)",
+          "policy": "election",
+          "factId": null,
+          "printedTextAtCoordinate": [
+            {
+              "y": 157,
+              "extracted": "Is eligible for sealing under C.R.S. §§ 24-72-706 or 707."
+            },
+            {
+              "y": 134,
+              "extracted": "A misdemeanor offense that is not eligible for sealing under C.R.S. § 24-72-706."
+            }
+          ]
+        },
+        {
+          "field": "Group_5B_1",
+          "page": 3,
+          "rect": {
+            "x": 196.6,
+            "y": 90.38,
+            "width": 13.68,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "pdfType": "radiogroup",
+          "hiddenUntilTheFormRevealsIt": false,
+          "isSelectionControl": true,
+          "multiline": false,
+          "maxLength": null,
+          "section": "Section 5 — Eligibility",
+          "effectiveLabel": "Whether the district attorney consents, whether you are asking for a hearing on consent, or whether consent is refused (selection)",
+          "policy": "election",
+          "factId": null,
+          "printedTextAtCoordinate": [
+            {
+              "y": 93,
+              "extracted": "The district attorney consents to the sealing."
+            }
+          ]
+        },
+        {
+          "field": "5B.2",
           "page": 4,
           "rect": {
             "x": 215.17,
-            "y": 451.17,
+            "y": 351.25,
             "width": 325.58,
-            "height": 247.23
+            "height": 187.45
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
           "multiline": true,
           "maxLength": null,
-          "section": "Section 8 — Eligibility",
+          "section": "Section 5 — Eligibility",
           "effectiveLabel": "Explain why your records should be sealed if the district attorney does not consent",
           "policy": "supply",
           "factId": null,
@@ -1310,8 +1179,8 @@
           "field": "Group_9A",
           "page": 4,
           "rect": {
-            "x": 178.63,
-            "y": 331.43,
+            "x": 178.79,
+            "y": 230.47,
             "width": 13.68,
             "height": 13.68
           },
@@ -1321,14 +1190,14 @@
           "isSelectionControl": true,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 9 — Other Proceedings",
-          "effectiveLabel": "Whether the sealing of these records is the subject of any other pending proceeding (selection)",
+          "section": "Section 6 — Case Process",
+          "effectiveLabel": "Whether you believe the court should have automatically sealed this case under C.R.S. § 13-3-117 (selection)",
           "policy": "election",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 334,
-              "extracted": "Ye s. No ."
+              "y": 233,
+              "extracted": "Yes No"
             }
           ]
         },
@@ -1336,8 +1205,8 @@
           "field": "Group_9B",
           "page": 4,
           "rect": {
-            "x": 178.71,
-            "y": 255.26,
+            "x": 178.87,
+            "y": 153.86,
             "width": 12.96,
             "height": 12.96
           },
@@ -1347,14 +1216,14 @@
           "isSelectionControl": true,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 9 — Other Proceedings",
+          "section": "Section 6 — Case Process",
           "effectiveLabel": "Whether this conviction was appealed (selection)",
           "policy": "election",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 258,
-              "extracted": "<es* . No."
+              "y": 157,
+              "extracted": "eYs* No"
             }
           ]
         },
@@ -1362,29 +1231,29 @@
           "field": "9B.1",
           "page": 4,
           "rect": {
-            "x": 281.4,
-            "y": 209.48,
+            "x": 281.24,
+            "y": 105.84,
             "width": 186.64,
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 9 — Other Proceedings",
+          "section": "Section 6 — Case Process",
           "effectiveLabel": "Appeal — the number the appellate court gave the appeal",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 211,
-              "extracted": "Appeal Case Number:"
+              "y": 109,
+              "extracted": "Appeal Case Number :"
             },
             {
-              "y": 193,
-              "extracted": "Appellate Court:"
+              "y": 92,
+              "extracted": "Appellate Cour t:"
             }
           ]
         },
@@ -1392,29 +1261,29 @@
           "field": "9B.2",
           "page": 4,
           "rect": {
-            "x": 254.41,
-            "y": 192.03,
+            "x": 254.9,
+            "y": 88.4,
             "width": 213.82,
             "height": 14.11
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "dropdown",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": true,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 9 — Other Proceedings",
+          "section": "Section 6 — Case Process",
           "effectiveLabel": "Which appellate court heard the appeal (selection)",
           "policy": "election",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 193,
-              "extracted": "Appellate Court:"
+              "y": 92,
+              "extracted": "Appellate Cour t:"
             },
             {
-              "y": 176,
-              "extracted": "Resu lt: Date :"
+              "y": 75,
+              "extracted": "Result: Date:"
             }
           ]
         },
@@ -1423,28 +1292,24 @@
           "page": 4,
           "rect": {
             "x": 214.1,
-            "y": 174.91,
-            "width": 146.06,
+            "y": 71.27,
+            "width": 140.33,
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 9 — Other Proceedings",
+          "section": "Section 6 — Case Process",
           "effectiveLabel": "Appeal — what the appellate court decided",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 176,
-              "extracted": "Resu lt: Date :"
-            },
-            {
-              "y": 193,
-              "extracted": "Appellate Court:"
+              "y": 75,
+              "extracted": "Result: Date:"
             }
           ]
         },
@@ -1452,38 +1317,34 @@
           "field": "9B.4",
           "page": 4,
           "rect": {
-            "x": 389.73,
-            "y": 174.91,
-            "width": 150.42,
+            "x": 388.59,
+            "y": 71.11,
+            "width": 151.41,
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 9 — Other Proceedings",
+          "section": "Section 6 — Case Process",
           "effectiveLabel": "Appeal — when the appellate court decided it",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 176,
-              "extracted": "Resu lt: Date :"
-            },
-            {
-              "y": 193,
-              "extracted": "Appellate Court:"
+              "y": 75,
+              "extracted": "Result: Date:"
             }
           ]
         },
         {
           "field": "Group_9C",
-          "page": 4,
+          "page": 5,
           "rect": {
             "x": 178.99,
-            "y": 97.77,
+            "y": 661.5,
             "width": 12.96,
             "height": 12.96
           },
@@ -1493,14 +1354,14 @@
           "isSelectionControl": true,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 9 — Other Proceedings",
-          "effectiveLabel": "Whether you have any pending criminal charges (selection)",
+          "section": "Section 6 — Case Process",
+          "effectiveLabel": "Whether you still owe restitution (selection)",
           "policy": "election",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 100,
-              "extracted": "<e s. No ."
+              "y": 664,
+              "extracted": "Yes No"
             }
           ]
         },
@@ -1508,8 +1369,8 @@
           "field": "Group_10",
           "page": 5,
           "rect": {
-            "x": 178.61,
-            "y": 659.37,
+            "x": 178.85,
+            "y": 583.66,
             "width": 12.96,
             "height": 12.96
           },
@@ -1519,14 +1380,14 @@
           "isSelectionControl": true,
           "multiline": false,
           "maxLength": null,
-          "section": "Section 10 — Restitution, Fines, Fees",
-          "effectiveLabel": "Whether restitution, fines, fees, costs and surcharges ordered in this case have been paid (selection)",
+          "section": "Section 7 — Criminal Record",
+          "effectiveLabel": "Whether a verified copy of your criminal history record, dated within the last 20 days, is attached (selection)",
           "policy": "election",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 662,
-              "extracted": "Ye s . No.*"
+              "y": 586,
+              "extracted": "Yes No*"
             }
           ]
         },
@@ -1534,10 +1395,10 @@
           "field": "11.1",
           "page": 5,
           "rect": {
-            "x": 143.37,
-            "y": 353.71,
-            "width": 397.25,
-            "height": 130.07
+            "x": 144,
+            "y": 347.49,
+            "width": 396,
+            "height": 109.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -1545,19 +1406,49 @@
           "isSelectionControl": false,
           "multiline": true,
           "maxLength": null,
-          "section": "Section 11 — Statement in Support",
-          "effectiveLabel": "Explain, in your own words, why the court should seal these records",
+          "section": "Section 8 — Harm or Adverse Consequences",
+          "effectiveLabel": "Explain how the harm to your privacy or the danger of unwarranted, adverse consequences outweighs the public interest in retaining the records",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": []
         },
         {
-          "field": "Group_CoS",
+          "field": "CoS_Date",
           "page": 5,
           "rect": {
-            "x": 120.47,
-            "y": 259.21,
-            "width": 13.68,
+            "x": 203.04,
+            "y": 290.39,
+            "width": 144,
+            "height": 15.12
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "pdfType": "text",
+          "hiddenUntilTheFormRevealsIt": false,
+          "isSelectionControl": false,
+          "multiline": false,
+          "maxLength": null,
+          "section": "Certificate of Service",
+          "effectiveLabel": "Certificate of Service — date of service, entered at signature",
+          "policy": "protect",
+          "factId": null,
+          "printedTextAtCoordinate": [
+            {
+              "y": 294,
+              "extracted": "On (enter service date)"
+            },
+            {
+              "y": 277,
+              "extracted": "I certify that I sent a copy of this document to the prosecuting attorney by: (select one)"
+            }
+          ]
+        },
+        {
+          "field": "GroupCoS",
+          "page": 5,
+          "rect": {
+            "x": 120.29,
+            "y": 250.75,
+            "width": 13.52,
             "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
@@ -1572,53 +1463,23 @@
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 262,
-              "extracted": "Colorado C-Filouin(only artsg. E vailable to lawyers)"
+              "y": 254,
+              "extracted": "Colorado Courts E-Filing. (only available to lawyers)"
             },
             {
-              "y": 245,
-              "extracted": "Regular Mail, addressed to:"
+              "y": 236,
+              "extracted": "Regular Mail, addressed to: (name)"
             }
           ]
         },
         {
-          "field": "CoS_Mail",
+          "field": "CoS_Name",
           "page": 5,
           "rect": {
-            "x": 230.61,
-            "y": 230.21,
-            "width": 309.84,
-            "height": 13.68
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
-          "isSelectionControl": false,
-          "multiline": false,
-          "maxLength": null,
-          "section": "Certificate of Service",
-          "effectiveLabel": "Certificate of Service — name and full address served by regular mail",
-          "policy": "protect",
-          "factId": null,
-          "printedTextAtCoordinate": [
-            {
-              "y": 231,
-              "extracted": "Name & full add ress:"
-            },
-            {
-              "y": 245,
-              "extracted": "Regular Mail, addressed to:"
-            }
-          ]
-        },
-        {
-          "field": "CoS_Date",
-          "page": 5,
-          "rect": {
-            "x": 204.56,
-            "y": 301.35,
-            "width": 155.48,
-            "height": 13.68
+            "x": 297.78,
+            "y": 232.67,
+            "width": 242.22,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -1627,28 +1488,28 @@
           "multiline": false,
           "maxLength": null,
           "section": "Certificate of Service",
-          "effectiveLabel": "Certificate of Service — date of service, entered at signature",
+          "effectiveLabel": "Certificate of Service — name served by regular mail",
           "policy": "protect",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 302,
-              "extracted": "On(enter service date)"
+              "y": 236,
+              "extracted": "Regular Mail, addressed to: (name)"
             },
             {
-              "y": 285,
-              "extracted": "I certify that I sent thpaer c osoepcuy tinof bgty (select ah:istt do roncueone)yment to"
+              "y": 223,
+              "extracted": "Full address:"
             }
           ]
         },
         {
-          "field": "∆",
-          "page": 1,
+          "field": "CoS_Address",
+          "page": 5,
           "rect": {
-            "x": 137.29,
-            "y": 541.55,
-            "width": 213.87,
-            "height": 10.8
+            "x": 209.51,
+            "y": 220.03,
+            "width": 330.49,
+            "height": 12.24
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -1656,18 +1517,18 @@
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Section B — Parties to the Case",
-          "effectiveLabel": "Defendant — Full Name",
-          "policy": "write",
-          "factId": "participant.full_legal_name",
+          "section": "Certificate of Service",
+          "effectiveLabel": "Certificate of Service — full address served by regular mail",
+          "policy": "protect",
+          "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 542,
-              "extracted": "Defend\u001d ant"
+              "y": 223,
+              "extracted": "Full address:"
             },
             {
-              "y": 535,
-              "extracted": "Courtroom\u001d"
+              "y": 207,
+              "extracted": "thOer: (explain)"
             }
           ]
         },
@@ -1675,14 +1536,14 @@
           "field": "CoS_Other",
           "page": 5,
           "rect": {
-            "x": 211.79,
-            "y": 213.6,
-            "width": 328.39,
-            "height": 13.68
+            "x": 210.77,
+            "y": 202.69,
+            "width": 329.23,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
@@ -1692,23 +1553,19 @@
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 215,
-              "extracted": "Othe(explainr: )"
-            },
-            {
-              "y": 231,
-              "extracted": "Name & full add ress:"
+              "y": 207,
+              "extracted": "thOer: (explain)"
             }
           ]
         },
         {
-          "field": "Sig1_Signature",
+          "field": "Sig",
           "page": 5,
           "rect": {
-            "x": 156.76,
-            "y": 124.01,
-            "width": 167.65,
-            "height": 13.68
+            "x": 156.19,
+            "y": 118.92,
+            "width": 252.33,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -1722,19 +1579,23 @@
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 125,
-              "extracted": "Signa ture: Date :"
+              "y": 123,
+              "extracted": "Signature :"
+            },
+            {
+              "y": 100,
+              "extracted": "Date:"
             }
           ]
         },
         {
-          "field": "Sig1_Date",
+          "field": "Sig_Date",
           "page": 5,
           "rect": {
-            "x": 386.96,
-            "y": 123.91,
-            "width": 117.25,
-            "height": 13.68
+            "x": 134.08,
+            "y": 95.57,
+            "width": 144,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -1748,19 +1609,23 @@
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 125,
-              "extracted": "Signa ture: Date :"
+              "y": 100,
+              "extracted": "Date:"
+            },
+            {
+              "y": 77,
+              "extracted": "Counsel Signature(if any: )"
             }
           ]
         },
         {
-          "field": "Sig_LawyerSignature",
+          "field": "Sig_Aty",
           "page": 5,
           "rect": {
-            "x": 234.18,
-            "y": 94.83,
-            "width": 198.23,
-            "height": 13.68
+            "x": 225.83,
+            "y": 72.19,
+            "width": 252.33,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -1774,23 +1639,49 @@
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 96,
-              "extracted": "Counsel S(if anyign a tur)e:"
-            },
-            {
-              "y": 80,
-              "extracted": "Esq. Reg No."
+              "y": 77,
+              "extracted": "Counsel Signature(if any: )"
             }
           ]
         },
         {
-          "field": "Sig_Esq",
-          "page": 5,
+          "field": "∆",
+          "page": 1,
           "rect": {
-            "x": 234.47,
-            "y": 78.38,
-            "width": 9.36,
-            "height": 9.36
+            "x": 138.58,
+            "y": 521.77,
+            "width": 217.82,
+            "height": 12.24
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "pdfType": "text",
+          "hiddenUntilTheFormRevealsIt": false,
+          "isSelectionControl": false,
+          "multiline": false,
+          "maxLength": null,
+          "section": "Section B — Parties to the Case",
+          "effectiveLabel": "Defendant — Full Name",
+          "policy": "write",
+          "factId": "participant.full_legal_name",
+          "printedTextAtCoordinate": [
+            {
+              "y": 525,
+              "extracted": "Defendant:"
+            },
+            {
+              "y": 529,
+              "extracted": "Division/Courtroom:"
+            }
+          ]
+        },
+        {
+          "field": "3Z.0",
+          "page": 1,
+          "rect": {
+            "x": 126,
+            "y": 189.09,
+            "width": 13.68,
+            "height": 13.68
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "checkbox",
@@ -1798,48 +1689,168 @@
           "isSelectionControl": true,
           "multiline": false,
           "maxLength": null,
-          "section": "Signature",
-          "effectiveLabel": "Counsel signature — Esq. (selection)",
-          "policy": "attorney",
+          "section": "Section 3 — Records to be Sealed",
+          "effectiveLabel": "District or County Court records to be sealed (selection)",
+          "policy": "election",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 80,
-              "extracted": "Esq. Reg No."
+              "y": 192,
+              "extracted": "District or County Court Case Number:"
             },
             {
-              "y": 96,
-              "extracted": "Counsel S(if anyign a tur)e:"
+              "y": 173,
+              "extracted": "Prosecuting Attorney"
             }
           ]
         },
         {
-          "field": "Sig_Bar",
-          "page": 5,
+          "field": "3Z.1",
+          "page": 1,
           "rect": {
-            "x": 310.25,
-            "y": 78.66,
-            "width": 122.31,
-            "height": 13.68
+            "x": 355.12,
+            "y": 186.84,
+            "width": 184.88,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": true,
+          "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
           "multiline": false,
           "maxLength": null,
-          "section": "Signature",
-          "effectiveLabel": "Counsel attorney registration number",
-          "policy": "attorney",
+          "section": "Section 3 — Records to be Sealed",
+          "effectiveLabel": "District or County Court — Case Number",
+          "policy": "write",
+          "factId": "matter.case_number",
+          "printedTextAtCoordinate": [
+            {
+              "y": 192,
+              "extracted": "District or County Court Case Number:"
+            },
+            {
+              "y": 173,
+              "extracted": "Prosecuting Attorney"
+            }
+          ]
+        },
+        {
+          "field": "3A.0",
+          "page": 1,
+          "rect": {
+            "x": 126,
+            "y": 169.79,
+            "width": 13.68,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "pdfType": "checkbox",
+          "hiddenUntilTheFormRevealsIt": false,
+          "isSelectionControl": true,
+          "multiline": false,
+          "maxLength": null,
+          "section": "Section 3 — Records to be Sealed",
+          "effectiveLabel": "Prosecuting Attorney holds records (selection)",
+          "policy": "election",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 80,
-              "extracted": "Esq. Reg No."
+              "y": 173,
+              "extracted": "Prosecuting Attorney"
             },
             {
-              "y": 96,
-              "extracted": "Counsel S(if anyign a tur)e:"
+              "y": 154,
+              "extracted": "Sheriff’s De partment"
+            }
+          ]
+        },
+        {
+          "field": "3B.0",
+          "page": 1,
+          "rect": {
+            "x": 126,
+            "y": 150.69,
+            "width": 13.68,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "pdfType": "checkbox",
+          "hiddenUntilTheFormRevealsIt": false,
+          "isSelectionControl": true,
+          "multiline": false,
+          "maxLength": null,
+          "section": "Section 3 — Records to be Sealed",
+          "effectiveLabel": "Sheriff's Department holds records (selection)",
+          "policy": "election",
+          "factId": null,
+          "printedTextAtCoordinate": [
+            {
+              "y": 154,
+              "extracted": "Sheriff’s De partment"
+            },
+            {
+              "y": 141,
+              "extracted": "Mailing Address:"
+            }
+          ]
+        },
+        {
+          "field": "3B.1",
+          "page": 1,
+          "rect": {
+            "x": 219.55,
+            "y": 136.66,
+            "width": 320.01,
+            "height": 15.12
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "pdfType": "text",
+          "hiddenUntilTheFormRevealsIt": false,
+          "isSelectionControl": false,
+          "multiline": false,
+          "maxLength": null,
+          "section": "Section 3 — Records to be Sealed",
+          "effectiveLabel": "Sheriff's Department — Mailing Address",
+          "policy": "supply",
+          "factId": null,
+          "printedTextAtCoordinate": [
+            {
+              "y": 141,
+              "extracted": "Mailing Address:"
+            },
+            {
+              "y": 121,
+              "extracted": "Colorado Bureau of fnvestigatio(Requiren d)"
+            }
+          ]
+        },
+        {
+          "field": "3C",
+          "page": 1,
+          "rect": {
+            "x": 126,
+            "y": 118.21,
+            "width": 13.68,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "pdfType": "checkbox",
+          "hiddenUntilTheFormRevealsIt": false,
+          "isSelectionControl": true,
+          "multiline": false,
+          "maxLength": null,
+          "section": "Section 3 — Records to be Sealed",
+          "effectiveLabel": "Colorado Bureau of Investigation holds records (selection)",
+          "policy": "election",
+          "factId": null,
+          "printedTextAtCoordinate": [
+            {
+              "y": 121,
+              "extracted": "Colorado Bureau of fnvestigatio(Requiren d)"
+            },
+            {
+              "y": 109,
+              "extracted": "ATTN Identification-Seals, 690 Kipling St., STE 3000, Lakewood, CO 80215"
             }
           ]
         }
@@ -1849,6 +1860,7 @@
       "documentId": "JDF-613",
       "formNumber": "JDF-613",
       "sourceSha256": "0745d99f233c7df13286c581c912d9f87b15187270e3d1773455c1ed51848677",
+      "textReadsCleanly": false,
       "pageCount": 1,
       "fieldCount": 13,
       "corpusIndexDeclaresFieldCount": 13,
@@ -2232,6 +2244,7 @@
       "documentId": "JDF-614",
       "formNumber": "JDF-614",
       "sourceSha256": "08f0a13f9aa7f5036f6f28748648fdee56aed9ee1f511f6f10e183e0bfa5e08b",
+      "textReadsCleanly": false,
       "pageCount": 1,
       "fieldCount": 16,
       "corpusIndexDeclaresFieldCount": 16,
@@ -2701,37 +2714,38 @@
     {
       "documentId": "JDF-615",
       "formNumber": "JDF-615",
-      "sourceSha256": "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
+      "sourceSha256": "184a33faf5d800a189f4c0fbd180912a02888d60e1100ca586064a8c753a0a26",
+      "textReadsCleanly": true,
       "pageCount": 3,
-      "fieldCount": 23,
-      "corpusIndexDeclaresFieldCount": 23,
+      "fieldCount": 21,
+      "corpusIndexDeclaresFieldCount": 21,
       "fields": [
         {
-          "field": "Group_CourtType",
+          "field": "Dropdown1",
           "page": 1,
           "rect": {
-            "x": 87.49,
-            "y": 645,
-            "width": 12.24,
+            "x": 207.05,
+            "y": 647.75,
+            "width": 148.8,
             "height": 12.24
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "radiogroup",
+          "pdfType": "dropdown",
           "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": true,
           "multiline": false,
           "maxLength": null,
           "section": "A. Court",
-          "effectiveLabel": "District Court or County Court (selection)",
+          "effectiveLabel": "County Court or District Court (selection)",
           "policy": "election",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 648,
-              "extracted": "District County"
+              "y": 651,
+              "extracted": "Type: (ex: County or District)"
             },
             {
-              "y": 632,
+              "y": 635,
               "extracted": "Colorado County:"
             }
           ]
@@ -2740,10 +2754,10 @@
           "field": "County",
           "page": 1,
           "rect": {
-            "x": 161.51,
-            "y": 630.35,
-            "width": 189,
-            "height": 10.8
+            "x": 161.13,
+            "y": 632.27,
+            "width": 194.62,
+            "height": 12.24
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -2757,12 +2771,12 @@
           "factId": "matter.county",
           "printedTextAtCoordinate": [
             {
-              "y": 632,
+              "y": 635,
               "extracted": "Colorado County:"
             },
             {
-              "y": 619,
-              "extracted": "Mailing Address:"
+              "y": 620,
+              "extracted": "Court Address:"
             }
           ]
         },
@@ -2770,29 +2784,29 @@
           "field": "Court Address",
           "page": 1,
           "rect": {
-            "x": 158.24,
-            "y": 617.43,
-            "width": 192.27,
-            "height": 10.8
+            "x": 157.85,
+            "y": 599.44,
+            "width": 197.89,
+            "height": 32.31
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
           "hiddenUntilTheFormRevealsIt": false,
           "isSelectionControl": false,
-          "multiline": false,
+          "multiline": true,
           "maxLength": null,
           "section": "A. Court",
-          "effectiveLabel": "Court Mailing Address",
+          "effectiveLabel": "Court Address",
           "policy": "supply",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 619,
-              "extracted": "Mailing Address:"
+              "y": 590,
+              "extracted": "This box is for court use only."
             },
             {
-              "y": 604,
-              "extracted": "This box is for court use only."
+              "y": 583,
+              "extracted": "B. Parties to the Case"
             }
           ]
         },
@@ -2800,10 +2814,10 @@
           "field": "Case Number",
           "page": 1,
           "rect": {
-            "x": 419.35,
-            "y": 563.16,
-            "width": 111.6,
-            "height": 10.8
+            "x": 419.13,
+            "y": 551.34,
+            "width": 119.78,
+            "height": 12.24
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -2817,12 +2831,12 @@
           "factId": "matter.case_number",
           "printedTextAtCoordinate": [
             {
-              "y": 564,
-              "extracted": "Number\u001d"
+              "y": 554,
+              "extracted": "Number:"
             },
             {
-              "y": 555,
-              "extracted": "v."
+              "y": 548,
+              "extracted": "vs."
             }
           ]
         },
@@ -2830,10 +2844,10 @@
           "field": "Division",
           "page": 1,
           "rect": {
-            "x": 419.19,
-            "y": 547.28,
-            "width": 111.6,
-            "height": 10.8
+            "x": 418.8,
+            "y": 535.79,
+            "width": 120.11,
+            "height": 12.24
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -2847,12 +2861,12 @@
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 549,
-              "extracted": "Division\u001d"
+              "y": 539,
+              "extracted": "Division:"
             },
             {
-              "y": 555,
-              "extracted": "v."
+              "y": 529,
+              "extracted": "Defendant:"
             }
           ]
         },
@@ -2860,10 +2874,10 @@
           "field": "Courtroom",
           "page": 1,
           "rect": {
-            "x": 429.99,
-            "y": 531.9,
-            "width": 100.96,
-            "height": 10.8
+            "x": 429.6,
+            "y": 520.03,
+            "width": 109.31,
+            "height": 12.24
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -2877,12 +2891,12 @@
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 533,
-              "extracted": "Courtroom\u001d"
+              "y": 523,
+              "extracted": "Courtroom:"
             },
             {
-              "y": 536,
-              "extracted": "Defendant\u001d"
+              "y": 529,
+              "extracted": "Defendant:"
             }
           ]
         },
@@ -2890,10 +2904,10 @@
           "field": "∆",
           "page": 1,
           "rect": {
-            "x": 136.53,
-            "y": 534.52,
-            "width": 213.87,
-            "height": 10.8
+            "x": 136.24,
+            "y": 526.02,
+            "width": 219.73,
+            "height": 12.24
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -2902,17 +2916,17 @@
           "multiline": false,
           "maxLength": null,
           "section": "B. Parties to the Case",
-          "effectiveLabel": "Defendant — Full Name",
-          "policy": "write",
-          "factId": "participant.full_legal_name",
+          "effectiveLabel": "Defendant — Full Name (caption)",
+          "policy": "supply",
+          "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 536,
-              "extracted": "Defendant\u001d"
+              "y": 529,
+              "extracted": "Defendant:"
             },
             {
-              "y": 533,
-              "extracted": "Courtroom\u001d"
+              "y": 523,
+              "extracted": "Courtroom:"
             }
           ]
         },
@@ -2920,10 +2934,10 @@
           "field": "∆ DoB",
           "page": 1,
           "rect": {
-            "x": 194.06,
-            "y": 345.08,
-            "width": 166.09,
-            "height": 12.24
+            "x": 194.04,
+            "y": 299.31,
+            "width": 167.67,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -2937,8 +2951,12 @@
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 346,
-              "extracted": "b)Birth Date:"
+              "y": 304,
+              "extracted": "b) Birth Date:"
+            },
+            {
+              "y": 280,
+              "extracted": "c) Mailing Address:"
             }
           ]
         },
@@ -2946,10 +2964,10 @@
           "field": "∆ Street Address",
           "page": 1,
           "rect": {
-            "x": 220.71,
-            "y": 321.84,
-            "width": 319.58,
-            "height": 12.24
+            "x": 222.16,
+            "y": 275.73,
+            "width": 317.22,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -2963,23 +2981,23 @@
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 323,
-              "extracted": "c)Mailing Address:"
+              "y": 280,
+              "extracted": "c) Mailing Address:"
             },
             {
-              "y": 306,
-              "extracted": "City: ST : Zip Co de:"
+              "y": 263,
+              "extracted": "City, State, and Zip Code:"
             }
           ]
         },
         {
-          "field": "∆ City",
+          "field": "∆ CSZ",
           "page": 1,
           "rect": {
-            "x": 220.87,
-            "y": 304.65,
-            "width": 139.26,
-            "height": 12.24
+            "x": 278.85,
+            "y": 258.67,
+            "width": 260.53,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -2988,77 +3006,13 @@
           "multiline": false,
           "maxLength": null,
           "section": "2. Defendant's Information",
-          "effectiveLabel": "By the Court — City",
+          "effectiveLabel": "By the Court — City, State, and Zip Code",
           "policy": "protect",
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 306,
-              "extracted": "City: ST : Zip Co de:"
-            },
-            {
-              "y": 323,
-              "extracted": "c)Mailing Address:"
-            }
-          ]
-        },
-        {
-          "field": "∆ State",
-          "page": 1,
-          "rect": {
-            "x": 381.07,
-            "y": 304.65,
-            "width": 33.05,
-            "height": 12.24
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": false,
-          "isSelectionControl": false,
-          "multiline": false,
-          "maxLength": null,
-          "section": "2. Defendant's Information",
-          "effectiveLabel": "By the Court — State",
-          "policy": "protect",
-          "factId": null,
-          "printedTextAtCoordinate": [
-            {
-              "y": 306,
-              "extracted": "City: ST : Zip Co de:"
-            },
-            {
-              "y": 323,
-              "extracted": "c)Mailing Address:"
-            }
-          ]
-        },
-        {
-          "field": "∆ Zip",
-          "page": 1,
-          "rect": {
-            "x": 463.21,
-            "y": 304.65,
-            "width": 77.07,
-            "height": 12.24
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": false,
-          "isSelectionControl": false,
-          "multiline": false,
-          "maxLength": null,
-          "section": "2. Defendant's Information",
-          "effectiveLabel": "By the Court — Zip Code",
-          "policy": "protect",
-          "factId": null,
-          "printedTextAtCoordinate": [
-            {
-              "y": 306,
-              "extracted": "City: ST : Zip Co de:"
-            },
-            {
-              "y": 323,
-              "extracted": "c)Mailing Address:"
+              "y": 263,
+              "extracted": "City, State, and Zip Code:"
             }
           ]
         },
@@ -3067,7 +3021,7 @@
           "page": 1,
           "rect": {
             "x": 108.82,
-            "y": 204.16,
+            "y": 161.62,
             "width": 9.36,
             "height": 9.36
           },
@@ -3083,8 +3037,8 @@
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 205,
-              "extracted": "a)Petty Offense"
+              "y": 162,
+              "extracted": "a) Petty Offense"
             }
           ]
         },
@@ -3110,37 +3064,7 @@
           "printedTextAtCoordinate": [
             {
               "y": 711,
-              "extracted": "b) EligMibislede me oarn Fore lony"
-            }
-          ]
-        },
-        {
-          "field": "615.4A.1",
-          "page": 2,
-          "rect": {
-            "x": 281.48,
-            "y": 117.12,
-            "width": 186.87,
-            "height": 13.68
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": false,
-          "isSelectionControl": false,
-          "multiline": false,
-          "maxLength": null,
-          "section": "4. Court Orders",
-          "effectiveLabel": "By the Court — Law Enforcement agency file number",
-          "policy": "protect",
-          "factId": null,
-          "printedTextAtCoordinate": [
-            {
-              "y": 118,
-              "extracted": "Case nu mber:"
-            },
-            {
-              "y": 101,
-              "extracted": "Arrest n umber\u001d"
+              "extracted": "b) Eligible Misdemeanor or Felony"
             }
           ]
         },
@@ -3148,10 +3072,10 @@
           "field": "615.4A.2",
           "page": 2,
           "rect": {
-            "x": 285.17,
-            "y": 100.02,
-            "width": 183.07,
-            "height": 13.68
+            "x": 283.86,
+            "y": 219.47,
+            "width": 220.14,
+            "height": 15.12
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -3165,12 +3089,68 @@
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 101,
-              "extracted": "Arrest n umber\u001d"
+              "y": 223,
+              "extracted": "Arrest number:"
+            }
+          ]
+        },
+        {
+          "field": "615.4A.1",
+          "page": 2,
+          "rect": {
+            "x": 280.17,
+            "y": 236.57,
+            "width": 223.83,
+            "height": 15.12
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "pdfType": "text",
+          "hiddenUntilTheFormRevealsIt": false,
+          "isSelectionControl": false,
+          "multiline": false,
+          "maxLength": null,
+          "section": "4. Court Orders",
+          "effectiveLabel": "By the Court — Law Enforcement agency case number",
+          "policy": "protect",
+          "factId": null,
+          "printedTextAtCoordinate": [
+            {
+              "y": 240,
+              "extracted": "Case number:"
             },
             {
-              "y": 118,
-              "extracted": "Case nu mber:"
+              "y": 223,
+              "extracted": "Arrest number:"
+            }
+          ]
+        },
+        {
+          "field": "615.4A.0",
+          "page": 2,
+          "rect": {
+            "x": 298.31,
+            "y": 253.34,
+            "width": 241.69,
+            "height": 15.12
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "pdfType": "text",
+          "hiddenUntilTheFormRevealsIt": false,
+          "isSelectionControl": false,
+          "multiline": false,
+          "maxLength": null,
+          "section": "4. Court Orders",
+          "effectiveLabel": "By the Court — Law Enforcement Agency",
+          "policy": "protect",
+          "factId": null,
+          "printedTextAtCoordinate": [
+            {
+              "y": 257,
+              "extracted": "2) Law Enforcement Agency:"
+            },
+            {
+              "y": 240,
+              "extracted": "Case number:"
             }
           ]
         },
@@ -3196,33 +3176,7 @@
           "printedTextAtCoordinate": [
             {
               "y": 572,
-              "extracted": "c) Consequences v P ublic Interest"
-            }
-          ]
-        },
-        {
-          "field": "478.3D.0",
-          "page": 2,
-          "rect": {
-            "x": 108.88,
-            "y": 432.07,
-            "width": 9.36,
-            "height": 9.36
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "checkbox",
-          "hiddenUntilTheFormRevealsIt": false,
-          "isSelectionControl": true,
-          "multiline": false,
-          "maxLength": null,
-          "section": "3. Court Findings",
-          "effectiveLabel": "By the Court — finding that the conduct is no longer unlawful",
-          "policy": "protect",
-          "factId": null,
-          "printedTextAtCoordinate": [
-            {
-              "y": 433,
-              "extracted": "d) Conduct No Long er Unlawful"
+              "extracted": "c) Consequences v Public Interest"
             }
           ]
         },
@@ -3230,8 +3184,8 @@
           "field": "478.3E.0",
           "page": 2,
           "rect": {
-            "x": 108.56,
-            "y": 310.48,
+            "x": 108.88,
+            "y": 432.23,
             "width": 9.36,
             "height": 9.36
           },
@@ -3247,19 +3201,109 @@
           "factId": null,
           "printedTextAtCoordinate": [
             {
-              "y": 311,
-              "extracted": "e) Victim of Huma n Trafficking"
+              "y": 433,
+              "extracted": "d) Victim of Human Trafficking"
             }
           ]
         },
         {
-          "field": "478.4D",
+          "field": "Sig",
+          "page": 3,
+          "rect": {
+            "x": 124.69,
+            "y": 484.15,
+            "width": 198.87,
+            "height": 15.12
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "pdfType": "text",
+          "hiddenUntilTheFormRevealsIt": false,
+          "isSelectionControl": false,
+          "multiline": false,
+          "maxLength": null,
+          "section": "So Ordered",
+          "effectiveLabel": "By the Court — signature",
+          "policy": "protect",
+          "factId": null,
+          "printedTextAtCoordinate": [
+            {
+              "y": 484,
+              "extracted": "By: Dated:"
+            },
+            {
+              "y": 473,
+              "extracted": "Judge Magistrate"
+            }
+          ]
+        },
+        {
+          "field": "Group_Sig",
+          "page": 3,
+          "rect": {
+            "x": 124.75,
+            "y": 469.79,
+            "width": 13.68,
+            "height": 13.68
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "pdfType": "radiogroup",
+          "hiddenUntilTheFormRevealsIt": false,
+          "isSelectionControl": true,
+          "multiline": false,
+          "maxLength": null,
+          "section": "So Ordered",
+          "effectiveLabel": "By the Court — Judge or Magistrate (selection)",
+          "policy": "protect",
+          "factId": null,
+          "printedTextAtCoordinate": [
+            {
+              "y": 473,
+              "extracted": "Judge Magistrate"
+            },
+            {
+              "y": 484,
+              "extracted": "By: Dated:"
+            }
+          ]
+        },
+        {
+          "field": "Sig_Date",
+          "page": 3,
+          "rect": {
+            "x": 391.25,
+            "y": 481.67,
+            "width": 149.27,
+            "height": 15.12
+          },
+          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
+          "pdfType": "text",
+          "hiddenUntilTheFormRevealsIt": false,
+          "isSelectionControl": false,
+          "multiline": false,
+          "maxLength": null,
+          "section": "So Ordered",
+          "effectiveLabel": "By the Court — Dated",
+          "policy": "protect",
+          "factId": null,
+          "printedTextAtCoordinate": [
+            {
+              "y": 484,
+              "extracted": "By: Dated:"
+            },
+            {
+              "y": 473,
+              "extracted": "Judge Magistrate"
+            }
+          ]
+        },
+        {
+          "field": "4D.1",
           "page": 3,
           "rect": {
             "x": 144,
-            "y": 475.87,
-            "width": 396.55,
-            "height": 46.41
+            "y": 531.04,
+            "width": 396,
+            "height": 104.94
           },
           "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
           "pdfType": "text",
@@ -3272,96 +3316,6 @@
           "policy": "protect",
           "factId": null,
           "printedTextAtCoordinate": []
-        },
-        {
-          "field": "478.5A",
-          "page": 3,
-          "rect": {
-            "x": 125.18,
-            "y": 425.31,
-            "width": 198.87,
-            "height": 13.68
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": false,
-          "isSelectionControl": false,
-          "multiline": false,
-          "maxLength": null,
-          "section": "5. So Ordered",
-          "effectiveLabel": "By the Court — signature",
-          "policy": "protect",
-          "factId": null,
-          "printedTextAtCoordinate": [
-            {
-              "y": 426,
-              "extracted": "By: Date d\u001d"
-            },
-            {
-              "y": 415,
-              "extracted": "Jud ge M agis trate"
-            }
-          ]
-        },
-        {
-          "field": "478.5C",
-          "page": 3,
-          "rect": {
-            "x": 392.3,
-            "y": 425.12,
-            "width": 147.87,
-            "height": 13.68
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "text",
-          "hiddenUntilTheFormRevealsIt": false,
-          "isSelectionControl": false,
-          "multiline": false,
-          "maxLength": null,
-          "section": "5. So Ordered",
-          "effectiveLabel": "By the Court — Dated",
-          "policy": "protect",
-          "factId": null,
-          "printedTextAtCoordinate": [
-            {
-              "y": 426,
-              "extracted": "By: Date d\u001d"
-            },
-            {
-              "y": 415,
-              "extracted": "Jud ge M agis trate"
-            }
-          ]
-        },
-        {
-          "field": "Group478.5B",
-          "page": 3,
-          "rect": {
-            "x": 125.34,
-            "y": 412.58,
-            "width": 12.24,
-            "height": 12.24
-          },
-          "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary",
-          "pdfType": "radiogroup",
-          "hiddenUntilTheFormRevealsIt": false,
-          "isSelectionControl": true,
-          "multiline": false,
-          "maxLength": null,
-          "section": "5. So Ordered",
-          "effectiveLabel": "By the Court — Judge or Magistrate (selection)",
-          "policy": "protect",
-          "factId": null,
-          "printedTextAtCoordinate": [
-            {
-              "y": 415,
-              "extracted": "Jud ge M agis trate"
-            },
-            {
-              "y": 426,
-              "extracted": "By: Date d\u001d"
-            }
-          ]
         }
       ]
     },
@@ -3369,6 +3323,7 @@
       "documentId": "JDF-205",
       "formNumber": "JDF-205",
       "sourceSha256": "45b12f9ace73c369607a5b508d7010f2bc0eeaac1fa1a7357493d61dfb831f6b",
+      "textReadsCleanly": false,
       "pageCount": 3,
       "fieldCount": 91,
       "corpusIndexDeclaresFieldCount": 91,
@@ -6027,6 +5982,7 @@
       "documentId": "JDF-206",
       "formNumber": "JDF-206",
       "sourceSha256": "36ad409286aa60f7af3195c5534a0f969a4682079271ba4cc6068f31cee71dc4",
+      "textReadsCleanly": false,
       "pageCount": 2,
       "fieldCount": 26,
       "corpusIndexDeclaresFieldCount": 26,
