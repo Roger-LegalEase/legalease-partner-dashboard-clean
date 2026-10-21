@@ -743,6 +743,26 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "misdemeanor-five-year-clean-period-expungement", // GA17 Q-c3d27d726a5efb8a9e60
     ],
   },
+  TX: {
+    profileHash: "cbe146b80419cf03a0c7f7edd62da33f59177cea243dc9fd2b1e516d548dc49a",
+    categoryReason: "Earlier Texas categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "automatic-nondisclosure-for-qualifying-nonviolent-misdemeanor-deferred-adjudication-411-07", // GA12 Q-97bc2a5f998b912adda8
+      "expunction-after-pardon-or-actual-innocence-relief", // GA12 Q-ece677b818ab583b0a14
+      "expunction-for-arrest-with-no-charge-filed-after-the-limitations-period", // GA12 Q-b8b91c5dff89cb0adb64
+      "first-offense-dwi-nondisclosure", // GA12 Q-7b044f8b2d70a8798aca
+      "petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725", // GA12 Q-ecdc2323b7eb7e9089ba
+      "petitioned-nondisclosure-for-an-eligible-conviction-411-0735", // GA12 Q-2e0fbd26cd239ff0d6e4
+    ],
+    record: [
+      "automatic-nondisclosure-for-qualifying-nonviolent-misdemeanor-deferred-adjudication-411-07", // GA17 Q-824a1ba5bd22b494dfa1
+      "expunction-after-pardon-or-actual-innocence-relief", // GA17 Q-c51c4a1d5b7aa734511a
+      "expunction-for-arrest-with-no-charge-filed-after-the-limitations-period", // GA17 Q-8d122cfbc96cf12d60cb
+      "first-offense-dwi-nondisclosure", // GA17 Q-35df6f53ee29fa1c90ec
+      "petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725", // GA17 Q-714293c4107f4534661e
+      "petitioned-nondisclosure-for-an-eligible-conviction-411-0735", // GA17 Q-e6978babce1a46e17b47
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
