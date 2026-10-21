@@ -899,6 +899,28 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "marijuana-hashish-possession-expungement-under-2953-321", // GA17 Q-463c45ad2785b6a60935
     ],
   },
+  SC: {
+    profileHash: "f722ee8e20a8a3f4838ba18888efd96a1e094005bfec54c7971a2c89f8bfb97d",
+    categoryReason: "Earlier South Carolina categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "diversion-or-program-completion-expungement", // GA12 Q-3628876a599f755ccb08
+      "eligible-conviction-expungement", // GA12 Q-a01dc251d4bc64a25e86
+      "general-sessions-non-conviction-expungement", // GA12 Q-1e95aceea3b46b97ce1b
+      "human-trafficking-survivor-expungement", // GA12 Q-4e381f7c25da41b693e3
+      "juvenile-expungement", // GA12 Q-66245d5d32703c1edee8
+      "pardon-guidance-for-otherwise-ineligible-convictions", // GA12 Q-732e7580dcb62e76f411
+      "summary-court-non-conviction-expungement", // GA12 Q-599b985661fec0558c4b
+    ],
+    record: [
+      "diversion-or-program-completion-expungement", // GA17 Q-90d4deac639927da1ee2
+      "eligible-conviction-expungement", // GA17 Q-087283881934291ebe40
+      "general-sessions-non-conviction-expungement", // GA17 Q-c26c3f6e7a42b5682710
+      "human-trafficking-survivor-expungement", // GA17 Q-cdfeecfbc806454a636f
+      "juvenile-expungement", // GA17 Q-4c98ca2da751837b69f7
+      "pardon-guidance-for-otherwise-ineligible-convictions", // GA17 Q-f369ae40853cc743fee6
+      "summary-court-non-conviction-expungement", // GA17 Q-b10be642c5fc30e77202
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
