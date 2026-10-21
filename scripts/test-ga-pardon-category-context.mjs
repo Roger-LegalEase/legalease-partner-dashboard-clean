@@ -103,8 +103,13 @@ check('every other required fact retains its exact collection disposition', () =
   routeDecidingFactIds: new Set(['offense_category', ...G.GA_PARDON_FACT_IDS]) };
  const current = resolvePacketCollection(input);
  const prior = resolvePacketCollection({ ...input, specification: { ...spec, specificationSha256: 'unreviewed-scope' } });
- assert.deepEqual(current.facts.filter(f => f.factId !== 'offense_category'), prior.facts.filter(f => f.factId !== 'offense_category'));
+ // record_type also moves: GA-17 R2-A pins its optional history to this reviewed specification, so the unreviewed scope
+ // keeps the base disposition.
+ const moved = ['offense_category', 'record_type'], recordType = r => r.facts.find(f => f.factId === 'record_type');
+ assert.deepEqual(current.facts.filter(f => !moved.includes(f.factId)), prior.facts.filter(f => !moved.includes(f.factId)));
  assert.deepEqual(current.facts.map(f => f.factId), prior.facts.map(f => f.factId));
+ assert.deepEqual([recordType(current).collection, recordType(current).optional, recordType(current).source], ['conditional', true, 'dc_fl_petition_record_type_history']);
+ assert.deepEqual([recordType(prior).collection, recordType(prior).source], ['render_required', 'profile_required_input']);
  assert(prepayGateFactIds(prior).includes('offense_category'));
  assert(!prepayGateFactIds(current).includes('offense_category'));
 });
