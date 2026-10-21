@@ -134,16 +134,20 @@ try{
   let committed;
   await interruptOneSave(async route=>{committed=await route.fetch();await route.abort('failed');},'Synthetic Interrupted Response');
   const afterCommit=await read();
+  // A different draft before the retry, so the recovery choice is observable: Discard must bring back the committed value.
+  await field.fill('Synthetic Draft After Conflict');
   const retry=page.waitForResponse(response=>isApi(response.url())&&response.request().method()==='POST');
   await page.getByRole('button',{name:SAVE}).click();const retried=await retry;
   await page.getByRole('alert').filter({hasText:CHANGED_ELSEWHERE}).waitFor();
   const afterRetry=await read();
   await page.getByRole('button',{name:/^(Compare with saved answers|Comparar con las respuestas guardadas)$/}).click();
-  await page.getByRole('region',{name:/^(Compare answers|Comparar respuestas)$/}).waitFor();
+  const compare=page.getByRole('region',{name:/^(Compare answers|Comparar respuestas)$/});await compare.waitFor();
   await page.getByRole('button',{name:/^(Discard my draft and use saved answers|Descartar mi borrador y usar las respuestas guardadas)$/}).click();
+  await compare.waitFor({state:'detached'});
   check('B-R1-response-lost-no-loss-no-double-apply',committed?.status()===200&&afterCommit.revision===model.revision+1
     &&afterCommit.answers.participant_full_legal_name==='Synthetic Interrupted Response'&&retried.status()===409
-    &&afterRetry.revision===afterCommit.revision&&await field.inputValue()==='Synthetic Interrupted Response'&&!await page.getByRole('alert').count(),
+    &&afterRetry.revision===afterCommit.revision&&afterRetry.answers.participant_full_legal_name==='Synthetic Interrupted Response'
+    &&await field.inputValue()==='Synthetic Interrupted Response'&&!await page.getByRole('alert').count(),
     {committedHttp:committed?.status()??null,retryHttp:retried.status()});
 
   // B3 correction in Spanish on the recovered page (its revision must be the recovered one), reload, back to English.
@@ -182,7 +186,7 @@ try{
   const sessionStored=fixture.checked(await fixture.admin.from('consumer_briefcase_items').select('checkout_session_id').eq('id',matterId).single()).checkout_session_id;
   const after=effects();
   report.delivery={offer,generationHttp:generation.status(),resultCode:generated?.resultCode??null,
-    cacheControl:generation.headers()['cache-control']??null,before,after,status:'NOT_APPLICABLE_NO_PACKET_OFFERED',
+    cacheControl:generation.headers()['cache-control']??null,before,after,
     ...(checkout?{checkoutHttp:checkout.status(),checkoutResultCode:checkoutBody?.resultCode??null,checkoutSessionStored:sessionStored!==null}:{})};
   check('B-D5-nothing-offered',/^(I verified these packet facts|He verificado estos datos del paquete)$/.test(verifyLabel)
     &&offer.unavailableNotice===1&&offer.actionButtons===0&&offer.actionLinks===0,offer);
@@ -194,6 +198,7 @@ try{
     check('A-D5-unpaid-generation-refused',[402,403].includes(generation.status()),{http:generation.status()});
   }else check('B-D5-refusal-typed-fulfillment-not-proven',generation.status()===403&&generated?.resultCode==='fulfillment_not_proven'&&report.delivery.cacheControl==='private, no-store');
   check('B-D5-no-job-funding-credit-counter-or-object',JSON.stringify(after)===JSON.stringify(before),{before,after});
+  report.delivery.status=report.checks.filter(row=>/^[AB]-D5-/.test(row.id)).every(row=>row.status==='PASS')?'NOT_APPLICABLE_NO_PACKET_OFFERED':'FAIL';
   report.routeProbe='NOT_APPLICABLE: no PDF is produced for this run';
 
   // Denials: another participant, program staff, and a signed-out request.
