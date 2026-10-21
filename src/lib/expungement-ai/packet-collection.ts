@@ -921,6 +921,28 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "summary-court-non-conviction-expungement", // GA17 Q-b10be642c5fc30e77202
     ],
   },
+  SD: {
+    profileHash: "a1d4f1e781a618726d83137b3905ec17ab394dbc31f94aee23273746ec8331c1",
+    categoryReason: "Earlier South Dakota categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "adult-arrest-record-expungement-under-sdcl-23a-3-27", // GA12 Q-e3265ba918c0807bc1d4
+      "automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases", // GA12 Q-0dd3d4a648d6ab2cace7
+      "controlled-substance-deferred-disposition-route", // GA12 Q-6ff783980d482acdedd8
+      "diversion-expungement", // GA12 Q-8283a2d886845701d5c8
+      "juvenile-delinquency-sealing", // GA12 Q-0fbe5c9baccd5dfb2743
+      "juvenile-trafficking-expungement", // GA12 Q-544a83f317e6925639ae
+      "pardon-based-sealing", // GA12 Q-0f015c8e313a541231b9
+    ],
+    record: [
+      "adult-arrest-record-expungement-under-sdcl-23a-3-27", // GA17 Q-022baee1cde486a164d3
+      "automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases", // GA17 Q-a39273de8f45dd093a92
+      "controlled-substance-deferred-disposition-route", // GA17 Q-6d14ac2fd7b6bddcc5b7
+      "diversion-expungement", // GA17 Q-e6106fb50b4129355c03
+      "juvenile-delinquency-sealing", // GA17 Q-d42a33c8cf47f037e46b
+      "juvenile-trafficking-expungement", // GA17 Q-3419f0242f9669240a3b
+      "pardon-based-sealing", // GA17 Q-3118da38c8786644c46e
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
