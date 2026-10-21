@@ -1695,6 +1695,36 @@ export function montanaRecordFinancialDraftSuccessor(snapshot: ProtectedPacketAu
 // Owner Item 11: exact metadata-only predecessor pairs; no future profile change is covered.
 const LEGAL_AUTHORITY_METADATA_SUCCESSORS = [
   {
+    "jurisdiction": "CO",
+    "pathwayId": null,
+    "priorSha256": "6182cd987a67145d5646923206a4a857a7157030dbd7d5a733a83ed73a924c9f",
+    "newSha256": "2588b51b9d3a14cf6e4c8a71525b56a25bba8b0f997f1162cc20bd940321a9ac"
+  },
+  {
+    "jurisdiction": "CO",
+    "pathwayId": "petition-based-non-conviction-sealing-jdf-417-24-72-704",
+    "priorSha256": "ca15a9ff8d4b2adf3b3e588fd1167e6684edfbfea03047ca75bdd3505eb5342a",
+    "newSha256": "c57bff3b56476d603a548cf1e8e4a9d23389d8f5c36d0a27bb2086fa5ab77c7c"
+  },
+  {
+    "jurisdiction": "CO",
+    "pathwayId": "petition-based-conviction-sealing-jdf-612-24-72-706",
+    "priorSha256": "0687ba684bd40664bbb8a1047a6443c721d8f38b37612bb9ae9b205dde6df1bc",
+    "newSha256": "9984d12589bb20850102d2990b8b04aa4ec4713d9453db076010969ac65f9043"
+  },
+  {
+    "jurisdiction": "CO",
+    "pathwayId": "automatic-clean-slate-sealing-13-3-117",
+    "priorSha256": "28f521be8fff57e14cd304b01574e8c83b66d32705aa8ed6f3caea3269746274",
+    "newSha256": "fd69ff8ccaba46ca719d589c638fb5ba54477ef0dc3f5452423fd8939367dac5"
+  },
+  {
+    "jurisdiction": "CO",
+    "pathwayId": "juvenile-expungement-19-1-306",
+    "priorSha256": "042850a90c8f76fc3c04ad70f7e4fa715f02dd843cb4b2bf33319e7dd55ce215",
+    "newSha256": "a5bfc04d27bab5ae3118a0779db152a816008964a279a11ca86f894846af6a82"
+  },
+  {
     "jurisdiction": "GA",
     "pathwayId": "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
     "priorSha256": "3fc05cf0288443f5da21a2040f27b2ce9af949b48e94c00f93b1420b974bb6b5",
@@ -1748,7 +1778,7 @@ export function legalAuthorityMetadataDraftSuccessor(snapshot: ProtectedPacketAu
     || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
     || snapshot.jurisdiction !== profile.jurisdiction.code || snapshot.profileVersion !== profile.profileVersion
     || snapshot.profileSourceFingerprint !== profile.source?.sourceCorpusSha256
-    || snapshot.pathwayId !== evaluation.pathwayId || snapshot.paymentAllowed || evaluation.paymentAllowed) return null;
+    || snapshot.pathwayId !== (evaluation.pathwayId ?? null) || snapshot.paymentAllowed || evaluation.paymentAllowed) return null;
   const pair = LEGAL_AUTHORITY_METADATA_SUCCESSORS.find(row => row.jurisdiction === snapshot.jurisdiction
     && row.pathwayId === snapshot.pathwayId && row.priorSha256 === snapshot.profileAuthorityFingerprint);
   if (!pair || profileAuthorityFingerprint(profile, snapshot.pathwayId) !== pair.newSha256) return null;
