@@ -301,5 +301,26 @@ for(const name of ['currently-serving','completed'])for(const [label,patch,code]
  check(prefix+' additional result asked only for granted relief',selectScreeningQuestionIds(profile,pub,answers).includes('ca_prop64_additional_benefit'),label!=='denied');
  check(prefix+' original answers unchanged',answers,before);scenarios.push({name:prefix,label,evaluation});
 }
+// CA-L06 / O47 (DR13 CA-06, v3 §5): real consumers refer a reported or unclear continuing condition on the completed branch only, unpaid; an unpaid balance alone and the serving branch keep the ordinary result.
+const conditionIds=['ca_prop64_supervision_ended','ca_prop64_payment_condition'],outcome=e=>[e.resultCode,e.paymentAllowed,e.reasons.map(r=>r.text)];
+for(const name of ['currently-serving','completed']){
+ const fixture=JSON.parse(fs.readFileSync(new URL(`./fixtures/ca-prop64-protected-baseline/${name}.json`,import.meta.url))),ordinary={...fixture.answers,...facts},baseline=evaluateAnswers(ordinary).evaluation;
+ check(`CA-L06/${name} conditions asked only on the completed branch`,conditionIds.map(id=>selectScreeningQuestionIds(profile,pub,ordinary).includes(id)),conditionIds.map(()=>name==='completed'));
+ for(const [label,patch,code]of [
+  ['ended',{ca_prop64_supervision_ended:'ended',ca_prop64_payment_condition:'No'}],
+  ['unpaid-balance-alone',{financial_obligations:'Yes',ca_prop64_supervision_ended:'ended',ca_prop64_payment_condition:'No'}],
+  ['supervision-continues',{ca_prop64_supervision_ended:'supervision_continues'},'sentence_condition_continues'],
+  ['payment-condition',{ca_prop64_payment_condition:'Yes'},'sentence_condition_continues'],
+  ['unsure',{ca_prop64_supervision_ended:'unknown'},'sentence_condition_unknown']
+ ]){
+  const answers={...ordinary,...patch},before=structuredClone(answers),prefix=`CA-L06/${name}/${label}`,evaluation=evaluateAnswers(answers).evaluation;
+  if(code&&name==='completed'){
+   check(prefix+' held for review, unpaid',[evaluation.resultCode,evaluation.paymentAllowed],['needs_review',false]);
+   check(prefix+' adopted distinction displayed',evaluation.reasons.map(r=>r.text),[F.CA_PROP64_REASON_COPY[code][0]]);
+   for(const locale of ['en','es'])check(prefix+' reviewed copy '+locale,resolveRuntimeText(locale,F.CA_PROP64_REASON_COPY[code][0]),F.CA_PROP64_REASON_COPY[code][locale==='es'?1:0]);
+  }else check(prefix+' ordinary result unchanged',outcome(evaluation),outcome(baseline));
+  check(prefix+' original answers unchanged',answers,before);scenarios.push({name:prefix,label,evaluation});
+ }
+}
 const failed=checks.filter(c=>!c.pass),report={status:failed.length?'FAIL':'PASS',checks:checks.length,scenarios:scenarios.length,renders:renders.length,failed,details:checks,scenarioDetails:scenarios,renderDetails:renders,limits:['Pure protected transitions and real stateless handlers/SSR; not DB/browser/RLS acceptance or professional approval.']};
 const out=process.argv[2];if(out)fs.writeFileSync(out,JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({status:report.status,checks:checks.length,scenarios:scenarios.length,renders:renders.length,failed},null,2));assert.equal(failed.length,0);

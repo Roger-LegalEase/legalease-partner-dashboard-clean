@@ -32,7 +32,9 @@ export const CA_PROP64_REASON_COPY: Record<string, [string, string]> = {
   felony_exception: ["These facts may permit felony treatment under this particular offense section. Record-specific review is needed; the same facts are not a blanket bar to all Proposition 64 relief.", "Estos hechos pueden permitir el tratamiento como delito grave bajo esta sección particular. Se necesita revisión del registro; no son una prohibición general de toda reparación bajo la Proposición 64."],
   conviction_record: ["Confirm the final conviction or juvenile adjudication for this request. An arrest, charge or program alone is not a conviction.", "Confirme la condena final o resolución de menores para esta solicitud. Un arresto, cargo o programa por sí solo no es una condena."],
   no_reduction_shown: ["The current facts do not yet establish a reduction from the recorded offense level. Review the record and any other applicable relief.", "Los hechos actuales aún no establecen una reducción del nivel de delito registrado. Revise el registro y cualquier otra reparación aplicable."],
-  remedy_conflict: ["The requested remedy and the conduct facts do not agree. Dismissal and sealing concerns conduct that became lawful; redesignation concerns conduct that became a lesser offense.", "La reparación solicitada y los hechos de la conducta no coinciden. La desestimación y el sellado corresponden a conducta que se volvió legal; la reclasificación, a conducta que se volvió un delito de menor gravedad."]
+  remedy_conflict: ["The requested remedy and the conduct facts do not agree. Dismissal and sealing concerns conduct that became lawful; redesignation concerns conduct that became a lesser offense.", "La reparación solicitada y los hechos de la conducta no coinciden. La desestimación y el sellado corresponden a conducta que se volvió legal; la reclasificación, a conducta que se volvió un delito de menor gravedad."],
+  sentence_condition_continues: ["Supervision or a court-ordered payment condition was reported as still in effect. Release from custody alone does not complete a sentence, and an unpaid balance alone does not mean it is still being served. Review the actual order to confirm whether the sentence is still being served before choosing the completed-sentence application.", "Se informó que la supervisión o una condición de pago ordenada por el tribunal sigue vigente. Salir de custodia no significa por sí solo que la sentencia esté cumplida, y un saldo pendiente por sí solo no significa que aún se esté cumpliendo. Revise la orden real para confirmar si la sentencia aún se está cumpliendo antes de elegir la solicitud para una sentencia cumplida."],
+  sentence_condition_unknown: ["Whether supervision or a court-ordered payment condition is still in effect is not yet known. Review the actual orders before choosing the completed-sentence application. An unpaid balance alone is not a reason to stop.", "Aún no se sabe si la supervisión o una condición de pago ordenada por el tribunal sigue vigente. Revise las órdenes reales antes de elegir la solicitud para una sentencia cumplida. Un saldo pendiente por sí solo no es motivo para detenerse."]
 };
 export const CA_PROP64_LEGACY_IDS = ["ca_prop64_qualifying_marijuana_offense", "ca_prop64_lesser_or_no_offense"];
 export const CA_PROP64_PROCEDURE_COPY: Record<string, [string, string]> = {
@@ -119,7 +121,9 @@ function exceptionApplies(a: Answers) {
 }
 const concentrateProcedureIds = ["ca_prop64_judgment_finality_2017", "ca_prop64_later_sentence_order", "ca_prop64_pending_appeal"];
 const additionalInfractionRequest = "ca_prop64_additional_infraction_request";
-export const CA_PROP64_OPTIONAL_PROCEDURE_IDS = [additionalInfractionRequest, ...concentrateProcedureIds];
+// CA-L06 (DR13 CA-06, v3 §5): a continuing condition is reported, never inferred from release or a balance.
+const completedConditionIds = ["ca_prop64_supervision_ended", "ca_prop64_payment_condition"];
+export const CA_PROP64_OPTIONAL_PROCEDURE_IDS = [additionalInfractionRequest, ...concentrateProcedureIds, ...completedConditionIds];
 function concentrateAmendmentApplies(a: Answers): boolean {
   const age = number(a.ca_prop64_age_at_offense), offenseDate = date(a.ca_prop64_offense_date, "2016-11-08");
   return caProp64Section(a) === "11357" && Boolean(offenseDate) && age !== undefined && Number.isInteger(age) && age >= 18 && age < 21
@@ -183,6 +187,7 @@ export function caProp64ActiveFactIds(a: Answers): string[] {
     ids.push(additionalInfractionRequest);
     if (yes(a, additionalInfractionRequest)) ids.push(...concentrateProcedureIds);
   }
+  if (caProp64Pathway(a) === CA_PROP64_COMPLETED) ids.push(...completedConditionIds);
   return [...new Set(ids)];
 }
 
@@ -291,6 +296,12 @@ export function caProp64Facts(a: Answers, today: string): Decision {
     if (!elected || elected === "I am not sure") return missing(["ca_prop64_relief_requested"]);
     if ((elected === "dismissal/sealing") !== (classification === "no_offense")) return review("remedy_conflict", ["ca_prop64_relief_requested"]);
   }
+  // CA-L06: unanswered keeps the ordinary branch; a reported condition or an unclear one is referred (DR13:366).
+  if (branch === CA_PROP64_COMPLETED) {
+    if (a.ca_prop64_supervision_ended === "supervision_continues" || yes(a, "ca_prop64_payment_condition")) return review("sentence_condition_continues", completedConditionIds);
+    const unclear = completedConditionIds.filter(id => Object.hasOwn(a, id) && !knownChoice(a, id));
+    if (unclear.length) return review("sentence_condition_unknown", unclear);
+  }
   return { status: "satisfied", ids: [], classification };
 }
 
@@ -341,7 +352,9 @@ export const CA_PROP64_FACT_QUESTIONS: PublicQuestion[] = [
   q("ca_prop64_used_young_person", "Did you knowingly hire, employ, or use someone age 20 or younger in the cannabis activity?", "¿Contrató, empleó o utilizó a sabiendas a alguien de 20 años o menos en la actividad de cannabis?", yesNo),
   q("ca_prop64_transfer_conduct", "Was the cannabis being transported for sale, transferred without payment, or sold? These are different legal situations.", "¿El cannabis se transportaba para la venta, se transfirió sin pago o se vendió? Son situaciones legales distintas.",[["sale", "Sale, offer or attempt to sell", "Venta, oferta o intento de venta"], ["transport_for_sale", "Transport for sale without a sale, offer or attempt to sell", "Transporte para venta sin venta, oferta ni intento de venta"], ["unpaid_gift", "Gift without payment or compensation", "Regalo sin pago ni compensación"], ["personal_transport", "Transport for personal use, with no sale or gift", "Transporte para uso personal, sin venta ni regalo"], ["other", "Other conduct or more than one", "Otra conducta o más de una"], ["unknown", "I am not sure", "No estoy seguro"]]),
   q("ca_prop64_cross_border", "Did this conduct cross California's state border?", "¿Cruzó esta conducta la frontera del estado de California?", [["none", "No", "No"], ["import", "Import, attempted import, or offer to import", "Importación, intento u oferta de importar"], ["export_for_sale", "Transport out of California for sale, or an attempt or offer", "Transporte fuera de California para venta, o intento u oferta"], ["other", "Another border crossing", "Otro cruce de frontera"], ["unknown", "I am not sure", "No estoy seguro"]]),
-  q("ca_prop64_recipient_age", "How old was the person receiving the unpaid gift?", "¿Cuántos años tenía la persona que recibió el regalo sin compensación?", undefined, undefined, "number_or_range")
+  q("ca_prop64_recipient_age", "How old was the person receiving the unpaid gift?", "¿Cuántos años tenía la persona que recibió el regalo sin compensación?", undefined, undefined, "number_or_range"),
+  q("ca_prop64_supervision_ended", "Have custody and all supervision for this case ended?", "¿Terminaron la custodia y toda supervisión de este caso?", [["ended", "Custody and all supervision have ended", "La custodia y toda supervisión terminaron"], ["supervision_continues", "Released from custody, but supervision continues", "Salió de custodia, pero la supervisión continúa"], ["unknown", "I am not sure", "No estoy seguro"]], ["Supervision includes probation, parole, post-release community supervision (PRCS) and mandatory supervision. Release from custody alone does not mean the sentence is complete.", "La supervisión incluye la libertad a prueba (probation), la libertad condicional (parole), la supervisión comunitaria posterior a la liberación (PRCS) y la supervisión obligatoria. Salir de custodia no significa por sí solo que la sentencia esté cumplida."]),
+  q("ca_prop64_payment_condition", "Does a court order make a payment a condition of this sentence that is still in effect?", "¿Una orden judicial establece un pago como condición de esta sentencia que sigue vigente?", yesNo, ["A remaining balance alone does not decide sentence status. Answer Yes only if an order makes payment an ongoing sentence condition, for example a condition of probation.", "Un saldo pendiente no determina por sí solo el estado de la sentencia. Responda Sí solo si una orden exige el pago como condición aún vigente de la sentencia, por ejemplo, como condición de la libertad a prueba (probation)."])
 ];
 export const CA_PROP64_FACT_IDS = CA_PROP64_FACT_QUESTIONS.map(q => q.id);
 export function caProp64QuestionApplies(a: Answers, id: string): boolean {
