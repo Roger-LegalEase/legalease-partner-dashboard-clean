@@ -1077,6 +1077,24 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "no-conviction-released-without-conviction", // GA17 Q-396bbe202b3656e21e7c
     ],
   },
+  WI: {
+    profileHash: "1cc5bd3d938f6ff6a011f93c73b859f0e364dfd2490ef1477a286758d88c57c8",
+    categoryReason: "Earlier Wisconsin categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "adult-conviction-expungement-under-wis-stat-973-015", // GA12 Q-afbb3e3a97066d42db43
+      "adult-non-conviction-arrest-only-record-correction-or-removal", // GA12 Q-245b2c9539e69e175c1f
+      "executive-pardon-guidance", // GA12 Q-54b1f6c15bc185d39267
+      "human-trafficking-prostitution-relief-under-973-015-2m", // GA12 Q-2c27ce8de5fd655f67f3
+      "juvenile-adjudication-expungement-under-wis-stat-938-355-4m", // GA12 Q-17faa85a04ca540acf7f
+    ],
+    record: [
+      "adult-conviction-expungement-under-wis-stat-973-015", // GA17 Q-169832628a42d7562d0e
+      "adult-non-conviction-arrest-only-record-correction-or-removal", // GA17 Q-9f304de00959559d37a2
+      "executive-pardon-guidance", // GA17 Q-17f9b61ca88492af4a91
+      "human-trafficking-prostitution-relief-under-973-015-2m", // GA17 Q-481509abad98bb2a76be
+      "juvenile-adjudication-expungement-under-wis-stat-938-355-4m", // GA17 Q-779bb8134eda85585a64
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
