@@ -34,21 +34,21 @@
     }
   ],
   "counts": {
-    "returnDirectories": 511,
-    "rows": 1618,
+    "returnDirectories": 516,
+    "rows": 1623,
     "independentVerdicts": 344,
     "failRepairRequired": 8,
-    "passIndependent": 335
+    "passIndependent": 333
   },
   "failRepairRequiredFamilies": [
     "ca-prop64-set",
     "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
     "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
-    "ks-21-6614-prostitution-coercion-set",
     "ks-22-4908-registration-relief-set",
     "ny_160_59_petition-set",
     "rcap-nv-custom-pleading",
-    "rcap-ok-custom-pleading"
+    "rcap-ok-custom-pleading",
+    "rcap-wv-custom-pleading"
   ],
   "refusedAtTheClaimGate": {
     "whatThisIs": "rows where a verification lane was refused by the claim gate and therefore opened no artifact. These are statements about the lane, not about the packet, so they never enter the current-verdict contest and never supersede a lane that did look.",
@@ -8106,6 +8106,29 @@
     },
     {
       "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf02",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "92ff5d4366f64de3c1efaed70a1100e37acd9773",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "production-field-map.json routeSelectionsMade[0].statedOn says the route selection is stated on \"both composed pages, in their titles, bodies and footers\". The titles and bodies do state it (p1 \"REQUEST ABOUT A DELAWARE Sec. 1017A AUTOMATIC JUVENILE EXPUNGEMENT THAT DID NOT HAPPEN\", p3 \"DELAWARE Sec. 1017A AUTOMATIC-FAILURE CORRECTION: CONFIRM THE PROCESS BEFORE SENDING\", and the bodies name § 1017A). No page prints a footer: on all 8 pages (4 per fixture) 0 lines start with \"route\" in any case or form and 0 words sit in the bottom 72 pt band; the lowest text on each page is body text (p1 y<=712.4, p3 y<=697.9, p2 and p4 end mid-page; measure-route-statements.json). Under the lead's 21:32Z ruling (consistent with GA YFO, OK juvenile and OK custom-pleading) a record that promises a page statement the bytes do not carry is a defect even as generated metadata, scored here. selectionControls 0 and requiredOptionsMissing 0: no election is left unmade; the failure is the record's claim only.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-20261020-reverify-de-1017a-92ff5d436.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf02/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "superseded": false
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
       "verdict": "BLOCKED_BEFORE_CLAIM",
       "lane": "vf02",
       "isIndependentVerification": true,
@@ -8206,7 +8229,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20261019-reverify-census-5e7fe802c.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
@@ -8577,6 +8600,29 @@
       ],
       "unmeasuredObligations": [],
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20261020-reverify-ga-yfo-1b4dfeaa1.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "superseded": true
+    },
+    {
+      "familyId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf03",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "92ff5d4366f64de3c1efaed70a1100e37acd9773",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "ROUTE_OPTIONS: production-field-map routeSelectionsMade[0].statedOn says the route selection is stated on \"the composed petition and filing instructions, in their titles, bodies and route footers\". The 16 pages print no route footer in any form: pdftotext ^\\s*Route: 0 pages, pikepdf Tj/TJ 0 pages, bare obligation keys 0 (preread-92ff5d436/route-footer-census.txt), and all 16 A9 pages were viewed (a9-39494164576/VIEW-NOTES.json). Titles and bodies do select Sec. 42-8-66 (petition, filing instructions, proposed order, election and certificate titles; petition A and D). Scored by the lead ruling of 2026-10-20T21:32:51Z (same class as OK juvenile 21:08Z and OK custom pleading 20:33Z): a record that promises a page statement the bytes do not carry is a defect even as generated metadata. Repair (FIX-only, writer the lead): the statedOn string the builder emits (build-census-v1-composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route.mjs:671) and a --no-raster rebuild, PDFs byte-identical, no new A9. Otherwise the route options hold: no election control for the route, and the hearing-request election adds one participant choice, printed with neither box marked (\"Neither option is selected for you\"); requiredOptionsMissing 0.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf03/rows-vf03-20261020-reverify-ga-yfo-92ff5d436.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf03/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
       "superseded": false
@@ -16454,6 +16500,22 @@
     },
     {
       "familyId": "ks-21-6614-prostitution-coercion-set",
+      "verdict": "BLOCKED_SOURCE",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "92ff5d4366f64de3c1efaed70a1100e37acd9773",
+      "failedObligations": [],
+      "failedObligationNames": [],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20261020-reverify-ks-6614-92ff5d436.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-prostitution-coercion-set",
+      "superseded": false
+    },
+    {
+      "familyId": "ks-21-6614-prostitution-coercion-set",
       "verdict": "STOPPED",
       "lane": "vf67",
       "isIndependentVerification": true,
@@ -16491,7 +16553,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf67/rows-vf67-20261019-reverify-census-5e7fe802c.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf67/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family ks-21-6614-prostitution-coercion-set",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "ks-21-6614-prostitution-coercion-set",
@@ -29258,6 +29320,31 @@
     },
     {
       "familyId": "rcap-hi-custom-pleading",
+      "verdict": "BLOCKED_SOURCE",
+      "lane": "vf01",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "92ff5d4366f64de3c1efaed70a1100e37acd9773",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "The selection itself is right: no election box is printed, selectionControls 0, requiredOptionsMissing 0, and the instructions' route table tells the participant which set is whose and to use only that set. But the record states where each route is shown, and that statement is false for these bytes. production-field-map.json routeSelectionNote says \"No election box is printed anywhere. Each route's pages state their own statute in the title, the body and the footer, and the participant instructions carry a table saying which set is whose.\" and routeSelectionsMade[0-4].statedOnEveryPageOfThisRoute are all true. The attached official HCJDC 159(b) page of every route (assembly pp [4, 8, 12, 16, 20] in both fixtures; p4 of each of the 10 per-route PDFs) prints no route footer: 0 lines starting \"route\" in any form and 0 route-label lines; its bottom 72 pt band carries only the form's own HCJDC address; its title is \"Expungement Application\" and its body is the same form text on every route, listing all four statutes, so it states no single route's statute (route-statements-92ff5d436.json). The 15 composed pages do print \"Route: <label> - HRS <statute>\" in the bottom band (y 754 of 792) and name the statute in the body. \"In the title\" also overstates for each motion's continuation page (assembly pp [2, 6, 10, 14, 18]), which has no title. Under the lead's 2026-10-20T22:31:31Z ruling (the route-footer class: a record that promises a page statement the bytes do not carry is scored), this fails ROUTE_OPTIONS. The repair is text-only and leaves the PDFs byte-identical.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [
+        "SOURCE_IDENTITY"
+      ],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf01/rows-vf01-20261020-reverify-hi-92ff5d436.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf01/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-hi-custom-pleading",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-hi-custom-pleading",
       "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vf07",
       "isIndependentVerification": true,
@@ -29312,7 +29399,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf54/rows-vf54-20260910.json",
       "repairAssignmentsPath": null,
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-hi-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-in-custom-pleading",
@@ -33001,6 +33088,29 @@
     },
     {
       "familyId": "rcap-wv-custom-pleading",
+      "verdict": "FAIL_REPAIR_REQUIRED",
+      "lane": "vf05",
+      "isIndependentVerification": true,
+      "verifiedAtBase": "92ff5d4366f64de3c1efaed70a1100e37acd9773",
+      "failedObligations": [
+        {
+          "obligation": "ROUTE_OPTIONS",
+          "finding": "production-field-map.json routeSelectionsMade[0].statedOn says the route selection is stated on \"the composed pages for this route, in their titles, bodies and footers\". No page of either fixture prints a footer: on all 25 pages 0 words start in the bottom 72 pt band (measure-route-statements.json). The route statement is a body line, \"Route:\" plus the wrapped internal key, printed once at the close of each component's text (canonical pp[4, 6, 8, 9, 12], boundary pp[4, 6, 9, 10, 13]) at y 253.0-685.5 pt of 792, and no continuation page carries one. On the affidavit it is not even the last thing on the page: canonical p6 prints 8 text lines below it (SIGNATURE OF AFFIANT, DATE, the oath note and the jurat); in the boundary fixture the route line closes p6 and the signature/date and jurat stand alone on p7, which carries no route statement. The routeSelectionNote makes a second claim the bytes do not carry: \"One route, one instrument set: every composed page states this route's statutory ground in its own title and body, and no election control exists on any composed page.\" Canonical pp[2, 3, 4, 6, 8, 11, 12] and boundary pp[2, 3, 4, 6, 7, 9, 12, 13] are continuation pages with no title at all, and the certificate of service (canonical pp7-8, boundary pp8-9) cites no statute on either page (0 occurrences of 60A-4-407; it cites only the Sec. 61-11-26(e) service practice) and names the ground only by subject in its title. Under the lead's 2026-10-20T21:32:51Z ruling and its 22:31:31Z WV ruling as amended at 22:39:54Z, a record that promises a page statement the bytes do not carry is scored here. selectionControls 0 and requiredOptionsMissing 0: no election is left unmade; the failure is the record's claims only.",
+          "findingReadFrom": "detail",
+          "evidence": null
+        }
+      ],
+      "failedObligationNames": [
+        "ROUTE_OPTIONS"
+      ],
+      "unmeasuredObligations": [],
+      "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf05/rows-vf05-20261020-reverify-wv-92ff5d436.json",
+      "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf05/repair-assignments.json",
+      "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wv-custom-pleading",
+      "superseded": false
+    },
+    {
+      "familyId": "rcap-wv-custom-pleading",
       "verdict": "PASS_COMPLETE_INDEPENDENT",
       "lane": "vf05",
       "isIndependentVerification": true,
@@ -33076,7 +33186,7 @@
       "evidencePath": "data/rcap-grade-a/packet-factory-24h/vf07/rows-vf07-20261019-reverify-census-5e7fe802c.json",
       "repairAssignmentsPath": "data/rcap-grade-a/packet-factory-24h/vf07/repair-assignments.json",
       "reproduction": "node scripts/rcap-packet-completeness/verify-packet-completeness.mjs --family rcap-wv-custom-pleading",
-      "superseded": false
+      "superseded": true
     },
     {
       "familyId": "rcap-wv-custom-pleading",

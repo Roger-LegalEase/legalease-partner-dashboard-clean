@@ -692,11 +692,11 @@
   "participantWorkload": {
     "note": "Source-model workload estimates under empty answers and screening-answerability metadata. These do not establish actual post-screening visibility or completed entry burden.",
     "totalParticipantEnteredFactsBefore": 5146,
-    "totalParticipantEnteredFactsAfter": 3050,
+    "totalParticipantEnteredFactsAfter": 3043,
     "totalFactsReusedFromScreening": 1885,
     "totalFactsDeterministicallyDerived": 14,
     "totalDuplicateAsksEliminated": 1885,
-    "totalConditionalFacts": 171,
+    "totalConditionalFacts": 178,
     "totalFilingReadinessFactsBeforeCheckout": 0,
     "totalExternalActorFieldsNeverAsked": 61,
     "enteredFactsBefore": {
@@ -707,7 +707,7 @@
     "enteredFactsAfter": {
       "max": 46,
       "median": 8,
-      "average": 8.89
+      "average": 8.87
     },
     "routesFlaggedUxNotActuallyReduced": 1
   },
@@ -11365,7 +11365,6 @@
           "pending_cases",
           "prior_relief",
           "record_type",
-          "residency_or_location",
           "sentence_completion_date"
         ],
         "renderRequired": [
@@ -11379,7 +11378,8 @@
           "prosecuting_authority"
         ],
         "conditional": [
-          "offense_category"
+          "offense_category",
+          "residency_or_location"
         ],
         "filingReadiness": [],
         "externalActor": [
@@ -11391,9 +11391,9 @@
       "counts": {
         "already_known": 2,
         "derived": 1,
-        "prepay_confirmation": 13,
+        "prepay_confirmation": 12,
         "render_required": 8,
-        "conditional": 1,
+        "conditional": 2,
         "filing_readiness": 0,
         "external_actor": 2,
         "unresolved": 0
@@ -11414,7 +11414,6 @@
             "id": "about_you",
             "factIds": [
               "participant_full_legal_name",
-              "residency_or_location",
               "mailing_address",
               "phone_number",
               "email_address"
@@ -11478,7 +11477,7 @@
         "currentVisibleScreens": 25,
         "newVisibleSections": 8,
         "currentParticipantEnteredFacts": 25,
-        "newParticipantEnteredFacts": 15,
+        "newParticipantEnteredFacts": 14,
         "factsReusedFromScreening": 6,
         "factsReusedFromScreeningIds": [
           "case_outcome",
@@ -11497,29 +11496,29 @@
           "contact_information"
         ],
         "duplicateAsksEliminated": 6,
-        "conditionalFacts": 1,
+        "conditionalFacts": 2,
         "conditionalFactsSuppressedWhenIrrelevant": [
-          "offense_category"
+          "offense_category",
+          "residency_or_location"
         ],
         "filingReadinessFactsStillRequiredBeforeCheckout": 0,
         "externalActorFieldsNeverAsked": 2,
-        "totalAdditionalParticipantInteractionsAfterScreening": 15,
+        "totalAdditionalParticipantInteractionsAfterScreening": 14,
         "coherentParticipantInteractionsAfterScreening": 8,
-        "participantEnteredFactsDelta": 10,
+        "participantEnteredFactsDelta": 11,
         "uxNotActuallyReduced": false,
         "reductionLimitedBy": null
       },
       "prepayBudget": {
-        "confirmationFacts": 13,
-        "additionalConfirmationFacts": 7,
+        "confirmationFacts": 12,
+        "additionalConfirmationFacts": 6,
         "additionalFactIds": [
           "arrest_date",
           "charge",
           "court",
           "criminal_history",
           "disposition_date",
-          "record_type",
-          "residency_or_location"
+          "record_type"
         ],
         "target": 8,
         "cap": 12,
@@ -14904,7 +14903,6 @@
           "disposition_date",
           "participant_full_legal_name",
           "record_type",
-          "residency_or_location",
           "trafficking_status",
           "mailing_address",
           "phone_number",
@@ -14912,7 +14910,8 @@
           "date_of_birth"
         ],
         "conditional": [
-          "offense_category"
+          "offense_category",
+          "residency_or_location"
         ],
         "filingReadiness": [],
         "externalActor": [
@@ -14927,8 +14926,8 @@
         "already_known": 2,
         "derived": 1,
         "prepay_confirmation": 6,
-        "render_required": 10,
-        "conditional": 1,
+        "render_required": 9,
+        "conditional": 2,
         "filing_readiness": 0,
         "external_actor": 4,
         "unresolved": 0
@@ -14949,7 +14948,6 @@
             "id": "about_you",
             "factIds": [
               "participant_full_legal_name",
-              "residency_or_location",
               "mailing_address",
               "phone_number",
               "email_address",
@@ -14998,7 +14996,7 @@
         "currentVisibleScreens": 22,
         "newVisibleSections": 6,
         "currentParticipantEnteredFacts": 22,
-        "newParticipantEnteredFacts": 10,
+        "newParticipantEnteredFacts": 9,
         "factsReusedFromScreening": 6,
         "factsReusedFromScreeningIds": [
           "age_at_offense",
@@ -15017,15 +15015,16 @@
           "contact_information"
         ],
         "duplicateAsksEliminated": 6,
-        "conditionalFacts": 1,
+        "conditionalFacts": 2,
         "conditionalFactsSuppressedWhenIrrelevant": [
-          "offense_category"
+          "offense_category",
+          "residency_or_location"
         ],
         "filingReadinessFactsStillRequiredBeforeCheckout": 0,
         "externalActorFieldsNeverAsked": 4,
-        "totalAdditionalParticipantInteractionsAfterScreening": 10,
+        "totalAdditionalParticipantInteractionsAfterScreening": 9,
         "coherentParticipantInteractionsAfterScreening": 6,
-        "participantEnteredFactsDelta": 12,
+        "participantEnteredFactsDelta": 13,
         "uxNotActuallyReduced": false,
         "reductionLimitedBy": null
       },
@@ -27678,7 +27677,6 @@
           "disposition_date",
           "participant_full_legal_name",
           "record_type",
-          "residency_or_location",
           "trafficking_status",
           "mailing_address",
           "phone_number",
@@ -27686,7 +27684,8 @@
           "date_of_birth"
         ],
         "conditional": [
-          "offense_category"
+          "offense_category",
+          "residency_or_location"
         ],
         "filingReadiness": [],
         "externalActor": [
@@ -27710,8 +27709,8 @@
         "already_known": 3,
         "derived": 1,
         "prepay_confirmation": 8,
-        "render_required": 9,
-        "conditional": 1,
+        "render_required": 8,
+        "conditional": 2,
         "filing_readiness": 0,
         "external_actor": 13,
         "unresolved": 0
@@ -27732,7 +27731,6 @@
             "id": "about_you",
             "factIds": [
               "participant_full_legal_name",
-              "residency_or_location",
               "mailing_address",
               "phone_number",
               "email_address",
@@ -27782,7 +27780,7 @@
         "currentVisibleScreens": 33,
         "newVisibleSections": 6,
         "currentParticipantEnteredFacts": 33,
-        "newParticipantEnteredFacts": 13,
+        "newParticipantEnteredFacts": 12,
         "factsReusedFromScreening": 4,
         "factsReusedFromScreeningIds": [
           "case_outcome",
@@ -27799,15 +27797,16 @@
           "contact_information"
         ],
         "duplicateAsksEliminated": 4,
-        "conditionalFacts": 1,
+        "conditionalFacts": 2,
         "conditionalFactsSuppressedWhenIrrelevant": [
-          "offense_category"
+          "offense_category",
+          "residency_or_location"
         ],
         "filingReadinessFactsStillRequiredBeforeCheckout": 0,
         "externalActorFieldsNeverAsked": 13,
-        "totalAdditionalParticipantInteractionsAfterScreening": 13,
+        "totalAdditionalParticipantInteractionsAfterScreening": 12,
         "coherentParticipantInteractionsAfterScreening": 6,
-        "participantEnteredFactsDelta": 20,
+        "participantEnteredFactsDelta": 21,
         "uxNotActuallyReduced": false,
         "reductionLimitedBy": null
       },
@@ -28158,7 +28157,6 @@
           "disposition_date",
           "participant_full_legal_name",
           "record_type",
-          "residency_or_location",
           "trafficking_status",
           "mailing_address",
           "phone_number",
@@ -28166,7 +28164,8 @@
           "date_of_birth"
         ],
         "conditional": [
-          "offense_category"
+          "offense_category",
+          "residency_or_location"
         ],
         "filingReadiness": [],
         "externalActor": [
@@ -28190,8 +28189,8 @@
         "already_known": 3,
         "derived": 1,
         "prepay_confirmation": 8,
-        "render_required": 9,
-        "conditional": 1,
+        "render_required": 8,
+        "conditional": 2,
         "filing_readiness": 0,
         "external_actor": 13,
         "unresolved": 0
@@ -28212,7 +28211,6 @@
             "id": "about_you",
             "factIds": [
               "participant_full_legal_name",
-              "residency_or_location",
               "mailing_address",
               "phone_number",
               "email_address",
@@ -28262,7 +28260,7 @@
         "currentVisibleScreens": 33,
         "newVisibleSections": 6,
         "currentParticipantEnteredFacts": 33,
-        "newParticipantEnteredFacts": 13,
+        "newParticipantEnteredFacts": 12,
         "factsReusedFromScreening": 4,
         "factsReusedFromScreeningIds": [
           "case_outcome",
@@ -28279,15 +28277,16 @@
           "contact_information"
         ],
         "duplicateAsksEliminated": 4,
-        "conditionalFacts": 1,
+        "conditionalFacts": 2,
         "conditionalFactsSuppressedWhenIrrelevant": [
-          "offense_category"
+          "offense_category",
+          "residency_or_location"
         ],
         "filingReadinessFactsStillRequiredBeforeCheckout": 0,
         "externalActorFieldsNeverAsked": 13,
-        "totalAdditionalParticipantInteractionsAfterScreening": 13,
+        "totalAdditionalParticipantInteractionsAfterScreening": 12,
         "coherentParticipantInteractionsAfterScreening": 6,
-        "participantEnteredFactsDelta": 20,
+        "participantEnteredFactsDelta": 21,
         "uxNotActuallyReduced": false,
         "reductionLimitedBy": null
       },
@@ -29020,7 +29019,6 @@
           "offense_level",
           "pending_cases",
           "prior_relief",
-          "residency_or_location",
           "sentence_completion_date",
           "ms_misd1_conviction_finality",
           "ms_misd1_complete_conviction_history",
@@ -29039,7 +29037,8 @@
           "date_of_birth"
         ],
         "conditional": [
-          "offense_category"
+          "offense_category",
+          "residency_or_location"
         ],
         "filingReadiness": [],
         "externalActor": [
@@ -29065,9 +29064,9 @@
       "counts": {
         "already_known": 2,
         "derived": 1,
-        "prepay_confirmation": 15,
+        "prepay_confirmation": 14,
         "render_required": 7,
-        "conditional": 1,
+        "conditional": 2,
         "filing_readiness": 0,
         "external_actor": 16,
         "unresolved": 0
@@ -29095,7 +29094,6 @@
             "id": "about_you",
             "factIds": [
               "participant_full_legal_name",
-              "residency_or_location",
               "mailing_address",
               "phone_number",
               "email_address",
@@ -29155,7 +29153,7 @@
         "currentVisibleScreens": 34,
         "newVisibleSections": 7,
         "currentParticipantEnteredFacts": 34,
-        "newParticipantEnteredFacts": 18,
+        "newParticipantEnteredFacts": 17,
         "factsReusedFromScreening": 4,
         "factsReusedFromScreeningIds": [
           "case_outcome",
@@ -29172,27 +29170,27 @@
           "contact_information"
         ],
         "duplicateAsksEliminated": 4,
-        "conditionalFacts": 1,
+        "conditionalFacts": 2,
         "conditionalFactsSuppressedWhenIrrelevant": [
-          "offense_category"
+          "offense_category",
+          "residency_or_location"
         ],
         "filingReadinessFactsStillRequiredBeforeCheckout": 0,
         "externalActorFieldsNeverAsked": 16,
-        "totalAdditionalParticipantInteractionsAfterScreening": 18,
+        "totalAdditionalParticipantInteractionsAfterScreening": 17,
         "coherentParticipantInteractionsAfterScreening": 7,
-        "participantEnteredFactsDelta": 16,
+        "participantEnteredFactsDelta": 17,
         "uxNotActuallyReduced": false,
         "reductionLimitedBy": null
       },
       "prepayBudget": {
-        "confirmationFacts": 15,
-        "additionalConfirmationFacts": 11,
+        "confirmationFacts": 14,
+        "additionalConfirmationFacts": 10,
         "additionalFactIds": [
           "age_at_offense",
           "charge",
           "pending_cases",
           "prior_relief",
-          "residency_or_location",
           "ms_misd1_conviction_finality",
           "ms_misd1_complete_conviction_history",
           "ms_misd1_traffic_record_classification",
@@ -40604,14 +40602,14 @@
           "disposition_date",
           "participant_full_legal_name",
           "record_type",
-          "residency_or_location",
           "date_of_birth",
           "mailing_address",
           "phone_number",
           "email_address"
         ],
         "conditional": [
-          "offense_category"
+          "offense_category",
+          "residency_or_location"
         ],
         "filingReadiness": [],
         "externalActor": [],
@@ -40621,8 +40619,8 @@
         "already_known": 2,
         "derived": 1,
         "prepay_confirmation": 10,
-        "render_required": 9,
-        "conditional": 1,
+        "render_required": 8,
+        "conditional": 2,
         "filing_readiness": 0,
         "external_actor": 0,
         "unresolved": 0
@@ -40643,7 +40641,6 @@
             "id": "about_you",
             "factIds": [
               "participant_full_legal_name",
-              "residency_or_location",
               "date_of_birth",
               "mailing_address",
               "phone_number",
@@ -40695,7 +40692,7 @@
         "currentVisibleScreens": 21,
         "newVisibleSections": 6,
         "currentParticipantEnteredFacts": 21,
-        "newParticipantEnteredFacts": 12,
+        "newParticipantEnteredFacts": 11,
         "factsReusedFromScreening": 7,
         "factsReusedFromScreeningIds": [
           "case_outcome",
@@ -40715,15 +40712,16 @@
           "contact_information"
         ],
         "duplicateAsksEliminated": 7,
-        "conditionalFacts": 1,
+        "conditionalFacts": 2,
         "conditionalFactsSuppressedWhenIrrelevant": [
-          "offense_category"
+          "offense_category",
+          "residency_or_location"
         ],
         "filingReadinessFactsStillRequiredBeforeCheckout": 0,
         "externalActorFieldsNeverAsked": 0,
-        "totalAdditionalParticipantInteractionsAfterScreening": 12,
+        "totalAdditionalParticipantInteractionsAfterScreening": 11,
         "coherentParticipantInteractionsAfterScreening": 6,
-        "participantEnteredFactsDelta": 9,
+        "participantEnteredFactsDelta": 10,
         "uxNotActuallyReduced": false,
         "reductionLimitedBy": null
       },
@@ -53636,7 +53634,6 @@
         ],
         "renderRequired": [
           "participant_full_legal_name",
-          "residency_or_location",
           "trafficking_status",
           "mailing_address",
           "phone_number",
@@ -53644,7 +53641,8 @@
           "sd_sis_record_correction_stage"
         ],
         "conditional": [
-          "offense_category"
+          "offense_category",
+          "residency_or_location"
         ],
         "filingReadiness": [],
         "externalActor": [],
@@ -53654,8 +53652,8 @@
         "already_known": 2,
         "derived": 1,
         "prepay_confirmation": 10,
-        "render_required": 7,
-        "conditional": 1,
+        "render_required": 6,
+        "conditional": 2,
         "filing_readiness": 0,
         "external_actor": 0,
         "unresolved": 0
@@ -53676,7 +53674,6 @@
             "id": "about_you",
             "factIds": [
               "participant_full_legal_name",
-              "residency_or_location",
               "mailing_address",
               "phone_number",
               "email_address"
@@ -53731,7 +53728,7 @@
         "currentVisibleScreens": 19,
         "newVisibleSections": 7,
         "currentParticipantEnteredFacts": 19,
-        "newParticipantEnteredFacts": 10,
+        "newParticipantEnteredFacts": 9,
         "factsReusedFromScreening": 7,
         "factsReusedFromScreeningIds": [
           "age_at_offense",
@@ -53751,15 +53748,16 @@
           "contact_information"
         ],
         "duplicateAsksEliminated": 7,
-        "conditionalFacts": 1,
+        "conditionalFacts": 2,
         "conditionalFactsSuppressedWhenIrrelevant": [
-          "offense_category"
+          "offense_category",
+          "residency_or_location"
         ],
         "filingReadinessFactsStillRequiredBeforeCheckout": 0,
         "externalActorFieldsNeverAsked": 0,
-        "totalAdditionalParticipantInteractionsAfterScreening": 10,
+        "totalAdditionalParticipantInteractionsAfterScreening": 9,
         "coherentParticipantInteractionsAfterScreening": 7,
-        "participantEnteredFactsDelta": 9,
+        "participantEnteredFactsDelta": 10,
         "uxNotActuallyReduced": false,
         "reductionLimitedBy": null
       },
