@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-claim-ledger/v2",
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
-  "generatedAtCommit": "f4fa52d67fe165c7421f4788d44b8ddd54bcaab5",
+  "generatedAtCommit": "9400b1919a0467e844c97645cd5bc7c88c770928",
   "mechanism": "scripts/grade-a-packet-factory-24h/claim.mjs",
   "howAtomicityWorks": "One writer. Captain grants every family to exactly one lane of each kind when the dispatch is generated and commits it before any worker starts. Workers assert grants; they never acquire them. Isolated Codex Cloud containers share no lock, so run-time contention is not available and pretending otherwise would be a race with a protocol painted on it.",
   "laneKinds": [
@@ -2373,7 +2373,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX01",
+      "lane": "FIX02",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-05T15:04:11.330Z",
@@ -8805,11 +8805,9 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIXCXH1",
+      "lane": "FIX04",
       "laneKind": "repair",
-      "released": true,
-      "releasedAt": "2026-09-10T23:50:50.884Z",
-      "releaseReason": "FIXCXH1 stopped after exact adapter correction, real positive/negative controls; Captain added unchanged Tennessee route regression. No packet bytes or contract changes."
+      "released": false
     },
     {
       "subjectType": "packet-family",
@@ -9400,7 +9398,7 @@
       ],
       "sourceId": null,
       "operation": "rapid-repair",
-      "lane": "FIX98",
+      "lane": "FIX01",
       "laneKind": "repair",
       "released": true,
       "releasedAt": "2026-09-06T18:29:59.166Z",
@@ -16042,7 +16040,7 @@
       "releasedAt": "2026-09-01T07:58:16.032Z"
     }
   ],
-  "claimsDigest": "ab773eff1af65fe10d727c50826f3cada2b136295b54d010d7559c247657087e",
+  "claimsDigest": "3ecf473325edec8b2f53946e2861e9fc2857fca9d70b1ff9cd67a50758ff26c4",
   "claimsDigestCovers": [
     "subjectType",
     "subjectId",
@@ -56634,6 +56632,16 @@
       "previouslyReleasedAt": "2026-09-08T16:39:50.077Z",
       "reissuedAt": "2026-10-21T01:38:37.108Z",
       "reason": "A9 39494164576 fresh read (Roger approved A32 2026-10-21T01:4xZ: existing mechanism, history preserved, no completion from this approval)"
+    },
+    {
+      "subjectType": "packet-family",
+      "subjectId": "rcap-hi-custom-pleading",
+      "operation": "rapid-repair",
+      "lane": "FIX04",
+      "dispatchNames": "FIX04",
+      "familyState": "FAIL_REPAIR_REQUIRED",
+      "reissuedAt": "2026-10-21T04:07:26Z",
+      "reason": "the current dispatch names FIX04 for this subject, its family is FAIL_REPAIR_REQUIRED and owes rapid-repair, and every prior claim for this subject and operation is released — so an assert would answer ALREADY_RELEASED and the lane could not begin. Re-opened by the dispatch, which owns the roster."
     }
   ],
   "transfers": [
