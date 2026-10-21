@@ -94,6 +94,7 @@ const REVIEWED_OWN_CONTENT_PAYMENT_RULES: Readonly<Record<string, readonly strin
   "AR:situation-c-felony-convictions": ["rule-15-lists-felony-seal-on-completion-if-eligible-and-not-ove"],
   "CA:tool-4-arrest-record-sealing": ["rule-15-tool-4-arrest-record-sealing-pc-851-91-factual-innocenc"],
   "DC:dc_actual_innocence_expungement_16_803": ["rule-07-expungement-by-motion-d-c-code-16-803-actual-innocence"],
+  "HI:first-time-drug-conviction": ["rule-09-the-source-identifies-hrs-706-622-5-and-706-622-8-first"],
   "HI:nonconviction-arrest-expungement": ["rule-02-the-source-says-the-arrest-record-is-removed-from-the-a", "rule-04-a-complete-application-valid-government-photo-id-paymen"],
   "IA:nonconviction-901c2": ["rule-02-all-court-costs-fees-and-other-financial-obligations-fo"],
   "MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e": ["rule-20-route-marijuana-to-mcl-780-621e-form-mc-227a-and-owi-to"],
