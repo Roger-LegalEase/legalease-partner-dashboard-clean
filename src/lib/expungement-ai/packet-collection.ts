@@ -1,3 +1,4 @@
+import { registeredSpecificationRecordIsHistory } from "@/lib/expungement-ai/registered-specification-record-history";
 import { vaPardonLocationApplies } from "@/lib/expungement-ai/va-pardon-location-context";
 import { wy1502Context } from "@/lib/rcap-engine/wyoming-1502-facts";
 import { southDakotaSisContext } from "@/lib/rcap-engine/south-dakota-sis-facts";
@@ -1462,7 +1463,8 @@ export function r1RecordIsHistory(profile: EngineProfile | undefined, pathwayId:
 // GA17 Q-46a17f0eb164e9cdcf27 / Q-47d5c5f19e70f0fbcbec / Q-73e3915ed9d087f8b531 / Q-6fce98651a27d2a3b8c6 / Q-65a2e556a51d224b2917: the same source-bound optional history.
 export function dcFlPetitionRecordIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
   specification: RegisteredSpecification | null | undefined): boolean {
-  if (specification != null) return false;
+  // GA-17 R2: a registered specification is history only when its pinned specification and profile bind no record_type.
+  if (specification != null) return registeredSpecificationRecordIsHistory(profile, pathwayId, specification);
   return okCategoryAndRecordAreHistory(profile, pathwayId, specification)
     || r1RecordIsHistory(profile, pathwayId, specification)
     || profile?.jurisdiction.code === "DC"
@@ -2402,7 +2404,9 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
         group: retained ? group : null, active: retained, optional: true,
         source: "dc_fl_petition_record_type_history",
-        reason: "Earlier overlapping labels do not establish a disposition or select a procedure. They remain optional history; the existing route result and fulfillment refusal remain unchanged." });
+        reason: specification != null
+          ? "Earlier overlapping labels do not establish a disposition or select a procedure. They remain optional history; the route's existing result and payment decision are unchanged."
+          : "Earlier overlapping labels do not establish a disposition or select a procedure. They remain optional history; the existing route result and fulfillment refusal remain unchanged." });
       continue;
     }
 
