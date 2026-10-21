@@ -965,6 +965,26 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "victim-survivor-conviction-vacation-route", // GA17 Q-221e47610111f5c92642
     ],
   },
+  WV: {
+    profileHash: "4579631e506c34764e4c9b13ed1041a381fa980597b798c184226d8879b6284c",
+    categoryReason: "Earlier West Virginia categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a", // GA12 Q-cf92b9ddf3aa29535066
+      "first-offense-drug-possession-conditional-discharge-relief", // GA12 Q-e09c22572076696b75e9
+      "juvenile-record-relief", // GA12 Q-8b168b02120d28ec1967
+      "no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication", // GA12 Q-4788db0474a27ceae315
+      "pardon-based-expungement", // GA12 Q-438edd691f440307e9c6
+      "sex-trafficking-victim-vacatur-and-expungement", // GA12 Q-766aea3d3342bf31ebfe
+    ],
+    record: [
+      "accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a", // GA17 Q-14029ec451f45aebd6e8
+      "first-offense-drug-possession-conditional-discharge-relief", // GA17 Q-50f3c1d6f0353c4b697c
+      "juvenile-record-relief", // GA17 Q-567a8b11142b92bae28f
+      "no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication", // GA17 Q-e4b313c5e14f1c28f895
+      "pardon-based-expungement", // GA17 Q-58b3c0d9234aef3a26f6
+      "sex-trafficking-victim-vacatur-and-expungement", // GA17 Q-bdb22ef6c8161084b37f
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
