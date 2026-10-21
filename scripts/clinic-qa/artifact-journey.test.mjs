@@ -343,8 +343,14 @@ test('keepDeliveredPdf keeps verified bytes privately, once, only under an absol
     assert.throws(()=>keepDeliveredPdf('relative/dir',sha,bytes),/absolute/);
     assert.throws(()=>keepDeliveredPdf(dir,'../escape',bytes));
     const repo=path.join(root,'repo');execFileSync('git',['init','-q',repo]);fs.symlinkSync(repo,path.join(root,'link'));
-    for(const inside of [path.join(repo,'private','delivered'),path.join(root,'link','not-yet','delivered')])
+    // Reviewer2 P1: a '..' through a missing directory must not let the ancestor walk climb outside the worktree.
+    for(const inside of [path.join(repo,'private','delivered'),path.join(root,'link','not-yet','delivered'),`${root}/missing/../repo/kept`])
       assert.throws(()=>keepDeliveredPdf(inside,sha,bytes),/outside every git worktree/);
+    assert.equal(fs.existsSync(path.join(root,'missing')),false);
+    // Reviewer2 P4: when git itself cannot answer, the keep is refused rather than treated as outside.
+    const previousPath=process.env.PATH;process.env.PATH=path.join(root,'no-git-here');
+    try { assert.throws(()=>keepDeliveredPdf(path.join(repo,'private','kept'),sha,bytes),/ENOENT/); }
+    finally { process.env.PATH=previousPath; }
     assert.deepEqual(fs.readdirSync(repo),['.git']);
   } finally { fs.rmSync(root,{recursive:true,force:true}); }
 });

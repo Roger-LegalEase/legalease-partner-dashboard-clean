@@ -58,11 +58,16 @@ export function exactArtifactResponse(status, headers, bytes, expected) {
 // ancestor resolves (realpath) inside a git worktree, ignored or not.
 function insideGitWorktree(dir) {
   let probe=dir;while(!fs.existsSync(probe))probe=path.dirname(probe);
-  try {execFileSync('git',['-C',fs.realpathSync(probe),'rev-parse','--is-inside-work-tree'],{stdio:'pipe'});return true;}
-  catch {return false;}
+  try {execFileSync('git',['-C',fs.realpathSync(probe),'rev-parse','--is-inside-work-tree'],{stdio:'pipe',env:{...process.env,LC_ALL:'C'}});return true;}
+  catch (error) {
+    // Only git's own answer means "outside"; git missing, dubious ownership or any other failure refuses the keep.
+    if(/not a git repository/.test(String(error.stderr??'')))return false;
+    throw error;
+  }
 }
 export function keepDeliveredPdf(dir, sha256, bytes) {
   assert(path.isAbsolute(dir),'CLINIC_QA_DELIVERED_PDF_DIR must be absolute');assert.match(sha256,/^[a-f0-9]{64}$/);
+  dir=path.resolve(dir); // one normalized path for the check, the mkdir and the file: a '..' must not climb past the ancestor walk
   assert(!insideGitWorktree(dir),'CLINIC_QA_DELIVERED_PDF_DIR must be outside every git worktree');
   fs.mkdirSync(dir,{recursive:true,mode:0o700});
   const file=path.join(dir,`${sha256}.pdf`);fs.writeFileSync(file,bytes,{flag:'wx',mode:0o600});return file;
