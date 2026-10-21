@@ -5,14 +5,14 @@
 > statute, form, waiting rule, exclusion list, county/local variation, packet, public intake fact, or
 > operational status is missing, it is asked for here.
 
-Open items: **146**. Target-51 first-paid routes are marked priority **P1/P2**.
+Open items: **147**. Target-51 first-paid routes are marked priority **P1/P2**.
 
 ## What we need from Roger / the legal team (by missing-item type)
 
-### Missing legal confirmation (78)
+### Missing legal confirmation (79)
 
 - Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata. — _47 route(s): AK, AL, AZ, DE, GA, ID, KS, LA, ME, MN, MS, NC, NE, NH, NV, OH, OK, SC, SD, TX, UT, VT, WI, WY_
-- Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route. — _29 route(s): CA, CT, GA, IN, KY, LA, MA, MO, NH, NV, OH, OK, RI, SC, SD, TN, WA, WI, WV_
+- Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route. — _30 route(s): CA, CT, GA, IN, KY, LA, MA, MO, NH, NV, OH, OK, RI, SC, SD, TN, WA, WI, WV_
 - Forum ambiguous: HRS ch. 853 deferred-acceptance discharge is a court process, but expungement is via the HCJDC application. Confirm which is the sellable user-filed step. — _1 route(s): HI_
 - Forum ambiguous: HRS § 712-1200 deferred-acceptance/prostitution discharge vs later HCJDC application. Confirm the sellable user-filed step. — _1 route(s): HI_
 
@@ -36,6 +36,7 @@ Open items: **146**. Target-51 first-paid routes are marked priority **P1/P2**.
 | LAR-005 | P2 | AZ | `remedy-2-set-aside-of-a-conviction` | paid_after_route_metadata_fix | Missing legal confirmation | Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata. | Yes | Yes | official court/agency guidance | open |
 | LAR-006 | P2 | AZ | `remedy-3-marijuana-expungement` | paid_after_route_metadata_fix | Missing legal confirmation | Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata. | Yes | Yes | official court/agency guidance | open |
 | LAR-198 | P2 | AZ | `notation-of-clearance-after-a-wrongful-arrest-under-13-4051` | paid_after_route_metadata_fix | Missing legal confirmation | Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata. | Yes | Yes | official court/agency guidance | open |
+| LAR-202 | P2 | CA | `tool-3-petition-based-felony-sealing` | paid_after_legal_reconfirmation | Missing legal confirmation | Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route. | No | Yes | implementation memo / legal confirmation | open |
 | LAR-199 | P2 | CA | `dismissal-and-set-aside-without-probation-under-penal-code-1203-4a` | paid_after_legal_reconfirmation | Missing legal confirmation | Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route. | No | Yes | implementation memo / legal confirmation | open |
 | LAR-007 | P2 | CO | `petition-based-conviction-sealing-jdf-612-24-72-706` | paid_after_gate_build | Missing eligibility rule | Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce. | Yes | Yes | statute + official guidance | open |
 | LAR-008 | P2 | CO | `juvenile-expungement-19-1-306` | paid_after_wait_anchor_fix | Missing eligibility rule | The specific waiting period + anchor (and any event trigger) that applies, to resolve the ambiguous multi-wait. | Yes | Yes | statute + court rule | open |

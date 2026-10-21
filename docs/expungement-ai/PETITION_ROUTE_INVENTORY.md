@@ -1,7 +1,7 @@
 # Expungement.ai / RCAP — Petition / Application-Route Inventory
 
 > **Audit / report only. No runtime behavior changed by this script.** No route moved between control sets.
-> Head commit `3c3195e41fb1921f94ad207809c72ada18c97381`. Ground truth = the live evaluator payment gate. No payment inferred from legal possibility.
+> Head commit `f84b46b246fedffdd8eef18c163f45ff6561ab6b`. Ground truth = the live evaluator payment gate. No payment inferred from legal possibility.
 
 ## Headline totals
 
@@ -9,19 +9,19 @@
 | --- | --- |
 | Total pathways classified | 344 (compiled 344) |
 | Jurisdictions | 51 |
-| **paid_now** routes | **78** |
+| **paid_now** routes | **77** |
 | paid_now jurisdictions | 45 |
-| Buildable paid-capable routes | 144 |
+| Buildable paid-capable routes | 145 |
 | Zero-paid jurisdictions with a buildable route | 6 |
 | legal_action_required routes | 2 |
-| Legal Action Required items | 146 |
+| Legal Action Required items | 147 |
 
 ## Bucket counts (12-bucket taxonomy)
 
 | Bucket | Count |
 | --- | --- |
-| paid_now | 78 |
-| paid_after_legal_reconfirmation | 29 |
+| paid_now | 77 |
+| paid_after_legal_reconfirmation | 30 |
 | paid_after_route_metadata_fix | 47 |
 | paid_after_gate_build | 36 |
 | paid_after_intake_fix | 15 |
@@ -35,7 +35,7 @@
 
 ## Summary 1 — all paid_now routes
 
-`AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40`, `AR:situation-b-misdemeanor-convictions`, `AR:situation-c-felony-convictions`, `AZ:remedy-1-record-sealing`, `CA:prop-64-completed-sentence-application-11361-8`, `CA:prop-64-currently-serving-petition-11361-8`, `CA:tool-1-dismissal-set-aside`, `CA:tool-3-petition-based-felony-sealing`, `CA:tool-4-arrest-record-sealing`, `CO:petition-based-non-conviction-sealing-jdf-417-24-72-704`, `CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202`, `DC:dc_actual_innocence_expungement_16_803`, `DE:discretionary-court-expungement-under-11-del-c-4374`, `FL:court-ordered-expunction-943-0585`, `GA:sb-288-misdemeanor-conviction-restriction-and-sealing`, `HI:dui-under-21-conviction`, `HI:first-time-drug-conviction`, `HI:nonconviction-arrest-expungement`, `IA:nonconviction-901c2`, `ID:withheld-judgment-idaho-code-19-2604-review-branch`, `IL:adult-conviction-sealing`, `IL:cannabis-specific-automatic-or-petition-expungement`, `IL:criminal-identity-theft-mistaken-identity-relief`, `IL:expungement-after-eligible-supervision-or-qualified-probation`, `IL:felony-prostitution-relief`, `IN:conviction-expungement-with-sealed-confidential-access`, `KS:specialty-court-accelerated`, `LA:felony-article-893-e-set-aside-followed-by-expungement`, `LA:first-offense-marijuana-expungement-after-90-days-art-998`, `LA:misdemeanor-article-894-b-set-aside-followed-by-expungement`, `LA:non-conviction-arrest-expungement`, `MD:adult-non-conviction-expungement-under-crim-proc-10-105`, `MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8`, `MD:police-record-expungement-when-no-charge-was-filed-under-10-103`, `ME:adult-conviction-sealing`, `MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e`, `MN:petition-based-expungement-under-609a-02-03`, `MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140`, `MO:stolen-or-mistaken-identity-expungement-under-610-145`, `MS:eligible-felony-conviction-expungement-99-19-71`, `MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1`, `MS:first-offense-controlled-substance-conditional-discharge-relief`, `MS:first-offense-dui-expungement`, `MS:minor-in-possession-underage-alcohol-expungement`, `MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal`, `MS:nonadjudication-under-99-15-26`, `MS:pretrial-intervention-or-diversion-expungement`, `MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59`, `MT:marijuana-related-redesignation-expungement-under-mmrta`, `MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104`, `NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146`, `ND:deferred-imposition-dismissal-and-sealing`, `ND:first-offense-possession-sealing`, `ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1`, `ND:marijuana-specific-summary-pardon-or-sealing-relief`, `NE:set-aside-incarceration-one-year-or-less`, `NE:set-aside-probation-fine-community-service`, `NH:annulment-after-dismissal-acquittal-or-nonprosecution`, `NJ:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6`, `NM:cannabis-sentence-dismissal-incarcerated-person-pathway`, `NM:no-conviction-released-without-conviction`, `NV:general-conviction-record-sealing-under-nrs-179-245`, `NY:conditional-treatment-sealing-under-cpl-160-58`, `NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59`, `OH:adult-non-conviction-sealing-or-expungement-under-2953-33`, `OK:acquittal-dismissal-or-other-no-conviction-expungement`, `PA:path-a-non-conviction-expungement`, `SD:adult-arrest-record-expungement-under-sdcl-23a-3-27`, `TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106`, `TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a`, `UT:path-i-traffic-offense-expungement-or-deletion`, `VA:petition-based-sealing`, `VA:regime-1-expungement-available-now`, `VT:dui-sealing`, `WA:non-conviction-record-deletion-under-rcw-10-97-060`, `WI:adult-conviction-expungement-under-wis-stat-973-015`, `WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a`, `WY:felony-conviction-expungement-w-s-7-13-1502`
+`AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40`, `AR:situation-b-misdemeanor-convictions`, `AR:situation-c-felony-convictions`, `AZ:remedy-1-record-sealing`, `CA:prop-64-completed-sentence-application-11361-8`, `CA:prop-64-currently-serving-petition-11361-8`, `CA:tool-1-dismissal-set-aside`, `CA:tool-4-arrest-record-sealing`, `CO:petition-based-non-conviction-sealing-jdf-417-24-72-704`, `CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202`, `DC:dc_actual_innocence_expungement_16_803`, `DE:discretionary-court-expungement-under-11-del-c-4374`, `FL:court-ordered-expunction-943-0585`, `GA:sb-288-misdemeanor-conviction-restriction-and-sealing`, `HI:dui-under-21-conviction`, `HI:first-time-drug-conviction`, `HI:nonconviction-arrest-expungement`, `IA:nonconviction-901c2`, `ID:withheld-judgment-idaho-code-19-2604-review-branch`, `IL:adult-conviction-sealing`, `IL:cannabis-specific-automatic-or-petition-expungement`, `IL:criminal-identity-theft-mistaken-identity-relief`, `IL:expungement-after-eligible-supervision-or-qualified-probation`, `IL:felony-prostitution-relief`, `IN:conviction-expungement-with-sealed-confidential-access`, `KS:specialty-court-accelerated`, `LA:felony-article-893-e-set-aside-followed-by-expungement`, `LA:first-offense-marijuana-expungement-after-90-days-art-998`, `LA:misdemeanor-article-894-b-set-aside-followed-by-expungement`, `LA:non-conviction-arrest-expungement`, `MD:adult-non-conviction-expungement-under-crim-proc-10-105`, `MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8`, `MD:police-record-expungement-when-no-charge-was-filed-under-10-103`, `ME:adult-conviction-sealing`, `MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e`, `MN:petition-based-expungement-under-609a-02-03`, `MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140`, `MO:stolen-or-mistaken-identity-expungement-under-610-145`, `MS:eligible-felony-conviction-expungement-99-19-71`, `MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1`, `MS:first-offense-controlled-substance-conditional-discharge-relief`, `MS:first-offense-dui-expungement`, `MS:minor-in-possession-underage-alcohol-expungement`, `MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal`, `MS:nonadjudication-under-99-15-26`, `MS:pretrial-intervention-or-diversion-expungement`, `MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59`, `MT:marijuana-related-redesignation-expungement-under-mmrta`, `MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104`, `NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146`, `ND:deferred-imposition-dismissal-and-sealing`, `ND:first-offense-possession-sealing`, `ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1`, `ND:marijuana-specific-summary-pardon-or-sealing-relief`, `NE:set-aside-incarceration-one-year-or-less`, `NE:set-aside-probation-fine-community-service`, `NH:annulment-after-dismissal-acquittal-or-nonprosecution`, `NJ:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6`, `NM:cannabis-sentence-dismissal-incarcerated-person-pathway`, `NM:no-conviction-released-without-conviction`, `NV:general-conviction-record-sealing-under-nrs-179-245`, `NY:conditional-treatment-sealing-under-cpl-160-58`, `NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59`, `OH:adult-non-conviction-sealing-or-expungement-under-2953-33`, `OK:acquittal-dismissal-or-other-no-conviction-expungement`, `PA:path-a-non-conviction-expungement`, `SD:adult-arrest-record-expungement-under-sdcl-23a-3-27`, `TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106`, `TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a`, `UT:path-i-traffic-offense-expungement-or-deletion`, `VA:petition-based-sealing`, `VA:regime-1-expungement-available-now`, `VT:dui-sealing`, `WA:non-conviction-record-deletion-under-rcw-10-97-060`, `WI:adult-conviction-expungement-under-wis-stat-973-015`, `WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a`, `WY:felony-conviction-expungement-w-s-7-13-1502`
 
 ## Summary 2 — all paid jurisdictions now
 
@@ -47,7 +47,7 @@ AL Alabama, KY Kentucky, MA Massachusetts, OR Oregon, RI Rhode Island, SC South 
 
 ## Summary 4 — routes needing only legal reconfirmation
 
-`CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a`, `CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v`, `GA:youthful-first-offender-restriction-route`, `IN:conviction-expungement-with-records-marked-expunged`, `IN:juvenile-allegation-expungement`, `IN:non-conviction-arrest-or-criminal-charge-expungement`, `KY:nonconviction-431076`, `KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276`, `LA:expungement-by-redaction-for-multi-person-records`, `LA:interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction`, `MA:court-requested-sealing-for-dismissal-or-nolle-prosequi-100c`, `MA:non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k`, `MO:false-information-or-qualifying-arrest-record-expungement-under-610-122-123`, `MO:first-minor-in-possession-alcohol-expungement-under-311-326`, `NH:annulment-of-a-vacated-conviction`, `NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211`, `OH:marijuana-hashish-possession-expungement-under-2953-321`, `OK:juvenile-record-expungement`, `RI:path-d-non-conviction-sealing-expungement`, `RI:path-e-filed-complaint-relief-under-12-10-12`, `SC:juvenile-expungement`, `SD:diversion-expungement`, `SD:juvenile-delinquency-sealing`, `TN:pathway-2-diversion-expunction-under-40-15-105-40-35-313`, `WA:juvenile-record-sealing-under-rcw-13-50-260`, `WA:misdemeanor-cannabis-conviction-vacation`, `WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m`, `WV:first-offense-drug-possession-conditional-discharge-relief`, `WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication`
+`CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a`, `CA:tool-3-petition-based-felony-sealing`, `CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v`, `GA:youthful-first-offender-restriction-route`, `IN:conviction-expungement-with-records-marked-expunged`, `IN:juvenile-allegation-expungement`, `IN:non-conviction-arrest-or-criminal-charge-expungement`, `KY:nonconviction-431076`, `KY:void-and-seal-a-first-marijuana-synthetic-drug-or-salvia-possession-conviction-under-218a-276`, `LA:expungement-by-redaction-for-multi-person-records`, `LA:interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction`, `MA:court-requested-sealing-for-dismissal-or-nolle-prosequi-100c`, `MA:non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k`, `MO:false-information-or-qualifying-arrest-record-expungement-under-610-122-123`, `MO:first-minor-in-possession-alcohol-expungement-under-311-326`, `NH:annulment-of-a-vacated-conviction`, `NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211`, `OH:marijuana-hashish-possession-expungement-under-2953-321`, `OK:juvenile-record-expungement`, `RI:path-d-non-conviction-sealing-expungement`, `RI:path-e-filed-complaint-relief-under-12-10-12`, `SC:juvenile-expungement`, `SD:diversion-expungement`, `SD:juvenile-delinquency-sealing`, `TN:pathway-2-diversion-expunction-under-40-15-105-40-35-313`, `WA:juvenile-record-sealing-under-rcw-13-50-260`, `WA:misdemeanor-cannabis-conviction-vacation`, `WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m`, `WV:first-offense-drug-possession-conditional-discharge-relief`, `WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication`
 
 ## Summary 5 — routes needing only route metadata fix
 
@@ -87,7 +87,7 @@ _none_
 
 ## Summary 14 — missing legal materials needed from Roger / legal team
 
-146 items — see `docs/expungement-ai/LEGAL_ACTION_REQUIRED.md`.
+147 items — see `docs/expungement-ai/LEGAL_ACTION_REQUIRED.md`.
 
 ## Summary 15 — Target 51 first paid route queue
 
@@ -102,7 +102,7 @@ _none_
 
 ## Summary 16 — post-51 route-depth queue
 
-138 routes (see JSON report).
+139 routes (see JSON report).
 
 ## Full per-route inventory
 
@@ -129,7 +129,7 @@ _none_
 | `prop-64-currently-serving-petition-11361-8` | CA | court_petition | court | y | y | y | RATIFIED_DEPLOYABLE | paid_now | none | - |
 | `tool-1-dismissal-set-aside` | CA | court_motion | court | y | y | y | RATIFIED_DEPLOYABLE | paid_now | none | - |
 | `tool-2-automatic-relief` | CA | automatic_relief | automatic | y | n | n | other / unclassified | permanent_guidance_not_a_paid_product | automatic_relief_mode | - |
-| `tool-3-petition-based-felony-sealing` | CA | court_petition | court | y | y | y | RATIFIED_DEPLOYABLE | paid_now | none | - |
+| `tool-3-petition-based-felony-sealing` | CA | court_petition | court | y | y | y | HELD_GUIDANCE | paid_after_legal_reconfirmation | legal_reconfirmation | LAR-202 |
 | `tool-4-arrest-record-sealing` | CA | court_petition | court | y | y | y | RATIFIED_DEPLOYABLE | paid_now | none | - |
 | `tool-5-proposition-64-marijuana-relief` | CA | automatic_relief | automatic | y | n | n | HELD_GUIDANCE | discard_or_duplicate | duplicate | - |
 | `automatic-clean-slate-sealing-13-3-117` | CO | automatic_relief | automatic | y | n | n | other / unclassified | permanent_guidance_not_a_paid_product | automatic_relief_mode | - |

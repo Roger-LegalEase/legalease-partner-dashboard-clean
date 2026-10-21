@@ -2,27 +2,27 @@
   "generatedBy": "scripts/audit-petition-route-inventory.mjs",
   "auditOnly": true,
   "runtimeBehaviorChanged": false,
-  "headCommit": "3c3195e41fb1921f94ad207809c72ada18c97381",
+  "headCommit": "f84b46b246fedffdd8eef18c163f45ff6561ab6b",
   "routeTierSetSizes": {
-    "RATIFIED_DEPLOYABLE": 80,
+    "RATIFIED_DEPLOYABLE": 79,
     "CORRECTED_AWAITING_RECONFIRM": 4,
     "HARD_GATE_PENDING": 42,
     "APPROVED_RELEASE_GUIDANCE": 9,
-    "HELD_GUIDANCE": 31,
+    "HELD_GUIDANCE": 32,
     "ADMINISTRATIVE_APPLICATION": 4
   },
   "totals": {
     "totalPathwaysClassified": 344,
     "compiledPathwayCount": 344,
     "jurisdictions": 51,
-    "paidNowRoutes": 78,
+    "paidNowRoutes": 77,
     "paidNowJurisdictions": 45,
-    "buildablePaidRoutes": 144,
+    "buildablePaidRoutes": 145,
     "zeroPaidJurisdictionsWithBuildableRoute": 6,
     "legalActionRequiredRoutes": 2,
-    "legalActionRequiredItems": 146,
-    "paid_now": 78,
-    "paid_after_legal_reconfirmation": 29,
+    "legalActionRequiredItems": 147,
+    "paid_now": 77,
+    "paid_after_legal_reconfirmation": 30,
     "paid_after_route_metadata_fix": 47,
     "paid_after_gate_build": 36,
     "paid_after_intake_fix": 15,
@@ -35,8 +35,8 @@
     "legal_action_required": 2
   },
   "bucketCounts": {
-    "paid_now": 78,
-    "paid_after_legal_reconfirmation": 29,
+    "paid_now": 77,
+    "paid_after_legal_reconfirmation": 30,
     "paid_after_route_metadata_fix": 47,
     "paid_after_gate_build": 36,
     "paid_after_intake_fix": 15,
@@ -121,7 +121,6 @@
       "CA:prop-64-completed-sentence-application-11361-8",
       "CA:prop-64-currently-serving-petition-11361-8",
       "CA:tool-1-dismissal-set-aside",
-      "CA:tool-3-petition-based-felony-sealing",
       "CA:tool-4-arrest-record-sealing",
       "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
       "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
@@ -403,6 +402,7 @@
     ],
     "s4_routes_needing_only_legal_reconfirmation": [
       "CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+      "CA:tool-3-petition-based-felony-sealing",
       "CT:petition-for-erasure-of-cannabis-conviction-records-under-54-142v",
       "GA:youthful-first-offender-restriction-route",
       "IN:conviction-expungement-with-records-marked-expunged",
@@ -735,6 +735,13 @@
         "route": "notation-of-clearance-after-a-wrongful-arrest-under-13-4051",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
+      },
+      {
+        "id": "LAR-202",
+        "jurisdiction": "CA",
+        "route": "tool-3-petition-based-felony-sealing",
+        "type": "Missing legal confirmation",
+        "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
         "id": "LAR-199",
@@ -1939,6 +1946,13 @@
     "s16_post_51_route_depth_queue": [
       {
         "routeKey": "CA:dismissal-and-set-aside-without-probation-under-penal-code-1203-4a",
+        "jurisdiction": "CA",
+        "bucket": "paid_after_legal_reconfirmation",
+        "primaryBlocker": "legal_reconfirmation",
+        "effortScore": 1
+      },
+      {
+        "routeKey": "CA:tool-3-petition-based-felony-sealing",
         "jurisdiction": "CA",
         "bucket": "paid_after_legal_reconfirmation",
         "primaryBlocker": "legal_reconfirmation",
@@ -4455,7 +4469,7 @@
       "userFiles": true,
       "filingForum": "court",
       "canEverBePaidPacket": true,
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "packetMode": "state_specific_custom_packet_from_source_rules",
       "formMappingStatus": "custom_or_manual_mapping_required",
       "sourceFormCandidates": [],
@@ -4481,34 +4495,44 @@
       "sourceRuleRefs": [
         "pathways:71-114"
       ],
-      "bucket": "paid_now",
-      "primaryBlocker": "none",
+      "bucket": "paid_after_legal_reconfirmation",
+      "primaryBlocker": "legal_reconfirmation",
       "secondaryBlockers": [],
       "productRouteType": "court_petition",
-      "paymentProductEligible": true,
-      "serviceBehavior": "packet",
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
+      "paymentProductEligible": false,
+      "serviceBehavior": "guidance",
+      "legalSignoffStatus": "blocked",
+      "packetFulfillmentStatus": "needs_custom_packet",
       "engineRecognizedAsCourtFiled": true,
       "isAdministrativeApplication": false,
       "packetFulfillmentReady": true,
       "missingEligibilityGates": [],
       "missingIntakeQuestions": [],
       "missingWaitAnchorEventLogic": [],
-      "missingPacketFormFulfillment": [],
+      "missingPacketFormFulfillment": [
+        "Packet form work outstanding (needs_custom_packet); tracked, not blocking payment for the ratified/custom model."
+      ],
       "routeMetadataIssue": null,
-      "legalActionRequiredItemIds": [],
-      "engineeringWorkNeeded": "None to open payment — route is ratified, engine-recognized, and fulfillment-ready.",
-      "legalSourceReviewNeeded": "Already ratified. Standard post-build QA / source-freshness / visual review remains a separate gate before live.",
+      "legalActionRequiredItemIds": [
+        "LAR-202"
+      ],
+      "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
+      "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
       "materialNeededFromLegalTeam": "None outstanding.",
       "verifierCasesRequiredBeforePayment": [
-        "qualifying + wait/order satisfied -> packet_ready(+caution) with paymentAllowed=true + source-backed reason",
-        "just-under wait / missing court order -> not_yet / likely_not_eligible, no payment",
-        "state exclusion selected / route disqualifier -> no payment",
-        "pending case -> no payment"
+        "qualifying facts -> payment opens (only after the work below lands and legal items close)",
+        "just-under wait -> not_yet, no payment",
+        "missing anchor -> needs_more_info / needs_review, no payment",
+        "pending case -> no payment",
+        "state exclusion selected -> no payment",
+        "route-specific disqualifier -> no payment",
+        "'not sure' -> no payment",
+        "wrong route type -> no payment",
+        "packet missing required field -> no payment",
+        "open Legal Action Required item -> no payment"
       ],
-      "priority": "high-confidence",
-      "effortScore": 0
+      "priority": "route-depth",
+      "effortScore": 1
     },
     {
       "jurisdictionCode": "CA",

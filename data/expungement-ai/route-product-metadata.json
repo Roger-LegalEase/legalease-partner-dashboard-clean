@@ -1,7 +1,7 @@
 {
   "generatedBy": "scripts/audit-petition-route-inventory.mjs",
   "note": "Explicit per-route product metadata. Derived from the STRUCTURED compiled routeType + EXPLICIT_OVERRIDES (Phase 4), never from summary regex. paymentProductEligible=true only for routes the evaluator currently opens payment for (ratified + court/admin + fulfillment-ready).",
-  "headCommit": "3c3195e41fb1921f94ad207809c72ada18c97381",
+  "headCommit": "f84b46b246fedffdd8eef18c163f45ff6561ab6b",
   "routes": {
     "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40": {
       "productRouteType": "court_application",
@@ -427,18 +427,20 @@
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": [],
-      "serviceBehavior": "packet",
+      "legalSignoffStatus": "blocked",
+      "packetFulfillmentStatus": "needs_custom_packet",
+      "paidRouteBlocker": "legal_reconfirmation",
+      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+      "openLegalActionRequiredItems": [
+        "LAR-202"
+      ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "CA:tool-4-arrest-record-sealing": {
