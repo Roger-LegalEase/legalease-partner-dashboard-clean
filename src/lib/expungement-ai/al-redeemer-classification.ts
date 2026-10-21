@@ -95,7 +95,8 @@ export function alRedeemerClassificationIds(answers: Readonly<Record<string, unk
   if (read("al_misd_serious_traffic") !== "No") return ids;
   const enumerated = read("al_misd_enumerated_driving");
   if (enumerated !== "Yes") return ids;
-  if (read("al_misd_cdl_clp") !== "No") return ids;
+  // Counsel A44.1 (b23507cf): (b)(3) is met by not operating a CMV or not holding a CDL/CLP, so both facts are always asked.
+  read("al_misd_cdl_clp");
   read("al_misd_commercial_vehicle");
   return ids;
 }
