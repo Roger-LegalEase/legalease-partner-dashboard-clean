@@ -943,6 +943,28 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "pardon-based-sealing", // GA17 Q-3118da38c8786644c46e
     ],
   },
+  WA: {
+    profileHash: "a694f14abf3cddb6c7e8f3fac74c1ab396ab8e75c1d9f6b1cce533ff70887eb9",
+    categoryReason: "Earlier Washington categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "adult-felony-vacation-under-rcw-9-94a-640", // GA12 Q-3b110b6ae08bd64d6bf3
+      "adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060", // GA12 Q-10152501470126ecc07d
+      "blake-drug-possession-vacation-and-refund-route", // GA12 Q-adb77e291db09ef1d5d2
+      "juvenile-record-sealing-under-rcw-13-50-260", // GA12 Q-f58e57c144f081be3514
+      "misdemeanor-cannabis-conviction-vacation", // GA12 Q-4adaa2604fd09aa8f9b5
+      "non-conviction-record-deletion-under-rcw-10-97-060", // GA12 Q-9b41697713dead823c63
+      "victim-survivor-conviction-vacation-route", // GA12 Q-90c7165ec4b0da2c49d5
+    ],
+    record: [
+      "adult-felony-vacation-under-rcw-9-94a-640", // GA17 Q-97a9721e9b2e5b381d81
+      "adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060", // GA17 Q-533e5e90f9eccd58ca69
+      "blake-drug-possession-vacation-and-refund-route", // GA17 Q-635048ef673d9cd2d5ec
+      "juvenile-record-sealing-under-rcw-13-50-260", // GA17 Q-1dc982540657d27bf12d
+      "misdemeanor-cannabis-conviction-vacation", // GA17 Q-268df1f07d1a37b0e808
+      "non-conviction-record-deletion-under-rcw-10-97-060", // GA17 Q-015e34cce8bfcc53bbeb
+      "victim-survivor-conviction-vacation-route", // GA17 Q-221e47610111f5c92642
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
