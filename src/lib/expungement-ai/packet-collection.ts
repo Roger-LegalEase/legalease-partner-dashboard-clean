@@ -659,7 +659,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
   category: readonly string[]; record: readonly string[] }>> = {
   UT: {
     profileHash: "bd35a941b0354dd73ca8ca57741a5afc5da7824dd66571d97abb6ff45534ee49",
-    categoryReason: "Earlier Utah categories remain optional literal history. Utah's offense-type classes are carried only through the separate charge-and-statute, offense-class, domestic-violence/assault/sex-related and traffic-rule answers; a category is not evaluated as one, and the route's existing result and payment decision are unchanged.",
+    categoryReason: "Earlier Utah categories remain optional literal history. Offense-type facts are asked through separate answers, including the charge-and-statute, offense-class, domestic-violence/assault/sex-related and traffic-rule answers; a category is not evaluated as one, and the route's existing result and payment decision are unchanged.",
     category: [
       "path-a-automatic-clean-slate-expungement", // GA12 Q-252e5eaceeb14868ecfd
       "path-b-automatic-expungement-after-acquittal-or-dismissal-with-prejudice", // GA12 Q-fa8ce3d47b028a9a9297
