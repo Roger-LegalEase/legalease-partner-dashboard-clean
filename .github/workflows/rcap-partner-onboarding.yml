@@ -149,7 +149,7 @@ jobs:
         run: node scripts/generate-rcap-public-witness-answer-sets.mjs --check
 
       # ~4 s. Mississippi later-order effect: a "none" later order and every collected effect stay held for
-      # review; 5 mutations must each fail (lead 2026-10-21T21:26:40Z, with MS1).
+      # review (lead 2026-10-21T21:26:40Z, with MS1). Positive run only; the test's --mutation= cases are not run here.
       - name: Verify Mississippi later-order effect handling
         if: matrix.group == 'g'
         run: node scripts/test-ms-later-order-effect.mjs
