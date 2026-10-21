@@ -2,6 +2,7 @@ import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { evaluatorRouteSet } from "./lib/route-ratification.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const INTEGRATED_MODE = process.argv.includes("--integrated");
@@ -9,7 +10,6 @@ const CLOSURE_PATH = path.join(ROOT, "data/expungement-ai/corrections-a/closure.
 const CLOSURE_BUILDER_PATH = path.join(ROOT, "scripts/build-corrections-a-closure.mjs");
 const METADATA_PATH = path.join(ROOT, "data/expungement-ai/route-product-metadata.json");
 const PROFILES_PATH = path.join(ROOT, "src/lib/rcap-engine/compiled/profiles");
-const EVALUATOR_PATH = path.join(ROOT, "src/lib/rcap-engine/evaluator.ts");
 const MS_CORRECTIONS_PATH = path.join(
   ROOT,
   "src/lib/rcap/state-packs/mississippi/correction-closures.ts"
@@ -67,12 +67,6 @@ function check(condition, message) {
   if (!condition) failures.push(message);
 }
 
-function parseRouteSet(source, name) {
-  const match = source.match(new RegExp(`const ${name} = new Set\\(\\[([\\s\\S]*?)\\]\\)`, "m"));
-  check(Boolean(match), `Evaluator route set ${name} is missing.`);
-  return new Set(match ? [...match[1].matchAll(/"([A-Z]{2}:[^"]+)"/g)].map((entry) => entry[1]) : []);
-}
-
 if (!fs.existsSync(CLOSURE_PATH)) {
   console.error("verify-corrections-a-closure: RED");
   console.error(`- Missing ${path.relative(ROOT, CLOSURE_PATH)}.`);
@@ -86,12 +80,12 @@ const regeneratedClosure = execFileSync(process.execPath, [CLOSURE_BUILDER_PATH]
   maxBuffer: 20 * 1024 * 1024
 });
 const metadata = JSON.parse(fs.readFileSync(METADATA_PATH, "utf8")).routes;
-const evaluatorSource = fs.readFileSync(EVALUATOR_PATH, "utf8");
+// Since 8cd6b6385 these sets are projections of the route-ratification registry, not literals in evaluator.ts.
 const controlSets = {
-  ratified: parseRouteSet(evaluatorSource, "RATIFIED_DEPLOYABLE_ROUTES"),
-  corrected: parseRouteSet(evaluatorSource, "CORRECTED_AWAITING_RECONFIRM_ROUTES"),
-  hardGate: parseRouteSet(evaluatorSource, "HARD_GATE_PENDING_ROUTES"),
-  heldGuidance: parseRouteSet(evaluatorSource, "HELD_GUIDANCE_ROUTES")
+  ratified: evaluatorRouteSet("RATIFIED_DEPLOYABLE_ROUTES", ROOT),
+  corrected: evaluatorRouteSet("CORRECTED_AWAITING_RECONFIRM_ROUTES", ROOT),
+  hardGate: evaluatorRouteSet("HARD_GATE_PENDING_ROUTES", ROOT),
+  heldGuidance: evaluatorRouteSet("HELD_GUIDANCE_ROUTES", ROOT)
 };
 
 check(closure.schemaVersion === "expai-corrections-a-closure/v1", "Closure schema version is not expai-corrections-a-closure/v1.");
