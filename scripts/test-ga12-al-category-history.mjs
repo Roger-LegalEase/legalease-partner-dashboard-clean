@@ -751,7 +751,7 @@ for (const [questionRecordId, route, state = 'AL'] of cases) {
   }
   check(`${route}: source, route and new consumer refusals`, () => {
     assert(historyContext(profile, route, null));
-    for (const mutate of [p => p.jurisdiction.code = 'NY', p => p.profileVersion = 'changed',
+    for (const mutate of [p => p.jurisdiction.code = p.jurisdiction.code === 'NY' ? 'NJ' : 'NY', p => p.profileVersion = 'changed',
       p => p.source.sourceCorpusSha256 = 'changed',
       p => p.pathways.find(row => row.id === route).automatic = 'changed',
       p => p.packetGenerator.pathways.find(row => row.pathwayId === route).formCandidates.push('new-form'),
