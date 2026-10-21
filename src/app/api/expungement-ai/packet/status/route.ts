@@ -1,3 +1,4 @@
+import { PacketFulfillmentNotProvenError } from "@/lib/expungement-ai/packet-fulfillment-authority";
 import { NextRequest, NextResponse } from "next/server";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import {
@@ -36,6 +37,10 @@ export async function GET(request: NextRequest) {
       briefcaseItemId
     });
   } catch (error) {
+    // Same refusal as generate/route.ts: a route without fulfillment proof is a 403, not a 500.
+    if (error instanceof PacketFulfillmentNotProvenError) {
+      return NextResponse.json({ error: "A packet is not available for this route yet. Your saved information remains available.", resultCode: "fulfillment_not_proven" }, { status: 403, headers: { "Cache-Control": "private, no-store" } });
+    }
     if (error instanceof CurrentPacketVerificationRequiredError) {
       return NextResponse.json({ error: "Review and verify your current packet facts before continuing." }, { status: 409 });
     }
