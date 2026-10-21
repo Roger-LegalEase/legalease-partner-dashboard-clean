@@ -1797,25 +1797,25 @@ const SPEC = {
   },
   "composedFromNote": "the committed legal-design track registry (data/record-clearing/legal-design-track-registry.json), the committed custom-pleading specifications (data/record-clearing/legal-design-specifications.json) and the committed route-obligation census (data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json), each bound by SHA-256 and anchor-verified at build time",
   "formIdentityNote": "No committed record names an official statewide participant form for this route; the committed specifications record its component set as composed pleadings. Every page in this packet is therefore composed by this build from the committed records, and no official form was substituted or invented.",
-  "routeSelectionNote": "This family carries more than one statutory route. Every composed page states its own route in its footer and its own statutory ground in its body, and the participant instructions carry a table saying which set of pages belongs to which situation. No election control is printed on any page, because the route is determined by the participant's own record and not by a box on a form.",
+  "routeSelectionNote": "This family carries more than one statutory route. Each composed document names its own route in its title; the petition, proposed order and filing instructions state its statutory ground in their bodies; and the participant instructions carry a table saying which set of pages belongs to which situation. No election control is printed on any page, because the route is determined by the participant's own record and not by a box on a form.",
   "routeSelectionsMade": [
     {
       "routeKey": "obligation:track-pathway:MS:ms-drug-cd:first-offense-controlled-substance-conditional-discharge-relief",
       "statute": "Miss. Code Ann. § 41-29-150(d)(1); Miss. Code Ann. § 41-29-150(d)(2); Miss. Code Ann. § 41-29-139(c); Miss. Code Ann. § 41-29-139(d)",
       "instrument": "Post-Conditional-Discharge Application under § 41-29-150(d)(2)",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the composed pages for this route, in their titles and bodies"
     },
     {
       "routeKey": "obligation:track-pathway:MS:ms-dui:first-offense-dui-expungement",
       "statute": "Miss. Code Ann. § 63-11-30(13); Miss. Code Ann. § 63-11-30(2)(c); Miss. Code Ann. § 63-11-30(2)(d); Miss. Att'y Gen. Op. (Booker, 29 Sept. 2020)",
       "instrument": "Circuit Court Petition under § 63-11-30(13)",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the composed pages for this route, in their titles and bodies"
     },
     {
       "routeKey": "obligation:track-pathway:MS:ms-mip:minor-in-possession-underage-alcohol-expungement",
       "statute": "Miss. Code Ann. § 67-3-70(6); Miss. Code Ann. § 67-3-70(1); Miss. Code Ann. § 67-3-70(2)",
       "instrument": "Petition under § 67-3-70(6)",
-      "statedOn": "the composed pages for this route, in their titles, bodies and footers"
+      "statedOn": "the composed pages for this route, in their titles and bodies"
     }
   ],
   "obligationTable": [
@@ -1892,7 +1892,7 @@ const SPEC = {
       ]
     ],
     "footnotes": [
-      "Every page states its own route in its footer. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at."
+      "Each document in this packet names its route in its title. If two routes could fit your record, that is a question for a lawyer or a legal-aid office, not a choice to guess at."
     ]
   },
   "documentsToObtain": [
@@ -2048,7 +2048,7 @@ const SPEC = {
   ],
   "reviewersAttention": [
     "source-receipt.json binds committed repository records rather than a Master Library binary — sourceStatus CUSTOM_PLEADING_FROM_CODIFIED_TEXT; confirm that is legible to reviewers.",
-    "This family carries 3 statutory routes in one packet; each page states its own route and the instructions carry a which-pages-are-yours table."
+    "This family carries 3 statutory routes in one packet; each document names its own route in its title and the instructions carry a which-pages-are-yours table."
   ]
 };
 
@@ -2214,7 +2214,8 @@ async function renderComposedPdf(fullText, title) {
   const routeFooter = sourceLines.at(-1)?.startsWith("Route: ") ? sourceLines.pop() : null;
   if (routeFooter && sourceLines.at(-1) === "") sourceLines.pop();
   for (const raw of sourceLines) for (const row of wrap(raw)) draw(row);
-  if (routeFooter) {
+  // A33: the footer obeys the same court-facing rule as the body, so an internal route key never prints.
+  if (routeFooter && courtFacingRows((l) => [l])(routeFooter)[0].trim()) {
     const nominalFooterSize = 8;
     const footerWidth = font.widthOfTextAtSize(routeFooter, nominalFooterSize);
     const footerSize = footerWidth <= maxWidth ? nominalFooterSize : nominalFooterSize * maxWidth / footerWidth;
@@ -2231,8 +2232,8 @@ async function assertEveryPageSubstantive(bytes, componentId, fixtureName) {
   const footer = `Route: ${COMPONENT[componentId].routeKey}`;
   for (const [pageIndex, page] of doc.getPages().entries()) {
     const lines = groupIntoLines(extractTextItems(page)).map((line) => line.text.trim()).filter(Boolean);
-    assert.equal(lines.filter((line) => line === footer).length, 1,
-      `${fixtureName}/${componentId} page ${pageIndex + 1}: exact route footer must appear once`);
+    assert.equal(lines.filter((line) => /^route:/i.test(line)).length, 0,
+      `${fixtureName}/${componentId} page ${pageIndex + 1}: no route line (key or label, any case) may print`);
     const substantive = lines.filter((line) => line !== footer);
     assert.ok(substantive.length >= 2,
       `${fixtureName}/${componentId} page ${pageIndex + 1}: footer-only or near-empty overflow page`);
