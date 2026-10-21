@@ -993,6 +993,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "automatic-expungement-under-crim-proc-10-105-1", // GA12 Q-8bceb546e5c92b856e55
       "cannabis-specific-expungement", // GA12 Q-1bfea6abba26156d604b
       "eligible-conviction-expungement-under-crim-proc-10-110", // GA12 Q-490cfd616dd97bfc8df2
+      "juvenile-expungement", // GA12 Q-87a80e79ceab8b8e0421
       "second-chance-act-shielding", // GA12 Q-2366ddaaf367add0a243
     ],
     record: [
@@ -1000,6 +1001,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "automatic-expungement-under-crim-proc-10-105-1", // GA17 Q-764036348a0a72c4295a
       "cannabis-specific-expungement", // GA17 Q-f4d5d773c2868e5c9d1a
       "eligible-conviction-expungement-under-crim-proc-10-110", // GA17 Q-3c0d28cff0082c9af2fc
+      "juvenile-expungement", // GA17 Q-0c7f6dea882f6b06bbda
       "second-chance-act-shielding", // GA17 Q-7d682e0e897adec4533e
     ],
   },

@@ -401,6 +401,43 @@ function restoreHistoricalCounty(resolution, fixture) {
   }
   return restored;
 }
+// Declared R1 history successor (GA-12 Q-87a80e79ceab8b8e0421, GA-17 Q-0c7f6dea882f6b06bbda; R1_SOURCE_BOUND_HISTORY MD
+// juvenile-expungement). Append-forward: each original collection hash is accepted only through its successor row here. The
+// inverse asserts both full current descriptors, then restores only these two facts and their prepay/section positions.
+const r1HistorySuccessor = {
+  questionRecordIds: ["Q-87a80e79ceab8b8e0421", "Q-0c7f6dea882f6b06bbda"],
+  reason: "an earlier offense_category or record_type answer is optional literal history on this route, not an offense type, record type or route decision; nothing else in the collection moves",
+  collections: [
+    { predecessorCollectionSha256: "bd3488493c947468a982636b70c137b5ac808f3c1f7d5e3b3dcf48186061e00e", successorCollectionSha256: "e6fcec058e98463461d0bcedc0cc08c2e09fb650b027fde3bde291800c11c74b" },
+    { predecessorCollectionSha256: "2e62b33cb43bc31e401d15642192532187833065fff6c110dd95b2368d11ce0b", successorCollectionSha256: "731dd923fd3dee667085a8923a1a7ba0c97f53d7a7f3c3b50dfed077ecb0f459" }
+  ],
+  facts: [
+    { factId: "offense_category", collection: "conditional", phase: "known", group: null, active: false, optional: true, source: "r1_category_history",
+      reason: "Earlier Maryland categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged." },
+    { factId: "record_type", collection: "conditional", phase: "known", group: null, active: false, optional: true, source: "dc_fl_petition_record_type_history",
+      reason: "Earlier overlapping labels do not establish a disposition or select a procedure. They remain optional history; the existing route result and fulfillment refusal remain unchanged." }
+  ],
+  predecessorFacts: [
+    { factId: "offense_category", collection: "prepay_confirmation", phase: "prepay_confirmation", group: "your_case", source: "route_decision_facts",
+      reason: "the evaluator reads this fact, so it is asked rather than computed" },
+    { factId: "record_type", collection: "prepay_confirmation", phase: "prepay_confirmation", group: "your_case", source: "route_decision_facts",
+      reason: "the evaluator or a route-safety gate reads this fact, so it confirms the paid route" }
+  ]
+};
+function restoreR1History(restored) {
+  const ids = r1HistorySuccessor.facts.map(fact => fact.factId);
+  for (const expected of r1HistorySuccessor.facts)
+    assert.deepEqual(restored.facts.filter(fact => fact.factId === expected.factId), [expected]);
+  assert(!restored.prepayQuestions.some(id => ids.includes(id)));
+  assert(!prepayGateFactIds(restored).some(id => ids.includes(id)));
+  assert(!restored.groupedParticipantSections.find(section => section.id === "your_case").factIds.some(id => ids.includes(id)));
+  const predecessor = structuredClone(restored);
+  for (const fact of r1HistorySuccessor.predecessorFacts)
+    predecessor.facts[predecessor.facts.findIndex(row => row.factId === fact.factId)] = structuredClone(fact);
+  predecessor.prepayQuestions.push(...ids);
+  predecessor.groupedParticipantSections.find(section => section.id === "your_case").factIds.push(...ids);
+  return predecessor;
+}
 for (const fixture of fixtures) {
   const before = structuredClone(fixture.input);
   const resolution = packetCollectionFor(fixture.input);
@@ -408,12 +445,15 @@ for (const fixture of fixtures) {
   const county = resolution.facts.find(fact => fact.factId === "county");
   assert.deepEqual(county.sourcePurpose, expectedPurpose, fixture.name);
   const restored = restoreHistoricalCounty(resolution, fixture);
-  assert.equal(hash(restored), fixture.predecessorCollectionSha256, fixture.name + ": every field outside the asserted county and exact source/reason diagnostic successors unchanged");
+  const successor = r1HistorySuccessor.collections.filter(row => row.predecessorCollectionSha256 === fixture.predecessorCollectionSha256);
+  assert.equal(successor.length, 1, fixture.name + ": a changed collection is accepted only through its declared successor");
+  assert.equal(hash(restored), successor[0].successorCollectionSha256, fixture.name + ": exact declared successor collection");
+  assert.equal(hash(restoreR1History(restored)), fixture.predecessorCollectionSha256, fixture.name + ": every field outside the asserted county, exact source/reason diagnostic and declared R1 history successors unchanged");
   assert.deepEqual(restored.facts.find(fact => fact.factId === "county"), fixture.county);
   assert.equal(resolution.facts.filter(fact => fact.sourcePurpose).length, 1);
   assert.deepEqual(prepayGateFactIds(resolution).filter(id => id !== "county"), prepayGateFactIds(restored).filter(id => id !== "county"));
   assert.deepEqual(packetCollectionFor(fixture.input), resolution, fixture.name + ": unchanged resume/no-op projection");
-  const drift = structuredClone(restored); drift.facts.find(fact => fact.factId !== "county").reason += " drift";
+  const drift = restoreR1History(restored); drift.facts.find(fact => fact.factId !== "county").reason += " drift";
   assert.notEqual(hash(drift), fixture.predecessorCollectionSha256, "unrelated drift cannot be normalized away");
   for (const mutate of [
     value => { value.facts.find(fact => fact.factId === "contact_information").source = "route_decision_facts"; },
@@ -431,6 +471,20 @@ for (const fixture of fixtures) {
   ]) {
     const changed = structuredClone(resolution); mutate(changed);
     assert.throws(() => restoreHistoricalCounty(changed, fixture), "county/contact contract drift cannot be normalized away");
+  }
+  for (const mutate of [
+    value => { value.facts.find(fact => fact.factId === "offense_category").source = "route_decision_facts"; },
+    value => { value.facts.find(fact => fact.factId === "offense_category").collection = "prepay_confirmation"; },
+    value => { value.facts.find(fact => fact.factId === "offense_category").active = true; },
+    value => { value.facts.find(fact => fact.factId === "record_type").reason += " drift"; },
+    value => { value.facts.find(fact => fact.factId === "record_type").group = "your_case"; },
+    value => { value.facts = value.facts.filter(fact => fact.factId !== "record_type"); },
+    value => { value.facts.push(structuredClone(value.facts.find(fact => fact.factId === "offense_category"))); },
+    value => { value.prepayQuestions.push("record_type"); },
+    value => { value.groupedParticipantSections.find(section => section.id === "your_case").factIds.push("offense_category"); }
+  ]) {
+    const changed = structuredClone(restored); mutate(changed);
+    assert.throws(() => restoreR1History(changed), "R1 history successor drift cannot be normalized away");
   }
 }
 for (const mutate of [p=>p.jurisdiction.code="VA", p=>p.profileVersion+="drift", p=>delete p.source, p=>p.source.sourceCorpusSha256="drift",
