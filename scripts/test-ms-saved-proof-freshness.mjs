@@ -27,14 +27,15 @@ assert.notEqual(candidate.inputs[sourcePath], stale);
 assert.notEqual(candidate.results[0].artifactSha256, stale);
 
 function boundary(saved, { preview = false, write = false } = {}) {
-  const disk = new Map([[MS_PAID_PACKET_PROOF, Buffer.from(JSON.stringify(saved))]]);
-  const before = Buffer.from(disk.get(MS_PAID_PACKET_PROOF));
+  const disk = new Map(saved === undefined ? [] : [[MS_PAID_PACKET_PROOF, Buffer.from(JSON.stringify(saved))]]);
+  const before = disk.get(MS_PAID_PACKET_PROOF);
   const calls = { validatedCandidates: 0, savedReads: 0, writes: 0 };
   const output = preview ? '/synthetic-ms-proof-preview.json' : MS_PAID_PACKET_PROOF;
   const fileSystem = {
     readFileSync(file) {
       assert.equal(file, MS_PAID_PACKET_PROOF);
       calls.savedReads++;
+      if (!disk.has(file)) throw Object.assign(new Error('saved proof does not exist'), { code: 'ENOENT' });
       return disk.get(file);
     },
     writeFileSync(file, bytes, options) {
@@ -90,6 +91,12 @@ check('candidate preview neither validates nor updates stale saved proof', () =>
   assert.deepEqual(result.calls, { validatedCandidates: 1, savedReads: 0, writes: 1 });
   assert.deepEqual(JSON.parse(result.disk.get(result.output)), candidate);
   rejects(JSON.parse(result.disk.get(MS_PAID_PACKET_PROOF)));
+});
+check('valid candidate cannot substitute for a missing saved proof', () => {
+  const result = boundary(undefined);
+  assert.equal(result.error?.code, 'ENOENT');
+  assert.deepEqual(result.calls, { validatedCandidates: 1, savedReads: 1, writes: 0 });
+  assert.equal(result.disk.has(MS_PAID_PACKET_PROOF), false);
 });
 check('write mode cannot overwrite existing saved proof', () => {
   const result = boundary(candidate, { write: true });
