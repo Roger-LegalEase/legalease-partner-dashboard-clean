@@ -763,6 +763,30 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "petitioned-nondisclosure-for-an-eligible-conviction-411-0735", // GA17 Q-e6978babce1a46e17b47
     ],
   },
+  NE: {
+    profileHash: "2ff06c3e6b7fbcf4f82df41c0c7eb9315555fc3c535dfab28fa0c53a9f7fffbb",
+    categoryReason: "Earlier Nebraska categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "automatic-nonconviction-sealing", // GA12 Q-4a545ab85a94be27c95b
+      "juvenile-automatic-sealing", // GA12 Q-7d6e2953ebba7db1eb72
+      "juvenile-petition-backstop", // GA12 Q-d75d629d50ebb8c87426
+      "law-enforcement-error-expungement", // GA12 Q-5032ace2532c76a61e7c
+      "pardon-then-seal", // GA12 Q-f90e4e8ab93ba8a7096e
+      "set-aside-incarceration-one-year-or-less", // GA12 Q-17df472e8ea9aa127584
+      "set-aside-probation-fine-community-service", // GA12 Q-eea669c83c89361f4041
+      "trafficking-survivor-set-aside-and-seal", // GA12 Q-1fd3143f4dbee8014955
+    ],
+    record: [
+      "automatic-nonconviction-sealing", // GA17 Q-831f2f441d10e55f7960
+      "juvenile-automatic-sealing", // GA17 Q-acf1a4e859aaaf8006c4
+      "juvenile-petition-backstop", // GA17 Q-e093af789f1c7c7cfb0f
+      "law-enforcement-error-expungement", // GA17 Q-66dcd1e23c263ba19cbc
+      "pardon-then-seal", // GA17 Q-b8fdccd39b9b0190574f
+      "set-aside-incarceration-one-year-or-less", // GA17 Q-5f04b326441400689e07
+      "set-aside-probation-fine-community-service", // GA17 Q-d772db95899d4a74d3a0
+      "trafficking-survivor-set-aside-and-seal", // GA17 Q-d641e93e73955b0b8ca2
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
