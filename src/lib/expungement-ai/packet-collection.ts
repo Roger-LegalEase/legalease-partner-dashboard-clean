@@ -1288,6 +1288,16 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     record: [
     ],
   },
+  KY: {
+    profileHash: "4e84c6d8ba6469a095c50f09cacfb5518c4132d049fbf068513c6eb925e6a364",
+    categoryReason: "Earlier Kentucky categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "juvenile-automatic-dismissal", // GA12 Q-ec6ce3c8793c8f1b0090
+      "juvenile-petition-610330", // GA12 Q-cdc0542c5b9e6a5d5e6a
+    ],
+    record: [
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
