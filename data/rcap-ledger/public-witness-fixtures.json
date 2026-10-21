@@ -4,10 +4,10 @@
   "purpose": "A deterministic, replayable fixture for every pathway the existing runtime can already reach correctly. Each carries the exact answer map and the terminal result it must produce, so a regression shows up as a fixture failure rather than as a lost route.",
   "changesNoRuntime": true,
   "evaluatorToday": "2026-07-01",
-  "canonicalGraphSha256": "2107414b68900c64f1858a0d3cbe8592a6f01f3d354a2b5b9ff5586c82ecd8f4",
+  "canonicalGraphSha256": "b751724e456328abb1e631afce493cfa154ca2b3f33b4653116723019baf5c10",
   "totals": {
-    "fixtures": 262,
-    "correctedByFixtureAlone": 1
+    "fixtures": 261,
+    "correctedByFixtureAlone": 4
   },
   "fixtures": [
     {
@@ -1005,7 +1005,14 @@
       "publicRoute": "/expungement-ai/screening/california",
       "evaluationEndpoint": "POST /api/expungement-ai/screening",
       "answers": {
-        "case_outcome": "Arrest or citation with no charge filed",
+        "ca_12034_current_status": [
+          "none"
+        ],
+        "ca_12034_offense_sections": "No",
+        "ca_12034_probation_granted": "yes",
+        "ca_12034_probation_outcome": "fulfilled",
+        "ca_12034_relief_election": "fulfilled",
+        "case_outcome": "Misdemeanor conviction",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -1028,12 +1035,59 @@
             "court_requirements_completed",
             "trafficking_status"
           ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "ca_12034_probation_granted"
+          ],
+          "supplied": {
+            "ca_12034_probation_granted": "yes"
+          }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "ca_12034_current_status"
+          ],
+          "supplied": {
+            "ca_12034_current_status": [
+              "none"
+            ]
+          }
+        },
+        {
+          "round": 3,
+          "requested": [
+            "ca_12034_relief_election"
+          ],
+          "supplied": {
+            "ca_12034_relief_election": "fulfilled"
+          }
+        },
+        {
+          "round": 4,
+          "requested": [
+            "ca_12034_probation_outcome"
+          ],
+          "supplied": {
+            "ca_12034_probation_outcome": "fulfilled"
+          }
+        },
+        {
+          "round": 5,
+          "requested": [
+            "ca_12034_offense_sections"
+          ],
+          "supplied": {
+            "ca_12034_offense_sections": "No"
+          }
         }
       ],
       "expected": {
         "pathwayId": "tool-1-dismissal-set-aside",
-        "resultCode": "packet_ready_with_caution",
-        "paymentAllowed": true
+        "resultCode": "needs_review",
+        "paymentAllowed": false
       }
     },
     {
@@ -1054,7 +1108,6 @@
         "pending_cases": "No",
         "possible_pathway_context": "Tool 3 — Petition-based felony sealing (SB 731 / PC 1203.49 framework)",
         "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
         "sentence_completion_date": "Yes",
         "special_preconditions_confirmed": "Yes",
         "state_exclusion_categories": [
@@ -1068,20 +1121,11 @@
             "court_requirements_completed",
             "trafficking_status"
           ]
-        },
-        {
-          "round": 1,
-          "requested": [
-            "resolved_timing_bucket"
-          ],
-          "supplied": {
-            "resolved_timing_bucket": "gt_10_years"
-          }
         }
       ],
       "expected": {
         "pathwayId": "tool-3-petition-based-felony-sealing",
-        "resultCode": "needs_review",
+        "resultCode": "guidance_only",
         "paymentAllowed": false
       }
     },
@@ -3012,7 +3056,7 @@
       "expected": {
         "pathwayId": "adult-conviction-sealing",
         "resultCode": "packet_ready_with_caution",
-        "paymentAllowed": true
+        "paymentAllowed": false
       }
     },
     {
@@ -3165,9 +3209,14 @@
       "evaluationEndpoint": "POST /api/expungement-ai/screening",
       "answers": {
         "age_at_offense": "30",
-        "case_outcome": "Arrest or citation with no charge filed",
+        "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
         "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
+        "il_program_minor_traffic": "yes",
+        "il_program_termination": "satisfactory",
+        "il_program_type": "supervision",
+        "il_supervision_offense": "vehicle_3_707",
+        "il_supervision_sexual_minor": "yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
         "offense_level": "Misdemeanor",
@@ -3194,6 +3243,37 @@
           "supplied": {
             "age_at_offense": "30",
             "resolved_timing_bucket": "gt_10_years"
+          }
+        },
+        {
+          "round": 1,
+          "requested": [
+            "il_program_type"
+          ],
+          "supplied": {
+            "il_program_type": "supervision"
+          }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "il_program_termination"
+          ],
+          "supplied": {
+            "il_program_termination": "satisfactory"
+          }
+        },
+        {
+          "round": 3,
+          "requested": [
+            "il_program_minor_traffic",
+            "il_supervision_offense",
+            "il_supervision_sexual_minor"
+          ],
+          "supplied": {
+            "il_program_minor_traffic": "yes",
+            "il_supervision_offense": "vehicle_3_707",
+            "il_supervision_sexual_minor": "yes"
           }
         }
       ],
@@ -4495,7 +4575,7 @@
       "expected": {
         "pathwayId": "non-conviction-arrest-expungement",
         "resultCode": "packet_ready_with_caution",
-        "paymentAllowed": true
+        "paymentAllowed": false
       }
     },
     {
@@ -5096,18 +5176,17 @@
       "publicRoute": "/expungement-ai/screening/maryland",
       "evaluationEndpoint": "POST /api/expungement-ai/screening",
       "answers": {
-        "age_at_offense": "30",
         "arrest_date": "2012-06-01",
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
+        "md_10103_released_without_charge": "yes",
         "new_convictions_during_waiting_period": "No",
         "offense_level": "Misdemeanor",
         "ownership_scope": "Yes",
         "pardon_status": "No",
         "pending_cases": "No",
         "possible_pathway_context": "Police-record expungement when no charge was filed under § 10-103",
-        "prior_relief": "Yes",
         "record_documents": "Yes",
         "sentence_completion_date": "Yes",
         "special_preconditions_confirmed": "Yes",
@@ -5126,27 +5205,25 @@
         {
           "round": 1,
           "requested": [
-            "age_at_offense",
-            "prior_relief"
-          ],
-          "supplied": {
-            "age_at_offense": "30",
-            "prior_relief": "Yes"
-          }
-        },
-        {
-          "round": 2,
-          "requested": [
             "arrest_date"
           ],
           "supplied": {
             "arrest_date": "2012-06-01"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "md_10103_released_without_charge"
+          ],
+          "supplied": {
+            "md_10103_released_without_charge": "yes"
+          }
         }
       ],
       "expected": {
         "pathwayId": "police-record-expungement-when-no-charge-was-filed-under-10-103",
-        "resultCode": "likely_not_eligible",
+        "resultCode": "guidance_only",
         "paymentAllowed": false
       }
     },
@@ -6441,7 +6518,7 @@
         "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
-        "ms_mip_dismissal_or_discharge_date": "2012-06-01",
+        "ms_mip_dismissal_and_discharge_date": "2012-06-01",
         "new_convictions_during_waiting_period": "No",
         "offense_level": "Misdemeanor",
         "ownership_scope": "Yes",
@@ -6473,10 +6550,10 @@
         {
           "round": 2,
           "requested": [
-            "ms_mip_dismissal_or_discharge_date"
+            "ms_mip_dismissal_and_discharge_date"
           ],
           "supplied": {
-            "ms_mip_dismissal_or_discharge_date": "2012-06-01"
+            "ms_mip_dismissal_and_discharge_date": "2012-06-01"
           }
         }
       ],
@@ -7333,7 +7410,7 @@
       "expected": {
         "pathwayId": "set-aside-incarceration-one-year-or-less",
         "resultCode": "packet_ready_with_caution",
-        "paymentAllowed": true
+        "paymentAllowed": false
       }
     },
     {
@@ -9766,7 +9843,7 @@
       "publicRoute": "/expungement-ai/screening/oregon",
       "evaluationEndpoint": "POST /api/expungement-ai/screening",
       "answers": {
-        "case_outcome": "Arrest or citation with no charge filed",
+        "case_outcome": "Misdemeanor conviction",
         "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
@@ -10721,6 +10798,13 @@
         "possible_pathway_context": "Suspended-imposition-of-sentence sealing",
         "record_documents": "Yes",
         "resolved_timing_bucket": "gt_10_years",
+        "sd_sis_discharge_dismissal": "Yes",
+        "sd_sis_granted": "Yes",
+        "sd_sis_prior_felony": "Yes",
+        "sd_sis_prior_sis": "Yes",
+        "sd_sis_record_public": "Yes",
+        "sd_sis_specified_charge": "Yes",
+        "sd_sis_teaching_licence": "Yes",
         "sentence_completion_date": "Yes",
         "special_preconditions_confirmed": "Yes",
         "trafficking_status": "No"
@@ -10741,6 +10825,34 @@
           "supplied": {
             "age_at_offense": "30",
             "resolved_timing_bucket": "gt_10_years"
+          }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "sd_sis_discharge_dismissal",
+            "sd_sis_granted",
+            "sd_sis_prior_felony",
+            "sd_sis_prior_sis",
+            "sd_sis_record_public",
+            "sd_sis_teaching_licence"
+          ],
+          "supplied": {
+            "sd_sis_discharge_dismissal": "Yes",
+            "sd_sis_granted": "Yes",
+            "sd_sis_prior_felony": "Yes",
+            "sd_sis_prior_sis": "Yes",
+            "sd_sis_record_public": "Yes",
+            "sd_sis_teaching_licence": "Yes"
+          }
+        },
+        {
+          "round": 3,
+          "requested": [
+            "sd_sis_specified_charge"
+          ],
+          "supplied": {
+            "sd_sis_specified_charge": "Yes"
           }
         }
       ],
@@ -11243,7 +11355,9 @@
         "special_preconditions_confirmed": "Yes",
         "state_exclusion_categories": [
           "None of these"
-        ]
+        ],
+        "tx_nd_discharge_dismissal_date": "2012-06-01",
+        "tx_nd_supervision_type": "deferred_adjudication"
       },
       "rounds": [
         {
@@ -11261,6 +11375,24 @@
           "supplied": {
             "identity_error": "Yes",
             "resolved_timing_bucket": "gt_10_years"
+          }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "tx_nd_supervision_type"
+          ],
+          "supplied": {
+            "tx_nd_supervision_type": "deferred_adjudication"
+          }
+        },
+        {
+          "round": 3,
+          "requested": [
+            "tx_nd_discharge_dismissal_date"
+          ],
+          "supplied": {
+            "tx_nd_discharge_dismissal_date": "2012-06-01"
           }
         }
       ],
@@ -11295,7 +11427,10 @@
         "special_preconditions_confirmed": "Yes",
         "state_exclusion_categories": [
           "None of these"
-        ]
+        ],
+        "tx_nd_deferred_offense_class": "misdemeanor_other_chapter",
+        "tx_nd_discharge_dismissal_date": "2012-06-01",
+        "tx_nd_supervision_type": "deferred_adjudication"
       },
       "rounds": [
         {
@@ -11313,63 +11448,31 @@
           "supplied": {
             "identity_error": "Yes",
             "resolved_timing_bucket": "gt_10_years"
+          }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "tx_nd_supervision_type"
+          ],
+          "supplied": {
+            "tx_nd_supervision_type": "deferred_adjudication"
+          }
+        },
+        {
+          "round": 3,
+          "requested": [
+            "tx_nd_deferred_offense_class",
+            "tx_nd_discharge_dismissal_date"
+          ],
+          "supplied": {
+            "tx_nd_deferred_offense_class": "misdemeanor_other_chapter",
+            "tx_nd_discharge_dismissal_date": "2012-06-01"
           }
         }
       ],
       "expected": {
         "pathwayId": "petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725",
-        "resultCode": "guidance_only",
-        "paymentAllowed": false
-      }
-    },
-    {
-      "pathwayKey": "TX:petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
-      "jurisdiction": "TX",
-      "pathwayId": "petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/texas",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "case_outcome": "Arrest or citation with no charge filed",
-        "court_requirements_completed": "yes",
-        "financial_obligations": "Yes",
-        "identity_error": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pardon_status": "No",
-        "pending_cases": "No",
-        "possible_pathway_context": "Petitioned nondisclosure for an eligible conviction (§ 411.0735)",
-        "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes",
-        "state_exclusion_categories": [
-          "None of these"
-        ]
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "trafficking_status"
-          ]
-        },
-        {
-          "round": 1,
-          "requested": [
-            "identity_error",
-            "resolved_timing_bucket"
-          ],
-          "supplied": {
-            "identity_error": "Yes",
-            "resolved_timing_bucket": "gt_10_years"
-          }
-        }
-      ],
-      "expected": {
-        "pathwayId": "petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
         "resultCode": "needs_review",
         "paymentAllowed": false
       }
@@ -11689,7 +11792,8 @@
         "state_exclusion_categories": [
           "None of these"
         ],
-        "trafficking_status": "No"
+        "trafficking_status": "No",
+        "va_record_origin": "virginia"
       },
       "rounds": [
         {
@@ -11701,6 +11805,15 @@
           "supplied": {
             "identity_error": "Yes",
             "resolved_timing_bucket": "gt_10_years"
+          }
+        },
+        {
+          "round": 1,
+          "requested": [
+            "va_record_origin"
+          ],
+          "supplied": {
+            "va_record_origin": "virginia"
           }
         }
       ],
@@ -11736,7 +11849,8 @@
         "state_exclusion_categories": [
           "None of these"
         ],
-        "trafficking_status": "No"
+        "trafficking_status": "No",
+        "va_record_origin": "virginia"
       },
       "rounds": [
         {
@@ -11748,6 +11862,15 @@
           "supplied": {
             "identity_error": "Yes",
             "resolved_timing_bucket": "gt_10_years"
+          }
+        },
+        {
+          "round": 1,
+          "requested": [
+            "va_record_origin"
+          ],
+          "supplied": {
+            "va_record_origin": "virginia"
           }
         }
       ],

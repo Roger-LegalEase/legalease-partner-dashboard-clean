@@ -4,13 +4,13 @@
   "canonicalGraph": {
     "path": "data/rcap-ledger/paid-pathway-legal-join.json",
     "source": "working_tree",
-    "sha256": "2107414b68900c64f1858a0d3cbe8592a6f01f3d354a2b5b9ff5586c82ecd8f4",
+    "sha256": "b751724e456328abb1e631afce493cfa154ca2b3f33b4653116723019baf5c10",
     "pathways": 267,
     "dispositions": {
-      "family_bridge_missing_no_family": 156,
+      "family_bridge_missing_no_family": 154,
       "approved_by_decision_owner": 70,
       "family_bridge_missing_no_track": 40,
-      "owner_approval_pending": 1
+      "owner_approval_pending": 3
     }
   },
   "createsNoDenominator": "The pathway set is Session A's graph, consumed as-is. No pathway is added, dropped or reclassified here.",
@@ -19,7 +19,7 @@
     "evaluatorToday": "2026-07-01",
     "randomness": "none",
     "routeSelectingEnumerationBound": 240,
-    "combosTried": 410
+    "combosTried": 471
   },
   "passes": {
     "baseline": "the committed first-option rule in data/rcap-ledger/public-witness-answer-sets.json",
@@ -28,17 +28,18 @@
   "baselineWasWrongAboutItself": "The baseline rule answered resolved_timing_bucket with the first option, lt_1_year — the least clearable value in the list — so every route with a waiting period failed closed on an anchor it could never satisfy. Those were witness defects, not evaluator defects. Reporting them as runtime bugs would have sent Session A after roughly 92 patches that do not exist.",
   "totals": {
     "pathways": 267,
-    "correct_pathway": 262,
+    "correct_pathway": 261,
     "wrong_path": 2,
-    "non_converging": 3,
+    "non_converging": 4,
     "baselineOutcomes": {
-      "correct_pathway": 261,
-      "non_converging": 6
+      "correct_pathway": 257,
+      "non_converging": 9,
+      "wrong_path": 1
     },
-    "correctedByFixtureAlone": 1,
-    "failing": 5,
+    "correctedByFixtureAlone": 4,
+    "failing": 6,
     "clusters": 0,
-    "unclustered": 5,
+    "unclustered": 6,
     "clusterPartitionSumsToFailing": true,
     "requestedQuestionsNotProjected": [],
     "jurisdictionsAskedForAnUnprojectedQuestion": []
@@ -67,6 +68,10 @@
     },
     {
       "pathwayKey": "MS:pretrial-intervention-or-diversion-expungement",
+      "reasonCodes": []
+    },
+    {
+      "pathwayKey": "TX:petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
       "reasonCodes": []
     }
   ],
@@ -467,7 +472,7 @@
       "jurisdiction": "CA",
       "pathwayId": "prop-64-completed-sentence-application-11361-8",
       "pathwayLabel": "HSC § 11361.8 completed-sentence marijuana dismissal/sealing or redesignation application",
-      "sessionADisposition": "family_bridge_missing_no_family",
+      "sessionADisposition": "owner_approval_pending",
       "outcome": "wrong_path",
       "baselineOutcome": "non_converging",
       "combosTried": 24,
@@ -558,7 +563,7 @@
       "jurisdiction": "CA",
       "pathwayId": "prop-64-currently-serving-petition-11361-8",
       "pathwayLabel": "HSC § 11361.8 currently-serving marijuana resentencing/redesignation petition",
-      "sessionADisposition": "family_bridge_missing_no_family",
+      "sessionADisposition": "owner_approval_pending",
       "outcome": "correct_pathway",
       "reachedBy": {
         "case_outcome": "Felony conviction",
@@ -584,20 +589,20 @@
       "sessionADisposition": "family_bridge_missing_no_family",
       "outcome": "correct_pathway",
       "reachedBy": {
-        "case_outcome": "Arrest or citation with no charge filed",
+        "case_outcome": "Misdemeanor conviction",
         "offense_level": "Misdemeanor"
       },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
+      "baselineOutcome": "non_converging",
+      "correctedByFixtureAlone": true,
       "terminalEvaluation": {
-        "resultCode": "packet_ready_with_caution",
+        "resultCode": "needs_review",
         "pathwayId": "tool-1-dismissal-set-aside",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "reasonCodes": [
-          "ca.compiled_rule_match.rule-02-the-classic-california-expungement-a-person-may-petitio"
+          "ca.probation_preparation"
         ]
       },
-      "combosTried": 1
+      "combosTried": 9
     },
     {
       "pathwayKey": "CA:tool-3-petition-based-felony-sealing",
@@ -613,11 +618,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "guidance_only",
         "pathwayId": "tool-3-petition-based-felony-sealing",
         "paymentAllowed": false,
         "reasonCodes": [
-          "ca.waiting_rule_not_executed"
+          "ca.lawrence_hold_guidance_only"
         ]
       },
       "combosTried": 1
@@ -1549,7 +1554,7 @@
       "terminalEvaluation": {
         "resultCode": "packet_ready_with_caution",
         "pathwayId": "adult-conviction-sealing",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "reasonCodes": [
           "il.compiled_rule_match.rule-06-order-of-supervision-successfully-completed-expungement"
         ]
@@ -1633,20 +1638,20 @@
       "sessionADisposition": "family_bridge_missing_no_family",
       "outcome": "correct_pathway",
       "reachedBy": {
-        "case_outcome": "Arrest or citation with no charge filed",
+        "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
         "offense_level": "Misdemeanor"
       },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
+      "baselineOutcome": "non_converging",
+      "correctedByFixtureAlone": true,
       "terminalEvaluation": {
         "resultCode": "needs_review",
         "pathwayId": "expungement-after-eligible-supervision-or-qualified-probation",
         "paymentAllowed": false,
         "reasonCodes": [
-          "il.waiting_rule_not_executed"
+          "il.program_excluded"
         ]
       },
-      "combosTried": 1
+      "combosTried": 16
     },
     {
       "pathwayKey": "IL:felony-prostitution-relief",
@@ -1666,7 +1671,7 @@
         "pathwayId": "felony-prostitution-relief",
         "paymentAllowed": false,
         "reasonCodes": [
-          "il.il_prostitution_felony_required_not_eligible"
+          "il.prostitution_record_conflict"
         ]
       },
       "combosTried": 1
@@ -2258,7 +2263,7 @@
       "terminalEvaluation": {
         "resultCode": "packet_ready_with_caution",
         "pathwayId": "non-conviction-arrest-expungement",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "reasonCodes": [
           "la.compiled_rule_match.rule-09-if-article-894-b-was-not-already-completed-but-appears-"
         ]
@@ -2532,11 +2537,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "likely_not_eligible",
+        "resultCode": "guidance_only",
         "pathwayId": "police-record-expungement-when-no-charge-was-filed-under-10-103",
         "paymentAllowed": false,
         "reasonCodes": [
-          "md.md_police_record_deadline_not_eligible"
+          "md.police_source_modern"
         ]
       },
       "combosTried": 1
@@ -3787,7 +3792,7 @@
       "terminalEvaluation": {
         "resultCode": "packet_ready_with_caution",
         "pathwayId": "set-aside-incarceration-one-year-or-less",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "reasonCodes": [
           "ne.compiled_rule_match.rule-05-the-sentence-conditions-must-be-satisfactorily-complete"
         ]
@@ -4906,11 +4911,11 @@
       "sessionADisposition": "family_bridge_missing_no_family",
       "outcome": "correct_pathway",
       "reachedBy": {
-        "case_outcome": "Arrest or citation with no charge filed",
+        "case_outcome": "Misdemeanor conviction",
         "offense_level": "Misdemeanor"
       },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
+      "baselineOutcome": "wrong_path",
+      "correctedByFixtureAlone": true,
       "terminalEvaluation": {
         "resultCode": "needs_review",
         "pathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
@@ -4919,7 +4924,7 @@
           "or.waiting_rule_not_executed"
         ]
       },
-      "combosTried": 1
+      "combosTried": 16
     },
     {
       "pathwayKey": "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a",
@@ -5353,7 +5358,8 @@
         "pathwayId": "suspended-imposition-of-sentence-sealing",
         "paymentAllowed": false,
         "reasonCodes": [
-          "sd.guidance_only_no_user_filed_court_petition"
+          "sd.guidance_only_no_user_filed_court_petition",
+          "sd.sis_prior_review"
         ]
       },
       "combosTried": 1
@@ -5583,7 +5589,7 @@
         "pathwayId": "first-offense-dwi-nondisclosure",
         "paymentAllowed": false,
         "reasonCodes": [
-          "tx.waiting_rule_not_executed"
+          "tx.nondisclosure_dwi_source_facts_review"
         ]
       },
       "combosTried": 1
@@ -5602,11 +5608,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "guidance_only",
+        "resultCode": "needs_review",
         "pathwayId": "petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725",
         "paymentAllowed": false,
         "reasonCodes": [
-          "tx.guidance_only_no_user_filed_court_petition"
+          "tx.route_gate_pending_lawrence_review"
         ]
       },
       "combosTried": 1
@@ -5617,22 +5623,32 @@
       "pathwayId": "petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
       "pathwayLabel": "Petitioned nondisclosure for an eligible conviction (§ 411.0735)",
       "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Arrest or citation with no charge filed",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "tx.route_gate_pending_lawrence_review"
-        ]
-      },
-      "combosTried": 1
+      "outcome": "non_converging",
+      "baselineOutcome": "non_converging",
+      "combosTried": 24,
+      "diagnosis": {
+        "intendedPathway": "petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
+        "actualPathway": null,
+        "actualResultCodes": [],
+        "firstDivergence": "the exchange never settled on a terminal evaluation",
+        "missingDifferentiatingQuestion": [
+          "offense_category",
+          "residency_or_location",
+          "record_type"
+        ],
+        "repeatedMissingFact": [
+          {
+            "questionId": "tx_nd_supervision_type",
+            "timesRequested": 2
+          }
+        ],
+        "waitingRuleFailure": null,
+        "answerVocabularyMismatch": null,
+        "pathwayPriorityConflict": null,
+        "requestedQuestionsNotProjected": [],
+        "reasonCodes": [],
+        "normalizedReasonCodes": []
+      }
     },
     {
       "pathwayKey": "UT:path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility",
@@ -6457,7 +6473,7 @@
         "pathwayId": "felony-conviction-expungement-w-s-7-13-1502",
         "paymentAllowed": false,
         "reasonCodes": [
-          "wy.selected_pathway_rule_not_matched"
+          "wy.felony1502_disposition"
         ]
       },
       "combosTried": 1

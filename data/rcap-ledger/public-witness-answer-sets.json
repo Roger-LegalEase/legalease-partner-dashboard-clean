@@ -35,19 +35,19 @@
   "changesNothing": "Records the current local evaluator under explicit synthetic premises. No hosted observation, participant fact, runtime change, classification, approval or commercial authority is established.",
   "totals": {
     "pathways": 267,
-    "settledOnATerminalEvaluation": 259,
-    "unresolvedPathways": 8,
+    "settledOnATerminalEvaluation": 258,
+    "unresolvedPathways": 9,
     "additionalSourceBoundSyntheticWitnesses": 6,
-    "landedOnTheirOwnPathway": 258,
+    "landedOnTheirOwnPathway": 257,
     "terminalResultCodes": {
       "packet_ready_with_caution": 32,
-      "guidance_only": 90,
+      "guidance_only": 91,
       "not_covered_yet": 22,
-      "needs_review": 104,
+      "needs_review": 102,
       "needs_more_info": 9,
       "likely_not_eligible": 2
     },
-    "paymentAllowedAtTheEvaluator": 25
+    "paymentAllowedAtTheEvaluator": 22
   },
   "witnesses": [
     {
@@ -2295,14 +2295,14 @@
         ]
       },
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "guidance_only",
         "pathwayId": "tool-3-petition-based-felony-sealing",
         "pathwayLabel": "Tool 3 — Petition-based felony sealing (SB 731 / PC 1203.49 framework)",
         "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
-          "ca.waiting_rule_not_executed"
+          "ca.lawrence_hold_guidance_only"
         ],
         "missingQuestionIds": []
       },
@@ -5660,7 +5660,7 @@
         "resultCode": "packet_ready_with_caution",
         "pathwayId": "adult-conviction-sealing",
         "pathwayLabel": "Adult conviction sealing",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
@@ -5945,6 +5945,24 @@
             "case_outcome": "Arrest or citation with no charge filed",
             "offense_level": "Misdemeanor"
           }
+        },
+        {
+          "round": 1,
+          "requested": [
+            "il_program_type"
+          ],
+          "supplied": {
+            "il_program_type": "supervision"
+          }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "case_outcome"
+          ],
+          "supplied": {
+            "case_outcome": "Arrest or citation with no charge filed"
+          }
         }
       ],
       "finalAnswers": {
@@ -5952,6 +5970,7 @@
         "case_outcome": "Arrest or citation with no charge filed",
         "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
+        "il_program_type": "supervision",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
         "offense_level": "Misdemeanor",
@@ -5968,20 +5987,82 @@
         ],
         "trafficking_status": "No"
       },
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "expungement-after-eligible-supervision-or-qualified-probation",
-        "pathwayLabel": "Expungement after eligible supervision or qualified probation",
-        "paymentAllowed": false,
-        "treatmentClassification": null,
-        "selectedTrackId": null,
-        "reasonCodes": [
-          "il.waiting_rule_not_executed"
+      "terminalEvaluation": null,
+      "landedOnThisPathway": false,
+      "convergenceStatus": "unresolved_unchanged_answers",
+      "unresolvedEvaluation": {
+        "jurisdiction": "IL",
+        "profileVersion": "2026-06-19-source-conversion-1",
+        "matterId": "public-witness",
+        "resultCode": "needs_more_info",
+        "userLabel": "We need one more detail before we can prepare the right packet.",
+        "reasons": [
+          {
+            "code": "il.program_missing",
+            "text": "Confirm the actual supervision or probation order and termination facts. A general completion answer or an old case date does not establish them.",
+            "sourceRef": "IL.memo:il-exp-supervision,il-exp-qualprob;20ILCS2630/5.2(a)(1)(C),(J),(b)(1)(iii)-(iv),(b)(2)(B)-(C)"
+          }
         ],
-        "missingQuestionIds": []
+        "missingQuestionIds": [
+          "case_outcome"
+        ],
+        "cautions": [],
+        "nextSteps": [
+          "Confirm the actual supervision or probation order and termination facts. A general completion answer or an old case date does not establish them."
+        ],
+        "paymentAllowed": false,
+        "pathwayId": "expungement-after-eligible-supervision-or-qualified-probation",
+        "packetPlan": {
+          "pathwayId": "expungement-after-eligible-supervision-or-qualified-probation",
+          "mode": "official_form_overlay_or_source_form_set",
+          "formMappingStatus": "custom_or_manual_mapping_required",
+          "sourceFormIds": [],
+          "requiredInputIds": [
+            "age_at_offense",
+            "case_outcome",
+            "charge",
+            "contact_information",
+            "court",
+            "disposition_date",
+            "jurisdiction",
+            "offense_category",
+            "offense_level",
+            "pardon_status",
+            "participant_full_legal_name",
+            "pathway_id",
+            "record_type",
+            "residency_or_location",
+            "sentence_completion_date",
+            "trafficking_status"
+          ],
+          "sourceRuleRefs": [
+            "section:55-88",
+            "section:89-114",
+            "section:139-156",
+            "overview:7-28",
+            "section:396-442",
+            "section:443-490",
+            "section:531-570",
+            "section:188-212",
+            "section:326-364",
+            "section:224-270",
+            "section:374-395",
+            "section:733-804",
+            "corpus-unit:18",
+            "waiting_periods:271-325",
+            "corpus-unit:20"
+          ],
+          "packetReadyWhen": [
+            "backend result is packet_ready or packet_ready_with_caution",
+            "every source-defined pathway fact is answered",
+            "all waiting and completion conditions are satisfied",
+            "no exclusion, ambiguity, or required-review flag remains",
+            "the selected form revision and filing location pass source-freshness checks"
+          ]
+        },
+        "pathwayLabel": "Expungement after eligible supervision or qualified probation"
       },
-      "landedOnThisPathway": true,
-      "error": null
+      "error": "Required facts remain unresolved under these exact synthetic premises."
     },
     {
       "pathwayKey": "IL:felony-prostitution-relief",
@@ -8100,7 +8181,7 @@
         "resultCode": "packet_ready_with_caution",
         "pathwayId": "non-conviction-arrest-expungement",
         "pathwayLabel": "Non-conviction arrest expungement",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
@@ -13621,7 +13702,7 @@
         "resultCode": "packet_ready_with_caution",
         "pathwayId": "set-aside-incarceration-one-year-or-less",
         "pathwayLabel": "Conviction set-aside after incarceration of one year or less under § 29-2264(3)",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "treatmentClassification": null,
         "selectedTrackId": null,
         "reasonCodes": [
