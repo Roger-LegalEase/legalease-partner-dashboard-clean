@@ -76,6 +76,7 @@ try {
   }
   assert.equal((await importSources(root)).changed, false); checks++;
   assert.equal(fs.readFileSync(indexPath, 'utf8'), afterBytes); checks++;
+  assert.equal(fs.readFileSync(path.join(ROOT, INDEX), 'utf8'), afterBytes, 'committed index must equal the additive import'); checks++;
   after.entries.at(-1).revision = 'unreviewed';
   const drifted = JSON.stringify(after, null, 2) + '\n'; fs.writeFileSync(indexPath, drifted);
   await assert.rejects(importSources(root), /existing entry drift/); checks++;
