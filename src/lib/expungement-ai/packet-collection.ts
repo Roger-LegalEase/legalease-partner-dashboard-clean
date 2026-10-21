@@ -1143,7 +1143,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     ],
   },
   CO: {
-    profileHash: "1e74ae18e3815426ae28001f741a954826a985d08164d8ab77820cda0d90d909",
+    profileHash: "ae0087c37912d4d989406b7410cc5e59c16f92119129e985b53791bf5a30d481",
     categoryReason: "Earlier Colorado categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
     category: [
       "automatic-clean-slate-sealing-13-3-117", // GA12 Q-f1db160874208d5020cc
