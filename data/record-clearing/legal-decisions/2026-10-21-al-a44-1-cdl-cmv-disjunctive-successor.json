@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "rcap-legal-research-implementation-correction/v1",
+  "recordId": "AL-A44-1-CDL-CMV-DISJUNCTIVE-SUCCESSOR-2026-10-21",
+  "reviewer": "Counsel decision relayed by the owner (A44 and A46 Legal Decision Record, 2026-10-21); implementation by GA1217 under lead option (b)",
+  "reviewDate": "2026-10-21",
+  "familyId": "al-misd-conviction",
+  "decisionSource": {
+    "path": "review-evidence/lead-batch31/counsel-packages/A44-A46-COUNSEL-DECISION-20261021.md",
+    "sha256": "b23507cf9060db6ba6c09004e2e0cc73c9a6af11bc708f00777da351deb89c66",
+    "item": "A44.1"
+  },
+  "decisionText": "Section 15-27-1(b)(3) is interpreted according to its enacted disjunctive language. A qualifying applicant who held a commercial driver's license but was not operating a commercial motor vehicle at the time of the offense satisfies that specific condition. The associated memorandum and question logic may be corrected, subject to normal release acceptance.",
+  "supersededReading": {
+    "file": "data/record-clearing/legal-design-intake/AL.memo.json",
+    "sha256": "7d484d636a1612c8a6c4648d1f070e1a21d2e3c0a0255afadd7780949e353391",
+    "text": "If the conviction is for an offense enumerated in 49 C.F.R. § 383.51, the person must not have been operating a commercial motor vehicle and must not have held a CDL or CLP at the time of the offense."
+  },
+  "controllingReading": "If the conviction is for an offense enumerated in 49 C.F.R. § 383.51, the person must not have been operating a commercial motor vehicle, or must not have held a CDL or CLP, at the time of the offense.",
+  "memoBytes": "AL.memo.json stays byte-identical to the import (lead option (b)); this record supersedes its conjunctive sentence. The memo lineage cites this record.",
+  "implemented": [
+    "src/lib/expungement-ai/al-redeemer-classification.ts: the commercial-vehicle question is asked whatever the CDL/CLP answer (A44 part 1)",
+    "data/record-clearing/legal-design-track-registry.json: the al-misd-conviction exclusion copy reads the disjunctive sentence above"
+  ],
+  "unchanged": [
+    "The redeemer route stays held: paymentAllowed=false, no track selection",
+    "Question copy EN/ES and the helper copy",
+    "A44.2: the October 1, 2026 version of § 15-20A-5 is not incorporated; that behaviour stays restricted"
+  ],
+  "openResiduals": [
+    "AL.memo.json byte successor (:1203 and the :1283 cdlStatus question) with its 14 instruction docs, 3 source receipts and the census, at the next AL packet regeneration",
+    "AL-alabama.json exclusion copy (pathways[0..3].exclusionRules, pathways[1].ruleClauses[26], exclusionRules[6]/[27], sourceSections[3]) plus AL non-payment LEGAL_AUTHORITY_METADATA_SUCCESSORS rows, at the same regeneration; measured not participant-visible on 2026-10-21"
+  ],
+  "createsApproval": false
+}
