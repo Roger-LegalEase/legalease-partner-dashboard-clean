@@ -19,6 +19,8 @@ export const VF02_REVIEW = 'data/rcap-grade-a/packet-factory-24h/vf02/rows-vf02-
 export const VF02_SUPPLEMENT = 'data/rcap-grade-a/packet-factory-24h/vf02-v2-supplements/rows-vf02-20261020-reverify-de-mandatory-1b4dfeaa1.v2.json';
 const VF02_COMMIT = 'e35a55467f86d3e6c9fb070e0a651f1633ff1422';
 const ROUTE_CENSUS = 'data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json';
+const ROUTE_PRODUCT_METADATA = 'data/expungement-ai/route-product-metadata.json';
+const DE_RPM_MANDATORY_KEY = 'DE:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a';
 const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 const blob = b => crypto.createHash('sha1').update(Buffer.from(`blob ${b.length}\0`)).update(b).digest('hex');
 
@@ -200,6 +202,28 @@ export function additiveOtherFamilyRegistry(oldBytes, currentBytes, familyId) {
     pinnedSha256: sha(oldBytes), currentSha256: sha(currentBytes),
     unchangedPriorFamilyEntries: unchangedBefore.length,
     changedFamilyIds, addedEvidencePaths: addedPaths};
+}
+
+// The DE builder only hashes route-product-metadata.json (a composition source);
+// it never parses it. So a regeneration may move the whole-file hash only when
+// every Delaware row is deep-equal and nothing at the top level moved except
+// headCommit (Reviewer2 de-vf02-rpm-pin/DECISION.md). Any other change refuses.
+export function deRoutesUnchangedProductMetadata(oldBytes, currentBytes) {
+  const old = JSON.parse(oldBytes), now = JSON.parse(currentBytes);
+  // Only the generator's own serialization; a hand edit that parses equal is still a change.
+  assert.equal(Buffer.from(currentBytes).toString(), JSON.stringify(now, null, 2) + '\n', 'route product metadata is not generator output');
+  assert.deepEqual(Object.keys(now), Object.keys(old), 'route product metadata shape changed');
+  for (const key of Object.keys(old)) {
+    if (key === 'headCommit' || key === 'routes') continue;
+    assert.deepEqual(now[key], old[key], `route product metadata ${key} changed`);
+  }
+  const deRows = routes => Object.entries(routes ?? {}).filter(([key]) => key.startsWith('DE:'));
+  const before = deRows(old.routes), after = deRows(now.routes);
+  assert.equal(before.length, 4, 'historical Delaware route product metadata is not the four reviewed rows');
+  assert.ok(before.some(([key]) => key === DE_RPM_MANDATORY_KEY), 'historical DE mandatory route product metadata is missing');
+  assert.deepEqual(after, before, 'Delaware route product metadata changed');
+  return {scopeUnchanged: true, comparison: 'all four Delaware route product metadata rows are deep-equal; only headCommit and non-Delaware rows moved',
+    deRoutesSha256: sha(Buffer.from(JSON.stringify(before)))};
 }
 
 function assessLegacyDeReviewedGuidance(root, returned, overrides = {}) {
@@ -436,6 +460,13 @@ function assessCurrentDeReviewedGuidance(root, returned, overrides = {}) {
       if (supplemented) {
         assert.equal(sha(historicalBytes), declared.sha256, `reviewed source changed: ${source.path}`);
         assert.equal(historicalBytes.length, declared.byteLength);
+        if (source.path === ROUTE_PRODUCT_METADATA && sha(currentBytes) !== declared.sha256) {
+          assert.equal(declared.sha256, source.sha256, `reviewed and receipt pins differ: ${source.path}`);
+          assert.equal(historicalBytes.length, source.byteLength);
+          return {path: source.path, sha256: source.sha256, byteLength: source.byteLength,
+            matched: false, currentSha256: sha(currentBytes), currentByteLength: currentBytes.length,
+            ...deRoutesUnchangedProductMetadata(historicalBytes, currentBytes)};
+        }
         assert.equal(sha(currentBytes), declared.sha256, `current source changed: ${source.path}`);
         assert.equal(currentBytes.length, declared.byteLength);
         if (declared.sha256 === source.sha256) {
@@ -468,6 +499,11 @@ function assessCurrentDeReviewedGuidance(root, returned, overrides = {}) {
       assert.equal(declared.sha256, source.sha256);
       assert.equal(sha(historicalBytes), source.sha256, `reviewed source changed: ${source.path}`);
       const currentSha256 = sha(currentBytes);
+      if (currentSha256 !== source.sha256 && source.path === ROUTE_PRODUCT_METADATA) {
+        return {path: source.path, sha256: source.sha256, byteLength: source.byteLength,
+          matched: false, currentSha256, currentByteLength: currentBytes.length,
+          ...deRoutesUnchangedProductMetadata(historicalBytes, currentBytes)};
+      }
       if (currentSha256 !== source.sha256) {
         assert.equal(source.path, SOURCE_REGISTRY, `current source changed: ${source.path}`);
         const delta = deFamilyCourtSourceDelta(historicalBytes, currentBytes, {
