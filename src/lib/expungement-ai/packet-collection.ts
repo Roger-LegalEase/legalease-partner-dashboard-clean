@@ -1095,6 +1095,24 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "juvenile-adjudication-expungement-under-wis-stat-938-355-4m", // GA17 Q-779bb8134eda85585a64
     ],
   },
+  ND: {
+    profileHash: "02161fac85c2f585313ccdfaa9b91bc58054646a4356e2d486b5d7acc20f322f",
+    categoryReason: "Earlier North Dakota categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "deferred-imposition-dismissal-and-sealing", // GA12 Q-f2f665a3691cd1692e1a
+      "dui-record-sealing-under-the-separate-dui-statute", // GA12 Q-361173ac9d6a8a6b4ea9
+      "general-conviction-sealing-under-n-d-c-c-chapter-12-60-1", // GA12 Q-2dcdf911e205525ea73c
+      "marijuana-specific-summary-pardon-or-sealing-relief", // GA12 Q-6e7be452bdd8e0dc1b8e
+      "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05", // GA12 Q-e78b8e4321d54496b5b4
+    ],
+    record: [
+      "deferred-imposition-dismissal-and-sealing", // GA17 Q-7287e95f205449d12a41
+      "dui-record-sealing-under-the-separate-dui-statute", // GA17 Q-2d838c58e640f6cae2a4
+      "general-conviction-sealing-under-n-d-c-c-chapter-12-60-1", // GA17 Q-b736e32042467f9b12ec
+      "marijuana-specific-summary-pardon-or-sealing-relief", // GA17 Q-45897cb3546575c003a8
+      "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05", // GA17 Q-5eade38bbd184e137187
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
