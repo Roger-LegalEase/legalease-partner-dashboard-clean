@@ -1339,6 +1339,17 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     record: [
     ],
   },
+  KS: {
+    profileHash: "a8231b14f6a5e29b2a2923c0705390fdefdf8ad17b711bf8d192a1419131e500",
+    categoryReason: "Earlier Kansas categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "conviction-or-diversion-216614", // GA12 Q-2bcada7a84fc3b0995b5
+      "prostitution-coercion", // GA12 Q-4a36969d2416198e93df
+      "specialty-court-accelerated", // GA12 Q-951affad6847d3d0770e
+    ],
+    record: [
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
