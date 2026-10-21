@@ -109,6 +109,7 @@ for (const locale of ['en', 'es']) for (const [kind, raw] of cases) {
     for (const citation of ['12-25-32(15)', '17-3-30.1', '383.51', '15-20A-5']) assert(helper.includes(citation));
     assert(helper.includes('2015-185') && helper.includes('15 '), 'moral-turpitude exception retains both conditions');
     assert(helper.includes('CDL') && helper.includes('CLP') && helper.includes('CMV'), 'driving conditions retained');
+    if (locale === 'en') assert(helper.includes("If the person was convicted of any of the offenses enumerated in 49 C.F.R. \u00a7 383.51, the person was not operating a commercial motor vehicle at the time of the offense, or was not holding a commercial driver license or a commercial learner permit at the time of the offense."), 'the driving condition retains the enacted disjunction verbatim');
     const renderedText = markup.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
     for (const line of helper.split('\n').filter(Boolean)) {
       const escaped = renderToStaticMarkup(React.createElement('span', null, line)).slice(6, -7).replace(/\s+/g, ' ');
