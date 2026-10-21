@@ -349,7 +349,11 @@ assert(settingsView.includes("data-briefcase-guidance-state") && settingsView.in
 assert(packetDetail.includes("data-briefcase-guidance-state={humanMatterState(item)}") && packetDetail.includes("item.nextSteps.map("), "Briefcase detail guidance-only state missing.");
 assert(!settingsView.includes("5-stage"), "Briefcase guidance state must not include a 5-stage filing stepper.");
 assert(settingsView.indexOf("Next steps") !== -1 && settingsView.indexOf("Next steps") < settingsView.indexOf("artifact && !isGuidanceOnly"), "Briefcase must prioritize next steps before document actions.");
-assert(packetDetail.indexOf("Next steps") !== -1 && packetDetail.indexOf("Next steps") < packetDetail.indexOf("artifact && !isGuidanceOnly"), "Briefcase detail must prioritize next steps before document actions.");
+// Replaces the old "next steps before document actions" marker: the approved flow (9c907e7ac l.92/l.112) is guidance-only next steps, or download then follow up.
+const guidanceDetail = packetDetail.slice(packetDetail.indexOf("function SavedResultValue("), packetDetail.indexOf("function ReadyPacket("));
+assert(guidanceDetail.includes("item.nextSteps.map(") && !/download/i.test(guidanceDetail), "Briefcase detail guidance-only matter must show next steps and no download.");
+const readyDetail = packetDetail.slice(packetDetail.indexOf("function ReadyPacket("));
+assert(readyDetail.indexOf("downloadPath") !== -1 && readyDetail.indexOf("downloadPath") < readyDetail.indexOf("nextSteps.map("), "Briefcase detail ready packet must show downloads, then next steps.");
 
 const homepageV3 = exists("src/app/expungement-ai/home-v3/ExpungementHomeV3.tsx") ? read("src/app/expungement-ai/home-v3/ExpungementHomeV3.tsx") : "";
 assert(homepageV3.includes('data-homepage-version="v3"'), "Expungement.ai landing must render the normalized V3 composition.");
