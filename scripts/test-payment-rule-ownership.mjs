@@ -63,7 +63,8 @@ for (const row of fixture.legacy) {
   const newlyClosed = row.baselinePaymentAllowed && !expected.expected.paymentAllowed;
   check(`${row.route}:historical-hash`, () => assert.equal(P.protectedPacketDraftHash(verification.draftSnapshot), verification.draftHash));
   // F-D1-SAVED m119/m136: HI's former refused model now loads held; the recorded Y2 hash stays exact.
-  const paymentOnlySuccessor = row.route === "HI:dui-under-21-conviction";
+  // Lead 2026-10-21 22:54:21 OD-ext: five more refused predecessors now load held; original fixture unchanged.
+  const paymentOnlySuccessor = ["HI:dui-under-21-conviction", "FL:court-ordered-expunction-943-0585", "HI:first-time-drug-conviction", "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8", "MN:petition-based-expungement-under-609a-02-03", "NM:cannabis-sentence-dismissal-incarcerated-person-pathway"].includes(row.route);
   check(`${row.route}:historical-model`, () => assert.equal(!!P.protectedPacketInformationModelFor(verification), paymentOnlySuccessor ? true : newlyClosed ? false : row.modelAvailable));
   const actual = await B.decorateBriefcaseItemForPresentationWithDependencies({
     consumerAuthUserId: '00000000-0000-4000-8000-000000000037', item: row.item

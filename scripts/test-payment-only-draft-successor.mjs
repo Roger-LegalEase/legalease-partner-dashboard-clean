@@ -6,7 +6,8 @@ process.env.RCAP_EVALUATOR_TODAY = '2026-10-18';
 globalThis.fetch = () => { throw Error('NETWORK_FORBIDDEN'); };
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const mode = process.argv[2] ?? 'candidate';
-assert(['candidate','removed','left_paid','briefcase_removed'].includes(mode));
+assert(['candidate','removed','left_paid','briefcase_removed','allowlist_removed'].includes(mode) || mode.startsWith('remove-route:'));
+if (mode.startsWith('remove-route:') || mode === 'allowlist_removed') register('data:text/javascript,'+encodeURIComponent(`let mode;export function initialize(m){mode=m}export async function load(u,c,next){const r=await next(u,c);if(!u.endsWith('/packet-information.ts'))return r;let s=String(r.source);if(mode==='allowlist_removed'){const a='!PAYMENT_ONLY_DRAFT_ROUTES.has(\`\${snapshot.jurisdiction}:\${snapshot.pathwayId}\`)';if(s.split(a).length!==2)throw Error('nonunique allowlist anchor');s=s.replace(a,'false')}else{const a=s.indexOf('const PAYMENT_ONLY_DRAFT_ROUTES = new Set(['),b=s.indexOf(']);',a);if(a<0||b<a)throw Error('list not found');const list=s.slice(a,b),key=JSON.stringify(mode.slice('remove-route:'.length));if(list.split(key).length!==2)throw Error('nonunique route');s=s.slice(0,a)+list.replace(key,JSON.stringify('test-only-removed-route'))+s.slice(b)}return {...r,source:s};}`),{data:mode});
 if (mode === 'briefcase_removed') register('data:text/javascript,'+encodeURIComponent(`export async function load(u,c,next){const r=await next(u,c);if(!u.endsWith('/briefcase-presentation-authority.ts'))return r;const s=String(r.source),a='paymentOnlyDraftSuccessor(snapshot, authoritative, verification.status) ??';if(s.split(a).length!==2)throw Error('nonunique anchor');return {...r,source:s.replace(a,'')};}`));
 if (['removed','left_paid'].includes(mode)) register('data:text/javascript,' + encodeURIComponent(`let mode;export function initialize(m){mode=m}export async function load(u,c,next){const r=await next(u,c);if(!u.endsWith('/packet-information.ts'))return r;const s=String(r.source),anchor=mode==='removed'?'const paymentOnlyProjection = { ...snapshot, paymentAllowed: false };':'? paymentOnlyProjection : null;';if(s.split(anchor).length!==2)throw Error('nonunique mutation anchor');return {...r,source:s.replace(anchor,mode==='removed'?'return null;':'? snapshot : null;')};}`), {data:mode});
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
@@ -16,6 +17,27 @@ const rows = JSON.parse(fs.readFileSync(new URL('./fixtures/payment-only-draft-p
 let checks = 0; const failures = [];
 const check = (name,fn) => {checks++;try {fn();}catch(e){failures.push({name,error:e.message});}};
 const patch = record => P.packetInformationPatch({protectedVerification:record,answers:{}});
+// O-OD-SAVED exact approved nine-route list; every route also has a native consumer test below.
+const expectedRoutes = [
+  "FL:court-ordered-expunction-943-0585",
+  "HI:dui-under-21-conviction",
+  "HI:first-time-drug-conviction",
+  "IL:adult-conviction-sealing",
+  "LA:non-conviction-arrest-expungement",
+  "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
+  "MN:petition-based-expungement-under-609a-02-03",
+  "NE:set-aside-incarceration-one-year-or-less",
+  "NM:cannabis-sentence-dismissal-incarcerated-person-pathway"
+];
+const policySource=fs.readFileSync(new URL('../src/lib/expungement-ai/packet-information.ts',import.meta.url),'utf8');
+const listBody=policySource.match(/const PAYMENT_ONLY_DRAFT_ROUTES = new Set\(\[([\s\S]*?)\]\)/)[1];
+check('approved-route-set',()=>assert.deepEqual([...listBody.matchAll(/"([^"]+)"/g)].map(m=>m[1]).sort(),expectedRoutes));
+check('native-fixture-route-set',()=>assert.deepEqual(rows.map(r=>r.key).sort(),expectedRoutes));
+// A fabricated paid bit on an unrelated held draft never qualifies for this allowlist.
+const outside=JSON.parse(fs.readFileSync(new URL('./fixtures/il1b-native-predecessors.json',import.meta.url))).rows.find(r=>r.name==='legacy-unknown').verification;
+const outsideSnapshot={...outside.draftSnapshot,paymentAllowed:true};
+check('unlisted-paid-bit-tamper-refused',()=>assert.equal(P.paymentOnlyDraftSuccessor(outsideSnapshot,P.evaluateProtectedPacketFacts(outsideSnapshot),'unverified'),null));
+
 async function present(record) {
   const s=record.draftSnapshot,item={id:'00000000-0000-4000-8000-000000000037',jurisdiction:s.jurisdiction,createdAt:s.capturedAt,artifactRefs:{}};
   let reevaluatedPayment;
@@ -28,7 +50,8 @@ async function present(record) {
   return {...presented,reevaluatedPayment};
 }
 
-for (const row of rows) {
+// Per-route mutants replay the affected native record; candidate still replays all nine.
+for (const row of mode.startsWith('remove-route:') ? rows.filter(r=>r.key===mode.slice('remove-route:'.length)) : rows) {
   const record = structuredClone(row.record), before = structuredClone(record), snapshot = record.draftSnapshot;
   check(`${row.key}:recorded-hash`,()=>assert.equal(P.protectedPacketDraftHash(snapshot),record.draftHash));
   const authority = P.evaluateProtectedPacketFacts(snapshot), model = P.protectedPacketInformationModelFor(record), saved = patch(record);

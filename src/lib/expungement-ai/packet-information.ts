@@ -1294,7 +1294,13 @@ export function illinoisProgramHeldDraftSuccessor(snapshot: ProtectedPacketAutho
 // F-D1-SAVED: Lead 2026-10-21 22:26:47; readability only for the four measured D1 withdrawals.
 const PAYMENT_ONLY_DRAFT_ROUTES = new Set([
   "IL:adult-conviction-sealing", "NE:set-aside-incarceration-one-year-or-less",
-  "LA:non-conviction-arrest-expungement", "HI:dui-under-21-conviction"
+  "LA:non-conviction-arrest-expungement", "HI:dui-under-21-conviction",
+  // O-OD-SAVED: all five payment-only withdrawals at 807d350638c4 (Lead 2026-10-21 22:54:21).
+  "FL:court-ordered-expunction-943-0585",
+  "HI:first-time-drug-conviction",
+  "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
+  "MN:petition-based-expungement-under-609a-02-03",
+  "NM:cannabis-sentence-dismissal-incarcerated-person-pathway"
 ]);
 export function paymentOnlyDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
   authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>, status: string): ProtectedPacketAuthoritySnapshot | null {
