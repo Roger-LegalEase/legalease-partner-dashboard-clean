@@ -238,9 +238,11 @@ async function createItem(userId, label, { paymentAllowed = true, jurisdiction =
     age_at_offense: { value: "30", unknown: false },
     case_outcome: screeningAnswers.case_outcome,
     charge: { value: "Synthetic misdemeanor charge", unknown: false },
-    contact_information: "100 Acceptance Way, Jackson, MS 39201",
+    // The reviewed contact representation: the fixture's three components, joined.
+    contact_information: "123 Magnolia Avenue, Jackson, Mississippi 39201 | 601-555-0142 | morgan.sample@example.test",
     county: { value: "Hinds County", unknown: false },
-    court: { value: "Hinds County Circuit Court", unknown: false },
+    // Same court as the fixture's court_name / court_type (Municipal).
+    court: { value: "Municipal Court of the City of Jackson", unknown: false },
     disposition_date: { value: "2015-01-15", unknown: false },
     financial_obligations: "Yes",
     offense_category: { value: "Misdemeanor", unknown: false },
@@ -251,7 +253,8 @@ async function createItem(userId, label, { paymentAllowed = true, jurisdiction =
     record_type: "Arrest or charge",
     residency_or_location: { value: "Jackson, Mississippi", unknown: false },
     sentence_completion_date: "Yes",
-    trafficking_status: "No"
+    trafficking_status: "No",
+    ms_charged_trafficking_distribution_manufacture: "No"
   };
   // The approved participant composer requires the exact filing facts and
   // self-help confirmations. Keep the payment assertions unchanged and seed
@@ -311,7 +314,7 @@ async function createItem(userId, label, { paymentAllowed = true, jurisdiction =
   const authoritative = evaluateAuthoritativeScreeningResult({ jurisdiction, profileVersion: getProfileByJurisdiction(jurisdiction).profileVersion, matterId: id, answers: screeningAnswers });
   assert.equal(authoritative.selectedTrackId, 'ms-nonconv', 'exact MS track is selected by the server');
   const seed = protectedPacketDraftSeedFromAuthoritative({ authoritative, screeningAnswers, packetAnswers, dependencies: { commercialFlowVersion: 1, entitlementSource: "consumer_payment", productId: "expungement_packet" }, capturedAt: new Date().toISOString() });
-  const verified = inserted && seed ? derivePacketInformationPatch({ existingItem: inserted, answers: {}, verify: true, protectedVerification: { status: "unverified", reason: "final_verification_not_completed", revision: 0, draftSnapshot: seed.snapshot, draftHash: seed.hash } }) : null;
+  const verified = inserted && seed ? derivePacketInformationPatch({ existingItem: inserted, answers: {}, verify: true, confirmRecordFacts: ["court_name", "filing_location", "charge_classification"], protectedVerification: { status: "unverified", reason: "final_verification_not_completed", revision: 0, draftSnapshot: seed.snapshot, draftHash: seed.hash } }) : null;
   if (!inserted || !verified?.readyToGenerate) throw new Error(`fixture ${id} could not be explicitly verified: ${verified?.reviewReason}; missing=${JSON.stringify(verified?.missingInputIds)}`);
   const persisted = await persistProtectedPacketVerification({ consumerAuthUserId: userId, briefcaseItemId: id, transition: verified.protectedTransition });
   if (!persisted.ok) throw new Error(`fixture protected verification persistence failed: ${persisted.reason}`);
