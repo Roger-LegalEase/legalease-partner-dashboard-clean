@@ -1006,6 +1006,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "cannabis-specific-expungement", // GA12 Q-1bfea6abba26156d604b
       "eligible-conviction-expungement-under-crim-proc-10-110", // GA12 Q-490cfd616dd97bfc8df2
       "juvenile-expungement", // GA12 Q-87a80e79ceab8b8e0421
+      "pardoned-conviction-expungement-under-crim-proc-10-105-a-8", // GA12 Q-72d0f90f14e83e9055cf
       "second-chance-act-shielding", // GA12 Q-2366ddaaf367add0a243
     ],
     record: [
@@ -1014,6 +1015,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "cannabis-specific-expungement", // GA17 Q-f4d5d773c2868e5c9d1a
       "eligible-conviction-expungement-under-crim-proc-10-110", // GA17 Q-3c0d28cff0082c9af2fc
       "juvenile-expungement", // GA17 Q-0c7f6dea882f6b06bbda
+      "pardoned-conviction-expungement-under-crim-proc-10-105-a-8", // GA17 Q-7afb75fc02c80d21fe6e
       "second-chance-act-shielding", // GA17 Q-7d682e0e897adec4533e
     ],
   },
@@ -1061,12 +1063,14 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     profileHash: "29fe1b28e59f36a8ecdba6457b518b1d8e01a795042be695ed015b59e5254326",
     categoryReason: "Earlier Montana categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
     category: [
+      "deferred-sentence-dismissal-or-confidentiality-route", // GA12 Q-36f94b32930c7fc0e916
       "doj-record-removal-update-request", // GA12 Q-c3d85e5a096e9c1c35d6
       "marijuana-related-redesignation-expungement-under-mmrta", // GA12 Q-7766060fdc5de774fcb8
       "misdemeanor-conviction-expungement-under-mont-code-46-18-1104", // GA12 Q-aa23f3177f750603d156
       "non-conviction-criminal-history-removal-through-criss", // GA12 Q-844547836228a5b71b3b
     ],
     record: [
+      "deferred-sentence-dismissal-or-confidentiality-route", // GA17 Q-da2839e57717001e88c0
       "doj-record-removal-update-request", // GA17 Q-219950124033a90a3eec
       "marijuana-related-redesignation-expungement-under-mmrta", // GA17 Q-22874003e3f9b4e789ff
       "misdemeanor-conviction-expungement-under-mont-code-46-18-1104", // GA17 Q-2f14507f0aba274692a5
@@ -1191,6 +1195,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "first-intoxication-related-traffic-or-boating-expungement-under-610-130", // GA12 Q-35247ec81e17ad80e20c
       "first-minor-in-possession-alcohol-expungement-under-311-326", // GA12 Q-95e16f98859d4d7d2f75
       "general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140", // GA12 Q-1b0ddb33a01cb171b540
+      "marijuana-expungement-under-missouri-constitution-article-xiv", // GA12 Q-a39167ba4722efe9f48a
       "stolen-or-mistaken-identity-expungement-under-610-145", // GA12 Q-a83f973c4465e019063d
     ],
     record: [
@@ -1365,6 +1370,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     categoryReason: "Earlier Kansas categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
     category: [
       "conviction-or-diversion-216614", // GA12 Q-2bcada7a84fc3b0995b5
+      "drug-registration-relief-coordination", // GA12 Q-bba726936bb6f046044d
       "prostitution-coercion", // GA12 Q-4a36969d2416198e93df
       "specialty-court-accelerated", // GA12 Q-951affad6847d3d0770e
     ],
