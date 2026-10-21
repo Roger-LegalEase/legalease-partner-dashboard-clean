@@ -2,16 +2,18 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {composeRefreshedReceipt, planReceipt, readsAsUnmoved} from './repin-lapsed-source-identities.mjs';
+import {isolateDrift} from './repin-test-fixtures.mjs';
 // The planner writes a receipt back in the style it already has: two-space JSON, or two-space JSON with
 // non-ASCII escaped as \uXXXX. Fixture: WA clean-tracks' receipt before its census re-pin (blob c9494817,
-// read from git so the live re-pinned receipt cannot move it), with a "§" added to a field no pin touches.
+// read from git so the live re-pinned receipt cannot move it), with a "§" added to a field no pin touches. Every other
+// pin that has drifted since is isolated to the bytes on disk, so the census pin is the only drift a later move can leave.
 const familyId='rcap-wa-custom-pleading-clean-tracks';
 const directory='data/rcap-all50/overlays/census-v1/wa/rcap-wa-custom-pleading-clean-tracks--custom-pleading';
-const receipt=JSON.parse(execFileSync('git',['cat-file','blob','c949481755db7228b52e597a3b1d333e8ad73bef'],{encoding:'utf8'}));
+const census='data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json';
+const receipt=JSON.parse(isolateDrift(execFileSync('git',['cat-file','blob','c949481755db7228b52e597a3b1d333e8ad73bef'],{encoding:'utf8'}),census,process.cwd()));
 receipt.legalName=`${receipt.legalName} §`;
 const plain=value=>`${JSON.stringify(value,null,2)}\n`;
 const escaped=value=>plain(value).replace(/[\u007f-￿]/g,c=>`\\u${c.charCodeAt(0).toString(16).padStart(4,'0')}`);
-const census='data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json';
 const compose=beforeText=>{
   const plan=planReceipt({familyId,directory,receiptPath:`${directory}/source-receipt.json`,beforeText,on:new Date('2026-10-20T12:00:00Z')});
   assert.equal(plan.outcome,'REFRESHABLE',plan.why);
