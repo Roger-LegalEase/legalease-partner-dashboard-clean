@@ -1,5 +1,7 @@
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { classifyFiles } from "./detect-ci-scope.mjs";
 
@@ -83,6 +85,7 @@ assertScope("ordinary unrelated changes are other scope", [
 
 assertWorkflowUsesDetector();
 assertRestrictedFileChecksStillExist();
+assertDetectorFailsClosedOnTruncatedDiff();
 
 if (failures.length > 0) {
   console.error("Product-aware RCAP CI verification failed:");
@@ -96,6 +99,7 @@ console.log("Pure Expungement.ai changes skip RCAP handoff: yes");
 console.log("Pure RCAP changes run RCAP handoff: yes");
 console.log("Mixed RCAP plus product changes run RCAP restricted-file checks: yes");
 console.log("RCAP restricted-file checks still exist: yes");
+console.log("CI scope detector fails closed on a truncated diff for every product branch prefix: yes");
 
 function assertScope(label, files, expected) {
   const scope = classifyFiles(files);
@@ -154,4 +158,59 @@ function assertRestrictedFileChecksStillExist() {
 
 function readText(relativePath) {
   return fs.readFileSync(path.join(rootDir, relativePath), "utf8");
+}
+
+// A large PR diff overflowed the detector's 1 MiB git buffer, and the branch-prefix backup turned that ENOBUFS
+// into an empty file list (rcapAffected=false), skipping the RCAP guards. Forces ENOBUFS on `git diff` in a
+// scratch repository and requires a throw for every product prefix; the no-base backup case must still hold.
+function assertDetectorFailsClosedOnTruncatedDiff() {
+  const productPrefixes = ["feat/expungement-ai-", "fix/expungement-ai-", "docs/expungement-ai-", "ci/expungement-ai-",
+    "feat/legalease-", "fix/legalease-", "docs/legalease-", "ci/legalease-"];
+  const forceEnobufs = "data:text/javascript," + encodeURIComponent(
+    'import cp from "node:child_process"; import { syncBuiltinESMExports } from "node:module"; const real = cp.spawnSync;'
+    + ' cp.spawnSync = function (cmd, args = [], options = {}) { if (cmd !== "git" || args[0] !== "diff") return real.call(this, cmd, args, options);'
+    + ' process.stderr.write("ci-scope-test: forced maxBuffer=1 on git diff\\n"); return real.call(this, cmd, args, { ...options, maxBuffer: 1 }); };'
+    + ' syncBuiltinESMExports();');
+  const repo = fs.mkdtempSync(path.join(os.tmpdir(), "ci-scope-enobufs-"));
+  const git = (...args) => spawnSync("git", ["-c", "user.name=ci-scope", "-c", "user.email=ci-scope@invalid", ...args], { cwd: repo, encoding: "utf8" });
+  const detect = (headRef, extra = [], imports = []) => {
+    const env = { ...process.env, GITHUB_HEAD_REF: headRef, CI_BASE_REF: "main" };
+    delete env.GITHUB_BASE_REF;
+    return spawnSync(process.execPath, [...imports, path.join(rootDir, "scripts/detect-ci-scope.mjs"), "--json", ...extra],
+      { cwd: repo, env, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+  };
+  try {
+    git("init", "-q", "-b", "main");
+    fs.writeFileSync(path.join(repo, "README.md"), "base\n");
+    git("add", "-A"); git("commit", "-q", "-m", "base");
+    git("checkout", "-q", "-b", "feature");
+    fs.mkdirSync(path.join(repo, "data/rcap-all50"), { recursive: true });
+    fs.writeFileSync(path.join(repo, "data/rcap-all50/probe.json"), "{}\n");
+    // Over 1 MiB of path names, so a read capped at the spawnSync default cannot return the whole list.
+    fs.mkdirSync(path.join(repo, "data/rcap-all50/large-diff"));
+    for (let i = 0; i < 10000; i += 1) {
+      fs.writeFileSync(path.join(repo, "data/rcap-all50/large-diff", `${String(i).padStart(5, "0")}-${"x".repeat(80)}.json`), "");
+    }
+    git("add", "-A"); git("commit", "-q", "-m", "rcap change");
+
+    const control = detect(`${productPrefixes[0]}probe`);
+    let controlScope = {};
+    try { controlScope = JSON.parse(control.stdout); } catch { /* a backup notice or no output: reported below */ }
+    if (controlScope.rcapAffected !== true || controlScope.changedFiles?.length !== 10001) {
+      failures.push(`CI scope detector must read the whole >1 MiB diff (10001 files, rcapAffected=true); rc ${control.status}, ${controlScope.changedFiles?.length ?? 0} files: ${control.stderr.trim().slice(0, 200)}`);
+    }
+    for (const prefix of productPrefixes) {
+      const run = detect(`${prefix}probe`, [], ["--import", forceEnobufs]);
+      if (!run.stderr.includes("ci-scope-test: forced maxBuffer=1 on git diff")) failures.push(`${prefix}: the forced git diff truncation was not applied; the check proved nothing.`);
+      if (run.status === 0) failures.push(`${prefix}: CI scope detector exited 0 on a truncated git diff (fail-open): ${run.stdout.trim().slice(0, 200)}`);
+    }
+    const noBase = detect(`${productPrefixes[4]}probe`, ["--base=no-such-ref"]);
+    if (noBase.status !== 0 || !noBase.stdout.includes("using branch-prefix backup")) {
+      failures.push(`CI scope detector must keep the branch-prefix backup when no base can be compared (rc ${noBase.status}).`);
+    }
+    const noBaseOther = detect("codex/probe", ["--base=no-such-ref"]);
+    if (noBaseOther.status === 0) failures.push("CI scope detector must throw for a non-product branch with no comparable base.");
+  } finally {
+    fs.rmSync(repo, { recursive: true, force: true });
+  }
 }
