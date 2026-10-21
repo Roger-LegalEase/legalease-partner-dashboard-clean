@@ -811,6 +811,30 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "path-h-commercial-sexual-activity-related-expungement", // GA17 Q-0cf26464d2bc85c7c351
     ],
   },
+  VT: {
+    profileHash: "71969bc9d553a1d480853d84082cb411d322de47b1e8fb6c5a180e5c0bd61806",
+    categoryReason: "Earlier Vermont categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "adult-conviction-expungement-narrow-statutory-route", // GA12 Q-08b43436b06a0f4e805b
+      "adult-felony-conviction-sealing", // GA12 Q-8d42db81cba3d83cdfc8
+      "adult-misdemeanor-conviction-sealing", // GA12 Q-547a6af68b039d5a2147
+      "dui-sealing", // GA12 Q-327fabab0a5a937c065b
+      "juvenile-sealing", // GA12 Q-43f2d3e844b38b09b29d
+      "non-conviction-sealing", // GA12 Q-91a7d389265ef74bef51
+      "offense-before-age-25-sealing-under-33-v-s-a-5119-g", // GA12 Q-f1e29e900cf226e0d754
+      "young-adult-sealing-for-offenses-committed-at-ages-18-21", // GA12 Q-66970ef1355d84b71232
+    ],
+    record: [
+      "adult-conviction-expungement-narrow-statutory-route", // GA17 Q-03287db45ca3c582b999
+      "adult-felony-conviction-sealing", // GA17 Q-b96f19af50622e1a38f4
+      "adult-misdemeanor-conviction-sealing", // GA17 Q-5ac4b30089f77daf6cd5
+      "dui-sealing", // GA17 Q-ff9eafce80b006b84c5c
+      "juvenile-sealing", // GA17 Q-d38163b0b33fc71c05bc
+      "non-conviction-sealing", // GA17 Q-59aa1c6c9dcbb615627a
+      "offense-before-age-25-sealing-under-33-v-s-a-5119-g", // GA17 Q-ab8e14fa6d2ff40f35f4
+      "young-adult-sealing-for-offenses-committed-at-ages-18-21", // GA17 Q-552b6abf121201bf126a
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
