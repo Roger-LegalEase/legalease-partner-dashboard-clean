@@ -9,18 +9,15 @@ const copy=JSON.parse(fs.readFileSync(new URL('../../src/lib/expungement-ai/fron
 
 const reviewed=JSON.parse(fs.readFileSync(new URL('../../src/lib/expungement-ai/frontend/reviewed-question-spanish.json',import.meta.url)));
 
-export async function packetJourney({fixture,participant,session,locale,check,report,helperContext}) {
-  assert.equal(fixture.jurisdiction,'MS','Use the jurisdiction-specific accepted journey adapter');
-  const {context,page}=participant;
-  const artifactEvidence=startArtifactEvidence(report,locale);
-  let artifact;
-  const answers={...MS_NONCONVICTION_SCREENING_ANSWERS,...MS_NONCONVICTION_PACKET_ANSWERS,
-    ownership_scope:copy.canonicalHelperWire,ms_program_order:'no_program_order',state_exclusion_categories:'None of these',criminal_history:'No',record_documents:'Yes',pardon_status:'No'};
+// The real screening controls, answered from an existing fixture; `beforeStep` lets a caller act between
+// questions (the unassisted run switches language mid-screening). Returns the save button and the questions seen.
+export async function answerScreening({page,answers,beforeStep=async()=>{}}) {
   const saveResult=page.getByRole('button',{name:/^(Save my result and continue|Guardar mi resultado y continuar)$/});
   const questionIds=[];
   for(let step=0;step<25;step++) {
     await page.locator('input[type=radio],input[type=checkbox]').or(saveResult).first().waitFor();
     if(await saveResult.count())break;
+    await beforeStep(step);
     const names=await page.locator('input[type=radio],input[type=checkbox]').evaluateAll(nodes=>[...new Set(nodes.map(node=>node.name))]);
     for(const name of names) {
       const id=name.replace(/^q-/,'');let value=answers[id];if(value&&typeof value==='object')value=value.value;
@@ -33,6 +30,17 @@ export async function packetJourney({fixture,participant,session,locale,check,re
     await page.waitForFunction(old=>document.querySelector('input[type=radio],input[type=checkbox]')?.getAttribute('name')!==old,names[0]);
   }
   await saveResult.waitFor();
+  return {saveResult,questionIds};
+}
+
+export async function packetJourney({fixture,participant,session,locale,check,report,helperContext}) {
+  assert.equal(fixture.jurisdiction,'MS','Use the jurisdiction-specific accepted journey adapter');
+  const {context,page}=participant;
+  const artifactEvidence=startArtifactEvidence(report,locale);
+  let artifact;
+  const answers={...MS_NONCONVICTION_SCREENING_ANSWERS,...MS_NONCONVICTION_PACKET_ANSWERS,
+    ownership_scope:copy.canonicalHelperWire,ms_program_order:'no_program_order',state_exclusion_categories:'None of these',criminal_history:'No',record_documents:'Yes',pardon_status:'No'};
+  const {saveResult,questionIds}=await answerScreening({page,answers});
   check(`${locale}-real-screening-controls-and-result`,questionIds.length>=7&&questionIds.includes('ownership_scope'));
   report.screening??=[];report.screening.push({locale,questionIds});
   const claimResponse=page.waitForResponse(response=>response.url().endsWith('/screening/pending/claim')&&response.request().method()==='POST');
