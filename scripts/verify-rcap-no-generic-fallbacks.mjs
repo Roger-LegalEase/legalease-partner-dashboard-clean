@@ -491,7 +491,8 @@ function baseAnswer(question, outcome, offenseLevel, date, profile, pathway) {
   if (id === "prior_conviction_count" || id === "prior_felony_count") return 0;
   if (Object.prototype.hasOwnProperty.call(GATE_UNLOCK, id)) return GATE_UNLOCK[id];
   if (question.type === "number_or_range") return 0;
-  if (question.type === "multi_select") return ["None of these"];
+  // The answer is the question's own none option: newer questions carry wire values ("none"), older ones the label.
+  if (question.type === "multi_select") return [question.options?.find((o) => /^none( of these)?$/i.test(String(o))) ?? "None of these"];
   if (question.type === "yes_no_unsure" || question.type === "yes_no_prefer_not_to_say") return "No";
   if (Array.isArray(question.options) && question.options.length) {
     return question.options.find((o) => !/federal|not sure|unknown|prefer not|none of these/i.test(String(o))) ?? question.options[0];
