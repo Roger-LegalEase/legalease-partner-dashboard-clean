@@ -3,7 +3,7 @@
   "generatedBy": "scripts/grade-a-packet-factory-24h/generate.mjs",
   "question": "What is every packet family's exact state, owner and next action right now?",
   "everyCountIsDerived": "The denominator is recomputed from the census scoreboard, the census routes, the custody reconciliation, the completeness matrix, the S2 continuation and the tree itself. No number here is carried forward from a previous record.",
-  "minimumCaptainSha": "ea5f706ba8e276e3eedbc54bb76c2a5e60d212ac",
+  "minimumCaptainSha": "94e2d38e98dd41f15055403be3f2f507f3a3f48f",
   "inputs": {
     "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json": "cff96b073928a6be9cf90cb75b1a81f8d7ed6fabc7e4ac657da9798b9488d94c",
     "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "eeabd8b97786dd3eb5cb9a9d65e26d0a158602f9e88971fd1d11b6d1355eb8e9",
@@ -31,6 +31,7 @@
     "data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json": "7d03705d29178719ae13b0a26a4d79eda92433123458df0feef2933a205a6609",
     "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json": "7eeea9abeb804efc4d3b7a1e70b50498e53fcf8447bdb7691236e638bb19d88e",
     "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json": "3e39ef0018140b10c0594108b3ddd232b6e7d759f15918f8b6dc2f858bf80d60",
+    "data/rcap-grade-a/source-wave-integration/SOURCE_CO_CURRENT_FORM_ADOPTION_2026-10-21.json": "610569c123d45b8a5b974f66f181248e83ba59d9738fcd0ada02fd6f7af83f3b",
     "data/rcap-grade-a/packet-factory-24h/fix112/sd-current-source-adoption-20260912.json": "7fbe35ef20bee23665a264b75dd34ed582207dfec5c00daa92c919d90ac20261",
     "data/rcap-grade-a/stale-artifact-block.json": "38c7ee8e5aba10483fb0bfc3b5fd2c78f7a20c18a3035bf9728c2289fe1ba4c9",
     "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json": "1a01e22e9df9ec3a92b86be15c3a3d06871d0fa004440865e3e86641d91a65a8",
@@ -99,8 +100,7 @@
   "bySourceStatus": {
     "CUSTOM_PLEADING_FROM_CODIFIED_TEXT": 86,
     "GUIDANCE_AUTHORITY_BOUND": 5,
-    "SOURCE_BOUND_BY_HELD_BYTES": 247,
-    "SOURCE_NAMED_BUT_NOT_HELD: official-form:JDF-612: UNRESOLVED_FORM_IDENTITY — 3 corpus entries share this form number and no custody entry disambiguates": 1,
+    "SOURCE_BOUND_BY_HELD_BYTES": 248,
     "SOURCE_IDENTITY_UNRESOLVED": 4,
     "SOURCE_NAMED_BUT_NOT_HELD: the family names no document-shaped source, so nothing binds": 3
   },
@@ -9201,9 +9201,15 @@
       ],
       "sourceHashes": [
         {
+          "sourceId": "official-form:JDF-612",
+          "path": "private/source-imports/co-official-20261021/JDF612.pdf",
+          "sha256": "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b",
+          "tier": "exact_content_hash"
+        },
+        {
           "sourceId": "official-form:JDF-615",
-          "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-615__order-to-seal-conviction-records__REV-2024-08-07__EN.pdf",
-          "sha256": "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
+          "path": "private/source-imports/co-official-20261021/JDF615.pdf",
+          "sha256": "184a33faf5d800a189f4c0fbd180912a02888d60e1100ca586064a8c753a0a26",
           "tier": "exact_content_hash"
         },
         {
@@ -9231,21 +9237,27 @@
           "tier": "exact_content_hash"
         }
       ],
-      "sourceStatus": "SOURCE_NAMED_BUT_NOT_HELD: official-form:JDF-612: UNRESOLVED_FORM_IDENTITY — 3 corpus entries share this form number and no custody entry disambiguates",
-      "sourceBound": false,
+      "sourceStatus": "SOURCE_BOUND_BY_HELD_BYTES",
+      "sourceBound": true,
       "sourceReadiness": {
-        "ready": false,
-        "reasons": [
-          "official-form:JDF-612: UNRESOLVED_FORM_IDENTITY — 3 corpus entries share this form number and no custody entry disambiguates"
-        ],
+        "ready": true,
+        "reasons": [],
         "boundSources": [
           {
-            "sourceId": "official-form:JDF-615",
-            "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-615__order-to-seal-conviction-records__REV-2024-08-07__EN.pdf",
-            "sha256": "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
+            "sourceId": "official-form:JDF-612",
+            "path": "private/source-imports/co-official-20261021/JDF612.pdf",
+            "sha256": "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b",
             "tier": "exact_content_hash",
             "resolvedBy": "committed_acquisition_return_and_governed_custody",
-            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_USER_UPLOAD_ADOPTION_2026-09-11.json"
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_CO_CURRENT_FORM_ADOPTION_2026-10-21.json"
+          },
+          {
+            "sourceId": "official-form:JDF-615",
+            "path": "private/source-imports/co-official-20261021/JDF615.pdf",
+            "sha256": "184a33faf5d800a189f4c0fbd180912a02888d60e1100ca586064a8c753a0a26",
+            "tier": "exact_content_hash",
+            "resolvedBy": "committed_acquisition_return_and_governed_custody",
+            "evidencePath": "data/rcap-grade-a/source-wave-integration/SOURCE_CO_CURRENT_FORM_ADOPTION_2026-10-21.json"
           },
           {
             "sourceId": "official-form:JDF-613",
@@ -9293,7 +9305,7 @@
           "official-form:JDF-205",
           "official-form:JDF-206"
         ],
-        "boundCount": 5,
+        "boundCount": 6,
         "custodyClass": "NO_ACQUISITION_TASK_NAMED",
         "custodyClassIsTheAcquisitionTaskStatusNotCurrentCustody": "Recorded when the acquisition task was last written and never re-derived. Where it says a source is missing and boundCount is above zero, the binding is the measurement and this field is history.",
         "directAttachment": true

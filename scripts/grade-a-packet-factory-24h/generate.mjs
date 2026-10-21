@@ -424,6 +424,7 @@ const INPUTS = {
   utRemoveLinkSelector: "data/rcap-grade-a/source-wave-integration/UT_REMOVE_LINK_NEXT_BLOCKER_2026-09-11.json",
   recoveredSourceWave1: "data/rcap-grade-a/source-wave-integration/SOURCE_RECOVERY_WAVE1_2026-09-11.json",
   recoveredKnownResidual: "data/rcap-grade-a/source-wave-integration/KNOWN_RESIDUAL_SOURCE_RECOVERY_2026-09-11.json",
+  coCurrentFormAdoption: "data/rcap-grade-a/source-wave-integration/SOURCE_CO_CURRENT_FORM_ADOPTION_2026-10-21.json",
   sdCurrentSourceAdoption: "data/rcap-grade-a/packet-factory-24h/fix112/sd-current-source-adoption-20260912.json",
   staleBlock: "data/rcap-grade-a/stale-artifact-block.json",
   ownerCorrections: "data/rcap-grade-a/legal-decisions/OWNER_CORRECTIONS_REQUIRED.json",
@@ -1000,6 +1001,9 @@ const walkAcquisitionEvidence = (node, evidencePath, inherited = {}) => {
     if (value && typeof value === "object") walkAcquisitionEvidence(value, evidencePath, { result: inheritedResult, families });
   }
 };
+// 0605160e4 adopted the July 1, 2025 JDF 612/615 beside the indexed 2024 bytes. Walked first so its
+// binding outranks the older equal-rank acquisitions; without it JDF-612 is two identities.
+walkAcquisitionEvidence(IN.coCurrentFormAdoption, INPUTS.coCurrentFormAdoption);
 for (const evidencePath of sourceReconciliationDoc?.acquisitionEvidencePaths ?? []) {
   const doc = readIf(evidencePath);
   if (doc) walkAcquisitionEvidence(doc, evidencePath);
