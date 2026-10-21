@@ -659,7 +659,9 @@ export function packetInformationPatch(input: {
   /** Compatibility only. Saving the final fact is never verification. */
   reviewed?: boolean;
 }) {
-  const priorProtected = input.protectedVerification;
+  const storedProtected = input.protectedVerification;
+  const heldVerified = californiaTool3VerifiedHeldSuccessor(storedProtected);
+  const priorProtected = heldVerified ?? storedProtected;
   if ([input.mdJuvenilePreparation, input.gaPardonPreparation, input.mtDeferredPreparation, input.caJuvenilePreparation].filter(Boolean).length > 1) return null;
   const current = input.mdJuvenilePreparation ? mdJuvenilePreparationModelFor(priorProtected) : input.caJuvenilePreparation ? caProp64JuvenilePreparationModelFor(priorProtected) : input.mtDeferredPreparation ? montanaDeferredPreparationModelFor(priorProtected) : input.gaPardonPreparation ? gaPardonPreparationModelFor(priorProtected) : protectedPacketInformationModelFor(priorProtected);
   if (!current) return null;
@@ -730,24 +732,25 @@ export function packetInformationPatch(input: {
       reviewedAt: current.reviewedAt,
       reviewSafety: { safe: ready, reason: ready ? "authoritative_route_confirmed" : currentVerification.reason }
     };
+    const nextVerification = heldVerified ? { ...priorProtected, revision: storedProtected.revision + 1 } : priorProtected;
     const protectedTransition: ProtectedPacketVerificationTransition = {
-      expectedPriorHash: priorProtected.status === "verified" ? priorProtected.hash ?? null : null,
-      expectedPriorRevision: priorProtected.revision,
+      expectedPriorHash: storedProtected.status === "verified" ? storedProtected.hash ?? null : null,
+      expectedPriorRevision: storedProtected.revision,
       answerDelta,
       packetInformationMetadata: packetInformationMetadata(packetInformation),
-      nextVerification: priorProtected
+      nextVerification
     };
     return {
       patch: {
         commercialFlow: {
           packetInformation,
-          verification: priorProtected
+          verification: nextVerification
         }
       },
       protectedTransition,
       missingInputIds: current.missingInputIds,
       readyToGenerate: ready,
-      reviewReason: ready ? "current_verification_preserved" : "semantic_noop_preserved"
+      reviewReason: ready ? "current_verification_preserved" : heldVerified ? heldVerified.reason : "semantic_noop_preserved"
     };
   }
   const now = new Date().toISOString();
@@ -821,8 +824,8 @@ export function packetInformationPatch(input: {
     revision: priorProtected.revision + 1
   };
   const protectedTransition: ProtectedPacketVerificationTransition = {
-    expectedPriorHash: priorProtected.status === "verified" ? priorProtected.hash ?? null : null,
-    expectedPriorRevision: priorProtected.revision,
+    expectedPriorHash: storedProtected.status === "verified" ? storedProtected.hash ?? null : null,
+    expectedPriorRevision: storedProtected.revision,
     answerDelta,
     packetInformationMetadata: packetInformationMetadata(packetInformation),
     nextVerification
@@ -2594,9 +2597,30 @@ export function mnTwoCountyDraftSuccessor(snapshot: ProtectedPacketAuthoritySnap
   return protectedRouteAuthorityMatches(next, authoritative) ? next as ProtectedPacketDraftSnapshot : null;
 }
 
+/** Recover only a hash-valid, previously verified tool-3 record; its verification is discarded. */
+export function californiaTool3VerifiedHeldSuccessor(
+  verification: ProtectedPacketVerificationRecord
+): ProtectedPacketVerificationRecord | null {
+  if (verification.status !== "verified" || verification.draftSnapshot?.jurisdiction !== "CA"
+    || verification.draftSnapshot?.pathwayId !== "tool-3-petition-based-felony-sealing") return null;
+  const prior = protectedAuthoritySnapshotFor(verification);
+  if (!prior || !prior.paymentAllowed || !["packet_ready", "packet_ready_with_caution"].includes(prior.resultCode ?? "")) return null;
+  const authoritative = evaluateProtectedPacketFacts(verification.draftSnapshot);
+  if (!authoritative) return null;
+  const draft = legalAuthorityMetadataDraftSuccessor(verification.draftSnapshot, authoritative, "invalidated");
+  if (!draft || draft.paymentAllowed || draft.resultCode !== "guidance_only") return null;
+  return {
+    ...invalidatedPacketRecord(new Date().toISOString(), "ca_tool3_authority_held"),
+    revision: verification.revision,
+    draftHash: protectedPacketDraftHash(draft),
+    draftSnapshot: draft
+  };
+}
+
 export function protectedPacketInformationModelFor(
   verification: ProtectedPacketVerificationRecord
 ): ProtectedPacketInformationModel | null {
+  verification = californiaTool3VerifiedHeldSuccessor(verification) ?? verification;
   let snapshot = protectedAuthoritySnapshotFor(verification);
   if (!snapshot) return null;
   const mdAuthority = snapshot.jurisdiction === "MD" ? evaluateProtectedPacketFacts(snapshot) : null;
