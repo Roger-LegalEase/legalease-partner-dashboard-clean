@@ -408,7 +408,7 @@ type PrivacyPractice = {
 
 ### Job
 
-Demonstrate Wilma's bounded plain-English explanation role.
+Demonstrate Wilma's bounded clear-explanation role.
 
 ### Starter
 

@@ -69,7 +69,7 @@ Headline:
 
 Body:
 
-> Start with a free guided check. Answer plain-English questions about your state, case, and outcome. If a supported self-help packet is available, review your information before paying $50 to generate it.
+> Start with a free guided check. Answer clear questions about your state, case, and outcome. If a supported self-help packet is available, review your information before paying $50 to generate it.
 
 Primary action:
 
@@ -153,7 +153,7 @@ Headline:
 
 Body:
 
-> You do not need legal vocabulary to begin. We ask plain-English questions, explain confusing terms, and let you choose “Not sure” when you do not have an answer. If the facts do not support a clear route, the check stops before checkout.
+> You do not need legal vocabulary to begin. We ask clear questions, explain confusing terms, and let you choose “Not sure” when you do not have an answer. If the facts do not support a clear route, the check stops before checkout.
 
 Supporting points:
 
@@ -168,7 +168,7 @@ Action:
 
 Product-screen caption, optional:
 
-> Plain-English questions. Choice-based answers. No account required to begin.
+> Clear questions. Choice-based answers. No account required to begin.
 
 Do not use:
 
@@ -190,7 +190,7 @@ Headline:
 
 ### 1. See which paths may be available.
 
-> Answer plain-English questions about your state, case, and outcome. The check shows whether a supported record-clearing path may be available before you pay.
+> Answer clear questions about your state, case, and outcome. The check shows whether a supported record-clearing path may be available before you pay.
 
 ### 2. Generate a supported self-help packet.
 
@@ -237,7 +237,7 @@ Visible supporting points, maximum three:
 Additional accessible or expanded copy:
 
 - Follow the filing instructions in your packet.
-- Ask Wilma to explain confusing steps in plain English.
+- Ask Wilma to explain confusing steps clearly.
 
 Action:
 
@@ -327,7 +327,7 @@ Cost sequence:
 
 > $50
 
-> Available documents, filing instructions, Briefcase tracking, and plain-English explanations for the supported matter.
+> Available documents, filing instructions, Briefcase tracking, and clear explanations for the supported matter.
 
 ### 03. Court filing fee
 
@@ -417,7 +417,7 @@ Eyebrow:
 
 Headline:
 
-> Meet Wilma, your plain-English filing guide.
+> Meet Wilma, your filing guide.
 
 Role copy:
 

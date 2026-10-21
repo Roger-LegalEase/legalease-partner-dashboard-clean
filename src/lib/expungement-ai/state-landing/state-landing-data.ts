@@ -59,7 +59,7 @@ export const STATE_LANDING_CHROME = {
   ],
   prepareItems: [
     "A state-specific self-help packet, when one is available.",
-    "A plain-English filing checklist for the court or agency.",
+    "A clear filing checklist for the court or agency.",
     "Clear next steps based on your answers.",
     "Guidance on any outside documents you may need before filing.",
     "Your work saved to your Briefcase when you choose to create an account."
@@ -74,7 +74,7 @@ export const STATE_LANDING_CHROME = {
   howItWorks: [
     "Start a free guided check.",
     "Confirm the state where the arrest, charge, or conviction happened, or change it if needed.",
-    "Answer plain-English questions about what happened.",
+    "Answer clear questions about what happened.",
     "See which record-clearing options may be available, based on what you shared.",
     "Create an account only when you want to save your case or continue.",
     "Pay $50 only when a supported self-help packet is ready to generate.",

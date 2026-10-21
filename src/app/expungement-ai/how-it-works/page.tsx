@@ -10,7 +10,7 @@ export default function HowItWorksPage() {
         <h1 className="mt-3 text-4xl font-extrabold md:text-5xl">Three steps. No legal maze.</h1>
         <div className="mt-8 grid gap-4 md:grid-cols-3">
           {[
-            ["See which paths may be available", "Answer plain-English questions about your state, case, and outcome. No account or payment is required to begin."],
+            ["See which paths may be available", "Answer clear questions about your state, case, and outcome. No account or payment is required to begin."],
             ["Review before you pay", "If a supported self-help packet is available, review the information for your case before deciding whether to pay $50."],
             ["File it yourself with clear steps", "Download the available documents and filing instructions, then use your free Briefcase to track what comes next."]
           ].map(([title, body]) => (

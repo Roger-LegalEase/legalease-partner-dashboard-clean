@@ -19,7 +19,7 @@ Log in
 
 # The law is complicated. Your next step should not be.
 
-Start with a free guided check. Answer plain-English questions about your state, case, and outcome. If a supported self-help packet is available, review your information before paying $50 to generate it.
+Start with a free guided check. Answer clear questions about your state, case, and outcome. If a supported self-help packet is available, review your information before paying $50 to generate it.
 
 **Start free**
 **See a sample packet**
@@ -66,7 +66,7 @@ An arrest, dismissal, misdemeanor, or conviction can still appear on a backgroun
 
 ## Start with what you know. We’ll guide the rest.
 
-You do not need legal vocabulary to begin. We ask plain-English questions, explain confusing terms, and let you choose “Not sure” when you do not have an answer. If the facts do not support a clear option, the check stops before payment.
+You do not need legal vocabulary to begin. We ask clear questions, explain confusing terms, and let you choose “Not sure” when you do not have an answer. If the facts do not support a clear option, the check stops before payment.
 
 - Choose “Not sure” when you do not know.
 - See explanations as you go.
@@ -96,7 +96,7 @@ Questions and explanations change based on your state and case.
 
 ### 1. See which paths may be available.
 
-Answer plain-English questions about your state, case, and outcome. The check shows whether a supported record-clearing path may be available before you pay.
+Answer clear questions about your state, case, and outcome. The check shows whether a supported record-clearing path may be available before you pay.
 
 ### 2. Generate a supported self-help packet.
 
@@ -120,7 +120,7 @@ Legal terms explained. Documents organized. One next step at a time. Your free B
 - Download available self-help documents.
 - Follow the filing instructions in your packet.
 - Track what is ready, filed, or waiting.
-- Ask Wilma to explain confusing steps in plain English.
+- Ask Wilma to explain confusing steps clearly.
 
 **See how the Briefcase works**
 
@@ -144,7 +144,7 @@ Record-clearing rules vary by state, court, case type, and outcome. When a suppo
 - State-specific guided check.
 - Available self-help documents.
 - Filing steps for the supported court.
-- Plain-English explanations.
+- Clear explanations.
 - Fee-waiver guidance when available.
 - Clear boundaries when legal help may be needed.
 
@@ -197,7 +197,7 @@ per supported self-help packet
 - Filing instructions for the supported court.
 - Fee-waiver guidance when available.
 - Briefcase tracking.
-- Wilma’s plain-English explanations.
+- Wilma’s clear explanations.
 
 ### Not included
 
@@ -233,7 +233,7 @@ Start the guided check without creating an account. We ask for the information n
 
 **YOUR FILING GUIDE**
 
-## Meet Wilma, your plain-English filing guide.
+## Meet Wilma, your filing guide.
 
 Wilma explains confusing steps, defines legal terms, and points you back to your checklist. She does not decide which record-clearing option may be available, replace a lawyer, or promise a court outcome.
 

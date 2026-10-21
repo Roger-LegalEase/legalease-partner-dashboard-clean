@@ -87,8 +87,8 @@ export function buildPartnerLandingPageData(partner: PartnerRecord): PartnerLand
       ? "Clear your Mississippi record with We Must Vote + LegalEase."
       : `Start your ${serviceArea} record-clearing screening.`,
     landingPageSubheadline: isWeMustVote
-      ? "Start a guided Mississippi record review, prepare a draft expungement packet where the workflow supports it, and see filing next steps in plain English."
-      : `${organizationName} and LegalEase help residents start with plain-language screening and a practical next step.`,
+      ? "Start a guided Mississippi record review, prepare a draft expungement packet where the workflow supports it, and see clear filing next steps."
+      : `${organizationName} and LegalEase help residents start with guided screening, clear questions, and a practical next step.`,
     primaryCtaLabel: isWeMustVote ? "Start Mississippi Record Review" : "Start My Free Screening",
     primaryCtaHref: partnerIntake(partner.partnerSlug),
     secondaryCtaLabel: isWeMustVote ? "Sign In or Open Briefcase" : "See How It Works",

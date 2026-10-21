@@ -86,7 +86,7 @@ Orange should occupy less than roughly ten percent of the visible page surface. 
 - Display and body: Inter
 - Utility, docket labels, state abbreviations, metadata, dates, and section numbering: IBM Plex Mono
 - Headlines: left aligned, substantial, statement-led, and tightly tracked
-- Body copy: sentence case, plain English, generous line-height
+- Body copy: sentence case, clear and direct, generous line-height
 - Utility labels: uppercase, short, tracked, and functional
 - Do not use decorative type purely for novelty
 - Do not replace the approved type system because an external design skill prefers another font
@@ -245,7 +245,7 @@ Headline:
 
 Body:
 
-> Start with a free guided check. Answer plain-English questions about your state, case, and outcome. If a supported self-help packet is available, review your information before paying $50 to generate it.
+> Start with a free guided check. Answer clear questions about your state, case, and outcome. If a supported self-help packet is available, review your information before paying $50 to generate it.
 
 Actions:
 
@@ -402,7 +402,7 @@ Headline:
 
 Body:
 
-> You do not need legal vocabulary to begin. We ask plain-English questions, explain confusing terms, and let you choose “Not sure” when you do not have an answer. If the facts do not support a clear route, the check stops before checkout.
+> You do not need legal vocabulary to begin. We ask clear questions, explain confusing terms, and let you choose “Not sure” when you do not have an answer. If the facts do not support a clear route, the check stops before checkout.
 
 Supporting points:
 
@@ -457,7 +457,7 @@ Step 1:
 
 > See which paths may be available.
 
-> Answer plain-English questions about your state, case, and outcome. The check shows whether a supported record-clearing path may be available before you pay.
+> Answer clear questions about your state, case, and outcome. The check shows whether a supported record-clearing path may be available before you pay.
 
 Step 2:
 
@@ -533,7 +533,7 @@ Optional supporting points:
 - Download available self-help documents.
 - Follow the filing instructions in your packet.
 - Track what is ready, filed, or waiting.
-- Ask Wilma to explain confusing steps in plain English.
+- Ask Wilma to explain confusing steps clearly.
 
 Use only three short points in the visible layout. The full set may be represented within the screenshot or accessible copy.
 
@@ -720,7 +720,7 @@ Action:
 
 ### Purpose
 
-Show Wilma doing her actual job: explaining one confusing process question in plain English and pointing back to the checklist.
+Show Wilma doing her actual job: explaining one confusing process question clearly and pointing back to the checklist.
 
 ### Approved role copy
 
@@ -730,7 +730,7 @@ Eyebrow:
 
 Headline:
 
-> Meet Wilma, your plain-English filing guide.
+> Meet Wilma, your filing guide.
 
 Body:
 
@@ -782,7 +782,7 @@ Wilma:
 
 ### Purpose
 
-Make the nationwide free-check scope tangible and give the selected state useful plain-English context without an out-of-place dropdown.
+Make the nationwide free-check scope tangible and give the selected state useful, clear context without an out-of-place dropdown.
 
 ### Approved copy
 

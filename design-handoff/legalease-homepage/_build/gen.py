@@ -202,7 +202,7 @@ print("part1 loaded")
 def trust_strip():
     items=[
         ("Affordable","Flat-fee tools for routine legal tasks."),
-        ("Guided","Plain-English steps from start to next action."),
+        ("Guided","Clear guidance from start to next action."),
         ("Secure","Built for sensitive legal information."),
         ("Clear limits","Unsupported matters stop there."),
     ]
@@ -243,7 +243,7 @@ def selector():
 def why_use():
     cards=[
         ("Overpaying for routine work","Flat-fee tools before open-ended hourly bills, so a simple matter doesn&rsquo;t cost like a complex one."),
-        ("Getting lost in forms","Plain-English questions and step-by-step instructions instead of dense legal paperwork."),
+        ("Getting lost in forms","Clear questions and step-by-step instructions instead of dense legal paperwork."),
         ("Missing the next step","Checklists, documents, reports, and dashboards that keep each matter moving."),
         ("Using self-help when you shouldn&rsquo;t","Clear signals about what&rsquo;s in scope, so you know when a matter is too complex for self-help."),
     ]
@@ -324,7 +324,7 @@ def problem():
 # ---------- PLATFORM THESIS ----------
 def platform():
     layers=[
-        ("Plain-English intake","Converts confusing legal requirements into questions people can answer."),
+        ("Clear questions","Converts confusing legal requirements into questions people can answer."),
         ("Scope check","Identifies whether a matter appears appropriate for self-help or falls outside what LegalEase covers."),
         ("Document &amp; case automation","Generates packets, checklists, claim materials, reports, or next-step instructions."),
         ("Guided completion","Shows users what to do, where to go, what to gather, and what happens next."),
@@ -429,7 +429,7 @@ print("part3 loaded")
 
 # ---------- EXPUNGEMENT FLAGSHIP PROOF ----------
 def expungement():
-    bullets=["Free eligibility check","Flat $50 per case","Screening across all 50 states + DC","Court-ready self-help packets","Briefcase dashboard","Wilma plain-English guidance"]
+    bullets=["Free eligibility check","Flat $50 per case","Screening across all 50 states + DC","Court-ready self-help packets","Briefcase dashboard","Clear guidance from Wilma"]
     check='<svg class="feat-ck" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
     feats="".join(f'<li class="feat-item">{check}<span>{b}</span></li>' for b in bullets)
     return f"""
@@ -633,7 +633,7 @@ def coming_next():
 # ---------- HOW IT WORKS (operational proof) ----------
 def how_it_works():
     steps=[
-        ("01","Tell us what happened","Answer plain-English questions about your situation, no legal jargon."),
+        ("01","Tell us what happened","Answer clear questions about your situation, no legal jargon."),
         ("02","Run the scope check","LegalEase checks whether the matter fits a supported, non-complex self-help path."),
         ("03","Follow guided next steps","Get documents, checklists, reports, or claim materials, depending on the product."),
         ("04","Stay inside a clear path","If the matter fits, LegalEase keeps you organized from start to finish. If it does not fit, the product stops."),
@@ -798,7 +798,7 @@ We are here for the everyday legal moments where people need a guided path, not 
 
 A clearer record. A better understanding of a background check. A simple claim organized correctly. An uncontested divorce handled with dignity. A community program that can actually move people from need to next step.
 
-LegalEase turns everyday legal problems into guided self-help tools, plain English, secure, affordable, and built with clear limits from the start.
+LegalEase turns everyday legal problems into guided self-help tools with clear questions, secure support, affordable pricing, and clear limits from the start.
 
 Because people do not need more legalese.
 
