@@ -979,6 +979,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     categoryReason: "Earlier West Virginia categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
     category: [
       "accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a", // GA12 Q-cf92b9ddf3aa29535066
+      "eligible-conviction-expungement-under-w-va-code-61-11-26", // GA12 Q-d926b44b902ba90dd628
       "first-offense-drug-possession-conditional-discharge-relief", // GA12 Q-e09c22572076696b75e9
       "juvenile-record-relief", // GA12 Q-8b168b02120d28ec1967
       "no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication", // GA12 Q-4788db0474a27ceae315
@@ -987,6 +988,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     ],
     record: [
       "accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a", // GA17 Q-14029ec451f45aebd6e8
+      "eligible-conviction-expungement-under-w-va-code-61-11-26", // GA17 Q-bdfd23ba0ca4636669a2
       "first-offense-drug-possession-conditional-discharge-relief", // GA17 Q-50f3c1d6f0353c4b697c
       "juvenile-record-relief", // GA17 Q-567a8b11142b92bae28f
       "no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication", // GA17 Q-e4b313c5e14f1c28f895
@@ -1144,11 +1146,13 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     categoryReason: "Earlier Colorado categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
     category: [
       "automatic-clean-slate-sealing-13-3-117", // GA12 Q-f1db160874208d5020cc
+      "juvenile-expungement-19-1-306", // GA12 Q-8ba92917ff60d81c7f05
       "petition-based-conviction-sealing-jdf-612-24-72-706", // GA12 Q-6494b446a54f2fa4132f
       "petition-based-non-conviction-sealing-jdf-417-24-72-704", // GA12 Q-fa4052b5baf06ea52e36
     ],
     record: [
       "automatic-clean-slate-sealing-13-3-117", // GA17 Q-b716564db24866ec8d11
+      "juvenile-expungement-19-1-306", // GA17 Q-25e1a3f5c0a9545f247a
     ],
   },
   HI: {
@@ -1257,6 +1261,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     profileHash: "b37cab84b2a00c572d170364992fc81cfd6014f954086e8b7257fd798a5b84d7",
     categoryReason: "Earlier Delaware categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
     category: [
+      "discretionary-court-expungement-under-11-del-c-4374", // GA12 Q-05091f0804053105e852
       "juvenile-expungement-under-10-del-c-1017-1019-1017a", // GA12 Q-1263e1e37b54b9879d32
       "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a", // GA12 Q-9be76a8f976a01629777
       "pardon-based-discretionary-expungement-under-11-del-c-4375", // GA12 Q-0a2fc8c16d3075f2aa20
@@ -1304,6 +1309,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     profileHash: "4e84c6d8ba6469a095c50f09cacfb5518c4132d049fbf068513c6eb925e6a364",
     categoryReason: "Earlier Kentucky categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
     category: [
+      "felony-conviction-431073", // GA12 Q-9ad9403d580ecc4dd1fc
       "juvenile-automatic-dismissal", // GA12 Q-ec6ce3c8793c8f1b0090
       "juvenile-petition-610330", // GA12 Q-cdc0542c5b9e6a5d5e6a
     ],
@@ -1347,6 +1353,8 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     categoryReason: "Earlier New York categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
     category: [
       "automatic-clean-slate-sealing-under-cpl-160-57", // GA12 Q-a4e19170bd483d92f65a
+      "conditional-treatment-sealing-under-cpl-160-58", // GA12 Q-f89138cbd1584a2640c1
+      "discretionary-conviction-sealing-by-petition-under-cpl-160-59", // GA12 Q-248865769cbca4a8a8f7
     ],
     record: [
     ],
