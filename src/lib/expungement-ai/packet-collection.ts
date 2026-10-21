@@ -1386,6 +1386,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     categoryReason: "Earlier Mississippi categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
     category: [
       "additional-justice-or-municipal-court-misdemeanor-relief", // GA12 Q-33ae0812c5ec6c16f49c
+      "controlled-substance-conditional-discharge-active-case-admission", // GA12 Q-e5aae0617a5b7c0b4e69
       "dui-nonadjudication", // GA12 Q-04dfd5b6ef826ed1a603
       "first-offense-controlled-substance-conditional-discharge-relief", // GA12 Q-b316dba4450967677ce5
       "first-offense-dui-expungement", // GA12 Q-55d34e1c5bf66f373eea
@@ -1393,13 +1394,16 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "intervention-court-completion-expungement", // GA12 Q-61ce8e2a0e7ac1e9af03
       "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4", // GA12 Q-0908882129a5103c8624
       "minor-in-possession-underage-alcohol-expungement", // GA12 Q-c71795ecb6433a778af5
+      "nonadjudication-99-15-26-active-case-admission", // GA12 Q-ff587f6aaeb542414c0d
       "nonadjudication-under-99-15-26", // GA12 Q-d1b6782102264f056e0e
+      "pretrial-intervention-active-case-admission", // GA12 Q-140ce429d095361ecb54
       "pretrial-intervention-or-diversion-expungement", // GA12 Q-ffccdb66a7bf8daecb9a
       "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59", // GA12 Q-a58282187741a588b8f5
       "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59", // GA12 Q-268c53a6d752b6229799
     ],
     record: [
       "additional-justice-or-municipal-court-misdemeanor-relief", // GA17 Q-bb58e587444d3b3eaca9
+      "controlled-substance-conditional-discharge-active-case-admission", // GA17 Q-1c87028cbb0245b356ec
       "dui-nonadjudication", // GA17 Q-fac1c7a7430c180c73d6
       "first-offense-controlled-substance-conditional-discharge-relief", // GA17 Q-9c32d5c83873cc9406a3
       "first-offense-dui-expungement", // GA17 Q-266d588ee2741e693ed6
@@ -1407,7 +1411,9 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "intervention-court-completion-expungement", // GA17 Q-f015750c794542860c6f
       "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4", // GA17 Q-c2ea75ba90409cc97e66
       "minor-in-possession-underage-alcohol-expungement", // GA17 Q-378ac879953f15b31706
+      "nonadjudication-99-15-26-active-case-admission", // GA17 Q-4b3c8bc1491c65d69d4e
       "nonadjudication-under-99-15-26", // GA17 Q-738fb87bc728b78e3d29
+      "pretrial-intervention-active-case-admission", // GA17 Q-68b05fc2444ab78b80a9
       "pretrial-intervention-or-diversion-expungement", // GA17 Q-df263245a80fca378453
       "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59", // GA17 Q-a0ac1097b055462afdac
       "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59", // GA17 Q-46e4cfdf892f39dac9b3
