@@ -1274,7 +1274,7 @@ export function wyoming1502HeldDraftSuccessor(snapshot: ProtectedPacketAuthority
 
 /** Source-reproduced unverified predecessor; withdrawing readiness never rewrites its raw answers. */
 // IL1: only the measured old CXP plan may become this held, correctable draft.
-function illinoisProgramHeldDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
+export function illinoisProgramHeldDraftSuccessor(snapshot: ProtectedPacketAuthoritySnapshot,
   authoritative: NonNullable<ReturnType<typeof evaluateProtectedPacketFacts>>, status: string): ProtectedPacketAuthoritySnapshot | null {
   const profile = getProfileByJurisdiction("IL"), evaluation = authoritative.evaluation;
   if (status !== "unverified" || snapshot.schemaVersion !== "expungement-ai/protected-packet-draft/v1"

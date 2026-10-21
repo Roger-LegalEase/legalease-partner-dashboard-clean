@@ -6,6 +6,9 @@ process.env.RCAP_EVALUATOR_TODAY = '2026-10-21';
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 const mode = process.argv[2] ?? 'candidate';
 const mutations = {
+  briefcase_predecessor: ['briefcase-presentation-authority.ts', 'illinoisProgramHeldDraftSuccessor(snapshot, authoritative, verification.status) ??', ''],
+  verified_guard_removed: ['briefcase-presentation-authority.ts', 'illinoisProgramFutureDateDraftSuccessor(snapshot, authoritative, verification.status)', 'illinoisProgramFutureDateDraftSuccessor(snapshot, authoritative, "unverified")'],
+  briefcase_unverified: ['briefcase-presentation-authority.ts', 'illinoisProgramFutureDateDraftSuccessor(snapshot, authoritative, verification.status)', 'illinoisProgramFutureDateDraftSuccessor(snapshot, authoritative, "unverified")'],
   future_today: ['illinois-program-facts.ts', 'if (date.toISOString().slice(0, 10) > today)', 'if (date.toISOString().slice(0, 10) >= today)'],
   briefcase_future: ['briefcase-presentation-authority.ts', 'illinoisProgramFutureDateDraftSuccessor(snapshot, authoritative, verification.status) ??', ''],
   other_type: ['illinois-program-facts.ts', 'return review("other");', 'return review("ordinary");'],
@@ -22,6 +25,7 @@ const mutations = {
 };
 assert(mode === 'candidate' || mutations[mode]);
 if (mutations[mode]) register('data:text/javascript,' + encodeURIComponent(`let m;export function initialize(v){m=v}export async function load(u,c,next){const r=await next(u,c);if(!u.endsWith('/'+m[0]))return r;const s=String(r.source);if(s.split(m[1]).length!==2)throw Error('nonunique mutation anchor');return {...r,source:s.replace(m[1],m[2])};}`), { data: mutations[mode] });
+if (mode === 'verified_guard_removed') register('data:text/javascript,'+encodeURIComponent(`export async function load(u,c,next){const r=await next(u,c);if(!u.endsWith('/packet-information.ts'))return r;const s=String(r.source),f=s.indexOf('export function illinoisProgramFutureDateDraftSuccessor('),a=s.indexOf('if (status !== "unverified"',f),b=s.indexOf('const projected =',a);if(f<0||a<0||b<a)throw Error('guard anchor absent');return {...r,source:s.slice(0,a)+s.slice(b)};}`));
 const G = await import('../src/lib/rcap-engine/illinois-program-facts.ts');
 const { getProfileByJurisdiction } = await import('../src/lib/rcap-engine/profile-registry.ts');
 const { projectPublicProfile } = await import('../src/lib/rcap-engine/public-profile-projection.ts');
@@ -39,6 +43,18 @@ const profile = getProfileByJurisdiction('IL'), pub = projectPublicProfile(profi
 const failures = []; let checks = 0;
 function check(name, fn) { checks++; try { fn(); } catch (error) { failures.push({ name, error: error.message }); } }
 const request = answers => ({ jurisdiction: 'IL', profileVersion: profile.profileVersion, matterId: 'synthetic-il1', answers });
+async function presentSaved(v) {
+  const item={id:'00000000-0000-4000-8000-000000000037',jurisdiction:'IL',createdAt:v.draftSnapshot.capturedAt,artifactRefs:{}};
+  let paymentAllowed;
+  const presented=await B.decorateBriefcaseItemForPresentationWithDependencies({consumerAuthUserId:item.id,item},{
+    readProtectedArtifact:async()=>({ok:true,value:null}),readProtectedVerification:async()=>({ok:true,value:v}),
+    readTrustedPendingSource:async()=>({ok:false,reason:'no-pending-source'}),
+    readPaymentAuthority:async()=>({valid:false,reason:'unpaid'}),evaluateAuthoritative:request=>{const a=evaluate(request);paymentAllowed=a.evaluation.paymentAllowed;return a;},
+    readCommercialActions:async()=>({fulfillmentAvailable:false,checkoutAllowed:false,generationAllowed:false})
+  });
+  return {presented,paymentAllowed};
+}
+
 const base = { ...rows[1].answers, il_program_type: 'supervision', il_program_termination: 'satisfactory', il_program_termination_date: { value: '2024-10-21', unknown: false }, il_program_minor_traffic: 'no', il_supervision_offense: 'other', il_supervision_sexual_minor: 'no' };
 check('profile-schema', () => assert(parseJurisdictionProfile(pub).ok));
 check('applicable-program-facts-not-labelled-optional', () => assert(G.IL_PROGRAM_FACT_IDS.every(id => pub.questions.find(q => q.id === id)?.required === true)));
@@ -191,6 +207,17 @@ for (const row of nativeB.rows) {
 const pastSaved = nativeB.rows.find(r => r.name === 'past-unmet-wait').verification.draftSnapshot;
 const futureAuthority = P.evaluateProtectedPacketFacts(nativeB.rows.find(r => r.name === 'future-date').verification.draftSnapshot);
 check('past-date-cannot-borrow-future-authority', () => assert.equal(P.illinoisProgramFutureDateDraftSuccessor(pastSaved,futureAuthority,'unverified'),null));
+// F-IL1-BC: the exact pre-B held record must reach the second consumer too.
+const preBPresentation=await presentSaved(predecessor);
+check('pre-B-Briefcase-held',()=>{assert.equal(preBPresentation.presented.authorityStatus,'protected_draft');assert.equal(preBPresentation.presented.packetDraft.status,'available');assert.equal(preBPresentation.paymentAllowed,false);assert(Object.values(preBPresentation.presented.commercialActions).every(value=>value===false));assert.deepEqual(predecessor,oldBefore);});
+for (const row of [{name:'pre-B',verification:predecessor},...nativeB.rows.filter(r=>r.name.startsWith('future'))]) {
+  const v=structuredClone(row.verification),{capturedAt,...facts}=v.draftSnapshot;
+  v.status='verified';v.snapshot={...facts,schemaVersion:'expungement-ai/final-verification/v1',verifiedAt:capturedAt};
+  // Both hashes use canonical JSON; this is a synthetic negative envelope, not an approved verification.
+  v.hash=P.protectedPacketDraftHash(v.snapshot);
+  const before=structuredClone(v),{presented}=await presentSaved(v);
+  check(`${row.name}:verified-Briefcase-refused`,()=>{assert.equal(presented.authorityStatus,'unavailable');assert.equal(presented.packetDraft.status,'unavailable');assert(Object.values(presented.commercialActions).every(value=>value===false));assert.deepEqual(v,before);});
+}
 // A date that has passed must use today's disposition, never the future-date bridge.
 process.env.RCAP_EVALUATOR_TODAY = '2027-01-02';
 const aged = nativeB.rows.find(r => r.name === 'future-date').verification;
