@@ -82,7 +82,9 @@ export const MS_PROOF_EXECUTION_INPUTS=['scripts/lib/rcap-ephemeral-pg.mjs','scr
   // Mandatory current batch31 CA pardon not-sure source-only record, distinct from modules.
   'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31-ca-pardon-20261020-v1.json',
   // Mandatory current batch31 CA pardon copy-entry position source-only record, distinct from modules.
-  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31-ca-order-20261020-v1.json'];
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31-ca-order-20261020-v1.json',
+  // Mandatory current batch31b GA-16 location contexts source-only record, distinct from modules.
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31b-ga16-location-20261020-v1.json'];
 // Exact import paths observed by the actual verifier imports-only probe;
 // the full execution must reproduce this set before emitting a current proof.
 export const MS_PROOF_OBSERVED_INPUTS=[
@@ -228,6 +230,8 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "src/lib/expungement-ai/ga-pardon-category-context.ts",
   "src/lib/expungement-ai/ga-pardon-petition-readiness.ts",
   "src/lib/expungement-ai/ga-pardon-preparation.ts",
+  "src/lib/expungement-ai/ga-sb288-location-context.ts",
+  "src/lib/expungement-ai/il-identity-location-context.ts",
   "src/lib/expungement-ai/ks-municipal-contact.ts",
   "src/lib/expungement-ai/localization.ts",
   "src/lib/expungement-ai/mn-299c11-location-context.ts",
@@ -238,6 +242,8 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "src/lib/expungement-ai/mo-610105-court-context.ts",
   "src/lib/expungement-ai/mo-610122-court-context.ts",
   "src/lib/expungement-ai/mo-xiv-court-context.ts",
+  "src/lib/expungement-ai/ms-additional-location-context.ts",
+  "src/lib/expungement-ai/ms-first-location-context.ts",
   "src/lib/expungement-ai/mt-deferred-document-inputs.ts",
   "src/lib/expungement-ai/mt-deferred-document-questions.ts",
   "src/lib/expungement-ai/nd-first-offense-family-inputs.ts",
@@ -278,6 +284,7 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "src/lib/expungement-ai/reviewed-packet-contract-successors.json",
   "src/lib/expungement-ai/reviewed-question-copy.ts",
   "src/lib/expungement-ai/reviewed-result-copy.ts",
+  "src/lib/expungement-ai/sd-sis-location-context.ts",
   "src/lib/expungement-ai/sensitive-packet-facts.ts",
   "src/lib/expungement-ai/verification-cas.ts", "src/lib/expungement-ai/virginia-record-context.ts",
   "src/lib/legal-authority/authority.json",
@@ -402,6 +409,7 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "src/lib/rcap-engine/district-of-columbia-general-guidance.ts",
   "data/record-clearing/legal-design-intake/FL.memo.json",
   "src/lib/rcap-engine/florida-conditional-source-information.ts",
+  "src/lib/expungement-ai/va-pardon-location-context.ts",
   "src/lib/expungement-ai/va-pardon-type-source.ts",
 ];
 const hash=b=>crypto.createHash('sha256').update(b).digest('hex');

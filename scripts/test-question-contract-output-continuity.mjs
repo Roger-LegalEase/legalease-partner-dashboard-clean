@@ -18,6 +18,7 @@ import {assertB28NvGa20SourceSuccession,B28_NV_GA20_SOURCE_PATH} from '../src/li
 import {assertB30CoSourceSuccession,B30_CO_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertB31CaPardonSourceSuccession,B31_CA_PARDON_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertB31CaOrderSourceSuccession,B31_CA_ORDER_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertB31bGa16LocationSourceSuccession,B31B_GA16_LOCATION_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaSafeAtHomeSourceSuccession,CA_SAFE_AT_HOME_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertLeadSpanishSourceSuccession,LEAD_SPANISH_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -1035,6 +1036,13 @@ check('batch31 CA pardon copy-entry position hop preserves prior chain and refus
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===B31_CA_ORDER_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/batch31 CA pardon copy-entry position source succession record bytes changed/);
  assert.throws(()=>assertB31CaPardonSourceSuccession(file=>{if(file===B31_CA_ORDER_SOURCE_PATH)throw Error('missing batch31 CA pardon copy-entry position record');return readBytes(file);}),/missing batch31 CA pardon copy-entry position record/);
  for(const input of ["src/lib/expungement-ai/frontend/reviewed-result-display-copy.json"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('batch31b GA-16 location contexts hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertB31bGa16LocationSourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,35);assert.equal(c.currentUnchangedSourceCount,163);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===B31B_GA16_LOCATION_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/batch31b GA-16 location contexts source succession record bytes changed/);
+ assert.throws(()=>assertB31CaOrderSourceSuccession(file=>{if(file===B31B_GA16_LOCATION_SOURCE_PATH)throw Error('missing batch31b GA-16 location contexts record');return readBytes(file);}),/missing batch31b GA-16 location contexts record/);
+ for(const input of ["src/lib/expungement-ai/reviewed-question-copy.ts"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 // A succession record set must never outlive its call: after an honest load, a later drift still
