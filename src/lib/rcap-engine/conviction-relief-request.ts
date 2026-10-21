@@ -6,7 +6,8 @@ type Answers = Record<string, unknown>;
 type Selection = { status: "not_applicable" }
   | { status: "clarification"; missingQuestionIds: string[] }
   | { status: "selected"; pathwayId: string }
-  | { status: "review"; code: "other_help" | "later_order" | "program_record" | "mixed_charges" | "conviction_scope" };
+  | { status: "review"; code: "other_help" | "later_order" | "later_order_counsel" | "later_order_not_cleared" | "later_order_pending"
+    | "program_record" | "mixed_charges" | "conviction_scope" };
 
 export const CONVICTION_NONCONVICTION_ROUTES: Record<string, readonly string[]> = {
   MS: ["non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
@@ -20,6 +21,9 @@ export const CONVICTION_RELIEF_COPY = {
   missing: ["Check the requested case fact or tell us what help you want. An optional pathway hint does not establish a later court order or choose another procedure for you.", "Revise el dato del caso solicitado o indique en qué desea ayuda. Una pista opcional sobre una vía no establece una orden judicial posterior ni elige otro procedimiento por usted."],
   other_help: ["Your request needs a review of the record and the help you want. No other procedure has been selected for you, and this does not decide whether another remedy is available.", "Su solicitud requiere revisar el expediente y la ayuda que desea. No se ha elegido otro procedimiento por usted y esto no determina si hay otra medida disponible."],
   later_order: ["The later order and its effect on this record need review. The original conviction answer remains part of the record; it is not automatically changed to a dismissal or acquittal.", "La orden posterior y su efecto en este expediente requieren revisión. La respuesta sobre la condena original sigue formando parte del registro; no se cambia automáticamente a una desestimación o absolución."],
+  later_order_counsel: ["You told us that, after the later court order, the case was dismissed or you were found not guilty. How that result applies to this procedure needs legal review. Your original conviction answer is kept as part of the case history.", "Usted nos indicó que, después de la orden judicial posterior, el caso fue desestimado o se le declaró no culpable. La forma en que ese resultado se aplica a este procedimiento requiere revisión legal. Se conserva su respuesta sobre la condena original como parte del historial del caso."],
+  later_order_not_cleared: ["Based on your answers, a conviction is still in place, so this request does not clear the record by itself. Your original conviction answer is kept. This is not a decision about other record-clearing options.", "Según sus respuestas, sigue vigente una condena, por lo que esta solicitud no limpia por sí sola el expediente. Se conserva su respuesta sobre la condena original. Esto no es una decisión sobre otras opciones para limpiar los antecedentes."],
+  later_order_pending: ["The case is still pending after the later order. It needs review when the case is finished.", "El caso sigue pendiente después de la orden posterior. Requiere revisión cuando el caso termine."],
   program_record: ["The program order, its completion and the court's final disposition must be checked separately. A program request does not establish that a conviction was dismissed or set aside.", "La orden del programa, su cumplimiento y la resolución final del tribunal deben revisarse por separado. Una solicitud relacionada con un programa no establece que una condena haya sido desestimada o dejada sin efecto."],
   mixed_charges: ["This request concerns a separate charge in a case with more than one outcome. Each charge, its final disposition and its relationship to the other charges need review before selecting the procedure.", "Esta solicitud se refiere a un cargo distinto en un caso con más de un resultado. Cada cargo, su resolución final y su relación con los otros cargos requieren revisión antes de elegir el procedimiento."],
   conviction_scope: ["The facts entered do not establish the requested conviction procedure. Review the final judgment, offense and court; this is not a denial of every record-clearing option.", "Los datos ingresados no establecen el procedimiento solicitado para la condena. Revise la sentencia final, el delito y el tribunal; esto no rechaza todas las opciones para limpiar los antecedentes."]
@@ -35,6 +39,8 @@ function hintIsAbsent(value: unknown): boolean {
   return value === undefined || value === null || typeof value === "string"
     && ["", "skip", "none of these / i am not sure", "i am not sure"].includes(value.trim().toLowerCase());
 }
+
+const MS_LATER_ORDER_EFFECTS = ["dismissed", "acquitted", "convicted_again", "pending", "unchanged"] as const;
 
 /** This is an additional factual selector, after the existing exact program,
  * original First Offender and cannabis selectors. An election identifies work,
@@ -70,8 +76,17 @@ export function convictionReliefRequest(profile: EngineProfile, answers: Answers
     // IL 5.2(b)(1)(ii) expressly includes a conviction vacated or reversed.
     // This candidate still encounters the existing source/offer authority gate.
     if (state === "IL" && (later === "vacated" || later === "reversed")) return selected("adult-non-conviction-expungement");
-    // GA vacatur/finality/retrial and MS later-disposition mechanisms cannot be
-    // silently mapped onto a different existing nonconviction backend route.
+    // MS (adopted review l.282/l.312): collect the order's actual effect and hold every effect. A dismissal or acquittal
+    // after the order waits on counsel (O26-MS1, item-32 request); it is never applied to a nonconviction route here.
+    if (state === "MS") {
+      if (later === "none") return { status: "review", code: "later_order_not_cleared" };
+      const effect = answers.ms_later_order_effect;
+      if (!exactChoice(effect, MS_LATER_ORDER_EFFECTS)) return missing("ms_later_order_effect");
+      if (effect === "dismissed" || effect === "acquitted") return { status: "review", code: "later_order_counsel" };
+      return { status: "review", code: effect === "pending" ? "later_order_pending" : "later_order_not_cleared" };
+    }
+    // GA vacatur/finality/retrial mechanisms cannot be silently mapped onto a
+    // different existing nonconviction backend route.
     return { status: "review", code: "later_order" };
   }
   if (request === "retroactive_treatment" && state === "GA") {
@@ -158,6 +173,10 @@ export function convictionReliefQuestions(state: string): PublicQuestion[] {
     "¿Qué hizo la orden judicial posterior respecto de esta condena?", "Use la orden real. Cumplir una sentencia, recibir un indulto o pedir una medida no equivale por sí solo a una orden que anule o revoque una condena. Se conserva la respuesta original.", [
       ["vacated", "The court vacated or set aside the conviction", "El tribunal anuló o dejó sin efecto la condena"], ["reversed", "An appellate court reversed the conviction", "Un tribunal de apelaciones revocó la condena"], ["dismissed", "The court dismissed the case after the conviction", "El tribunal desestimó el caso después de la condena"], ["none", "No later order changed the conviction", "Ninguna orden posterior cambió la condena"], ["other", "Another kind of order", "Otro tipo de orden"], unknown]),
   ...(state !== "MS" ? [] : [
+    question("ms_later_order_effect", "After that order, what is the status of this case now?",
+      "Use the court record. If the case went back for a new trial or an appeal that is not finished, choose \"The case is still pending.\" Your original conviction answer is kept.",
+      "Después de esa orden, ¿cuál es la situación actual de este caso?", "Use el expediente judicial. Si el caso volvió a un nuevo juicio o a una apelación que no ha terminado, elija \"El caso sigue pendiente\". Se conserva su respuesta sobre la condena original.", [
+        ["dismissed", "The case was dismissed or the charges were dropped", "El caso fue desestimado o se retiraron los cargos"], ["acquitted", "I was found not guilty at a new trial", "Me declararon no culpable en un nuevo juicio"], ["convicted_again", "I was convicted again or resentenced", "Me condenaron de nuevo o me volvieron a sentenciar"], ["pending", "The case is still pending", "El caso sigue pendiente"], ["unchanged", "The conviction is still in place", "La condena sigue vigente"], unknown]),
     question("ms_conviction_traffic", "What kind of offense is the final misdemeanor conviction for?", "Use the final judgment, including any amended offense. Do not use the original arrest charge.", "¿Por qué tipo de delito es la condena final por delito menor?", "Use la sentencia final, incluido cualquier delito modificado. No use el cargo original del arresto.", [["nontraffic", "An offense other than a traffic violation", "Un delito que no es una infracción de tránsito"], ["dui", "Driving under the influence (DUI)", "Conducir bajo la influencia (DUI)"], ["other_traffic", "Another traffic violation", "Otra infracción de tránsito"], unknown]),
     question("ms_other_convictions", "Have you had any other conviction, in any court or jurisdiction?", "Include convictions in other states and courts. Do not leave out a conviction just because its record was later cleared.", "¿Ha tenido alguna otra condena, en cualquier tribunal o jurisdicción?", "Incluya condenas de otros estados y tribunales. No omita una condena solo porque sus antecedentes fueron eliminados después.", yesNo),
     question("ms_prior_conviction_expungement", "Has any conviction of yours been expunged before?", "A previous expungement remains relevant to the first-offender question. This asks about an actual previous conviction expungement, not an application that is still pending.", "¿Se ha eliminado antes alguna condena suya?", "Una eliminación anterior sigue siendo pertinente para la cuestión de una primera condena. Se pregunta por la eliminación real de una condena anterior, no por una solicitud pendiente.", yesNo),
@@ -172,6 +191,8 @@ export function convictionReliefQuestionApplies(profile: EngineProfile, answers:
   if (decision.status === "not_applicable") return false;
   if (id === requestId(state)) return true;
   if (id.endsWith("_later_order")) return answers[requestId(state)] === "later_order";
+  if (id === "ms_later_order_effect") return answers.ms_record_help === "later_order"
+    && exactChoice(answers.ms_later_order, ["vacated", "reversed", "dismissed", "other"]);
   if (state !== "MS" || answers.ms_record_help !== "conviction_record" || answers.case_outcome !== "Misdemeanor conviction") return false;
   if (id === "ms_conviction_traffic") return true;
   if (id === "ms_conviction_court") return answers.ms_conviction_traffic === "other_traffic" || answers.ms_conviction_traffic === "nontraffic" && (answers.ms_other_convictions === "yes" || answers.ms_prior_conviction_expungement === "yes");
