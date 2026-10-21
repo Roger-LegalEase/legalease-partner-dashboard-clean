@@ -1229,6 +1229,18 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     record: [
     ],
   },
+  AZ: {
+    profileHash: "299af842ba17587b84de282328c27e8bed1d82a4dfa51146341b42338b296300",
+    categoryReason: "Earlier Arizona categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "notation-of-clearance-after-a-wrongful-arrest-under-13-4051", // GA12 Q-b4234bcc40a7d7afbefc
+      "remedy-1-record-sealing", // GA12 Q-cd08f58b55c2f888c0f8
+      "remedy-2-set-aside-of-a-conviction", // GA12 Q-d86918b7cb375888f00b
+      "remedy-3-marijuana-expungement", // GA12 Q-d70b1ab1ce0903873c7d
+    ],
+    record: [
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
