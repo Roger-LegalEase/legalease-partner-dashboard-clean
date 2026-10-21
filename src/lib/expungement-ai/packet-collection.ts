@@ -1140,6 +1140,16 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "automatic-clean-slate-sealing-13-3-117", // GA17 Q-b716564db24866ec8d11
     ],
   },
+  HI: {
+    profileHash: "9b1a121be377fa34e6425d96f7edb82428321b60a757870f8dc4878ebfb27ece",
+    categoryReason: "Earlier Hawaii categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+    ],
+    record: [
+      "deferred-acceptance-one-year", // GA17 Q-379aef0fc804f8efff6f
+      "deferred-prostitution-three-year", // GA17 Q-caf00f0814d58e104534
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
