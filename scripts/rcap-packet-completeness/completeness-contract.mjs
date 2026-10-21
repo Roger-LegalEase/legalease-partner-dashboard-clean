@@ -24,6 +24,7 @@ import {
   isRegisteredParticipantLaterCompletionField,
   isVerifiedParticipantLaterCompletionProof,
 } from "./nj-participant-later-completion.mjs";
+import { isVerifiedControllingReservationProof } from "./controlling-record-reservation.mjs";
 
 // This contract closes that by inverting the question. Every blank must earn its
 // blankness against a CLOSED vocabulary, and three of the nine dispositions are
@@ -94,6 +95,15 @@ export const PARTICIPANT_LATER_COMPLETION_CONDITIONS = [
   "STILL UNAVAILABLE: the packet does not already hold or write the later fact, and the declaration is not used for a route-determined election."
 ];
 
+export const CONTROLLING_RESERVATION_CONDITIONS = [
+  "DECLARED: the field-map row states PARTICIPANT_RESERVED_BY_CONTROLLING_RECORD with requiredBeforeFiling=false and carries a reservation claim. It is never REQUIRED_BEFORE_FILING and never says the fact is unavailable.",
+  "BOUND: the claim names a manualCompletionItems entry of its track in the legal-design track registry whose bytes the packet pins, and the entry's text hashes to the digest the claim was declared against.",
+  "SAME COMPONENT: the entry's whereInPacket is the bound title of the component the blank is on.",
+  "UNWRITTEN: no fixture writes the reserved blank.",
+  "DISCLOSED: participant-instructions.md names the blank and the registry entry.",
+  "NOT AN ELECTION: a selection control or route-determined field cannot be reserved; a caller-supplied verified flag is never evidence."
+];
+
 /** Field requirements a participant may complete themselves. */
 export const PARTICIPANT_COMPLETABLE_REQUIREMENTS = new Set([
   "REQUIRED_KNOWN", "OPTIONAL_OR_REQUIRED_BEFORE_FILING", "UNKNOWN"
@@ -127,6 +137,13 @@ export const BLANK_DISPOSITIONS = {
     requires: "An independently verified, closed source-stage proof for the exact participant field and trigger.",
     declaredOnly: true,
     conditions: PARTICIPANT_LATER_COMPLETION_CONDITIONS
+  },
+  PARTICIPANT_RESERVED_BY_CONTROLLING_RECORD: {
+    allowed: true,
+    meaning: "A fact the platform holds, left blank because the controlling legal-design record reserves that blank for the participant to complete.",
+    requires: "A reservation proof verified in this process against the bound registry entry, the blank's component, every fixture's writes and the participant disclosure.",
+    declaredOnly: true,
+    conditions: CONTROLLING_RESERVATION_CONDITIONS
   },
   NOT_APPLICABLE_ON_THIS_ROUTE: {
     allowed: true,
@@ -349,6 +366,25 @@ export function classifyBlank(field, reason, refusalClass = null, declared = nul
   const declaresDisposition = dec.disposition !== undefined && dec.disposition !== null;
   const declaresRequiredBeforeFiling = typeof dec.requiredBeforeFiling === "boolean";
   const usesDeclaredChannel = declaresDisposition || declaresRequiredBeforeFiling;
+
+  // A held fact the controlling record reserves for the participant. Every
+  // failure is the defect the reservation stood in front of: the fact is held,
+  // so an unproven reservation is a missing known fact.
+  if (dec.controllingReservation || String(dec.disposition) === "PARTICIPANT_RESERVED_BY_CONTROLLING_RECORD") {
+    if (dec.sourceStage || dec.sourceOptional || dec.sourcePresentation || refusalClass) {
+      return { disposition: "UNCLASSIFIED_BLANK", fieldClass: cls.id, basis: "a controlling-record reservation cannot be combined with another declared channel or a refusal class" };
+    }
+    if (dec.routeDetermined === true || field.isSelectionControl === true || cls.requirement === "ROUTE_DETERMINED") {
+      return { disposition: "ROUTE_OPTION_NOT_SELECTED", fieldClass: cls.id, basis: "an election cannot be reserved by a controlling record" };
+    }
+    if (String(dec.disposition) !== "PARTICIPANT_RESERVED_BY_CONTROLLING_RECORD" || dec.requiredBeforeFiling !== false) {
+      return { disposition: "KNOWN_FACT_NOT_WRITTEN", fieldClass: cls.id, basis: "a controlling-record reservation must declare PARTICIPANT_RESERVED_BY_CONTROLLING_RECORD with requiredBeforeFiling false" };
+    }
+    if (!isVerifiedControllingReservationProof(dec.controllingReservation)) {
+      return { disposition: "KNOWN_FACT_NOT_WRITTEN", fieldClass: cls.id, basis: dec.controllingReservation?.failure ?? "the controlling-record reservation was not verified in this process" };
+    }
+    return { disposition: "PARTICIPANT_RESERVED_BY_CONTROLLING_RECORD", fieldClass: cls.id, basis: dec.controllingReservation.basis };
+  }
 
   if (dec.sourceStage && (dec.sourceOptional || dec.sourcePresentation)) {
     return {

@@ -63,18 +63,11 @@
         "tier": "exact_content_hash"
       }
     ],
-    "acceptanceReceipt": {
-      "verdict": "RASTER_PASS",
-      "workflowRunId": "34748021265",
-      "jobId": "103699852905",
-      "artifactId": "10314966768",
-      "boundToCanonicalSha256": "f01d4442af4303e698482462ac09ecd8b0aeb88c8c8c164e01e4113c820953c3",
-      "coversTheWholeFamily": true
-    },
+    "acceptanceReceipt": null,
     "lastIndependentVerification": {
-      "verdict": "PASS_COMPLETE_INDEPENDENT",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "lane": "vfks4",
-      "verifiedAtBase": "c7ba985c5533cabc0999e70cad986989fa451004"
+      "verifiedAtBase": "dc06b1d5b409e7bb8d5dfcd68e452ba3aaa034c0"
     },
     "paymentEligible": false,
     "sponsorshipEligible": false,
@@ -84,7 +77,22 @@
       "sharedBuildHost": null,
       "reRasterRequiredWhen": "any fixture byte moves; the acceptance receipt binds exact hashes and refuses a packet nobody rendered",
       "reVerificationRequiredWhen": "the packet bytes, its bound source, or its legal treatment changes"
-    }
+    },
+    "acceptanceReceiptWithdrawn": [
+      {
+        "why": "The acceptance receipt binds an exact canonical SHA-256 and this write's canonical bytes are not those bytes, so the receipt does not describe this packet. It is withdrawn and kept as history rather than deleted, and it is not carried forward as though it still applied. Only the central raster acceptance workflow issues a receipt; nothing here issues one and nothing here sets a verdict.",
+        "boundToCanonicalSha256": "f01d4442af4303e698482462ac09ecd8b0aeb88c8c8c164e01e4113c820953c3",
+        "replacedByCanonicalSha256": "e1b4f67e0c4a8c3e01411575b105adbfd6fc291e0a18b922e22c734fed22f118",
+        "withdrawnReceipt": {
+          "verdict": "RASTER_PASS",
+          "workflowRunId": "34748021265",
+          "jobId": "103699852905",
+          "artifactId": "10314966768",
+          "boundToCanonicalSha256": "f01d4442af4303e698482462ac09ecd8b0aeb88c8c8c164e01e4113c820953c3",
+          "coversTheWholeFamily": true
+        }
+      }
+    ]
   },
   "proposedRepresentation": {
     "note": "A specification for a later lane, derived from the family's own declared render. Installing it would still represent in runtime a packet whose output no human has reviewed or approved.",
@@ -97,7 +105,7 @@
         "order": 1,
         "documentId": "assembled_packet",
         "file": "data/rcap-all50/overlays/census-v1/ks/ks-22-4908-registration-relief-set--official-pdf-fill/fixtures/canonical.pdf",
-        "sha256": "f01d4442af4303e698482462ac09ecd8b0aeb88c8c8c164e01e4113c820953c3",
+        "sha256": "e1b4f67e0c4a8c3e01411575b105adbfd6fc291e0a18b922e22c734fed22f118",
         "requirement": "required"
       }
     ]

@@ -80,11 +80,23 @@
     },
     {
       "question": "What does it cost?",
-      "answer": "The registration-relief petition uses the civil docket fee provided by K.S.A. 60-2001. The combined expungement petition carries its own K.S.A. 21-6614(g)(2) docket fee of $176, plus any currently authorized supreme-court charge. Do not assume a single fee or a fee waiver: confirm the current amount and waiver practice with the clerk."
+      "answer": "The registration-relief petition uses the civil docket fee provided by K.S.A. 60-2001. The combined expungement petition carries its own K.S.A. 21-6614(g)(2) docket fee of $176, plus any currently authorized supreme-court charge. Do not assume a single fee; confirm the current amount with the clerk."
+    },
+    {
+      "question": "What fee-waiver practice applies?",
+      "answer": "None identified in K.S.A. 22-4908. The K.S.A. 60-2001 poverty affidavit practice applies to the civil docket fee by its own terms; its reach over the combined expungement fee is unresolved."
+    },
+    {
+      "question": "How do I request the waiver?",
+      "answer": "Ask the district court clerk for the K.S.A. 60-2001 poverty affidavit and how to submit it for the registration-relief civil docket fee. Separately ask whether it reaches the combined expungement fee; that question remains unresolved in the held record."
     },
     {
       "question": "Who sends notice?",
       "answer": "The court causes notice to the county or district attorney, who notifies any living victim whose address is known or the family of a deceased victim whose address is known. The participant does not invent or perform service."
+    },
+    {
+      "question": "What protection applies to the victim?",
+      "answer": "The victim or the victim's family cannot be compelled to testify or to provide discovery to the offender."
     },
     {
       "question": "Can the court require a risk assessment?",
@@ -639,37 +651,6 @@
       "fontSize": 10
     },
     {
-      "field": "DOB",
-      "fieldName": "DOB",
-      "fieldId": "KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022:DOB",
-      "document": "KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022",
-      "documentId": "KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022",
-      "page": 1,
-      "effectiveLabel": "KBI cover sheet — date of birth",
-      "printedLabel": "KBI cover sheet — date of birth",
-      "printedLine": "DOB",
-      "regionHeading": null,
-      "sectionHeading": null,
-      "rectBasis": "measured_widget_rectangle_of_the_exact_official_binary",
-      "widgets": [
-        {
-          "widgetIndex": 0,
-          "page": 1,
-          "rect": {
-            "x": 106.32,
-            "y": 388.56,
-            "width": 118.92000000000002,
-            "height": 20.519999999999982
-          }
-        }
-      ],
-      "decision": "write",
-      "factId": "participant.date_of_birth",
-      "why": "the held participant date of birth",
-      "kind": "text",
-      "fontSize": 10
-    },
-    {
       "field": "JUDICIAL DISTRICT",
       "fieldName": "JUDICIAL DISTRICT",
       "fieldId": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022:JUDICIAL DISTRICT",
@@ -982,6 +963,7 @@
       "viaNarrativeChannel": true,
       "factId": "matter.charge",
       "why": "the held charged offense; participant must verify it against the arrest and charging record",
+      "standardFontFallback": "Times-Roman",
       "kind": "text_narrative_line",
       "fontSize": 10
     },
@@ -1014,6 +996,7 @@
       "viaNarrativeChannel": true,
       "factId": "matter.charge",
       "why": "the held conviction offense used for the combined route; participant must verify the journal entry",
+      "standardFontFallback": "Times-Roman",
       "kind": "text_narrative_line",
       "fontSize": 10
     },
@@ -1850,6 +1833,52 @@
       "completenessDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
       "requiredBeforeFiling": false,
       "routeDetermined": false,
+      "refusalClass": null
+    },
+    {
+      "field": "DOB",
+      "fieldName": "DOB",
+      "fieldId": "KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022:DOB",
+      "document": "KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022",
+      "documentId": "KSJC-ORDER-RELIEF-FROM-OFFENDER-REGISTRATION-COVER-SHEET-06-2022",
+      "page": 1,
+      "effectiveLabel": "KBI cover sheet — date of birth",
+      "printedLabel": "KBI cover sheet — date of birth",
+      "printedLine": "DOB",
+      "regionHeading": null,
+      "sectionHeading": null,
+      "rectBasis": "measured_widget_rectangle_of_the_exact_official_binary",
+      "widgets": [
+        {
+          "widgetIndex": 0,
+          "page": 1,
+          "rect": {
+            "x": 106.32,
+            "y": 388.56,
+            "width": 118.92000000000002,
+            "height": 20.519999999999982
+          }
+        }
+      ],
+      "decision": "refuse",
+      "factId": "participant.date_of_birth",
+      "reason": "Left for the participant pending the data-protection review.",
+      "why": "Left for the participant pending the data-protection review.",
+      "isSelectionControl": false,
+      "category": null,
+      "completenessClass": null,
+      "class": null,
+      "completenessDisposition": "PARTICIPANT_RESERVED_BY_CONTROLLING_RECORD",
+      "disposition": "PARTICIPANT_RESERVED_BY_CONTROLLING_RECORD",
+      "requiredBeforeFiling": false,
+      "routeDetermined": false,
+      "participantMustSupply": "your date of birth as this cover sheet asks for it; mark the race box on the same sheet yourself too",
+      "controllingReservation": {
+        "trackId": "ks-22-4908-registration-relief",
+        "componentId": "ks-22-4908-registration-relief-cover-sheet-2",
+        "item": "Race and year of birth on the order cover sheet",
+        "entrySha256": "8e36525b87de9db76f91ba31e203e0cdfb1470b75e28e25aeb83eeb6574d381f"
+      },
       "refusalClass": null
     },
     {
@@ -5255,8 +5284,7 @@
       "explicitMappings": {
         "DEFENDANTS INFORMATION": "participant.full_legal_name",
         "undefined": "participant.street_address",
-        "ADDRESS": "participant.city_state_zip",
-        "DOB": "participant.date_of_birth"
+        "ADDRESS": "participant.city_state_zip"
       },
       "roleRefusals": [],
       "selectionControls": [
@@ -5415,7 +5443,9 @@
           "why": "the second address line carries the held city, state and ZIP through the native narrative channel",
           "kind": "text_narrative_line",
           "fontSize": 10
-        },
+        }
+      ],
+      "canonicalRefusals": [
         {
           "field": "DOB",
           "fieldName": "DOB",
@@ -5441,14 +5471,26 @@
               }
             }
           ],
-          "decision": "write",
+          "decision": "refuse",
           "factId": "participant.date_of_birth",
-          "why": "the held participant date of birth",
-          "kind": "text",
-          "fontSize": 10
-        }
-      ],
-      "canonicalRefusals": [
+          "reason": "Left for the participant pending the data-protection review.",
+          "why": "Left for the participant pending the data-protection review.",
+          "isSelectionControl": false,
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "completenessDisposition": "PARTICIPANT_RESERVED_BY_CONTROLLING_RECORD",
+          "disposition": "PARTICIPANT_RESERVED_BY_CONTROLLING_RECORD",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "participantMustSupply": "your date of birth as this cover sheet asks for it; mark the race box on the same sheet yourself too",
+          "controllingReservation": {
+            "trackId": "ks-22-4908-registration-relief",
+            "componentId": "ks-22-4908-registration-relief-cover-sheet-2",
+            "item": "Race and year of birth on the order cover sheet",
+            "entrySha256": "8e36525b87de9db76f91ba31e203e0cdfb1470b75e28e25aeb83eeb6574d381f"
+          }
+        },
         {
           "field": "WHITE",
           "fieldName": "WHITE",
@@ -6161,7 +6203,9 @@
           "why": "the second address line carries the held city, state and ZIP through the native narrative channel",
           "kind": "text_narrative_line",
           "fontSize": 10
-        },
+        }
+      ],
+      "boundaryRefusals": [
         {
           "field": "DOB",
           "fieldName": "DOB",
@@ -6187,14 +6231,26 @@
               }
             }
           ],
-          "decision": "write",
+          "decision": "refuse",
           "factId": "participant.date_of_birth",
-          "why": "the held participant date of birth",
-          "kind": "text",
-          "fontSize": 10
-        }
-      ],
-      "boundaryRefusals": [
+          "reason": "Left for the participant pending the data-protection review.",
+          "why": "Left for the participant pending the data-protection review.",
+          "isSelectionControl": false,
+          "category": null,
+          "completenessClass": null,
+          "class": null,
+          "completenessDisposition": "PARTICIPANT_RESERVED_BY_CONTROLLING_RECORD",
+          "disposition": "PARTICIPANT_RESERVED_BY_CONTROLLING_RECORD",
+          "requiredBeforeFiling": false,
+          "routeDetermined": false,
+          "participantMustSupply": "your date of birth as this cover sheet asks for it; mark the race box on the same sheet yourself too",
+          "controllingReservation": {
+            "trackId": "ks-22-4908-registration-relief",
+            "componentId": "ks-22-4908-registration-relief-cover-sheet-2",
+            "item": "Race and year of birth on the order cover sheet",
+            "entrySha256": "8e36525b87de9db76f91ba31e203e0cdfb1470b75e28e25aeb83eeb6574d381f"
+          }
+        },
         {
           "field": "WHITE",
           "fieldName": "WHITE",
@@ -7185,6 +7241,7 @@
           "viaNarrativeChannel": true,
           "factId": "matter.charge",
           "why": "the held charged offense; participant must verify it against the arrest and charging record",
+          "standardFontFallback": "Times-Roman",
           "kind": "text_narrative_line",
           "fontSize": 10
         },
@@ -7217,6 +7274,7 @@
           "viaNarrativeChannel": true,
           "factId": "matter.charge",
           "why": "the held conviction offense used for the combined route; participant must verify the journal entry",
+          "standardFontFallback": "Times-Roman",
           "kind": "text_narrative_line",
           "fontSize": 10
         },
@@ -8371,6 +8429,72 @@
           "fontSize": 10
         },
         {
+          "field": "undefined_3",
+          "fieldName": "undefined_3",
+          "fieldId": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022:undefined_3",
+          "document": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+          "documentId": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+          "page": 1,
+          "effectiveLabel": "Held charged offense fact",
+          "printedLabel": "Held charged offense fact",
+          "printedLine": "crime of",
+          "regionHeading": null,
+          "sectionHeading": null,
+          "rectBasis": "measured_widget_rectangle_of_the_exact_official_binary",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 138,
+                "y": 249.72,
+                "width": 209.76,
+                "height": 26.52000000000001
+              }
+            }
+          ],
+          "decision": "write",
+          "viaNarrativeChannel": true,
+          "factId": "matter.charge",
+          "why": "the held charged offense; participant must verify it against the arrest and charging record",
+          "standardFontFallback": "Times-Roman",
+          "kind": "text_narrative_line",
+          "fontSize": 6
+        },
+        {
+          "field": "on",
+          "fieldName": "on",
+          "fieldId": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022:on",
+          "document": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+          "documentId": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
+          "page": 1,
+          "effectiveLabel": "Held charge fact",
+          "printedLabel": "Held charge fact",
+          "printedLine": "5.I was convicted of",
+          "regionHeading": null,
+          "sectionHeading": null,
+          "rectBasis": "measured_widget_rectangle_of_the_exact_official_binary",
+          "widgets": [
+            {
+              "widgetIndex": 0,
+              "page": 1,
+              "rect": {
+                "x": 186,
+                "y": 222.12,
+                "width": 203.76,
+                "height": 26.519999999999982
+              }
+            }
+          ],
+          "decision": "write",
+          "viaNarrativeChannel": true,
+          "factId": "matter.charge",
+          "why": "the held conviction offense used for the combined route; participant must verify the journal entry",
+          "standardFontFallback": "Times-Roman",
+          "kind": "text_narrative_line",
+          "fontSize": 6
+        },
+        {
           "field": "Date",
           "fieldName": "Date",
           "fieldId": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022:Date",
@@ -8809,98 +8933,6 @@
           "routeDetermined": false,
           "identity": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022 page 1 field Sex born in",
           "participantMustSupply": "the sex in the words the participant wants the petition to carry"
-        },
-        {
-          "field": "undefined_3",
-          "fieldName": "undefined_3",
-          "fieldId": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022:undefined_3",
-          "document": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
-          "documentId": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
-          "page": 1,
-          "effectiveLabel": "Held charged offense fact",
-          "printedLabel": "Held charged offense fact",
-          "printedLine": "crime of",
-          "regionHeading": null,
-          "sectionHeading": null,
-          "rectBasis": "measured_widget_rectangle_of_the_exact_official_binary",
-          "widgets": [
-            {
-              "widgetIndex": 0,
-              "page": 1,
-              "rect": {
-                "x": 138,
-                "y": 249.72,
-                "width": 209.76,
-                "height": 26.52000000000001
-              }
-            }
-          ],
-          "decision": "refuse",
-          "viaNarrativeChannel": true,
-          "factId": "matter.charge",
-          "why": "the held charged offense; participant must verify it against the arrest and charging record",
-          "heldButNotWritten": true,
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "completenessDisposition": "KNOWN_FACT_NOT_WRITTEN",
-          "requiredBeforeFiling": false,
-          "reason": "the finalizer refused a write this family declared: [{\"field\":\"undefined_3\",\"reason\":\"narrative_exceeds_the_printed_lines_at_minimum_font\",\"category\":\"unfittable\",\"factId\":\"matter.charge\"}]",
-          "finalizerRefusal": [
-            {
-              "field": "undefined_3",
-              "reason": "narrative_exceeds_the_printed_lines_at_minimum_font",
-              "category": "unfittable",
-              "factId": "matter.charge"
-            }
-          ],
-          "heldValue": "Possession of a controlled substance with an unusually long descriptive charge"
-        },
-        {
-          "field": "on",
-          "fieldName": "on",
-          "fieldId": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022:on",
-          "document": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
-          "documentId": "KSJC-PETITION-EXPUNGEMENT-CONVICTION-OR-DIVERSION-08-2022",
-          "page": 1,
-          "effectiveLabel": "Held charge fact",
-          "printedLabel": "Held charge fact",
-          "printedLine": "5.I was convicted of",
-          "regionHeading": null,
-          "sectionHeading": null,
-          "rectBasis": "measured_widget_rectangle_of_the_exact_official_binary",
-          "widgets": [
-            {
-              "widgetIndex": 0,
-              "page": 1,
-              "rect": {
-                "x": 186,
-                "y": 222.12,
-                "width": 203.76,
-                "height": 26.519999999999982
-              }
-            }
-          ],
-          "decision": "refuse",
-          "viaNarrativeChannel": true,
-          "factId": "matter.charge",
-          "why": "the held conviction offense used for the combined route; participant must verify the journal entry",
-          "heldButNotWritten": true,
-          "category": null,
-          "completenessClass": null,
-          "class": null,
-          "completenessDisposition": "KNOWN_FACT_NOT_WRITTEN",
-          "requiredBeforeFiling": false,
-          "reason": "the finalizer refused a write this family declared: [{\"field\":\"on\",\"reason\":\"narrative_exceeds_the_printed_lines_at_minimum_font\",\"category\":\"unfittable\",\"factId\":\"matter.charge\"}]",
-          "finalizerRefusal": [
-            {
-              "field": "on",
-              "reason": "narrative_exceeds_the_printed_lines_at_minimum_font",
-              "category": "unfittable",
-              "factId": "matter.charge"
-            }
-          ],
-          "heldValue": "Possession of a controlled substance with an unusually long descriptive charge"
         },
         {
           "field": "on_2",
