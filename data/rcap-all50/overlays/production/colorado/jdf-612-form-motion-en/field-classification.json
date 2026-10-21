@@ -1,330 +1,593 @@
 {
-  "schemaVersion": "rcap-field-classification/v4-nine-class",
-  "factoryVersion": "d0-remediated-v1",
-  "documentOwnership": "participant_completed",
-  "ownershipBasis": "Participant-completed filing: participant and deterministic fields may bind; every other class stays blank.",
   "classCounts": {
-    "election_control": 22,
-    "participant": 6,
-    "withheld_by_review": 1,
-    "manual": 29,
-    "signature": 5
+    "derived": 1,
+    "election_control": 23,
+    "narrative": 3,
+    "participant": 34,
+    "protected": 3
   },
+  "documentOwnership": "participant_completed",
   "entries": [
     {
-      "name": "Group_CourtType",
-      "type": "radio",
-      "class": "election_control"
+      "class": "election_control",
+      "factId": "matter.court_type",
+      "label": "Type: (ex: County or District)",
+      "name": "Court",
+      "protectedCategory": null,
+      "section": "A. Court",
+      "type": "dropdown"
     },
     {
+      "class": "participant",
+      "factId": "matter.county",
+      "label": "Colorado County:",
       "name": "County",
-      "type": "text",
-      "class": "participant"
+      "protectedCategory": null,
+      "section": "A. Court",
+      "type": "text"
     },
     {
+      "class": "participant",
+      "factId": "filing.court_address",
+      "label": "Court Address",
       "name": "Court Address",
-      "type": "text",
-      "class": "withheld_by_review"
+      "protectedCategory": null,
+      "section": "A. Court",
+      "type": "text"
     },
     {
-      "name": "Case Number",
-      "type": "text",
-      "class": "participant"
-    },
-    {
-      "name": "Division",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "Courtroom",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "∆ DoB",
-      "type": "text",
-      "class": "participant"
-    },
-    {
-      "name": "Address",
-      "type": "text",
-      "class": "participant"
-    },
-    {
-      "name": "Phone",
-      "type": "text",
-      "class": "participant"
-    },
-    {
-      "name": "Email",
-      "type": "text",
-      "class": "participant"
-    },
-    {
-      "name": "6A.0",
-      "type": "checkbox",
-      "class": "election_control"
-    },
-    {
-      "name": "6A.1",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "6C.0",
-      "type": "checkbox",
-      "class": "election_control"
-    },
-    {
-      "name": "6C.1",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "6B.0",
-      "type": "checkbox",
-      "class": "election_control"
-    },
-    {
-      "name": "6D.0",
-      "type": "checkbox",
-      "class": "election_control"
-    },
-    {
-      "name": "6E.0",
-      "type": "checkbox",
-      "class": "election_control"
-    },
-    {
-      "name": "6E.1",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "6E.2",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "6E.3",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "6F.0",
-      "type": "checkbox",
-      "class": "election_control"
-    },
-    {
-      "name": "6F.1",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "6F.2",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "6F.3",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "6G.0",
-      "type": "checkbox",
-      "class": "election_control"
-    },
-    {
-      "name": "6G.1",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "6G.2",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "6H.0",
-      "type": "checkbox",
-      "class": "election_control"
-    },
-    {
-      "name": "6H.1",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "6H.2",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "7A.1",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "7A.0",
-      "type": "checkbox",
-      "class": "election_control"
-    },
-    {
-      "name": "7B.1",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "7B.0",
-      "type": "checkbox",
-      "class": "election_control"
-    },
-    {
-      "name": "7C.0",
-      "type": "checkbox",
-      "class": "election_control"
-    },
-    {
-      "name": "7C.1",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "7D",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "Group_7A",
-      "type": "radio",
-      "class": "election_control"
-    },
-    {
-      "name": "Group_7B",
-      "type": "radio",
-      "class": "election_control"
-    },
-    {
-      "name": "Group_7C",
-      "type": "radio",
-      "class": "election_control"
-    },
-    {
-      "name": "Group_8B",
-      "type": "radio",
-      "class": "election_control"
-    },
-    {
-      "name": "Group_8B_1",
-      "type": "radio",
-      "class": "election_control"
-    },
-    {
-      "name": "7E",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "8B.2",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "Group_9A",
-      "type": "radio",
-      "class": "election_control"
-    },
-    {
-      "name": "Group_9B",
-      "type": "radio",
-      "class": "election_control"
-    },
-    {
-      "name": "9B.1",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "9B.2",
-      "type": "dropdown",
-      "class": "manual"
-    },
-    {
-      "name": "9B.3",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "9B.4",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "Group_9C",
-      "type": "radio",
-      "class": "election_control"
-    },
-    {
-      "name": "Group_10",
-      "type": "radio",
-      "class": "election_control"
-    },
-    {
-      "name": "11.1",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "Group_CoS",
-      "type": "radio",
-      "class": "election_control"
-    },
-    {
-      "name": "CoS_Mail",
-      "type": "text",
-      "class": "manual"
-    },
-    {
-      "name": "CoS_Date",
-      "type": "text",
-      "class": "manual"
-    },
-    {
+      "class": "participant",
+      "factId": "participant.full_legal_name",
+      "label": "Defendant",
       "name": "∆",
-      "type": "text",
-      "class": "manual"
+      "protectedCategory": null,
+      "section": "B. Parties to the Case",
+      "type": "text"
     },
     {
+      "class": "participant",
+      "factId": "matter.case_number",
+      "label": "Number",
+      "name": "Case Number",
+      "protectedCategory": null,
+      "section": "C. Case Details",
+      "type": "text"
+    },
+    {
+      "class": "participant",
+      "factId": "matter.division_or_courtroom",
+      "label": "Division/Courtroom:",
+      "name": "D/C",
+      "protectedCategory": null,
+      "section": "C. Case Details",
+      "type": "text"
+    },
+    {
+      "class": "participant",
+      "factId": "participant.date_of_birth",
+      "label": "Date of Birth:",
+      "name": "∆ DoB",
+      "protectedCategory": null,
+      "section": "2. My Information (the Defendant)",
+      "type": "text"
+    },
+    {
+      "class": "participant",
+      "factId": "participant.street_address",
+      "label": "Mailing Address:",
+      "name": "∆ Street Address",
+      "protectedCategory": null,
+      "section": "2. My Information (the Defendant)",
+      "type": "text"
+    },
+    {
+      "class": "participant",
+      "factId": "participant.city_state_zip",
+      "label": "City, State, & Zip:",
+      "name": "∆ CSZ",
+      "protectedCategory": null,
+      "section": "2. My Information (the Defendant)",
+      "type": "text"
+    },
+    {
+      "class": "participant",
+      "factId": "participant.phone",
+      "label": "Phone:",
+      "name": "∆ Phone",
+      "protectedCategory": null,
+      "section": "2. My Information (the Defendant)",
+      "type": "text"
+    },
+    {
+      "class": "participant",
+      "factId": "participant.email",
+      "label": "Email",
+      "name": "∆ Email",
+      "protectedCategory": null,
+      "section": "2. My Information (the Defendant)",
+      "type": "text"
+    },
+    {
+      "class": "election_control",
+      "factId": "election.interpreter_needed",
+      "label": "Do you need an interpreter?",
+      "name": "Group_Interp",
+      "protectedCategory": null,
+      "section": "2. My Information (the Defendant)",
+      "type": "radio"
+    },
+    {
+      "class": "participant",
+      "factId": "election.interpreter_language",
+      "label": "Yes, in (language)",
+      "name": "Language",
+      "protectedCategory": null,
+      "section": "2. My Information (the Defendant)",
+      "type": "text"
+    },
+    {
+      "class": "election_control",
+      "factId": "election.appearance_mode",
+      "label": "I want to attend court events:",
+      "name": "Group_Event",
+      "protectedCategory": null,
+      "section": "2. My Information (the Defendant)",
+      "type": "radio"
+    },
+    {
+      "class": "election_control",
+      "factId": "service.court_records_included",
+      "label": "District or County Court, Case Number",
+      "name": "3Z.0",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "checkbox"
+    },
+    {
+      "class": "participant",
+      "factId": "matter.case_number",
+      "label": "District or County Court, Case Number",
+      "name": "3Z.1",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "text"
+    },
+    {
+      "class": "election_control",
+      "factId": "service.prosecuting_attorney_served",
+      "label": "Prosecuting Attorney",
+      "name": "3A.0",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "checkbox"
+    },
+    {
+      "class": "election_control",
+      "factId": "service.sheriff_served",
+      "label": "Sheriff's Department",
+      "name": "3B.0",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "checkbox"
+    },
+    {
+      "class": "participant",
+      "factId": "service.sheriff_mailing_address",
+      "label": "Mailing Address",
+      "name": "3B.1",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "text"
+    },
+    {
+      "class": "derived",
+      "factId": "derived.cbi_required",
+      "label": "Colorado Bureau of Investigation (Required)",
+      "name": "3C",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "checkbox"
+    },
+    {
+      "class": "election_control",
+      "factId": "service.law_enforcement_1_served",
+      "label": "Law Enforcement: (Agency Name)",
+      "name": "3D.0",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "checkbox"
+    },
+    {
+      "class": "participant",
+      "factId": "service.law_enforcement_1_name",
+      "label": "Law Enforcement: (Agency Name)",
+      "name": "3D.1",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "text"
+    },
+    {
+      "class": "participant",
+      "factId": "service.law_enforcement_1_case_number",
+      "label": "Agency Case Number:",
+      "name": "3D.3",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "text"
+    },
+    {
+      "class": "participant",
+      "factId": "service.law_enforcement_1_address",
+      "label": "Agency Mailing Address:",
+      "name": "4D.2",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "text"
+    },
+    {
+      "class": "election_control",
+      "factId": "service.law_enforcement_2_served",
+      "label": "Law Enforcement: (Agency Name)",
+      "name": "3E.0",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "checkbox"
+    },
+    {
+      "class": "participant",
+      "factId": "service.law_enforcement_2_name",
+      "label": "Law Enforcement: (Agency Name)",
+      "name": "3E.1",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "text"
+    },
+    {
+      "class": "participant",
+      "factId": "service.law_enforcement_2_case_number",
+      "label": "Agency Case Number:",
+      "name": "3E.3",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "text"
+    },
+    {
+      "class": "participant",
+      "factId": "service.law_enforcement_2_address",
+      "label": "Agency Mailing Address:",
+      "name": "4E.2",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "text"
+    },
+    {
+      "class": "election_control",
+      "factId": "service.other_agency_1_served",
+      "label": "Other: (Name)",
+      "name": "3F.0",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "checkbox"
+    },
+    {
+      "class": "participant",
+      "factId": "service.other_agency_1_name",
+      "label": "Other: (Name)",
+      "name": "3F.1",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "text"
+    },
+    {
+      "class": "participant",
+      "factId": "service.other_agency_1_address",
+      "label": "Mailing Address",
+      "name": "3F.2",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "text"
+    },
+    {
+      "class": "election_control",
+      "factId": "service.other_agency_2_served",
+      "label": "Other: (Name)",
+      "name": "3G.0",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "checkbox"
+    },
+    {
+      "class": "participant",
+      "factId": "service.other_agency_2_name",
+      "label": "Other: (Name)",
+      "name": "3G.1",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "text"
+    },
+    {
+      "class": "participant",
+      "factId": "service.other_agency_2_address",
+      "label": "Mailing Address",
+      "name": "3G.2",
+      "protectedCategory": null,
+      "section": "3. Records to be Sealed",
+      "type": "text"
+    },
+    {
+      "class": "election_control",
+      "factId": "conviction.petty_offenses_present",
+      "label": "Petty Offense(s) of",
+      "name": "4.1",
+      "protectedCategory": null,
+      "section": "4. Offense Information",
+      "type": "checkbox"
+    },
+    {
+      "class": "participant",
+      "factId": "conviction.petty_offenses",
+      "label": "Petty Offense(s) of",
+      "name": "4.2",
+      "protectedCategory": null,
+      "section": "4. Offense Information",
+      "type": "text"
+    },
+    {
+      "class": "election_control",
+      "factId": "conviction.misdemeanor_offenses_present",
+      "label": "Misdemeanor Offense(s) of",
+      "name": "4.3",
+      "protectedCategory": null,
+      "section": "4. Offense Information",
+      "type": "checkbox"
+    },
+    {
+      "class": "participant",
+      "factId": "conviction.misdemeanor_offenses",
+      "label": "Misdemeanor Offense(s) of",
+      "name": "4.4",
+      "protectedCategory": null,
+      "section": "4. Offense Information",
+      "type": "text"
+    },
+    {
+      "class": "election_control",
+      "factId": "conviction.felony_offenses_present",
+      "label": "Felony Offense(s) of",
+      "name": "4.5",
+      "protectedCategory": null,
+      "section": "4. Offense Information",
+      "type": "checkbox"
+    },
+    {
+      "class": "participant",
+      "factId": "conviction.felony_offenses",
+      "label": "Felony Offense(s) of",
+      "name": "4.6",
+      "protectedCategory": null,
+      "section": "4. Offense Information",
+      "type": "text"
+    },
+    {
+      "class": "participant",
+      "factId": "conviction.sentence_date",
+      "label": "Date Sentenced:",
+      "name": "4.7",
+      "protectedCategory": null,
+      "section": "4. Offense Information",
+      "type": "text"
+    },
+    {
+      "class": "participant",
+      "factId": "conviction.supervision_termination_date",
+      "label": "Probation/Parole Supervision Termination Date:",
+      "name": "4.8",
+      "protectedCategory": null,
+      "section": "4. Offense Information",
+      "type": "text"
+    },
+    {
+      "class": "election_control",
+      "factId": "election.drug_offense_before_2013_10_01",
+      "label": "Were any of these drug offenses committed before October 1, 2013?",
+      "name": "Group_4A",
+      "protectedCategory": null,
+      "section": "4. Offense Information — a) Drug Offenses",
+      "type": "radio"
+    },
+    {
+      "class": "election_control",
+      "factId": "election.human_trafficking_victim",
+      "label": "Were you a victim of human trafficking and trafficked for the offense you committed?",
+      "name": "Group_4B",
+      "protectedCategory": null,
+      "section": "4. Offense Information — b) Victim of Human Trafficking",
+      "type": "radio"
+    },
+    {
+      "class": "election_control",
+      "factId": "election.eligibility_ground",
+      "label": "I qualify to have my conviction records sealed because my conviction:",
+      "name": "Group_5B",
+      "protectedCategory": null,
+      "section": "5. Eligibility — b) My Eligibility",
+      "type": "radio"
+    },
+    {
+      "class": "election_control",
+      "factId": "election.district_attorney_position",
+      "label": "Check one:",
+      "name": "Group_5B_1",
+      "protectedCategory": null,
+      "section": "5. Eligibility — b) My Eligibility",
+      "type": "radio"
+    },
+    {
+      "class": "narrative",
+      "factId": "narrative.clear_and_convincing_showing",
+      "label": "If the District Attorney does not consent, show by clear and convincing evidence that ...",
+      "name": "5B.2",
+      "protectedCategory": null,
+      "section": "5. Eligibility — b) My Eligibility",
+      "type": "text"
+    },
+    {
+      "class": "election_control",
+      "factId": "election.believes_automatic_sealing_applies",
+      "label": "Do you believe the Court should have automatically sealed this case under C.R.S. § 13-3-117?",
+      "name": "Group_9A",
+      "protectedCategory": null,
+      "section": "6. Case Process — a) Automatic Sealing",
+      "type": "radio"
+    },
+    {
+      "class": "election_control",
+      "factId": "election.case_appealed",
+      "label": "Was this case appealed?",
+      "name": "Group_9B",
+      "protectedCategory": null,
+      "section": "6. Case Process — b) Appeals",
+      "type": "radio"
+    },
+    {
+      "class": "participant",
+      "factId": "appeal.case_number",
+      "label": "Appeal Case Number:",
+      "name": "9B.1",
+      "protectedCategory": null,
+      "section": "6. Case Process — b) Appeals",
+      "type": "text"
+    },
+    {
+      "class": "election_control",
+      "factId": "appeal.court",
+      "label": "Appellate Court:",
+      "name": "9B.2",
+      "protectedCategory": null,
+      "section": "6. Case Process — b) Appeals",
+      "type": "dropdown"
+    },
+    {
+      "class": "participant",
+      "factId": "appeal.result",
+      "label": "Result:",
+      "name": "9B.3",
+      "protectedCategory": null,
+      "section": "6. Case Process — b) Appeals",
+      "type": "text"
+    },
+    {
+      "class": "participant",
+      "factId": "appeal.result_date",
+      "label": "Date:",
+      "name": "9B.4",
+      "protectedCategory": null,
+      "section": "6. Case Process — b) Appeals",
+      "type": "text"
+    },
+    {
+      "class": "election_control",
+      "factId": "election.restitution_outstanding",
+      "label": "Do you still owe restitution?",
+      "name": "Group_9C",
+      "protectedCategory": null,
+      "section": "6. Case Process — c) Restitution",
+      "type": "radio"
+    },
+    {
+      "class": "election_control",
+      "factId": "election.criminal_history_attached",
+      "label": "Is a verified copy of your criminal history record (dated within the last 20 days) attached?",
+      "name": "Group_10",
+      "protectedCategory": null,
+      "section": "7. Criminal Record",
+      "type": "radio"
+    },
+    {
+      "class": "narrative",
+      "factId": "narrative.harm_or_adverse_consequences",
+      "label": "Show that your privacy or the danger of unwarranted adverse consequences outweighs the public interest in retaining the records.",
+      "name": "11.1",
+      "protectedCategory": null,
+      "section": "8. Harm or Adverse Consequences",
+      "type": "text"
+    },
+    {
+      "class": "participant",
+      "factId": "service.service_date",
+      "label": "On (enter service date)",
+      "name": "CoS_Date",
+      "protectedCategory": null,
+      "section": "9. Certificate of Service",
+      "type": "text"
+    },
+    {
+      "class": "election_control",
+      "factId": "service.method",
+      "label": "I certify that I sent a copy of this document to the prosecuting attorney by:",
+      "name": "GroupCoS",
+      "protectedCategory": null,
+      "section": "9. Certificate of Service",
+      "type": "radio"
+    },
+    {
+      "class": "participant",
+      "factId": "service.mail_recipient_name",
+      "label": "Regular Mail, addressed to: (name)",
+      "name": "CoS_Name",
+      "protectedCategory": null,
+      "section": "9. Certificate of Service",
+      "type": "text"
+    },
+    {
+      "class": "participant",
+      "factId": "service.mail_recipient_address",
+      "label": "Full address:",
+      "name": "CoS_Address",
+      "protectedCategory": null,
+      "section": "9. Certificate of Service",
+      "type": "text"
+    },
+    {
+      "class": "narrative",
+      "factId": "service.other_method_explanation",
+      "label": "Other: (explain)",
       "name": "CoS_Other",
-      "type": "text",
-      "class": "manual"
+      "protectedCategory": null,
+      "section": "9. Certificate of Service",
+      "type": "text"
     },
     {
-      "name": "Sig1_Signature",
-      "type": "text",
-      "class": "signature"
+      "class": "protected",
+      "factId": null,
+      "label": "Signature:",
+      "name": "Sig",
+      "protectedCategory": "participant_signature",
+      "section": "10. Sign & Date",
+      "type": "text"
     },
     {
-      "name": "Sig1_Date",
-      "type": "text",
-      "class": "signature"
+      "class": "protected",
+      "factId": null,
+      "label": "Date:",
+      "name": "Sig_Date",
+      "protectedCategory": "participant_execution_date",
+      "section": "10. Sign & Date",
+      "type": "text"
     },
     {
-      "name": "Sig_LawyerSignature",
-      "type": "text",
-      "class": "signature"
-    },
-    {
-      "name": "Sig_Esq",
-      "type": "checkbox",
-      "class": "signature"
-    },
-    {
-      "name": "Sig_Bar",
-      "type": "text",
-      "class": "signature"
+      "class": "protected",
+      "factId": null,
+      "label": "Counsel Signature: (if any)",
+      "name": "Sig_Aty",
+      "protectedCategory": "counsel_signature",
+      "section": "10. Sign & Date",
+      "type": "text"
     }
-  ]
+  ],
+  "factoryVersion": "d0-remediated-v1",
+  "ownershipBasis": "Participant-completed filing: participant facts, participant elections, transcribed participant prose and facts the document establishes about itself may bind; the execution block never does.",
+  "schemaVersion": "rcap-field-classification/v5-colorado-spec",
+  "specSha256": "c1c43c376664bf1d0a747a0cba9ec78a841267fc755a488c5eb18056813c4fe7",
+  "specVersion": "co-jdf-612-binding/2026-10-21.1"
 }

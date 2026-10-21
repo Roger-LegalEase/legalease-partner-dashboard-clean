@@ -147,8 +147,8 @@ const CONVICTION: ColoradoLaneGRoute = {
   checkoutProhibited: true,
   requiredFilingComponents: 4,
   componentsPresentInCorpus: 4,
-  specifiedBinding: { bound: 58, total: 63 },
-  bindingRealizedInArtifacts: 6,
+  specifiedBinding: { bound: 61, total: 64 },
+  bindingRealizedInArtifacts: 48,
   counselStatus: "hard_gate_pending",
   components: [
     { role: "MOTION", documentId: "JDF-612", familySlug: "jdf-612-form-motion-en", participantCompleted: true, presentInMountedCorpus: true },
@@ -162,8 +162,8 @@ const CONVICTION: ColoradoLaneGRoute = {
     "The fee-waiver pair JDF 205/JDF 206, which JDF 611 names conditionally, is not in a mounted custody and is carried as a guidance-instructed conditional component rather than rendered.",
   ],
   openReviewItems: [
-    "Revision currency: JDF 613 and JDF 614 are held at R: August 7, 2024, the same revision as the held JDF 611; the track registry records issuer revisions of 2025-07-01 for JDF 612 and JDF 615 that no mounted custody holds; the issuer was unreachable on 2026-09-15.",
-    "Independent visual review of the two new caption overlays; the retained JDF 612 fixtures still carry the six-field render of 2026-08-12 (see data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en/specification/).",
+    "Revision currency of JDF 613 and JDF 614 (held R: August 7, 2024, as is JDF 611) remains for review. JDF 612 and JDF 615 R: July 1, 2025 are now retained under reference/co-jdf-2025-07-01 at their exact source-inventory digests; the historical 2024 source identities are preserved.",
+    "Independent visual review of the caption overlays and the new 2025 JDF 612 fixtures remains pending. The motion binds 61 of 64 fields, protects three execution fields, and realizes 48 distinct fields across the current synthetic fixtures; two overlong boundary case-number values are refused. See the current-fixtures report and specification for exact output identities. This measurement does not approve filing, counsel status or checkout.",
   ],
 };
 

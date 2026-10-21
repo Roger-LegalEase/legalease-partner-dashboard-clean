@@ -5,13 +5,13 @@
       "family": "jdf-612-form-motion-en",
       "outcomes": [
         {
-          "control": "radio",
+          "control": "dropdown",
           "factId": "matter.court_type",
-          "field": "Group_CourtType",
+          "field": "Court",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
-          "value": "District",
+          "value": "District Court",
           "written": true
         },
         {
@@ -56,22 +56,12 @@
         },
         {
           "control": "text",
-          "factId": "matter.division",
-          "field": "Division",
+          "factId": "matter.division_or_courtroom",
+          "field": "D/C",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
-          "value": "Division 12",
-          "written": true
-        },
-        {
-          "control": "text",
-          "factId": "matter.courtroom",
-          "field": "Courtroom",
-          "fieldClass": "participant",
-          "protectedCategory": null,
-          "refusal": null,
-          "value": "Courtroom 5H",
+          "value": "Division 12 / Courtroom 5H",
           "written": true
         },
         {
@@ -86,18 +76,28 @@
         },
         {
           "control": "text",
-          "factId": "participant.mailing_address_full",
-          "field": "Address",
+          "factId": "participant.street_address",
+          "field": "∆ Street Address",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
-          "value": "14827 North Meadowbrook Commons Professional Plaza, Building C, Suite 2200, Denver, Colorado 80202-4417",
+          "value": "14827 North Meadowbrook Commons Professional Plaza, Building C, Suite 2200",
+          "written": true
+        },
+        {
+          "control": "text",
+          "factId": "participant.city_state_zip",
+          "field": "∆ CSZ",
+          "fieldClass": "participant",
+          "protectedCategory": null,
+          "refusal": null,
+          "value": "Denver, Colorado 80202-4417",
           "written": true
         },
         {
           "control": "text",
           "factId": "participant.phone",
-          "field": "Phone",
+          "field": "∆ Phone",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -107,7 +107,7 @@
         {
           "control": "text",
           "factId": "participant.email",
-          "field": "Email",
+          "field": "∆ Email",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -115,9 +115,39 @@
           "written": true
         },
         {
+          "control": "radio",
+          "factId": "election.interpreter_needed",
+          "field": "Group_Interp",
+          "fieldClass": "election_control",
+          "protectedCategory": null,
+          "refusal": null,
+          "value": "Yes, in (language)",
+          "written": true
+        },
+        {
+          "control": "text",
+          "factId": "election.interpreter_language",
+          "field": "Language",
+          "fieldClass": "participant",
+          "protectedCategory": null,
+          "refusal": null,
+          "value": "Spanish",
+          "written": true
+        },
+        {
+          "control": "radio",
+          "factId": "election.appearance_mode",
+          "field": "Group_Event",
+          "fieldClass": "election_control",
+          "protectedCategory": null,
+          "refusal": null,
+          "value": "Virtually (by phone or web video)",
+          "written": true
+        },
+        {
           "control": "checkbox",
           "factId": "service.court_records_included",
-          "field": "6A.0",
+          "field": "3Z.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
@@ -127,7 +157,7 @@
         {
           "control": "text",
           "factId": "matter.case_number",
-          "field": "6A.1",
+          "field": "3Z.1",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -137,7 +167,7 @@
         {
           "control": "checkbox",
           "factId": "service.prosecuting_attorney_served",
-          "field": "6B.0",
+          "field": "3A.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
@@ -147,7 +177,7 @@
         {
           "control": "checkbox",
           "factId": "service.sheriff_served",
-          "field": "6C.0",
+          "field": "3B.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
@@ -157,7 +187,7 @@
         {
           "control": "text",
           "factId": "service.sheriff_mailing_address",
-          "field": "6C.1",
+          "field": "3B.1",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -167,7 +197,7 @@
         {
           "control": "checkbox",
           "factId": "derived.cbi_required",
-          "field": "6D.0",
+          "field": "3C",
           "fieldClass": "derived",
           "protectedCategory": null,
           "refusal": null,
@@ -177,17 +207,17 @@
         {
           "control": "checkbox",
           "factId": "service.law_enforcement_1_served",
-          "field": "6E.0",
+          "field": "3D.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
-          "value": "Law Enforcement: (Name)",
+          "value": "Law Enforcement: (Agency Name)",
           "written": true
         },
         {
           "control": "text",
           "factId": "service.law_enforcement_1_name",
-          "field": "6E.1",
+          "field": "3D.1",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -197,7 +227,7 @@
         {
           "control": "text",
           "factId": "service.law_enforcement_1_case_number",
-          "field": "6E.2",
+          "field": "3D.3",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -207,7 +237,7 @@
         {
           "control": "text",
           "factId": "service.law_enforcement_1_address",
-          "field": "6E.3",
+          "field": "4D.2",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -217,7 +247,7 @@
         {
           "control": "checkbox",
           "factId": "service.law_enforcement_2_served",
-          "field": "6F.0",
+          "field": "3E.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "election_answered_in_the_negative",
@@ -227,7 +257,7 @@
         {
           "control": "text",
           "factId": "service.law_enforcement_2_name",
-          "field": "6F.1",
+          "field": "3E.1",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -237,7 +267,7 @@
         {
           "control": "text",
           "factId": "service.law_enforcement_2_case_number",
-          "field": "6F.2",
+          "field": "3E.3",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -247,7 +277,7 @@
         {
           "control": "text",
           "factId": "service.law_enforcement_2_address",
-          "field": "6F.3",
+          "field": "4E.2",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -257,7 +287,7 @@
         {
           "control": "checkbox",
           "factId": "service.other_agency_1_served",
-          "field": "6G.0",
+          "field": "3F.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "election_answered_in_the_negative",
@@ -267,7 +297,7 @@
         {
           "control": "text",
           "factId": "service.other_agency_1_name",
-          "field": "6G.1",
+          "field": "3F.1",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -277,7 +307,7 @@
         {
           "control": "text",
           "factId": "service.other_agency_1_address",
-          "field": "6G.2",
+          "field": "3F.2",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -287,7 +317,7 @@
         {
           "control": "checkbox",
           "factId": "service.other_agency_2_served",
-          "field": "6H.0",
+          "field": "3G.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "election_answered_in_the_negative",
@@ -297,7 +327,7 @@
         {
           "control": "text",
           "factId": "service.other_agency_2_name",
-          "field": "6H.1",
+          "field": "3G.1",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -307,7 +337,7 @@
         {
           "control": "text",
           "factId": "service.other_agency_2_address",
-          "field": "6H.2",
+          "field": "3G.2",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -317,7 +347,7 @@
         {
           "control": "checkbox",
           "factId": "conviction.petty_offenses_present",
-          "field": "7A.0",
+          "field": "4.1",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
@@ -327,7 +357,7 @@
         {
           "control": "text",
           "factId": "conviction.petty_offenses",
-          "field": "7A.1",
+          "field": "4.2",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -337,7 +367,7 @@
         {
           "control": "checkbox",
           "factId": "conviction.misdemeanor_offenses_present",
-          "field": "7B.0",
+          "field": "4.3",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
@@ -347,7 +377,7 @@
         {
           "control": "text",
           "factId": "conviction.misdemeanor_offenses",
-          "field": "7B.1",
+          "field": "4.4",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -357,7 +387,7 @@
         {
           "control": "checkbox",
           "factId": "conviction.felony_offenses_present",
-          "field": "7C.0",
+          "field": "4.5",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "election_answered_in_the_negative",
@@ -367,7 +397,7 @@
         {
           "control": "text",
           "factId": "conviction.felony_offenses",
-          "field": "7C.1",
+          "field": "4.6",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -377,7 +407,7 @@
         {
           "control": "text",
           "factId": "conviction.sentence_date",
-          "field": "7D",
+          "field": "4.7",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -387,7 +417,7 @@
         {
           "control": "text",
           "factId": "conviction.supervision_termination_date",
-          "field": "7E",
+          "field": "4.8",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -397,37 +427,27 @@
         {
           "control": "radio",
           "factId": "election.drug_offense_before_2013_10_01",
-          "field": "Group_7A",
+          "field": "Group_4A",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
-          "value": "No.",
-          "written": true
-        },
-        {
-          "control": "radio",
-          "factId": "election.psilocybin_conduct_no_longer_unlawful",
-          "field": "Group_7B",
-          "fieldClass": "election_control",
-          "protectedCategory": null,
-          "refusal": null,
-          "value": "No.",
+          "value": "No",
           "written": true
         },
         {
           "control": "radio",
           "factId": "election.human_trafficking_victim",
-          "field": "Group_7C",
+          "field": "Group_4B",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
-          "value": "No.",
+          "value": "No",
           "written": true
         },
         {
           "control": "radio",
           "factId": "election.eligibility_ground",
-          "field": "Group_8B",
+          "field": "Group_5B",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
@@ -437,7 +457,7 @@
         {
           "control": "radio",
           "factId": "election.district_attorney_position",
-          "field": "Group_8B_1",
+          "field": "Group_5B_1",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
@@ -447,7 +467,7 @@
         {
           "control": "text",
           "factId": "narrative.clear_and_convincing_showing",
-          "field": "8B.2",
+          "field": "5B.2",
           "fieldClass": "narrative",
           "protectedCategory": null,
           "refusal": null,
@@ -461,7 +481,7 @@
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
-          "value": "No.",
+          "value": "No",
           "written": true
         },
         {
@@ -471,7 +491,7 @@
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
-          "value": "Yes.",
+          "value": "Yes",
           "written": true
         },
         {
@@ -521,7 +541,7 @@
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
-          "value": "No.",
+          "value": "No",
           "written": true
         },
         {
@@ -531,7 +551,7 @@
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
-          "value": "Yes.",
+          "value": "Yes",
           "written": true
         },
         {
@@ -557,21 +577,31 @@
         {
           "control": "radio",
           "factId": "service.method",
-          "field": "Group_CoS",
+          "field": "GroupCoS",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
-          "value": "Regular Mail, addressed to:",
+          "value": "Regular Mail, addressed to: (name)",
           "written": true
         },
         {
           "control": "text",
-          "factId": "service.mail_recipient_name_and_address",
-          "field": "CoS_Mail",
+          "factId": "service.mail_recipient_name",
+          "field": "CoS_Name",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
-          "value": "Office of the District Attorney, Second Judicial District, 201 West Colfax Avenue, Denver, CO 80202",
+          "value": "Office of the District Attorney, Second Judicial District",
+          "written": true
+        },
+        {
+          "control": "text",
+          "factId": "service.mail_recipient_address",
+          "field": "CoS_Address",
+          "fieldClass": "participant",
+          "protectedCategory": null,
+          "refusal": null,
+          "value": "201 West Colfax Avenue, Denver, CO 80202",
           "written": true
         },
         {
@@ -587,7 +617,7 @@
         {
           "control": "text",
           "factId": null,
-          "field": "Sig1_Signature",
+          "field": "Sig",
           "fieldClass": "protected",
           "protectedCategory": "participant_signature",
           "refusal": "protected_category",
@@ -597,7 +627,7 @@
         {
           "control": "text",
           "factId": null,
-          "field": "Sig1_Date",
+          "field": "Sig_Date",
           "fieldClass": "protected",
           "protectedCategory": "participant_execution_date",
           "refusal": "protected_category",
@@ -607,52 +637,32 @@
         {
           "control": "text",
           "factId": null,
-          "field": "Sig_LawyerSignature",
+          "field": "Sig_Aty",
           "fieldClass": "protected",
           "protectedCategory": "counsel_signature",
           "refusal": "protected_category",
           "value": null,
           "written": false
-        },
-        {
-          "control": "checkbox",
-          "factId": null,
-          "field": "Sig_Esq",
-          "fieldClass": "protected",
-          "protectedCategory": "counsel_attestation",
-          "refusal": "protected_category",
-          "value": null,
-          "written": false
-        },
-        {
-          "control": "text",
-          "factId": null,
-          "field": "Sig_Bar",
-          "fieldClass": "protected",
-          "protectedCategory": "counsel_attestation",
-          "refusal": "protected_category",
-          "value": null,
-          "written": false
         }
       ],
-      "protectedCount": 5,
-      "refusedCount": 18,
-      "sourceSha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
-      "specSha256": "bbaaaca47c287eb1fcf410ac5d8ce784fd7840f4c51a4fea135038afdce1ece7",
-      "specVersion": "co-jdf-612-binding/2026-08-29.1",
-      "writtenCount": 45
+      "protectedCount": 3,
+      "refusedCount": 16,
+      "sourceSha256": "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b",
+      "specSha256": "c1c43c376664bf1d0a747a0cba9ec78a841267fc755a488c5eb18056813c4fe7",
+      "specVersion": "co-jdf-612-binding/2026-10-21.1",
+      "writtenCount": 48
     },
     "canonical": {
       "family": "jdf-612-form-motion-en",
       "outcomes": [
         {
-          "control": "radio",
+          "control": "dropdown",
           "factId": "matter.court_type",
-          "field": "Group_CourtType",
+          "field": "Court",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
-          "value": "District",
+          "value": "District Court",
           "written": true
         },
         {
@@ -697,22 +707,12 @@
         },
         {
           "control": "text",
-          "factId": "matter.division",
-          "field": "Division",
+          "factId": "matter.division_or_courtroom",
+          "field": "D/C",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
-          "value": "Division 12",
-          "written": true
-        },
-        {
-          "control": "text",
-          "factId": "matter.courtroom",
-          "field": "Courtroom",
-          "fieldClass": "participant",
-          "protectedCategory": null,
-          "refusal": null,
-          "value": "Courtroom 5H",
+          "value": "Division 12 / Courtroom 5H",
           "written": true
         },
         {
@@ -727,18 +727,28 @@
         },
         {
           "control": "text",
-          "factId": "participant.mailing_address_full",
-          "field": "Address",
+          "factId": "participant.street_address",
+          "field": "∆ Street Address",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
-          "value": "418 Sycamore Ridge Road, Denver, CO 80202",
+          "value": "418 Sycamore Ridge Road",
+          "written": true
+        },
+        {
+          "control": "text",
+          "factId": "participant.city_state_zip",
+          "field": "∆ CSZ",
+          "fieldClass": "participant",
+          "protectedCategory": null,
+          "refusal": null,
+          "value": "Denver, CO 80202",
           "written": true
         },
         {
           "control": "text",
           "factId": "participant.phone",
-          "field": "Phone",
+          "field": "∆ Phone",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -748,7 +758,7 @@
         {
           "control": "text",
           "factId": "participant.email",
-          "field": "Email",
+          "field": "∆ Email",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -756,9 +766,39 @@
           "written": true
         },
         {
+          "control": "radio",
+          "factId": "election.interpreter_needed",
+          "field": "Group_Interp",
+          "fieldClass": "election_control",
+          "protectedCategory": null,
+          "refusal": null,
+          "value": "No",
+          "written": true
+        },
+        {
+          "control": "text",
+          "factId": "election.interpreter_language",
+          "field": "Language",
+          "fieldClass": "participant",
+          "protectedCategory": null,
+          "refusal": "condition_not_met",
+          "value": null,
+          "written": false
+        },
+        {
+          "control": "radio",
+          "factId": "election.appearance_mode",
+          "field": "Group_Event",
+          "fieldClass": "election_control",
+          "protectedCategory": null,
+          "refusal": null,
+          "value": "In-person",
+          "written": true
+        },
+        {
           "control": "checkbox",
           "factId": "service.court_records_included",
-          "field": "6A.0",
+          "field": "3Z.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
@@ -768,7 +808,7 @@
         {
           "control": "text",
           "factId": "matter.case_number",
-          "field": "6A.1",
+          "field": "3Z.1",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -778,7 +818,7 @@
         {
           "control": "checkbox",
           "factId": "service.prosecuting_attorney_served",
-          "field": "6B.0",
+          "field": "3A.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
@@ -788,7 +828,7 @@
         {
           "control": "checkbox",
           "factId": "service.sheriff_served",
-          "field": "6C.0",
+          "field": "3B.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
@@ -798,7 +838,7 @@
         {
           "control": "text",
           "factId": "service.sheriff_mailing_address",
-          "field": "6C.1",
+          "field": "3B.1",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -808,7 +848,7 @@
         {
           "control": "checkbox",
           "factId": "derived.cbi_required",
-          "field": "6D.0",
+          "field": "3C",
           "fieldClass": "derived",
           "protectedCategory": null,
           "refusal": null,
@@ -818,17 +858,17 @@
         {
           "control": "checkbox",
           "factId": "service.law_enforcement_1_served",
-          "field": "6E.0",
+          "field": "3D.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
-          "value": "Law Enforcement: (Name)",
+          "value": "Law Enforcement: (Agency Name)",
           "written": true
         },
         {
           "control": "text",
           "factId": "service.law_enforcement_1_name",
-          "field": "6E.1",
+          "field": "3D.1",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -838,7 +878,7 @@
         {
           "control": "text",
           "factId": "service.law_enforcement_1_case_number",
-          "field": "6E.2",
+          "field": "3D.3",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -848,7 +888,7 @@
         {
           "control": "text",
           "factId": "service.law_enforcement_1_address",
-          "field": "6E.3",
+          "field": "4D.2",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -858,7 +898,7 @@
         {
           "control": "checkbox",
           "factId": "service.law_enforcement_2_served",
-          "field": "6F.0",
+          "field": "3E.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "election_answered_in_the_negative",
@@ -868,7 +908,7 @@
         {
           "control": "text",
           "factId": "service.law_enforcement_2_name",
-          "field": "6F.1",
+          "field": "3E.1",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -878,7 +918,7 @@
         {
           "control": "text",
           "factId": "service.law_enforcement_2_case_number",
-          "field": "6F.2",
+          "field": "3E.3",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -888,7 +928,7 @@
         {
           "control": "text",
           "factId": "service.law_enforcement_2_address",
-          "field": "6F.3",
+          "field": "4E.2",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -898,7 +938,7 @@
         {
           "control": "checkbox",
           "factId": "service.other_agency_1_served",
-          "field": "6G.0",
+          "field": "3F.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "election_answered_in_the_negative",
@@ -908,7 +948,7 @@
         {
           "control": "text",
           "factId": "service.other_agency_1_name",
-          "field": "6G.1",
+          "field": "3F.1",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -918,7 +958,7 @@
         {
           "control": "text",
           "factId": "service.other_agency_1_address",
-          "field": "6G.2",
+          "field": "3F.2",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -928,7 +968,7 @@
         {
           "control": "checkbox",
           "factId": "service.other_agency_2_served",
-          "field": "6H.0",
+          "field": "3G.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "election_answered_in_the_negative",
@@ -938,7 +978,7 @@
         {
           "control": "text",
           "factId": "service.other_agency_2_name",
-          "field": "6H.1",
+          "field": "3G.1",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -948,7 +988,7 @@
         {
           "control": "text",
           "factId": "service.other_agency_2_address",
-          "field": "6H.2",
+          "field": "3G.2",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -958,7 +998,7 @@
         {
           "control": "checkbox",
           "factId": "conviction.petty_offenses_present",
-          "field": "7A.0",
+          "field": "4.1",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "election_answered_in_the_negative",
@@ -968,7 +1008,7 @@
         {
           "control": "text",
           "factId": "conviction.petty_offenses",
-          "field": "7A.1",
+          "field": "4.2",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -978,7 +1018,7 @@
         {
           "control": "checkbox",
           "factId": "conviction.misdemeanor_offenses_present",
-          "field": "7B.0",
+          "field": "4.3",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
@@ -988,7 +1028,7 @@
         {
           "control": "text",
           "factId": "conviction.misdemeanor_offenses",
-          "field": "7B.1",
+          "field": "4.4",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -998,7 +1038,7 @@
         {
           "control": "checkbox",
           "factId": "conviction.felony_offenses_present",
-          "field": "7C.0",
+          "field": "4.5",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "election_answered_in_the_negative",
@@ -1008,7 +1048,7 @@
         {
           "control": "text",
           "factId": "conviction.felony_offenses",
-          "field": "7C.1",
+          "field": "4.6",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1018,7 +1058,7 @@
         {
           "control": "text",
           "factId": "conviction.sentence_date",
-          "field": "7D",
+          "field": "4.7",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -1028,7 +1068,7 @@
         {
           "control": "text",
           "factId": "conviction.supervision_termination_date",
-          "field": "7E",
+          "field": "4.8",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
@@ -1038,37 +1078,27 @@
         {
           "control": "radio",
           "factId": "election.drug_offense_before_2013_10_01",
-          "field": "Group_7A",
+          "field": "Group_4A",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
-          "value": "No.",
-          "written": true
-        },
-        {
-          "control": "radio",
-          "factId": "election.psilocybin_conduct_no_longer_unlawful",
-          "field": "Group_7B",
-          "fieldClass": "election_control",
-          "protectedCategory": null,
-          "refusal": null,
-          "value": "No.",
+          "value": "No",
           "written": true
         },
         {
           "control": "radio",
           "factId": "election.human_trafficking_victim",
-          "field": "Group_7C",
+          "field": "Group_4B",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
-          "value": "No.",
+          "value": "No",
           "written": true
         },
         {
           "control": "radio",
           "factId": "election.eligibility_ground",
-          "field": "Group_8B",
+          "field": "Group_5B",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
@@ -1078,7 +1108,7 @@
         {
           "control": "radio",
           "factId": "election.district_attorney_position",
-          "field": "Group_8B_1",
+          "field": "Group_5B_1",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1088,7 +1118,7 @@
         {
           "control": "text",
           "factId": "narrative.clear_and_convincing_showing",
-          "field": "8B.2",
+          "field": "5B.2",
           "fieldClass": "narrative",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1102,7 +1132,7 @@
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
-          "value": "No.",
+          "value": "No",
           "written": true
         },
         {
@@ -1112,7 +1142,7 @@
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
-          "value": "No.",
+          "value": "No",
           "written": true
         },
         {
@@ -1162,7 +1192,7 @@
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
-          "value": "No.",
+          "value": "No",
           "written": true
         },
         {
@@ -1172,7 +1202,7 @@
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
-          "value": "Yes.",
+          "value": "Yes",
           "written": true
         },
         {
@@ -1198,21 +1228,31 @@
         {
           "control": "radio",
           "factId": "service.method",
-          "field": "Group_CoS",
+          "field": "GroupCoS",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": null,
-          "value": "Regular Mail, addressed to:",
+          "value": "Regular Mail, addressed to: (name)",
           "written": true
         },
         {
           "control": "text",
-          "factId": "service.mail_recipient_name_and_address",
-          "field": "CoS_Mail",
+          "factId": "service.mail_recipient_name",
+          "field": "CoS_Name",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": null,
-          "value": "Office of the District Attorney, Second Judicial District, 201 West Colfax Avenue, Denver, CO 80202",
+          "value": "Office of the District Attorney, Second Judicial District",
+          "written": true
+        },
+        {
+          "control": "text",
+          "factId": "service.mail_recipient_address",
+          "field": "CoS_Address",
+          "fieldClass": "participant",
+          "protectedCategory": null,
+          "refusal": null,
+          "value": "201 West Colfax Avenue, Denver, CO 80202",
           "written": true
         },
         {
@@ -1228,7 +1268,7 @@
         {
           "control": "text",
           "factId": null,
-          "field": "Sig1_Signature",
+          "field": "Sig",
           "fieldClass": "protected",
           "protectedCategory": "participant_signature",
           "refusal": "protected_category",
@@ -1238,7 +1278,7 @@
         {
           "control": "text",
           "factId": null,
-          "field": "Sig1_Date",
+          "field": "Sig_Date",
           "fieldClass": "protected",
           "protectedCategory": "participant_execution_date",
           "refusal": "protected_category",
@@ -1248,48 +1288,28 @@
         {
           "control": "text",
           "factId": null,
-          "field": "Sig_LawyerSignature",
+          "field": "Sig_Aty",
           "fieldClass": "protected",
           "protectedCategory": "counsel_signature",
           "refusal": "protected_category",
           "value": null,
           "written": false
-        },
-        {
-          "control": "checkbox",
-          "factId": null,
-          "field": "Sig_Esq",
-          "fieldClass": "protected",
-          "protectedCategory": "counsel_attestation",
-          "refusal": "protected_category",
-          "value": null,
-          "written": false
-        },
-        {
-          "control": "text",
-          "factId": null,
-          "field": "Sig_Bar",
-          "fieldClass": "protected",
-          "protectedCategory": "counsel_attestation",
-          "refusal": "protected_category",
-          "value": null,
-          "written": false
         }
       ],
-      "protectedCount": 5,
-      "refusedCount": 26,
-      "sourceSha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
-      "specSha256": "bbaaaca47c287eb1fcf410ac5d8ce784fd7840f4c51a4fea135038afdce1ece7",
-      "specVersion": "co-jdf-612-binding/2026-08-29.1",
-      "writtenCount": 37
+      "protectedCount": 3,
+      "refusedCount": 25,
+      "sourceSha256": "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b",
+      "specSha256": "c1c43c376664bf1d0a747a0cba9ec78a841267fc755a488c5eb18056813c4fe7",
+      "specVersion": "co-jdf-612-binding/2026-10-21.1",
+      "writtenCount": 39
     },
     "negative": {
       "family": "jdf-612-form-motion-en",
       "outcomes": [
         {
-          "control": "radio",
+          "control": "dropdown",
           "factId": "matter.court_type",
-          "field": "Group_CourtType",
+          "field": "Court",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1338,18 +1358,8 @@
         },
         {
           "control": "text",
-          "factId": "matter.division",
-          "field": "Division",
-          "fieldClass": "participant",
-          "protectedCategory": null,
-          "refusal": "fact_not_supplied",
-          "value": null,
-          "written": false
-        },
-        {
-          "control": "text",
-          "factId": "matter.courtroom",
-          "field": "Courtroom",
+          "factId": "matter.division_or_courtroom",
+          "field": "D/C",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1368,8 +1378,18 @@
         },
         {
           "control": "text",
-          "factId": "participant.mailing_address_full",
-          "field": "Address",
+          "factId": "participant.street_address",
+          "field": "∆ Street Address",
+          "fieldClass": "participant",
+          "protectedCategory": null,
+          "refusal": "fact_not_supplied",
+          "value": null,
+          "written": false
+        },
+        {
+          "control": "text",
+          "factId": "participant.city_state_zip",
+          "field": "∆ CSZ",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1379,7 +1399,7 @@
         {
           "control": "text",
           "factId": "participant.phone",
-          "field": "Phone",
+          "field": "∆ Phone",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1389,8 +1409,38 @@
         {
           "control": "text",
           "factId": "participant.email",
-          "field": "Email",
+          "field": "∆ Email",
           "fieldClass": "participant",
+          "protectedCategory": null,
+          "refusal": "fact_not_supplied",
+          "value": null,
+          "written": false
+        },
+        {
+          "control": "radio",
+          "factId": "election.interpreter_needed",
+          "field": "Group_Interp",
+          "fieldClass": "election_control",
+          "protectedCategory": null,
+          "refusal": "fact_not_supplied",
+          "value": null,
+          "written": false
+        },
+        {
+          "control": "text",
+          "factId": "election.interpreter_language",
+          "field": "Language",
+          "fieldClass": "participant",
+          "protectedCategory": null,
+          "refusal": "condition_not_met",
+          "value": null,
+          "written": false
+        },
+        {
+          "control": "radio",
+          "factId": "election.appearance_mode",
+          "field": "Group_Event",
+          "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
           "value": null,
@@ -1399,7 +1449,7 @@
         {
           "control": "checkbox",
           "factId": "service.court_records_included",
-          "field": "6A.0",
+          "field": "3Z.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1409,7 +1459,7 @@
         {
           "control": "text",
           "factId": "matter.case_number",
-          "field": "6A.1",
+          "field": "3Z.1",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1419,7 +1469,7 @@
         {
           "control": "checkbox",
           "factId": "service.prosecuting_attorney_served",
-          "field": "6B.0",
+          "field": "3A.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1429,7 +1479,7 @@
         {
           "control": "checkbox",
           "factId": "service.sheriff_served",
-          "field": "6C.0",
+          "field": "3B.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1439,7 +1489,7 @@
         {
           "control": "text",
           "factId": "service.sheriff_mailing_address",
-          "field": "6C.1",
+          "field": "3B.1",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1449,7 +1499,7 @@
         {
           "control": "checkbox",
           "factId": "derived.cbi_required",
-          "field": "6D.0",
+          "field": "3C",
           "fieldClass": "derived",
           "protectedCategory": null,
           "refusal": null,
@@ -1459,7 +1509,7 @@
         {
           "control": "checkbox",
           "factId": "service.law_enforcement_1_served",
-          "field": "6E.0",
+          "field": "3D.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1469,7 +1519,7 @@
         {
           "control": "text",
           "factId": "service.law_enforcement_1_name",
-          "field": "6E.1",
+          "field": "3D.1",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1479,7 +1529,7 @@
         {
           "control": "text",
           "factId": "service.law_enforcement_1_case_number",
-          "field": "6E.2",
+          "field": "3D.3",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1489,7 +1539,7 @@
         {
           "control": "text",
           "factId": "service.law_enforcement_1_address",
-          "field": "6E.3",
+          "field": "4D.2",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1499,7 +1549,7 @@
         {
           "control": "checkbox",
           "factId": "service.law_enforcement_2_served",
-          "field": "6F.0",
+          "field": "3E.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1509,7 +1559,7 @@
         {
           "control": "text",
           "factId": "service.law_enforcement_2_name",
-          "field": "6F.1",
+          "field": "3E.1",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1519,7 +1569,7 @@
         {
           "control": "text",
           "factId": "service.law_enforcement_2_case_number",
-          "field": "6F.2",
+          "field": "3E.3",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1529,7 +1579,7 @@
         {
           "control": "text",
           "factId": "service.law_enforcement_2_address",
-          "field": "6F.3",
+          "field": "4E.2",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1539,7 +1589,7 @@
         {
           "control": "checkbox",
           "factId": "service.other_agency_1_served",
-          "field": "6G.0",
+          "field": "3F.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1549,7 +1599,7 @@
         {
           "control": "text",
           "factId": "service.other_agency_1_name",
-          "field": "6G.1",
+          "field": "3F.1",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1559,7 +1609,7 @@
         {
           "control": "text",
           "factId": "service.other_agency_1_address",
-          "field": "6G.2",
+          "field": "3F.2",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1569,7 +1619,7 @@
         {
           "control": "checkbox",
           "factId": "service.other_agency_2_served",
-          "field": "6H.0",
+          "field": "3G.0",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1579,7 +1629,7 @@
         {
           "control": "text",
           "factId": "service.other_agency_2_name",
-          "field": "6H.1",
+          "field": "3G.1",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1589,7 +1639,7 @@
         {
           "control": "text",
           "factId": "service.other_agency_2_address",
-          "field": "6H.2",
+          "field": "3G.2",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1599,7 +1649,7 @@
         {
           "control": "checkbox",
           "factId": "conviction.petty_offenses_present",
-          "field": "7A.0",
+          "field": "4.1",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1609,7 +1659,7 @@
         {
           "control": "text",
           "factId": "conviction.petty_offenses",
-          "field": "7A.1",
+          "field": "4.2",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1619,7 +1669,7 @@
         {
           "control": "checkbox",
           "factId": "conviction.misdemeanor_offenses_present",
-          "field": "7B.0",
+          "field": "4.3",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1629,7 +1679,7 @@
         {
           "control": "text",
           "factId": "conviction.misdemeanor_offenses",
-          "field": "7B.1",
+          "field": "4.4",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1639,7 +1689,7 @@
         {
           "control": "checkbox",
           "factId": "conviction.felony_offenses_present",
-          "field": "7C.0",
+          "field": "4.5",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1649,7 +1699,7 @@
         {
           "control": "text",
           "factId": "conviction.felony_offenses",
-          "field": "7C.1",
+          "field": "4.6",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1659,7 +1709,7 @@
         {
           "control": "text",
           "factId": "conviction.sentence_date",
-          "field": "7D",
+          "field": "4.7",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1669,7 +1719,7 @@
         {
           "control": "text",
           "factId": "conviction.supervision_termination_date",
-          "field": "7E",
+          "field": "4.8",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1679,17 +1729,7 @@
         {
           "control": "radio",
           "factId": "election.drug_offense_before_2013_10_01",
-          "field": "Group_7A",
-          "fieldClass": "election_control",
-          "protectedCategory": null,
-          "refusal": "fact_not_supplied",
-          "value": null,
-          "written": false
-        },
-        {
-          "control": "radio",
-          "factId": "election.psilocybin_conduct_no_longer_unlawful",
-          "field": "Group_7B",
+          "field": "Group_4A",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1699,7 +1739,7 @@
         {
           "control": "radio",
           "factId": "election.human_trafficking_victim",
-          "field": "Group_7C",
+          "field": "Group_4B",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1709,7 +1749,7 @@
         {
           "control": "radio",
           "factId": "election.eligibility_ground",
-          "field": "Group_8B",
+          "field": "Group_5B",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1719,7 +1759,7 @@
         {
           "control": "radio",
           "factId": "election.district_attorney_position",
-          "field": "Group_8B_1",
+          "field": "Group_5B_1",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1729,7 +1769,7 @@
         {
           "control": "text",
           "factId": "narrative.clear_and_convincing_showing",
-          "field": "8B.2",
+          "field": "5B.2",
           "fieldClass": "narrative",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1839,7 +1879,7 @@
         {
           "control": "radio",
           "factId": "service.method",
-          "field": "Group_CoS",
+          "field": "GroupCoS",
           "fieldClass": "election_control",
           "protectedCategory": null,
           "refusal": "fact_not_supplied",
@@ -1848,8 +1888,18 @@
         },
         {
           "control": "text",
-          "factId": "service.mail_recipient_name_and_address",
-          "field": "CoS_Mail",
+          "factId": "service.mail_recipient_name",
+          "field": "CoS_Name",
+          "fieldClass": "participant",
+          "protectedCategory": null,
+          "refusal": "condition_not_met",
+          "value": null,
+          "written": false
+        },
+        {
+          "control": "text",
+          "factId": "service.mail_recipient_address",
+          "field": "CoS_Address",
           "fieldClass": "participant",
           "protectedCategory": null,
           "refusal": "condition_not_met",
@@ -1869,7 +1919,7 @@
         {
           "control": "text",
           "factId": null,
-          "field": "Sig1_Signature",
+          "field": "Sig",
           "fieldClass": "protected",
           "protectedCategory": "participant_signature",
           "refusal": "protected_category",
@@ -1879,7 +1929,7 @@
         {
           "control": "text",
           "factId": null,
-          "field": "Sig1_Date",
+          "field": "Sig_Date",
           "fieldClass": "protected",
           "protectedCategory": "participant_execution_date",
           "refusal": "protected_category",
@@ -1889,43 +1939,23 @@
         {
           "control": "text",
           "factId": null,
-          "field": "Sig_LawyerSignature",
+          "field": "Sig_Aty",
           "fieldClass": "protected",
           "protectedCategory": "counsel_signature",
           "refusal": "protected_category",
           "value": null,
           "written": false
-        },
-        {
-          "control": "checkbox",
-          "factId": null,
-          "field": "Sig_Esq",
-          "fieldClass": "protected",
-          "protectedCategory": "counsel_attestation",
-          "refusal": "protected_category",
-          "value": null,
-          "written": false
-        },
-        {
-          "control": "text",
-          "factId": null,
-          "field": "Sig_Bar",
-          "fieldClass": "protected",
-          "protectedCategory": "counsel_attestation",
-          "refusal": "protected_category",
-          "value": null,
-          "written": false
         }
       ],
-      "protectedCount": 5,
-      "refusedCount": 61,
-      "sourceSha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
-      "specSha256": "bbaaaca47c287eb1fcf410ac5d8ce784fd7840f4c51a4fea135038afdce1ece7",
-      "specVersion": "co-jdf-612-binding/2026-08-29.1",
+      "protectedCount": 3,
+      "refusedCount": 62,
+      "sourceSha256": "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b",
+      "specSha256": "c1c43c376664bf1d0a747a0cba9ec78a841267fc755a488c5eb18056813c4fe7",
+      "specVersion": "co-jdf-612-binding/2026-10-21.1",
       "writtenCount": 2
     }
   },
   "schemaVersion": "rcap-colorado-binding-plans/v1",
-  "specSha256": "bbaaaca47c287eb1fcf410ac5d8ce784fd7840f4c51a4fea135038afdce1ece7",
-  "specVersion": "co-jdf-612-binding/2026-08-29.1"
+  "specSha256": "c1c43c376664bf1d0a747a0cba9ec78a841267fc755a488c5eb18056813c4fe7",
+  "specVersion": "co-jdf-612-binding/2026-10-21.1"
 }
