@@ -1309,6 +1309,17 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     record: [
     ],
   },
+  NC: {
+    profileHash: "6b3df272a55d81cfbae08c2f3fb0425e65af76dcbf9bca01b5fc0a41510ae5ef",
+    categoryReason: "Earlier North Carolina categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "dismissal-and-not-guilty-expunction-under-g-s-15a-146", // GA12 Q-d7f6b91d78f8ca627bef
+      "nonviolent-conviction-expunction-under-g-s-15a-145-5", // GA12 Q-f0e10760c671ef2e0828
+      "youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes", // GA12 Q-01dc31e0d367ab795779
+    ],
+    record: [
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
