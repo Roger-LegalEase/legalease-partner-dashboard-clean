@@ -1150,6 +1150,22 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "deferred-prostitution-three-year", // GA17 Q-caf00f0814d58e104534
     ],
   },
+  FL: {
+    profileHash: "aca558d3077491f0c09abe838d08b926c0cbe8b194ac1c4500d93520d9a32034",
+    categoryReason: "Earlier Florida categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "administrative-expunction-mistaken-or-unlawful-arrest", // GA12 Q-ff18c7ee7b5fc259855e
+      "automatic-sealing-943-0595", // GA12 Q-98941b8960c7c23861d8
+      "court-ordered-expunction-943-0585", // GA12 Q-3504135ef3a69720b765
+      "court-ordered-sealing-943-059", // GA12 Q-69e6932abb2280cfa2c9
+      "early-juvenile-expunction-943-0515", // GA12 Q-9244c44aa7d1cdae8c2d
+      "human-trafficking-victim-expunction-943-0583", // GA12 Q-28e8d29ebfb9bb1afee2
+      "juvenile-diversion-expunction-943-0582", // GA12 Q-e005e138022a5690c504
+      "lawful-self-defense-expunction-943-0578", // GA12 Q-e347bf63d9f2603594b8
+    ],
+    record: [
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
