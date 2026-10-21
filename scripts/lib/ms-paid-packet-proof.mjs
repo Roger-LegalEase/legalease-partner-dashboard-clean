@@ -291,6 +291,7 @@ export const MS_PROOF_OBSERVED_INPUTS=[
   "src/lib/expungement-ai/protected-legacy-answers.ts",
   "src/lib/expungement-ai/question-answer-state.ts",
   "src/lib/expungement-ai/record-fact-clarification.ts",
+  "src/lib/expungement-ai/registered-specification-record-history.ts",
   "src/lib/expungement-ai/reviewed-contact-contracts.json",
   "src/lib/expungement-ai/reviewed-court-completion-contracts.json",
   "src/lib/expungement-ai/reviewed-packet-contract-successors.json",
