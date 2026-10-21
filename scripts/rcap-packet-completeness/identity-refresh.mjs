@@ -159,7 +159,7 @@ export function carryForwardIdentityRefresh(previous, next, { on = new Date() } 
       if (!shape.ok) {
         claimed.add(candidate);
         dropped.push({ path: at, why: shape.why, wasSha256: candidate.annotation?.was?.sha256 ?? null });
-        continue;
+        break; // a refused block still uses up this pin's one previous pin
       }
 
       /*
