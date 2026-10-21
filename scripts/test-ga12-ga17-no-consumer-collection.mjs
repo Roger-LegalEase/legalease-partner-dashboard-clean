@@ -59,6 +59,7 @@ const { getProfileByJurisdiction } = await import('../src/lib/rcap-engine/profil
 const { contactRepresentationHash } = await import('../src/lib/expungement-ai/contact-representation.ts');
 const { packetPlanForPathway } = await import('../src/lib/rcap-engine/packet-planner.ts');
 const { packetSpecificationFor } = await import('../src/lib/rcap/grade-a/packet-specification.ts');
+const { packetFulfillmentAuthority } = await import('../src/lib/expungement-ai/packet-fulfillment-authority.ts');
 
 const collect = (m, extra = {}) => P.packetCollectionFor({ jurisdiction: m.state, pathwayId: m.route,
   requiredInputIds: packetPlanForPathway(getProfileByJurisdiction(m.state), m.route).requiredInputIds,
@@ -107,6 +108,9 @@ for (const m of spec.members) {
       assert.deepEqual({ pathwayId: a.pathwayId, resultCode: a.resultCode, paymentAllowed: a.paymentAllowed, reason: a.reasons[0]?.code ?? null,
         hasPacketPlan: Boolean(a.packetPlan?.requiredInputIds?.length) }, { pathwayId: o.pathwayId, resultCode: o.resultCode,
         paymentAllowed: o.paymentAllowed, reason: o.reason, hasPacketPlan: o.hasPacketPlan });
+      // Delivery stays closed: no fulfillment record binds the route.
+      const authority = packetFulfillmentAuthority(m.state, m.route, 'checkout creation');
+      assert.equal(authority.allowed, false); assert.match(authority.reason, /: NO_RECORD\./);
       // Watch point: no measured outcome reaches payment or a packet, and the deciding logic cannot read the fact.
       assert.equal(a.paymentAllowed, false);
       for (const raw of raws[m.group]) assert.throws(() => evaluate({ jurisdiction: m.state, profileVersion: m.witness.profileVersion,
