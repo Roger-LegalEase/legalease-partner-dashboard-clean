@@ -602,14 +602,14 @@ export function wy1502CategoryIsHistory(profile: EngineProfile | undefined, path
 export function caTool3RecordIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
   specification: RegisteredSpecification | null | undefined): boolean {
   return profile?.jurisdiction.code === "CA" && pathwayId === "tool-3-petition-based-felony-sealing"
-    && specification == null && contactRepresentationHash(profile) === "754b7bb08f3b9010549c686c1571eeeb850afc8ac256cf28b20f25a1c6ef4a0f";
+    && specification == null && contactRepresentationHash(profile) === "9838b3e3f3986491e4cabecbcbd21eef32825e9ce107f07a77c539f0dee6517b";
 }
 
 // GA-17 Q-a5553f6ecf41c327337e: compiled metadata does not authorize an exclusive record taxonomy.
 export function caTool4RecordIsHistory(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
   specification: RegisteredSpecification | null | undefined): boolean {
   return profile?.jurisdiction.code === "CA" && pathwayId === "tool-4-arrest-record-sealing"
-    && specification == null && contactRepresentationHash(profile) === "754b7bb08f3b9010549c686c1571eeeb850afc8ac256cf28b20f25a1c6ef4a0f";
+    && specification == null && contactRepresentationHash(profile) === "9838b3e3f3986491e4cabecbcbd21eef32825e9ce107f07a77c539f0dee6517b";
 }
 
 // GA-17 Q-b2e5abdea1cd7427e7ac / Q-34595b6432c5e669f38b: overlapping labels are not a disposition.
@@ -1384,7 +1384,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     ],
   },
   CA: {
-    profileHash: "754b7bb08f3b9010549c686c1571eeeb850afc8ac256cf28b20f25a1c6ef4a0f",
+    profileHash: "9838b3e3f3986491e4cabecbcbd21eef32825e9ce107f07a77c539f0dee6517b",
     categoryReason: "Earlier California categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
     category: [
       "dismissal-and-set-aside-without-probation-under-penal-code-1203-4a", // GA12 Q-6b657df543ec719b75a9
