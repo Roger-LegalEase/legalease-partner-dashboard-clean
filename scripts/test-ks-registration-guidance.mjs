@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import crypto from "node:crypto";
 import fs from "node:fs";
+import path from "node:path";
 import test from "node:test";
 import { SPEC, runFamily } from "./build-census-v1-ks-22-4908-registration-relief-set.mjs";
 
@@ -66,8 +67,13 @@ test("a held write the boundary fixture does not carry counts as a missing known
 test("a build never rewrites the PF20 lane history", () => {
   const history = "data/rcap-grade-a/packet-factory-24h/pf20/ks-22-4908-registration-relief-return-20260913.json";
   const digest = () => crypto.createHash("sha256").update(fs.readFileSync(history)).digest("hex");
-  const before = digest();
+  const family = () => fs.readdirSync(SPEC.outDir, { recursive: true, withFileTypes: true }).filter((e) => e.isFile())
+    .map((e) => path.join(e.parentPath, e.name)).sort().map((f) => [f, crypto.createHash("sha256").update(fs.readFileSync(f)).digest("hex")]);
+  const before = digest(), familyBefore = family();
   // The real build. Without the private sources it stops at BLOCKED_SOURCE, where the old writer still rewrote the file.
-  spawnSync(process.execPath, ["scripts/build-census-v1-ks-22-4908-registration-relief-set.mjs"], { stdio: "ignore" });
+  // --verify-deterministic runs the whole build but only compares its outputs, so a mounted-source run cannot
+  // re-stamp the committed family directory (source-receipt.json).
+  spawnSync(process.execPath, ["scripts/build-census-v1-ks-22-4908-registration-relief-set.mjs", "--verify-deterministic"], { stdio: "ignore" });
   assert.equal(digest(), before);
+  assert.deepEqual(family(), familyBefore, "the test build must leave the committed family directory byte-unchanged");
 });
