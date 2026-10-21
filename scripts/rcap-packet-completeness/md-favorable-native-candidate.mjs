@@ -23,7 +23,7 @@ const HELPER_BLOB = '4fc3b2f6e86dbcf94d6a4728af12ffef03ac4369';
 export const MD_A46_REVIEW = 'data/rcap-grade-a/md-a46-20261021/md-a46-independent-review.json';
 export const MD_A46_VERDICT = 'PASS_A46_MAPPING_AND_OUTPUT';
 const BINDING = path.join(path.dirname(fileURLToPath(import.meta.url)), 'md-reviewed-candidate-inputs.json');
-const BINDING_SHA = '4a85cb72cb713039a791c2c64b80bfcf8b2e0e197d034135ca8b0c8e8041ded4';
+const BINDING_SHA = 'eb8b934266c6cd4f373e756287b07e29f3ca41156d70a51337139ae034133818';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 const held = value => value !== undefined && value !== null && value !== '';
