@@ -1320,6 +1320,16 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     record: [
     ],
   },
+  OR: {
+    profileHash: "5045bb7dbf151aafc37713183402c973c27e537cd07bce3283926b49a34bc9c3",
+    categoryReason: "Earlier Oregon categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "marijuana-specific-set-aside-redesignation", // GA12 Q-ea774274d6f256fe4960
+      "set-aside-of-eligible-convictions-under-ors-137-225-1-a", // GA12 Q-0bf7c9da02d503053a28
+    ],
+    record: [
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
