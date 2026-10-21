@@ -1023,6 +1023,26 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "prosecutor-agreed-sealing-without-a-full-petition-under-609a-025", // GA17 Q-6f38f38e670d74cd9f54
     ],
   },
+  NH: {
+    profileHash: "f303b2822fac4b59e05e668d19072afe1c0aad0e4d0b728d04f5dde6cadc2cbd",
+    categoryReason: "Earlier New Hampshire categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "annulment-after-dismissal-acquittal-or-nonprosecution", // GA12 Q-10e00b3dc3d3a2d6e6bf
+      "annulment-of-a-vacated-conviction", // GA12 Q-55c5c19af69a1a529308
+      "conviction-annulment-under-rsa-651-5", // GA12 Q-1a87b0c3031a018211ec
+      "dwi-dui-annulment", // GA12 Q-c357f9bda99fc69890dd
+      "marijuana-possession-annulment-under-rsa-651-5-b", // GA12 Q-4a033a26b88ca399c1b7
+      "out-of-state-federal-or-military-record-guidance", // GA12 Q-f1b376edb928d6bb9bb7
+    ],
+    record: [
+      "annulment-after-dismissal-acquittal-or-nonprosecution", // GA17 Q-1735257e90ac2bfb3c6a
+      "annulment-of-a-vacated-conviction", // GA17 Q-01ccb87d2e863f142655
+      "conviction-annulment-under-rsa-651-5", // GA17 Q-0a954234cb7748a24bd4
+      "dwi-dui-annulment", // GA17 Q-0c1146198fffb005bd14
+      "marijuana-possession-annulment-under-rsa-651-5-b", // GA17 Q-fe987ba5e321b5de2ee2
+      "out-of-state-federal-or-military-record-guidance", // GA17 Q-cb9e54430db70d1e9208
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
