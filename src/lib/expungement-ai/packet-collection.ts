@@ -1216,6 +1216,19 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     record: [
     ],
   },
+  MI: {
+    profileHash: "46b14de0bcfed90bedbd1e0e6c9b45d687a4170d5e75c4d009a237c6cbea994c",
+    categoryReason: "Earlier Michigan categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "automatic-clean-slate-set-aside-under-mcl-780-621g", // GA12 Q-9aaca77e5f49d2191a69
+      "first-offense-owi-set-aside-by-application", // GA12 Q-46ab6cce80afe155d987
+      "human-trafficking-related-set-aside-application", // GA12 Q-22de798715cd8ab7e2eb
+      "misdemeanor-marijuana-set-aside-under-mcl-780-621e", // GA12 Q-1c27ca54464512e7687e
+      "set-aside-by-application-under-mcl-780-621", // GA12 Q-5899a8341678d8dc28c8
+    ],
+    record: [
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
