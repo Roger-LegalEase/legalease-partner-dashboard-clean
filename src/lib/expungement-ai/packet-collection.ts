@@ -687,6 +687,36 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
       "path-m-juvenile-expungement", // GA17 Q-2ef0ec2a33a7e70da1e7
     ],
   },
+  PA: {
+    profileHash: "9691756c4a25ce87afb297bd809fb5dd5c39cce33ebfdcb85d9e9afb0662d12e",
+    categoryReason: "Earlier Pennsylvania categories remain optional literal history. Offense-type facts are asked through separate answers, including the charge-and-statute answer and the charge-type check; a category is not evaluated as one, and the route stays guidance only or needs review, unpaid.",
+    category: [
+      "path-a-non-conviction-expungement", // GA12 Q-6303976ad4b8ae1e924f
+      "path-b-complete-acquittal-not-guilty-expungement", // GA12 Q-bbf51562519786068cc5
+      "path-c-summary-conviction-expungement", // GA12 Q-ebfada9e873528bccd38
+      "path-d-ard-expungement", // GA12 Q-f82ac89b0b9cd5a6f0b0
+      "path-e-age-70-expungement", // GA12 Q-ad80963961e658f9a1e4
+      "path-f-deceased-person-expungement", // GA12 Q-a106d2f89ee5932928db
+      "path-g-underage-drinking-conviction-expungement", // GA12 Q-7f0b7762d5aeefdbac2b
+      "path-h-pardon-based-expungement", // GA12 Q-7731018f38b0d5c7398e
+      "path-i-petition-for-limited-access", // GA12 Q-bcbdcf2105073c71d90d
+      "path-j-clean-slate-automatic-limited-access", // GA12 Q-3b3c3e699bffa01de277
+      "path-k-human-trafficking-vacatur-expungement", // GA12 Q-d4df0578591f1bba6c6c
+    ],
+    record: [
+      "path-a-non-conviction-expungement", // GA17 Q-5164c6e021bfd0897e7a
+      "path-b-complete-acquittal-not-guilty-expungement", // GA17 Q-e770b2de507acec4924c
+      "path-c-summary-conviction-expungement", // GA17 Q-0ebc9cb4212495acdc33
+      "path-d-ard-expungement", // GA17 Q-c28384c7cb8b3f5bf23f
+      "path-e-age-70-expungement", // GA17 Q-9aed0f34c9788d7a3f09
+      "path-f-deceased-person-expungement", // GA17 Q-26bf101779eb24857f29
+      "path-g-underage-drinking-conviction-expungement", // GA17 Q-f99c455f93cd674c4b2a
+      "path-h-pardon-based-expungement", // GA17 Q-14a06d05525bfd19ea98
+      "path-i-petition-for-limited-access", // GA17 Q-1d329de7345b39063b5e
+      "path-j-clean-slate-automatic-limited-access", // GA17 Q-79a7e977aac71c792fae
+      "path-k-human-trafficking-vacatur-expungement", // GA17 Q-afd2b456ce01f7e7429e
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
