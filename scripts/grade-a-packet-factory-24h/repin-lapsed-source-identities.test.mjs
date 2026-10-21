@@ -301,20 +301,37 @@ test("ACCEPT: comparison is order-independent", () => {
  * IT MUST REFUSE
  * ------------------------------------------------------------------ */
 
+/*
+ * The Colorado change is a fixed pair from history, not "pre-pin vs live": the
+ * receipt's pin at d4984cbc5 and at 2a27a1fc3 ("re-pin 21 source identities
+ * lapsed by the Colorado track correction") bracket that one real change. The
+ * live-tree pair flipped with every later registry move (the rules block stopped
+ * differing at 2af21d873 and nothing differed at 66e80e5b9).
+ */
+const CO_CHANGE = { before: "d4984cbc58923c10b3bfa71b684611980b5ae7d7", after: "2a27a1fc3aa5b214de67554f2a01fd51defc0ef9" };
+const registryPinnedAt = (rev) => {
+  const pin = JSON.parse(gitText(rev)).committedRecords.find((r) => r.pathInRepository === REGISTRY);
+  const found = recoverBytesByDigest(REGISTRY, pin.sha256);
+  assert.ok(found.bytes, `could not recover the registry pinned at ${rev}: ${found.why}`);
+  return JSON.parse(found.bytes.toString("utf8"));
+};
+
 test("REFUSE (real change, real family): a family binding co_motion_seal_conviction is refused, and the differing entry is named", () => {
   const co = "co_motion_seal_conviction";
-  assert.ok(NOW.tracks.some((t) => t.trackId === co) && OLD.tracks.some((t) => t.trackId === co),
+  const BEFORE = registryPinnedAt(CO_CHANGE.before);
+  const AFTER = registryPinnedAt(CO_CHANGE.after);
+  assert.ok(AFTER.tracks.some((t) => t.trackId === co) && BEFORE.tracks.some((t) => t.trackId === co),
     "the Colorado track must exist on both sides for this to be a real comparison");
   /* The real family's own records: its route key and the recordId shape every
    * registry pin uses. Nothing of that family's directory is read or written. */
   const receipt = { routeKeys: [`obligation:track-pathway:CO:${co}:petition-based-conviction-sealing-jdf-612-24-72-706`] };
   const pin = { recordId: `legal-design-track-registry:${co}`, pathInRepository: REGISTRY };
-  const scope = adapter.scopeFrom({ receipt, pin, currentDoc: NOW });
+  const scope = adapter.scopeFrom({ receipt, pin, currentDoc: AFTER });
   assert.deepEqual(scope.anchorIds, [co]);
-  const c = compareAnchors({ adapter, oldDoc: OLD, currentDoc: NOW, scope });
+  const c = compareAnchors({ adapter, oldDoc: BEFORE, currentDoc: AFTER, scope });
   assert.deepEqual(c.differing, [`track:${co}`], "the changed Colorado track must be named as differing");
   assert.notEqual(c.anchorsCompared, c.anchorsIdentical);
-  const detail = describeDifference({ adapter, oldDoc: OLD, currentDoc: NOW, scope, differing: c.differing });
+  const detail = describeDifference({ adapter, oldDoc: BEFORE, currentDoc: AFTER, scope, differing: c.differing });
   assert.ok(detail[0].changedFields.includes("rules"), `expected the changed rules block, got ${detail[0].changedFields}`);
   assert.match(detail[0].firstChangedFieldCurrent + detail[0].firstChangedFieldHistorical, /feeWaiver|packetSet/);
 });
