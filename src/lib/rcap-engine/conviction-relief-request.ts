@@ -48,11 +48,14 @@ export function convictionReliefRequest(profile: EngineProfile, answers: Answers
     || state === "MS" && answers.ms_program_order !== undefined && answers.ms_program_order !== "no_program_order") return { status: "not_applicable" };
   const hint = typeof answers.possible_pathway_context === "string" ? pathwayFromContext(profile, answers.possible_pathway_context.toLowerCase()) : undefined;
   const id = requestId(state);
+  const missing = (...missingQuestionIds: string[]): Selection => ({ status: "clarification", missingQuestionIds });
+  if (state === "GA" && !Object.hasOwn(answers, id)
+    && hint?.id === "retroactive-first-offender-treatment-under-42-8-66"
+    && answers.ga_original_first_offender !== "no") return missing("ga_original_first_offender");
   // Existing explicit requests for other procedures retain their own controls.
   // A new election takes precedence over the optional historical menu hint.
   if (!Object.hasOwn(answers, id) && !hintIsAbsent(answers.possible_pathway_context)
     && (!hint || !CONVICTION_NONCONVICTION_ROUTES[state].includes(hint.id))) return { status: "not_applicable" };
-  const missing = (...missingQuestionIds: string[]): Selection => ({ status: "clarification", missingQuestionIds });
   const selected = (pathwayId: string): Selection => ({ status: "selected", pathwayId });
   const request = answers[id];
   const allowed = requestOptions[state].map(([value]) => value);
