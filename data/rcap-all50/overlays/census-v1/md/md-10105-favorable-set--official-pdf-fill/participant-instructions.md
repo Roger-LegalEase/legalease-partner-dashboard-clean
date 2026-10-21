@@ -54,4 +54,4 @@ https://www.mdcourts.gov/guideandfile
 
 https://www.mdcourts.gov/helpcenter/inperson/dc
 
-Source and legal-page checks: September 7, 2026. A later law or form edition needs revalidation. This renderer does not enable live delivery, payment, or a commercial route.
+Source and legal-page checks: CC-DC-CR-072A form face October 21, 2026; statutes and legal pages September 7, 2026. A later law or form edition needs revalidation. This renderer does not enable live delivery, payment, or a commercial route.

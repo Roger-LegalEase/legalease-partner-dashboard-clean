@@ -42,6 +42,6 @@ Stop this initial self-help preparation for a real objection/hearing, disputed r
 
 Complete official components: CC-DC-CR-072D. All source pages are present; separate companion pages are instructions, not filed pleadings or substitutes for official documents. No proposed expungement order, fee-waiver grant, court certificate, general release or authentic criminal-history report is fabricated.
 
-Primary authorities: Criminal Procedure 10-105(a)(11)-(12), (b)-(f); 10-110(a)(2)(ii), (b)-(h); 10-107(a)-(b); 10-112. Current Judiciary adult-expungement fee page resolves the old internal free/$30 uncertainty for 072D guilty dispositions. Current filing-fee-waiver page and CC-DC-089 require the conditional MDJ-008. Review date: September 7, 2026.
+Primary authorities: Criminal Procedure 10-105(a)(11)-(12), (b)-(f); 10-110(a)(2)(ii), (b)-(h); 10-107(a)-(b); 10-112. Current Judiciary adult-expungement fee page resolves the old internal free/$30 uncertainty for 072D guilty dispositions. Current filing-fee-waiver page and CC-DC-089 require the conditional MDJ-008. Review date: September 7, 2026; CC-DC-CR-072D form face checked October 21, 2026.
 
 Official form: https://www.mdcourts.gov/sites/default/files/court-forms/ccdccr072d.pdf ; fee/process: https://www.mdcourts.gov/legalhelp/expungement ; costs: https://www.mdcourts.gov/legalhelp/filingfeewaivers ; statutes: https://mgaleg.maryland.gov/mgawebsite/Laws/Statutes .

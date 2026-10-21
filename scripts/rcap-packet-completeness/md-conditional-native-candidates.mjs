@@ -16,7 +16,7 @@ export const MD_CONDITIONAL_DIRECTORIES=Object.freeze({
   'md_cannabis_petition-set':'data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill',
 });
 export const MD_CONDITIONAL_BINDING='scripts/rcap-packet-completeness/md-conditional-reviewed-inputs.json';
-export const MD_CONDITIONAL_BINDING_SHA='43c7fef110420035c4a8ced62aafd2318e2708c8f7d790850215efcdf432f29d';
+export const MD_CONDITIONAL_BINDING_SHA='0da29e8af813546c44336d11a39ee6adeb0dd019b7fe0e275ff227bbdac5a29c';
 const sha=b=>createHash('sha256').update(b).digest('hex');
 const methods={
   'md_10110_conviction-set':{validate:validateMdConviction,map:mdConvictionFieldMap},

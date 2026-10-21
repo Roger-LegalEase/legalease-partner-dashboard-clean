@@ -256,7 +256,7 @@ function instructionSections(v,missing,components){
   'Help: Maryland Court Help Center, 410-260-1392. Bring the docket, dispositions, completion and restitution records, this packet and any notices.'
  ]],
  ['Source notes and scope',[
-  'Authorities checked September 7, 2026: Criminal Procedure 10-110, 10-105 and 10-107; actual 072B/089/MDJ-008 source faces and Judiciary fee-waiver instructions. Sources are official retained bytes, not replacement form drawings. This build grants no runtime or commercial authority.',
+  'Authorities checked September 7, 2026: Criminal Procedure 10-110, 10-105 and 10-107; actual 089/MDJ-008 source faces and Judiciary fee-waiver instructions. Actual 072B source face checked October 21, 2026. Sources are official retained bytes, not replacement form drawings. This build grants no runtime or commercial authority.',
   'https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-110',
   'https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105',
   'https://www.mdcourts.gov/legalhelp/expungement',
@@ -371,7 +371,7 @@ export async function runMdConviction({outDir=path.join(ROOT,OUT),inputFile=null
  write('official-field-census.json',json(censuses));write('production-field-map.json',json({...importerMaps[ready[0].fixture],fixtures:maps,printedRecitals:BASIS,conditionalMaps:importerMaps}));
  write('reports/actual-writes.json',json({schemaVersion:'rcap-actual-writes/v1',familyId:FAMILY,derivedFromArtifactBytes:true,documents:actualDocuments,artifacts:actualArtifacts}));
  write('reports/rendered-artifacts.json',json({schemaVersion:'rcap-rendered-artifacts/v1',familyId:FAMILY,pdfs:artifacts,artifacts,renderedFresh:true,derivedFromBytes:true,independentVerificationPending:true}));
- write('source-receipt.json',json({schemaVersion:'chat5-exact-official-sources/v1',familyId:FAMILY,sourceCatalog:SOURCES,sources:Object.entries(SOURCES).map(([documentId,s])=>({documentId,...s})),allSourcesExact:true,officialFacesReadOn:'2026-09-07',liveIssuerBinaryShaMeasured:false,conditionalComponent:'CC-DC-089 ALL THREE pages plus MDJ-008 only on explicit waiver request',globalRelationshipCorrection:'A-owned; MDJ-008 conditional addition requested in comment5574693015'}));
+ write('source-receipt.json',json({schemaVersion:'chat5-exact-official-sources/v1',familyId:FAMILY,sourceCatalog:SOURCES,sources:Object.entries(SOURCES).map(([documentId,s])=>({documentId,...s})),allSourcesExact:true,officialFacesReadOn:{'CC-DC-CR-072B':'2026-10-21','CC-DC-089':'2026-09-07','MDJ-008':'2026-09-07'},liveIssuerBinaryShaMeasured:false,conditionalComponent:'CC-DC-089 ALL THREE pages plus MDJ-008 only on explicit waiver request',globalRelationshipCorrection:'A-owned; MDJ-008 conditional addition requested in comment5574693015'}));
  write('build-status.json',json({familyId:FAMILY,buildStatus:'state_built',reviewStatus:'qa_review_pending',pdfCount:artifacts.length,completePages:artifacts.reduce((n,x)=>n+x.pageCount,0),runtimeSelectable:false,generationAllowed:false,commercialRoutesOpened:0,selfVerified:false,limitations:['Same disposition/date/selected-basis unit only; mixed units require a continuation design, not silent collapse.','Pardon, cannabis and nonconviction remain separate families.','Charge-to-statute eligibility and restitution evidence are supplied facts, not software judicial findings.','Final-open-cost election is not a final waiver grant.','Registry MDJ-008 relationship, binary publication, central raster and runtime remain A-owned.']}));
  return artifacts;
 }
