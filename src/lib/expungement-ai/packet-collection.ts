@@ -633,6 +633,7 @@ export function okCategoryAndRecordAreHistory(profile: EngineProfile | undefined
   return profile?.jurisdiction.code === "OK" && [
     "acquittal-dismissal-or-other-no-conviction-expungement", // GA12 Q-7c344b62b8005b8c0856 / GA17 Q-1af92bac0be9e8f1d3c1
     "arrest-with-no-charges-filed", // GA12 Q-64ac71408f9198d6c6bb / GA17 Q-c2eae6c2aea996936af8
+    "clean-slate-automatic-expungement", // GA12 Q-f96c5ed3f036716c4879 / GA17 Q-ecd8c474ef5fd2388e5e
     "conviction-reversed-and-case-dismissed", // GA12 Q-44758205328791de54b2 / GA17 Q-b2307423d9b47d9a1af7
     "deferred-sentence-court-record-expungement-under-991-c", // GA12 Q-c7f7c05e9424141d43d5 / GA17 Q-bd410275cf3de6c271db
     "dna-factual-innocence-expungement", // GA12 Q-3e40c600977518a9ad95 / GA17 Q-694560c7c95fb47ca5ac

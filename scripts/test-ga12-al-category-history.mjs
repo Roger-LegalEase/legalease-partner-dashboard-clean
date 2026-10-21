@@ -317,6 +317,10 @@ const mutations={
 };
 if(mutation){assert(mutations[mutation]);register('data:text/javascript,'+encodeURIComponent(`import {writeSync} from 'node:fs';let d;export function initialize(x){d=x}export async function load(u,c,n){const r=await n(u,c);if(u.endsWith(d[2])){if(!r.source.includes(d[0]))throw Error('mutation target absent');writeSync(2,JSON.stringify({appliedMutation:d[3]})+'\\n');return {...r,source:r.source.replace(d[0],d[1])}}return r}`),{data:[...mutations[mutation],["ok_context", "ok_collection", "ok_level", "ok_route_0", "ok_route_1", "ok_route_2", "ok_route_3", "ok_route_4", "ok_route_5", "ok_route_6", "ok_route_7", "ok_route_8", "ok_route_9", "ok_route_10", "ok_route_11", "ok_route_12", "ok_route_13", "ok_route_14", "ok_route_15", "ok_route_16",'mame_context','mame_collection','mame_level','mame_route_0','mame_route_1','mame_route_2','ma_next_context','ma_next_collection','ma_next_level','ma_next_route_0','ma_next_route_1','ma_next_route_2','ma_context','ma_collection','ma_level','ma_route_0','ma_route_1','ma_route_2','la_context','la_collection','la_level','la_route_0','la_route_1','la_route_2','ky_context','ky_collection','ky_level','ky_route_0','ky_route_1','ky_route_2','hi_context','hi_collection','hi_level','hi_dui','hi_drug','ia_context','ia_collection','ia_level','collection','context','ownership'].includes(mutation)||/^r1_(context|collection|level|record_arm)$|^r1_[a-z]{2}_(category|record)_\d+$/.test(mutation)?'/packet-collection.ts':'/packet-information.ts',mutation]});}
 const P = await import('../src/lib/expungement-ai/packet-information.ts');
+// NC GA12 members are R1 history by design (test-ga12-ga17-no-consumer-collection.mjs asserts them): this test's group only.
+const ncDir = 'scripts/fixtures/ga12-ga17-no-consumer-collection', ncRoutes = new Set(fs.readdirSync(ncDir).filter(f => f.endsWith('.json'))
+  .flatMap(f => JSON.parse(fs.readFileSync(`${ncDir}/${f}`)).members).filter(m => m.group === 'GA12').map(m => `${m.state}:${m.route}`)), ncSkipped = new Set();
+const ncSkip = key => ncRoutes.has(key) && ncSkipped.add(key);
 const { evaluateAuthoritativeScreeningResult: evaluate } = await import('../src/lib/expungement-ai/authoritative-screening-result.ts');
 const {packetFulfillmentAuthority}=await import('../src/lib/expungement-ai/packet-fulfillment-authority.ts');
 const {createConsumerPaymentPlaceholder}=await import('../src/lib/expungement-ai/payment-adapter.ts');
@@ -736,7 +740,7 @@ for (const [questionRecordId, route, state = 'AL'] of cases) {
       assert.equal(historyContext(changed, route, null), false);
     }
     assert.equal(historyContext(profile, route, { routeKey: `${state}:${route}` }), false);
-    for (const sibling of profile.pathways.filter(row => !cases.some(c => c[1] === row.id && (state !== 'MA' || (maAdditionalRoutes.includes(c[1]) === maAdditionalRoutes.includes(route) && maMeRoutes.includes(c[1]) === maMeRoutes.includes(route)))))) {
+    for (const sibling of profile.pathways.filter(row => !ncSkip(`${state}:${row.id}`) && !cases.some(c => c[1] === row.id && (state !== 'MA' || (maAdditionalRoutes.includes(c[1]) === maAdditionalRoutes.includes(route) && maMeRoutes.includes(c[1]) === maMeRoutes.includes(route)))))) {
       assert.equal(historyContext(profile, sibling.id, null), false);
     }
   });
@@ -867,5 +871,5 @@ for (const [id, original] of [...records]) {
   authenticated = true; verified = true; owner = 'synthetic-al-owner';
 }
 delete globalThis.__alCategoryTransport;
-console.log(JSON.stringify({ status: 'PASS_AL_CATEGORY_HISTORY', checks, originalIds: cases.map(row => row[0]),
+console.log(JSON.stringify({ status: 'PASS_AL_CATEGORY_HISTORY', ncSiblingSkips: [...ncSkipped].sort(), checks, originalIds: cases.map(row => row[0]),
   scope: 'isolated collection/protected transitions/HTTP transport; no hosted owner, database or delivery proof' }));
