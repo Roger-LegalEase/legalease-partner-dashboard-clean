@@ -5,6 +5,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath,pathToFileURL} from 'node:url';
+import {preserveIdentityRefresh} from './rcap-packet-completeness/identity-refresh.mjs';
 
 export const FAMILY='nc_auto_146_a4_agency_followup-set';
 export const ROUTE='obligation:track-only:NC:nc_auto_146_a4_agency_followup';
@@ -209,7 +210,7 @@ export async function runFamily(argv=process.argv.slice(2),root=ROOT) {
  }
  // No output directory exists until every source, route, branch and serialization
  // above succeeds. This builder never emits claims, shared queues or acceptance.
- const emit=(p,value)=>assets.set(`${OUTPUT}/${p}`,Buffer.from(JSON.stringify(value,null,2)+'\n'));
+ const emit=(p,value)=>assets.set(`${OUTPUT}/${p}`,Buffer.from(JSON.stringify(p==='source-receipt.json'?preserveIdentityRefresh(fs,path.join(root,OUTPUT,p),value):value,null,2)+'\n'));
  const sourceWrites=fieldRows.filter(r=>r.disposition==='WRITTEN').map(r=>({...r,factId:r.field,kind:'AcroForm',rectBasis:'measured_source_widget'}));
  const sourceBlanks=fieldRows.filter(r=>r.disposition!=='WRITTEN').map(r=>({...r,requiredBeforeFiling:r.disposition==='REQUIRED_BEFORE_FILING',reason:r.disposition,...nativeBlankDeclaration(r),measurementStatus:'Source widget identity/rectangle measured; legal blank classification and protected ink require independent review'}));
  maps.push({documentId:REQUIRED_COMPONENTS[2],formNumber:REQUIRED_COMPONENTS[2],officialFormId:'AOC-G-260',sourceSha256:SOURCE_SHA,structuralClass:'official_pdf_form',conditional:true,documentPolicy:{mode:'participant',documentAcceptsFill:true,routeKey:ROUTE},canonicalWrites:sourceWrites,canonicalRefusals:sourceBlanks});
