@@ -736,6 +736,11 @@ for(const [label,outcome] of [['original-witness',witness.answers.case_outcome],
  if(d1)check(key+'/'+label+': D1 closes payment; the draft moves only through paymentAllowed',()=>{
   assert.equal(seed.snapshot.paymentAllowed,false);const predecessor=structuredClone(seed.snapshot);predecessor.paymentAllowed=true;
   assert.equal(P.protectedPacketDraftHash(predecessor),d1.predecessorDraftHash);
+  // F-D1-SAVED (lead 2026-10-21T22:26:47Z; CODEX paymentOnlyDraftSuccessor 42dd75f77): the saved predecessor still loads, unpaid.
+  const saved={status:'unverified',revision:0,draftHash:d1.predecessorDraftHash,draftSnapshot:predecessor};
+  assert(P.protectedPacketInformationModelFor(saved));
+  assert.deepEqual(P.packetInformationPatch({protectedVerification:saved,answers:{}}).protectedTransition.nextVerification,saved);
+  assert.equal(P.evaluateProtectedPacketFacts(predecessor).evaluation.paymentAllowed,false);
  });
  const hop=witnessHop.find(h=>h.routeKey===key)??null;
  // A successor reaches the public fixture's own recorded expectation; it never takes one from the implementation (lead m179).
