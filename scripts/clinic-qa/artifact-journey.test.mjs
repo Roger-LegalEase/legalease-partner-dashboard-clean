@@ -342,5 +342,26 @@ test('keepDeliveredPdf keeps verified bytes privately, once, only under an absol
     assert.throws(()=>keepDeliveredPdf(dir,sha,bytes),/EEXIST/);
     assert.throws(()=>keepDeliveredPdf('relative/dir',sha,bytes),/absolute/);
     assert.throws(()=>keepDeliveredPdf(dir,'../escape',bytes));
+    const repo=path.join(root,'repo');execFileSync('git',['init','-q',repo]);fs.symlinkSync(repo,path.join(root,'link'));
+    for(const inside of [path.join(repo,'private','delivered'),path.join(root,'link','not-yet','delivered')])
+      assert.throws(()=>keepDeliveredPdf(inside,sha,bytes),/outside every git worktree/);
+    assert.deepEqual(fs.readdirSync(repo),['.git']);
   } finally { fs.rmSync(root,{recursive:true,force:true}); }
+});
+test('a delivered body that fails verification is never kept, even with CLINIC_QA_DELIVERED_PDF_DIR set',async()=>{
+  const root=fs.mkdtempSync(path.join(os.tmpdir(),'clinic-unverified-')),dir=path.join(root,'delivered'),previous=process.env.CLINIC_QA_DELIVERED_PDF_DIR;
+  const fixture={actors:[{id:owner}],known:new Set([item]),partnerId,origin:'http://127.0.0.1:3139',program:'qa-synthetic',
+    checked:result=>result.data,admin:{from:table=>({select(){return this;},eq(){return this;},single:async()=>({data:table==='packet_render_jobs'?sponsoredJob:sponsoredProvenance})})}};
+  const wrong=Buffer.from(bytes);wrong[wrong.length-1]^=1;
+  const context={request:{get:async()=>({status:()=>200,headers:()=>headers,body:async()=>wrong})}};
+  process.env.CLINIC_QA_DELIVERED_PDF_DIR=dir;
+  try {
+    await assert.rejects(acceptRealArtifact({fixture,context,matterId:item,ownerId:owner,downloadPath:sponsoredPath,
+      session:{screening_session_id:sessionId,event_id:eventId},evidence:startArtifactEvidence({},'en'),check:()=>{},
+      readWorkerBinding:actual=>assertArtifactWorkerBinding({...workerFixture(),job:actual})}),/Actual owner PDF must match/);
+    assert.equal(fs.existsSync(dir),false);
+  } finally {
+    if(previous===undefined)delete process.env.CLINIC_QA_DELIVERED_PDF_DIR;else process.env.CLINIC_QA_DELIVERED_PDF_DIR=previous;
+    fs.rmSync(root,{recursive:true,force:true});
+  }
 });

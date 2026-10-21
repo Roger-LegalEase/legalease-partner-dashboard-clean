@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import fs from 'node:fs';
+import {execFileSync} from 'node:child_process';
 import path from 'node:path';
 import {artifactWorkerBinding} from './source-bindings.mjs';
 
@@ -53,8 +54,16 @@ export function exactArtifactResponse(status, headers, bytes, expected) {
 }
 // A33: the route-footer probe must read the pages actually delivered, and run-owned cleanup removes the stored object,
 // so an opt-in run keeps the owner's verified bytes in its private output (never committed).
+// A participant PDF must never sit where `git add` can see it: refuse any directory whose nearest existing
+// ancestor resolves (realpath) inside a git worktree, ignored or not.
+function insideGitWorktree(dir) {
+  let probe=dir;while(!fs.existsSync(probe))probe=path.dirname(probe);
+  try {execFileSync('git',['-C',fs.realpathSync(probe),'rev-parse','--is-inside-work-tree'],{stdio:'pipe'});return true;}
+  catch {return false;}
+}
 export function keepDeliveredPdf(dir, sha256, bytes) {
   assert(path.isAbsolute(dir),'CLINIC_QA_DELIVERED_PDF_DIR must be absolute');assert.match(sha256,/^[a-f0-9]{64}$/);
+  assert(!insideGitWorktree(dir),'CLINIC_QA_DELIVERED_PDF_DIR must be outside every git worktree');
   fs.mkdirSync(dir,{recursive:true,mode:0o700});
   const file=path.join(dir,`${sha256}.pdf`);fs.writeFileSync(file,bytes,{flag:'wx',mode:0o600});return file;
 }
