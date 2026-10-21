@@ -213,4 +213,9 @@ const proof={schemaVersion:'rcap-ms-paid-packet-proof/v4',generatedBy:'scripts/v
 const bytes=Buffer.from(JSON.stringify(proof,null,2)+'\n');
 loadMsPaidPacketProof({readBytes:file=>file===MS_PAID_PACKET_PROOF?bytes:fs.readFileSync(file),stableStringify,approval});
 if(process.argv.includes('--write')||outputFlag>=0)fs.writeFileSync(out,bytes,{flag:'wx'});
+else {
+  const committed=JSON.parse(fs.readFileSync(MS_PAID_PACKET_PROOF));
+  // A proof names its generating commit; every measured field must still reproduce.
+  assert.deepEqual({...committed,sourceSha:proof.sourceSha},proof,'stale MS packet proof: committed proof differs from recomputed proof (excluding sourceSha)');
+}
 console.log(JSON.stringify({routeId:proof.routeId,artifacts:results.map(r=>({id:r.id,variant:r.variant,locale:r.locale,pages:r.pageCount,sha256:r.artifactSha256,verificationHash:r.verificationBoundInputsSha256})),sourceAuthorityHash:sourceHash,postgresRoundTrip:'PASS',negativeBindingControls:results.reduce((t,r)=>t+r.negativeBindingControls,0),unapprovedDeterminismControls:unapproved.length,chargedConductSafetyControls:chargedConductSafetyControls.length,proofWritten:process.argv.includes('--write')||outputFlag>=0,proofPath:out},null,2));
