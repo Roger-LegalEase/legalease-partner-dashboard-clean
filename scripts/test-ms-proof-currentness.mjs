@@ -77,7 +77,21 @@ if (!process.argv.includes('--snapshot')) {
 }
 register('./lib/ts-esm-loader.mjs', import.meta.url);
 if (process.argv.includes('--compare-base')) {
-  const sources = Object.fromEntries(modules.map(file => [pathToFileURL(`${process.cwd()}/${file}`).href, ts.transpileModule(execFileSync('git', ['show', `${sha}:${file}`], { encoding: 'utf8' }), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText]));
+  const transpile = source => ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText;
+  // Value names only: transpiling erases types, so re-exporting one would not link.
+  const exported = source => new Set(ts.createSourceFile('m.ts', source, ts.ScriptTarget.ES2022).statements.flatMap(s => ts.isExportDeclaration(s)
+    ? (s.isTypeOnly || !s.exportClause || !ts.isNamedExports(s.exportClause) ? [] : s.exportClause.elements.filter(e => !e.isTypeOnly).map(e => e.name.text))
+    : !s.modifiers?.some(m => m.kind === ts.SyntaxKind.ExportKeyword) || ts.isTypeAliasDeclaration(s) || ts.isInterfaceDeclaration(s) ? []
+    : ts.isVariableStatement(s) ? s.declarationList.declarations.map(d => d.name.text) : s.name ? [s.name.text] : []));
+  const sources = {};
+  for (const file of modules) {
+    const url = pathToFileURL(`${process.cwd()}/${file}`).href, base = execFileSync('git', ['show', `${sha}:${file}`], { encoding: 'utf8' }), head = fs.readFileSync(file, 'utf8');
+    // A name the parent never exported is no part of its behaviour, but later head modules import it (52551f809: nv-program-location-context), so it is served from the head copy.
+    const added = [...exported(head)].filter(name => !exported(base).has(name));
+    // Linking refuses a re-export of a name the base copy still exports (Duplicate export), so a misread base name fails loudly and never serves head's binding.
+    sources[url] = transpile(base) + (added.length ? `\nexport { ${added.join(', ')} } from ${JSON.stringify(`${url}?head`)};\n` : '');
+    if (added.length) sources[`${url}?head`] = transpile(head);
+  }
   register(`data:text/javascript,${encodeURIComponent('let sources; export function initialize(data) { sources = data; } export async function load(url, context, next) { return url in sources ? { format: "module", source: sources[url], shortCircuit: true } : next(url, context); }')}`, { data: sources });
 }
 process.env.RCAP_EVALUATOR_TODAY = '2026-09-22';
