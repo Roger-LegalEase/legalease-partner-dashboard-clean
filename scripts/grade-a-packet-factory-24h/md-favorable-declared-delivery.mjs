@@ -26,7 +26,7 @@ const HELPER_BLOB = '869fea456c66740974eb99468f2d26b53e7536ae';
 const BINDING = 'scripts/rcap-packet-completeness/md-reviewed-candidate-inputs.json';
 const BINDING_SHA = 'bffbda050c8ad74186613748d376851ef987090473ac55427a0f9a59cbb00c86';
 const ADAPTER = 'scripts/rcap-packet-completeness/md-favorable-native-candidate.mjs';
-const ADAPTER_SHA = '39bbf89909dde5ea29973f76df8f886c29fc142e300d1f84c72045e29ba9f6d5';
+const ADAPTER_SHA = '7744bae394fedb1146d436a934cf1d73bcf72ddf2e8b963baafb2bf84800abf4';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const blob = bytes => createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');
 const serialize = value => `${JSON.stringify(value, null, 2)}\n`;

@@ -146,7 +146,7 @@ export function prepareMdNativeFixture({fixture, census, fieldMap, report, check
   for (const key of Object.values(TEXT_FACTS)) if (held(at(facts, key))) mapped.availableFacts[key] = at(facts, key);
   for (const sourceField of census) {
     const name = sourceField.name, write = recorded.get(name), blank = blankByField.get(name);
-    const expectedType = selections.has(name) ? 'PDFCheckBox' : name === 'Reset Form' ? 'PDFButton'
+    const expectedType = selections.has(name) || name === NO_FINDING ? 'PDFCheckBox' : name === 'Reset Form' ? 'PDFButton'
       : name === "Court's City/County" ? 'PDFDropdown' : 'PDFTextField';
     requireCondition(sourceField.type === expectedType && sourceField.widgets.length === 1 && sourceField.widgets[0].page === 1, 'source type/page mismatch: ' + name);
     const row = {fieldId: name, fieldName: name, field: name, label: name, documentId: FORM, page: 1,
