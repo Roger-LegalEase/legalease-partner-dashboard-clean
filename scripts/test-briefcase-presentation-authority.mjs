@@ -18,12 +18,41 @@ register("./lib/ts-esm-loader.mjs", import.meta.url);
 const timing = await import("../src/lib/rcap-engine/mississippi-exact-timing.ts");
 const convictionRelief = await import("../src/lib/rcap-engine/conviction-relief-request.ts");
 const arkansasRecordOrigin = await import("../src/lib/rcap-engine/arkansas-record-origin.ts");
+const virginiaRecordOrigin = await import("../src/lib/rcap-engine/virginia-record-origin.ts");
+const reviewedResultCopy = await import("../src/lib/expungement-ai/reviewed-result-copy.ts");
+const kansasDistrictFacts = await import("../src/lib/rcap-engine/kansas-district-facts.ts");
+const northDakotaFirstOffenseFacts = await import("../src/lib/rcap-engine/north-dakota-first-offense-facts.ts");
+const wyoming1401Facts = await import("../src/lib/rcap-engine/wyoming-1401-facts.ts");
 const georgiaFirstOffender = await import("../src/lib/rcap-engine/georgia-first-offender.ts");
 const packetInformation = await import("../src/lib/expungement-ai/packet-information.ts");
-const continuations = Object.fromEntries([
+// These fixtures exercise the five real continuations below. Later route successors (CA, MO, MN, MD, VA, WY, IL...)
+// need real profiles the fake PA fixtures lack, so they load as not-applicable (null), as they are for PA.
+const continuations = Object.fromEntries(Object.keys(packetInformation).filter(name => name.endsWith("Successor")).map(name => [name, () => null]));
+for (const name of [
   "financialAnswerHeldSuccessor", "msTimingAnswerHeldSuccessor",
   "factualPathwayHeldSuccessor", "convictionFallbackHeldSuccessor", "arkansasRecordOriginHeldSuccessor"
-].map(name => [name, packetInformation[name]]));
+]) continuations[name] = packetInformation[name];
+
+// 89f4beee2 moved the adapter's evaluate-and-retry into packet-information. Its generic (non-MS) branch
+// runs over this file's mocked answers and MockInvalidAnswerError, as the adapter did before the move.
+function mockedEvaluateProtectedPacketFacts(packetMock) {
+  return (snapshot, evaluate, matterId) => {
+    const answers = packetMock.protectedPacketScreeningAnswers(snapshot);
+    if (!answers) return null;
+    const request = () => evaluate({ jurisdiction: snapshot.jurisdiction, profileVersion: snapshot.profileVersion, matterId, answers });
+    try {
+      return request();
+    } catch (error) {
+      if (!(error instanceof MockInvalidAnswerError)) return null;
+      for (const id of error.invalidQuestionIds) delete answers[id];
+      try {
+        return request();
+      } catch {
+        return null;
+      }
+    }
+  };
+}
 
 class MockInvalidAnswerError extends Error {
   constructor(invalidQuestionIds) {
@@ -33,15 +62,20 @@ class MockInvalidAnswerError extends Error {
 }
 
 function loadTsWithMocks(relPath, mocks = {}) {
+  const packetMock = { ...continuations, ...mocks["@/lib/expungement-ai/packet-information"] };
+  packetMock.evaluateProtectedPacketFacts ??= mockedEvaluateProtectedPacketFacts(packetMock);
   mocks = {
     "@/lib/rcap-engine/mississippi-exact-timing": timing,
     "@/lib/rcap-engine/conviction-relief-request": convictionRelief,
     "@/lib/rcap-engine/arkansas-record-origin": arkansasRecordOrigin,
+    "@/lib/rcap-engine/virginia-record-origin": virginiaRecordOrigin,
+    "@/lib/expungement-ai/reviewed-result-copy": reviewedResultCopy,
+    "@/lib/rcap-engine/kansas-district-facts": kansasDistrictFacts,
+    "@/lib/rcap-engine/north-dakota-first-offense-facts": northDakotaFirstOffenseFacts,
+    "@/lib/rcap-engine/wyoming-1401-facts": wyoming1401Facts,
     "@/lib/rcap-engine/georgia-first-offender": georgiaFirstOffender,
     ...mocks,
-    "@/lib/expungement-ai/packet-information": {
-      ...continuations, ...mocks["@/lib/expungement-ai/packet-information"]
-    }
+    "@/lib/expungement-ai/packet-information": packetMock
   };
   const resolved = path.join(root, relPath);
   const transpiled = ts.transpileModule(fs.readFileSync(resolved, "utf8"), {
