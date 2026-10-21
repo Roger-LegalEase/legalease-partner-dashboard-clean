@@ -3322,13 +3322,13 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
   const profile = getProfileByJurisdiction(state);
   if (msFirstOffenderSourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [...MS_FIRST_OFFENDER_COLLECTION_IDS,
     ...(includeInactive && Object.hasOwn(answers, "residency_or_location") ? ["residency_or_location"] : [])];
-  // The OH juvenile R1 route returns before the generic offense_category history branch below, so it keeps that entry here.
-  if (ohJuvenileSourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [...ohJuvenileStageFactIds(answers, includeInactive),
-    ...(includeInactive && Object.hasOwn(answers, "offense_category") && r1CategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)) ? ["offense_category"] : [])];
-  if (state === "DE") return delawareProtectedCorrectionIds(profile ?? undefined, pathway, answers, includeInactive);
+  // The OH juvenile, DE and MN two-county R1 routes return before the generic offense_category history branch below, so they keep that entry here.
+  const r1CategoryHistory = includeInactive && Object.hasOwn(answers, "offense_category") && r1CategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)) ? ["offense_category"] : [];
+  if (ohJuvenileSourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [...ohJuvenileStageFactIds(answers, includeInactive), ...r1CategoryHistory];
+  if (state === "DE") return [...delawareProtectedCorrectionIds(profile ?? undefined, pathway, answers, includeInactive), ...r1CategoryHistory];
   if (mnTwoCountySourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [
     MN_TARGET_ORIGIN_ID, "case_outcome", ...mnProtectedStageFactIds(profile, pathway!, answers, includeInactive), ...mnTwoCountyFactIds(pathway!).filter(id => includeInactive || id !== "mn_prosecuting_city" || answers.mn_prosecuted_by === "city_attorney"),
-    ...(Object.hasOwn(answers, "residency_or_location") ? ["residency_or_location"] : [])];
+    ...(Object.hasOwn(answers, "residency_or_location") ? ["residency_or_location"] : []), ...r1CategoryHistory];
   if (mdPoliceContext(profile, pathway) && packetSpecificationFor(`${state}:${pathway}`) == null) return [
     ...mdPoliceFactIds(answers, includeInactive), "case_outcome",
     ...(includeInactive ? ["county", "court", ...["financial_obligations", "sentence_completion_date", "court_requirements_completed", "resolved_timing_bucket"].filter(id => Object.hasOwn(answers, id))] : [])];
