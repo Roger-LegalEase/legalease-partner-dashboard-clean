@@ -659,7 +659,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
   category: readonly string[]; record: readonly string[] }>> = {
   UT: {
     profileHash: "bd35a941b0354dd73ca8ca57741a5afc5da7824dd66571d97abb6ff45534ee49",
-    categoryReason: "Earlier Utah categories remain optional literal history. Offense-type facts are asked through separate answers, including the charge-and-statute, offense-class, domestic-violence/assault/sex-related and traffic-rule answers; a category is not evaluated as one, and the route's existing result and payment decision are unchanged.",
+    categoryReason: "Earlier Utah categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
     category: [
       "path-a-automatic-clean-slate-expungement", // GA12 Q-252e5eaceeb14868ecfd
       "path-b-automatic-expungement-after-acquittal-or-dismissal-with-prejudice", // GA12 Q-fa8ce3d47b028a9a9297
@@ -689,7 +689,7 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
   },
   PA: {
     profileHash: "9691756c4a25ce87afb297bd809fb5dd5c39cce33ebfdcb85d9e9afb0662d12e",
-    categoryReason: "Earlier Pennsylvania categories remain optional literal history. Offense-type facts are asked through separate answers, including the charge-and-statute answer and the charge-type check; a category is not evaluated as one, and the route stays guidance only or needs review, unpaid.",
+    categoryReason: "Earlier Pennsylvania categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
     category: [
       "path-a-non-conviction-expungement", // GA12 Q-6303976ad4b8ae1e924f
       "path-b-complete-acquittal-not-guilty-expungement", // GA12 Q-bbf51562519786068cc5
