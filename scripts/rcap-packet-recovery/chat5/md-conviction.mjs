@@ -24,24 +24,24 @@ const clone=x=>structuredClone(x),has=x=>x!==undefined&&x!==null&&x!=='';
 const get=(o,k)=>k.split('.').reduce((a,p)=>a?.[p],o);
 const date=s=>`${s.slice(5,7)}/${s.slice(8,10)}/${s.slice(0,4)}`;
 export const SOURCES={
- 'CC-DC-CR-072B':{path:'reference/chat-parallel-2026-09-07/chat5/CC-DC-CR-072B.pdf',sha256:'3a61136ead74ffc9a09652edf0ad4a113538f3e172c0ddea4df618cb3c0a4469',bytes:764936,pages:1,edition:'10/01/2025-2',driveId:'1b5hj3E_trOLabgP_ltdDFo-pjCt7IiW-',url:'https://www.mdcourts.gov/sites/default/files/court-forms/courtforms/joint/ccdccr072B.pdf/ccdccr072B.pdf'},
+ 'CC-DC-CR-072B':{path:'reference/md-law-2026-10-21/CC-DC-CR-072B.pdf',sha256:'47bc720acea515896943e94e1d228b3e8cc380b0ae1d4762dd1928f60f903667',bytes:776895,pages:1,edition:'10/01/2025-2',url:'https://www.mdcourts.gov/sites/default/files/court-forms/courtforms/joint/ccdccr072B.pdf/ccdccr072B.pdf'},
  'CC-DC-089':{path:'reference/chat-parallel-2026-09-07/chat5/CC-DC-089.pdf',sha256:'eab9b1eb34b36beee57cb4ea3334ec7f8a6d825e853b73c87724c65066069384',bytes:1062198,pages:3,edition:'11/2025',driveId:'13h7vx-eqrv4DhDa9ZFHI-L5HTP-gAD72',url:'https://www.mdcourts.gov/sites/default/files/import/courtforms/joint/ccdc089.pdf'},
  'MDJ-008':{path:'reference/chat-parallel-2026-09-07/chat5/MDJ-008.pdf',sha256:'42510792803b979974b3967dfd0f871271e7518cf64e226d5a80e22b67a6e369',bytes:248175,pages:1,edition:'07/2026',driveId:'1RkaJsxPBJChjd0xJI32M6LdKzu7keIrl',url:'https://www.mdcourts.gov/sites/default/files/court-forms/mdj008.pdf'}
 };
 export const BASIS={
- misdemeanor:{years:5,field:'a misdemeanor crime specified in Criminal Procedure Article  10110 Ten years have passed since the satisfactory completion of',printed:'Eligible misdemeanor: five years',authority:'10-110(c)(1)'},
- assault_battery:{years:7,field:'a felony crime specified in Criminal Procedure Article  10110 Fifteen years have passed since the satisfactory completion of the',printed:'Second-degree assault/common law battery: seven years',authority:'10-110(c)(2)'},
- felony:{years:7,field:'a felony crime specified in Criminal Procedure Article  10110 Fifteen years have passed since the satisfactory completion of the',printed:'Other eligible felony: seven years',authority:'10-110(c)(4)'},
- burglary_theft:{years:10,field:'a crime specified in Criminal Law Article  3203 common law battery or for an offense classified as a domestically related crime',printed:'First/second-degree burglary or felony theft: ten years',authority:'10-110(c)(6)'},
- domestic:{years:15,field:'Check Box1',printed:'Domestically related crime: fifteen years',authority:'10-110(c)(3)'},
- nuisance:{years:3,field:'a crime specified in Criminal Procedure Article  10105a9 Three 3 years have passed since the later of the conviction or',printed:'Listed nuisance conviction: three years',authority:'10-105(a)(9), (c)(6)'},
- no_longer_crime:{years:0,field:'the charge but the conduct on which the charge is based is no longer a crime',printed:'Underlying conduct is no longer a crime',authority:'10-105(a)(11)'},
- repealed_sexual:{years:0,field:'the conviction was for sodomy and the conviction is not precluded from being expunged for any of the reasons listed in',printed:'Repealed sexual offense with all 10-105(a-1) exclusions absent',authority:'10-105(a)(11), (a-1)'}
+ misdemeanor:{years:5,field:'checkbox 5',printed:'Eligible misdemeanor: five years',authority:'10-110(c)(1)'},
+ assault_battery:{years:7,field:'Checkbox 6',printed:'Second-degree assault/common law battery: seven years',authority:'10-110(c)(2)'},
+ felony:{years:7,field:'Checkbox 6',printed:'Other eligible felony: seven years',authority:'10-110(c)(4)'},
+ burglary_theft:{years:10,field:'Checkbox 7',printed:'First/second-degree burglary or felony theft: ten years',authority:'10-110(c)(6)'},
+ domestic:{years:15,field:'Check Box 8',printed:'Domestically related crime: fifteen years',authority:'10-110(c)(3)'},
+ nuisance:{years:3,field:'checkbox 3',printed:'Listed nuisance conviction: three years',authority:'10-105(a)(9), (c)(6)'},
+ no_longer_crime:{years:0,field:'checkbox 1',printed:'Underlying conduct is no longer a crime',authority:'10-105(a)(11)'},
+ repealed_sexual:{years:0,field:'checkbox 2',printed:'Repealed sexual offense with all 10-105(a-1) exclusions absent',authority:'10-105(a)(11), (a-1)'}
 };
 const SEC110=new Set(['misdemeanor','assault_battery','felony','burglary_theft','domestic']);
 const eventFields={arrest:'Check Box36',summons:'Check Box37',citation:'Check Box38'};
-const bProtected=['Text28','CPF ID No','Date_3','Printed Name','Address','City State Zip','Telephone','Email','Fax','Text29','Date_4'];
-const bMap={"Court's City/County":'court.option',"Court's Address":'court.address',"Court's Telephone Number":'court.phone','Case No':'case.number','Tracking':'case.tracking','Text24':'person.name','Text25':'person.dob','Text30':'case.eventDate','Law Enforcement Agency':'case.agency','Maryland as a result of the following incident':'case.locality','I was convicted found guilty of check all that apply making sure that the statement is true and':'case.chargeText','Text27':'case.convictionDate','Printed Name_2':'person.name','Address_2':'person.street','City State Zip_2':'person.cityStateZip','Telephone_2':'person.phone','Email_2':'person.email','Fax_2':'person.fax'};
+const bProtected=['Signature of Attorney','Attorney CPF ID No','Date_3','Printed Name','Address of Attorney','City State Zip','Attorney Telephone No','Email Address','Fax','Signature of Defendant','Date_4'];
+const bMap={"Court's City/County":'court.option',"Court's Address":'court.address',"Court's Telephone Number":'court.phone','Case No':'case.number','Tracking Number':'case.tracking','Defendant Name':'person.name','Date of Birth':'person.dob','Date':'case.eventDate','Law Enforcement Agency':'case.agency','City/County of Law Enforcement Agency':'case.locality','charged with the following offense':'case.chargeText','Date of conviction':'case.convictionDate','Printed Name of Defendant':'person.name','Defendant Address':'person.street','City State Zip_2':'person.cityStateZip','Defendant Telephone':'person.phone','Defendant Email':'person.email','Defendant Fax':'person.fax'};
 const W_INCOME={wages:['Wages check box','Wages Amount'],commissions:['Commissions/Bonuses check box','Commissions Amount'],ssi:['Social Security/SSI check box','Social Security/SSI Amount'],retirement:['Retirement Income check box','Retirement Income'],unemployment:['Unemployment Insurance check box','Unemployment Insurance Amount'],cashAssistance:['Temporary Cash Assistance check box','Temporary Cash Assistance Amount'],alimony:['Alimony Spousal Support check box','Alimony/Spousal Support Amount'],rent:['Rent Received From Tenants check box','Rent From Tenants Amount'],other:['Other Income check box','Other Amount']};
 const W_PROPERTY={realEstate:['Real Estate check box','Value of real estate other than princical home'],vehicles:['Other Vehicles check box','Value of other vehicles'],bank:['Bank Accounts check box','Balance of Accounts'],stocks:['Stocks or Other Securities check box','Value of stocks'],other:['Other Property check box','Value of Other Property','Describe Other Property']};
 const W_DEBT={creditCard:['Credit Card check box','Credit Card Amount Owed','Monthly Payment for Credit Card','Name of Credit Card'],carLoan:['Car Loan check box','Car Loan Amount Owed','Monthly Payment for Car Loan','Name of Car Loan'],other:['Other Debt','Debt Amount Owed','Monthly Payment for Debt','Describe Debt']};
@@ -185,12 +185,12 @@ async function formWriter(id,provided,sourceSpec=null){
 async function petition(v,source){
  const f=v.facts,w=await formWriter('CC-DC-CR-072B',source);
  for(const [name,key] of Object.entries(bMap)){let value=get(f,key);if(has(value)&&['person.dob','case.eventDate','case.convictionDate'].includes(key))value=date(value);w.text(name,key,value,['case.tracking','person.email','person.fax'].includes(key));}
- w.lines(['Text26','2 I was charged with the offense of'],'case.incident',f.case.incident);
+ w.lines(['Charged  with the following incident','Charged  with the following incident_1'],'case.incident',f.case.incident);
  w.mark(f.court.level==='district'?'Check Box33':'Check Box32','court.level');
  if(has(f.case.event))w.mark(eventFields[f.case.event],'case.event');else w.missing('Check Box36','case.event','Confirm arrest, summons or citation.');
  if(v.mayMarkBasis){w.mark(BASIS[f.case.basis].field,'case.basis');if(f.case.basis==='repealed_sexual')w.mark(BASIS.no_longer_crime.field,'The underlying conduct is also no longer a crime');if(f.case.basis==='no_longer_crime'&&f.case.formerSexualOffense)w.mark(BASIS.repealed_sexual.field,'All special 10-105(a-1) exclusions expressly absent');}else w.missing(BASIS[f.case.basis].field,'case.basis','Left unmarked while required case predicates or dates are missing.');
- if(f.court.transfer==='adult')w.mark('The case began in one court and was transferred to another court other than juvenile court Note This petition must be filed in','court.transfer');
- if(f.court.appealed)w.mark('The case was appealed to a court exercising appellate jurisdiction Note This petition must be filed in the appellate court','court.appealed');
+ if(f.court.transfer==='adult')w.mark('Checkbox 9','court.transfer');
+ if(f.court.appealed)w.mark('Checkbox 10','court.appealed');
  return w.finish(bProtected);
 }
 async function waiver(v,source){
@@ -313,7 +313,7 @@ export function convictionFixtures(){
 // schema projection preserves exact source field IDs, labels and per-fixture
 // conditions; it does not implement a second completeness decision procedure.
 export function mdConvictionFieldMap(facts,report,census){
- const opaque={'Text24':'Defendant name','Text25':'Defendant date of birth','Text26':'Incident narrative, first line','2 I was charged with the offense of':'Incident narrative, continued','Text27':'Conviction date','Text28':'Attorney signature','Text29':'Defendant signature','Text30':'Arrest or service date','Date_3':'Attorney signature date','Date_4':'Defendant signature date','Check Box1':'Domestically related conviction: fifteen years after sentence completion'};
+ const opaque={'Defendant Name':'Defendant name','Date of Birth':'Defendant date of birth','Charged  with the following incident':'Incident narrative, first line','Charged  with the following incident_1':'Incident narrative, continued','Date of conviction':'Conviction date','Signature of Attorney':'Attorney signature','Signature of Defendant':'Defendant signature','Date':'Arrest or service date','Date_3':'Attorney signature date','Date_4':'Defendant signature date','Check Box 8':'Domestically related conviction: fifteen years after sentence completion'};
  const semantic=(id,field)=>id==='CC-DC-CR-072B'?(opaque[field]??Object.values(BASIS).find(b=>b.field===field)?.printed??field):field;
  const normalize=row=>({...row,fieldId:row.field,sourceIdentity:row.field,sourceLabel:semantic(row.documentId,row.field),label:semantic(row.documentId,row.field),page:row.page??row.widgets?.[0]?.page,isSelectionControl:(census[row.documentId]??[]).some(c=>c.field===row.field&&c.type==='PDFCheckBox')});
  const writes=report.writes.map(normalize),refusals=report.blanks.map(raw=>{

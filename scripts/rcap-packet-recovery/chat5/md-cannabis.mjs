@@ -14,7 +14,7 @@ export {ROOT,hash,json};
 export const FAMILY='md_cannabis_petition-set';
 export const ROUTE='obligation:track-pathway:MD:md_cannabis_petition:cannabis-specific-expungement';
 export const OUT='data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill';
-export const SOURCE={path:'reference/chat-parallel-2026-09-07/chat5/CC-DC-CR-072D.pdf',sha256:'6a5337a5d142c8ae1cc41845bd4c5efb5598e7a64acbda17c9ab70134773f147',bytes:166429,pages:1,edition:'10/2025',driveId:'12qn6XUfmp3TWHQbVaC0dcUkUsw5io7yN',url:'https://www.mdcourts.gov/sites/default/files/court-forms/ccdccr072d.pdf'};
+export const SOURCE={path:'reference/md-law-2026-10-21/CC-DC-CR-072D.pdf',sha256:'87465cb08d93f3469dc4fe7288360aaa650f21e2dee06ebd4f7f05a4998d2703',bytes:167894,pages:1,edition:'10/2025',url:'https://www.mdcourts.gov/sites/default/files/court-forms/ccdccr072d.pdf'};
 export const SOURCES={'CC-DC-CR-072D':SOURCE,'CC-DC-089':COST_SOURCES['CC-DC-089'],'MDJ-008':COST_SOURCES['MDJ-008']};
 export const BASIS={
  no_longer_crime:{field:'possession of controlled dangerous substance',statute:'CR 5-601',years:0,label:'Cannabis possession: conduct no longer a crime',authority:'Criminal Procedure 10-105(a)(11)'},
