@@ -86,3 +86,6 @@ for(const raw of [true,false,{value:true,unknown:false},{value:false,unknown:fal
 });
 check('original witness unchanged',()=>assert.deepEqual(retained.finalAnswers,original));
 const failed=checks.filter(c=>!c.pass);console.log(JSON.stringify({qualification:'Synthetic protected model/save only; no owner/API/qualification/output/commerce acceptance',checks,passed:checks.length-failed.length,failed},null,2));process.exitCode=failed.length?1:0;
+// GA-16-M01643 checks optional location without sharing the render context above.
+const {execFileSync}=await import('node:child_process');
+execFileSync(process.execPath,['scripts/test-va-pardon-location-history.mjs'],{stdio:'inherit'});

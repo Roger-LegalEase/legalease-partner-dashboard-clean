@@ -241,3 +241,6 @@ assert.equal(saves,httpCases);delete globalThis.__sb288Transport;
 
 
 console.log(JSON.stringify({status:'PASS',checks,httpCases,originalId:'Q-2d80a89dd926657a1873',route:key,liveCalls:0,limits:['Review-only factual consumer; no legal eligibility finding or route promotion.','Independent timing/authority and adopted packet stops remain; no output regeneration.','Supplemental EN/ES copy requires qualified review.']}));
+// GA-16-M01455 uses a fresh render context after the existing mutation controls finish.
+const {execFileSync}=await import('node:child_process');
+execFileSync(process.execPath,['scripts/test-ga-sb288-location-history.mjs'],{stdio:'inherit'});

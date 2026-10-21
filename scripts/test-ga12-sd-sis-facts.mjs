@@ -204,3 +204,5 @@ for(const [id,original]of [...records]){
 }
 delete globalThis.__sdSisTransport;
 console.log(JSON.stringify({status:'PASS',checks,httpCases,originalIds:['Q-cde3ef0a5bed58e60545','QD-bd6b15fff22cbe1501cb'],route:key,limits:['Existing guidance and NO_RECORD hold; no eligibility or drug-route transfer.','Pure stage planning only, no composition/render/service/hosted call.','Draft EN/ES needs qualified review.']}));
+// GA-16-M01616 location/history checks share this existing CI command.
+await import('./test-sd-sis-location-history.mjs');

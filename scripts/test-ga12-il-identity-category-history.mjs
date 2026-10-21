@@ -244,3 +244,5 @@ for (const [id, original] of [...records]) {
 delete globalThis.__ilCategoryTransport;
 console.log(JSON.stringify({ status: 'PASS', checks, originalIds: ['Q-c1c8e2c369e81fbe1caf', 'QD-bd6b15fff22cbe1501cb'],
   scope: 'isolated collection/protected transitions/HTTP transport; no hosted owner, database or delivery proof' }));
+// GA-16-M01461 location/history checks share this existing CI command.
+await import('./test-il-identity-location-history.mjs');

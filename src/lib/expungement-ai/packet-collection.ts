@@ -1,3 +1,4 @@
+import { vaPardonLocationApplies } from "@/lib/expungement-ai/va-pardon-location-context";
 import { wy1502Context } from "@/lib/rcap-engine/wyoming-1502-facts";
 import { southDakotaSisContext } from "@/lib/rcap-engine/south-dakota-sis-facts";
 import { illinoisProstitutionContext } from "@/lib/rcap-engine/illinois-prostitution-facts";
@@ -1006,6 +1007,8 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
   const iaCategoryHistory = iaCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const ctCategoryHistory = ctInformationCategoryIsHistory(getProfileByJurisdiction(input.jurisdiction), input.pathwayId ?? null,
     specification, { ...available, ...input.savedAnswers }, [...input.unresolvedSavedFactIds ?? []]);
+  const vaPardonLocationContext = vaPardonLocationApplies(getProfileByJurisdiction(input.jurisdiction), input.pathwayId ?? null, specification,
+    { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers }, [...input.unresolvedSavedFactIds ?? []]);
   const msFirstContext = msFirstOffenderSourceContract(getProfileByJurisdiction(input.jurisdiction), input.pathwayId, specification);
   const msFirstQuestions = new Map(msFirstContext ? msFirstOffenderSourceQuestions().map(question => [question.id, question]) : []);
   const requiredInputIds = dedupe([...(isCaProp64Pathway(input.jurisdiction, input.pathwayId) ? [CA_SAFE_AT_HOME_ID] : []), ...input.requiredInputIds, ...(msFirstContext ? MS_FIRST_OFFENDER_COLLECTION_IDS : []), ...(ohJuvenileContext ? OH_JUVENILE_STAGE_IDS : []), ...mnTwoCountyIds, ...mnStageQuestions.map(question => question.id), ...(retainedDcLocation ? [DC_LEGACY_LOCATION] : [])]);
@@ -1105,6 +1108,16 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
     if (msFirstContext && !overrideClass && !needsHuman.has(factId) && !unresolvedScopeFor(factId)) {
+      // GA-16-M01514 / Q-7aaf83fbc78f127f31d1: preserve literal history without supplying source facts.
+      if (factId === "residency_or_location" && !decidesRouteFor(factId) && !input.recordOwnQuestionIds?.has(factId)) {
+        const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+          .some(answers => answers && Object.hasOwn(answers, factId));
+        facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+          group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
+          source: "ms_first_location_history",
+          reason: "Earlier generic location remains optional literal context. Separate jurisdiction, conviction-court, county or municipality, mailing and prosecutor-service facts retain their own meanings." });
+        continue;
+      }
       if (factId === "offense_category") {
         facts.push({ factId, collection: "conditional", phase: "known", active: false, optional: true, group,
           source: "ms_first_offender_legacy_category_context",
@@ -1651,6 +1664,19 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
       continue;
     }
 
+    // GA-16-M01616 / Q-a2f3f43ff3e49ae2ce48: court/county are separate later-actor fields.
+    if (factId === "residency_or_location" && sdSisCategoryHistory && !overrideClass
+      && !needsHuman.has(factId) && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)
+      && !input.recordOwnQuestionIds?.has(factId)) {
+      const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
+        source: "sd_sis_location_history",
+        reason: "Earlier generic location remains optional literal context, never the original court, county, mailing address or a document value. Court/county handbacks and conditional enforcement retain their separate source ownership." });
+      continue;
+    }
+
     // GA-16-M01571 / Q-3243544293c0222d2708: the exact NV family has separate court/contact facts.
     if (factId === "residency_or_location" && nvProgramCategoryHistory && !overrideClass
       && !needsHuman.has(factId) && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)
@@ -1661,6 +1687,58 @@ export function resolvePacketCollection(input: PacketCollectionInput): PacketCol
         group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
         source: "nv_program_location_history",
         reason: "Earlier generic location remains optional literal context, never a court, county, mailing address, agency or document value. Exact court and agency handbacks retain their separate source ownership." });
+      continue;
+    }
+
+    // GA-16-M01461 / Q-39a50c13c26e2446fc45: the arrest circuit is a separate source fact.
+    if (factId === "residency_or_location" && ilCategoryHistory && !overrideClass
+      && !needsHuman.has(factId) && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)
+      && !input.recordOwnQuestionIds?.has(factId)) {
+      const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
+        source: "il_identity_location_history",
+        reason: "Earlier generic location remains optional literal context, never the arrest circuit, mailing address or a document value. The circuit-court handbacks retain their separate source ownership." });
+      continue;
+    }
+
+    // GA-16-M01508 / Q-1fd626b49f5c694da45b and M01510 / Q-8da4428f5701a867dcca.
+    if (factId === "residency_or_location" && msCategoryHistory && !overrideClass
+      && !needsHuman.has(factId) && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)
+      && !input.recordOwnQuestionIds?.has(factId)) {
+      const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
+        source: "ms_additional_location_history",
+        reason: "Earlier generic location remains optional literal context, never the conviction court, its county or municipality, mailing address or service address. The two statutory branches and source-owned handbacks remain separate." });
+      continue;
+    }
+
+    // GA-16-M01455 / Q-921725114b8166900e39: jurisdiction and caption facts have separate consumers.
+    if (factId === "residency_or_location" && gaSb288CategoryHistory && !overrideClass
+      && !needsHuman.has(factId) && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)
+      && !input.recordOwnQuestionIds?.has(factId)) {
+      const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
+        source: "ga_sb288_location_history",
+        reason: "Earlier generic location remains optional literal context. The existing case-jurisdiction gate and separate convicting-court, county, mailing and prosecutor-service facts retain their own meanings." });
+      continue;
+    }
+
+    // GA-16-M01643 / Q-aae46f53eb742ee526b6: a known record origin is not a receiving court.
+    if (factId === "residency_or_location" && vaPardonLocationContext && !overrideClass
+      && !needsHuman.has(factId) && !decidesRouteFor(factId) && !unresolvedScopeFor(factId)
+      && !input.recordOwnQuestionIds?.has(factId)) {
+      const retained = needsSavedAnswerClarification || [input.screeningAnswers, input.prefilledAnswers, input.savedAnswers, input.profileFacts]
+        .some(answers => answers && Object.hasOwn(answers, factId));
+      facts.push({ factId, collection: "conditional", phase: retained ? "render" : "known",
+        group: retained ? group : null, active: retained, ...(retained ? { optional: true } : {}),
+        source: "va_pardon_location_history",
+        reason: "Earlier generic location remains optional literal context. The adopted record-origin fact, actual pardon and receiving-court/case facts stay separate; this context supplies no court form or fulfillment authority." });
       continue;
     }
 

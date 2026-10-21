@@ -1,3 +1,4 @@
+import { vaPardonLocationApplies, vaPardonLocationScopeEntry, vaPardonLocationQuestion } from "@/lib/expungement-ai/va-pardon-location-context";
 import { VA_RECORD_CONTEXT_IDS, VA_RECORD_CONTEXT_QUESTIONS, virginiaRecordContextApplies } from "@/lib/expungement-ai/virginia-record-context";
 import { VA_RECORD_ORIGIN_ID, VA_RECORD_ORIGIN_SOURCE, virginiaRecordOrigin, virginiaRecordOriginApplies } from "@/lib/rcap-engine/virginia-record-origin";
 import { MD_JUVENILE_DOCUMENT_QUESTIONS } from "@/lib/expungement-ai/md-juvenile-document-questions";
@@ -480,6 +481,10 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   if (collection?.facts.some(fact => fact.factId === DC_LEGACY_LOCATION && fact.source === "dc_fixed_caption_location_context" && fact.optional)
     && !questions.some(question => question.id === DC_LEGACY_LOCATION)) questions.push(fallbackPacketQuestion(DC_LEGACY_LOCATION));
   questions = questions.map((question) => reviewedPacketQuestion(question, { state: profile.jurisdiction.code, pathwayId, participantOwnsRecord: knownParticipantOwner(questionById, screeningAnswers.ownership_scope), participantHelpingRecord: knownParticipantHelper(questionById, screeningAnswers.ownership_scope) }));
+  if (collection?.facts.some(fact => fact.factId === "residency_or_location" && fact.source === "va_pardon_location_history" && fact.optional)) {
+    questions = questions.map(question => vaPardonLocationQuestion(question, profile, pathwayId,
+      packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`), { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers }));
+  }
   questions = questions.map(question => ndFirstOffenseRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => akCourtviewRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => akPardonRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
@@ -3240,13 +3245,19 @@ export function packetCollectionFor(input: {
   if(wy1501Context(profile,input.pathwayId,{...input.screeningAnswers,...input.prefilledAnswers,...input.savedAnswers}))for(const id of wy1501FactIds({...input.screeningAnswers,...input.prefilledAnswers,...input.savedAnswers}))decidingFactIds.add(id);
   for (const id of texasNondisclosureFactIds(profile, input.pathwayId, { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers })) decidingFactIds.add(id);
   const specification = packetSpecificationFor(`${input.jurisdiction}:${input.pathwayId ?? ""}`) ?? null;
+  // GA-16-M01455: pinned rule67/exclusion13 consume jurisdiction_scope, never a literal city.
+  if (gaSb288CategoryIsHistory(profile, input.pathwayId, specification)) decidingFactIds.delete("residency_or_location");
+  // GA-16-M01514: this source contract uses separate jurisdiction and conviction-court facts.
+  if (msFirstOffenderSourceContract(profile, input.pathwayId, specification)) decidingFactIds.delete("residency_or_location");
   const originQuestion = mnTargetOriginQuestion(profile, input.pathwayId, specification);
   const originAnswers = { ...input.screeningAnswers, ...input.prefilledAnswers, ...input.savedAnswers };
   const originConfirmed = originQuestion && !input.unresolvedSavedFactIds?.includes(MN_TARGET_ORIGIN_ID)
     && scalarAnswerText(originAnswers[MN_TARGET_ORIGIN_ID]) === "State or local"
     && !unresolvedRecordFactConfirmations(`${input.jurisdiction}:${input.pathwayId}`, originAnswers,
       new Map([[MN_TARGET_ORIGIN_ID, originQuestion]]), input.recordFactConfirmations).includes(MN_TARGET_ORIGIN_ID);
-  const unresolvedRules = scope?.unresolvedRules.filter(rule => !(originConfirmed && mnTargetOriginRule18Entry(rule))) ?? [];
+  const vaLocationContext = vaPardonLocationApplies(profile, input.pathwayId, specification, originAnswers, input.unresolvedSavedFactIds);
+  const unresolvedRules = scope?.unresolvedRules.filter(rule => !(originConfirmed && mnTargetOriginRule18Entry(rule))
+    && !(vaLocationContext && vaPardonLocationScopeEntry(rule))) ?? [];
   const unresolvedFactIds = new Set(unresolvedRules.flatMap(rule => rule.factIds));
   const contactContract = reviewedContactRepresentation({ profile, pathwayId: input.pathwayId, specification,
     requiredInputIds: input.requiredInputIds, decidingFactIds, unresolvedFactIds });
@@ -3307,7 +3318,8 @@ export function packetCollectionFor(input: {
  * clarification. A saved fact identifies its control, never a replacement route. */
 export function factualPathwayCorrectionIds(state: string, pathway: string | null, answers: Record<string, unknown>, includeInactive = false): string[] {
   const profile = getProfileByJurisdiction(state);
-  if (msFirstOffenderSourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [...MS_FIRST_OFFENDER_COLLECTION_IDS];
+  if (msFirstOffenderSourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [...MS_FIRST_OFFENDER_COLLECTION_IDS,
+    ...(includeInactive && Object.hasOwn(answers, "residency_or_location") ? ["residency_or_location"] : [])];
   if (ohJuvenileSourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return ohJuvenileStageFactIds(answers, includeInactive);
   if (state === "DE") return delawareProtectedCorrectionIds(profile ?? undefined, pathway, answers, includeInactive);
   if (mnTwoCountySourceContract(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) return [
@@ -3321,7 +3333,12 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
     ? [...convictionReliefQuestions(state).filter(q => includeInactive || convictionReliefQuestionApplies(profile, answers, q.id)).map(q => q.id),
       "case_outcome", ...(state === "GA" ? ["ga_original_first_offender", "pardon_status"] : [])] : [];
   if (includeInactive && Object.hasOwn(answers, "residency_or_location")
-    && nvProgramCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) extra.push("residency_or_location");
+    && (nvProgramCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
+      || sdSisCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`)))) extra.push("residency_or_location");
+  if (includeInactive && Object.hasOwn(answers, "residency_or_location")
+    && vaPardonLocationApplies(profile, pathway, packetSpecificationFor(`${state}:${pathway}`), answers)) extra.push("residency_or_location");
+  if (includeInactive && Object.hasOwn(answers, "residency_or_location")
+    && gaSb288CategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) extra.push("residency_or_location");
   if (includeInactive && Object.hasOwn(answers, "offense_category")
     && (ilProstitutionCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
       || nvProgramCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
@@ -3357,6 +3374,10 @@ export function factualPathwayCorrectionIds(state: string, pathway: string | nul
       ...OR_DISPOSITION_FACT_IDS.filter(id => includeInactive || oregonDispositionQuestionApplies(state, answers, id)),
       ...(oregonContactContract(profile, pathway) ? oregonContactQuestions(answers, includeInactive).map(q => q.id) : [])];
   }
+  if (includeInactive && Object.hasOwn(answers, "residency_or_location")
+    && ilIdentityCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) extra.push("residency_or_location");
+  if (includeInactive && Object.hasOwn(answers, "residency_or_location")
+    && msAdditionalCategoryIsHistory(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))) extra.push("residency_or_location");
   if (dcInnocenceLocationIsContext(profile, pathway, packetSpecificationFor(`${state}:${pathway}`))
     && Object.hasOwn(answers, DC_LEGACY_LOCATION)) return [...extra, DC_LEGACY_LOCATION];
   if (profile && ndFirstOffenseFamilyContract(profile, pathway)) return [...extra, ...ND_FIRST_OFFENSE_CONTACT_IDS,
@@ -3607,6 +3628,30 @@ export function isTexasNondisclosureGuidanceCorrection(model: Parameters<typeof 
 
 export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtCompletionInputIds>[0], resultCode: string | null): Set<string> {
   const ids = heldCourtCompletionInputIds(model, resultCode);
+  // GA-16-M01616: the held SIS page still owns an earlier optional location correction.
+  if (resultCode === "guidance_only"
+    && sdSisCategoryIsHistory(getProfileByJurisdiction(model.stateCode), model.pathwayId,
+      packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))
+    && model.questions.some(question => question.id === "residency_or_location" && question.required === false)
+    && editablePacketInputIds(model).has("residency_or_location")) ids.add("residency_or_location");
+  // GA-16-M01461: preserve the optional location edit on the held identity route.
+  if (["needs_review", "needs_more_info", "not_yet", "likely_not_eligible"].includes(resultCode ?? "")
+    && ilIdentityCategoryIsHistory(getProfileByJurisdiction(model.stateCode), model.pathwayId,
+      packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))
+    && model.questions.some(question => question.id === "residency_or_location" && question.required === false)
+    && editablePacketInputIds(model).has("residency_or_location")) ids.add("residency_or_location");
+  // GA-16-M01455: the held SB288 page retains the optional literal-history editor.
+  if (["needs_review", "needs_more_info", "not_yet", "likely_not_eligible"].includes(resultCode ?? "")
+    && gaSb288CategoryIsHistory(getProfileByJurisdiction(model.stateCode), model.pathwayId,
+      packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))
+    && model.questions.some(question => question.id === "residency_or_location" && question.required === false)
+    && editablePacketInputIds(model).has("residency_or_location")) ids.add("residency_or_location");
+  // GA-16-M01508/M01510: optional saved location stays editable while each lower-court route is held.
+  if (resultCode === "guidance_only"
+    && msAdditionalCategoryIsHistory(getProfileByJurisdiction(model.stateCode), model.pathwayId,
+      packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))
+    && model.questions.some(question => question.id === "residency_or_location" && question.required === false)
+    && editablePacketInputIds(model).has("residency_or_location")) ids.add("residency_or_location");
   const mdCaptionQuestion = mdJuvenileCaptionQuestion(getProfileByJurisdiction(model.stateCode), model.pathwayId,
     packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`));
   if (resultCode === "not_covered_yet" && mdCaptionQuestion
@@ -3631,6 +3676,7 @@ export function heldPacketCorrectionInputIds(model: Parameters<typeof heldCourtC
     && msFirstOffenderSourceContract(getProfileByJurisdiction(model.stateCode), model.pathwayId, packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))) {
     const allowed = editablePacketInputIds(model);
     for (const id of MS_FIRST_OFFENDER_COLLECTION_IDS) if (allowed.has(id) && model.questions.some(question => question.id === id)) ids.add(id);
+    if (allowed.has("residency_or_location") && model.questions.some(question => question.id === "residency_or_location" && question.required === false)) ids.add("residency_or_location");
   }
   if (resultCode === "guidance_only" && ohJuvenileSourceContract(getProfileByJurisdiction(model.stateCode), model.pathwayId, packetSpecificationFor(`${model.stateCode}:${model.pathwayId}`))) {
     const allowed = editablePacketInputIds(model);
@@ -3943,6 +3989,10 @@ function protectedPacketQuestionSurface(
   if (collection?.facts.some(fact => fact.factId === DC_LEGACY_LOCATION && fact.source === "dc_fixed_caption_location_context" && fact.optional)
     && !questions.some(question => question.id === DC_LEGACY_LOCATION)) questions.push(fallbackPacketQuestion(DC_LEGACY_LOCATION));
   questions = questions.map((question) => reviewedPacketQuestion(question, { state: profile.jurisdiction.code, pathwayId, participantOwnsRecord: knownParticipantOwner(questionById, screeningAnswers.ownership_scope), participantHelpingRecord: knownParticipantHelper(questionById, screeningAnswers.ownership_scope) }));
+  if (collection?.facts.some(fact => fact.factId === "residency_or_location" && fact.source === "va_pardon_location_history" && fact.optional)) {
+    questions = questions.map(question => vaPardonLocationQuestion(question, profile, pathwayId,
+      packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`), { ...screeningAnswers, ...prefilledAnswers, ...savedAnswers }));
+  }
   questions = questions.map(question => ndFirstOffenseRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => akCourtviewRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));
   questions = questions.map(question => akPardonRecordContextQuestion(question, profile, pathwayId, packetSpecificationFor(`${profile.jurisdiction.code}:${pathwayId}`)));

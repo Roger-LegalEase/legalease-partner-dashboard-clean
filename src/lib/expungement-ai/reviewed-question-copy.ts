@@ -1,6 +1,11 @@
+import { msFirstLocationQuestion } from "@/lib/expungement-ai/ms-first-location-context";
+import { gaSb288LocationQuestion } from "@/lib/expungement-ai/ga-sb288-location-context";
+import { sdSisLocationQuestion } from "@/lib/expungement-ai/sd-sis-location-context";
 import { nvProgramLocationQuestion } from "@/lib/expungement-ai/nv-program-location-context";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { dcInnocenceLocationQuestion } from "@/lib/rcap-engine/dc-innocence-location-context";
+import { ilIdentityLocationQuestion } from "@/lib/expungement-ai/il-identity-location-context";
+import { msAdditionalLocationQuestion } from "@/lib/expungement-ai/ms-additional-location-context";
 import "server-only";
 import catalog from "@/lib/expungement-ai/frontend/reviewed-question-spanish.json";
 import participantCatalog from "@/lib/expungement-ai/frontend/reviewed-participant-copy.json";
@@ -111,6 +116,11 @@ export function reviewedScreeningQuestion<T extends PublicQuestion>(question: T,
 
 /** Paired EN/ES successor copy, only for the exact reviewed participant wording and route. */
 export function reviewedPacketQuestion<T extends PublicQuestion>(question: T, context: Context & { participantOwnsRecord: boolean; participantHelpingRecord?: boolean }): T {
+  if (question.id === "residency_or_location" && context.state === "SD") {
+    const location = sdSisLocationQuestion(question, getProfileByJurisdiction(context.state), context.pathwayId ?? null,
+      packetSpecificationFor(`${context.state}:${context.pathwayId ?? ""}`));
+    if (location !== question) return location;
+  }
   if (question.id === "residency_or_location" && context.state === "NV") {
     const location = nvProgramLocationQuestion(question, getProfileByJurisdiction(context.state), context.pathwayId ?? null,
       packetSpecificationFor(`${context.state}:${context.pathwayId ?? ""}`));
@@ -118,6 +128,24 @@ export function reviewedPacketQuestion<T extends PublicQuestion>(question: T, co
   }
   if (question.id === "residency_or_location" && context.state === "DC") {
     const location = dcInnocenceLocationQuestion(question, getProfileByJurisdiction(context.state), context.pathwayId ?? null,
+      packetSpecificationFor(`${context.state}:${context.pathwayId ?? ""}`));
+    if (location !== question) return location;
+  }
+  if (question.id === "residency_or_location" && context.state === "IL") {
+    const location = ilIdentityLocationQuestion(question, getProfileByJurisdiction(context.state), context.pathwayId ?? null,
+      packetSpecificationFor(`${context.state}:${context.pathwayId ?? ""}`));
+    if (location !== question) return location;
+  }
+  if (question.id === "residency_or_location" && context.state === "MS") {
+    const location = msAdditionalLocationQuestion(question, getProfileByJurisdiction(context.state), context.pathwayId ?? null,
+      packetSpecificationFor(`${context.state}:${context.pathwayId ?? ""}`));
+    if (location !== question) return location;
+    const first = msFirstLocationQuestion(question, getProfileByJurisdiction(context.state), context.pathwayId ?? null,
+      packetSpecificationFor(`${context.state}:${context.pathwayId ?? ""}`));
+    if (first !== question) return first;
+  }
+  if (question.id === "residency_or_location" && context.state === "GA") {
+    const location = gaSb288LocationQuestion(question, getProfileByJurisdiction(context.state), context.pathwayId ?? null,
       packetSpecificationFor(`${context.state}:${context.pathwayId ?? ""}`));
     if (location !== question) return location;
   }

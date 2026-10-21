@@ -200,3 +200,6 @@ check('wrong registered spec cannot gain descriptors',()=>assert.equal(H.msFirst
 check('unrelated route no MS correction entry',()=>assert.ok(!P.factualPathwayCorrectionIds('MS','non-conviction-expungement-for-dismissal-no-disposition-or-acquittal',answers,true).some(id=>H.MS_FIRST_OFFENDER_IDS.includes(id))));
 check('actual held summary and step EN/ES pairs',()=>{for(const row of heldCopies){assert.ok(row.copy.es,JSON.stringify(row));for(const text of row.nextSteps)assert.notEqual(resolveRuntimeText('es',text),text);}});
 console.log(`MS first-offender source facts: ${checks} checks PASS; pure source/collector/model/save/presentation checks only; no HTTP/store/browser/qualified-output acceptance.`);
+// GA-16-M01514 renders retained location history in a fresh locale context.
+const {execFileSync}=await import('node:child_process');
+execFileSync(process.execPath,['scripts/test-ms-first-location-history.mjs'],{stdio:'inherit'});

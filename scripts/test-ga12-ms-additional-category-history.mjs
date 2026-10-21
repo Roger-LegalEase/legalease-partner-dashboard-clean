@@ -248,3 +248,5 @@ for (const [id, original] of [...records]) {
 delete globalThis.__msCategoryTransport;
 console.log(JSON.stringify({ status: 'PASS', checks, originalIds: [...cases.map(c => c[0]), 'QD-bd6b15fff22cbe1501cb'],
   scope: 'isolated collection/protected transitions/HTTP transport; no hosted owner, database or delivery proof' }));
+// GA-16-M01508/M01510 location/history checks share this existing CI command.
+await import('./test-ms-additional-location-history.mjs');
