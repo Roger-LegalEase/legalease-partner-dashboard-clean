@@ -84,7 +84,9 @@ export const MS_PROOF_EXECUTION_INPUTS=['scripts/lib/rcap-ephemeral-pg.mjs','scr
   // Mandatory current batch31 CA pardon copy-entry position source-only record, distinct from modules.
   'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31-ca-order-20261020-v1.json',
   // Mandatory current batch31b GA-16 location contexts source-only record, distinct from modules.
-  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31b-ga16-location-20261020-v1.json'];
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31b-ga16-location-20261020-v1.json',
+  // Mandatory current batch31c N1 and CA-L01 and CA-L02 source-only record, distinct from modules.
+  'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31c-ca-l01-l02-20261021-v1.json'];
 // Exact import paths observed by the actual verifier imports-only probe;
 // the full execution must reproduce this set before emitting a current proof.
 export const MS_PROOF_OBSERVED_INPUTS=[

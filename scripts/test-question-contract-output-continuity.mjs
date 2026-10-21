@@ -19,6 +19,7 @@ import {assertB30CoSourceSuccession,B30_CO_SOURCE_PATH} from '../src/lib/rcap/fu
 import {assertB31CaPardonSourceSuccession,B31_CA_PARDON_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertB31CaOrderSourceSuccession,B31_CA_ORDER_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertB31bGa16LocationSourceSuccession,B31B_GA16_LOCATION_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
+import {assertB31cCaL01L02SourceSuccession,B31C_CA_L01_L02_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertCaSafeAtHomeSourceSuccession,CA_SAFE_AT_HOME_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertLeadSpanishSourceSuccession,LEAD_SPANISH_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
 import {assertGaVaSpecSuccessorGatesSourceSuccession,GA_VA_SPEC_SUCCESSOR_GATES_SOURCE_PATH} from '../src/lib/rcap/fulfillment/question-contract-source-successor.mjs';
@@ -1043,6 +1044,13 @@ check('batch31b GA-16 location contexts hop preserves prior chain and refuses mi
  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===B31B_GA16_LOCATION_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/batch31b GA-16 location contexts source succession record bytes changed/);
  assert.throws(()=>assertB31CaOrderSourceSuccession(file=>{if(file===B31B_GA16_LOCATION_SOURCE_PATH)throw Error('missing batch31b GA-16 location contexts record');return readBytes(file);}),/missing batch31b GA-16 location contexts record/);
  for(const input of ["src/lib/expungement-ai/reviewed-question-copy.ts"])
+  assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
+});
+check('batch31c N1 and CA-L01 and CA-L02 hop preserves prior chain and refuses missing/tampered bytes',()=>{
+ const c=assertB31cCaL01L02SourceSuccession(readBytes);assert.equal(c.currentChangedSourceCount,35);assert.equal(c.currentUnchangedSourceCount,163);
+ assert.throws(()=>assertQuestionContractOutputInputs(file=>file===B31C_CA_L01_L02_SOURCE_PATH?Buffer.from('{}'):readBytes(file)),/batch31c N1 and CA-L01 and CA-L02 source succession record bytes changed/);
+ assert.throws(()=>assertB31bGa16LocationSourceSuccession(file=>{if(file===B31C_CA_L01_L02_SOURCE_PATH)throw Error('missing batch31c N1 and CA-L01 and CA-L02 record');return readBytes(file);}),/missing batch31c N1 and CA-L01 and CA-L02 record/);
+ for(const input of ["src/lib/expungement-ai/frontend/reviewed-result-display-copy.json", "src/lib/rcap-engine/california-prop64-facts.ts"])
   assert.throws(()=>assertQuestionContractOutputInputs(file=>file===input?Buffer.from('drift'):readBytes(file)),/stale output input/);
 });
 // A succession record set must never outlive its call: after an honest load, a later drift still
