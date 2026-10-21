@@ -1203,6 +1203,19 @@ const R1_SOURCE_BOUND_HISTORY: Readonly<Record<string, { profileHash: string; ca
     record: [
     ],
   },
+  ID: {
+    profileHash: "fbbdbd3f1afc5fb7c0959d8a31d56c142bea295096255e8ec3e6392a87f913f0",
+    categoryReason: "Earlier Idaho categories remain optional literal history. A category is not evaluated as an offense type, and the route's existing result and payment decision are unchanged.",
+    category: [
+      "clean-slate-shielding-under-idaho-code-67-3004-11", // GA12 Q-234d22947f5845d3fb3b
+      "human-trafficking-survivor-vacatur-and-expungement", // GA12 Q-275dc80a4ba3c3029744
+      "juvenile-expungement", // GA12 Q-03d858e3c437c0fa52eb
+      "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10", // GA12 Q-8e441ae51aae8b376f39
+      "withheld-judgment-idaho-code-19-2604-review-branch", // GA12 Q-07c6204e128727e33eef
+    ],
+    record: [
+    ],
+  },
 };
 
 function r1SourceBoundHistoryEntry(profile: EngineProfile | undefined, pathwayId: string | null | undefined,
