@@ -228,6 +228,22 @@ for(const [bindings,module] of [
 const procedureApiUrl=pathToFileURL(`${process.cwd()}/${procedureApiPath}`).href;
 register(`data:text/javascript,${encodeURIComponent('let d;export function initialize(data){d=data;}export async function load(u,c,n){return u===d.url?{format:"module",source:d.source,shortCircuit:true}:n(u,c);} ')}`,{data:{url:procedureApiUrl,source:ts.transpileModule(procedureApiSource,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText}});
 const procedureApi=await import(procedureApiUrl);
+// CA-L06 gap 2 (lead decision 2026-10-21T02:10Z): after a Prop 64 route is selected, the completion helper is the route's approved copy; screening keeps the generic helper.
+const branchHelper=JSON.parse(fs.readFileSync('src/lib/expungement-ai/frontend/ca-prop64-reviewed-choices.json')).questions.find(q=>q.id==='ca_prop64_branch'),completionHelper=['Use this case\'s current sentence status, including custody, probation, parole, PRCS or mandatory supervision. Release from custody alone does not mean the sentence is complete. A remaining balance alone does not decide sentence status; check whether an order makes payment an ongoing sentence condition.','Use el estado actual de la sentencia de este caso, incluidas la custodia, la libertad a prueba (probation), la libertad condicional (parole), la supervisión comunitaria posterior a la liberación (PRCS) o la supervisión obligatoria. Salir de custodia no significa por sí solo que la sentencia esté cumplida. Un saldo pendiente no determina por sí solo el estado de la sentencia; revise si una orden exige el pago como condición aún vigente de la sentencia.'];
+check('CA-L06 gap 2 helper is approved branch copy',[branchHelper.helperText.startsWith(completionHelper[0]+' '),branchHelper.translations.es.helperText.startsWith(completionHelper[1]+' ')],[true,true]);
+check('CA-L06 gap 2 screening helper unchanged',pub.questions.find(q=>q.id==='sentence_completion_date')?.helperText,'jail/probation/parole, classes, community service, anything still owed');
+const otherRoute=JSON.parse(fs.readFileSync(new URL('./fixtures/ca-1203-4-a386-predecessors.json',import.meta.url))).records.map(r=>P.protectedPacketInformationModelFor(r.record)).filter(m=>m?.questions.some(q=>q.id==='sentence_completion_date'));
+check('CA-L06 gap 2 other selected CA route keeps the generic helper',[otherRoute.length>0,...otherRoute.map(m=>[m.pathwayId,m.questions.find(q=>q.id==='sentence_completion_date').helperText])],[true,...otherRoute.map(m=>[m.pathwayId,'jail/probation/parole, classes, community service, anything still owed'])]);
+for(const name of ['currently-serving','completed']){
+ const fixture=JSON.parse(fs.readFileSync(new URL(`./fixtures/ca-prop64-protected-baseline/${name}.json`,import.meta.url)));
+ for(const [label,completion]of [['selected route',undefined],['clarification',name==='completed'?'No':'Yes']]){
+  const answers={...fixture.answers,...facts,...(completion?{sentence_completion_date:completion}:{})},authoritative=evaluateAnswers(answers);
+  const seed=P.protectedPacketDraftSeedFromAuthoritative({authoritative,screeningAnswers:answers,dependencies:{},capturedAt:'2026-10-21T01:00:00Z'});assert(seed);
+  const saved={status:'unverified',revision:0,draftHash:seed.hash,draftSnapshot:seed.snapshot};
+  const model=completion?P.caProp64ClarificationModelFor(saved):P.protectedPacketInformationModelFor(saved),question=model?.questions.find(q=>q.id==='sentence_completion_date');
+  check(`CA-L06 gap 2/${name}/${label} route-bound completion helper`,[question?.helperText,question?.translations?.es?.helperText],completionHelper);
+ }
+}
 // CA-L01 §4(b): real consumers keep the independent original benefit and the separate additional request.
 const procedureIds=['ca_prop64_additional_infraction_request','ca_prop64_judgment_finality_2017','ca_prop64_later_sentence_order','ca_prop64_pending_appeal'];
 for(const name of ['currently-serving','completed'])for(const level of ['Felony','Misdemeanor'])for(const [label,patch,code]of [
