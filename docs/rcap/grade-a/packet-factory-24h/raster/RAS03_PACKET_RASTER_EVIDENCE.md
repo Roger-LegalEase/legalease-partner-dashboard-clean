@@ -2,7 +2,7 @@
 
 **Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** raster-evidence
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
-**Minimum required ancestor:** `cdf4f7030641fd567c78e84d79da28bd488cb893`
+**Minimum required ancestor:** `8e21757aea004a597096d9c42118b164d9a1c67d`
 **Execution contract:** `docs/rcap/grade-a/launch-control/CODEX_CLOUD_PACKET_EXECUTION.md` — read it before you start.
 
 > ## THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.
@@ -284,8 +284,8 @@ The rendering happens in `.github/workflows/rcap-packet-raster-acceptance-batch.
 
 ### il-exp-supervision-set
 
-- canonical `data/rcap-all50/overlays/census-v1/il/il-exp-supervision-set--official-pdf-fill/fixtures/canonical.pdf` — `330731d947e74856c6748be80041c3222d522f7ea421c2cacd5b02fd2beeb5fb`
-- boundary `data/rcap-all50/overlays/census-v1/il/il-exp-supervision-set--official-pdf-fill/fixtures/boundary.pdf` — `df3754d4f3f15da219bba84363aa45fb2ad923416948dbe5fe02e1e709eb3cc2`
+- canonical `data/rcap-all50/overlays/census-v1/il/il-exp-supervision-set--official-pdf-fill/fixtures/canonical.pdf` — `0f4805bd115ba6d3093ba622a1e5030e543477bfa1017e7d50a4a2e00823b1a2`
+- boundary `data/rcap-all50/overlays/census-v1/il/il-exp-supervision-set--official-pdf-fill/fixtures/boundary.pdf` — `d57a370b3831ce62dacaf2405e06e62ff1939aeb471764ba138627c0a97034ef`
 - expected pages 13 · requested scale 2.5
 - built by (no builder lane recorded)
 
