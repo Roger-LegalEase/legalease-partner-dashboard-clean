@@ -1177,6 +1177,13 @@ function b31cCaL01L02SourceSuccessionChain(readBytes) {
 export const B31C_GA21_CA_L03_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31c-ga21-ca-l03-20261021-v1.json';
 export const B31C_GA21_CA_L03_SOURCE_SHA256 = '13c61fe50f2aa5edf829b595a42f3ce88295d65919da81f15f2ab14385d4b196';
 export function assertB31cGa21CaL03SourceSuccession(readBytes) {
+  const { record } = b31cGa21CaL03SourceSuccessionChain(readBytes);
+  // Retain the immutable batch31c GA21 and CA-L03 35/163 scope; the separately pinned batch31d CA-L06
+  // hop checks the complete current chain without rewriting it.
+  assertB31dCaL06SourceSuccession(readBytes);
+  return record;
+}
+function b31cGa21CaL03SourceSuccessionChain(readBytes) {
   const bytes=readBytes(B31C_GA21_CA_L03_SOURCE_PATH);
   insist(sha(bytes)===B31C_GA21_CA_L03_SOURCE_SHA256,'batch31c GA21 and CA-L03 source succession record bytes changed');
   const record=JSON.parse(bytes.toString('utf8'));
@@ -1196,9 +1203,35 @@ export function assertB31cGa21CaL03SourceSuccession(readBytes) {
     insist(row.beforeSha256===(current.get(row.file)??v21[row.file]??null),'batch31c GA21 and CA-L03 disconnected source hop');current.set(row.file,row.afterSha256);
   }
   insist(current.size===35,'batch31c GA21 and CA-L03 current thirty-five-source inventory');
+  return { record, current };
+}
+
+// batch31d CA-L06 gap 1 + CA-L03 Obs 1 72713a83d + lead Spanish fixes 74f847a1b + F1 fix-forward 4d5455d8e (Reviewer3; Rev
+export const B31D_CA_L06_SOURCE_PATH = 'data/rcap-grade-a/participant-data-rights/question-contract-source-succession-b31d-ca-l06-20261021-v1.json';
+export const B31D_CA_L06_SOURCE_SHA256 = '8c0554b392b5d4c2a62d4cad7736a572560c32513f0ac2f9645ac55a31faffbf';
+export function assertB31dCaL06SourceSuccession(readBytes) {
+  const bytes=readBytes(B31D_CA_L06_SOURCE_PATH);
+  insist(sha(bytes)===B31D_CA_L06_SOURCE_SHA256,'batch31d CA-L06 source succession record bytes changed');
+  const record=JSON.parse(bytes.toString('utf8'));
+  const { record: prior, current }=b31cGa21CaL03SourceSuccessionChain(readBytes);
+  insist(record.schemaVersion==='rcap-question-contract-b31d-ca-l06-source-succession/v1'
+    && record.recordId==='B31D-CA-L06-SOURCE-SUCCESSION-20261021'
+    && record.kind==='technical_source_only' && record.engineeringCommit==='f45576734ca7aac411740ef9854f7bd24e750980'
+    && equal(record.previousNamedSource,{path:B31C_GA21_CA_L03_SOURCE_PATH,sha256:B31C_GA21_CA_L03_SOURCE_SHA256,currentChangedSourceCount:35,currentUnchangedSourceCount:163})
+    && equal(record.historicalContinuity,prior.historicalContinuity) && equal(record.historicalOutput,prior.historicalOutput)
+    && record.sourceCount===198 && record.currentChangedSourceCount===35 && record.currentUnchangedSourceCount===163
+    && equal(record.historicalArtifactScope,{routeCount:6,artifactCount:18,reexecuted:false,changed:false})
+    && ['createsOwnerApproval','changesHistoricalOutputEvidence','establishesCurrentOutputReproduction','establishesProtectedVerification','establishesProviderOrPublicationProof','commercialAuthorityGranted','productionAuthorized'].every(key=>record[key]===false),'batch31d CA-L06 source succession scope');
+  insist(Array.isArray(record.transitions) && equal(record.transitions.map(row=>row.file),["src/lib/expungement-ai/frontend/reviewed-result-display-copy.json", "src/lib/rcap-engine/california-prop64-facts.ts"]),'batch31d CA-L06 source succession inventory');
+  insist(current.size===35,'batch31d CA-L06 prior thirty-five-source inventory');
+  const v21={};
+  for(const row of record.transitions){
+    insist(row.beforeSha256===(current.get(row.file)??v21[row.file]??null),'batch31d CA-L06 disconnected source hop');current.set(row.file,row.afterSha256);
+  }
+  insist(current.size===35,'batch31d CA-L06 current thirty-five-source inventory');
   // Always fresh, including after success or a previous failed read. No accessor
   // recursion: prior records are read as exact pinned raw bytes.
-  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact batch31c GA21 and CA-L03 source succession`);
+  for(const [file,digest]of current)insist(sha(readBytes(file))===digest,`stale output input: ${file}; exact batch31d CA-L06 source succession`);
   return record;
 }
 
@@ -1211,7 +1244,7 @@ function currentSourceSuccessions(readBytes) {
     caNoPhone: assertCaNoPhoneContactSourceSuccession(readBytes), gaCt: assertGaSb288CtPetitionSourceSuccession(readBytes),
     gaGuide: assertGaGuideSpanishSourceSuccession(readBytes), ctPrepay: assertCtPrepayRecordFactsSourceSuccession(readBytes),
     ilSdWy: assertIlSdWyRecordFactsSourceSuccession(readBytes), ohCopy: assertOhJuvenileCopySourceSuccession(readBytes),
-    caSafe: assertCaSafeAtHomeSourceSuccession(readBytes), leadEs: assertLeadSpanishSourceSuccession(readBytes), leadEs2: assertLeadSpanishLayer2SourceSuccession(readBytes), mnMemo: assertMnGuardMemoSourceSuccession(readBytes), vaMemo: assertVaGuardMemoSourceSuccession(readBytes), mdPolice: assertMdPoliceReconciliationSourceSuccession(readBytes), vaOrigin: assertVaRecordOriginSourceSuccession(readBytes), ga21Labels: assertGa21SpanishLabelsSourceSuccession(readBytes), ndReceipt: assertNdCustomReceiptSourceSuccession(readBytes), msGuideEs: assertMsGuideEsSourceSuccession(readBytes), caProp64: assertCaProp64StackSourceSuccession(readBytes), ndProse: assertNdCensusProseSourceSuccession(readBytes), b28NvGa20: assertB28NvGa20SourceSuccession(readBytes), b30Co: assertB30CoSourceSuccession(readBytes), b31CaPardon: assertB31CaPardonSourceSuccession(readBytes), b31CaOrder: assertB31CaOrderSourceSuccession(readBytes), b31bGa16: assertB31bGa16LocationSourceSuccession(readBytes), b31cCa: assertB31cCaL01L02SourceSuccession(readBytes), b31cGa21: assertB31cGa21CaL03SourceSuccession(readBytes) };
+    caSafe: assertCaSafeAtHomeSourceSuccession(readBytes), leadEs: assertLeadSpanishSourceSuccession(readBytes), leadEs2: assertLeadSpanishLayer2SourceSuccession(readBytes), mnMemo: assertMnGuardMemoSourceSuccession(readBytes), vaMemo: assertVaGuardMemoSourceSuccession(readBytes), mdPolice: assertMdPoliceReconciliationSourceSuccession(readBytes), vaOrigin: assertVaRecordOriginSourceSuccession(readBytes), ga21Labels: assertGa21SpanishLabelsSourceSuccession(readBytes), ndReceipt: assertNdCustomReceiptSourceSuccession(readBytes), msGuideEs: assertMsGuideEsSourceSuccession(readBytes), caProp64: assertCaProp64StackSourceSuccession(readBytes), ndProse: assertNdCensusProseSourceSuccession(readBytes), b28NvGa20: assertB28NvGa20SourceSuccession(readBytes), b30Co: assertB30CoSourceSuccession(readBytes), b31CaPardon: assertB31CaPardonSourceSuccession(readBytes), b31CaOrder: assertB31CaOrderSourceSuccession(readBytes), b31bGa16: assertB31bGa16LocationSourceSuccession(readBytes), b31cCa: assertB31cCaL01L02SourceSuccession(readBytes), b31cGa21: assertB31cGa21CaL03SourceSuccession(readBytes), b31dCa: assertB31dCaL06SourceSuccession(readBytes) };
 }
 const onceSuccessions = readBytes => { let value; return () => value ??= currentSourceSuccessions(readBytes); };
 
@@ -1253,6 +1286,7 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, 
   const b31bGa16 = atFile(s.b31bGa16);
   const b31cCa = atFile(s.b31cCa);
   const b31cGa21 = atFile(s.b31cGa21);
+  const b31dCa = atFile(s.b31dCa);
   const caDigest = ca ? ca.afterSha256 : previousDigest;
   const nyDigest = ny ? ny.afterSha256 : caDigest;
   const gaDigest = ga ? ga.afterSha256 : nyDigest;
@@ -1282,12 +1316,13 @@ function assertCurrentOutputSourceInput(file, expectedSha256, readBytes, label, 
   const b31CaOrderDigest = b31CaOrder ? b31CaOrder.afterSha256 : b31CaPardonDigest;
   const b31bGa16Digest = b31bGa16 ? b31bGa16.afterSha256 : b31CaOrderDigest;
   const b31cCaDigest = b31cCa ? b31cCa.afterSha256 : b31bGa16Digest;
-  const currentDigest = b31cGa21 ? b31cGa21.afterSha256 : b31cCa ? b31cCa.afterSha256 : b31bGa16 ? b31bGa16.afterSha256 : b31CaOrder ? b31CaOrder.afterSha256 : b31CaPardon ? b31CaPardon.afterSha256 : b30Co ? b30Co.afterSha256 : b28NvGa20 ? b28NvGa20.afterSha256 : ndProse ? ndProse.afterSha256 : caProp64 ? caProp64.afterSha256 : msGuideEs ? msGuideEs.afterSha256 : ndReceipt ? ndReceipt.afterSha256 : ga21Labels ? ga21Labels.afterSha256 : vaOrigin ? vaOrigin.afterSha256 : mdPolice ? mdPolice.afterSha256 : vaMemo ? vaMemo.afterSha256 : mnMemo ? mnMemo.afterSha256 : leadEs2 ? leadEs2.afterSha256 : leadEs ? leadEs.afterSha256 : caSafe ? caSafe.afterSha256 : ohCopy ? ohCopy.afterSha256 : ilSdWy ? ilSdWy.afterSha256 : ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
-  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null || ilSdWy != null || ohCopy != null || caSafe != null || leadEs != null || leadEs2 != null || mnMemo != null || vaMemo != null || mdPolice != null || vaOrigin != null || ga21Labels != null || ndReceipt != null || msGuideEs != null || caProp64 != null || ndProse != null || b28NvGa20 != null || b30Co != null || b31CaPardon != null || b31CaOrder != null || b31bGa16 != null || b31cCa != null || b31cGa21 != null)
+  const b31cGa21Digest = b31cGa21 ? b31cGa21.afterSha256 : b31cCaDigest;
+  const currentDigest = b31dCa ? b31dCa.afterSha256 : b31cGa21 ? b31cGa21.afterSha256 : b31cCa ? b31cCa.afterSha256 : b31bGa16 ? b31bGa16.afterSha256 : b31CaOrder ? b31CaOrder.afterSha256 : b31CaPardon ? b31CaPardon.afterSha256 : b30Co ? b30Co.afterSha256 : b28NvGa20 ? b28NvGa20.afterSha256 : ndProse ? ndProse.afterSha256 : caProp64 ? caProp64.afterSha256 : msGuideEs ? msGuideEs.afterSha256 : ndReceipt ? ndReceipt.afterSha256 : ga21Labels ? ga21Labels.afterSha256 : vaOrigin ? vaOrigin.afterSha256 : mdPolice ? mdPolice.afterSha256 : vaMemo ? vaMemo.afterSha256 : mnMemo ? mnMemo.afterSha256 : leadEs2 ? leadEs2.afterSha256 : leadEs ? leadEs.afterSha256 : caSafe ? caSafe.afterSha256 : ohCopy ? ohCopy.afterSha256 : ilSdWy ? ilSdWy.afterSha256 : ctPrepay ? ctPrepay.afterSha256 : gaGuide ? gaGuide.afterSha256 : gaCt ? gaCt.afterSha256 : caNoPhone ? caNoPhone.afterSha256 : gates ? gates.afterSha256 : gaContact ? gaContact.afterSha256 : ga ? ga.afterSha256 : ny ? ny.afterSha256 : ca?.afterSha256 ?? row?.afterSha256;
+  insist((row ? row.beforeSha256 === expectedSha256 : ca != null || ny != null || ga != null || gaContact != null || gates != null || caNoPhone != null || gaCt != null || gaGuide != null || ctPrepay != null || ilSdWy != null || ohCopy != null || caSafe != null || leadEs != null || leadEs2 != null || mnMemo != null || vaMemo != null || mdPolice != null || vaOrigin != null || ga21Labels != null || ndReceipt != null || msGuideEs != null || caProp64 != null || ndProse != null || b28NvGa20 != null || b30Co != null || b31CaPardon != null || b31CaOrder != null || b31bGa16 != null || b31cCa != null || b31cGa21 != null || b31dCa != null)
     && (!ca || ca.beforeSha256 === previousDigest) && (!ny || ny.beforeSha256 === caDigest)
     && (!ga || ga.beforeSha256 === nyDigest) && (!gaContact || gaContact.beforeSha256 === gaDigest)
     && (!gates || gates.beforeSha256 === contactDigest) && (!caNoPhone || caNoPhone.beforeSha256 === gatesDigest)
-    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest) && (!gaGuide || gaGuide.beforeSha256 === gaCtDigest) && (!ctPrepay || ctPrepay.beforeSha256 === gaGuideDigest) && (!ilSdWy || ilSdWy.beforeSha256 === ctPrepayDigest) && (!ohCopy || ohCopy.beforeSha256 === ilSdWyDigest) && (!caSafe || caSafe.beforeSha256 === ohCopyDigest) && (!leadEs || leadEs.beforeSha256 === caSafeDigest) && (!leadEs2 || leadEs2.beforeSha256 === leadEsDigest) && (!mnMemo || mnMemo.beforeSha256 === leadEs2Digest) && (!vaMemo || vaMemo.beforeSha256 === mnMemoDigest) && (!mdPolice || mdPolice.beforeSha256 === vaMemoDigest) && (!vaOrigin || vaOrigin.beforeSha256 === mdPoliceDigest) && (!ga21Labels || ga21Labels.beforeSha256 === vaOriginDigest) && (!ndReceipt || ndReceipt.beforeSha256 === ga21LabelsDigest) && (!msGuideEs || msGuideEs.beforeSha256 === ndReceiptDigest) && (!caProp64 || caProp64.beforeSha256 === msGuideEsDigest) && (!ndProse || ndProse.beforeSha256 === caProp64Digest) && (!b28NvGa20 || b28NvGa20.beforeSha256 === ndProseDigest) && (!b30Co || b30Co.beforeSha256 === b28NvGa20Digest) && (!b31CaPardon || b31CaPardon.beforeSha256 === b30CoDigest) && (!b31CaOrder || b31CaOrder.beforeSha256 === b31CaPardonDigest) && (!b31bGa16 || b31bGa16.beforeSha256 === b31CaOrderDigest) && (!b31cCa || b31cCa.beforeSha256 === b31bGa16Digest) && (!b31cGa21 || b31cGa21.beforeSha256 === b31cCaDigest)
+    && (!gaCt || gaCt.beforeSha256 === caNoPhoneDigest) && (!gaGuide || gaGuide.beforeSha256 === gaCtDigest) && (!ctPrepay || ctPrepay.beforeSha256 === gaGuideDigest) && (!ilSdWy || ilSdWy.beforeSha256 === ctPrepayDigest) && (!ohCopy || ohCopy.beforeSha256 === ilSdWyDigest) && (!caSafe || caSafe.beforeSha256 === ohCopyDigest) && (!leadEs || leadEs.beforeSha256 === caSafeDigest) && (!leadEs2 || leadEs2.beforeSha256 === leadEsDigest) && (!mnMemo || mnMemo.beforeSha256 === leadEs2Digest) && (!vaMemo || vaMemo.beforeSha256 === mnMemoDigest) && (!mdPolice || mdPolice.beforeSha256 === vaMemoDigest) && (!vaOrigin || vaOrigin.beforeSha256 === mdPoliceDigest) && (!ga21Labels || ga21Labels.beforeSha256 === vaOriginDigest) && (!ndReceipt || ndReceipt.beforeSha256 === ga21LabelsDigest) && (!msGuideEs || msGuideEs.beforeSha256 === ndReceiptDigest) && (!caProp64 || caProp64.beforeSha256 === msGuideEsDigest) && (!ndProse || ndProse.beforeSha256 === caProp64Digest) && (!b28NvGa20 || b28NvGa20.beforeSha256 === ndProseDigest) && (!b30Co || b30Co.beforeSha256 === b28NvGa20Digest) && (!b31CaPardon || b31CaPardon.beforeSha256 === b30CoDigest) && (!b31CaOrder || b31CaOrder.beforeSha256 === b31CaPardonDigest) && (!b31bGa16 || b31bGa16.beforeSha256 === b31CaOrderDigest) && (!b31cCa || b31cCa.beforeSha256 === b31bGa16Digest) && (!b31cGa21 || b31cGa21.beforeSha256 === b31cCaDigest) && (!b31dCa || b31dCa.beforeSha256 === b31cGa21Digest)
     && currentDigest === actual, `${label}: ${file}`);
 }
 
