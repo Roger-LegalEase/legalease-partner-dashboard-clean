@@ -4,8 +4,8 @@
  "reviewer": "Reviewer4 (Claude, session output-3e)",
  "sessionIdentity": "output-3e",
  "reviewDate": "2026-10-21",
- "reviewedCommit": "602ec95736ee2b2f8a3f36a977ef607e9279a2b2",
- "candidateRange": "af3114b245e6017d4d99f90f1257293a691045aa..602ec95736ee2b2f8a3f36a977ef607e9279a2b2",
+ "reviewedCommit": "d412efd8c2cfc9b164a77963347bd32ef730bba9",
+ "candidateRange": "602ec95736ee2b2f8a3f36a977ef607e9279a2b2..d412efd8c2cfc9b164a77963347bd32ef730bba9",
  "laterCommitsMoveNoMeasuredBytes": [],
  "implementationAuthoredByReviewer": false,
  "packetFilesEdited": false,
@@ -18,7 +18,13 @@
    "tools/a46-text.py": "e49e2323d814dc7ef1478b3aef29315c1644a1dbc797cfd9c8d7bb0ab2f11aff",
    "tools/ink.py": "6d6a240958fd3653cc367f5d176f30137e69a8c2fd35326421cfdd7cfebb8e30"
   },
-  "evidence": "review-evidence/reviewer4/md-a46/ (REVIEW-STEP1R-602ec9573.md, step-602ec9573/, SHA256SUMS)"
+  "evidence": "review-evidence/reviewer4/md-a46/ (REVIEW-F3-d412efd8c.md, step-d412efd8c/, SHA256SUMS) and review-evidence/reviewer4/md-c-complete/ (measure-d412efd8c/, tools/c-visual.py, tools/c-classify.py, tools/c-gap600.py, findings/F3-*.png)"
+ },
+ "corrects": {
+  "record": "data/rcap-grade-a/md-a46-20261021/md-a46-independent-review.json",
+  "sha256": "f5a4785ed7c0e291f00cca687d2ab3e992514dff28a9247cda51b719aa36d6b5",
+  "reviewedCommit": "602ec95736ee2b2f8a3f36a977ef607e9279a2b2",
+  "why": "Its md_10105 pageOneVisual line ('The canonical output's form page was viewed by Reviewer4') stood beside a PASS, but that viewing missed F3: on all 15 outputs the A46 072A Case Number touched the printed 'City/County' caption. Reviewer4 found F3 later by measuring every page (c-visual.py) and it is fixed in d412efd8c2cfc9b164a77963347bd32ef730bba9. This record states the measured result for every form page instead of a viewing."
  },
  "resolvedFindings": [
   {
@@ -26,6 +32,12 @@
    "fixedIn": "602ec95736ee2b2f8a3f36a977ef607e9279a2b2",
    "summary": "Instruction pages printed a single 'September 7, 2026' source/legal check date although the enclosed primary forms are the bytes retained on 2026-10-21. Each output now states the primary form face check date (2026-10-21) separately from the companion faces and statutes (2026-09-07), and the 072B/072D receipts record officialFacesReadOn per document.",
    "verifiedBy": "Every page of all 58 outputs compared with the 6f6c30bb4 outputs: exactly one page per output differs and it is the date page; all 58 form pages are pixel-identical; each printed date equals a receipt field; fetch logs under review-evidence/storage/md-forms-oct2026-20261021 and ga20-source-inputs-20261021 show the bound 072A/072B/072D bytes fetched on 2026-10-21."
+  },
+  {
+   "id": "F3",
+   "fixedIn": "d412efd8c2cfc9b164a77963347bd32ef730bba9",
+   "summary": "The A46 072A Case Number widget [446.4,750.3,575.3,763.3] reached into the printed 'City/County' caption, so on all 15 md_10105 outputs the written case number touched the caption glyphs (0.12 pt at 600 dpi). The fix lowers only the widget tops (Case Number 9 pt box, value 7 pt; both incident lines 11 pt boxes, 9 pt), bottom, width and source text unchanged.",
+   "verifiedBy": "Reviewer4 at d412efd8c2cfc9b164a77963347bd32ef730bba9: c-visual.py on all 60 pages (0 changed pixels and 0 written words outside official widget rects on the 15 form pages), c-classify.py + c-gap600.py on every 100 dpi contact flag (0 touching a printed glyph: 17 cleared, the Court's City/County value 1.92 pt above the caption touching only its dotted rule; 10 ticks inside printed boxes), all 45 instruction pages pixel-identical to d98565a37, 268/268 text writes EXACT inside the official rects, ticks equal, facts unchanged; the canonical and pbj-dui form pages viewed at 300 dpi (findings/F3-fixed-d412efd8c-300dpi.png)."
   }
  ],
  "rows": [
@@ -33,7 +45,7 @@
    "familyId": "md_10105_favorable-set",
    "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill",
    "verdict": "PASS_A46_MAPPING_AND_OUTPUT",
-   "verdictScope": "Bounded independent A46 review of the 072A Rev. 10/01/2026 favorable-disposition set: the field mapping to the current official form and the whole committed outputs at 602ec95736ee2b2f8a3f36a977ef607e9279a2b2. It grants no legal, admission, raster, payment or fulfillment authority.",
+   "verdictScope": "Bounded independent A46 review of the 072A Rev. 10/01/2026 favorable-disposition set: the field mapping to the current official form and the whole committed outputs at d412efd8c2cfc9b164a77963347bd32ef730bba9. It grants no legal, admission, raster, payment or fulfillment authority.",
    "failedObligations": [],
    "obligationsMeasured": {
     "primarySourceBytes": "CC-DC-CR-072A at reference/md-law-2026-10-21/CC-DC-CR-072A.pdf sha256 equals the receipt; receipt edition 10/01/2026.",
@@ -41,7 +53,7 @@
     "textWritesInOfficialRects": "268/268 text writes read back EXACT inside the official widget rect (pdftotext -bbox, printed form words removed); a swapped-rect mutant is detected.",
     "checkboxInk": "15/15 outputs: the inked boxes on the form page are exactly the fixture's selections (diagnostics mark no basis).",
     "statedRevision": "15/15 outputs state only revision 10/01/2026 on every page, equal to the form footer and the receipt edition.",
-    "pageOneVisual": "The canonical output's form page was viewed by Reviewer4.",
+    "pageOneVisual": "Every form page measured by Reviewer4 at 100 and 600 dpi (c-visual.py, c-classify.py, c-gap600.py): 15/15 with 0 changed pixels and 0 written words outside official widget rects and no written ink touching a printed glyph; instruction pages pixel-identical to d98565a37. The canonical and pbj-dui form pages were also viewed at 300 dpi.",
     "checkDateStatements": "15/15 outputs state 'CC-DC-CR-072A form face October 21, 2026; statutes and legal pages September 7, 2026' = receipt acquisition.retrievedAndHashedOn and issuerPageAndEditionVisuallyCheckedOn 2026-10-21; no other check date is printed. The canonical date page was viewed by Reviewer4."
    },
    "diagnosticsNotApprovedForFiling": [],
@@ -54,7 +66,7 @@
    ],
    "measuredIdentities": {
     "helperPath": "scripts/rcap-packet-recovery/chat5/md-favorable.mjs",
-    "newHelperGitBlob": "717630e062a58c5b0bc55fcd34c1c9711b2d09ec",
+    "newHelperGitBlob": "4fc3b2f6e86dbcf94d6a4728af12ffef03ac4369",
     "primarySource": {
      "documentId": "CC-DC-CR-072A",
      "path": "reference/md-law-2026-10-21/CC-DC-CR-072A.pdf",
@@ -64,92 +76,92 @@
     "wholePdfs": [
      {
       "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/canonical.pdf",
-      "sha256": "cb6f32a4b6c0aa99994b18327cf5fe6a89535d5d7cdd05fc9ca314e7bdc05898",
-      "bytes": 221553,
+      "sha256": "94ca31b13a28e5b464521cc2c506084b8902a20cb4d10d2da608bb30c5f9051f",
+      "bytes": 221461,
       "pages": 4
      },
      {
       "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/boundary.pdf",
-      "sha256": "9b8d9a0c3629be81016febdaf4d7f5a5370633166f90b182392006f9bee55f03",
-      "bytes": 221758,
+      "sha256": "84cbca292d5269c97c11fd20a376323efc7787908b61e471cbcacb9311e39360",
+      "bytes": 221669,
       "pages": 4
      },
      {
       "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/acquittal.pdf",
-      "sha256": "fca296c7297530b8d3bde120f3e965410ba9cb6045215f6979c4e162b774eb40",
-      "bytes": 221552,
+      "sha256": "96371ea77f1f7742ba4916a188f7c4b4bf7c5ef5dd0b3440d0202da1ce3bc2c7",
+      "bytes": 221460,
       "pages": 4
      },
      {
       "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/nolle.pdf",
-      "sha256": "cd082c405ecde846924ee2e0c7b32681ec8b7290f8183ba3774121f67a829cf0",
-      "bytes": 221552,
+      "sha256": "1f972e9fa8679eae4ad20be9ada418009545879a4ff67e81db7a6355621d5059",
+      "bytes": 221460,
       "pages": 4
      },
      {
       "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/nolle-treatment.pdf",
-      "sha256": "745543b6348e6b2df0a712fccff59d9bbfce1a97829e8cb8eec4687387adbe60",
-      "bytes": 221551,
+      "sha256": "11cfc1d3b50dd0516991bdcdc8ca493826dae525e01cf094bfd622af680b992c",
+      "bytes": 221459,
       "pages": 4
      },
      {
       "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/stet.pdf",
-      "sha256": "0ea133a56f91c1f0ee8fb2ab8a76898cbc9c7eb82250541b1ea179da68355995",
-      "bytes": 221548,
+      "sha256": "d8b0d5202b537a8642fd33f656b793a5c1170bfe0860b71b0fc6f5c62403d7dc",
+      "bytes": 221456,
       "pages": 4
      },
      {
       "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/stet-treatment.pdf",
-      "sha256": "550c1ca2eb10276f7625b950ff1f0c2e689ee7e54688095a2cb45253dde6e3c5",
-      "bytes": 221548,
+      "sha256": "ef6c385d33523a592566dd56be72cddd4bea5033a29f3d44e0db86c6b656e017",
+      "bytes": 221456,
       "pages": 4
      },
      {
       "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/pbj.pdf",
-      "sha256": "ad37acc8bcfc007a3b3b336954f4e9f0e79fb5061a73fd9a9a377d9b46535af5",
-      "bytes": 221554,
+      "sha256": "6654225d18dd2cb6a7f397988f7d7016b4d7aa68d0d6e54bc5490fed5f767831",
+      "bytes": 221462,
       "pages": 4
      },
      {
       "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/pbj-no-longer-crime.pdf",
-      "sha256": "b79357d62d511419e21c70b228f79fdc2f54c74c24149f0ccfa13baa4b440871",
-      "bytes": 221649,
+      "sha256": "8afbc6bd5d3ed29ba58ec61d9a830a581e8fd7f06228274ff1bf70fade29086d",
+      "bytes": 221560,
       "pages": 4
      },
      {
       "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/pbj-dui.pdf",
-      "sha256": "a29473417fc2f9fbf1b84622d173789aa40ee12349bc0df4a39132a153c1ac52",
-      "bytes": 221602,
+      "sha256": "f964a4568a884588482c6d24b22a2cfd86da68b5136a3f288040c668992d9edb",
+      "bytes": 221514,
       "pages": 4
      },
      {
       "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/ncr.pdf",
-      "sha256": "ce8aea22e7a1505c37b50e3a7e8cbc80038384cc5c0d0405ae8f0c3a6cfd4413",
-      "bytes": 221551,
+      "sha256": "addae721aa1f377d13304bb17d0cbedb968802be5670e183964ffcc28a0d7947",
+      "bytes": 221459,
       "pages": 4
      },
      {
       "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/compromise.pdf",
-      "sha256": "58d1111748ca7e3c62ef33b54febce4c8c49a86e92e1c70596ed957d70644cca",
-      "bytes": 221583,
+      "sha256": "685f7af63e68e2de5f095d716739c577d9040e1154f12f8600ea3947196866f5",
+      "bytes": 221496,
       "pages": 4
      },
      {
       "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/juvenile-transfer.pdf",
-      "sha256": "eed2be21de076026c29212824c9173e753c5294ae0ae16aed6d6b06badef8d68",
-      "bytes": 221424,
+      "sha256": "15b0c15720ec3dd29f5e81d7639dab74dac3529b80a10ca2d3609dcc1a2fcc9f",
+      "bytes": 221330,
       "pages": 4
      },
      {
       "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/adult-transfer-circuit.pdf",
-      "sha256": "5bc7a244cbc19957a152b639e366c5961c025194ff7ded0f964264490b998f14",
-      "bytes": 221558,
+      "sha256": "9ea528ba97a18758b835b489a53b12db3b796e54071447c294bacce7323bf98b",
+      "bytes": 221466,
       "pages": 4
      },
      {
       "file": "data/rcap-all50/overlays/census-v1/md/md-10105-favorable-set--official-pdf-fill/fixtures/selectable/citation.pdf",
-      "sha256": "f3e2ad1634369e83bd714bf004400e11f910f31f726f57d08746bd7149c96a70",
-      "bytes": 221552,
+      "sha256": "76f2d437e202d3a586c757dda440fa556e30371ace97d58c7d61fc9fae6683b7",
+      "bytes": 221460,
       "pages": 4
      }
     ]
@@ -159,7 +171,7 @@
    "familyId": "md_10110_conviction-set",
    "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-10110-conviction-set--official-pdf-fill",
    "verdict": "PASS_A46_MAPPING_AND_OUTPUT",
-   "verdictScope": "Bounded independent A46 review of the 072B Rev. 10/01/2025-2 conviction set: the field mapping to the current official form and the whole committed outputs at 602ec95736ee2b2f8a3f36a977ef607e9279a2b2. It grants no legal, admission, raster, payment or fulfillment authority.",
+   "verdictScope": "Bounded independent A46 review of the 072B Rev. 10/01/2025-2 conviction set: the field mapping to the current official form and the whole committed outputs at d412efd8c2cfc9b164a77963347bd32ef730bba9. It grants no legal, admission, raster, payment or fulfillment authority.",
    "failedObligations": [],
    "obligationsMeasured": {
     "primarySourceBytes": "CC-DC-CR-072B at reference/md-law-2026-10-21/CC-DC-CR-072B.pdf sha256 equals the receipt; receipt edition 10/01/2025-2.",
@@ -167,7 +179,7 @@
     "textWritesInOfficialRects": "474/474 text writes read back EXACT inside the official widget rect (pdftotext -bbox, printed form words removed); a swapped-rect mutant is detected.",
     "checkboxInk": "25/25 outputs: the inked boxes on the form page are exactly the fixture's selections (diagnostics mark no basis).",
     "statedRevision": "25/25 outputs state only revision 10/01/2025-2 on every page, equal to the form footer and the receipt edition.",
-    "pageOneVisual": "The canonical output's form page was viewed by Reviewer4.",
+    "pageOneVisual": "Every form page measured by Reviewer4 at 100 and 600 dpi (c-visual.py, c-classify.py, c-gap600.py): 69/69 with 0 changed pixels and 0 written words outside official widget rects; ink contacts are 11 MDJ-008 ticks inside the printed box and one 072B descender that clears every printed glyph at 600 dpi. Outputs are byte-identical to those the corrected record covered.",
     "checkDateStatements": "25/25 outputs state 'Authorities checked September 7, 2026 ... actual 089/MDJ-008 source faces' and 'Actual 072B source face checked October 21, 2026' = receipt officialFacesReadOn {CC-DC-CR-072B: 2026-10-21, CC-DC-089: 2026-09-07, MDJ-008: 2026-09-07}; liveIssuerBinaryShaMeasured remains false. The canonical date page was viewed by Reviewer4."
    },
    "diagnosticsNotApprovedForFiling": [
@@ -348,7 +360,7 @@
    "familyId": "md_cannabis_petition-set",
    "familyDirectory": "data/rcap-all50/overlays/census-v1/md/md-cannabis-petition-set--official-pdf-fill",
    "verdict": "PASS_A46_MAPPING_AND_OUTPUT",
-   "verdictScope": "Bounded independent A46 review of the 072D Rev. 10/2025 cannabis petition set: the field mapping to the current official form and the whole committed outputs at 602ec95736ee2b2f8a3f36a977ef607e9279a2b2. It grants no legal, admission, raster, payment or fulfillment authority.",
+   "verdictScope": "Bounded independent A46 review of the 072D Rev. 10/2025 cannabis petition set: the field mapping to the current official form and the whole committed outputs at d412efd8c2cfc9b164a77963347bd32ef730bba9. It grants no legal, admission, raster, payment or fulfillment authority.",
    "failedObligations": [],
    "obligationsMeasured": {
     "primarySourceBytes": "CC-DC-CR-072D at reference/md-law-2026-10-21/CC-DC-CR-072D.pdf sha256 equals the receipt; receipt edition 10/2025.",
@@ -356,7 +368,7 @@
     "textWritesInOfficialRects": "301/301 text writes read back EXACT inside the official widget rect (pdftotext -bbox, printed form words removed); a swapped-rect mutant is detected.",
     "checkboxInk": "18/18 outputs: the inked boxes on the form page are exactly the fixture's selections (diagnostics mark no basis).",
     "statedRevision": "18/18 outputs state only revision 10/2025 on every page, equal to the form footer and the receipt edition.",
-    "pageOneVisual": "The canonical output's form page was viewed by Reviewer4.",
+    "pageOneVisual": "Every form page measured by Reviewer4 at 100 and 600 dpi (c-visual.py, c-classify.py, c-gap600.py): 42/42 with 0 changed pixels and 0 written words outside official widget rects; ink contacts are 6 MDJ-008 ticks inside the printed box. Outputs are byte-identical to those the corrected record covered.",
     "checkDateStatements": "18/18 outputs state 'Review date: September 7, 2026; CC-DC-CR-072D form face checked October 21, 2026' = receipt officialFacesReadOn {CC-DC-CR-072D: 2026-10-21, CC-DC-089: 2026-09-07, MDJ-008: 2026-09-07}; liveIssuerBinaryShaMeasured remains false. The canonical date page was viewed by Reviewer4."
    },
    "diagnosticsNotApprovedForFiling": [

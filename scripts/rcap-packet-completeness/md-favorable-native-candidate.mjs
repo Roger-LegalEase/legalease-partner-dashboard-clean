@@ -17,13 +17,13 @@ const SOURCE = 'reference/md-law-2026-10-21/CC-DC-CR-072A.pdf';
 const SOURCE_SHA = '04cb4661a198f7d4036a3cdf359d65db0f28b419fba7b18940322d67185b5e90';
 const EDITION = '10/01/2026';
 const HELPER = 'scripts/rcap-packet-recovery/chat5/md-favorable.mjs';
-const HELPER_BLOB = '717630e062a58c5b0bc55fcd34c1c9711b2d09ec';
+const HELPER_BLOB = '4fc3b2f6e86dbcf94d6a4728af12ffef03ac4369';
 // A46: outputs re-rendered from the Oct-2026 sources are admitted only against this independent record, byte-bound in the
 // caller's binding. The 2026-09-07 chat4/session08/session10 reviews covered the old outputs and are never reused for these.
 export const MD_A46_REVIEW = 'data/rcap-grade-a/md-a46-20261021/md-a46-independent-review.json';
 export const MD_A46_VERDICT = 'PASS_A46_MAPPING_AND_OUTPUT';
 const BINDING = path.join(path.dirname(fileURLToPath(import.meta.url)), 'md-reviewed-candidate-inputs.json');
-const BINDING_SHA = 'da7c4c7bb5a1edde5eae2fd6058dd478c9294a4329af69f3bfb09e23daedaff1';
+const BINDING_SHA = 'eb8b934266c6cd4f373e756287b07e29f3ca41156d70a51337139ae034133818';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 const held = value => value !== undefined && value !== null && value !== '';
